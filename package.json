@@ -9,6 +9,14 @@
     "test:e2e": "nx e2e shell-e2e",
     "storybook": "nx storybook core-ui"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": "prettier --write"
+  },
   "private": true,
   "dependencies": {
     "@ant-design/colors": "^6.0.0",

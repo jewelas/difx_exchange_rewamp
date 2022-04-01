@@ -7,15 +7,8 @@
     "build": "nx build shell",
     "test": "nx run-many --target=test --all",
     "test:e2e": "nx e2e shell-e2e",
-    "storybook": "nx storybook core-ui"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "echo \"[Husky] pre-commit\""
-    }
-  },
-  "lint-staged": {
-    "*": "prettier --write"
+    "storybook": "nx storybook core-ui",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -75,7 +68,7 @@
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.29.3",
     "eslint-plugin-react-hooks": "4.3.0",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
     "jest": "27.2.3",
     "lint-staged": "^12.3.7",
     "nx": "13.9.5",

@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "projects": {
+    "core-ui": "libs/core-ui",
+    "shell": "apps/shell",
+    "shell-e2e": "apps/shell-e2e"
+  }
+}

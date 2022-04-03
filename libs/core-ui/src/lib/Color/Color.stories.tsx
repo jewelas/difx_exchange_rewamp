@@ -76,18 +76,6 @@ const Template: Story<{}> = (args) => {
                 {renderColorRange('purple', colors['purple'])}
                 {renderColorRange('magenta', colors['magenta'])}
                 {renderColorRange('grey', colors['grey'])}
-
-                {/* {renderColorRange('grey', colors['grey'])}
-                {renderColorRange('grey', colors['grey'])}
-                {renderColorRange('grey', colors['grey'])}
-                {renderColorRange('grey', colors['grey'])}
-                {renderColorRange('grey', colors['grey'])}
-                {renderColorRange('grey', colors['grey'])}
-                {renderColorRange('grey', colors['grey'])}
-                {renderColorRange('grey', colors['grey'])}
-                {renderColorRange('grey', colors['grey'])} */}
-
-
             </div>
 
         </div>

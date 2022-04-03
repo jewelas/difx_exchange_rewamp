@@ -10,7 +10,14 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>DIFX</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+          <title>DIFX | Cryptocurrency Spot Exchange</title>
+          <meta name="keywords" content="Blockchain Crypto Exchange, Trading platform, Cryptocurrency Exchange, Bitcoin Trading, Ethereum trading, blockchain wallet, buy cryptocurrency, spot exchange, spot trading"/>
+          <meta property="og:url" content="https://difx.com"/>
+          <meta property="og:description" content="DIFX is the fastest &amp; the most-secure cryptocurrency exchange &amp; has been named 'Best New Trading Platform - 2021'. Available on desktop, Android &amp; iOS devices."/>
+          <meta property="og:title" content="DIFX | Cryptocurrency Spot Exchange"/>
+          <meta name="description" content="DIFX is the fastest &amp; the most-secure cryptocurrency exchange &amp; has been named 'Best New Trading Platform - 2021'. Available on desktop, Android &amp; iOS devices."/>
+          {/* TODO og:image */}
       </Head>
       <Provider>
         <QueryClientProvider client={queryClient}>

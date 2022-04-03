@@ -25,7 +25,7 @@ const Template: Story<{}> = (args) => {
     return (
       <LineStyled>
         {iconComponent}
-        <div className='description'>{`import {ArrowDownIcon} from '@difx/icon`}</div>
+        <div className='description'>{`import {${iconName}} from '@difx/icon`}</div>
       </LineStyled>
     )
   }

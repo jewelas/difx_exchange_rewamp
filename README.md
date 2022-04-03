@@ -2,7 +2,7 @@
 
 This project was generated using [Nx](https://nx.dev).
 
-## Folder Structure
+## Folder structure
 
 difx_exchange_rewamp
 apps

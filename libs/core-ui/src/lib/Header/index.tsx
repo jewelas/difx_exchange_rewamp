@@ -243,17 +243,8 @@ export function Header(props: HeaderProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-//   const router = useRouter();
-//   useEffect(()=>{
-//     const {pathname} = router;
-//     if(pathname === '/') router.push('/home');
-// }, []);
-
-  const [menuKey, setMenuKey] = useState('2');
-  const onMenuItemSelected = (event: any)=>{
-    const {selectedKeys} = event;
-    setMenuKey(selectedKeys[0]);
-  }
+  const router = useRouter();
+  const {pathname} = router;
 
   return (
     <StyledHeader>
@@ -264,15 +255,15 @@ export function Header(props: HeaderProps) {
               <LogoIcon />
               <div className='title'>DIFX</div>
             </div>
-            <Menu theme="light" mode="horizontal" selectedKeys={[menuKey]} onSelect={onMenuItemSelected}>
-              <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="2">Home</Menu.Item>
-              <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="3">Markets</Menu.Item>
+            <Menu theme="light" mode="horizontal" selectedKeys={[pathname]}>
+              <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="/home">Home</Menu.Item>
+              <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="/market">Markets</Menu.Item>
               <Menu.Item className='left-nav' key="4">Trade</Menu.Item>
               <Menu.Item className='left-nav' key="5">Earn</Menu.Item>
               <Menu.Item className='left-nav' key="6">Wallet</Menu.Item>
               <Menu.Item className='left-nav' key="7">Orders</Menu.Item>
 
-              <Menu.Item className='right-nav' style={{ position: 'absolute', right: 260 }} key="8">
+              <Menu.Item className='right-nav' style={{ position: 'absolute', right: 260 }} key="/login">
                 <Button onClick={()=>{onNavigation('/login')}} type="text">Login</Button>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 150 }} key="9">

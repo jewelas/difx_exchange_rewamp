@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react';
 import styled from 'styled-components';
-import { ArrowDownIcon, EarthIcon, MoonIcon } from './index';
+import { ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon } from './index';
 
 export default {
   title: 'Core/Icon',
@@ -20,21 +20,37 @@ const LineStyled = styled.div`
 `
 
 const Template: Story<{}> = (args) => {
-  return (
-    <div>
+
+  const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
+    return (
       <LineStyled>
-        <ArrowDownIcon />
+        {iconComponent}
         <div className='description'>{`import {ArrowDownIcon} from '@difx/icon`}</div>
       </LineStyled>
-      <LineStyled>
-        <MoonIcon />
-        <div className='description'>{`import {MoonIcon} from '@difx/icon`}</div>
-      </LineStyled>
-      <LineStyled>
-        <EarthIcon />
-        <div className='description'>{`import {EarthIcon} from '@difx/icon`}</div>
-      </LineStyled>
+    )
+  }
 
+
+  return (
+    <div style={{
+      marginTop: '20px',
+      display: 'grid',
+      gridGap: '10px 10px',
+      gridTemplateColumns: 'auto auto auto',
+      marginBottom: '50px',
+  }}>
+      {renderIcon('ArrowDownIcon', <ArrowDownIcon />)}
+      {renderIcon('CloseIcon', <CloseIcon />)}
+      {renderIcon('EarnIcon', <EarnIcon />)}
+      {renderIcon('EarthIcon', <EarthIcon />)}
+      {renderIcon('ExchangeIcon', <ExchangeIcon />)}
+      {renderIcon('HomeIcon', <HomeIcon />)}
+      {renderIcon('HorizontalLineIcon', <HorizontalLineIcon />)}
+      {renderIcon('LogoIcon', <LogoIcon />)}
+      {renderIcon('MarketIcon', <MarketIcon />)}
+      {renderIcon('MoonIcon', <MoonIcon />)}
+      {renderIcon('OrderIcon', <OrderIcon />)}
+      {renderIcon('WalletIcon', <WalletIcon />)}
     </div>
   )
 }

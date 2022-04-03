@@ -21,7 +21,7 @@ export interface IconProps {
   round?: boolean;
 }
 
-export {
+const Icon = {
   LogoIcon,
   ArrowDownIcon,
   EarthIcon,
@@ -35,3 +35,5 @@ export {
   OrderIcon,
   MarketIcon
 }
+
+export {Icon}

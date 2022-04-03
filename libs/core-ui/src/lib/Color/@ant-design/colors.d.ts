@@ -49,6 +49,7 @@ declare module '@ant-design/colors' {
     };
     declare const grey: string[] & {
         primary?: string | undefined;
+        secondary?: string | undefined;
     };
     export { generate, presetPalettes, presetDarkPalettes, presetPrimaryColors, red, volcano, orange, gold, yellow, lime, green, cyan, blue, geekblue, purple, magenta, grey, };
     

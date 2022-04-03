@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/react';
-import colors from '.';
+import {Color} from '.';
 
 
 export default {
@@ -33,7 +33,7 @@ const Template: Story<{}> = (args) => {
                         const color = colorsParam[e]
                         return (
                             <div key={`${e}_${i}`} style={{ display: 'flex', justifyContent: 'space-between', padding: 7, background: color, color: (wc_hex_is_light(color) || color.includes('#fff')) ? '#000' : '#fff' }}>
-                                <div>colors.{name}{!colorName ? `[${i}]` : `.${colorName}`}</div>
+                                <div>Color.{name}{!colorName ? `[${i}]` : `.${colorName}`}</div>
                                 <div>{color}</div>
                             </div>
                         )
@@ -50,7 +50,7 @@ const Template: Story<{}> = (args) => {
                 Colors
             </h2>
             <div style={{ fontSize: '12px', display: 'inline-block', border: 'solid 1px #ccc', padding: '5px' }}>
-                {`import colors from @difx/core-ui/colors`}
+                {`import { Color } from @difx/core-ui`}
             </div>
 
             <div
@@ -63,19 +63,19 @@ const Template: Story<{}> = (args) => {
                 }}
             >
 
-                {renderColorRange('red', colors['red'])}
-                {renderColorRange('volcano', colors['volcano'])}
-                {renderColorRange('orange', colors['orange'])}
-                {renderColorRange('gold', colors['gold'])}
-                {renderColorRange('yellow', colors['yellow'])}
-                {renderColorRange('lime', colors['lime'])}
-                {renderColorRange('green', colors['green'])}
-                {renderColorRange('cyan', colors['cyan'])}
-                {renderColorRange('blue', colors['blue'])}
-                {renderColorRange('geekblue', colors['geekblue'])}
-                {renderColorRange('purple', colors['purple'])}
-                {renderColorRange('magenta', colors['magenta'])}
-                {renderColorRange('grey', colors['grey'])}
+                {renderColorRange('red',  Color['red'])}
+                {renderColorRange('volcano',  Color['volcano'])}
+                {renderColorRange('orange',  Color['orange'])}
+                {renderColorRange('gold',  Color['gold'])}
+                {renderColorRange('yellow',  Color['yellow'])}
+                {renderColorRange('lime',  Color['lime'])}
+                {renderColorRange('green',  Color['green'])}
+                {renderColorRange('cyan',  Color['cyan'])}
+                {renderColorRange('blue',  Color['blue'])}
+                {renderColorRange('geekblue',  Color['geekblue'])}
+                {renderColorRange('purple',  Color['purple'])}
+                {renderColorRange('magenta',  Color['magenta'])}
+                {renderColorRange('grey',  Color['grey'])}
             </div>
 
         </div>

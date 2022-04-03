@@ -1,16 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 import 'antd/dist/antd.css';
 import { Row, Col, Layout, Menu, Button } from 'antd';
 import clsx from 'clsx';
-import {
-  LogoIcon, ArrowDownIcon, EarthIcon, MoonIcon, HorizontalLineIcon, CloseIcon, HomeIcon,
-  ExchangeIcon,
-  EarnIcon,
-  WalletIcon,
-  OrderIcon,
-  MarketIcon
-} from '../Icon'
+import {Icon} from '../Icon'
 
 /* eslint-disable-next-line */
 export interface HeaderProps {
@@ -61,6 +55,7 @@ const StyledMoreMenuGroup = styled.div`
       .menu-item{
         display: flex;
         margin-bottom: 30px;
+        cursor: pointer;
         svg{
           margin-left: 20px;
         }
@@ -195,8 +190,17 @@ const StyledHeader = styled(Layout.Header)`
 export function Header(props: HeaderProps) {
   const { onNavigation } = props;
 
+  const {
+    LogoIcon, ArrowDownIcon, EarthIcon, MoonIcon, HorizontalLineIcon, CloseIcon, HomeIcon,
+    ExchangeIcon,
+    EarnIcon,
+    WalletIcon,
+    OrderIcon,
+    MarketIcon
+  } = Icon;
+
   const [showMenuItems, setShowMenuItems] = useState(false);
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState<number>(0);
 
   const [showGroupOfMenuItems, setShowGroupOfMenuItems] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -227,7 +231,7 @@ export function Header(props: HeaderProps) {
 
   useEffect(() => {
     function handleResize() {
-      const width = document?.body?.clientWidth;
+      const width:number = document?.body?.clientWidth;
       if (width) {
         setShowGroupOfMenuItems(false);
         setShowMenuItems(false);
@@ -239,6 +243,18 @@ export function Header(props: HeaderProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+//   const router = useRouter();
+//   useEffect(()=>{
+//     const {pathname} = router;
+//     if(pathname === '/') router.push('/home');
+// }, []);
+
+  const [menuKey, setMenuKey] = useState('2');
+  const onMenuItemSelected = (event: any)=>{
+    const {selectedKeys} = event;
+    setMenuKey(selectedKeys[0]);
+  }
+
   return (
     <StyledHeader>
       <Row>
@@ -248,8 +264,8 @@ export function Header(props: HeaderProps) {
               <LogoIcon />
               <div className='title'>DIFX</div>
             </div>
-            <Menu theme="light" mode="horizontal" defaultSelectedKeys={['2']}>
-              <Menu.Item className='left-nav' key="2">Home</Menu.Item>
+            <Menu theme="light" mode="horizontal" selectedKeys={[menuKey]} onSelect={onMenuItemSelected}>
+              <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="2">Home</Menu.Item>
               <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="3">Markets</Menu.Item>
               <Menu.Item className='left-nav' key="4">Trade</Menu.Item>
               <Menu.Item className='left-nav' key="5">Earn</Menu.Item>
@@ -257,7 +273,7 @@ export function Header(props: HeaderProps) {
               <Menu.Item className='left-nav' key="7">Orders</Menu.Item>
 
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 260 }} key="8">
-                <Button type="text">Login</Button>
+                <Button onClick={()=>{onNavigation('/login')}} type="text">Login</Button>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 150 }} key="9">
                 <Button type="primary">Register</Button>
@@ -294,7 +310,7 @@ export function Header(props: HeaderProps) {
                   <div className='close-icon' onClick={onCloseMenu}><CloseIcon /></div>
                   <div className='menu-item-group'>
                     <div className='menu-item-btn'>
-                      <Button type="text">Login</Button>
+                      <Button onClick={()=>{onNavigation('/login')}} type="text">Login</Button>
                     </div>
                     <div className='menu-item-btn'>
                       <Button type="primary">Register</Button>
@@ -303,7 +319,7 @@ export function Header(props: HeaderProps) {
                       width <= 637
                       &&
                       <>
-                        <div className='menu-item'>
+                        <div onClick={() => onNavigation('/home')} className='menu-item'>
                           <HomeIcon />
                           <div className='txt'>Home</div>
                         </div>

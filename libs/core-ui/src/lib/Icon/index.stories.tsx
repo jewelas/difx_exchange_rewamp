@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react';
 import styled from 'styled-components';
-import { ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon } from './index';
+import { Icon } from './index';
 
 export default {
   title: 'Core/Icon',
@@ -21,36 +21,47 @@ const LineStyled = styled.div`
 
 const Template: Story<{}> = (args) => {
 
+  const {
+    ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon
+  } = Icon;
+
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
     return (
       <LineStyled>
         {iconComponent}
-        <div className='description'>{`import {${iconName}} from '@difx/icon`}</div>
+        <div className='description'>{`Icon.${iconName}`}</div>
       </LineStyled>
     )
   }
 
-
   return (
-    <div style={{
-      marginTop: '20px',
-      display: 'grid',
-      gridGap: '10px 10px',
-      gridTemplateColumns: 'auto auto auto',
-      marginBottom: '50px',
-  }}>
-      {renderIcon('ArrowDownIcon', <ArrowDownIcon />)}
-      {renderIcon('CloseIcon', <CloseIcon />)}
-      {renderIcon('EarnIcon', <EarnIcon />)}
-      {renderIcon('EarthIcon', <EarthIcon />)}
-      {renderIcon('ExchangeIcon', <ExchangeIcon />)}
-      {renderIcon('HomeIcon', <HomeIcon />)}
-      {renderIcon('HorizontalLineIcon', <HorizontalLineIcon />)}
-      {renderIcon('LogoIcon', <LogoIcon />)}
-      {renderIcon('MarketIcon', <MarketIcon />)}
-      {renderIcon('MoonIcon', <MoonIcon />)}
-      {renderIcon('OrderIcon', <OrderIcon />)}
-      {renderIcon('WalletIcon', <WalletIcon />)}
+    <div>
+      <h2>
+        Icon
+      </h2>
+      <div style={{ fontSize: '12px', display: 'inline-block', border: 'solid 1px #ccc', padding: '5px' }}>
+        {`import { Icon } from @difx/core-ui`}
+      </div>
+      <div style={{
+        marginTop: '20px',
+        display: 'grid',
+        gridGap: '10px 10px',
+        gridTemplateColumns: 'auto auto auto',
+        marginBottom: '50px',
+      }}>
+        {renderIcon('ArrowDownIcon', <ArrowDownIcon />)}
+        {renderIcon('CloseIcon', <CloseIcon />)}
+        {renderIcon('EarnIcon', <EarnIcon />)}
+        {renderIcon('EarthIcon', <EarthIcon />)}
+        {renderIcon('ExchangeIcon', <ExchangeIcon />)}
+        {renderIcon('HomeIcon', <HomeIcon />)}
+        {renderIcon('HorizontalLineIcon', <HorizontalLineIcon />)}
+        {renderIcon('LogoIcon', <LogoIcon />)}
+        {renderIcon('MarketIcon', <MarketIcon />)}
+        {renderIcon('MoonIcon', <MoonIcon />)}
+        {renderIcon('OrderIcon', <OrderIcon />)}
+        {renderIcon('WalletIcon', <WalletIcon />)}
+      </div>
     </div>
   )
 }

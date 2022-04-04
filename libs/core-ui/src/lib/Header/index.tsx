@@ -266,7 +266,7 @@ export function Header(props: HeaderProps) {
                 <Button onClick={()=>{onNavigation('/login')}} type="text">Login</Button>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 150 }} key="9">
-                <Button type="primary">Register</Button>
+                <Button onClick={()=>{onNavigation('/register')}} type="primary">Register</Button>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 86 }} key="10">
                 <StyledButtonGroup>
@@ -303,7 +303,7 @@ export function Header(props: HeaderProps) {
                       <Button onClick={()=>{onNavigation('/login')}} type="text">Login</Button>
                     </div>
                     <div className='menu-item-btn'>
-                      <Button type="primary">Register</Button>
+                      <Button onClick={()=>{onNavigation('/register')}} type="primary">Register</Button>
                     </div>
                     {
                       width <= 637

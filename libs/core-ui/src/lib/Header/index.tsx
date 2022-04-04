@@ -244,7 +244,6 @@ export function Header(props: HeaderProps) {
   }, []);
 
   const router = useRouter();
-  const {pathname} = router;
 
   return (
     <StyledHeader>
@@ -255,7 +254,7 @@ export function Header(props: HeaderProps) {
               <LogoIcon />
               <div className='title'>DIFX</div>
             </div>
-            <Menu theme="light" mode="horizontal" selectedKeys={[pathname]}>
+            <Menu theme="light" mode="horizontal" selectedKeys={[router?.pathname]}>
               <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="/home">Home</Menu.Item>
               <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="/market">Markets</Menu.Item>
               <Menu.Item className='left-nav' key="4">Trade</Menu.Item>

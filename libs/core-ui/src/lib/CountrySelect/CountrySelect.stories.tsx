@@ -28,5 +28,6 @@ export const Primary = Template.bind({});
 Primary.args = {
     onChange:(value)=>{ console.log('Selected: '+ value)},
     width: 300,
-    placeHolder: 'Select...'
+    placeHolder: 'Select...',
+    type: 'name'
 };

@@ -1,5 +1,4 @@
 import { Select } from 'antd';
-import findKey from 'lodash/findKey';
 import styled from 'styled-components';
 import { Flag } from './../Flag';
 import countries from './countries.json';
@@ -9,6 +8,7 @@ const { Option } = Select;
 export interface CountrySelectProps {
   placeHolder?: string;
   width?: number;
+  type?: 'name' | 'dial_code';
   onChange: (value: string) => void;
   onSearch?: (value: string) => void;
 }
@@ -42,12 +42,12 @@ const CountrySelect = (props: CountrySelectProps) => {
   const renderOptions = () => {
     const result: any[] = [];
 
-    for (const [key, value] of Object.entries(countries)) {
+    for (const country of countries) {
       result.push(
-        <Option key={key} value={key}>
+        <Option key={country.code} value={country.code}>
           <OptionGroupStyled>
-            <div className='flag-custom'><Flag countryCode={key} /></div>
-            {value}
+            <div className='flag-custom'><Flag countryCode={country.code} /></div>
+            {(!props.type || props.type === 'name') ? country.name : country.dial_code}
           </OptionGroupStyled>
         </Option>
       )
@@ -65,10 +65,17 @@ const CountrySelect = (props: CountrySelectProps) => {
       onSearch={onSearch}
       filterOption={(input, option: any) => {
         const keys = [];
-        for (const [key, value] of Object.entries(countries)) {
-          if (value.toLocaleLowerCase().includes(input.toLocaleLowerCase())) {
-            keys.push(key)
+        for (const country of countries) {
+          if(!props.type || props.type === 'name'){
+            if (country.name.toLocaleLowerCase().includes(input.toLocaleLowerCase())) {
+              keys.push(country.code)
+            }
+          }else{
+            if (country.dial_code.toLocaleLowerCase().includes(input.toLocaleLowerCase())) {
+              keys.push(country.code)
+            }
           }
+          
         }
         return keys.includes(option.value)
       }

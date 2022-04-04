@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Header } from '@difx/core-ui';
 import { useGetPairs } from '@difx/shared';
+import Lang from '@difx/locale';
 import { Layout, Menu } from 'antd';
 import HomePage from './home';
 import 'antd/dist/antd.css';
@@ -22,7 +23,7 @@ export interface AppLayoutProps {
 export function AppLayout({children}:AppLayoutProps) {
 
   const { data: pairs } = useGetPairs();
-  console.log(pairs, 'pairs')
+  console.log(Lang, 'Lang11')
 
   const { SubMenu } = Menu;
   const { Footer } = Layout;

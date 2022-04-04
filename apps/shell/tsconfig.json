@@ -14,6 +14,6 @@
     "incremental": true,
     "declaration":true
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts", "../../libs/core-ui/src/lib/Color/@ant-design/colors.d.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts", "../../libs/core-ui/src/lib/Color/@ant-design/colors.d.ts", "../../libs/locale/src/lib/typings.d.ts"],
   "exclude": ["node_modules"]
 }

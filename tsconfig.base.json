@@ -10,14 +10,28 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@difx/core-ui": ["libs/core-ui/src/index.ts"],
-      "@difx/shared": ["libs/shared/index.ts"]
+      "@difx/core-ui": [
+        "libs/core-ui/src/index.ts"
+      ],
+      "@difx/locale": [
+        "libs/locale/src/index.ts"
+      ],
+      "@difx/shared": [
+        "libs/shared/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

@@ -5,7 +5,7 @@ import { Color } from '../Color';
 const { Text } = AntdTypography;
 
 export interface TypographyProps {
-    level?: 'H1' | 'H2' | 'H5' | 'text';
+    level?: 'H1' | 'H2' | 'H5' | 'H6' | 'text';
     color?: 'primary' | 'danger' | 'secondary';
     children?: any;
 }
@@ -25,6 +25,11 @@ const TextStyled = styled(Text)`
     font-weight: 600;
     font-size: 24px;
     line-height: 32px;
+  }
+  &.H6{
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
   }
 `
 

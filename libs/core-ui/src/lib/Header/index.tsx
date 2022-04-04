@@ -134,6 +134,7 @@ const StyledHeader = styled(Layout.Header)`
     .group{
       display:flex;
       background: #fff;
+      border-bottom: solid 1px #eee;
       .logo{
         display: flex;
         width:122px;

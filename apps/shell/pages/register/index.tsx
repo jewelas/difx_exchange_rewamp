@@ -48,9 +48,18 @@ const PageStyled = styled.div`
       margin-top:30px;
       .ant-input{
         height: 48px;
-        font-size: 20px;
+        font-size: 14px;
         font-weight: 400;
         line-height:22px;
+      }
+      .input-item{
+        margin-bottom:30px;
+        display:flex;
+        &.dial{
+          .dropdown-dial{
+            margin-right:20px;
+          }
+        }
       }
     }
     .account-type-group{
@@ -120,7 +129,7 @@ export function RegisterPage(props: RegisterPageProps) {
               <Typography level={'H2'}>{Lang.register.register_your_account}</Typography>
               <Typography level={'H6'}>{Lang.register.resident_country}</Typography>
               <div className='country-select-group'>
-                <CountrySelect onChange={() => { }} />
+                <CountrySelect onChange={() => { }} size='large' />
               </div>
               <div className='account-type-group'>
                 <Button className='active'>
@@ -133,7 +142,18 @@ export function RegisterPage(props: RegisterPageProps) {
                 </Button>
               </div>
               <div className='input-group'>
-                <Input placeholder="Email" />
+                <div className='input-item'>
+                  <Input placeholder="Email" />
+                </div>
+                <div className='input-item dial'>
+                  <div className='dropdown-dial'>
+                    <CountrySelect width={150} type='dial_code' onChange={() => { }} size='medium' />
+                  </div>
+                  <Input placeholder="Phone Number" />
+                </div>
+                <div className='input-item'>
+                  <Input placeholder="Password" />
+                </div>
               </div>
             </div>
           </Col>

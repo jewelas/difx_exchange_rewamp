@@ -22,7 +22,8 @@ const LineStyled = styled.div`
 const Template: Story<{}> = (args) => {
 
   const {
-    ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon
+    ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon, UserIcon,
+    BankIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -61,6 +62,8 @@ const Template: Story<{}> = (args) => {
         {renderIcon('MoonIcon', <MoonIcon />)}
         {renderIcon('OrderIcon', <OrderIcon />)}
         {renderIcon('WalletIcon', <WalletIcon />)}
+        {renderIcon('UserIcon', <UserIcon />)}
+        {renderIcon('BankIcon', <BankIcon />)}
       </div>
     </div>
   )

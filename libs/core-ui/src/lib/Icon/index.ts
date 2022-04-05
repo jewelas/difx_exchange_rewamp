@@ -10,6 +10,8 @@ import EarnIcon from './EarnIcon';
 import WalletIcon from './WalletIcon';
 import OrderIcon from './OrderIcon';
 import MarketIcon from './MarketIcon';
+import UserIcon from './UserIcon';
+import BankIcon from './BankIcon';
 
 export interface IconProps {
   color?: string;
@@ -17,7 +19,7 @@ export interface IconProps {
   width?: number;
   height?: number;
   className?: string;
-  fillColorClassName?: string;
+  fill?: string;
   round?: boolean;
 }
 
@@ -33,7 +35,9 @@ const Icon = {
   EarnIcon,
   WalletIcon,
   OrderIcon,
-  MarketIcon
+  MarketIcon,
+  UserIcon,
+  BankIcon
 }
 
 export {Icon}

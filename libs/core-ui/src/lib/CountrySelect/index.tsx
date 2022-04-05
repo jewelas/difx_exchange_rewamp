@@ -14,18 +14,37 @@ export interface CountrySelectProps {
 }
 
 const SelectStyled = styled(Select)`
-
+  .ant-select-selection-placeholder{
+    padding-top: 8px !important;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px !important;
+  }
+  .ant-select-selector{
+    height: 48px !important;
+    .ant-select-selection-search{
+      input{
+        height: 48px !important;
+      }
+    }
+  }
 `
 
 const OptionGroupStyled = styled.div`
   display:flex;
   .flag-custom{
-    padding-top: 3px;
+    padding-top: 11px;
     margin-right: 9px;
     svg{
-      width: 25px;
+      width: 38px;
     }
-}
+  }
+  .val{
+    font-size: 20px;
+    font-weight: 500;
+    line-height:28px;
+    padding-top: 9px;
+  }
 `
 
 
@@ -36,7 +55,7 @@ const CountrySelect = (props: CountrySelectProps) => {
   }
 
   const onSearch = (val: string) => {
-    if(props.onSearch) props.onSearch(val)
+    if (props.onSearch) props.onSearch(val)
   }
 
   const renderOptions = () => {
@@ -47,7 +66,9 @@ const CountrySelect = (props: CountrySelectProps) => {
         <Option key={country.code} value={country.code}>
           <OptionGroupStyled>
             <div className='flag-custom'><Flag countryCode={country.code} /></div>
-            {(!props.type || props.type === 'name') ? country.name : country.dial_code}
+            <div className='val'>
+              {(!props.type || props.type === 'name') ? country.name : country.dial_code}
+            </div>
           </OptionGroupStyled>
         </Option>
       )
@@ -57,7 +78,7 @@ const CountrySelect = (props: CountrySelectProps) => {
 
   return (
     <SelectStyled
-      style={{ width: props.width ? props.width : 300 }}
+      style={{ height: 48, width: props.width ? props.width : 300 }}
       showSearch
       placeholder={props.placeHolder || 'Select...'}
       optionFilterProp="children"
@@ -66,16 +87,16 @@ const CountrySelect = (props: CountrySelectProps) => {
       filterOption={(input, option: any) => {
         const keys = [];
         for (const country of countries) {
-          if(!props.type || props.type === 'name'){
+          if (!props.type || props.type === 'name') {
             if (country.name.toLocaleLowerCase().includes(input.toLocaleLowerCase())) {
               keys.push(country.code)
             }
-          }else{
+          } else {
             if (country.dial_code.toLocaleLowerCase().includes(input.toLocaleLowerCase())) {
               keys.push(country.code)
             }
           }
-          
+
         }
         return keys.includes(option.value)
       }

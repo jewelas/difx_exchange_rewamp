@@ -1,7 +1,11 @@
 {
-    "register":{
-        "message1": "Register to get upto",
-        "message2": "$500 worth of DIFX tokens",
-        "message3": "Earn rewards easily by signing up today!"
-    }
+  "register": {
+    "message1": "Register to get upto",
+    "message2": "$500 worth of DIFX tokens",
+    "message3": "Earn rewards easily by signing up today!",
+    "individual": "Individual",
+    "corporate": "Corporate",
+    "register_your_account": "Register your Account",
+    "resident_country": "Resident Country:"
+  }
 }

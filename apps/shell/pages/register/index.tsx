@@ -1,5 +1,5 @@
-import { Typography, CountrySelect } from '@difx/core-ui';
-import { Row, Col, Select } from 'antd';
+import { Typography, CountrySelect, Icon, Color } from '@difx/core-ui';
+import { Row, Col, Input, Button } from 'antd';
 import CoverImage from './svg/CoverImage';
 import Lang from '@difx/locale';
 import styled from 'styled-components';
@@ -44,6 +44,47 @@ const PageStyled = styled.div`
     .country-select-group{
       margin-top:10px;
     }
+    .input-group{
+      margin-top:30px;
+      .ant-input{
+        height: 48px;
+        font-size: 20px;
+        font-weight: 400;
+        line-height:22px;
+      }
+    }
+    .account-type-group{
+      margin-top:30px;
+      button:nth-child(2){
+        margin-left:30px;
+      }
+      button{
+        padding:unset;
+        height: 74px;
+        width: 87px;
+        border-radius: 2px;
+        color: ${Color.grey.buttonSecondary};
+        border-color: ${Color.grey.buttonSecondary} !important;
+        svg path{
+          fill: ${Color.grey.buttonSecondary};
+        }
+        &.active{
+          color: ${Color.blue.primary};
+          border-color: ${Color.blue.primary} !important;
+          svg path{
+            fill: ${Color.blue.primary} !important;
+          }
+        }
+        &:hover{
+          transition: unset;
+          color: ${Color.blue.primary} !important;
+          border-color: ${Color.blue.primary} !important;
+          svg path{
+            fill: ${Color.blue.primary} !important;
+          }
+        }
+      }
+    }
   }
 
   @media (max-width: 1026px) {
@@ -64,7 +105,7 @@ export function RegisterPage(props: RegisterPageProps) {
     <AppLayout>
       <PageStyled>
         <Row>
-          <Col className='left-side' md={{ span: 16 }}>
+          <Col className='left-side' md={{ span: 15 }}>
             <div className='message'>
               <Typography level={'H2'}>{Lang.register.message1}</Typography>
               <Typography level={'H1'} color={'primary'}>{Lang.register.message2}</Typography>
@@ -74,15 +115,25 @@ export function RegisterPage(props: RegisterPageProps) {
               <CoverImage />
             </div>
           </Col>
-          <Col className='right-side' md={{ span: 8 }}>
+          <Col className='right-side' md={{ span: 9 }}>
             <div className='group'>
-              <Typography level={'H2'}>Register your Account</Typography>
-              <Typography level={'H6'}>Resident Country:</Typography>
+              <Typography level={'H2'}>{Lang.register.register_your_account}</Typography>
+              <Typography level={'H6'}>{Lang.register.resident_country}</Typography>
               <div className='country-select-group'>
                 <CountrySelect onChange={() => { }} />
               </div>
               <div className='account-type-group'>
-
+                <Button className='active'>
+                  <Icon.UserIcon />
+                  <div>{Lang.register.individual}</div>
+                </Button>
+                <Button>
+                  <Icon.BankIcon />
+                  <div>{Lang.register.corporate}</div>
+                </Button>
+              </div>
+              <div className='input-group'>
+                <Input placeholder="Email" />
               </div>
             </div>
           </Col>

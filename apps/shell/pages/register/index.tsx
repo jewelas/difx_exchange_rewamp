@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, CountrySelect, Icon, Color } from '@difx/core-ui';
 import { Row, Col, Input, Button, Checkbox } from 'antd';
+import Link from 'next/link'
 import CoverImage from './svg/CoverImage';
 import t from '@difx/locale';
 import styled from 'styled-components';
@@ -194,7 +195,7 @@ export function RegisterPage(props: RegisterPageProps) {
                 // disabled={this.state.disabled}
                 // onChange={this.onChange}
                 >
-                  <Typography level='text'>I have read and agree to the Terms and Conditions</Typography>
+                  <Typography level='text'>{t('register.term1')} <a target='_blank' href='/term'>{t('register.term2')}</a></Typography>
                 </Checkbox>
               </div>
 

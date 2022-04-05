@@ -1,26 +1,32 @@
 html {
   -webkit-text-size-adjust: 100%;
-  font-family: 'Lato', sans-serif !important;
+  font-family: "Lato", sans-serif !important;
   line-height: 1.5;
   tab-size: 4;
   scroll-behavior: smooth;
 }
-body{
-  font-family: 'Lato', sans-serif !important;
+body {
+  font-family: "Lato", sans-serif !important;
 }
 
-.noselect,button,div {
+.noselect,
+button,
+div {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
 
-button{
+button {
   font-size: 14px;
   font-weight: 500;
   line-height: 22px;
+}
+
+.ant-input-affix-wrapper.ant-input-password{
+  padding: 0 11px;
 }

@@ -1,7 +1,8 @@
-import { Color, getCountryInfo, CountrySelect, Icon, Typography } from '@difx/core-ui';
+import { Color, getCountryInfo, CountrySelect, Icon, Typography, PasswordField } from '@difx/core-ui';
 import clsx from 'clsx';
 import { isEmpty } from 'lodash';
 import t from '@difx/locale';
+import ReactTooltip from 'react-tooltip';
 import { Form, Button, Checkbox, Input } from 'antd';
 import { FormInstance } from 'antd/es/form';
 import React, { useState, useRef } from 'react';
@@ -103,11 +104,12 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   const [showReferral, setShowReferral] = useState(false);
 
   const formRef = useRef<FormInstance>(null);
+  const tooltipRef = useRef(null);
 
   const [acceptTerm, setAcceptTerm] = useState(false);
   const [hasFieldError, setHasFieldError] = useState(true);
-  const [dialCode, setDialCode] = useState('');
-  const [country, setCountry] = useState('');
+  const [dialCode, setDialCode] = useState(null);
+  const [country, setCountry] = useState(null);
   const [userType, setUserType] = useState('IND')
 
   interface FormData {
@@ -240,16 +242,23 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
             </div>
           }
 
-          <div className='input-item'>
-            <Form.Item name="password"
+          <div data-tip data-for='password-validate' className='input-item'>
+            {/* <Form.Item name="password"
               rules={[
                 {
                   required: true,
                   message: 'Please input your Phone Password !',
                 },
               ]}>
-              <Input.Password placeholder="Password" />
-            </Form.Item>
+              <Input.Password autoComplete='new-password' placeholder="Password" />
+            </Form.Item> */}
+
+            <PasswordField rules={[
+                {
+                  required: true,
+                  message: 'Please input your Password !',
+                },
+              ]}/>
           </div>
 
           <div onClick={() => { setShowReferral(!showReferral) }} className='referral-group'>
@@ -284,6 +293,10 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
         <Button disabled={hasFieldError || !acceptTerm} htmlType='submit' className='sign-up-btn' type='primary'>Sign Up</Button>
 
       </Form>
+
+
+      <ReactTooltip />
+
     </PageStyled>
   );
 }

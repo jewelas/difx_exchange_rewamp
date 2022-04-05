@@ -4,14 +4,19 @@ import { Flag } from './../Flag';
 import countries from './countries.json';
 
 const { Option } = Select;
-
 export interface CountrySelectProps {
   placeHolder?: string;
+  defaultValue?: string;
+  value?:string;
   width?: number;
   size?: 'medium' | 'large';
   type?: 'name' | 'dial_code';
-  onChange: (value: string) => void;
+  onChange: (value: { key: string, value: string }) => void;
   onSearch?: (value: string) => void;
+}
+
+export function getCountryInfo(key: string): {} | undefined {
+  return countries.find(e => e.code === key);
 }
 
 const SelectStyled = styled(Select)`
@@ -90,8 +95,8 @@ const OptionGroupStyled = styled.div`
 
 const CountrySelect = (props: CountrySelectProps) => {
 
-  const onChange = (value: any) => {
-    props.onChange(value);
+  const onChange = (value: any, item: any) => {
+    props.onChange({ key: item.key, value });
   }
 
   const onSearch = (val: string) => {
@@ -103,7 +108,7 @@ const CountrySelect = (props: CountrySelectProps) => {
 
     for (const country of countries) {
       result.push(
-        <Option key={country.code} value={country.code}>
+        <Option key={country.code} value={(!props.type || props.type === 'name') ? country.name : country.dial_code}>
           <OptionGroupStyled className={props.size || 'medium'}>
             <div className='flag-custom'><Flag countryCode={country.code} /></div>
             <div className='val'>
@@ -118,6 +123,8 @@ const CountrySelect = (props: CountrySelectProps) => {
 
   return (
     <SelectStyled
+      value={props.value}
+      defaultValue={props.defaultValue}
       className={props.size || 'medium'}
       style={{ height: 48, width: props.width ? props.width : 300 }}
       showSearch
@@ -137,9 +144,8 @@ const CountrySelect = (props: CountrySelectProps) => {
               keys.push(country.code)
             }
           }
-
         }
-        return keys.includes(option.value)
+        return keys.includes(option.key)
       }
       }
     >

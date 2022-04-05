@@ -1,14 +1,26 @@
 
 import en from './en.json';
 
-let Language = en;
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+
+const resources = {
+    en: { translation: en },
+};
+
+let lang = "en";
 if (typeof window !== "undefined") {
-    console.log('ddddddddd')
-    const lang = window.localStorage.getItem('lang');
-    switch (lang) {
-        case 'en': Language = en;
-            break;
-    }
+    lang = window.localStorage.getItem('lang') || 'en';
 }
 
-export default Language;
+i18n.use(initReactI18next).init({
+    resources,
+    lng: lang,
+    interpolation: {
+        escapeValue: false // react already safes from xss
+    }
+});
+
+const { t } = i18n;
+
+export default t;

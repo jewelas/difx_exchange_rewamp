@@ -1,7 +1,8 @@
+import React, { useState } from 'react';
 import { Typography, CountrySelect, Icon, Color } from '@difx/core-ui';
-import { Row, Col, Input, Button } from 'antd';
+import { Row, Col, Input, Button, Checkbox } from 'antd';
 import CoverImage from './svg/CoverImage';
-import Lang from '@difx/locale';
+import t from '@difx/locale';
 import styled from 'styled-components';
 import AppLayout from '..';
 
@@ -44,6 +45,22 @@ const PageStyled = styled.div`
     .country-select-group{
       margin-top:10px;
     }
+    .referral-group{
+      display:flex;
+      cursor:pointer;
+      width: 147px;
+      .icon{
+        margin-top: 23px;
+        margin-left: 10px;
+      }
+    }
+    .term-group{
+      margin-top: 20px;
+    }
+    .sign-up-btn{
+      margin-top:20px;
+      height: 48px !important;
+    }
     .input-group{
       margin-top:30px;
       .ant-input{
@@ -85,7 +102,7 @@ const PageStyled = styled.div`
           }
         }
         &:hover{
-          transition: unset;
+          transition: unset !important;
           color: ${Color.blue.primary} !important;
           border-color: ${Color.blue.primary} !important;
           svg path{
@@ -110,15 +127,17 @@ const PageStyled = styled.div`
 
 export function RegisterPage(props: RegisterPageProps) {
 
+  const [showReferral, setShowReferral] = useState(false);
+
   return (
     <AppLayout>
       <PageStyled>
         <Row>
           <Col className='left-side' md={{ span: 15 }}>
             <div className='message'>
-              <Typography level={'H2'}>{Lang.register.message1}</Typography>
-              <Typography level={'H1'} color={'primary'}>{Lang.register.message2}</Typography>
-              <Typography level={'H5'} color={'secondary'}>{Lang.register.message3}</Typography>
+              <Typography level={'H2'}>{t('register.message1')}</Typography>
+              <Typography level={'H1'} color={'primary'}>{t('register.message2')}</Typography>
+              <Typography level={'H5'} color={'secondary'}>{t('register.message3')}</Typography>
             </div>
             <div className='cover-group'>
               <CoverImage />
@@ -126,19 +145,19 @@ export function RegisterPage(props: RegisterPageProps) {
           </Col>
           <Col className='right-side' md={{ span: 9 }}>
             <div className='group'>
-              <Typography level={'H2'}>{Lang.register.register_your_account}</Typography>
-              <Typography level={'H6'}>{Lang.register.resident_country}</Typography>
+              <Typography level={'H2'}>{t('register.register_your_account')}</Typography>
+              <Typography level={'H6'}>{t('register.resident_country')}</Typography>
               <div className='country-select-group'>
                 <CountrySelect onChange={() => { }} size='large' />
               </div>
               <div className='account-type-group'>
                 <Button className='active'>
                   <Icon.UserIcon />
-                  <div>{Lang.register.individual}</div>
+                  <div>{t('register.individual')}</div>
                 </Button>
                 <Button>
                   <Icon.BankIcon />
-                  <div>{Lang.register.corporate}</div>
+                  <div>{t('register.corporate')}</div>
                 </Button>
               </div>
               <div className='input-group'>
@@ -154,7 +173,33 @@ export function RegisterPage(props: RegisterPageProps) {
                 <div className='input-item'>
                   <Input placeholder="Password" />
                 </div>
+
+                <div onClick={() => { setShowReferral(!showReferral) }} className='referral-group'>
+                  <Typography level='H6'>{t('register.referral_code')}</Typography>
+                  <div className='icon'>{showReferral ? <Icon.MenuDownIcon /> : <Icon.MenuUpIcon />}</div>
+                </div>
+                {
+                  showReferral
+                  &&
+                  <div className='input-item' style={{ marginTop: 10, marginBottom:0 }}>
+                    <Input placeholder="Referral" />
+                  </div>
+                }
+
               </div>
+
+              <div className='term-group'>
+                <Checkbox
+                // checked={this.state.checked}
+                // disabled={this.state.disabled}
+                // onChange={this.onChange}
+                >
+                  <Typography level='text'>I have read and agree to the Terms and Conditions</Typography>
+                </Checkbox>
+              </div>
+
+                <Button className='sign-up-btn' type='primary'>Sign Up</Button>
+
             </div>
           </Col>
         </Row>

@@ -27,6 +27,8 @@ const SelectStyled = styled(Select)`
       .ant-select-selection-search{
         input{
           height: 48px !important;
+          font-size: 20px;
+          padding-left: 48px;
         }
       }
     }
@@ -43,6 +45,8 @@ const SelectStyled = styled(Select)`
       .ant-select-selection-search{
         input{
           height: 48px !important;
+          font-size: 14px;
+          padding-left: 48px;
         }
       }
     }

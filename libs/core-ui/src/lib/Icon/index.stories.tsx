@@ -23,7 +23,7 @@ const Template: Story<{}> = (args) => {
 
   const {
     ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon, UserIcon,
-    BankIcon
+    BankIcon, MenuDownIcon, MenuUpIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -64,6 +64,8 @@ const Template: Story<{}> = (args) => {
         {renderIcon('WalletIcon', <WalletIcon />)}
         {renderIcon('UserIcon', <UserIcon />)}
         {renderIcon('BankIcon', <BankIcon />)}
+        {renderIcon('MenuDownIcon', <MenuDownIcon />)}
+        {renderIcon('MenuUpIcon', <MenuUpIcon />)}
       </div>
     </div>
   )

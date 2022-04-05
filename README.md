@@ -2,10 +2,6 @@
 
 This project was generated using [Nx](https://nx.dev).
 
-# Create new app
-
-nx generate @nrwl/next:app app_name
-
 ## Folder Structure
 
 ```

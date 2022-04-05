@@ -12,6 +12,8 @@ import OrderIcon from './OrderIcon';
 import MarketIcon from './MarketIcon';
 import UserIcon from './UserIcon';
 import BankIcon from './BankIcon';
+import MenuDownIcon from './MenuDownIcon';
+import MenuUpIcon from './MenuUpIcon';
 
 export interface IconProps {
   color?: string;
@@ -37,7 +39,9 @@ const Icon = {
   OrderIcon,
   MarketIcon,
   UserIcon,
-  BankIcon
+  BankIcon,
+  MenuDownIcon,
+  MenuUpIcon
 }
 
 export {Icon}

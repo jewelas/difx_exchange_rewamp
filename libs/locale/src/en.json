@@ -10,5 +10,13 @@
     "referral_code": "Referral Code",
     "term1": "I have read and agree to the",
     "term2": "Terms and Conditions"
+  },
+  "error":{
+    "min_10_chars": "Minimum 10 character",
+    "should_contain_uppercase":"Should contain uppercase",
+    "should_contain_lowercase":"Should contain lowercase",
+    "should_contain_special_char":"Should contain special character",
+    "should_contain_number":"Should contain number",
+    "should_contain_space":"Should contain space"
   }
 }

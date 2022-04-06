@@ -258,7 +258,9 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
                   required: true,
                   message: 'Please input your Password !',
                 },
-              ]}/>
+              ]}
+              onChange={()=>{}}
+              />
           </div>
 
           <div onClick={() => { setShowReferral(!showReferral) }} className='referral-group'>

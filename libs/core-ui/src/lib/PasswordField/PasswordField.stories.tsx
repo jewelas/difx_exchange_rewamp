@@ -26,4 +26,5 @@ const Template: Story<PasswordFieldProps> = (args) => {
 
 export const Primary = Template.bind({});
 Primary.args = {
+    onChange:()=>{}
 };

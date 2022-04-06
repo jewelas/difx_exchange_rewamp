@@ -16,15 +16,17 @@ const Template: Story<PasswordFieldProps> = (args) => {
             <div style={{ fontSize: '12px', display: 'inline-block', border: 'solid 1px #ccc', padding: '5px' }}>
                 {`import { PasswordField } from @difx/core-ui`}
             </div>
-            <div style={{marginTop: 20}}>
-            <PasswordField {...args} />
+            <div style={{ marginTop: 20 }}>
+                <div style={{marginLeft:300, width:300}}>
+                    <PasswordField {...args} />
+                </div>
             </div>
-            
+
         </div>
     )
 };
 
 export const Primary = Template.bind({});
 Primary.args = {
-    onChange:()=>{}
+    onChange: () => { }
 };

@@ -167,8 +167,6 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
         setHasFieldError(true);
       }
     }
-
-    console.log(formRef.current!.getFieldsValue())
   }
 
 
@@ -178,7 +176,6 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     ) => {
       const { data } = response;
       localStorage.setItem('currentUser', JSON.stringify(data));
-      console.log(response, 'success')
       signUpSuccessNotification();
     }, []
   );

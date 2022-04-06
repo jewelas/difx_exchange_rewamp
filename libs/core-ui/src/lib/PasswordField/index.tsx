@@ -102,7 +102,6 @@ const PasswordField = (props: PasswordFieldProps) => {
       props.onChange(false, value);
       setIsValidate(false);
     }
-    console.log(isValidate)
   }
 
   const renderCheckItem = (text: string, isSuccess: boolean) => {

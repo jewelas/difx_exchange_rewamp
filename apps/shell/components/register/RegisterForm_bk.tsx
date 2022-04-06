@@ -3,6 +3,8 @@ import t from '@difx/locale';
 import { useRouter } from 'next/router';
 import { SignUpRequest, SignUpResponse, useGetCountry, useSignUp } from '@difx/shared';
 import { Button, Checkbox, Form, Input, notification } from 'antd';
+import ReCaptcha from '../ReCaptcha';
+import { ReCAPTCHA } from 'react-recaptcha-google';
 import { FormInstance } from 'antd/es/form';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
@@ -113,7 +115,10 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
   const [showReferral, setShowReferral] = useState(false);
 
+  const [captChaToken, setCaptChaToken] = useState(null)
+
   const formRef = useRef<FormInstance>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
 
   const [acceptTerm, setAcceptTerm] = useState(false);
   const [hasFieldError, setHasFieldError] = useState(true);
@@ -121,11 +126,17 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   const [country, setCountry] = useState(null);
   const [userType, setUserType] = useState<'IND' | 'BUS'>('IND')
 
+  // useEffect(()=>{
+  //   if(captchaRef.current){
+  //     captchaRef.current.execute();
+  //   }
+  // },[captchaRef]);
+
   useEffect(() => {
-    if (countryCode) {
-      const code = countryCode.split(';')[1];
+    if(countryCode){
+      const code= countryCode.split(';')[1];
       const countryInfo: any = getCountryInfo(code);
-      if (countryInfo) {
+      if(countryInfo){
         setCountry(countryInfo.name);
         setDialCode(countryInfo.dial_code);
         formRef.current!.setFieldsValue({ dial_code: countryInfo?.dial_code });
@@ -209,12 +220,14 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
   const onSubmit = async (formData: SignUpRequest) => {
 
-    formData.phonenumber = (formData.dial_code + formData.phonenumber).replace('+', '');
+    if (userType === 'IND') formData.phonenumber = (formData.dial_code + formData.phonenumber).replace('+', '');
 
+
+    captchaRef.current.execute();
+    return;
     let name = formData.email.split('@')[0];
     name = name.replace(/[^a-zA-Z]/g, '');
 
-    formData.type = 'individual';
     formData.agree = true;
     formData.usertype = userType;
     formData.firstname = name;
@@ -239,6 +252,10 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   return (
     <PageStyled>
       <Form ref={formRef} onFinish={onSubmit} onFieldsChange={onFormChange} autoComplete="off">
+
+        <ReCaptcha _ref={captchaRef} onChange={(token:string)=>{console.log(token);setCaptChaToken(token)}}/>
+
+        
         <Typography level={'H2'}>{t('register.register_your_account')}</Typography>
         <Typography level={'H6'}>{t('register.resident_country')}</Typography>
         <div className='country-select-group'>
@@ -272,23 +289,27 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
             </Form.Item>
           </div>
 
-          <div className='input-item dial'>
-            <div className='dropdown-dial'>
-              <Form.Item name="dial_code"
-                rules={[]}>
-                <CountrySelect value={dialCode} width={150} type='dial_code' onChange={onChangeDialCode} size='medium' />
+          {
+            userType === 'IND'
+            &&
+            <div className='input-item dial'>
+              <div className='dropdown-dial'>
+                <Form.Item name="dial_code"
+                  rules={[]}>
+                  <CountrySelect value={dialCode} width={150} type='dial_code' onChange={onChangeDialCode} size='medium' />
+                </Form.Item>
+              </div>
+              <Form.Item name="phonenumber"
+                rules={[
+                  {
+                    required: true,
+                    message: t('error.input_phone'),
+                  },
+                ]}>
+                <Input type='number' placeholder="Phone Number" />
               </Form.Item>
             </div>
-            <Form.Item name="phonenumber"
-              rules={[
-                {
-                  required: true,
-                  message: t('error.input_phone'),
-                },
-              ]}>
-              <Input type='number' placeholder="Phone Number" />
-            </Form.Item>
-          </div>
+          }
 
           <div data-tip data-for='password-validate' className='input-item'>
             <PasswordField

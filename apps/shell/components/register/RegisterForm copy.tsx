@@ -1,8 +1,9 @@
 import { Color, CountrySelect, getCountryInfo, Icon, PasswordField, Typography } from '@difx/core-ui';
 import t from '@difx/locale';
 import { useRouter } from 'next/router';
-import { SignUpRequest, SignUpResponse, useGetCountry, useSignUp } from '@difx/shared';
+import { SignUpRequest, SignUpResponse, useGetCountry, useSignUp, useGetCaptcha } from '@difx/shared';
 import { Button, Checkbox, Form, Input, notification } from 'antd';
+import { ReCaptcha, ReCAPTCHA } from 'react-recaptcha-google';
 import { FormInstance } from 'antd/es/form';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
@@ -109,6 +110,9 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
   const { data: countryCode } = useGetCountry();
 
+  // const {data: captcha} = useGetCaptcha();
+  // console.log(captcha, 'capss')
+
   const router = useRouter();
 
   const [showReferral, setShowReferral] = useState(false);
@@ -132,6 +136,11 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
       }
     }
   }, [countryCode])
+
+  // useEffect(() => {
+  //   console.log('sssss')
+  //   captchaRef.current.reset();
+  // }, []);
 
 
   const signUpSuccessNotification = () => {
@@ -209,12 +218,16 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
   const onSubmit = async (formData: SignUpRequest) => {
 
-    formData.phonenumber = (formData.dial_code + formData.phonenumber).replace('+', '');
+    if (userType === 'IND') formData.phonenumber = (formData.dial_code + formData.phonenumber).replace('+', '');
 
+    captchaRef.current.execute();
+
+
+
+    return;
     let name = formData.email.split('@')[0];
     name = name.replace(/[^a-zA-Z]/g, '');
 
-    formData.type = 'individual';
     formData.agree = true;
     formData.usertype = userType;
     formData.firstname = name;
@@ -236,9 +249,47 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     setDialCode(item.value);
   }
 
+
+  const onLoadRecaptcha = () => {
+    // captchaRef.current.reset();
+  }
+
+  const verifyCallback = (recaptchaToken) => {
+    // Here you will get the final recaptchaToken!!!  
+    console.log(captchaRef,'captchaRef')
+    console.log(recaptchaToken, "<= your recaptcha token")
+  }
+
+  const captchaRef = useRef<ReCAPTCHA>(null);
+
   return (
     <PageStyled>
+
+
+      {/* <ReCaptcha
+        ref={captchaRef}
+        sitekey="6Le1Qk4fAAAAAM6bANuFLAgCSYEjARrib_kNBTLT"
+        action='onSubmit'
+        onloadCallback={onLoadRecaptcha}
+        verifyCallback={verifyCallback}
+      /> */}
+
       <Form ref={formRef} onFinish={onSubmit} onFieldsChange={onFormChange} autoComplete="off">
+
+
+      <ReCaptcha
+        ref={captchaRef}
+        size="invisible"
+        // data-theme="dark"
+        // render="explicit"
+        sitekey="6Le1Qk4fAAAAAM6bANuFLAgCSYEjARrib_kNBTLT"
+        onloadCallback={onLoadRecaptcha}
+        verifyCallback={verifyCallback}
+        onChange={(e:any)=>{console.log(e,'xxxx')}}
+      />
+
+
+
         <Typography level={'H2'}>{t('register.register_your_account')}</Typography>
         <Typography level={'H6'}>{t('register.resident_country')}</Typography>
         <div className='country-select-group'>
@@ -272,23 +323,27 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
             </Form.Item>
           </div>
 
-          <div className='input-item dial'>
-            <div className='dropdown-dial'>
-              <Form.Item name="dial_code"
-                rules={[]}>
-                <CountrySelect value={dialCode} width={150} type='dial_code' onChange={onChangeDialCode} size='medium' />
+          {
+            userType === 'IND'
+            &&
+            <div className='input-item dial'>
+              <div className='dropdown-dial'>
+                <Form.Item name="dial_code"
+                  rules={[]}>
+                  <CountrySelect value={dialCode} width={150} type='dial_code' onChange={onChangeDialCode} size='medium' />
+                </Form.Item>
+              </div>
+              <Form.Item name="phonenumber"
+                rules={[
+                  {
+                    required: userType === 'IND' ? true : false,
+                    message: t('error.input_phone'),
+                  },
+                ]}>
+                <Input type='number' placeholder="Phone Number" />
               </Form.Item>
             </div>
-            <Form.Item name="phonenumber"
-              rules={[
-                {
-                  required: true,
-                  message: t('error.input_phone'),
-                },
-              ]}>
-              <Input type='number' placeholder="Phone Number" />
-            </Form.Item>
-          </div>
+          }
 
           <div data-tip data-for='password-validate' className='input-item'>
             <PasswordField
@@ -322,7 +377,9 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
           </Checkbox>
         </div>
 
-        <Button disabled={isLoading || hasFieldError || !acceptTerm} htmlType='submit' className='sign-up-btn' type='primary'>Sign Up</Button>
+        <Button data-sitekey="6Le1Qk4fAAAAAM6bANuFLAgCSYEjARrib_kNBTLT" 
+        data-callback='onSubmit' 
+        data-action='submit'  disabled={isLoading || hasFieldError || !acceptTerm} htmlType='submit' className='sign-up-btn' type='primary'>Sign Up</Button>
 
       </Form>
 

@@ -9,6 +9,7 @@
     code?: string;
     agree: boolean;
     usertype: 'IND' | 'BUS';
+    type: string;
   }
 
   export interface SignUpResponse {

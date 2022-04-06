@@ -74,28 +74,28 @@ const PasswordField = (props: PasswordFieldProps) => {
   const [containsLowerCase, setContainsLowerCase] = useState(false);
   const [containsSpecialChars, setContainsSpecialChars] = useState(false);
   const [containsNumber, setContainsNumber] = useState(false);
-  const [containsSpace, setContainsSpace] = useState(false);
+  const [notContainsSpace, setNotContainsSpace] = useState(false);
 
   const [isValidate, setIsValidate] = useState(true);
 
   const onChangePass = (e: any) => {
     const value = e.target.value;
 
-    const _containSpace = value.includes(' ');
+    const _notContainSpace = !value.includes(' ');
     const _min10Chars = value.length >= 10;
     const _containsLowerCase = /[a-z]/.test(value);
     const _containsUpperCase = /[A-Z]/.test(value);
     const _containsNumberCase = /[0-9]/.test(value);
     const _containsSpecialChar = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value);
 
-    setContainsSpace(_containSpace);
+    setNotContainsSpace(_notContainSpace);
     setMin10Chars(_min10Chars);
     setContainsLowerCase(_containsLowerCase);
     setContainsUpperCase(_containsUpperCase);
     setContainsNumber(_containsNumberCase);
     setContainsSpecialChars(_containsSpecialChar);
 
-    if(_containSpace && _min10Chars && _containsLowerCase && _containsUpperCase && _containsNumberCase && _containsSpecialChar){
+    if(_notContainSpace && _min10Chars && _containsLowerCase && _containsUpperCase && _containsNumberCase && _containsSpecialChar){
       props.onChange(true, value);
       setIsValidate(true);
     }else{
@@ -130,7 +130,7 @@ const PasswordField = (props: PasswordFieldProps) => {
           {renderCheckItem(t('error.should_contain_lowercase'), containsLowerCase)}
           {renderCheckItem(t('error.should_contain_special_char'), containsSpecialChars)}
           {renderCheckItem(t('error.should_contain_number'), containsNumber)}
-          {renderCheckItem(t('error.should_contain_space'), containsSpace)}
+          {renderCheckItem(t('error.should_not_contain_space'), notContainsSpace)}
         </div>
       </ReactTooltip>
     </FieldStyled>

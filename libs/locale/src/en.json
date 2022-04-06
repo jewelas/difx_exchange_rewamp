@@ -20,6 +20,6 @@
     "should_contain_lowercase":"Should contain lowercase",
     "should_contain_special_char":"Should contain special character",
     "should_contain_number":"Should contain number",
-    "should_contain_space":"Should contain space"
+    "should_not_contain_space":"Should not contain space"
   }
 }

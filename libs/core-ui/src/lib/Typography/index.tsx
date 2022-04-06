@@ -31,6 +31,11 @@ const TextStyled = styled(Text)`
     font-size: 20px;
     line-height: 28px;
   }
+  &.text{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+  }
 `
 
 

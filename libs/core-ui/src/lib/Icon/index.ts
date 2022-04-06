@@ -12,6 +12,12 @@ import OrderIcon from './OrderIcon';
 import MarketIcon from './MarketIcon';
 import UserIcon from './UserIcon';
 import BankIcon from './BankIcon';
+import MenuDownIcon from './MenuDownIcon';
+import MenuUpIcon from './MenuUpIcon';
+import CheckCircleIcon from './CheckCircleIcon';
+import CloseCircleIcon from './CloseCircleIcon';
+import EyeHiddenIcon from './EyeHiddenIcon';
+import EyeVisibleIcon from './EyeVisibleIcon';
 
 export interface IconProps {
   color?: string;
@@ -37,7 +43,13 @@ const Icon = {
   OrderIcon,
   MarketIcon,
   UserIcon,
-  BankIcon
+  BankIcon,
+  MenuDownIcon,
+  MenuUpIcon,
+  CheckCircleIcon,
+  CloseCircleIcon,
+  EyeVisibleIcon,
+  EyeHiddenIcon
 }
 
 export {Icon}

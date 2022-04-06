@@ -6,6 +6,20 @@
     "individual": "Individual",
     "corporate": "Corporate",
     "register_your_account": "Register your Account",
-    "resident_country": "Resident Country:"
+    "resident_country": "Resident Country:",
+    "referral_code": "Referral Code",
+    "term1": "I have read and agree to the",
+    "term2": "Terms and Conditions"
+  },
+  "error":{
+    "input_email":"Please input your Email!",
+    "email_not_valid":"Email is not valid!",
+    "input_phone":"Please input your Phone Number!",
+    "min_10_chars": "Minimum 10 character",
+    "should_contain_uppercase":"Should contain uppercase",
+    "should_contain_lowercase":"Should contain lowercase",
+    "should_contain_special_char":"Should contain special character",
+    "should_contain_number":"Should contain number",
+    "should_not_contain_space":"Should not contain space"
   }
 }

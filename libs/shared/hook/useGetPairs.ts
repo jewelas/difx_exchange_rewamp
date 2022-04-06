@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
-import { getPairs } from './../api/useGetPairs'
+import { getPairs } from '../api/pairs'
 import { PairType } from '../type/Pair'
 import React, {useState, useEffect} from 'react';
 

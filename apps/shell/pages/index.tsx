@@ -23,7 +23,6 @@ export interface AppLayoutProps {
 export function AppLayout({children}:AppLayoutProps) {
 
   const { data: pairs } = useGetPairs();
-  console.log(Lang, 'Lang11')
 
   const { SubMenu } = Menu;
   const { Footer } = Layout;

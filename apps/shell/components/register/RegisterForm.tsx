@@ -27,6 +27,9 @@ const PageStyled = styled.div`
     
     .country-select-group{
       margin-top:10px;
+      .ant-select{
+        width:100% !important;
+      }
     }
     .referral-group{
       display:flex;

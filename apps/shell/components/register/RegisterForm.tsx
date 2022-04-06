@@ -156,6 +156,8 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
         setHasFieldError(true);
       }
     }
+
+    console.log(formRef.current!.getFieldsValue())
   }
 
   const onSubmit = (formData: FormData) => {
@@ -178,6 +180,11 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     // captcha: recaptchaToken,
     // agree: true,
 
+  }
+
+  const onChangePass = (isValidate:boolean, value:string)=>{
+    formRef.current!.setFieldsValue({password: value});
+    setHasFieldError(!isValidate)
   }
 
   const onChangeDialCode = (item: { key: string, value: string }) => {
@@ -212,8 +219,12 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Email !',
+                  message: t('error.input_email'),
                 },
+                {
+                  type: 'email',
+                  message: t('error.email_not_valid'),
+                }
               ]}
             >
               <Input placeholder="Email" />
@@ -234,32 +245,17 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Phone Number !',
+                    message: t('error.input_phone'),
                   },
                 ]}>
-                <Input placeholder="Phone Number" />
+                <Input type='number' placeholder="Phone Number" />
               </Form.Item>
             </div>
           }
 
           <div data-tip data-for='password-validate' className='input-item'>
-            {/* <Form.Item name="password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Phone Password !',
-                },
-              ]}>
-              <Input.Password autoComplete='new-password' placeholder="Password" />
-            </Form.Item> */}
-
-            <PasswordField rules={[
-                {
-                  required: true,
-                  message: 'Please input your Password !',
-                },
-              ]}
-              onChange={()=>{}}
+            <PasswordField
+              onChange={onChangePass}
               />
           </div>
 
@@ -272,9 +268,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
             &&
             <div className='input-item' style={{ marginTop: 10, marginBottom: 0 }}>
               <Form.Item
-                name="code"
-                rules={[
-                ]}>
+                name="code">
                 <Input placeholder="Referral" />
               </Form.Item>
             </div>
@@ -285,7 +279,6 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
         <div className='term-group'>
           <Checkbox
             checked={acceptTerm}
-            // disabled={this.state.disabled}
             onChange={onChangeTermCheckbox}
           >
             <Typography level='text'>{t('register.term1')} <a target='_blank' href='/term'>{t('register.term2')}</a></Typography>

@@ -20,6 +20,11 @@ export interface PasswordFieldProps {
 
 const FieldStyled = styled.div`
 width: 100%;
+border: 1px solid #d9d9d9;
+border-radius:2px;
+&.fail{
+  border-color: ${Color.red.failure}
+}
 .view-pass{
   display: inline-block;
   position: absolute;
@@ -70,20 +75,33 @@ const PasswordField = (props: PasswordFieldProps) => {
   const [containsNumber, setContainsNumber] = useState(false);
   const [containsSpace, setContainsSpace] = useState(false);
 
+  const [isValidate, setIsValidate] = useState(true);
+
   const onChangePass = (e: any) => {
     const value = e.target.value;
-    setContainsSpace(value.includes(' '));
-    setMin10Chars(value.length >= 10);
-    setContainsLowerCase(/[a-z]/.test(value));
-    setContainsUpperCase(/[A-Z]/.test(value));
-    setContainsNumber(/[0-9]/.test(value));
-    setContainsSpecialChars(/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value));
 
-    if(containsSpace && min10Chars && containsLowerCase && containsUpperCase && containsNumber && containsSpecialChars){
+    const _containSpace = value.includes(' ');
+    const _min10Chars = value.length >= 10;
+    const _containsLowerCase = /[a-z]/.test(value);
+    const _containsUpperCase = /[A-Z]/.test(value);
+    const _containsNumberCase = /[0-9]/.test(value);
+    const _containsSpecialChar = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value);
+
+    setContainsSpace(_containSpace);
+    setMin10Chars(_min10Chars);
+    setContainsLowerCase(_containsLowerCase);
+    setContainsUpperCase(_containsUpperCase);
+    setContainsNumber(_containsNumberCase);
+    setContainsSpecialChars(_containsSpecialChar);
+
+    if(_containSpace && _min10Chars && _containsLowerCase && _containsUpperCase && _containsNumberCase && _containsSpecialChar){
       props.onChange(true, value);
+      setIsValidate(true);
     }else{
       props.onChange(false, value);
+      setIsValidate(false);
     }
+    console.log(isValidate)
   }
 
   const renderCheckItem = (text: string, isSuccess: boolean) => {
@@ -96,10 +114,10 @@ const PasswordField = (props: PasswordFieldProps) => {
   }
 
   return (
-    <FieldStyled data-tip data-for={'password-validate-field'} data-event='click focus'>
+    <FieldStyled className={clsx( isValidate ? '' : 'fail')} data-tip data-for={'password-validate-field'} data-event='click focus'>
       <Form.Item name="password"
         rules={props.rules || []}>
-        <Input onChange={onChangePass} type={showPass ? 'text' : 'password'} autoComplete='new-password' placeholder="Password" data-event='click focus' />
+        <Input bordered={false} onChange={onChangePass} type={showPass ? 'text' : 'password'} autoComplete='new-password' placeholder="Password" data-event='click focus' />
         <div className='view-pass' onMouseDown={() => { setShowPass(!showPass) }}>
           {showPass ? <EyeHiddenIcon /> : <EyeVisibleIcon />}
         </div>

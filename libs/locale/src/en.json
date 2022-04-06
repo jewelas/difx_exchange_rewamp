@@ -12,6 +12,9 @@
     "term2": "Terms and Conditions"
   },
   "error":{
+    "input_email":"Please input your Email!",
+    "email_not_valid":"Email is not valid!",
+    "input_phone":"Please input your Phone Number!",
     "min_10_chars": "Minimum 10 character",
     "should_contain_uppercase":"Should contain uppercase",
     "should_contain_lowercase":"Should contain lowercase",

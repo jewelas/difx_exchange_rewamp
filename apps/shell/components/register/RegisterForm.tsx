@@ -1,12 +1,19 @@
 import { Color, getCountryInfo, CountrySelect, Icon, Typography, PasswordField } from '@difx/core-ui';
+import md5 from 'md5';
+import { SignUpRequest, SignUpResponse, useSignUp } from '@difx/shared'
+
+import axios, { AxiosResponse, AxiosError } from 'axios';
+
+
 import clsx from 'clsx';
 import { isEmpty } from 'lodash';
 import t from '@difx/locale';
 import ReactTooltip from 'react-tooltip';
-import { Form, Button, Checkbox, Input } from 'antd';
+import { Form, Button, Checkbox, Input, notification } from 'antd';
 import { FormInstance } from 'antd/es/form';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import styled from 'styled-components';
+import { stringify } from 'querystring';
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps { }
@@ -110,17 +117,21 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const [dialCode, setDialCode] = useState(null);
   const [country, setCountry] = useState(null);
-  const [userType, setUserType] = useState('IND')
+  const [userType, setUserType] = useState<'IND' | 'BUS'>('IND')
 
-  interface FormData {
-    email: string;
-    password: string;
-    phonenumber: string;
-    dial_code: string;
-    code?: string;
-    agree: boolean;
-    usertype: 'IND' | 'BUS';
-  }
+
+  const signUpSuccessNotification = () => {
+    notification['success']({
+      message: 'Sign Up successfully'
+    });
+  };
+
+  const signUpFailNotification = (description: string) => {
+    notification['error']({
+      message: 'Sign Up failed',
+      description
+    });
+  };
 
   const isRequiredFieldsEmpty = (): boolean => {
     let result = false;
@@ -160,30 +171,43 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     console.log(formRef.current!.getFieldsValue())
   }
 
-  const onSubmit = (formData: FormData) => {
 
-    formData.phonenumber = formData.dial_code + formData.phonenumber;
+  const onSuccess = useCallback(
+    (
+      response: AxiosResponse<SignUpResponse>
+    ) => {
+      const { data } = response;
+      localStorage.setItem('currentUser', JSON.stringify(data));
+      console.log(response, 'success')
+      signUpSuccessNotification();
+    }, []
+  );
+
+  const onError = useCallback(
+    (
+      error: AxiosError
+    ) => {
+      const { response } = error;
+      const { statusText } = response.data;
+      signUpFailNotification(statusText);
+    }, []
+  );
+
+  const { mutate: signUp, isLoading } = useSignUp({ onSuccess, onError });
+
+  const onSubmit = async (formData: SignUpRequest) => {
+
+    if (userType === 'IND') formData.phonenumber = (formData.dial_code + formData.phonenumber).replace('+', '');
     formData.agree = true;
-    formData.usertype = 'IND';
-
-    console.log(formData, 'formData');
-
-    // firstname: this.firstname,
-    // lastname: this.lastname,
-    // type: "individual",
-    // usertype: this.usertype === false ? 'IND' : 'BUS',
-    // email: this.email,
-    // password: this.password,
-    // rpassword: this.rpassword,
-    // phonenumber: formattedPhoneNumber,
-    // code: this.code,
-    // captcha: recaptchaToken,
-    // agree: true,
-
+    formData.usertype = userType;
+    formData.firstname = formData.email.split('@')[0];
+    formData.lastname = formData.email.split('@')[0];
+    formData.rpassword = formData.password;
+    signUp(formData);
   }
 
-  const onChangePass = (isValidate:boolean, value:string)=>{
-    formRef.current!.setFieldsValue({password: value});
+  const onChangePass = (isValidate: boolean, value: string) => {
+    formRef.current!.setFieldsValue({ password: value });
     setHasFieldError(!isValidate)
   }
 
@@ -256,7 +280,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
           <div data-tip data-for='password-validate' className='input-item'>
             <PasswordField
               onChange={onChangePass}
-              />
+            />
           </div>
 
           <div onClick={() => { setShowReferral(!showReferral) }} className='referral-group'>
@@ -285,7 +309,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
           </Checkbox>
         </div>
 
-        <Button disabled={hasFieldError || !acceptTerm} htmlType='submit' className='sign-up-btn' type='primary'>Sign Up</Button>
+        <Button disabled={isLoading || hasFieldError || !acceptTerm} htmlType='submit' className='sign-up-btn' type='primary'>Sign Up</Button>
 
       </Form>
 

@@ -30,3 +30,8 @@ button {
 .ant-input-affix-wrapper.ant-input-password{
   padding: 0 11px;
 }
+
+.ant-notification{
+  z-index: 9999 !important;
+  margin-top: 55px !important;
+}

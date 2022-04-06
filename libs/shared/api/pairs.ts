@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { PairType } from './../type/Pair';
+import { PairType } from '../type/Pair';
 import instance from './index';
 
 export function getPairs() {

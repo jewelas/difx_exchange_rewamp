@@ -1,19 +1,15 @@
-import { Color, getCountryInfo, CountrySelect, Icon, Typography, PasswordField } from '@difx/core-ui';
-import md5 from 'md5';
-import { SignUpRequest, SignUpResponse, useSignUp } from '@difx/shared'
-
-import axios, { AxiosResponse, AxiosError } from 'axios';
-
-
+import { Color, CountrySelect, getCountryInfo, Icon, PasswordField, Typography } from '@difx/core-ui';
+import t from '@difx/locale';
+import { useRouter } from 'next/router';
+import { SignUpRequest, SignUpResponse, useGetCountry, useSignUp } from '@difx/shared';
+import { Button, Checkbox, Form, Input, notification } from 'antd';
+import { FormInstance } from 'antd/es/form';
+import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { isEmpty } from 'lodash';
-import t from '@difx/locale';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactTooltip from 'react-tooltip';
-import { Form, Button, Checkbox, Input, notification } from 'antd';
-import { FormInstance } from 'antd/es/form';
-import React, { useState, useRef, useCallback } from 'react';
 import styled from 'styled-components';
-import { stringify } from 'querystring';
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps { }
@@ -108,16 +104,31 @@ const PageStyled = styled.div`
 
 export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
+  const { data: countryCode } = useGetCountry();
+
+  const router = useRouter();
+
   const [showReferral, setShowReferral] = useState(false);
 
   const formRef = useRef<FormInstance>(null);
-  const tooltipRef = useRef(null);
 
   const [acceptTerm, setAcceptTerm] = useState(false);
   const [hasFieldError, setHasFieldError] = useState(true);
   const [dialCode, setDialCode] = useState(null);
   const [country, setCountry] = useState(null);
   const [userType, setUserType] = useState<'IND' | 'BUS'>('IND')
+
+  useEffect(() => {
+    if(countryCode){
+      const code= countryCode.split(';')[1];
+      const countryInfo: any = getCountryInfo(code);
+      if(countryInfo){
+        setCountry(countryInfo.name);
+        setDialCode(countryInfo.dial_code);
+        formRef.current!.setFieldsValue({ dial_code: countryInfo?.dial_code });
+      }
+    }
+  }, [countryCode])
 
 
   const signUpSuccessNotification = () => {
@@ -177,6 +188,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
       const { data } = response;
       localStorage.setItem('currentUser', JSON.stringify(data));
       signUpSuccessNotification();
+      router.push('/home');
     }, []
   );
 
@@ -195,10 +207,14 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   const onSubmit = async (formData: SignUpRequest) => {
 
     if (userType === 'IND') formData.phonenumber = (formData.dial_code + formData.phonenumber).replace('+', '');
+
+    let name = formData.email.split('@')[0];
+    name = name.replace(/[^a-zA-Z]/g, '');
+
     formData.agree = true;
     formData.usertype = userType;
-    formData.firstname = formData.email.split('@')[0];
-    formData.lastname = formData.email.split('@')[0];
+    formData.firstname = name;
+    formData.lastname = name;
     formData.rpassword = formData.password;
     signUp(formData);
   }
@@ -259,7 +275,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
               <div className='dropdown-dial'>
                 <Form.Item name="dial_code"
                   rules={[]}>
-                  <CountrySelect defaultValue={dialCode} width={150} type='dial_code' onChange={onChangeDialCode} size='medium' />
+                  <CountrySelect value={dialCode} width={150} type='dial_code' onChange={onChangeDialCode} size='medium' />
                 </Form.Item>
               </div>
               <Form.Item name="phonenumber"

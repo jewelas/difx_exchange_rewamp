@@ -1,7 +1,7 @@
 import { PairTable } from '@difx/core-ui';
 import { useGetPairs } from '@difx/shared';
+import { Layout } from 'antd';
 import styled from 'styled-components';
-import { Layout, Menu } from 'antd';
 import AppLayout from '..';
 
 /* eslint-disable-next-line */

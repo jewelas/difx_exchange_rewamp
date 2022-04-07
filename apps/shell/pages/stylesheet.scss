@@ -99,6 +99,9 @@ body {
     }
     
     .ant-select {
+      .ant-select-selection-placeholder{
+        z-index: 1;
+      }
       .ant-select-selector {
         background: #161f30;
         border: unset;
@@ -139,6 +142,9 @@ body {
             color: #fff;
             border-color: #ff4d4f !important;
           }
+        }
+        .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover{
+          background: #161f30;
         }
       }
     }

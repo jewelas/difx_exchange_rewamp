@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Typography, CountrySelect, Icon, Color } from '@difx/core-ui';
-import { Row, Col, Input, Button, Checkbox } from 'antd';
-import Link from 'next/link'
-import CoverImage from './svg/CoverImage';
+import { Typography } from '@difx/core-ui';
 import t from '@difx/locale';
+import { Col, Row } from 'antd';
+import React from 'react';
 import styled from 'styled-components';
 import AppLayout from '..';
-import RegisterFormComponent from 'apps/shell/components/register/RegisterForm';
+import RegisterFormComponent from './../../components/register/RegisterForm';
+import CoverImage from './svg/CoverImage';
 
 /* eslint-disable-next-line */
 export interface RegisterPageProps { }
@@ -49,9 +48,6 @@ const PageStyled = styled.div`
 `;
 
 export function RegisterPage(props: RegisterPageProps) {
-
-  const [showReferral, setShowReferral] = useState(false);
-
   return (
     <AppLayout>
       <PageStyled>

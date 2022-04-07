@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import styled from 'styled-components';
 import AppLayout from '..';
 
@@ -27,6 +28,7 @@ const PageStyled = styled.div`
   }
 `;
 
+
 export function TermPage() {
   return (
     <AppLayout>
@@ -40,9 +42,9 @@ export function TermPage() {
             <div className="policyContainer col-12">
 
               <p>These Terms and Conditions constitute a legally binding agreement between you (“<span>User</span>, “<span>you</span>” or “<span>your</span>”). and DIFX Limited, duly incorporated and registered under Commercial License No. 202023307N with Accounting and Corporate Regulatory Authority (ACRA) Singapore
-                (hereinafter referred to as “<span>DIFX</span>” or “<span>Company</span>”) governing your use of the DIFX Platform. DIFX website <a href="https://difx.com" target="_blank" >(https://difx.com)</a> (the “<span>Sites</span>”), and related services, information and communications are collectively referred to as the “<span>Platform</span>”.<br /><br />
+                (hereinafter referred to as “<span>DIFX</span>” or “<span>Company</span>”) governing your use of the DIFX Platform. DIFX website <a href="https://difx.com" target="_blank" rel="noreferrer" >(https://difx.com)</a> (the “<span>Sites</span>”), and related services, information and communications are collectively referred to as the “<span>Platform</span>”.<br /><br />
                 The  use   of  all   personal   data   you   submit  to   the   DIFX   Platform  or  which   we
-                collect about you is governed by our Privacy Policy (“<a href="https://difx.com/policy" target="_blank" ><span>Privacy Policy</span></a>”). A copy
+                collect about you is governed by our Privacy Policy (“<a href="https://difx.com/policy" target="_blank" rel="noreferrer" ><span>Privacy Policy</span></a>”). A copy
                 of   our   Privacy   Policy   is   available here.   You   acknowledge   that   by   using   the
                 Platform you have reviewed the Privacy Policy.
                 Your consent that registration and continued use of the Platform constitutes
@@ -433,7 +435,7 @@ export function TermPage() {
                 means of monetary damages. Any breach hereof by you may be enforced by
                 us by means of equitable relief (including, but not limited to, injunctive relief) in
                 addition to any other rights and remedies that may be available. Requests for
-                permission should be sent to us via email at <a href="mailto:spot-support@difx.io." target="_blank" >info@difx.com</a>.
+                permission should be sent to us via email at <a href="mailto:spot-support@difx.io." target="_blank" rel="noreferrer" >info@difx.com</a>.
 
                 12.3 You must not use any part of the material held on our Platform or made available
                 through it for commercial or business purposes without obtaining a license to
@@ -495,7 +497,7 @@ export function TermPage() {
                 methods to verify your identity in order to discharge its obligations under the
                 Financial Crime Framework. Where you do not wish DIFX to utilize electronic
                 verification methods to  verify your identity please contact DIFX in writing at
-                <a href="mailto:spot-support@difx.io." target="_blank" >info@difx.com</a> requesting an alternative means of verification.
+                <a href="mailto:spot-support@difx.io." target="_blank" rel="noreferrer" >info@difx.com</a> requesting an alternative means of verification.
                 14.1.10 Without limiting the aforementioned electronic verification methods, DIFX may
                 request a credit reporting agency, or any analogous organisation, to provide an
                 assessment of whether the personal information provided to  DIFX  including
@@ -553,7 +555,7 @@ export function TermPage() {
                 <span>17. Contact us &amp; notice.</span><br /><br />
                 17.1 If you have any questions about these Terms and Conditions, or if you would like to
                 receive a hard-copy version of these Terms and Conditions, you can contact
-                us at <a href="mailto:spot-support@difx.io." target="_blank" >info@difx.com.</a>
+                us at <a href="mailto:spot-support@difx.io." target="_blank" rel="noreferrer" >info@difx.com.</a>
                 <span>19. Fees.</span><br /><br />
                 19.1 Fees   in   respect   of   relevant   Platforms   and/or   Services   are   as   detailed   on   the
                 Platforms.<br /><br />

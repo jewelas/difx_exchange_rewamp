@@ -111,7 +111,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
   const router = useRouter();
 
-  const [showReferral, setShowReferral] = useState(false);
+const [showReferral, setShowReferral] = useState(false);
 
   const formRef = useRef<FormInstance>(null);
 
@@ -124,11 +124,12 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   useEffect(() => {
     if (countryCode) {
       const code = countryCode.split(';')[1];
+     /* eslint-disable-next-line */
       const countryInfo: any = getCountryInfo(code);
       if (countryInfo) {
         setCountry(countryInfo.name);
         setDialCode(countryInfo.dial_code);
-        formRef.current!.setFieldsValue({ dial_code: countryInfo?.dial_code });
+        formRef.current?.setFieldsValue({ dial_code: countryInfo?.dial_code });
       }
     }
   }, [countryCode])
@@ -149,7 +150,8 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
   const isRequiredFieldsEmpty = (): boolean => {
     let result = false;
-    const values: FormData = formRef.current!.getFieldsValue();
+    const values: FormData = formRef.current?.getFieldsValue();
+    /* eslint-disable-next-line */
     for (const [key, value] of Object.entries(values)) {
       if (!value) {
         result = true;
@@ -160,12 +162,14 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   }
 
   const onChangeCountry = (item: { key: string, value: string }) => {
+    /* eslint-disable-next-line */
     const countryInfo: any = getCountryInfo(item.key);
     setDialCode(countryInfo?.dial_code);
     setCountry(item.value);
-    formRef.current!.setFieldsValue({ dial_code: countryInfo?.dial_code });
+    formRef.current?.setFieldsValue({ dial_code: countryInfo?.dial_code });
   }
 
+  /* eslint-disable-next-line */
   const onChangeTermCheckbox = (value: any) => {
     setAcceptTerm(value.target.checked);
   }
@@ -175,7 +179,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     if (isRequiredFieldsEmpty()) {
       setHasFieldError(true);
     } else {
-      const fieldsError = formRef.current!.getFieldsError();
+      const fieldsError = formRef.current?.getFieldsError();
       const errors = fieldsError.find(e => e.errors);
       if (isEmpty(errors)) {
         setHasFieldError(true);
@@ -192,7 +196,8 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
       localStorage.setItem('currentUser', JSON.stringify(data));
       signUpSuccessNotification();
       router.push('/home');
-    }, []
+      /* eslint-disable-next-line */
+    }, [] 
   );
 
   const onError = useCallback(
@@ -224,13 +229,14 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   }
 
   const onChangePass = (isValidate: boolean, value: string) => {
-    formRef.current!.setFieldsValue({ password: value });
+    formRef.current?.setFieldsValue({ password: value });
     setHasFieldError(!isValidate)
   }
 
   const onChangeDialCode = (item: { key: string, value: string }) => {
-    formRef.current!.setFieldsValue({ dial_code: item.value });
+    formRef.current?.setFieldsValue({ dial_code: item.value });
 
+    /* eslint-disable-next-line */
     const countryInfo: any = getCountryInfo(item.key);
     setCountry(countryInfo?.name);
     setDialCode(item.value);

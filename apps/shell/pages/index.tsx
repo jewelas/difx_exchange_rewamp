@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
 import { Header } from '@difx/core-ui';
-import { useGetPairs } from '@difx/shared';
-import Lang from '@difx/locale';
-import { Layout, Menu } from 'antd';
-import HomePage from './home';
+import { Layout } from 'antd';
 import 'antd/dist/antd.css';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 
@@ -17,21 +14,18 @@ const ContentStyled = styled.div`
   margin-top: 74px;
 `
 export interface AppLayoutProps {
-  children: any
+  children: React.ReactChild
 }
 
 export function AppLayout({children}:AppLayoutProps) {
 
-  const { data: pairs } = useGetPairs();
-
-  const { SubMenu } = Menu;
   const { Footer } = Layout;
   const router = useRouter();
 
   useEffect(()=>{
     const {pathname} = router;
     if(pathname === '/') router.push('/home');
-}, []);
+}, [router]);
 
   return (
     <LayoutStyled>

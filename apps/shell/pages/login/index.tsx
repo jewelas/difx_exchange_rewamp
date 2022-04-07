@@ -1,4 +1,3 @@
-import {Color} from '@difx/core-ui';
 import styled from 'styled-components';
 import AppLayout from '..';
 

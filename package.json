@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve shell",
-    "build": "nx build shell",
+    "build": "nx build shell --prod",
     "test": "nx run-many --target=test --all",
     "test:e2e": "nx e2e shell-e2e",
     "storybook": "nx storybook core-ui",
@@ -76,16 +76,11 @@
     "eslint-plugin-react-hooks": "4.3.0",
     "husky": "^7.0.0",
     "jest": "27.2.3",
-    "lint-staged": "^12.3.7",
     "nx": "13.9.5",
     "prettier": "^2.5.1",
     "react-test-renderer": "^17.0.2",
     "ts-jest": "27.0.5",
     "typescript": "~4.5.2",
     "url-loader": "^3.0.0"
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
   }
 }

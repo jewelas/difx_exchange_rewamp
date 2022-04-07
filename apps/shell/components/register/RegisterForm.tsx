@@ -172,10 +172,10 @@ const [showReferral, setShowReferral] = useState(false);
   /* eslint-disable-next-line */
   const onChangeTermCheckbox = (value: any) => {
     setAcceptTerm(value.target.checked);
+    onFormChange();
   }
 
   const onFormChange = () => {
-    setHasFieldError(false)
     if (isRequiredFieldsEmpty()) {
       setHasFieldError(true);
     } else {
@@ -183,6 +183,8 @@ const [showReferral, setShowReferral] = useState(false);
       const errors = fieldsError.find(e => e.errors);
       if (isEmpty(errors)) {
         setHasFieldError(true);
+      }else{
+        setHasFieldError(false)
       }
     }
   }

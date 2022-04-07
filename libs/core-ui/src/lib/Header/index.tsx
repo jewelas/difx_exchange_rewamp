@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import { useRouter } from 'next/router';
+import { Button, Col, Layout, Menu, Row } from 'antd';
 import 'antd/dist/antd.css';
-import { Row, Col, Layout, Menu, Button } from 'antd';
 import clsx from 'clsx';
-import {Icon} from '../Icon'
+import { useRouter } from 'next/router';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import t from '../../../../locale';
+import { Icon } from '../Icon';
 
-/* eslint-disable-next-line */
 export interface HeaderProps {
-  onNavigation: (page: string) => void
+  onNavigation: (page: string) => void;
+  onChangeTheme: () => void;
 }
 
 const StyledButtonGroup = styled.div`
@@ -134,7 +135,7 @@ const StyledHeader = styled(Layout.Header)`
     .group{
       display:flex;
       background: #fff;
-      border-bottom: solid 1px #eee;
+      border-bottom: solid 5px #eee;
       .logo{
         display: flex;
         width:122px;
@@ -188,9 +189,11 @@ const StyledHeader = styled(Layout.Header)`
     }
 `;
 
+const SMALL_SIZE:number = 637;
+
 export function Header(props: HeaderProps) {
   const { onNavigation } = props;
-
+  
   const {
     LogoIcon, ArrowDownIcon, EarthIcon, MoonIcon, HorizontalLineIcon, CloseIcon, HomeIcon,
     ExchangeIcon,
@@ -263,10 +266,10 @@ export function Header(props: HeaderProps) {
               <Menu.Item className='left-nav' key="6">Wallet</Menu.Item>
               <Menu.Item className='left-nav' key="7">Orders</Menu.Item>
 
-              <Menu.Item className='right-nav' style={{ position: 'absolute', right: 260 }} key="/login">
+              <Menu.Item className='right-nav login' style={{ position: 'absolute', right: 260 }} key="/login">
                 <Button onClick={()=>{onNavigation('/login')}} type="text">Login</Button>
               </Menu.Item>
-              <Menu.Item className='right-nav' style={{ position: 'absolute', right: 150 }} key="9">
+              <Menu.Item className='right-nav register' style={{ position: 'absolute', right: 150 }} key="9">
                 <Button onClick={()=>{onNavigation('/register')}} type="primary">Register</Button>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 86 }} key="10">
@@ -283,7 +286,7 @@ export function Header(props: HeaderProps) {
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 0 }} key="12">
                 <StyledButtonGroup>
-                  <StyledIconButton icon={<MoonIcon />} size={'small'} />
+                  <StyledIconButton onClick={props.onChangeTheme} icon={<MoonIcon />} size={'small'} />
                 </StyledButtonGroup>
               </Menu.Item>
 
@@ -301,38 +304,38 @@ export function Header(props: HeaderProps) {
                   <div className='close-icon' onClick={onCloseMenu}><CloseIcon /></div>
                   <div className='menu-item-group'>
                     <div className='menu-item-btn'>
-                      <Button onClick={()=>{onNavigation('/login')}} type="text">Login</Button>
+                      <Button onClick={()=>{onNavigation('/login')}} type="text">{t('header.login')}</Button>
                     </div>
                     <div className='menu-item-btn'>
-                      <Button onClick={()=>{onNavigation('/register')}} type="primary">Register</Button>
+                      <Button onClick={()=>{onNavigation('/register')}} type="primary">{t('header.register')}</Button>
                     </div>
                     {
-                      width <= 637
+                      width <= SMALL_SIZE
                       &&
                       <>
                         <div onClick={() => onNavigation('/home')} className='menu-item'>
                           <HomeIcon />
-                          <div className='txt'>Home</div>
+                          <div className='txt'>{t('header.home')}</div>
                         </div>
                         <div className='menu-item'>
                           <MarketIcon />
-                          <div className='txt'>Markets</div>
+                          <div className='txt'>{t('header.markets')}</div>
                         </div>
                         <div className='menu-item'>
                           <ExchangeIcon />
-                          <div className='txt'>Trade</div>
+                          <div className='txt'>{t('header.trade')}</div>
                         </div>
                         <div className='menu-item'>
                           <EarnIcon />
-                          <div className='txt'>Earn</div>
+                          <div className='txt'>{t('header.earn')}</div>
                         </div>
                         <div className='menu-item'>
                           <WalletIcon />
-                          <div className='txt'>Wallet</div>
+                          <div className='txt'>{t('header.wallet')}</div>
                         </div>
                         <div className='menu-item'>
                           <OrderIcon />
-                          <div className='txt'>Order</div>
+                          <div className='txt'>{t('header.order')}</div>
                         </div>
                       </>
                     }
@@ -340,15 +343,15 @@ export function Header(props: HeaderProps) {
                     <div className='line' />
                     <div className='menu-item'>
                       <ArrowDownIcon />
-                      <div className='txt'>Download</div>
+                      <div className='txt'>{t('header.download')}</div>
                     </div>
                     <div className='menu-item'>
                       <EarthIcon />
-                      <div className='txt'>English</div>
+                      <div className='txt'>{t('header.english')}</div>
                     </div>
                     <div className='menu-item'>
                       <MoonIcon />
-                      <div className='txt'>Dark mode</div>
+                      <div className='txt'>{t('header.dark_mode')}</div>
                     </div>
                   </div>
                 </div>

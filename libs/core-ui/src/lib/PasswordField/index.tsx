@@ -2,7 +2,7 @@ import { Typography as AntdTypography } from 'antd';
 import { useState } from 'react';
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
-import t from './../../../../locale/src';
+import t from '../../../../locale';
 import CheckCircleIcon from './../Icon/CheckCircleIcon';
 import CloseCircleIcon from './../Icon/CloseCircleIcon';
 import EyeHiddenIcon from './../Icon/EyeHiddenIcon';
@@ -22,7 +22,7 @@ const FieldStyled = styled.div`
 width: 100%;
 border: 1px solid #d9d9d9;
 border-radius:2px;
-height: 48px;
+height: 50px;
 &.fail{
   border-color: ${Color.red.failure}
 }
@@ -114,7 +114,7 @@ const PasswordField = (props: PasswordFieldProps) => {
   }
 
   return (
-    <FieldStyled className={clsx( isValidate ? '' : 'fail')} data-tip data-for={'password-validate-field'} data-event='click focus'>
+    <FieldStyled className={clsx('password-input', isValidate ? '' : 'fail')} data-tip data-for={'password-validate-field'} data-event='click focus'>
       <Form.Item name="password"
         rules={props.rules || []}>
         <Input bordered={false} onChange={onChangePass} type={showPass ? 'text' : 'password'} autoComplete='new-password' placeholder="Password" data-event='click focus' />

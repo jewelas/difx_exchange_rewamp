@@ -1,10 +1,12 @@
-import { Header } from '@difx/core-ui';
-import { Layout } from 'antd';
-import 'antd/dist/antd.css';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { Layout } from 'antd';
+import { useAtom } from 'jotai';
+import clsx from 'clsx';
+import { useRouter } from 'next/router';
+import { Header } from '@difx/core-ui';
+import { themeAtom } from '@difx/shared';
 import styled from 'styled-components';
-
+import 'antd/dist/antd.css';
 
 const LayoutStyled = styled(Layout)`
   background: #F7F7F8 !important;
@@ -17,20 +19,45 @@ export interface AppLayoutProps {
   children: React.ReactChild
 }
 
-export function AppLayout({children}:AppLayoutProps) {
+export function AppLayout({ children }: AppLayoutProps) {
 
   const { Footer } = Layout;
   const router = useRouter();
 
-  useEffect(()=>{
-    const {pathname} = router;
-    if(pathname === '/') router.push('/home');
-}, [router]);
+  const [theme, setTheme] = useAtom(themeAtom);
+
+  useEffect(() => {
+    const { pathname } = router;
+    if (pathname === '/') router.push('/home');
+  }, [router]);
+
+  useEffect(() => {
+    const themeFromLocalStorage = localStorage?.getItem('theme');
+    setTheme(themeFromLocalStorage || 'light');
+  }, [setTheme]);
+
+  useEffect(() => {
+    const elements = document.getElementsByTagName('body');
+    if (elements && elements[0]) {
+      elements[0].classList.remove('light');
+      elements[0].classList.remove('dark');
+      elements[0].classList.add(theme);
+    }
+  }, [theme]);
+
+  const LIGHT = 'light';
+  const DARK = 'dark';
+
+  const changeTheme = () => {
+    const themeChanged = theme === LIGHT ? DARK : LIGHT
+    localStorage.setItem('theme', themeChanged);
+    setTheme(themeChanged);
+  }
 
   return (
     <LayoutStyled>
-      <Header onNavigation={(page:string)=> router.push(page)} />
-      
+      <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
+
       <ContentStyled>{children}</ContentStyled>
 
       <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

@@ -12,6 +12,7 @@ export interface RegisterPageProps { }
 
 const PageStyled = styled.div`
   .left-side{
+    margin-top:-5px;
     .message{
       display: flex;
       flex-direction: column;

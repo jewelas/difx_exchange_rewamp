@@ -44,11 +44,43 @@ button {
 body {
   &.dark {
 
+    .ant-layout-footer{
+      border-top: solid 5px #000;
+      background: #0D1421;
+      color:#fff;
+    }
+
+    // .ant-table-content{
+    //   background: #0D1421;
+    //   color:#fff;
+    // }
+
+    .ant-layout{
+      .layout-content{
+        background: #0D1421;
+        .ant-layout-content{
+          background: #0D1421;
+          color:#fff;
+          .title, .summary{
+            color:#fff !important;
+          }
+        }
+      }
+    }
+
     button.ant-btn[disabled]{
       background-color: #161f30;
       border-color: #161f30;
       color:#fff;
       opacity: 0.7;
+    }
+
+    .tooltip-custom{
+      background: #161f30;
+      &::after{
+        border-top-color: #161f30;
+        border-left-color: #161f30;
+      }
     }
 
     .ant-select-dropdown{
@@ -68,9 +100,54 @@ body {
       }
     }
     
+    .ant-select {
+      .ant-select-selector {
+        background: #161f30;
+        border: unset;
+        color: #fff;
+        box-shadow: unset !important;
+      }
+      .ant-select-arrow {
+        svg {
+          fill: #fff;
+        }
+      }
+    }
+
+    .password-input {
+      &:not(.fail) {
+        border: unset;
+      }
+      &.fail {
+        border-color: #ff4d4f !important;
+      }
+    }
+
+    .ant-form-item {
+      &:not(.ant-form-item-has-error) {
+        .ant-form-item-control-input-content {
+          input {
+            background: #161f30;
+            color: #fff;
+            border: unset;
+          }
+        }
+      }
+
+      &.ant-form-item-has-error {
+        .ant-form-item-control-input-content {
+          input {
+            background: #161f30;
+            color: #fff;
+            border-color: #ff4d4f !important;
+          }
+        }
+      }
+    }
+
     .ant-col {
       &.left-side {
-        background: rgba(13, 20, 33, 0.8);
+        background: #161f30;
       }
       &.right-side {
         background: #0d1421;
@@ -84,56 +161,11 @@ body {
         border-bottom-color: rgba(0, 0, 0, 1);
       }
 
-      .ant-select {
-        .ant-select-selector {
-          background: #161f30;
-          border: unset;
-          color: #fff;
-          box-shadow: unset !important;
-        }
-        .ant-select-arrow {
-          svg {
-            fill: #fff;
-          }
-        }
-      }
-
       .account-type-group {
         button {
           background: #161f30;
           // color: #fff;
           border: unset;
-        }
-      }
-
-      .password-input {
-        &:not(.fail) {
-          border: unset;
-        }
-        &.fail {
-          border-color: #ff4d4f !important;
-        }
-      }
-
-      .ant-form-item {
-        &:not(.ant-form-item-has-error) {
-          .ant-form-item-control-input-content {
-            input {
-              background: #161f30;
-              color: #fff;
-              border: unset;
-            }
-          }
-        }
-
-        &.ant-form-item-has-error {
-          .ant-form-item-control-input-content {
-            input {
-              background: #161f30;
-              color: #fff;
-              border-color: #ff4d4f !important;
-            }
-          }
         }
       }
 

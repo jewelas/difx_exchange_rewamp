@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Layout } from 'antd';
 import { useAtom } from 'jotai';
-import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { Header } from '@difx/core-ui';
 import { themeAtom } from '@difx/shared';
@@ -58,7 +57,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     <LayoutStyled>
       <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
 
-      <ContentStyled>{children}</ContentStyled>
+      <ContentStyled className='layout-content'>{children}</ContentStyled>
 
       <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
     </LayoutStyled>

@@ -236,6 +236,7 @@ const [showReferral, setShowReferral] = useState(false);
   const onChangeDialCode = (item: { key: string, value: string }) => {
     formRef.current?.setFieldsValue({ dial_code: item.value });
 
+    /* eslint-disable-next-line */
     const countryInfo: any = getCountryInfo(item.key);
     setCountry(countryInfo?.name);
     setDialCode(item.value);

@@ -2,8 +2,7 @@ import { Button, Col, Layout, Menu, Row } from 'antd';
 import 'antd/dist/antd.css';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { useAtom } from 'jotai';
-import { themeAtom } from './../../../../shared';
+import { atom, useAtom } from 'jotai';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import t from '../../../../locale';
@@ -13,6 +12,8 @@ export interface HeaderProps {
   onNavigation: (page: string) => void;
   onChangeTheme: () => void;
 }
+
+export const themeAtom = atom<string>('light');
 
 const StyledButtonGroup = styled.div`
   display:flex;

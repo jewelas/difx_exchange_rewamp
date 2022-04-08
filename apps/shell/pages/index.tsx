@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { Header } from '@difx/core-ui';
 import { themeAtom } from '@difx/shared';
 import styled from 'styled-components';
-import 'antd/dist/antd.css';
 
 const LayoutStyled = styled(Layout)`
   background: #F7F7F8 !important;

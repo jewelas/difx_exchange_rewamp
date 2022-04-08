@@ -1,5 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withNx = require('@nrwl/next/plugins/with-nx');
+const withLess = require("next-with-less");
+const path = require("path");
+
+const pathToDefaultLessFile = path.resolve(
+  "./apps/shell/themes/default.less"
+);
 
 /**
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
@@ -11,6 +17,11 @@ const nextConfig = {
     svgr: false,
   },
   generateBuildId: () => 'build',
+  lessLoaderOptions: {
+    // /* ... */
+    additionalData: (content) =>
+      `${content}\n\n@import '${pathToDefaultLessFile}';`,
+    },
 };
 
-module.exports = withNx(nextConfig);
+module.exports = withNx(withLess(nextConfig));

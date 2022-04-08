@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import 'antd/dist/antd.css';
 import Trend from 'react-trend';
 import {Color} from '../Color'
 import { Table, Tag, Space } from 'antd';

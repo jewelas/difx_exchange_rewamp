@@ -1,5 +1,4 @@
 import { Button, Col, Layout, Menu, Row } from 'antd';
-import 'antd/dist/antd.css';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { atom, useAtom } from 'jotai';

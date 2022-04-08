@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react';
 import { PairTable, PairTableProps } from '.';
-import { PairType } from '../../../../shared/type/Pair'
+import { PairType } from './../../../../shared/type/Pair'
 
 export default {
   component: PairTable,

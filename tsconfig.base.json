@@ -23,7 +23,7 @@
         "libs/core-ui/src/index.ts"
       ],
       "@difx/locale": [
-        "libs/locale/src/index.ts"
+        "libs/locale/index.ts"
       ],
       "@difx/shared": [
         "libs/shared/index.ts"

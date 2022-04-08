@@ -27,11 +27,208 @@ button {
   line-height: 22px;
 }
 
-.ant-input-affix-wrapper.ant-input-password{
+.ant-input-affix-wrapper.ant-input-password {
   padding: 0 11px;
 }
 
-.ant-notification{
+.ant-form-item-control-input-content input {
+  box-shadow: unset !important;
+}
+
+.ant-notification {
   z-index: 9999 !important;
   margin-top: 55px !important;
+}
+
+// Theme setting
+body {
+  &.dark {
+
+    .ant-layout-footer{
+      border-top: solid 5px #000;
+      background: #0D1421;
+      color:#fff;
+    }
+
+    // .ant-table-content{
+    //   background: #0D1421;
+    //   color:#fff;
+    // }
+
+    .ant-layout{
+      .layout-content{
+        background: #0D1421;
+        .ant-layout-content{
+          background: #0D1421;
+          color:#fff;
+          .title, .summary{
+            color:#fff !important;
+          }
+        }
+      }
+    }
+
+    button.ant-btn[disabled]{
+      background-color: #161f30;
+      border-color: #161f30;
+      color:#fff;
+      opacity: 0.7;
+    }
+
+    .tooltip-custom{
+      background: #161f30;
+      &::after{
+        border-top-color: #161f30;
+        border-left-color: #161f30;
+      }
+    }
+
+    .ant-select-dropdown{
+      background: #161f30 !important;
+      .ant-select-item-option-active:not(.ant-select-item-option-disabled){
+        background: rgba(13, 20, 33, 0.6);
+      }
+      .ant-select-item.ant-select-item-option.ant-select-item-option-selected{
+        background: rgba(13, 20, 33, 0.6);;
+      }
+      .ant-select-item-option-content{
+        .val{
+          color:#fff !important;
+        }
+      }
+    }
+    
+    .ant-select {
+      .ant-select-selection-placeholder{
+        z-index: 1;
+      }
+      .ant-select-selector {
+        background: #161f30;
+        border: unset;
+        color: #fff;
+        box-shadow: unset !important;
+      }
+      .ant-select-arrow {
+        svg {
+          fill: #fff;
+        }
+      }
+    }
+
+    .password-input {
+      &:not(.fail) {
+        border: unset;
+      }
+      &.fail {
+        border-color: #ff4d4f !important;
+      }
+    }
+
+    .ant-form-item {
+      &:not(.ant-form-item-has-error) {
+        .ant-form-item-control-input-content {
+          input {
+            background: #161f30;
+            color: #fff;
+            border: unset;
+          }
+        }
+      }
+
+      &.ant-form-item-has-error {
+        .ant-form-item-control-input-content {
+          input {
+            background: #161f30;
+            color: #fff;
+            border-color: #ff4d4f !important;
+          }
+        }
+        .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover{
+          background: #161f30;
+        }
+      }
+    }
+
+    .ant-col {
+      .more-item-group{
+        background: rgba(255,255,255,0.1);
+        button{
+          color:#fff;
+        }
+        .items{
+          background: #161f30;
+          svg path{
+            fill:#fff;
+          }
+        }
+      }
+      li.more-nav{
+        button{
+          background: transparent;
+          svg path{
+            fill:#fff;
+          }
+        }
+      }
+      &.left-side {
+        background: #161f30;
+      }
+      &.right-side {
+        background: #0d1421;
+      }
+      .ant-typography {
+        &:not(.H1) {
+          color: #fff !important;
+        }
+      }
+      .group {
+        border-bottom-color: rgba(0, 0, 0, 1);
+      }
+
+      .account-type-group {
+        button {
+          background: #161f30;
+          // color: #fff;
+          border: unset;
+        }
+      }
+
+      .ant-menu-overflow,
+      .group {
+        background: #0d1421 !important;
+        color: #fff;
+        .logo {
+          svg {
+            #Layer_5 path,
+            #Layer_2-2 #Layer_3 path,
+            #Layer_2-2 #Layer_4 path {
+              fill: #fff;
+            }
+          }
+          .title {
+            color: #fff;
+          }
+        }
+      }
+      .right-nav {
+        &:not(.login, .register) {
+          button {
+            background: transparent;
+            svg path {
+              fill: #fff;
+            }
+          }
+        }
+        &.login,
+        &.register {
+          button {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .light {
+  }
 }

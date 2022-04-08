@@ -1,4 +1,18 @@
 {
+  "header": {
+    "home": "Home",
+    "markets": "Markets",
+    "trade": "Trade",
+    "earn": "Earn",
+    "wallet": "Wallet",
+    "order": "Order",
+    "download": "Download",
+    "english": "English",
+    "dark_mode": "Dark mode",
+    "light_mode": "Light mode",
+    "login": "Login",
+    "register": "Register"
+  },
   "register": {
     "message1": "Register to get upto",
     "message2": "$500 worth of DIFX tokens",
@@ -11,15 +25,15 @@
     "term1": "I have read and agree to the",
     "term2": "Terms and Conditions"
   },
-  "error":{
-    "input_email":"Please input your Email!",
-    "email_not_valid":"Email is not valid!",
-    "input_phone":"Please input your Phone Number!",
+  "error": {
+    "input_email": "Please input your Email!",
+    "email_not_valid": "Email is not valid!",
+    "input_phone": "Please input your Phone Number!",
     "min_10_chars": "Minimum 10 character",
-    "should_contain_uppercase":"Should contain uppercase",
-    "should_contain_lowercase":"Should contain lowercase",
-    "should_contain_special_char":"Should contain special character",
-    "should_contain_number":"Should contain number",
-    "should_not_contain_space":"Should not contain space"
+    "should_contain_uppercase": "Should contain uppercase",
+    "should_contain_lowercase": "Should contain lowercase",
+    "should_contain_special_char": "Should contain special character",
+    "should_contain_number": "Should contain number",
+    "should_not_contain_space": "Should not contain space"
   }
 }

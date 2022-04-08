@@ -150,6 +150,26 @@ body {
     }
 
     .ant-col {
+      .more-item-group{
+        background: rgba(255,255,255,0.1);
+        button{
+          color:#fff;
+        }
+        .items{
+          background: #161f30;
+          svg path{
+            fill:#fff;
+          }
+        }
+      }
+      li.more-nav{
+        button{
+          background: transparent;
+          svg path{
+            fill:#fff;
+          }
+        }
+      }
       &.left-side {
         background: #161f30;
       }

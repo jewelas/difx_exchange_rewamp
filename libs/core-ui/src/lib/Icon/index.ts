@@ -18,6 +18,7 @@ import CheckCircleIcon from './CheckCircleIcon';
 import CloseCircleIcon from './CloseCircleIcon';
 import EyeHiddenIcon from './EyeHiddenIcon';
 import EyeVisibleIcon from './EyeVisibleIcon';
+import LightIcon from './LightIcon';
 
 export interface IconProps {
   color?: string;
@@ -49,7 +50,8 @@ const Icon = {
   CheckCircleIcon,
   CloseCircleIcon,
   EyeVisibleIcon,
-  EyeHiddenIcon
+  EyeHiddenIcon,
+  LightIcon
 }
 
 export {Icon}

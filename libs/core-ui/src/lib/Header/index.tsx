@@ -2,6 +2,8 @@ import { Button, Col, Layout, Menu, Row } from 'antd';
 import 'antd/dist/antd.css';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import { useAtom } from 'jotai';
+import { themeAtom } from './../../../../shared';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import t from '../../../../locale';
@@ -189,19 +191,22 @@ const StyledHeader = styled(Layout.Header)`
     }
 `;
 
-const SMALL_SIZE:number = 637;
+const SMALL_SIZE: number = 637;
 
 export function Header(props: HeaderProps) {
   const { onNavigation } = props;
-  
+
   const {
     LogoIcon, ArrowDownIcon, EarthIcon, MoonIcon, HorizontalLineIcon, CloseIcon, HomeIcon,
     ExchangeIcon,
     EarnIcon,
     WalletIcon,
     OrderIcon,
-    MarketIcon
+    MarketIcon,
+    LightIcon
   } = Icon;
+
+  const [theme,] = useAtom(themeAtom);
 
   const [showMenuItems, setShowMenuItems] = useState(false);
   const [width, setWidth] = useState<number>(0);
@@ -235,7 +240,7 @@ export function Header(props: HeaderProps) {
 
   useEffect(() => {
     function handleResize() {
-      const width:number = document?.body?.clientWidth;
+      const width: number = document?.body?.clientWidth;
       if (width) {
         setShowGroupOfMenuItems(false);
         setShowMenuItems(false);
@@ -267,10 +272,10 @@ export function Header(props: HeaderProps) {
               <Menu.Item className='left-nav' key="7">Orders</Menu.Item>
 
               <Menu.Item className='right-nav login' style={{ position: 'absolute', right: 260 }} key="/login">
-                <Button onClick={()=>{onNavigation('/login')}} type="text">Login</Button>
+                <Button onClick={() => { onNavigation('/login') }} type="text">Login</Button>
               </Menu.Item>
               <Menu.Item className='right-nav register' style={{ position: 'absolute', right: 150 }} key="9">
-                <Button onClick={()=>{onNavigation('/register')}} type="primary">Register</Button>
+                <Button onClick={() => { onNavigation('/register') }} type="primary">Register</Button>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 86 }} key="10">
                 <StyledButtonGroup>
@@ -286,7 +291,7 @@ export function Header(props: HeaderProps) {
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 0 }} key="12">
                 <StyledButtonGroup>
-                  <StyledIconButton onClick={props.onChangeTheme} icon={<MoonIcon />} size={'small'} />
+                  <StyledIconButton onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon /> : <LightIcon color='#fff' />} size={'small'} />
                 </StyledButtonGroup>
               </Menu.Item>
 
@@ -304,10 +309,10 @@ export function Header(props: HeaderProps) {
                   <div className='close-icon' onClick={onCloseMenu}><CloseIcon /></div>
                   <div className='menu-item-group'>
                     <div className='menu-item-btn'>
-                      <Button onClick={()=>{onNavigation('/login')}} type="text">{t('header.login')}</Button>
+                      <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
                     </div>
                     <div className='menu-item-btn'>
-                      <Button onClick={()=>{onNavigation('/register')}} type="primary">{t('header.register')}</Button>
+                      <Button onClick={() => { onNavigation('/register') }} type="primary">{t('header.register')}</Button>
                     </div>
                     {
                       width <= SMALL_SIZE
@@ -349,8 +354,8 @@ export function Header(props: HeaderProps) {
                       <EarthIcon />
                       <div className='txt'>{t('header.english')}</div>
                     </div>
-                    <div className='menu-item'>
-                      <MoonIcon />
+                    <div onClick={props.onChangeTheme} className='menu-item'>
+                      {theme === 'light' ? <MoonIcon /> : <LightIcon color='#fff' />}
                       <div className='txt'>{t('header.dark_mode')}</div>
                     </div>
                   </div>

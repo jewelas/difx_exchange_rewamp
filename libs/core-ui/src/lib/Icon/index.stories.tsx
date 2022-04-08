@@ -19,11 +19,12 @@ const LineStyled = styled.div`
   }
 `
 
-const Template: Story<{}> = (args) => {
+const Template: Story = (args) => {
 
   const {
     ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon, UserIcon,
-    BankIcon, MenuDownIcon, MenuUpIcon, CheckCircleIcon, CloseCircleIcon, EyeHiddenIcon, EyeVisibleIcon
+    BankIcon, MenuDownIcon, MenuUpIcon, CheckCircleIcon, CloseCircleIcon, EyeHiddenIcon, EyeVisibleIcon,
+    LightIcon,
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -70,6 +71,7 @@ const Template: Story<{}> = (args) => {
         {renderIcon('CloseCircleIcon', <CloseCircleIcon />)}
         {renderIcon('EyeHiddenIcon', <EyeHiddenIcon />)}
         {renderIcon('EyeVisibleIcon', <EyeVisibleIcon />)}
+        {renderIcon('LightIcon', <LightIcon />)}
       </div>
     </div>
   )

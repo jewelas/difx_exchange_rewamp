@@ -181,7 +181,7 @@ const [showReferral, setShowReferral] = useState(false);
     } else {
       const fieldsError = formRef.current?.getFieldsError();
       const errors = fieldsError.find(e => e.errors);
-      if (isEmpty(errors)) {
+      if (errors && !isEmpty(errors.errors)) {
         setHasFieldError(true);
       }else{
         setHasFieldError(false)

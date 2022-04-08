@@ -356,7 +356,7 @@ export function Header(props: HeaderProps) {
                     </div>
                     <div onClick={props.onChangeTheme} className='menu-item'>
                       {theme === 'light' ? <MoonIcon /> : <LightIcon color='#fff' />}
-                      <div className='txt'>{t('header.dark_mode')}</div>
+                      <div className='txt'>{theme === 'light' ? t('header.dark_mode') : t('header.light_mode')}</div>
                     </div>
                   </div>
                 </div>

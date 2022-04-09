@@ -21,13 +21,11 @@ import EyeVisibleIcon from './EyeVisibleIcon';
 import LightIcon from './LightIcon';
 
 export interface IconProps {
-  color?: string;
-  rotateDegree?: number;
   width?: number;
   height?: number;
   className?: string;
   fill?: string;
-  round?: boolean;
+  useDarkMode?: boolean; // If true: just use black/white color
 }
 
 const Icon = {
@@ -54,4 +52,4 @@ const Icon = {
   LightIcon
 }
 
-export {Icon}
+export { Icon }

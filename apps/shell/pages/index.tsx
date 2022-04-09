@@ -14,6 +14,7 @@ const LayoutStyled = styled(Layout)`
 
 const ContentStyled = styled.div`
   margin-top: 74px;
+  background: ${({theme})=> theme.backgroundColor}
 `
 export interface AppLayoutProps {
   children: React.ReactChild
@@ -36,15 +37,6 @@ export function AppLayout({ children }: AppLayoutProps) {
     setTheme(themeFromLocalStorage || 'light');
   }, [setTheme]);
 
-  // useEffect(() => {
-  //   const elements = document.getElementsByTagName('body');
-  //   if (elements && elements[0]) {
-  //     elements[0].classList.remove('light');
-  //     elements[0].classList.remove('dark');
-  //     elements[0].classList.add(theme);
-  //   }
-  // }, [theme]);
-
   const LIGHT = 'light';
   const DARK = 'dark';
 
@@ -54,6 +46,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     setTheme(themeChanged);
   }
 
+  // Config for antd
   ConfigProvider.config(
     theme === LIGHT
       ? { theme: light }
@@ -61,10 +54,12 @@ export function AppLayout({ children }: AppLayoutProps) {
   );
 
   return (
+
+    // Use theme in ThemeProvider to reuse variable when customize the styled-component
     <ThemeProvider theme={theme === LIGHT ? light : dark}>
       <LayoutStyled>
         <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
-        <ContentStyled className='layout-content'>{children}</ContentStyled>
+        <ContentStyled>{children}</ContentStyled>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </LayoutStyled>
     </ThemeProvider>

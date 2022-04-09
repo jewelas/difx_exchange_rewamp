@@ -15,6 +15,7 @@ import styled from 'styled-components';
 export interface RegisterFormComponentProps { }
 
 const PageStyled = styled.div`
+  background: ${({theme})=> theme.backgroundColor2};
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -306,7 +307,7 @@ const [showReferral, setShowReferral] = useState(false);
 
           <div onClick={() => { setShowReferral(!showReferral) }} className='referral-group'>
             <Typography level='H6'>{t('register.referral_code')}</Typography>
-            <div className='icon'>{showReferral ? <Icon.MenuUpIcon /> : <Icon.MenuDownIcon />}</div>
+            <div className='icon'>{showReferral ? <Icon.MenuUpIcon useDarkMode /> : <Icon.MenuDownIcon useDarkMode />}</div>
           </div>
           {
             showReferral

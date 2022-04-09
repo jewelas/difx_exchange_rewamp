@@ -279,19 +279,19 @@ export function Header(props: HeaderProps) {
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 86 }} key="10">
                 <StyledButtonGroup>
-                  <StyledIconButton icon={<ArrowDownIcon />} size={'small'} />
+                  <StyledIconButton icon={<ArrowDownIcon useDarkMode />} size={'small'} />
                   <StyledLine />
                 </StyledButtonGroup>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 36 }} key="11">
                 <StyledButtonGroup>
-                  <StyledIconButton icon={<EarthIcon />} size={'small'} />
+                  <StyledIconButton icon={<EarthIcon useDarkMode />} size={'small'} />
                   <StyledLine />
                 </StyledButtonGroup>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 0 }} key="12">
                 <StyledButtonGroup>
-                  <StyledIconButton onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon /> : <LightIcon color='#fff' />} size={'small'} />
+                  <StyledIconButton onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />} size={'small'} />
                 </StyledButtonGroup>
               </Menu.Item>
 
@@ -347,15 +347,15 @@ export function Header(props: HeaderProps) {
 
                     <div className='line' />
                     <div className='menu-item'>
-                      <ArrowDownIcon />
+                      <ArrowDownIcon useDarkMode />
                       <div className='txt'>{t('header.download')}</div>
                     </div>
                     <div className='menu-item'>
-                      <EarthIcon />
+                      <EarthIcon useDarkMode />
                       <div className='txt'>{t('header.english')}</div>
                     </div>
                     <div onClick={props.onChangeTheme} className='menu-item'>
-                      {theme === 'light' ? <MoonIcon /> : <LightIcon color='#fff' />}
+                      {theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode/>}
                       <div className='txt'>{theme === 'light' ? t('header.dark_mode') : t('header.light_mode')}</div>
                     </div>
                   </div>

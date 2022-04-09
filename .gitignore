@@ -46,4 +46,4 @@ Thumbs.db
 # local env file
 .env.local
 node_modules
-yarn.lock
+# yarn.lock

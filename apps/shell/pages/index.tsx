@@ -10,7 +10,7 @@ import GlobalStyles from './../themes/GlobalStyles';
 import 'antd/dist/antd.variable.min.css';
 
 const LayoutStyled = styled(Layout)`
-  background: #F7F7F8 !important;
+  background: ${({theme})=> theme.backgroundColor} !important;
 `
 
 const ContentStyled = styled.div`

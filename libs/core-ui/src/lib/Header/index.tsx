@@ -1,8 +1,8 @@
-import { Drawer, Button, Col, Layout, Menu, Row } from 'antd';
+import { Button, Col, Drawer, Layout, Menu, Row } from 'antd';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
 import { atom, useAtom } from 'jotai';
-import React, { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import t from '../../../../locale';
 import { Icon } from '../Icon';
@@ -251,18 +251,18 @@ export function Header(props: HeaderProps) {
               <div className='title'>DIFX</div>
             </div>
             <Menu mode="horizontal" selectedKeys={[router?.pathname]}>
-              <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="/home">Home</Menu.Item>
-              <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="/market">Markets</Menu.Item>
-              <Menu.Item className='left-nav' key="4">Trade</Menu.Item>
-              <Menu.Item className='left-nav' key="5">Earn</Menu.Item>
-              <Menu.Item className='left-nav' key="6">Wallet</Menu.Item>
-              <Menu.Item className='left-nav' key="7">Orders</Menu.Item>
+              <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="/home">{t('header.home')}</Menu.Item>
+              <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="/market">{t('header.markets')}</Menu.Item>
+              <Menu.Item className='left-nav' key="4">{t('header.trade')}</Menu.Item>
+              <Menu.Item className='left-nav' key="5">{t('header.earn')}</Menu.Item>
+              <Menu.Item className='left-nav' key="6">{t('header.wallet')}</Menu.Item>
+              <Menu.Item className='left-nav' key="7">{t('header.orders')}</Menu.Item>
 
               <Menu.Item className='right-nav login' style={{ position: 'absolute', right: 260 }} key="/login">
-                <Button onClick={() => { onNavigation('/login') }} type="text">Login</Button>
+                <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
               </Menu.Item>
               <Menu.Item className='right-nav register' style={{ position: 'absolute', right: 150 }} key="9">
-                <Button onClick={() => { onNavigation('/register') }} type="primary">Register</Button>
+                <Button onClick={() => { onNavigation('/register') }} type="primary">{t('header.register')}</Button>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 86 }} key="10">
                 <StyledButtonGroup>

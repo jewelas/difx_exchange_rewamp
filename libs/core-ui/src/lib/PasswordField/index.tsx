@@ -1,26 +1,25 @@
-import { Typography as AntdTypography } from 'antd';
+import { Form, Input, Typography as AntdTypography } from 'antd';
+import clsx from 'clsx';
 import { useState } from 'react';
-import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
+import styled from 'styled-components';
 import t from '../../../../locale';
+import { Color } from '../Color';
 import CheckCircleIcon from './../Icon/CheckCircleIcon';
 import CloseCircleIcon from './../Icon/CloseCircleIcon';
 import EyeHiddenIcon from './../Icon/EyeHiddenIcon';
 import EyeVisibleIcon from './../Icon/EyeVisibleIcon';
-import { Form, Button, Checkbox, Input } from 'antd';
-import { Color } from '../Color';
-import clsx from 'clsx';
 
 const { Text } = AntdTypography;
 
 export interface PasswordFieldProps {
   rules?: [any];
-  onChange: (isValidate: boolean, value:string) =>void
+  onChange: (isValidate: boolean, value: string) => void
 }
 
 const FieldStyled = styled.div`
 width: 100%;
-border: 1px solid ${({theme})=> theme.inputBorderColor};
+border: 1px solid ${({ theme }) => theme.inputBorderColor || Color.grey.buttonSecondary};
 border-radius:2px;
 height: 50px;
 &.fail{
@@ -44,10 +43,10 @@ input{
     font-weight: 400;
     line-height: 20px;
 
-    background:  ${({theme}) => theme.backgroundColor};
+    background:  ${({ theme }) => theme.backgroundColor};
     &::after{
-      border-top-color:  ${({theme}) => theme.backgroundColor} !important;
-      border-left-color:  ${({theme}) => theme.backgroundColor} !important;
+      border-top-color:  ${({ theme }) => theme.backgroundColor} !important;
+      border-left-color:  ${({ theme }) => theme.backgroundColor} !important;
     }
 
     .check-list-group{
@@ -101,10 +100,10 @@ const PasswordField = (props: PasswordFieldProps) => {
     setContainsNumber(_containsNumberCase);
     setContainsSpecialChars(_containsSpecialChar);
 
-    if(_notContainSpace && _min10Chars && _containsLowerCase && _containsUpperCase && _containsNumberCase && _containsSpecialChar){
+    if (_notContainSpace && _min10Chars && _containsLowerCase && _containsUpperCase && _containsNumberCase && _containsSpecialChar) {
       props.onChange(true, value);
       setIsValidate(true);
-    }else{
+    } else {
       props.onChange(false, value);
       setIsValidate(false);
     }
@@ -143,4 +142,4 @@ const PasswordField = (props: PasswordFieldProps) => {
   )
 }
 
-export { PasswordField }
+export { PasswordField };

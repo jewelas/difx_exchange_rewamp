@@ -1,4 +1,4 @@
-import { Button, Col, Layout, Menu, Row } from 'antd';
+import { Drawer, Button, Col, Layout, Menu, Row } from 'antd';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { atom, useAtom } from 'jotai';
@@ -20,18 +20,13 @@ const StyledButtonGroup = styled.div`
 `
 
 const StyledMoreMenuGroup = styled.div`
-  position: fixed;
-  height: 100%;
-  right: 0;
-  width: 100%;
-  background: rgba(0,0,0,0.1);
-
   .items{
     display:flex;
     flex-direction: column;
     position: absolute;
     right: 0;
-    background: #fff;
+    background: ${({theme})=> theme.backgroundColor};
+    color: ${({theme})=> theme.textColor};
     height: 100%;
     width: 250px;
     box-shadow: -4px 4px 16px 0px rgba(0,0,0,0.07);
@@ -100,7 +95,7 @@ const StyledMoreMenuGroup = styled.div`
 
     .close-icon{
       position: absolute;
-      top: 20px;
+      top: 30px;
       right: 20px;
     }
 
@@ -137,9 +132,9 @@ const StyledHeader = styled(Layout.Header)`
     .group{
       display:flex;
       background: #fff;
-      border-bottom: solid 5px ${({theme})=> theme.borderColor || '#eee'} !important;
+      border-bottom: solid 5px ${({ theme }) => theme.borderColor || '#eee'} !important;
       .logo{
-        background: ${({theme})=> theme.backgroundColor2};
+        background: ${({ theme }) => theme.backgroundColor2};
         display: flex;
         width:122px;
         svg{
@@ -150,7 +145,7 @@ const StyledHeader = styled(Layout.Header)`
           #Layer_5 path,
           #Layer_2-2 #Layer_3 path,
           #Layer_2-2 #Layer_4 path {
-            fill: ${({theme})=> theme.logoFillColor};
+            fill: ${({ theme }) => theme.logoFillColor};
           }
         }
         .title{
@@ -158,12 +153,12 @@ const StyledHeader = styled(Layout.Header)`
           font-size: 22px;
           font-weight: 600;
           letter-spacing: 2px;
-          color: ${({theme})=> theme.titleColor};
+          color: ${({ theme }) => theme.titleColor};
         }
       }
       .ant-menu{
-        background: ${({theme})=> theme.backgroundColor2};
-        color: ${({theme})=> theme.textColor};
+        background: ${({ theme }) => theme.backgroundColor2};
+        color: ${({ theme }) => theme.textColor};
         height: 70px;
         flex-grow:1;
         border-bottom: unset !important;
@@ -217,42 +212,13 @@ export function Header(props: HeaderProps) {
 
   const [theme,] = useAtom(themeAtom);
 
-  const [showMenuItems, setShowMenuItems] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(false);
   const [width, setWidth] = useState<number>(0);
-
-  const [showGroupOfMenuItems, setShowGroupOfMenuItems] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  const handleClickOutside = (event: any) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      setShowMenuItems(false);
-      setTimeout(() => { setShowGroupOfMenuItems(false) }, 100);
-    }
-  };
-
-  const onOpenMenu = () => {
-    setShowGroupOfMenuItems(!showGroupOfMenuItems);
-    setShowMenuItems(true);
-  }
-
-  const onCloseMenu = () => {
-    setShowMenuItems(false);
-    setTimeout(() => { setShowGroupOfMenuItems(false) }, 100);
-  }
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true);
-    };
-  }, []);
 
   useEffect(() => {
     function handleResize() {
       const width: number = document?.body?.clientWidth;
       if (width) {
-        setShowGroupOfMenuItems(false);
-        setShowMenuItems(false);
         setWidth(width);
       }
     }
@@ -260,6 +226,18 @@ export function Header(props: HeaderProps) {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const onOpenDrawer = () => {
+    setShowDrawer(!showDrawer);
+  }
+
+  const onCloseDrawer = () => {
+    setShowDrawer(false);
+  }
+
+  const onCloseMenu = () => {
+    setShowDrawer(false);
+  }
 
   const router = useRouter();
 
@@ -306,16 +284,20 @@ export function Header(props: HeaderProps) {
 
               <Menu.Item className='more-nav' key="13">
                 <StyledButtonGroup>
-                  <StyledIconButton ghost onClick={onOpenMenu} icon={<HorizontalLineIcon />} size={'small'} />
+                  <StyledIconButton ghost onClick={onOpenDrawer} icon={<HorizontalLineIcon useDarkMode />} size={'small'} />
                 </StyledButtonGroup>
               </Menu.Item>
             </Menu>
 
-            {
-              showGroupOfMenuItems &&
-              <StyledMoreMenuGroup className={clsx('more-item-group')}>
-                <div ref={ref} className={clsx('items', showMenuItems ? 'open' : 'close')}>
-                  <div className='close-icon' onClick={onCloseMenu}><CloseIcon /></div>
+            <Drawer
+              width={250}
+              placement="right"
+              onClose={onCloseDrawer}
+              visible={showDrawer}
+            >
+              <StyledMoreMenuGroup>
+                <div className={clsx('items', showDrawer ? 'open' : 'close')}>
+                  <div className='close-icon' onClick={onCloseMenu}><CloseIcon useDarkMode /></div>
                   <div className='menu-item-group'>
                     <div className='menu-item-btn'>
                       <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
@@ -328,27 +310,27 @@ export function Header(props: HeaderProps) {
                       &&
                       <>
                         <div onClick={() => onNavigation('/home')} className='menu-item'>
-                          <HomeIcon />
+                          <HomeIcon useDarkMode />
                           <div className='txt'>{t('header.home')}</div>
                         </div>
                         <div className='menu-item'>
-                          <MarketIcon />
+                          <MarketIcon useDarkMode />
                           <div className='txt'>{t('header.markets')}</div>
                         </div>
                         <div className='menu-item'>
-                          <ExchangeIcon />
+                          <ExchangeIcon useDarkMode />
                           <div className='txt'>{t('header.trade')}</div>
                         </div>
                         <div className='menu-item'>
-                          <EarnIcon />
+                          <EarnIcon useDarkMode />
                           <div className='txt'>{t('header.earn')}</div>
                         </div>
                         <div className='menu-item'>
-                          <WalletIcon />
+                          <WalletIcon useDarkMode />
                           <div className='txt'>{t('header.wallet')}</div>
                         </div>
                         <div className='menu-item'>
-                          <OrderIcon />
+                          <OrderIcon useDarkMode />
                           <div className='txt'>{t('header.order')}</div>
                         </div>
                       </>
@@ -364,13 +346,13 @@ export function Header(props: HeaderProps) {
                       <div className='txt'>{t('header.english')}</div>
                     </div>
                     <div onClick={props.onChangeTheme} className='menu-item'>
-                      {theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode/>}
+                      {theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />}
                       <div className='txt'>{theme === 'light' ? t('header.dark_mode') : t('header.light_mode')}</div>
                     </div>
                   </div>
                 </div>
               </StyledMoreMenuGroup>
-            }
+            </Drawer>
 
           </div>
         </Col>

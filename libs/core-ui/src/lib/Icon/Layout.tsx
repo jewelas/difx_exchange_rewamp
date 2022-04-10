@@ -6,7 +6,7 @@ function Layout({fill, children, useDarkMode}:{fill:string, children:any, useDar
     const IconStyled = styled.div`
         svg{
             path{
-                fill: ${!useDarkMode ? fill : ({ theme }) => theme.textColor}
+                fill: ${!useDarkMode ? fill : ({ theme }) => theme.textColor || '#262626'}
             }
         }
     `

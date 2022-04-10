@@ -1,10 +1,15 @@
 import { Theme } from 'antd/lib/config-provider/context';
 
-interface CustomThemeProps extends Theme {
-    borderColor?: string,
-    backgroundColor?: string,
-    backgroundColor2?:string,
-    textColor?: string
+export interface CustomThemeProps extends Theme {
+  borderColor?: string,
+  backgroundColor?: string,
+  backgroundColor2?: string,
+  inputBorderColor?: string,
+  inputBackgroundColor?: string
+  textColor?: string,
+  textHoverColor?: string,
+  logoFillColor?: string,
+  titleColor?: string
 }
 
 /* 
@@ -12,15 +17,25 @@ interface CustomThemeProps extends Theme {
  */
 
 export const light: CustomThemeProps = {
-    backgroundColor: '#F7F7F8',
-    backgroundColor2: '#FFF',
-    borderColor: '#eee',
-    textColor: '#000',
+  backgroundColor: '#F7F7F8',
+  backgroundColor2: '#FFF',
+  borderColor: '#eee',
+  inputBorderColor: '#d9d9d9',
+  inputBackgroundColor: '#fff',
+  textColor: '#000',
+  textHoverColor: '#000',
+  logoFillColor: '#3d7eff',
+  titleColor: '#3d7eff'
 }
 
 export const dark: CustomThemeProps = {
-    backgroundColor: '#161f30',
-    backgroundColor2: '#0d1421',
-    borderColor: '#000',
-    textColor: '#fff'
+  backgroundColor: '#161f30',
+  backgroundColor2: '#0d1421',
+  borderColor: '#000',
+  inputBorderColor: '#161f30',
+  inputBackgroundColor: '#161f30',
+  textColor: '#fff',
+  textHoverColor: '#1890ff',
+  logoFillColor: '#fff',
+  titleColor: '#fff'
 }

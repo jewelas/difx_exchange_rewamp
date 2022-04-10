@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { Header } from '@difx/core-ui';
 import { themeAtom } from '@difx/shared';
 import { light, dark } from './../themes';
+import GlobalStyles from './../themes/GlobalStyles';
 import 'antd/dist/antd.variable.min.css';
 
 const LayoutStyled = styled(Layout)`
@@ -57,6 +58,7 @@ export function AppLayout({ children }: AppLayoutProps) {
 
     // Use theme in ThemeProvider to reuse variable when customize the styled-component
     <ThemeProvider theme={theme === LIGHT ? light : dark}>
+      <GlobalStyles/>
       <LayoutStyled>
         <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
         <ContentStyled>{children}</ContentStyled>

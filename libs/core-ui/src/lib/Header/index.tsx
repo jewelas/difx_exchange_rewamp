@@ -137,8 +137,9 @@ const StyledHeader = styled(Layout.Header)`
     .group{
       display:flex;
       background: #fff;
-      border-bottom: solid 5px #eee;
+      border-bottom: solid 5px ${({theme})=> theme.borderColor || '#eee'} !important;
       .logo{
+        background: ${({theme})=> theme.backgroundColor2};
         display: flex;
         width:122px;
         svg{
@@ -146,15 +147,23 @@ const StyledHeader = styled(Layout.Header)`
           margin-top: 20px;
           margin-left: 18px;
           margin-right: 5px;
+          #Layer_5 path,
+          #Layer_2-2 #Layer_3 path,
+          #Layer_2-2 #Layer_4 path {
+            fill: ${({theme})=> theme.logoFillColor};
+          }
         }
         .title{
           color: #3d7eff;
           font-size: 22px;
           font-weight: 600;
           letter-spacing: 2px;
+          color: ${({theme})=> theme.titleColor};
         }
       }
       .ant-menu{
+        background: ${({theme})=> theme.backgroundColor2};
+        color: ${({theme})=> theme.textColor};
         height: 70px;
         flex-grow:1;
         border-bottom: unset !important;
@@ -263,7 +272,7 @@ export function Header(props: HeaderProps) {
               <LogoIcon />
               <div className='title'>DIFX</div>
             </div>
-            <Menu theme="light" mode="horizontal" selectedKeys={[router?.pathname]}>
+            <Menu mode="horizontal" selectedKeys={[router?.pathname]}>
               <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="/home">Home</Menu.Item>
               <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="/market">Markets</Menu.Item>
               <Menu.Item className='left-nav' key="4">Trade</Menu.Item>
@@ -279,25 +288,25 @@ export function Header(props: HeaderProps) {
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 86 }} key="10">
                 <StyledButtonGroup>
-                  <StyledIconButton icon={<ArrowDownIcon useDarkMode />} size={'small'} />
+                  <StyledIconButton ghost icon={<ArrowDownIcon useDarkMode />} size={'small'} />
                   <StyledLine />
                 </StyledButtonGroup>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 36 }} key="11">
                 <StyledButtonGroup>
-                  <StyledIconButton icon={<EarthIcon useDarkMode />} size={'small'} />
+                  <StyledIconButton ghost icon={<EarthIcon useDarkMode />} size={'small'} />
                   <StyledLine />
                 </StyledButtonGroup>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 0 }} key="12">
                 <StyledButtonGroup>
-                  <StyledIconButton onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />} size={'small'} />
+                  <StyledIconButton ghost onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />} size={'small'} />
                 </StyledButtonGroup>
               </Menu.Item>
 
               <Menu.Item className='more-nav' key="13">
                 <StyledButtonGroup>
-                  <StyledIconButton onClick={onOpenMenu} icon={<HorizontalLineIcon />} size={'small'} />
+                  <StyledIconButton ghost onClick={onOpenMenu} icon={<HorizontalLineIcon />} size={'small'} />
                 </StyledButtonGroup>
               </Menu.Item>
             </Menu>

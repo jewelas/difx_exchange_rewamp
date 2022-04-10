@@ -1,5 +1,6 @@
 import { Story, Meta } from '@storybook/react';
 import { withJotai } from 'storybook-addon-jotai';
+import 'antd/dist/antd.css';
 import { HeaderProps, Header, themeAtom } from '.';
 
 export default {

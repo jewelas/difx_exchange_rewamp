@@ -256,7 +256,7 @@ export function Header(props: HeaderProps) {
               <Menu.Item className='left-nav' key="4">{t('header.trade')}</Menu.Item>
               <Menu.Item className='left-nav' key="5">{t('header.earn')}</Menu.Item>
               <Menu.Item className='left-nav' key="6">{t('header.wallet')}</Menu.Item>
-              <Menu.Item className='left-nav' key="7">{t('header.orders')}</Menu.Item>
+              <Menu.Item className='left-nav' key="7">{t('header.order')}</Menu.Item>
 
               <Menu.Item className='right-nav login' style={{ position: 'absolute', right: 260 }} key="/login">
                 <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>

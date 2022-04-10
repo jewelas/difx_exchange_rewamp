@@ -1,6 +1,7 @@
 import { Theme } from 'antd/lib/config-provider/context';
 
 export interface CustomThemeProps extends Theme {
+  currentTheme? : 'light' | 'dark';
   borderColor?: string,
   backgroundColor?: string,
   backgroundColor2?: string,
@@ -17,6 +18,7 @@ export interface CustomThemeProps extends Theme {
  */
 
 export const light: CustomThemeProps = {
+  currentTheme: 'light',
   backgroundColor: '#F7F7F8',
   backgroundColor2: '#FFF',
   borderColor: '#eee',
@@ -29,6 +31,7 @@ export const light: CustomThemeProps = {
 }
 
 export const dark: CustomThemeProps = {
+  currentTheme: 'dark',
   backgroundColor: '#161f30',
   backgroundColor2: '#0d1421',
   borderColor: '#000',

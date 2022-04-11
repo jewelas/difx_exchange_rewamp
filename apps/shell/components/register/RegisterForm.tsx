@@ -15,6 +15,7 @@ import styled from 'styled-components';
 export interface RegisterFormComponentProps { }
 
 const PageStyled = styled.div`
+  background: ${({theme})=> theme.backgroundColor2};
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -81,7 +82,6 @@ const PageStyled = styled.div`
         width: 87px;
         border-radius: 2px;
         color: ${Color.grey.buttonSecondary};
-        border-color: ${Color.grey.buttonSecondary} !important;
         svg path{
           fill: ${Color.grey.buttonSecondary};
         }
@@ -253,11 +253,11 @@ const [showReferral, setShowReferral] = useState(false);
           <CountrySelect value={country} onChange={onChangeCountry} size='large' />
         </div>
         <div className='account-type-group'>
-          <Button onClick={() => setUserType('IND')} className={clsx(userType === 'IND' && 'active')}>
+          <Button onClick={() => setUserType('IND')} className={clsx('with-icon', userType === 'IND' && 'active')}>
             <Icon.UserIcon />
             <div>{t('register.individual')}</div>
           </Button>
-          <Button onClick={() => setUserType('BUS')} className={clsx(userType === 'BUS' && 'active')}>
+          <Button onClick={() => setUserType('BUS')} className={clsx('with-icon', userType === 'BUS' && 'active')}>
             <Icon.BankIcon />
             <div>{t('register.corporate')}</div>
           </Button>
@@ -306,7 +306,7 @@ const [showReferral, setShowReferral] = useState(false);
 
           <div onClick={() => { setShowReferral(!showReferral) }} className='referral-group'>
             <Typography level='H6'>{t('register.referral_code')}</Typography>
-            <div className='icon'>{showReferral ? <Icon.MenuUpIcon /> : <Icon.MenuDownIcon />}</div>
+            <div className='icon'>{showReferral ? <Icon.MenuUpIcon useDarkMode /> : <Icon.MenuDownIcon useDarkMode />}</div>
           </div>
           {
             showReferral

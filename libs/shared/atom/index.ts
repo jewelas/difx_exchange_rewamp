@@ -1,4 +1,6 @@
-import { atom } from 'jotai'
+import { atom } from 'jotai';
+import {themeAtom} from './../../core-ui/src/lib/Header';
 
-
-export const themeAtom  = atom<string>('light');
+export {
+    themeAtom
+}

@@ -1,10 +1,8 @@
-import { Button, Col, Layout, Menu, Row } from 'antd';
-import 'antd/dist/antd.css';
+import { Button, Col, Drawer, Layout, Menu, Row } from 'antd';
 import clsx from 'clsx';
+import { atom, useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { useAtom } from 'jotai';
-import { themeAtom } from './../../../../shared';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import t from '../../../../locale';
 import { Icon } from '../Icon';
@@ -14,24 +12,21 @@ export interface HeaderProps {
   onChangeTheme: () => void;
 }
 
+export const themeAtom = atom<string>('light');
+
 const StyledButtonGroup = styled.div`
   display:flex;
   margin-top: 23px;
 `
 
 const StyledMoreMenuGroup = styled.div`
-  position: fixed;
-  height: 100%;
-  right: 0;
-  width: 100%;
-  background: rgba(0,0,0,0.1);
-
   .items{
     display:flex;
     flex-direction: column;
     position: absolute;
     right: 0;
-    background: #fff;
+    background: ${({theme})=> theme.backgroundColor};
+    color: ${({theme})=> theme.textColor};
     height: 100%;
     width: 250px;
     box-shadow: -4px 4px 16px 0px rgba(0,0,0,0.07);
@@ -100,7 +95,7 @@ const StyledMoreMenuGroup = styled.div`
 
     .close-icon{
       position: absolute;
-      top: 20px;
+      top: 30px;
       right: 20px;
     }
 
@@ -137,8 +132,9 @@ const StyledHeader = styled(Layout.Header)`
     .group{
       display:flex;
       background: #fff;
-      border-bottom: solid 5px #eee;
+      border-bottom: solid 5px ${({ theme }) => theme.borderColor || '#eee'} !important;
       .logo{
+        background: ${({ theme }) => theme.backgroundColor2};
         display: flex;
         width:122px;
         svg{
@@ -146,15 +142,23 @@ const StyledHeader = styled(Layout.Header)`
           margin-top: 20px;
           margin-left: 18px;
           margin-right: 5px;
+          #Layer_5 path,
+          #Layer_2-2 #Layer_3 path,
+          #Layer_2-2 #Layer_4 path {
+            fill: ${({ theme }) => theme.logoFillColor};
+          }
         }
         .title{
           color: #3d7eff;
           font-size: 22px;
           font-weight: 600;
           letter-spacing: 2px;
+          color: ${({ theme }) => theme.titleColor};
         }
       }
       .ant-menu{
+        background: ${({ theme }) => theme.backgroundColor2};
+        color: ${({ theme }) => theme.textColor};
         height: 70px;
         flex-grow:1;
         border-bottom: unset !important;
@@ -208,42 +212,13 @@ export function Header(props: HeaderProps) {
 
   const [theme,] = useAtom(themeAtom);
 
-  const [showMenuItems, setShowMenuItems] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(false);
   const [width, setWidth] = useState<number>(0);
-
-  const [showGroupOfMenuItems, setShowGroupOfMenuItems] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  const handleClickOutside = (event: any) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      setShowMenuItems(false);
-      setTimeout(() => { setShowGroupOfMenuItems(false) }, 100);
-    }
-  };
-
-  const onOpenMenu = () => {
-    setShowGroupOfMenuItems(!showGroupOfMenuItems);
-    setShowMenuItems(true);
-  }
-
-  const onCloseMenu = () => {
-    setShowMenuItems(false);
-    setTimeout(() => { setShowGroupOfMenuItems(false) }, 100);
-  }
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true);
-    };
-  }, []);
 
   useEffect(() => {
     function handleResize() {
       const width: number = document?.body?.clientWidth;
       if (width) {
-        setShowGroupOfMenuItems(false);
-        setShowMenuItems(false);
         setWidth(width);
       }
     }
@@ -251,6 +226,18 @@ export function Header(props: HeaderProps) {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const onOpenDrawer = () => {
+    setShowDrawer(!showDrawer);
+  }
+
+  const onCloseDrawer = () => {
+    setShowDrawer(false);
+  }
+
+  const onCloseMenu = () => {
+    setShowDrawer(false);
+  }
 
   const router = useRouter();
 
@@ -263,50 +250,54 @@ export function Header(props: HeaderProps) {
               <LogoIcon />
               <div className='title'>DIFX</div>
             </div>
-            <Menu theme="light" mode="horizontal" selectedKeys={[router?.pathname]}>
-              <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="/home">Home</Menu.Item>
-              <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="/market">Markets</Menu.Item>
-              <Menu.Item className='left-nav' key="4">Trade</Menu.Item>
-              <Menu.Item className='left-nav' key="5">Earn</Menu.Item>
-              <Menu.Item className='left-nav' key="6">Wallet</Menu.Item>
-              <Menu.Item className='left-nav' key="7">Orders</Menu.Item>
+            <Menu mode="horizontal" selectedKeys={[router?.pathname]}>
+              <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="/home">{t('header.home')}</Menu.Item>
+              <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="/market">{t('header.markets')}</Menu.Item>
+              <Menu.Item className='left-nav' key="4">{t('header.trade')}</Menu.Item>
+              <Menu.Item className='left-nav' key="5">{t('header.earn')}</Menu.Item>
+              <Menu.Item className='left-nav' key="6">{t('header.wallet')}</Menu.Item>
+              <Menu.Item className='left-nav' key="7">{t('header.order')}</Menu.Item>
 
               <Menu.Item className='right-nav login' style={{ position: 'absolute', right: 260 }} key="/login">
-                <Button onClick={() => { onNavigation('/login') }} type="text">Login</Button>
+                <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
               </Menu.Item>
               <Menu.Item className='right-nav register' style={{ position: 'absolute', right: 150 }} key="9">
-                <Button onClick={() => { onNavigation('/register') }} type="primary">Register</Button>
+                <Button onClick={() => { onNavigation('/register') }} type="primary">{t('header.register')}</Button>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 86 }} key="10">
                 <StyledButtonGroup>
-                  <StyledIconButton icon={<ArrowDownIcon />} size={'small'} />
+                  <StyledIconButton ghost icon={<ArrowDownIcon useDarkMode />} size={'small'} />
                   <StyledLine />
                 </StyledButtonGroup>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 36 }} key="11">
                 <StyledButtonGroup>
-                  <StyledIconButton icon={<EarthIcon />} size={'small'} />
+                  <StyledIconButton ghost icon={<EarthIcon useDarkMode />} size={'small'} />
                   <StyledLine />
                 </StyledButtonGroup>
               </Menu.Item>
               <Menu.Item className='right-nav' style={{ position: 'absolute', right: 0 }} key="12">
                 <StyledButtonGroup>
-                  <StyledIconButton onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon /> : <LightIcon color='#fff' />} size={'small'} />
+                  <StyledIconButton ghost onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />} size={'small'} />
                 </StyledButtonGroup>
               </Menu.Item>
 
               <Menu.Item className='more-nav' key="13">
                 <StyledButtonGroup>
-                  <StyledIconButton onClick={onOpenMenu} icon={<HorizontalLineIcon />} size={'small'} />
+                  <StyledIconButton ghost onClick={onOpenDrawer} icon={<HorizontalLineIcon useDarkMode />} size={'small'} />
                 </StyledButtonGroup>
               </Menu.Item>
             </Menu>
 
-            {
-              showGroupOfMenuItems &&
-              <StyledMoreMenuGroup className={clsx('more-item-group')}>
-                <div ref={ref} className={clsx('items', showMenuItems ? 'open' : 'close')}>
-                  <div className='close-icon' onClick={onCloseMenu}><CloseIcon /></div>
+            <Drawer
+              width={250}
+              placement="right"
+              onClose={onCloseDrawer}
+              visible={showDrawer}
+            >
+              <StyledMoreMenuGroup>
+                <div className={clsx('items', showDrawer ? 'open' : 'close')}>
+                  <div className='close-icon' onClick={onCloseMenu}><CloseIcon useDarkMode /></div>
                   <div className='menu-item-group'>
                     <div className='menu-item-btn'>
                       <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
@@ -319,27 +310,27 @@ export function Header(props: HeaderProps) {
                       &&
                       <>
                         <div onClick={() => onNavigation('/home')} className='menu-item'>
-                          <HomeIcon />
+                          <HomeIcon useDarkMode />
                           <div className='txt'>{t('header.home')}</div>
                         </div>
                         <div className='menu-item'>
-                          <MarketIcon />
+                          <MarketIcon useDarkMode />
                           <div className='txt'>{t('header.markets')}</div>
                         </div>
                         <div className='menu-item'>
-                          <ExchangeIcon />
+                          <ExchangeIcon useDarkMode />
                           <div className='txt'>{t('header.trade')}</div>
                         </div>
                         <div className='menu-item'>
-                          <EarnIcon />
+                          <EarnIcon useDarkMode />
                           <div className='txt'>{t('header.earn')}</div>
                         </div>
                         <div className='menu-item'>
-                          <WalletIcon />
+                          <WalletIcon useDarkMode />
                           <div className='txt'>{t('header.wallet')}</div>
                         </div>
                         <div className='menu-item'>
-                          <OrderIcon />
+                          <OrderIcon useDarkMode />
                           <div className='txt'>{t('header.order')}</div>
                         </div>
                       </>
@@ -347,21 +338,21 @@ export function Header(props: HeaderProps) {
 
                     <div className='line' />
                     <div className='menu-item'>
-                      <ArrowDownIcon />
+                      <ArrowDownIcon useDarkMode />
                       <div className='txt'>{t('header.download')}</div>
                     </div>
                     <div className='menu-item'>
-                      <EarthIcon />
+                      <EarthIcon useDarkMode />
                       <div className='txt'>{t('header.english')}</div>
                     </div>
                     <div onClick={props.onChangeTheme} className='menu-item'>
-                      {theme === 'light' ? <MoonIcon /> : <LightIcon color='#fff' />}
+                      {theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />}
                       <div className='txt'>{theme === 'light' ? t('header.dark_mode') : t('header.light_mode')}</div>
                     </div>
                   </div>
                 </div>
               </StyledMoreMenuGroup>
-            }
+            </Drawer>
 
           </div>
         </Col>

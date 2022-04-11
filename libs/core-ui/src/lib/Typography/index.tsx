@@ -15,26 +15,31 @@ const TextStyled = styled(Text)`
     font-weight: 600;
     font-size: 56px;
     line-height: 64px;
+    color: ${({theme})=> theme.textColor};
   }
   &.H2{
     font-weight: 600;
     font-size: 38px;
     line-height: 46px;
+    color: ${({theme})=> theme.textColor};
   }
   &.H5{
     font-weight: 600;
     font-size: 24px;
     line-height: 32px;
+    color: ${({theme})=> theme.textColor};
   }
   &.H6{
     font-weight: 500;
     font-size: 20px;
     line-height: 28px;
+    color: ${({theme})=> theme.textColor};
   }
   &.text{
     font-weight: 500;
     font-size: 14px;
     line-height: 22px;
+    color: ${({theme})=> theme.textColor};
   }
 `
 
@@ -48,7 +53,6 @@ const Typography = (props: TypographyProps) => {
             break;
         case 'secondary': color = Color.grey.textSecondary;
             break;
-        default: color = Color.grey[8];
     }
     return (
         <TextStyled className={props.level} style={{ color }}>{props.children}</TextStyled>

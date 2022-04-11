@@ -1,5 +1,6 @@
 import { Story, Meta } from '@storybook/react';
 import { PairTable, PairTableProps } from '.';
+import 'antd/dist/antd.css';
 import { PairType } from './../../../../shared/type/Pair'
 
 export default {

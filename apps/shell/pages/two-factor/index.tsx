@@ -1,6 +1,5 @@
-import { Color, Icon, Typography } from '@difx/core-ui';
-import { Button, Col, Row } from 'antd';
-import Link from 'next/link';
+import { Color, Typography } from '@difx/core-ui';
+import { Col, Row } from 'antd';
 import styled from 'styled-components';
 import AppLayout from '..';
 import TwoFactorForm from './../../components/two-factor/TwoFactorForm';

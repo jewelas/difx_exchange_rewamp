@@ -88,6 +88,15 @@ const PageStyled = styled.div`
         }
       }
       .content{
+        .dial-group{
+          display: flex;
+          .dropdown-dial{
+            margin-right : 10px;
+          }
+          .ant-row.ant-form-item{
+            flex-grow: 1;
+          }
+        }
         .email{
           margin-bottom: 15px;
         }

@@ -1,7 +1,9 @@
   export interface SignInRequest {
+    dial_code?: string;
     phonenumber?: string;
     email?: string;
     password: string;
+    usertype: 'IND' | 'BUS';
   }
 
   export interface SignInResponse {

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Layout, ConfigProvider } from 'antd';
+import { Layout, ConfigProvider, notification } from 'antd';
 import styled, { ThemeProvider } from 'styled-components';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -21,6 +21,13 @@ export interface AppLayoutProps {
   children: React.ReactChild;
   ghost?: boolean
 }
+
+export function showNotification(type: 'error' | 'success', title: string, description){
+  notification[type]({
+      message: title,
+      description
+  });
+};
 
 export function AppLayout({ children, ghost }: AppLayoutProps) {
 

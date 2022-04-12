@@ -128,6 +128,9 @@ const GlobalStyles = createGlobalStyle`
     // Popover content
     .ant-popover-content{
       .ant-popover-arrow .ant-popover-arrow-content{
+        &:before{
+          background:unset;
+        }
         background: ${({ theme }) => theme.inputBackgroundColor};
       }
       .ant-popover-inner{

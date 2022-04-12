@@ -1,104 +1,76 @@
 import t from '@difx/locale';
-import { SignInRequest, SignInResponse, useSignIn } from '@difx/shared';
-import { Button, Form, Input, notification } from 'antd';
+import { TwoFactorRequest, TwoFactorResponse, useTwoFactor } from '@difx/shared';
+import { Button, Form, Input } from 'antd';
 import { FormInstance } from 'antd/es/form';
 import { AxiosError, AxiosResponse } from 'axios';
 import isEmpty from 'lodash/isEmpty';
 import { useRouter } from 'next/router';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { showNotification } from './../../pages';
 
 export function TwoFactorForm() {
 
-    const [type, setType] = useState<'email' | 'phone'>('email');
     const [hasFieldError, setHasFieldError] = useState(true);
     const formRef = useRef<FormInstance>(null);
 
     const router = useRouter();
 
-    const onChangePass = (isValidate: boolean, value: string) => {
-        formRef.current?.setFieldsValue({ password: value });
-        setHasFieldError(!isValidate)
+    const onSuccess = (response: AxiosResponse<TwoFactorResponse>) => {
+        const { data } = response;
+        console.log(data, 'success')
+
+        localStorage.removeItem('twoFaToken');
+
+        localStorage.setItem('currentUser', JSON.stringify(data));
+
+        showNotification('success', 'Two Factor Verification', 'Verification successfully!');
+        // TODO: update refresh token
+
+        router.push('/home')
     }
-
-    const signInSuccessNotification = () => {
-        notification['success']({
-            message: 'Sign In successfully'
-        });
-    };
-
-    const signInFailNotification = (description: string) => {
-        notification['error']({
-            message: 'Sign In failed',
-            description
-        });
-    };
-
-    const onSuccess = useCallback(
-        (
-            response: AxiosResponse<SignInResponse>
-        ) => {
-            const { data } = response;
-
-            const { statusCode, sessionId} = data;
-            if(statusCode === 'ENTER_TWOFA_CODE'){
-                localStorage.setItem('twoFaToken', sessionId)
-            }else{
-                // localStorage.setItem('currentUser', JSON.stringify(data));
-                // signInSuccessNotification();
-                // router.push('/home');
-            }
-        }, []
-    );
 
     const isRequiredFieldsEmpty = (): boolean => {
         let result = false;
         const values: FormData = formRef.current?.getFieldsValue();
         /* eslint-disable-next-line */
         for (const [key, value] of Object.entries(values)) {
-          if (!value) {
-            result = true;
-            break;
-          }
+            if (!value) {
+                result = true;
+                break;
+            }
         }
         return result;
-      }
+    }
 
     const onFormChange = () => {
         if (isRequiredFieldsEmpty()) {
-          setHasFieldError(true);
-        } else {
-          const fieldsError = formRef.current?.getFieldsError();
-          const errors = fieldsError.find(e => e.errors);
-          if (errors && !isEmpty(errors.errors)) {
             setHasFieldError(true);
-          }else{
-            setHasFieldError(false)
-          }
-        }
-      }
-
-    const onError = useCallback(
-        (
-            error: AxiosError
-        ) => {
-            const { response } = error;
-            const { statusCode, statusText } = response.data;
-
-            console.log('response.data', response.data)
-            if(statusCode === 'ENTER_TWOFA_CODE'){
-                localStorage.setItem('twoFaToken', response.data.sessionId)
-            }else{
-                // Todo
+        } else {
+            const fieldsError = formRef.current?.getFieldsError();
+            const errors = fieldsError.find(e => !isEmpty(e.errors));
+            if (errors && !isEmpty(errors.errors)) {
+                setHasFieldError(true);
+            } else {
+                setHasFieldError(false)
             }
+        }
+    }
 
-            signInFailNotification(statusText);
-        }, []
-    );
+    const onError = (error: AxiosError) => {
+        const { response } = error;
+        const { statusText } = response.data;
+        showNotification('error', 'Two Factor Verification', statusText);
+    }
 
-    const { mutate: signIn, isLoading } = useSignIn({ onSuccess, onError });
+    const { mutate: twoFactor, isLoading } = useTwoFactor({ onSuccess, onError });
 
-    const onSubmit = async (formData: SignInRequest) => {
-        signIn(formData);
+    const onSubmit = async (formData: TwoFactorRequest) => {
+        const twoFaToken = localStorage.getItem('twoFaToken');
+        if (twoFaToken) {
+            formData.sessionId = twoFaToken;
+        }
+        formData.rememberMe = true;
+        twoFactor(formData);
     }
 
     return (
@@ -106,14 +78,14 @@ export function TwoFactorForm() {
             <div className='content'>
                 <Form.Item className='email' name='code'
                     rules={
-                            [{
-                                required: true,
-                                message: t('error.input_2factor_code'),
-                            }]
+                        [{
+                            required: true,
+                            message: t('error.input_2factor_code'),
+                        }]
                     }>
                     <Input placeholder="Enter two factor authentication code!" />
                 </Form.Item>
-                <Button htmlType='submit' className='sign-in-btn' type='primary'>Verify</Button>
+                <Button htmlType='submit' disabled={isLoading || hasFieldError} className='sign-in-btn' type='primary'>Verify</Button>
             </div>
         </Form>
     );

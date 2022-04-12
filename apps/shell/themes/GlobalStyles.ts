@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import {CustomThemeProps} from '.'
+import { Color } from '@difx/core-ui'
+import { CustomThemeProps } from '.'
 
 const GlobalStyles = createGlobalStyle`
     html {
@@ -91,10 +92,10 @@ const GlobalStyles = createGlobalStyle`
       .ant-select-dropdown{
         background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor} !important;
         .ant-select-item-option-active:not(.ant-select-item-option-disabled){
-          background: ${({theme})=> theme.currentTheme==='light' ? '#f5f5f5' : 'rgba(13, 20, 33, 0.6)'};
+          background: ${({ theme }) => theme.currentTheme === 'light' ? '#f5f5f5' : 'rgba(13, 20, 33, 0.6)'};
         }
         .ant-select-item.ant-select-item-option.ant-select-item-option-selected{
-          background: ${({theme})=> theme.currentTheme==='light' ? 'var(--ant-primary-1)' : 'rgba(13, 20, 33, 0.6)'};
+          background: ${({ theme }) => theme.currentTheme === 'light' ? 'var(--ant-primary-1)' : 'rgba(13, 20, 33, 0.6)'};
         }
         .ant-select-item-option-content{
           .val{
@@ -122,6 +123,35 @@ const GlobalStyles = createGlobalStyle`
         }
       }
     } // end button.ant-btn
+
+
+    // Popover content
+    .ant-popover-content{
+      .ant-popover-arrow .ant-popover-arrow-content{
+        background: ${({ theme }) => theme.inputBackgroundColor};
+      }
+      .ant-popover-inner{
+        background: ${({ theme }) => theme.inputBackgroundColor};
+        .check-list-group{
+          .check-item{
+            margin: 5px 0;
+            display:flex;
+            .icon{
+              padding-top: 4px;
+              margin-right: 8px;
+            }
+            .content{
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 20px;
+              color: ${Color.red.failure} !important;
+              &.success{
+                color: ${Color.green.success} !important;
+              }
+            }
+          }
+      }
+    }
 `
 
 export default GlobalStyles;

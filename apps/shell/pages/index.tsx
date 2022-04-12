@@ -14,11 +14,6 @@ import GlobalStyles from './../themes/GlobalStyles';
 const MainLayoutStyled = styled(Layout)`
   background: ${({ theme }) => theme.backgroundColor} !important;
 `
-
-const ContentStyled = styled.div`
-  margin-top: 74px;
-  background: ${({ theme }) => theme.backgroundColor}
-`
 export interface AppLayoutProps {
   children: React.ReactChild;
   ghost?: boolean

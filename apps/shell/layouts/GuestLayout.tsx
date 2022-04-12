@@ -5,6 +5,7 @@ import 'antd/dist/antd.variable.min.css';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { THEME } from './../constants';
 
 const LayoutStyled = styled(Layout)`
   background: ${({ theme }) => theme.backgroundColor} !important;
@@ -25,11 +26,8 @@ export function GuestLayout({ children }: GuestLayoutProps) {
 
   const [theme, setTheme] = useAtom(themeAtom);
 
-  const LIGHT = 'light';
-  const DARK = 'dark';
-
   const changeTheme = () => {
-    const themeChanged = theme === LIGHT ? DARK : LIGHT
+    const themeChanged = theme === THEME.LIGHT ? THEME.DARK : THEME.LIGHT
     localStorage.setItem('theme', themeChanged);
     setTheme(themeChanged);
   }

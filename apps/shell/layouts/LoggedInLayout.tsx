@@ -60,7 +60,7 @@ export function LoggedInLayout({ children }: LoggedInLayoutProps) {
       <LayoutStyled>
         <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
         <ContentStyled>{children}</ContentStyled>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UEDxxxx</Footer>
       </LayoutStyled>
   );
 }

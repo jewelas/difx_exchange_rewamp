@@ -1,11 +1,10 @@
 import { Header } from '@difx/core-ui';
 import { themeAtom } from '@difx/shared';
 import { Layout } from 'antd';
+import 'antd/dist/antd.variable.min.css';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import styled from 'styled-components';
-import 'antd/dist/antd.variable.min.css';
 
 const LayoutStyled = styled(Layout)`
   background: ${({ theme }) => theme.backgroundColor} !important;

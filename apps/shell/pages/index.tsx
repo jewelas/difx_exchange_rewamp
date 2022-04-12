@@ -1,17 +1,15 @@
-import { Header } from '@difx/core-ui';
-import { themeAtom, UpdateTokenRequest, UpdateTokenResponse, useUpdateToken } from '@difx/shared';
+import { themeAtom, UpdateTokenResponse, useUpdateToken } from '@difx/shared';
 import { ConfigProvider, Layout } from 'antd';
 import 'antd/dist/antd.variable.min.css';
 import { AxiosResponse } from 'axios';
 import { useAtom } from 'jotai';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import GuestLayout from './../layouts/GuestLayout';
+import LoggedInLayout from '../layouts/LoggedInLayout';
 import { REFRESH_TOKEN, THEME } from './../constants/index';
+import GuestLayout from './../layouts/GuestLayout';
 import { dark, light } from './../themes';
 import GlobalStyles from './../themes/GlobalStyles';
-import LoggedInLayout from '../layouts/LoggedInLayout';
 
 const MainLayoutStyled = styled(Layout)`
   background: ${({ theme }) => theme.backgroundColor} !important;
@@ -28,16 +26,13 @@ export interface AppLayoutProps {
 
 export function AppLayout({ children, ghost }: AppLayoutProps) {
 
-  const { Footer } = Layout;
-  const router = useRouter();
-
   const [hasLoggedIn, setHasLoggedIn] = useState<boolean>(false);
 
   const [theme, setTheme] = useAtom(themeAtom);
 
   useEffect(() => {
     const themeFromLocalStorage = localStorage?.getItem('theme');
-    setTheme(themeFromLocalStorage || 'light');
+    setTheme(themeFromLocalStorage || THEME.LIGHT);
   }, [setTheme]);
 
   useEffect(() => {

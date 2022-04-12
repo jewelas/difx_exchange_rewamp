@@ -12,7 +12,7 @@ export function VerifyIpPage() {
   const router = useRouter();
   const { email, code } = router.query;
 
-  const onSuccess = useCallback(
+  const onSuccess =
     (
       response: AxiosResponse<VerifyIpResponse>
     ) => {
@@ -20,8 +20,7 @@ export function VerifyIpPage() {
       const { statusText } = data;
       showNotification('success', t('signin.ip_verification'), statusText);
       router.push('/login');
-    }, []
-  );
+    }
 
   const onError = useCallback(
     (
@@ -50,7 +49,7 @@ export function VerifyIpPage() {
   }, [email, code, verifyIp]);
 
   return (
-      <AppLayout ghost>.</AppLayout>
+    <AppLayout ghost>.</AppLayout>
   );
 }
 

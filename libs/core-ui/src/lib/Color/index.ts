@@ -9,6 +9,7 @@ const Color = colors
 Color.red.failure = '#DB5354';
 Color.green.success = '#21C198';
 Color.grey.secondary = '#f4f5f8';
+Color.grey.linkSecondary = '#9AA5B4';
 Color.grey.textSecondary = '#939393';
 Color.grey.buttonSecondary = '#d9d9d9'
 Color.blue.primary = '#3D7EFF';

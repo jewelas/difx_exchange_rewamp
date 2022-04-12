@@ -37,6 +37,12 @@ const GlobalStyles = createGlobalStyle`
     .ant-form-item {
 
         // Input
+        .ant-input{
+          height: 48px;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 22px;
+        }
         &:not(.ant-form-item-has-error) {
           .ant-form-item-control-input-content {
             input {
@@ -60,26 +66,9 @@ const GlobalStyles = createGlobalStyle`
             background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor};
           }
         }
-      }
+      } //end .ant-form-item
 
-      // Button
-      button.ant-btn{
-        &.with-icon{
-          background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor} !important;
-          border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor} !important;
-        }
-        &[disabled]{
-          background-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
-          border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
-          color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
-          opacity: 0.5;
-          &:hover{
-            background-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
-            border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
-            color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
-          }
-        }
-      }
+    
 
       // Select
       .ant-select {
@@ -97,7 +86,8 @@ const GlobalStyles = createGlobalStyle`
               fill: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
             }
           }
-      }
+      } // end .ant-select
+
       .ant-select-dropdown{
         background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor} !important;
         .ant-select-item-option-active:not(.ant-select-item-option-disabled){
@@ -111,7 +101,27 @@ const GlobalStyles = createGlobalStyle`
             color:${({ theme }: { theme: CustomThemeProps }) => theme.textColor}; !important;
           }
         }
+      } // end .ant-select-dropdown
+
+    // Button
+    button.ant-btn{
+      height: 48px;
+      &.with-icon{
+        background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor} !important;
+        border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor} !important;
       }
+      &[disabled]{
+        background-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
+        border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
+        color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
+        opacity: 0.5;
+        &:hover{
+          background-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
+          border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
+          color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
+        }
+      }
+    } // end button.ant-btn
 `
 
 export default GlobalStyles;

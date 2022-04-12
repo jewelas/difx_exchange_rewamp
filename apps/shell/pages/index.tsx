@@ -1,33 +1,28 @@
-import { useEffect } from 'react';
-import { Layout, ConfigProvider, notification } from 'antd';
-import styled, { ThemeProvider } from 'styled-components';
+import { Header } from '@difx/core-ui';
+import { themeAtom, UpdateTokenRequest, UpdateTokenResponse, useUpdateToken } from '@difx/shared';
+import { ConfigProvider, Layout } from 'antd';
+import 'antd/dist/antd.variable.min.css';
+import { AxiosResponse } from 'axios';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { Header } from '@difx/core-ui';
-import { themeAtom } from '@difx/shared';
-import { light, dark } from './../themes';
+import { useEffect } from 'react';
+import styled, { ThemeProvider } from 'styled-components';
+import { REFRESH_TOKEN } from './../constants/index';
+import { dark, light } from './../themes';
 import GlobalStyles from './../themes/GlobalStyles';
-import 'antd/dist/antd.variable.min.css';
 
 const LayoutStyled = styled(Layout)`
-  background: ${({theme})=> theme.backgroundColor} !important;
+  background: ${({ theme }) => theme.backgroundColor} !important;
 `
 
 const ContentStyled = styled.div`
   margin-top: 74px;
-  background: ${({theme})=> theme.backgroundColor}
+  background: ${({ theme }) => theme.backgroundColor}
 `
 export interface AppLayoutProps {
   children: React.ReactChild;
   ghost?: boolean
 }
-
-export function showNotification(type: 'error' | 'success', title: string, description){
-  notification[type]({
-      message: title,
-      description
-  });
-};
 
 export function AppLayout({ children, ghost }: AppLayoutProps) {
 
@@ -39,6 +34,13 @@ export function AppLayout({ children, ghost }: AppLayoutProps) {
   useEffect(() => {
     const { pathname } = router;
     if (pathname === '/') router.push('/home');
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+      const request: UpdateTokenRequest = { token: currentUser.token }
+      updateToken(request);
+    }
+
   }, [router]);
 
   useEffect(() => {
@@ -62,12 +64,16 @@ export function AppLayout({ children, ghost }: AppLayoutProps) {
       : { theme: dark }
   );
 
+  const { mutate: updateToken } = useUpdateToken({
+    onSuccess: (response: AxiosResponse<UpdateTokenResponse>) => { setTimeout(() => { updateToken({ token: response.data.token }) }, REFRESH_TOKEN.EXPIRY_TIME) },
+  });
+
   return (
 
     // Use theme in ThemeProvider to reuse variable when customize the styled-component
     <ThemeProvider theme={theme === LIGHT ? light : dark}>
-      <GlobalStyles/>
-      <LayoutStyled style={ghost && {display:'none'}}>
+      <GlobalStyles />
+      <LayoutStyled style={ghost && { display: 'none' }}>
         <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
         <ContentStyled>{children}</ContentStyled>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

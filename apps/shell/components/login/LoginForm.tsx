@@ -8,7 +8,7 @@ import { FormInstance } from 'antd/es/form';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { useRef, useState, useCallback, useEffect } from 'react';
-import { showNotification } from './../../pages';
+import { showNotification } from './../../utils/pageUtils';
 
 /* eslint-disable-next-line */
 export interface LoginFormProps { }

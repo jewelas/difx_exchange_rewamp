@@ -5,6 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import AppLayout from '../..';
+import { showNotification } from './../../utils/pageUtils';
 
 export function VerifyIpPage() {
 
@@ -31,13 +32,6 @@ export function VerifyIpPage() {
       showNotification('error', 'IP Verifycation', statusText);
     }, []
   );
-
-  const showNotification = (type: string, title: string, description: string) => {
-    notification[type]({
-      message: title,
-      description
-    });
-  };
 
   const { mutate: verifyIp, isLoading } = useVerifyIp({ onSuccess, onError });
 

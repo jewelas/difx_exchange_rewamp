@@ -1,12 +1,13 @@
 import t from '@difx/locale';
-import { TwoFactorRequest, TwoFactorResponse, useTwoFactor } from '@difx/shared';
+import { TwoFactorRequest, TwoFactorResponse, UpdateTokenRequest, UpdateTokenResponse, useTwoFactor, useUpdateToken } from '@difx/shared';
 import { Button, Form, Input } from 'antd';
 import { FormInstance } from 'antd/es/form';
+import { REFRESH_TOKEN } from './../../constants';
 import { AxiosError, AxiosResponse } from 'axios';
 import isEmpty from 'lodash/isEmpty';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
-import { showNotification } from './../../pages';
+import { showNotification } from './../../utils/pageUtils';
 
 export function TwoFactorForm() {
 
@@ -24,7 +25,12 @@ export function TwoFactorForm() {
         localStorage.setItem('currentUser', JSON.stringify(data));
 
         showNotification('success', 'Two Factor Verification', 'Verification successfully!');
-        // TODO: update refresh token
+
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser) {
+            const request: UpdateTokenRequest = { token: currentUser.token }
+            updateToken(request);
+        }
 
         router.push('/home')
     }
@@ -63,6 +69,10 @@ export function TwoFactorForm() {
     }
 
     const { mutate: twoFactor, isLoading } = useTwoFactor({ onSuccess, onError });
+
+    const { mutate: updateToken } = useUpdateToken({
+        onSuccess: (response: AxiosResponse<UpdateTokenResponse>) => { setTimeout(() => { updateToken({ token: response.data.token }) }, REFRESH_TOKEN.EXPIRY_TIME) },
+    });
 
     const onSubmit = async (formData: TwoFactorRequest) => {
         const twoFaToken = localStorage.getItem('twoFaToken');

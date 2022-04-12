@@ -1,0 +1,48 @@
+import { Header } from '@difx/core-ui';
+import { themeAtom } from '@difx/shared';
+import { Layout } from 'antd';
+import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import styled from 'styled-components';
+import 'antd/dist/antd.variable.min.css';
+
+const LayoutStyled = styled(Layout)`
+  background: ${({ theme }) => theme.backgroundColor} !important;
+`
+
+const ContentStyled = styled.div`
+  margin-top: 74px;
+  background: ${({ theme }) => theme.backgroundColor}
+`
+export interface GuestLayoutProps {
+  children: React.ReactChild;
+}
+
+export function GuestLayout({ children }: GuestLayoutProps) {
+
+  const { Footer } = Layout;
+  const router = useRouter();
+
+  const [theme, setTheme] = useAtom(themeAtom);
+
+  const LIGHT = 'light';
+  const DARK = 'dark';
+
+  const changeTheme = () => {
+    const themeChanged = theme === LIGHT ? DARK : LIGHT
+    localStorage.setItem('theme', themeChanged);
+    setTheme(themeChanged);
+  }
+
+  return (
+
+      <LayoutStyled>
+        <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
+        <ContentStyled>{children}</ContentStyled>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+      </LayoutStyled>
+  );
+}
+
+export default GuestLayout;

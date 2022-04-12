@@ -34,6 +34,9 @@ const GlobalStyles = createGlobalStyle`
             color: ${({ theme }: { theme: CustomThemeProps }) => theme.textHoverColor}; !important;
         }
     }
+    .ant-btn-text:focus, .ant-btn-text:hover{
+      color: unset !important;
+    }
 
     .ant-form-item {
 

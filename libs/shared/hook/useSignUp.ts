@@ -1,8 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { useQuery, useMutation } from 'react-query';
+import { useMutation } from 'react-query';
 import { signUp } from '../api/signUp';
 import { SignUpRequest, SignUpResponse } from '../type/SignUp';
-
 
 interface Props {
     onSuccess: (

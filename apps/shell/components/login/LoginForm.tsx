@@ -64,9 +64,9 @@ export function LoginForm(props: LoginFormProps) {
                 localStorage.setItem('twoFaToken', sessionId);
                 router.push('/two-factor');
             } else {
-                // localStorage.setItem('currentUser', JSON.stringify(data));
-                // signInSuccessNotification();
-                // router.push('/home');
+                localStorage.setItem('currentUser', JSON.stringify(data));
+                showNotification('success', 'Signin successfully', null);
+                router.push('/home');
             }
         }, []
     );
@@ -132,16 +132,16 @@ export function LoginForm(props: LoginFormProps) {
             <div className='left-right'>
                 <div className='left'>
                     <div onClick={() => { onChangeLoginType('email') }} className={clsx('tab', type === 'email' && 'active')}>
-                        <Typography level='B1'>Email</Typography>
+                        <Typography level='B1'>{t('signin.email')}</Typography>
                     </div>
                     <div className='splitter' />
                     <div onClick={() => { onChangeLoginType('phone') }} className={clsx('tab', type === 'phone' && 'active')}>
-                        <Typography level='B1'>Phone Number</Typography>
+                        <Typography level='B1'>{t('signin.phone_number')}</Typography>
                     </div>
                 </div>
                 <div className='right'>
                     <div className='pointer' onClick={() => { setIsCorporate(!isCorporate) }}>
-                        <Typography level='B2'>Corporate</Typography>
+                        <Typography level='B2'>{t('signin.corporate')}</Typography>
                     </div>
                     <Switch size='small' checked={isCorporate} onChange={(checked) => { setIsCorporate(checked) }} />
                 </div>
@@ -163,7 +163,7 @@ export function LoginForm(props: LoginFormProps) {
                                     }
                                 ]
                             }>
-                            <Input placeholder="Email" />
+                            <Input placeholder={t('signin.email')} />
                         </Form.Item>
                         :
                         <div className='dial-group'>
@@ -180,7 +180,7 @@ export function LoginForm(props: LoginFormProps) {
                                         message: t('error.input_phone'),
                                     }]
                                 }>
-                                <Input type='number' placeholder="Phone Number" />
+                                <Input type='number' placeholder={t('signin.phone_number')} />
                             </Form.Item>
                         </div>
                 }
@@ -189,7 +189,7 @@ export function LoginForm(props: LoginFormProps) {
                 <Form.Item name="password">
                     <PasswordField onChange={onChangePass} />
                 </Form.Item>
-                <Button disabled={isLoading || hasFieldError} htmlType='submit' className='sign-in-btn' type='primary'>Login</Button>
+                <Button disabled={isLoading || hasFieldError} htmlType='submit' className='sign-in-btn' type='primary'>{t('signin.login')}</Button>
             </div>
         </Form>
     );

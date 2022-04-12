@@ -1,5 +1,6 @@
 import { Color, Icon, Typography } from '@difx/core-ui';
 import { Button, Col, Row } from 'antd';
+import t from '@difx/locale';
 import Link from 'next/link';
 import styled from 'styled-components';
 import AppLayout from '..';
@@ -138,8 +139,8 @@ export function LoginPage(props: LoginPageProps) {
       <PageStyled>
         <Row className='row-group'>
           <Col className='col-group' xs={24} sm={20} md={16} lg={14} xl={10}>
-            <Typography level='H4'>Login in DIFX</Typography>
-            <Typography level='B2'>Please check that you are visiting the correct URL</Typography>
+            <Typography level='H4'>{t('signin.login_in_difx')}</Typography>
+            <Typography level='B2'>{t('signin.check_correct_url')}</Typography>
             <div className='link'>
               <Icon.LockIcon />
               <div><span style={{ color: Color.green.success }}>https://</span>difx.io</div>
@@ -149,10 +150,10 @@ export function LoginPage(props: LoginPageProps) {
 
             <div className='left-right'>
               <div className='left'>
-                <Typography level='B1'>New account? <Link href='/register'>Register</Link></Typography>
+                <Typography level='B1'>{t('signin.new_account')} <Link href='/register'>{t('common.register')}</Link></Typography>
               </div>
               <div className='right.forgot-pass'>
-                <Typography level='B1'><Link href='/forgot'>Forgot password?</Link></Typography>
+                <Typography level='B1'><Link href='/forgot'>{t('common.forgot_password')}</Link></Typography>
               </div>
             </div>
             <div className='or'>
@@ -160,7 +161,7 @@ export function LoginPage(props: LoginPageProps) {
             </div>
             <Button htmlType='submit' className='sign-in-qrcode' ghost type='primary'>
               <Icon.QRCodeIcon />
-              <span>Login with QR Code</span>
+              <span>{t('signin.login_qr')}</span>
             </Button>
           </Col>
         </Row>

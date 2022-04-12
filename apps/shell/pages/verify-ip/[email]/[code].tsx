@@ -1,11 +1,11 @@
 
 import { useVerifyIp, VerifyIpRequest, VerifyIpResponse } from '@difx/shared';
-import { notification } from 'antd';
 import { AxiosError, AxiosResponse } from 'axios';
+import t from '@difx/locale';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import AppLayout from '../..';
-import { showNotification } from './../../utils/pageUtils';
+import { showNotification } from './../../../utils/pageUtils';
 
 export function VerifyIpPage() {
 
@@ -18,7 +18,7 @@ export function VerifyIpPage() {
     ) => {
       const { data } = response;
       const { statusText } = data;
-      showNotification('success', 'IP Verification', statusText);
+      showNotification('success', t('signin.ip_verification'), statusText);
       router.push('/login');
     }, []
   );
@@ -29,11 +29,11 @@ export function VerifyIpPage() {
     ) => {
       const { response } = error;
       const { statusText } = response.data;
-      showNotification('error', 'IP Verifycation', statusText);
+      showNotification('error', t('signin.ip_verification'), statusText);
     }, []
   );
 
-  const { mutate: verifyIp, isLoading } = useVerifyIp({ onSuccess, onError });
+  const { mutate: verifyIp } = useVerifyIp({ onSuccess, onError });
 
   useEffect(() => {
     if (email && code) {
@@ -50,9 +50,7 @@ export function VerifyIpPage() {
   }, [email, code, verifyIp]);
 
   return (
-      <AppLayout ghost>
-        TODO
-      </AppLayout>
+      <AppLayout ghost>.</AppLayout>
   );
 }
 

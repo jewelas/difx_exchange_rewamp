@@ -1,6 +1,7 @@
 import t from '@difx/locale';
 import { TwoFactorRequest, TwoFactorResponse, UpdateTokenRequest, UpdateTokenResponse, useTwoFactor, useUpdateToken } from '@difx/shared';
 import { Button, Form, Input } from 'antd';
+import t from '@difx/locale';
 import { FormInstance } from 'antd/es/form';
 import { REFRESH_TOKEN } from './../../constants';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -24,7 +25,7 @@ export function TwoFactorForm() {
 
         localStorage.setItem('currentUser', JSON.stringify(data));
 
-        showNotification('success', 'Two Factor Verification', 'Verification successfully!');
+        showNotification('success', t('2fa.2fa'), t('2fa.verify_success'));
 
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser) {
@@ -65,7 +66,7 @@ export function TwoFactorForm() {
     const onError = (error: AxiosError) => {
         const { response } = error;
         const { statusText } = response.data;
-        showNotification('error', 'Two Factor Verification', statusText);
+        showNotification('error', t('2fa.2fa'), statusText);
     }
 
     const { mutate: twoFactor, isLoading } = useTwoFactor({ onSuccess, onError });
@@ -93,9 +94,9 @@ export function TwoFactorForm() {
                             message: t('error.input_2factor_code'),
                         }]
                     }>
-                    <Input placeholder="Enter two factor authentication code!" />
+                    <Input placeholder={t('2fa.enter_code')} />
                 </Form.Item>
-                <Button htmlType='submit' disabled={isLoading || hasFieldError} className='sign-in-btn' type='primary'>Verify</Button>
+                <Button htmlType='submit' disabled={isLoading || hasFieldError} className='sign-in-btn' type='primary'>{t('common.verify')}</Button>
             </div>
         </Form>
     );

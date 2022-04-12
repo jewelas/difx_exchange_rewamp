@@ -1,5 +1,6 @@
 import { Color, Typography } from '@difx/core-ui';
 import { Col, Row } from 'antd';
+import t from '@difx/locale';
 import styled from 'styled-components';
 import AppLayout from '..';
 import TwoFactorForm from './../../components/two-factor/TwoFactorForm';
@@ -91,7 +92,7 @@ export function TwoFactorPage(props: TwoFactorProps) {
       <PageStyled>
         <Row className='row-group'>
           <Col className='col-group' xs={24} sm={20} md={16} lg={14} xl={10}>
-            <Typography level='H4'>Two factor verification</Typography>
+            <Typography level='H4'>{t('2fa.2fa')}</Typography>
             <Typography level='B2'>Enter the security code  sent to +971 5000000</Typography>
             <div className='form'>
               <TwoFactorForm />

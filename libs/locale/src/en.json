@@ -1,7 +1,8 @@
 {
   "common":{
     "forgot_password":"Forgot password?",
-    "register":"Register"
+    "register":"Register",
+    "verify":"Verify"
   },
   "header": {
     "home": "Home",
@@ -27,7 +28,11 @@
     "new_account":"New account?",
     "login_in_difx":"Login in DIFX",
     "check_correct_url":"Please check that you are visiting the correct URL"
-
+  },
+  "2fa":{
+    "enter_code":"Enter two factor authentication code!",
+    "2fa":"Two Factor Verification",
+    "verify_success":"Verification successfully!"
   },
   "register": {
     "message1": "Register to get upto",

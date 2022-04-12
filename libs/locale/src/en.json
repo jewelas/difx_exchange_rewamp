@@ -26,6 +26,7 @@
     "term2": "Terms and Conditions"
   },
   "error": {
+    "input_2factor_code": "Please enter two factor authentication code",
     "input_email": "Please input your Email!",
     "email_not_valid": "Email is not valid!",
     "input_phone": "Please input your Phone Number!",

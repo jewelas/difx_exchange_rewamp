@@ -1,10 +1,9 @@
+import { Color, Icon, Typography } from '@difx/core-ui';
+import { Button, Col, Row } from 'antd';
+import Link from 'next/link';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { Row, Col, Input, Button, Form, Switch } from 'antd';
-import Link from 'next/link'
 import AppLayout from '..';
-import { Typography, Icon, Color } from '@difx/core-ui';
-import clsx from 'clsx';
+import LoginForm from './../../components/login/LoginForm';
 
 /* eslint-disable-next-line */
 export interface LoginPageProps { }
@@ -88,6 +87,11 @@ const PageStyled = styled.div`
           }
         }
       }
+      .content{
+        .email{
+          margin-bottom: 15px;
+        }
+      }
       .ant-btn{
         width: 100%;
       }
@@ -120,9 +124,6 @@ const PageStyled = styled.div`
 
 export function LoginPage(props: LoginPageProps) {
 
-  const [type, setType] = useState<'email' | 'phone'>('email');
-  const [isCorporate, setIsCorporate] = useState(false);
-
   return (
     <AppLayout>
       <PageStyled>
@@ -135,34 +136,8 @@ export function LoginPage(props: LoginPageProps) {
               <div><span style={{ color: Color.green.success }}>https://</span>difx.io</div>
             </div>
 
-            <Form /*ref={formRef} onFinish={onSubmit} onFieldsChange={onFormChange}*/ autoComplete="off">
-              <div className='left-right'>
-                <div className='left'>
-                  <div onClick={() => { setType('email') }} className={clsx('tab', type === 'email' && 'active')}>
-                    <Typography level='B1'>Email</Typography>
-                  </div>
-                  <div className='splitter' />
-                  <div onClick={() => { setType('phone') }} className={clsx('tab', type === 'phone' && 'active')}>
-                    <Typography level='B1'>Phone Number</Typography>
-                  </div>
-                </div>
-                <div className='right'>
-                  <div className='pointer' onClick={()=>{setIsCorporate(!isCorporate)}}>
-                    <Typography level='B2'>Corporate</Typography>
-                  </div>
-                  <Switch size='small' checked={isCorporate} onChange={(checked) => {setIsCorporate(checked)}} />
-                </div>
-              </div>
-              <div className='content'>
-                <Form.Item name="email">
-                  <Input placeholder="Email" />
-                </Form.Item>
-                <Form.Item name="password">
-                  <Input placeholder="Passwords" />
-                </Form.Item>
-                <Button htmlType='submit' className='sign-in-btn' type='primary'>Login</Button>
-              </div>
-            </Form>
+            <LoginForm />
+
             <div className='left-right'>
               <div className='left'>
                 <Typography level='B1'>New account? <Link href='/register'>Register</Link></Typography>

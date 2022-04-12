@@ -18,10 +18,11 @@ const ContentStyled = styled.div`
   background: ${({theme})=> theme.backgroundColor}
 `
 export interface AppLayoutProps {
-  children: React.ReactChild
+  children: React.ReactChild;
+  ghost?: boolean
 }
 
-export function AppLayout({ children }: AppLayoutProps) {
+export function AppLayout({ children, ghost }: AppLayoutProps) {
 
   const { Footer } = Layout;
   const router = useRouter();
@@ -59,13 +60,12 @@ export function AppLayout({ children }: AppLayoutProps) {
     // Use theme in ThemeProvider to reuse variable when customize the styled-component
     <ThemeProvider theme={theme === LIGHT ? light : dark}>
       <GlobalStyles/>
-      <LayoutStyled>
+      <LayoutStyled style={ghost && {display:'none'}}>
         <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
         <ContentStyled>{children}</ContentStyled>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </LayoutStyled>
     </ThemeProvider>
-
   );
 }
 

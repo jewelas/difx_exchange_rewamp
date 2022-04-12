@@ -41,6 +41,7 @@ export function AppLayout({ children, ghost }: AppLayoutProps) {
       updateToken(request);
     }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   useEffect(() => {

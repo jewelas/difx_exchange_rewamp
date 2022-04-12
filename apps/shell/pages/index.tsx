@@ -36,7 +36,7 @@ export function AppLayout({ children, ghost }: AppLayoutProps) {
     if (pathname === '/') router.push('/home');
 
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser) {
+    if (currentUser && currentUser.token) {
       const request: UpdateTokenRequest = { token: currentUser.token }
       updateToken(request);
     }

@@ -1,7 +1,6 @@
 import t from '@difx/locale';
 import { TwoFactorRequest, TwoFactorResponse, UpdateTokenRequest, UpdateTokenResponse, useTwoFactor, useUpdateToken } from '@difx/shared';
 import { Button, Form, Input } from 'antd';
-import t from '@difx/locale';
 import { FormInstance } from 'antd/es/form';
 import { REFRESH_TOKEN } from './../../constants';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -28,7 +27,7 @@ export function TwoFactorForm() {
         showNotification('success', t('2fa.2fa'), t('2fa.verify_success'));
 
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser) {
+        if (currentUser && currentUser.token) {
             const request: UpdateTokenRequest = { token: currentUser.token }
             updateToken(request);
         }

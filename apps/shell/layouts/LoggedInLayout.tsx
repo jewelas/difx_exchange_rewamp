@@ -60,7 +60,7 @@ export function LoggedInLayout({ children }: LoggedInLayoutProps) {
   if([
     '/login', '/register', 'two-factor', '/'
   ].includes(pathname)){
-    router.push('/home', undefined, { shallow: true });
+    router.push('/home');
     return null; // TODO: display the loading page
   }
 

@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import { Color } from '@difx/core-ui'
-import { CustomThemeProps } from '.'
+import { Color } from './../Color';
+import { CustomThemeProps } from './themes'
 
 const GlobalStyles = createGlobalStyle`
     html {
@@ -167,14 +167,14 @@ const GlobalStyles = createGlobalStyle`
       margin-top: 64px !important;
       .ant-notification-notice{
         .ant-notification-notice-message{
-          color: ${({theme})=> theme.textColor};
+          color: ${({ theme }) => theme.textColor};
         }
-        color: ${({theme})=> theme.textColor};
-        background ${({theme})=> theme.backgroundColor2};
+        color: ${({ theme }) => theme.textColor};
+        background ${({ theme }) => theme.backgroundColor2};
       }
     }
 
 
 `
 
-export default GlobalStyles;
+export { GlobalStyles };

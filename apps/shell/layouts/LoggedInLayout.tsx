@@ -1,5 +1,6 @@
-import { Header } from '@difx/core-ui';
-import { themeAtom, UpdateTokenRequest, UpdateTokenResponse, useUpdateToken, currentUserAtom } from '@difx/shared';
+import { Header} from '@difx/core-ui';
+import { dark, light } from '@difx/core-ui/themes';
+import { themeAtom, UpdateTokenRequest, UpdateTokenResponse, useUpdateToken } from '@difx/shared';
 import { ConfigProvider, Layout } from 'antd';
 import 'antd/dist/antd.variable.min.css';
 import { AxiosResponse } from 'axios';
@@ -8,7 +9,6 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { REFRESH_TOKEN, THEME } from './../constants/index';
-import { dark, light } from './../themes';
 
 const LayoutStyled = styled(Layout)`
   background: ${({ theme }) => theme.backgroundColor} !important;

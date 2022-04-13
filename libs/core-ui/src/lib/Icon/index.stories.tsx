@@ -37,6 +37,10 @@ const Template: Story = (args) => {
     )
   }
 
+  const iconArgs = {
+    width:20, height:20, fill:'#000'
+  }
+
   return (
     <div>
       <h2>
@@ -52,32 +56,33 @@ const Template: Story = (args) => {
         gridTemplateColumns: 'auto auto auto',
         marginBottom: '50px',
       }}>
-        {renderIcon('ArrowDownIcon', <ArrowDownIcon />)}
-        {renderIcon('CloseIcon', <CloseIcon />)}
-        {renderIcon('EarnIcon', <EarnIcon />)}
-        {renderIcon('EarthIcon', <EarthIcon />)}
-        {renderIcon('ExchangeIcon', <ExchangeIcon />)}
-        {renderIcon('HomeIcon', <HomeIcon />)}
-        {renderIcon('HorizontalLineIcon', <HorizontalLineIcon />)}
-        {renderIcon('LogoIcon', <LogoIcon />)}
-        {renderIcon('MarketIcon', <MarketIcon />)}
-        {renderIcon('MoonIcon', <MoonIcon />)}
-        {renderIcon('OrderIcon', <OrderIcon />)}
-        {renderIcon('WalletIcon', <WalletIcon />)}
-        {renderIcon('UserIcon', <UserIcon />)}
-        {renderIcon('BankIcon', <BankIcon />)}
-        {renderIcon('MenuDownIcon', <MenuDownIcon />)}
-        {renderIcon('MenuUpIcon', <MenuUpIcon />)}
-        {renderIcon('CheckCircleIcon', <CheckCircleIcon />)}
-        {renderIcon('CloseCircleIcon', <CloseCircleIcon />)}
-        {renderIcon('EyeHiddenIcon', <EyeHiddenIcon />)}
-        {renderIcon('EyeVisibleIcon', <EyeVisibleIcon />)}
-        {renderIcon('LightIcon', <LightIcon />)}
-        {renderIcon('LockIcon', <LockIcon />)}
-        {renderIcon('QRCodeIcon', <QRCodeIcon />)}
-        {renderIcon('NotificationIcon', <NotificationIcon />)}
-        {renderIcon('SettingIcon', <SettingIcon />)}
-        {renderIcon('DownloadIcon', <DownloadIcon />)}
+
+        {renderIcon('ArrowDownIcon', <ArrowDownIcon {...iconArgs}  />)}
+        {renderIcon('CloseIcon', <CloseIcon {...iconArgs}  />)}
+        {renderIcon('EarnIcon', <EarnIcon {...iconArgs}  />)}
+        {renderIcon('EarthIcon', <EarthIcon {...iconArgs}  />)}
+        {renderIcon('ExchangeIcon', <ExchangeIcon {...iconArgs}  />)}
+        {renderIcon('HomeIcon', <HomeIcon {...iconArgs}  />)}
+        {renderIcon('HorizontalLineIcon', <HorizontalLineIcon {...iconArgs}  />)}
+        {renderIcon('LogoIcon', <LogoIcon {...iconArgs}  />)}
+        {renderIcon('MarketIcon', <MarketIcon {...iconArgs}  />)}
+        {renderIcon('MoonIcon', <MoonIcon {...iconArgs}  />)}
+        {renderIcon('OrderIcon', <OrderIcon {...iconArgs}  />)}
+        {renderIcon('WalletIcon', <WalletIcon {...iconArgs}  />)}
+        {renderIcon('UserIcon', <UserIcon {...iconArgs}  />)}
+        {renderIcon('BankIcon', <BankIcon {...iconArgs}  />)}
+        {renderIcon('MenuDownIcon', <MenuDownIcon {...iconArgs}  />)}
+        {renderIcon('MenuUpIcon', <MenuUpIcon {...iconArgs}  />)}
+        {renderIcon('CheckCircleIcon', <CheckCircleIcon {...iconArgs}  />)}
+        {renderIcon('CloseCircleIcon', <CloseCircleIcon {...iconArgs}  />)}
+        {renderIcon('EyeHiddenIcon', <EyeHiddenIcon {...iconArgs}  />)}
+        {renderIcon('EyeVisibleIcon', <EyeVisibleIcon {...iconArgs}  />)}
+        {renderIcon('LightIcon', <LightIcon {...iconArgs}  />)}
+        {renderIcon('LockIcon', <LockIcon {...iconArgs}  />)}
+        {renderIcon('QRCodeIcon', <QRCodeIcon {...iconArgs}  />)}
+        {renderIcon('NotificationIcon', <NotificationIcon {...iconArgs}  />)}
+        {renderIcon('SettingIcon', <SettingIcon {...iconArgs}  />)}
+        {renderIcon('DownloadIcon', <DownloadIcon {...iconArgs}  />)}
       </div>
     </div>
   )

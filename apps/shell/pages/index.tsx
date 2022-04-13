@@ -10,8 +10,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import LoggedInLayout from '../layouts/LoggedInLayout';
 import { REFRESH_TOKEN, THEME } from './../constants/index';
 import GuestLayout from './../layouts/GuestLayout';
-import { dark, light } from './../themes';
-import GlobalStyles from './../themes/GlobalStyles';
+import { dark, light, GlobalStyles } from '@difx/core-ui/themes';
 
 const MainLayoutStyled = styled(Layout)`
   background: ${({ theme }) => theme.backgroundColor} !important;

@@ -44,7 +44,7 @@ export function AppLayout({ children, ghost }: AppLayoutProps) {
       setHasLoggedIn(true);
       setCurrentUser(currentUser);
     }else setHasLoggedIn(false);
-  }, []);
+  }, [currentUserAtom]);
 
   // Config for antd
   ConfigProvider.config(

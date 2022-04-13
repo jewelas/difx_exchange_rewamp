@@ -1,7 +1,7 @@
 import { Story, Meta } from '@storybook/react';
 import { withJotai } from 'storybook-addon-jotai';
 import 'antd/dist/antd.css';
-import { HeaderProps, Header, themeAtom } from '.';
+import { HeaderProps, Header, themeAtom, currentUserAtom } from '.';
 
 export default {
   component: Header,
@@ -16,6 +16,7 @@ Primary.parameters = {
   jotai: {
     atoms: {
       theme: themeAtom,
+      currentUserAtom: currentUserAtom
     },
     values: {
       theme: 'light',

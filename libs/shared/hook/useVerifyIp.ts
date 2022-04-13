@@ -1,21 +1,22 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
-import { signUp } from '../api/signUp';
-import { SignUpRequest, SignUpResponse } from '../type/SignUp';
+import { verifyIp } from '../api/verifyIp';
+import { VerifyIpRequest, VerifyIpResponse } from '../type/VerifyIp';
+
 
 interface Props {
     onSuccess: (
-        response: AxiosResponse<SignUpResponse>,
+        response: AxiosResponse<VerifyIpResponse>,
     ) => void;
     onError: (error: AxiosError) => void;
 }
 
-export function useSignUp({ onSuccess, onError }: Props) {
+export function useVerifyIp({ onSuccess, onError }: Props) {
     const mutation = useMutation(
-        (request: SignUpRequest) => { return signUp(request) },
+        (request: VerifyIpRequest) => { return verifyIp(request) },
         {
             onSuccess: (
-                response: AxiosResponse<SignUpResponse>,
+                response: AxiosResponse<VerifyIpResponse>,
             ) => {
                 onSuccess && onSuccess(response);
             },

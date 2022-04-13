@@ -1,5 +1,12 @@
 {
+  "common":{
+    "forgot_password":"Forgot password?",
+    "register":"Register",
+    "verify":"Verify"
+  },
   "header": {
+    "profile":"Profile",
+    "notification": "Notification",
     "home": "Home",
     "markets": "Markets",
     "trade": "Trade",
@@ -12,6 +19,22 @@
     "light_mode": "Light mode",
     "login": "Login",
     "register": "Register"
+  },
+  "signin":{
+    "ip_verification":"IP Verification",
+    "email":"Email",
+    "phone_number":"Phone Number",
+    "corporate":"Corporate",
+    "login":"Login",
+    "login_qr":"Login with QR Code",
+    "new_account":"New account?",
+    "login_in_difx":"Login in DIFX",
+    "check_correct_url":"Please check that you are visiting the correct URL"
+  },
+  "2fa":{
+    "enter_code":"Enter two factor authentication code!",
+    "2fa":"Two Factor Verification",
+    "verify_success":"Verification successfully!"
   },
   "register": {
     "message1": "Register to get upto",
@@ -26,6 +49,7 @@
     "term2": "Terms and Conditions"
   },
   "error": {
+    "input_2factor_code": "Please enter two factor authentication code",
     "input_email": "Please input your Email!",
     "email_not_valid": "Email is not valid!",
     "input_phone": "Please input your Phone Number!",

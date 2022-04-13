@@ -1,11 +1,13 @@
 import { Button, Col, Drawer, Layout, Menu, Row } from 'antd';
 import clsx from 'clsx';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, PrimitiveAtom } from 'jotai';
+import { useAtomValue } from 'jotai/utils';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import t from '../../../../locale';
-import { Icon } from '../Icon';
+import { User } from './../../../../shared/type/User';
+import t from './../../../../locale';
+import { Icon } from './../Icon';
 
 export interface HeaderProps {
   onNavigation: (page: string) => void;
@@ -13,6 +15,7 @@ export interface HeaderProps {
 }
 
 export const themeAtom = atom<string>('light');
+export const currentUserAtom = atom<User | undefined>(undefined) as PrimitiveAtom<User | undefined>;
 
 const StyledButtonGroup = styled.div`
   display:flex;
@@ -25,8 +28,8 @@ const StyledMoreMenuGroup = styled.div`
     flex-direction: column;
     position: absolute;
     right: 0;
-    background: ${({theme})=> theme.backgroundColor};
-    color: ${({theme})=> theme.textColor};
+    background: ${({ theme }) => theme.backgroundColor};
+    color: ${({ theme }) => theme.textColor};
     height: 100%;
     width: 250px;
     box-shadow: -4px 4px 16px 0px rgba(0,0,0,0.07);
@@ -113,7 +116,7 @@ const StyledIconButton = styled(Button)`
 const StyledLine = styled.div`
   height: 21px;
   margin-left: 10px;
-  margin-top: 2px;
+  margin-right: 10px;
   width: 1px;
   opacity: 0.32;
   border-right: solid 1px #707070;
@@ -126,6 +129,15 @@ const StyledHeader = styled(Layout.Header)`
     z-index: 9999;
     position: fixed;
     width: 100%;
+
+    .right-nav-group{
+      display: flex;
+      position: absolute;
+      right: 30px;
+      .ant-menu-item, .ant-menu-submenu-title{
+        padding: 0 2px;
+      }
+    }
     .ant-menu-submenu-title{
       display: none !important;
     }
@@ -200,14 +212,20 @@ const SMALL_SIZE: number = 637;
 export function Header(props: HeaderProps) {
   const { onNavigation } = props;
 
+  const currentUser = useAtomValue(currentUserAtom);
+
   const {
-    LogoIcon, ArrowDownIcon, EarthIcon, MoonIcon, HorizontalLineIcon, CloseIcon, HomeIcon,
+    LogoIcon, EarthIcon, MoonIcon, HorizontalLineIcon, CloseIcon, HomeIcon,
     ExchangeIcon,
     EarnIcon,
     WalletIcon,
     OrderIcon,
     MarketIcon,
-    LightIcon
+    LightIcon,
+    UserIcon,
+    NotificationIcon,
+    SettingIcon,
+    DownloadIcon
   } = Icon;
 
   const [theme,] = useAtom(themeAtom);
@@ -253,36 +271,72 @@ export function Header(props: HeaderProps) {
             <Menu mode="horizontal" selectedKeys={[router?.pathname]}>
               <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="/home">{t('header.home')}</Menu.Item>
               <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="/market">{t('header.markets')}</Menu.Item>
-              <Menu.Item className='left-nav' key="4">{t('header.trade')}</Menu.Item>
-              <Menu.Item className='left-nav' key="5">{t('header.earn')}</Menu.Item>
-              <Menu.Item className='left-nav' key="6">{t('header.wallet')}</Menu.Item>
-              <Menu.Item className='left-nav' key="7">{t('header.order')}</Menu.Item>
+              <Menu.Item className='left-nav' key="/trade">{t('header.trade')}</Menu.Item>
+              <Menu.Item className='left-nav' key="/earn">{t('header.earn')}</Menu.Item>
+              <Menu.Item className='left-nav' key="/wallet">{t('header.wallet')}</Menu.Item>
+              <Menu.Item className='left-nav' key="/order">{t('header.order')}</Menu.Item>
 
-              <Menu.Item className='right-nav login' style={{ position: 'absolute', right: 260 }} key="/login">
-                <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
-              </Menu.Item>
-              <Menu.Item className='right-nav register' style={{ position: 'absolute', right: 150 }} key="9">
-                <Button onClick={() => { onNavigation('/register') }} type="primary">{t('header.register')}</Button>
-              </Menu.Item>
-              <Menu.Item className='right-nav' style={{ position: 'absolute', right: 86 }} key="10">
-                <StyledButtonGroup>
-                  <StyledIconButton ghost icon={<ArrowDownIcon useDarkMode />} size={'small'} />
-                  <StyledLine />
-                </StyledButtonGroup>
-              </Menu.Item>
-              <Menu.Item className='right-nav' style={{ position: 'absolute', right: 36 }} key="11">
-                <StyledButtonGroup>
-                  <StyledIconButton ghost icon={<EarthIcon useDarkMode />} size={'small'} />
-                  <StyledLine />
-                </StyledButtonGroup>
-              </Menu.Item>
-              <Menu.Item className='right-nav' style={{ position: 'absolute', right: 0 }} key="12">
-                <StyledButtonGroup>
-                  <StyledIconButton ghost onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />} size={'small'} />
-                </StyledButtonGroup>
-              </Menu.Item>
+              <div className='right-nav-group'>
+                {
+                  !currentUser
+                    ?
+                    <>
+                      <Menu.Item className='right-nav login' key="/login">
+                        <Button style={{ marginRight: 10 }} onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
+                      </Menu.Item>
+                      <Menu.Item className='right-nav register' key="/register">
+                        <Button style={{ marginRight: 30 }} onClick={() => { onNavigation('/register') }} type="primary">{t('header.register')}</Button>
+                      </Menu.Item>
+                    </>
+                    :
+                    <>
+                      <Menu.Item className='right-nav' key="/notification">
+                        <StyledButtonGroup>
+                          <StyledIconButton ghost icon={<NotificationIcon useDarkMode />} size={'small'} />
+                          <StyledLine style={{opacity:0}} />
+                        </StyledButtonGroup>
+                      </Menu.Item>
+                      <Menu.Item className='right-nav' key="/user">
+                        <StyledButtonGroup>
+                          <StyledIconButton ghost icon={<UserIcon useDarkMode />} size={'small'} />
+                          <StyledLine style={{opacity:0}} />
+                        </StyledButtonGroup>
+                      </Menu.Item>
+                    </>
+                }
 
-              <Menu.Item className='more-nav' key="13">
+
+                <Menu.Item className='right-nav' key="download">
+                  <StyledButtonGroup>
+                    <StyledIconButton ghost icon={<DownloadIcon useDarkMode />} size={'small'} />
+                    <StyledLine />
+                  </StyledButtonGroup>
+                </Menu.Item>
+                <Menu.Item className='right-nav' key="lang">
+                  <StyledButtonGroup>
+                    <StyledIconButton ghost icon={<EarthIcon useDarkMode />} size={'small'} />
+                    <StyledLine />
+                  </StyledButtonGroup>
+                </Menu.Item>
+                <Menu.Item className='right-nav' key="theme">
+                  <StyledButtonGroup>
+                    <StyledIconButton ghost onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />} size={'small'} />
+                  </StyledButtonGroup>
+                </Menu.Item>
+
+                {
+                  currentUser
+                  &&
+                  <Menu.Item className='right-nav' key="setting">
+                    <StyledButtonGroup>
+                      <StyledLine />
+                      <StyledIconButton ghost icon={<SettingIcon useDarkMode />} size={'small'} />
+                    </StyledButtonGroup>
+                  </Menu.Item>
+                }
+              </div>
+
+              <Menu.Item className='more-nav' key="open-drawer">
                 <StyledButtonGroup>
                   <StyledIconButton ghost onClick={onOpenDrawer} icon={<HorizontalLineIcon useDarkMode />} size={'small'} />
                 </StyledButtonGroup>
@@ -299,12 +353,30 @@ export function Header(props: HeaderProps) {
                 <div className={clsx('items', showDrawer ? 'open' : 'close')}>
                   <div className='close-icon' onClick={onCloseMenu}><CloseIcon useDarkMode /></div>
                   <div className='menu-item-group'>
-                    <div className='menu-item-btn'>
-                      <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
-                    </div>
-                    <div className='menu-item-btn'>
-                      <Button onClick={() => { onNavigation('/register') }} type="primary">{t('header.register')}</Button>
-                    </div>
+                    {
+                      !currentUser
+                        ?
+                        <>
+                          <div className='menu-item-btn'>
+                            <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
+                          </div>
+                          <div className='menu-item-btn'>
+                            <Button onClick={() => { onNavigation('/register') }} type="primary">{t('header.register')}</Button>
+                          </div>
+                        </>
+                        :
+                        <>
+                        <div onClick={() => onNavigation('/home')} className='menu-item'>
+                          <NotificationIcon useDarkMode />
+                          <div className='txt'>{t('header.notification')}</div>
+                        </div>
+                         <div onClick={() => onNavigation('/home')} className='menu-item'>
+                         <UserIcon useDarkMode />
+                         <div className='txt'>{t('header.profile')}</div>
+                       </div>
+                       </>
+                    }
+
                     {
                       width <= SMALL_SIZE
                       &&
@@ -338,7 +410,7 @@ export function Header(props: HeaderProps) {
 
                     <div className='line' />
                     <div className='menu-item'>
-                      <ArrowDownIcon useDarkMode />
+                      <DownloadIcon useDarkMode />
                       <div className='txt'>{t('header.download')}</div>
                     </div>
                     <div className='menu-item'>

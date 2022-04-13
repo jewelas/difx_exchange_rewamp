@@ -1,6 +1,8 @@
-import { atom } from 'jotai';
-import {themeAtom} from './../../core-ui/src/lib/Header';
+import { atom, PrimitiveAtom } from 'jotai';
+import { User } from './../type/User';
+import { themeAtom, currentUserAtom } from './../../core-ui/src/lib/Header';
 
 export {
-    themeAtom
+    themeAtom,
+    currentUserAtom
 }

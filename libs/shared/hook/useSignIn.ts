@@ -1,21 +1,22 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { useMutation } from 'react-query';
-import { signUp } from '../api/signUp';
-import { SignUpRequest, SignUpResponse } from '../type/SignUp';
+import { signIn } from '../api/signIn';
+import { SignInRequest, SignInResponse } from '../type/SignIn';
+
 
 interface Props {
     onSuccess: (
-        response: AxiosResponse<SignUpResponse>,
+        response: AxiosResponse<SignInResponse>,
     ) => void;
     onError: (error: AxiosError) => void;
 }
 
-export function useSignUp({ onSuccess, onError }: Props) {
+export function useSignIn({ onSuccess, onError }: Props) {
     const mutation = useMutation(
-        (request: SignUpRequest) => { return signUp(request) },
+        (request: SignInRequest) => { return signIn(request) },
         {
             onSuccess: (
-                response: AxiosResponse<SignUpResponse>,
+                response: AxiosResponse<SignInResponse>,
             ) => {
                 onSuccess && onSuccess(response);
             },

@@ -1,78 +1,56 @@
-import { Form, Input, Typography as AntdTypography } from 'antd';
+import { Form, Input, Popover } from 'antd';
+import { TooltipPlacement } from 'antd/lib/tooltip';
 import clsx from 'clsx';
 import { useState } from 'react';
-import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 import t from '../../../../locale';
 import { Color } from '../Color';
 import CheckCircleIcon from './../Icon/CheckCircleIcon';
 import CloseCircleIcon from './../Icon/CloseCircleIcon';
-import EyeHiddenIcon from './../Icon/EyeHiddenIcon';
-import EyeVisibleIcon from './../Icon/EyeVisibleIcon';
-
-const { Text } = AntdTypography;
 
 export interface PasswordFieldProps {
   rules?: [any];
-  onChange: (isValidate: boolean, value: string) => void
+  onChange: (isValidate: boolean, value: string) => void;
 }
 
 const FieldStyled = styled.div`
-width: 100%;
-border: 1px solid ${({ theme }) => theme.inputBorderColor || Color.grey.buttonSecondary};
-border-radius:2px;
-height: 50px;
-&.fail{
-  border-color: ${Color.red.failure}
-}
-.view-pass{
-  display: inline-block;
-  position: absolute;
-  top: 16px;
-  right: 10px;
-  cursor:pointer;
-}
-input{
-  height: 48px;
-}
-.tooltip-custom {
-    box-shadow: -4px 4px 11px 0px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: -4px 4px 11px 0px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: -4px 4px 11px 0px rgba(0, 0, 0, 0.3);
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 20px;
-
-    background:  ${({ theme }) => theme.backgroundColor};
-    &::after{
-      border-top-color:  ${({ theme }) => theme.backgroundColor} !important;
-      border-left-color:  ${({ theme }) => theme.backgroundColor} !important;
+  width: 100%;
+  border: 1px solid ${({ theme }) => theme.inputBorderColor || Color.grey.buttonSecondary};
+  border-radius:2px;
+  height: 50px;
+  .ant-form-item-control-input-content{
+    height: 48px;
+  }
+  .ant-form-item-control-input{
+    background: ${({ theme }) => theme.inputBackgroundColor};
+  }
+  .ant-input{
+    background: transparent !important;
+    margin-top: -4px;
+  }
+  &.fail{
+    border-color: ${Color.red.failure}
+  }
+  .view-pass{
+    display: inline-block;
+    position: absolute;
+    top: 16px;
+    right: 10px;
+    cursor:pointer;
+  }
+  input{
+    height: 48px;
+  }
+  .ant-input-suffix{
+    svg{
+      path{
+        fill: ${({ theme }) => theme.textColor};
+      } 
     }
-
-    .check-list-group{
-      .check-item{
-        margin: 5px 0;
-        display:flex;
-        .icon{
-          padding-top: 4px;
-          margin-right: 8px;
-        }
-        .content{
-          font-size: 12px;
-          font-weight: 400;
-          line-height: 20px;
-          color: ${Color.red.failure} !important;
-          &.success{
-            color: ${Color.green.success} !important;
-          }
-        }
-      }
-    }
+  }
 }
 `
 const PasswordField = (props: PasswordFieldProps) => {
-
-  const [showPass, setShowPass] = useState(false);
 
   const [min10Chars, setMin10Chars] = useState(false);
   const [containsUpperCase, setContainsUpperCase] = useState(false);
@@ -85,6 +63,10 @@ const PasswordField = (props: PasswordFieldProps) => {
 
   const onChangePass = (e: any) => {
     const value = e.target.value;
+
+    const width = document?.body?.clientWidth;
+    if(width <= 1026 )setPlacement('top');
+    else setPlacement('left');
 
     const _notContainSpace = !value.includes(' ');
     const _min10Chars = value.length >= 10;
@@ -118,26 +100,28 @@ const PasswordField = (props: PasswordFieldProps) => {
     )
   }
 
+  const [placement, setPlacement] = useState<TooltipPlacement>('left');
+
   return (
     <FieldStyled className={clsx(isValidate ? '' : 'fail')} data-tip data-for={'password-validate-field'} data-event='click focus'>
       <Form.Item name="password"
         rules={props.rules || []}>
-        <Input bordered={false} onChange={onChangePass} type={showPass ? 'text' : 'password'} autoComplete='new-password' placeholder="Password" data-event='click focus' />
-        <div className='view-pass' onMouseDown={() => { setShowPass(!showPass) }}>
-          {showPass ? <EyeHiddenIcon /> : <EyeVisibleIcon />}
-        </div>
+        <Popover
+          content={
+            <div className='check-list-group'>
+              {renderCheckItem(t('error.min_10_chars'), min10Chars)}
+              {renderCheckItem(t('error.should_contain_uppercase'), containsUpperCase)}
+              {renderCheckItem(t('error.should_contain_lowercase'), containsLowerCase)}
+              {renderCheckItem(t('error.should_contain_special_char'), containsSpecialChars)}
+              {renderCheckItem(t('error.should_contain_number'), containsNumber)}
+              {renderCheckItem(t('error.should_not_contain_space'), notContainsSpace)}
+            </div>
+          }
+          placement={placement}
+          trigger="focus">
+          <Input.Password bordered={false} onChange={onChangePass} autoComplete='new-password' placeholder="Password" />
+        </Popover>
       </Form.Item>
-
-      <ReactTooltip className='tooltip-custom' id={'password-validate-field'} globalEventOff='mousedown' effect='solid' place="left" type="light">
-        <div className='check-list-group'>
-          {renderCheckItem(t('error.min_10_chars'), min10Chars)}
-          {renderCheckItem(t('error.should_contain_uppercase'), containsUpperCase)}
-          {renderCheckItem(t('error.should_contain_lowercase'), containsLowerCase)}
-          {renderCheckItem(t('error.should_contain_special_char'), containsSpecialChars)}
-          {renderCheckItem(t('error.should_contain_number'), containsNumber)}
-          {renderCheckItem(t('error.should_not_contain_space'), notContainsSpace)}
-        </div>
-      </ReactTooltip>
     </FieldStyled>
   )
 }

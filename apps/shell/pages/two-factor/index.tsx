@@ -94,8 +94,10 @@ export function TwoFactorPage(props: TwoFactorProps) {
 
   useEffect(() => {
     const loginFormData = JSON.parse(localStorage.getItem('loginFormData'));
-    setValue(loginFormData['phonenumber'] ? `+${loginFormData['phonenumber']}` : loginFormData['email']);
-
+    if(loginFormData){
+      setValue(loginFormData['phonenumber'] ? `+${loginFormData['phonenumber']}` : loginFormData['email']);
+    }
+    
     setInit(true);
     setTwoFaToken(localStorage.getItem('twoFaToken'));
   }, []);

@@ -67,14 +67,15 @@ export function LoginForm(props: LoginFormProps) {
                 localStorage.setItem('twoFaToken', sessionId);
 
                 const fieldsValue = formRef.current.getFieldsValue();
-                if(fieldsValue.email){
-                    localStorage.setItem('loginFormData', JSON.stringify(fieldsValue));
-                }
+                localStorage.setItem('loginFormData', JSON.stringify(fieldsValue));
 
                 router.push('/two-factor');
             } else {
                 localStorage.setItem('currentUser', JSON.stringify(data));
                 setCurrentUser(data);
+
+                localStorage.removeItem('twoFaToken');
+                localStorage.removeItem('loginFormData');
 
                 showNotification('success', 'Signin successfully', null);
                 router.push('/home');

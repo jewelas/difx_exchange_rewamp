@@ -21,7 +21,6 @@ export function TwoFactorForm() {
 
     const onSuccess = (response: AxiosResponse<TwoFactorResponse>) => {
         const { data } = response;
-        console.log(data, 'success')
 
         localStorage.removeItem('twoFaToken');
 

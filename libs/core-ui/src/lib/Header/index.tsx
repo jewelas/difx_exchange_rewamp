@@ -1,13 +1,12 @@
 import { Button, Col, Drawer, Layout, Menu, Row } from 'antd';
 import clsx from 'clsx';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, PrimitiveAtom } from 'jotai';
 import { useAtomValue } from 'jotai/utils';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { User } from './../../../../shared/type/User';
 import t from './../../../../locale';
-import { currentUserAtom } from './../../../../shared/atom';
 import { Icon } from './../Icon';
 
 export interface HeaderProps {
@@ -16,6 +15,7 @@ export interface HeaderProps {
 }
 
 export const themeAtom = atom<string>('light');
+export const currentUserAtom = atom<User | undefined>(undefined) as PrimitiveAtom<User | undefined>;
 
 const StyledButtonGroup = styled.div`
   display:flex;

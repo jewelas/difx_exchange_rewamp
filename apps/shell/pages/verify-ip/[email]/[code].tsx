@@ -37,8 +37,6 @@ export function VerifyIpPage() {
   useEffect(() => {
     if (email && code) {
 
-      console.log(email, code)
-
       const request: VerifyIpRequest = {
         email: email.toString(), activationCode: code.toString()
       }

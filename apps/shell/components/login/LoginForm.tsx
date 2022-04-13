@@ -108,9 +108,7 @@ export function LoginForm(props: LoginFormProps) {
             error: AxiosError
         ) => {
             const { response } = error;
-            const { statusCode, statusText } = response.data;
-
-            console.log('response.data', response.data)
+            const { statusText } = response.data;
 
             showNotification('error', 'Login failed', statusText);
         }, []
@@ -122,6 +120,7 @@ export function LoginForm(props: LoginFormProps) {
         formData.usertype = isCorporate ? 'BUS' : 'IND';
 
         if (type === 'phone') {
+            formData.email = '';
             formData.phonenumber = (formData.dial_code + formData.phonenumber).replace('+', '');
         }
 

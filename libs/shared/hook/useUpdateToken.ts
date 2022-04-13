@@ -1,6 +1,8 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { useQuery, useMutation } from 'react-query';
-import { updateToken } from '../api/updateToken';
+import { useUpdateAtom } from 'jotai/utils';
+import { updateToken } from './../api/updateToken';
+import {currentUserAtom} from './../atom';
 import { UpdateTokenRequest, UpdateTokenResponse } from '../type/UpdateToken';
 
 interface Props {
@@ -16,9 +18,13 @@ export function useUpdateToken({ onSuccess }: Props) {
             onSuccess: (
                 response: AxiosResponse<UpdateTokenResponse>,
             ) => {
+
+                const setCurrentUser = useUpdateAtom(currentUserAtom);
+
                 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
                 currentUser.token = response.data.token;
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                setCurrentUser(currentUser);
                 
                 onSuccess && onSuccess(response);
             },

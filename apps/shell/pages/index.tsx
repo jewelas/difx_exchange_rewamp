@@ -1,8 +1,10 @@
-import { themeAtom, UpdateTokenResponse, useUpdateToken } from '@difx/shared';
+import { themeAtom, UpdateTokenResponse, useUpdateToken, currentUserAtom } from '@difx/shared';
 import { ConfigProvider, Layout } from 'antd';
 import 'antd/dist/antd.variable.min.css';
 import { AxiosResponse } from 'axios';
 import { useAtom } from 'jotai';
+import { useUpdateAtom } from 'jotai/utils';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import LoggedInLayout from '../layouts/LoggedInLayout';
@@ -25,6 +27,12 @@ export function AppLayout({ children, ghost }: AppLayoutProps) {
 
   const [theme, setTheme] = useAtom(themeAtom);
 
+  const router = useRouter();
+
+  const {pathname} = router;
+
+  const setCurrentUser = useUpdateAtom(currentUserAtom);
+
   useEffect(() => {
     const themeFromLocalStorage = localStorage?.getItem('theme');
     setTheme(themeFromLocalStorage || THEME.LIGHT);
@@ -32,8 +40,10 @@ export function AppLayout({ children, ghost }: AppLayoutProps) {
 
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if(currentUser && currentUser.token)setHasLoggedIn(true);
-    else setHasLoggedIn(false);
+    if(currentUser && currentUser.token){
+      setHasLoggedIn(true);
+      setCurrentUser(currentUser);
+    }else setHasLoggedIn(false);
   }, []);
 
   // Config for antd

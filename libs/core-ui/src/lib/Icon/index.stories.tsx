@@ -25,7 +25,7 @@ const Template: Story = (args) => {
   const {
     ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon, UserIcon,
     BankIcon, MenuDownIcon, MenuUpIcon, CheckCircleIcon, CloseCircleIcon, EyeHiddenIcon, EyeVisibleIcon,
-    LightIcon, LockIcon, QRCodeIcon
+    LightIcon, LockIcon, QRCodeIcon, NotificationIcon, SettingIcon, DownloadIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -75,6 +75,9 @@ const Template: Story = (args) => {
         {renderIcon('LightIcon', <LightIcon />)}
         {renderIcon('LockIcon', <LockIcon />)}
         {renderIcon('QRCodeIcon', <QRCodeIcon />)}
+        {renderIcon('NotificationIcon', <NotificationIcon />)}
+        {renderIcon('SettingIcon', <SettingIcon />)}
+        {renderIcon('DownloadIcon', <DownloadIcon />)}
       </div>
     </div>
   )

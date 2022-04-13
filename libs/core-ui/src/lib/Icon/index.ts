@@ -21,6 +21,9 @@ import EyeVisibleIcon from './EyeVisibleIcon';
 import LightIcon from './LightIcon';
 import LockIcon from './LockIcon';
 import QRCodeIcon from './QRCodeIcon';
+import NotificationIcon from './NotificationIcon';
+import SettingIcon from './SettingIcon';
+import DownloadIcon from './DownloadIcon';
 
 export interface IconProps {
   width?: number;
@@ -53,7 +56,10 @@ const Icon = {
   EyeHiddenIcon,
   LightIcon,
   LockIcon,
-  QRCodeIcon
+  QRCodeIcon,
+  NotificationIcon,
+  SettingIcon,
+  DownloadIcon
 }
 
 export { Icon }

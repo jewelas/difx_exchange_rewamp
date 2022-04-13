@@ -6,6 +6,7 @@ export * from './hook/useGetCountry';
 export * from './hook/useTwoFactor';
 export * from './hook/useUpdateToken';
 
+export * from './type/User';
 export * from './type/Pair';
 export * from './type/SignUp';
 export * from './type/SignIn';

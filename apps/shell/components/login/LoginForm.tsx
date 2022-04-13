@@ -1,7 +1,8 @@
 import { CountrySelect, getCountryInfo, PasswordField, Typography } from '@difx/core-ui';
 import t from '@difx/locale';
-import { SignInRequest, SignInResponse, useGetCountry, useSignIn } from '@difx/shared';
+import { SignInRequest, SignInResponse, useGetCountry, useSignIn, currentUserAtom } from '@difx/shared';
 import { Button, Form, Input, Switch } from 'antd';
+import { useUpdateAtom } from 'jotai/utils';
 import { FormInstance } from 'antd/es/form';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
@@ -16,6 +17,8 @@ export interface LoginFormProps { }
 export function LoginForm(props: LoginFormProps) {
 
     const { data: countryCode } = useGetCountry();
+
+    const setCurrentUser = useUpdateAtom(currentUserAtom);
 
     const [type, setType] = useState<'email' | 'phone'>('email');
     const [isCorporate, setIsCorporate] = useState(false);
@@ -65,6 +68,8 @@ export function LoginForm(props: LoginFormProps) {
                 router.push('/two-factor');
             } else {
                 localStorage.setItem('currentUser', JSON.stringify(data));
+                setCurrentUser(data);
+
                 showNotification('success', 'Signin successfully', null);
                 router.push('/home');
             }

@@ -1,9 +1,10 @@
 import { Color, CountrySelect, getCountryInfo, Icon, PasswordField, Typography } from '@difx/core-ui';
 import t from '@difx/locale';
 import { useRouter } from 'next/router';
-import { SignUpRequest, SignUpResponse, useGetCountry, useSignUp } from '@difx/shared';
+import { SignUpRequest, SignUpResponse, useGetCountry, useSignUp, currentUserAtom } from '@difx/shared';
 import { Button, Checkbox, Form, Input, notification } from 'antd';
 import { FormInstance } from 'antd/es/form';
+import { useUpdateAtom } from 'jotai/utils';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { isEmpty } from 'lodash';
@@ -109,6 +110,8 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
   const { data: countryCode } = useGetCountry();
 
+  const setCurrentUser = useUpdateAtom(currentUserAtom);
+
   const router = useRouter();
 
 const [showReferral, setShowReferral] = useState(false);
@@ -196,6 +199,8 @@ const [showReferral, setShowReferral] = useState(false);
     ) => {
       const { data } = response;
       localStorage.setItem('currentUser', JSON.stringify(data));
+      setCurrentUser(data);
+      
       signUpSuccessNotification();
       router.push('/home');
       /* eslint-disable-next-line */

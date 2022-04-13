@@ -1,7 +1,8 @@
 import t from '@difx/locale';
-import { TwoFactorRequest, TwoFactorResponse, UpdateTokenRequest, UpdateTokenResponse, useTwoFactor, useUpdateToken } from '@difx/shared';
+import { TwoFactorRequest, TwoFactorResponse, UpdateTokenRequest, UpdateTokenResponse, useTwoFactor, useUpdateToken, currentUserAtom } from '@difx/shared';
 import { Button, Form, Input } from 'antd';
 import { FormInstance } from 'antd/es/form';
+import { useUpdateAtom } from 'jotai/utils';
 import { REFRESH_TOKEN } from './../../constants';
 import { AxiosError, AxiosResponse } from 'axios';
 import isEmpty from 'lodash/isEmpty';
@@ -14,6 +15,8 @@ export function TwoFactorForm() {
     const [hasFieldError, setHasFieldError] = useState(true);
     const formRef = useRef<FormInstance>(null);
 
+    const setCurrentUser = useUpdateAtom(currentUserAtom);
+
     const router = useRouter();
 
     const onSuccess = (response: AxiosResponse<TwoFactorResponse>) => {
@@ -23,6 +26,7 @@ export function TwoFactorForm() {
         localStorage.removeItem('twoFaToken');
 
         localStorage.setItem('currentUser', JSON.stringify(data));
+        setCurrentUser(data)
 
         showNotification('success', t('2fa.2fa'), t('2fa.verify_success'));
 

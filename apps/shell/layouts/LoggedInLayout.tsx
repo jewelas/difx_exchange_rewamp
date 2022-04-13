@@ -1,5 +1,5 @@
 import { Header } from '@difx/core-ui';
-import { themeAtom, UpdateTokenRequest, UpdateTokenResponse, useUpdateToken } from '@difx/shared';
+import { themeAtom, UpdateTokenRequest, UpdateTokenResponse, useUpdateToken, currentUserAtom } from '@difx/shared';
 import { ConfigProvider, Layout } from 'antd';
 import 'antd/dist/antd.variable.min.css';
 import { AxiosResponse } from 'axios';
@@ -56,11 +56,19 @@ export function LoggedInLayout({ children }: LoggedInLayoutProps) {
     onSuccess: (response: AxiosResponse<UpdateTokenResponse>) => { setTimeout(() => { updateToken({ token: response.data.token }) }, REFRESH_TOKEN.EXPIRY_TIME) },
   });
 
+  const {pathname} = router;
+  if([
+    '/login', '/register', 'two-factor', '/'
+  ].includes(pathname)){
+    router.push('/home', undefined, { shallow: true });
+    return null; // TODO: display the loading page
+  }
+
   return (
       <LayoutStyled>
         <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
         <ContentStyled>{children}</ContentStyled>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UEDxxxx</Footer>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED.</Footer>
       </LayoutStyled>
   );
 }

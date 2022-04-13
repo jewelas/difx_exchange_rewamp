@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { UpdateTokenRequest, UpdateTokenResponse } from '../type/UpdateToken';
-import instance from './index';
+import { axiosInstance as instance } from './index';
 
 export function updateToken(request: UpdateTokenRequest) {
     let token = {headers: {'x-access-token': request.token}}

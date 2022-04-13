@@ -1,3 +1,5 @@
+export { socket } from './api';
+
 export * from './hook/useGetPairs';
 export * from './hook/useSignUp';
 export * from './hook/useSignIn';

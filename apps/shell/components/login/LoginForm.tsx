@@ -65,6 +65,12 @@ export function LoginForm(props: LoginFormProps) {
             const { statusCode, sessionId } = data;
             if (statusCode === 'ENTER_TWOFA_CODE') {
                 localStorage.setItem('twoFaToken', sessionId);
+
+                const fieldsValue = formRef.current.getFieldsValue();
+                if(fieldsValue.email){
+                    localStorage.setItem('loginFormData', JSON.stringify(fieldsValue));
+                }
+
                 router.push('/two-factor');
             } else {
                 localStorage.setItem('currentUser', JSON.stringify(data));

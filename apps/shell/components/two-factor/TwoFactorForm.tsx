@@ -23,6 +23,7 @@ export function TwoFactorForm() {
         const { data } = response;
 
         localStorage.removeItem('twoFaToken');
+        localStorage.removeItem('loginFormData');
 
         localStorage.setItem('currentUser', JSON.stringify(data));
         setCurrentUser(data)

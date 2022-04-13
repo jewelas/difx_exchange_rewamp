@@ -1,6 +1,8 @@
 import { Color, Typography } from '@difx/core-ui';
 import { Col, Row } from 'antd';
 import t from '@difx/locale';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AppLayout from '..';
 import TwoFactorForm from './../../components/two-factor/TwoFactorForm';
@@ -86,6 +88,24 @@ const PageStyled = styled.div`
 `;
 
 export function TwoFactorPage(props: TwoFactorProps) {
+  const [value, setValue] = useState('');
+  const [init, setInit] = useState(false);
+  const [twoFaToken, setTwoFaToken] = useState(null);
+
+  useEffect(() => {
+    const loginFormData = JSON.parse(localStorage.getItem('loginFormData'));
+    setValue(loginFormData['phonenumber'] ? `+${loginFormData['phonenumber']}` : loginFormData['email']);
+
+    setInit(true);
+    setTwoFaToken(localStorage.getItem('twoFaToken'));
+  }, []);
+
+  const router = useRouter();
+
+  if(init && !twoFaToken){
+    router.push('/login');
+    return null;
+  }
 
   return (
     <AppLayout>
@@ -93,7 +113,7 @@ export function TwoFactorPage(props: TwoFactorProps) {
         <Row className='row-group'>
           <Col className='col-group' xs={24} sm={20} md={16} lg={14} xl={10}>
             <Typography level='H4'>{t('2fa.2fa')}</Typography>
-            <Typography level='B2'>Enter the security code  sent to +971 5000000</Typography>
+            <Typography level='B2'>Enter the security code sent to {value}</Typography>
             <div className='form'>
               <TwoFactorForm />
             </div>

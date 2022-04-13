@@ -5,6 +5,8 @@
     "verify":"Verify"
   },
   "header": {
+    "profile":"Profile",
+    "notification": "Notification",
     "home": "Home",
     "markets": "Markets",
     "trade": "Trade",

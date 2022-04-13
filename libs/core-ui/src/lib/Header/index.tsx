@@ -271,10 +271,10 @@ export function Header(props: HeaderProps) {
             <Menu mode="horizontal" selectedKeys={[router?.pathname]}>
               <Menu.Item className='left-nav' onClick={() => onNavigation('/home')} key="/home">{t('header.home')}</Menu.Item>
               <Menu.Item className='left-nav' onClick={() => onNavigation('/market')} key="/market">{t('header.markets')}</Menu.Item>
-              <Menu.Item className='left-nav' key="4">{t('header.trade')}</Menu.Item>
-              <Menu.Item className='left-nav' key="5">{t('header.earn')}</Menu.Item>
-              <Menu.Item className='left-nav' key="6">{t('header.wallet')}</Menu.Item>
-              <Menu.Item className='left-nav' key="7">{t('header.order')}</Menu.Item>
+              <Menu.Item className='left-nav' key="/trade">{t('header.trade')}</Menu.Item>
+              <Menu.Item className='left-nav' key="/earn">{t('header.earn')}</Menu.Item>
+              <Menu.Item className='left-nav' key="/wallet">{t('header.wallet')}</Menu.Item>
+              <Menu.Item className='left-nav' key="/order">{t('header.order')}</Menu.Item>
 
               <div className='right-nav-group'>
                 {
@@ -327,7 +327,7 @@ export function Header(props: HeaderProps) {
                 {
                   currentUser
                   &&
-                  <Menu.Item className='right-nav' key="download">
+                  <Menu.Item className='right-nav' key="setting">
                     <StyledButtonGroup>
                       <StyledLine />
                       <StyledIconButton ghost icon={<SettingIcon useDarkMode />} size={'small'} />
@@ -365,10 +365,16 @@ export function Header(props: HeaderProps) {
                           </div>
                         </>
                         :
-                        <div className='menu-item-btn'>
-                          {/* <Button onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button> */}
-                          xxxx
+                        <>
+                        <div onClick={() => onNavigation('/home')} className='menu-item'>
+                          <NotificationIcon useDarkMode />
+                          <div className='txt'>{t('header.notification')}</div>
                         </div>
+                         <div onClick={() => onNavigation('/home')} className='menu-item'>
+                         <UserIcon useDarkMode />
+                         <div className='txt'>{t('header.profile')}</div>
+                       </div>
+                       </>
                     }
 
                     {

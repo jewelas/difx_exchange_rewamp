@@ -42,6 +42,7 @@ export function LoginForm(props: LoginFormProps) {
 
     useEffect(() => {
         onFormChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [type]);
 
     const onChangePass = (isValidate: boolean, value: string) => {
@@ -80,6 +81,7 @@ export function LoginForm(props: LoginFormProps) {
                 showNotification('success', 'Signin successfully', null);
                 router.push('/home');
             }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []
     );
 

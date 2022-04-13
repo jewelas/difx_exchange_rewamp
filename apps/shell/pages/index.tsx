@@ -4,7 +4,6 @@ import 'antd/dist/antd.variable.min.css';
 import { AxiosResponse } from 'axios';
 import { useAtom } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import LoggedInLayout from '../layouts/LoggedInLayout';
@@ -26,9 +25,6 @@ export function AppLayout({ children, ghost }: AppLayoutProps) {
 
   const [theme, setTheme] = useAtom(themeAtom);
 
-  const router = useRouter();
-
-  const {pathname} = router;
 
   const setCurrentUser = useUpdateAtom(currentUserAtom);
 
@@ -43,6 +39,7 @@ export function AppLayout({ children, ghost }: AppLayoutProps) {
       setHasLoggedIn(true);
       setCurrentUser(currentUser);
     }else setHasLoggedIn(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUserAtom]);
 
   // Config for antd

@@ -134,6 +134,12 @@ const StyledHeader = styled(Layout.Header)`
       display: flex;
       position: absolute;
       right: 30px;
+      .right-nav{
+        height: 100%;
+        button:not(.ant-btn-icon-only){
+          margin-top: 6px;
+        }
+      }
       .ant-menu-item, .ant-menu-submenu-title{
         padding: 0 2px;
       }
@@ -276,72 +282,76 @@ export function Header(props: HeaderProps) {
               <Menu.Item className='left-nav' key="/wallet">{t('header.wallet')}</Menu.Item>
               <Menu.Item className='left-nav' key="/order">{t('header.order')}</Menu.Item>
 
-              <div className='right-nav-group'>
-                {
-                  !currentUser
-                    ?
-                    <>
-                      <Menu.Item className='right-nav login' key="/login">
-                        <Button style={{ marginRight: 10 }} onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
-                      </Menu.Item>
-                      <Menu.Item className='right-nav register' key="/register">
-                        <Button style={{ marginRight: 30 }} onClick={() => { onNavigation('/register') }} type="primary">{t('header.register')}</Button>
-                      </Menu.Item>
-                    </>
-                    :
-                    <>
-                      <Menu.Item className='right-nav' key="/notification">
-                        <StyledButtonGroup>
-                          <StyledIconButton ghost icon={<NotificationIcon useDarkMode />} size={'small'} />
-                          <StyledLine style={{opacity:0}} />
-                        </StyledButtonGroup>
-                      </Menu.Item>
-                      <Menu.Item className='right-nav' key="/user">
-                        <StyledButtonGroup>
-                          <StyledIconButton ghost icon={<UserIcon useDarkMode />} size={'small'} />
-                          <StyledLine style={{opacity:0}} />
-                        </StyledButtonGroup>
-                      </Menu.Item>
-                    </>
-                }
-
-
-                <Menu.Item className='right-nav' key="download">
-                  <StyledButtonGroup>
-                    <StyledIconButton ghost icon={<DownloadIcon useDarkMode />} size={'small'} />
-                    <StyledLine />
-                  </StyledButtonGroup>
-                </Menu.Item>
-                <Menu.Item className='right-nav' key="lang">
-                  <StyledButtonGroup>
-                    <StyledIconButton ghost icon={<EarthIcon useDarkMode />} size={'small'} />
-                    <StyledLine />
-                  </StyledButtonGroup>
-                </Menu.Item>
-                <Menu.Item className='right-nav' key="theme">
-                  <StyledButtonGroup>
-                    <StyledIconButton ghost onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />} size={'small'} />
-                  </StyledButtonGroup>
-                </Menu.Item>
-
-                {
-                  currentUser
-                  &&
-                  <Menu.Item className='right-nav' key="setting">
-                    <StyledButtonGroup>
-                      <StyledLine />
-                      <StyledIconButton ghost icon={<SettingIcon useDarkMode />} size={'small'} />
-                    </StyledButtonGroup>
-                  </Menu.Item>
-                }
-              </div>
-
               <Menu.Item className='more-nav' key="open-drawer">
                 <StyledButtonGroup>
                   <StyledIconButton ghost onClick={onOpenDrawer} icon={<HorizontalLineIcon useDarkMode />} size={'small'} />
                 </StyledButtonGroup>
               </Menu.Item>
             </Menu>
+
+            <Menu className='right-nav-group'>
+              {
+                !currentUser
+                  ?
+                  <>
+                    <Menu.Item className='right-nav login' key="/login">
+                      <Button style={{ marginRight: 10 }} onClick={() => { onNavigation('/login') }} type="text">{t('header.login')}</Button>
+                    </Menu.Item>
+                    <Menu.Item className='right-nav register' key="/register">
+                      <Button style={{ marginRight: 30 }} onClick={() => { onNavigation('/register') }} type="primary">{t('header.register')}</Button>
+                    </Menu.Item>
+                  </>
+                  :
+                  <>
+                    <Menu.Item className='right-nav' key="/notification">
+                      <StyledButtonGroup>
+                        <StyledIconButton ghost icon={<NotificationIcon useDarkMode />} size={'small'} />
+                        <StyledLine style={{ opacity: 0 }} />
+                      </StyledButtonGroup>
+                    </Menu.Item>
+                    <Menu.Item className='right-nav' key="/user">
+                      <StyledButtonGroup>
+                        <StyledIconButton ghost icon={<UserIcon useDarkMode />} size={'small'} />
+                        <StyledLine style={{ opacity: 0 }} />
+                      </StyledButtonGroup>
+                    </Menu.Item>
+                  </>
+              }
+
+
+              <Menu.Item className='right-nav' key="download">
+                <StyledButtonGroup>
+                  <StyledIconButton ghost icon={<DownloadIcon useDarkMode />} size={'small'} />
+                  <StyledLine />
+                </StyledButtonGroup>
+              </Menu.Item>
+              <Menu.Item className='right-nav' key="lang">
+                <StyledButtonGroup>
+                  <StyledIconButton ghost icon={<EarthIcon useDarkMode />} size={'small'} />
+                  <StyledLine />
+                </StyledButtonGroup>
+              </Menu.Item>
+              <Menu.Item className='right-nav' key="theme">
+                <StyledButtonGroup>
+                  <StyledIconButton ghost onClick={props.onChangeTheme} icon={theme === 'light' ? <MoonIcon useDarkMode /> : <LightIcon useDarkMode />} size={'small'} />
+                </StyledButtonGroup>
+              </Menu.Item>
+
+              {
+                currentUser
+                &&
+                <Menu.Item className='right-nav' key="setting">
+                  <StyledButtonGroup>
+                    <StyledLine />
+                    <StyledIconButton ghost icon={<SettingIcon useDarkMode />} size={'small'} />
+                  </StyledButtonGroup>
+                </Menu.Item>
+              }
+            </Menu>
+
+
+
+
 
             <Drawer
               width={250}
@@ -366,15 +376,15 @@ export function Header(props: HeaderProps) {
                         </>
                         :
                         <>
-                        <div onClick={() => onNavigation('/home')} className='menu-item'>
-                          <NotificationIcon useDarkMode />
-                          <div className='txt'>{t('header.notification')}</div>
-                        </div>
-                         <div onClick={() => onNavigation('/home')} className='menu-item'>
-                         <UserIcon useDarkMode />
-                         <div className='txt'>{t('header.profile')}</div>
-                       </div>
-                       </>
+                          <div onClick={() => onNavigation('/home')} className='menu-item'>
+                            <NotificationIcon useDarkMode />
+                            <div className='txt'>{t('header.notification')}</div>
+                          </div>
+                          <div onClick={() => onNavigation('/home')} className='menu-item'>
+                            <UserIcon useDarkMode />
+                            <div className='txt'>{t('header.profile')}</div>
+                          </div>
+                        </>
                     }
 
                     {

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import PageStyled from './../../styles/Term.styled';
+import PageStyled from './styled';
 import AppLayout from '..';
 
 export function TermPage() {

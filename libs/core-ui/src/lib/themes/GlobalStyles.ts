@@ -178,6 +178,24 @@ const GlobalStyles = createGlobalStyle`
     .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left{
       border-right: unset !important;
     }
+    .ant-form-item-control-input-content{
+      .ant-input-affix-wrapper.ant-input-password{
+        background: ${({ theme }) => theme.inputBackgroundColor} !important;
+        &:not(.ant-input-affix-wrapper-status-error){
+          border: unset;
+        }
+        svg path{
+          fill: ${({ theme }) => theme.textColor} !important;
+        }
+      }
+      .ant-input-affix-wrapper-focused, .ant-input-affix-wrapper:focus{
+        box-shadow: unset;
+      }
+    }
+    .ant-menu-item:active, .ant-menu-submenu-title:active{
+      background: transparent !important;
+    }
+
 
 
 `

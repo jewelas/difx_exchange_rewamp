@@ -10,7 +10,8 @@ export interface CustomThemeProps extends Theme {
   textColor?: string,
   textHoverColor?: string,
   logoFillColor?: string,
-  titleColor?: string
+  titleColor?: string,
+  primaryColor?: string
 }
 
 /* 
@@ -27,7 +28,8 @@ export const light: CustomThemeProps = {
   textColor: '#000',
   textHoverColor: '#000',
   logoFillColor: '#3d7eff',
-  titleColor: '#3d7eff'
+  titleColor: '#3d7eff',
+  primaryColor:'#1890F8'
 }
 
 export const dark: CustomThemeProps = {
@@ -40,5 +42,6 @@ export const dark: CustomThemeProps = {
   textColor: '#fff',
   textHoverColor: '#1890ff',
   logoFillColor: '#fff',
-  titleColor: '#fff'
+  titleColor: '#fff',
+  primaryColor:'#1890F8'
 }

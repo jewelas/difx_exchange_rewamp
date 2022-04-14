@@ -9,8 +9,7 @@ import { useUpdateAtom } from 'jotai/utils';
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import ReactTooltip from 'react-tooltip';
-import { FormStyled } from './../../styles/Register.styled';
+import { FormStyled } from '../../pages/register/styled';
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps { }
@@ -146,7 +145,7 @@ const [showReferral, setShowReferral] = useState(false);
 
   const onChangePass = (isValidate: boolean, value: string) => {
     formRef.current?.setFieldsValue({ password: value });
-    setHasFieldError(!isValidate)
+    setHasFieldError(!isValidate || isRequiredFieldsEmpty())
   }
 
   const onChangeDialCode = (item: { key: string, value: string }) => {
@@ -248,8 +247,6 @@ const [showReferral, setShowReferral] = useState(false);
 
       </Form>
 
-
-      <ReactTooltip />
 
     </FormStyled>
   );

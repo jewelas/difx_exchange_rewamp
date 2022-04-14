@@ -4,7 +4,7 @@ import { Col, Row } from 'antd';
 import React from 'react';
 import AppLayout from '..';
 import RegisterFormComponent from './../../components/register/RegisterForm';
-import { PageStyled } from './../../styles/Register.styled';
+import { PageStyled } from './styled';
 import CoverImage from './svg/CoverImage';
 
 /* eslint-disable-next-line */

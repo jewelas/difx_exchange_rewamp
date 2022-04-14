@@ -11,13 +11,14 @@ import CloseCircleIcon from './../Icon/CloseCircleIcon';
 export interface PasswordFieldProps {
   rules?: [any];
   onChange: (isValidate: boolean, value: string) => void;
+  placeholder?: string;
 }
 
 const FieldStyled = styled.div`
   width: 100%;
   border: 1px solid ${({ theme }) => theme.inputBorderColor || Color.grey.buttonSecondary};
   border-radius:2px;
-  height: 50px;
+  height: 54px;
   .ant-form-item-control-input-content{
     height: 48px;
   }
@@ -47,9 +48,8 @@ const FieldStyled = styled.div`
         fill: ${({ theme }) => theme.textColor};
       } 
     }
-  }
-}
-`
+  }`
+
 const PasswordField = (props: PasswordFieldProps) => {
 
   const [min10Chars, setMin10Chars] = useState(false);
@@ -65,7 +65,7 @@ const PasswordField = (props: PasswordFieldProps) => {
     const value = e.target.value;
 
     const width = document?.body?.clientWidth;
-    if(width <= 1026 )setPlacement('top');
+    if (width <= 1026) setPlacement('top');
     else setPlacement('left');
 
     const _notContainSpace = !value.includes(' ');
@@ -119,7 +119,7 @@ const PasswordField = (props: PasswordFieldProps) => {
           }
           placement={placement}
           trigger="focus">
-          <Input.Password bordered={false} onChange={onChangePass} autoComplete='new-password' placeholder="Password" />
+          <Input.Password bordered={false} onChange={onChangePass} autoComplete='new-password' placeholder={props.placeholder || "Password"} />
         </Popover>
       </Form.Item>
     </FieldStyled>

@@ -11,6 +11,9 @@ const PageStyled = styled.div`
       margin-bottom: 70px;
       background: ${({ theme }) => theme.backgroundColor2};
       border-radius: 15px;
+      .H4{
+        margin-bottom: 30px;
+      }
       .H4, .B2{
         display: flex;
         justify-content: center;
@@ -20,24 +23,6 @@ const PageStyled = styled.div`
       }
       .B1{
         color: ${Color.grey.linkSecondary};
-      }
-      .link{
-        cursor: pointer;
-        background: ${({ theme }) => theme.backgroundColor2};
-        color: ${({ theme }) => theme.textColor};
-        border: 0.5px solid ${({ theme }) => theme.currentTheme === 'light' ? '#E1DDDD' : theme.backgroundColor};
-        box-sizing: border-box;
-        border-radius: 13.5px;
-        padding: 2px 0px;
-        width: 112px;
-        margin: 0 auto;
-        margin-top: 13px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: center;
-        svg{
-          margin-right:5px;
-        }
       }
       .left-right{
         display: flex;

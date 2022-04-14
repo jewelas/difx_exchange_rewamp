@@ -47,7 +47,7 @@ export function LoginForm(props: LoginFormProps) {
 
     const onChangePass = (isValidate: boolean, value: string) => {
         formRef.current?.setFieldsValue({ password: value });
-        setHasFieldError(!isValidate)
+        setHasFieldError(!isValidate || isRequiredFieldsEmpty())
     }
 
     const onChangeDialCode = (item: { key: string, value: string }) => {

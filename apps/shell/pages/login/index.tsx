@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'antd';
 import t from '@difx/locale';
 import Link from 'next/link';
 import AppLayout from '..';
-import PageStyled from './../../styles/Login.styled';
+import PageStyled from './styled';
 import LoginForm from './../../components/login/LoginForm';
 
 /* eslint-disable-next-line */

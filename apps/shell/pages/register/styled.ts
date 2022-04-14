@@ -73,18 +73,18 @@ export const FormStyled = styled.div`
           fill: ${Color.grey.buttonSecondary};
         }
         &.active{
-          color: ${Color.blue.primary};
-          border-color: ${Color.blue.primary} !important;
+          color: ${({theme})=> theme.primaryColor};
+          border-color: ${({theme})=> theme.primaryColor} !important;
           svg path{
-            fill: ${Color.blue.primary} !important;
+            fill: ${({theme})=> theme.primaryColor} !important;
           }
         }
         &:hover{
           transition: unset !important;
-          color: ${Color.blue.primary} !important;
-          border-color: ${Color.blue.primary} !important;
+          color: ${({theme})=> theme.primaryColor} !important;
+          border-color: ${({theme})=> theme.primaryColor} !important;
           svg path{
-            fill: ${Color.blue.primary} !important;
+            fill: ${({theme})=> theme.primaryColor} !important;
           }
         }
       }

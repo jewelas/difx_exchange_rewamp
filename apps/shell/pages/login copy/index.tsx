@@ -3,13 +3,13 @@ import { Button, Col, Row } from 'antd';
 import t from '@difx/locale';
 import Link from 'next/link';
 import AppLayout from '..';
-import PageStyled from '../../styles/ResetPass.styled';
-import ResetPassForm from '../../components/reset-pass/ResetPassForm';
+import PageStyled from '../login/styled';
+import LoginForm from './../../components/login/LoginForm';
 
 /* eslint-disable-next-line */
-export interface ResetPassPageProps { }
+export interface LoginPageProps { }
 
-export function ResetPassPage(props: ResetPassPageProps) {
+export function LoginPage(props: LoginPageProps) {
 
   return (
     <AppLayout>
@@ -23,7 +23,7 @@ export function ResetPassPage(props: ResetPassPageProps) {
               <div><span style={{ color: Color.green.success }}>https://</span>difx.io</div>
             </div>
 
-            <ResetPassForm />
+            <LoginForm />
 
             <div className='left-right'>
               <div className='left'>
@@ -47,4 +47,4 @@ export function ResetPassPage(props: ResetPassPageProps) {
   );
 }
 
-export default ResetPassPage;
+export default LoginPage;

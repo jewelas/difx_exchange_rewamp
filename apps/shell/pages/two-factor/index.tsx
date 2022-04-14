@@ -4,7 +4,7 @@ import { Col, Row } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import AppLayout from '..';
-import PageStyled from './../../styles/TwoFactor.styled';
+import PageStyled from './styled';
 import TwoFactorForm from './../../components/two-factor/TwoFactorForm';
 
 /* eslint-disable-next-line */

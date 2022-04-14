@@ -36,7 +36,7 @@ export function ResetPassForm({email, code}: ResetPassFormProps) {
 
             const { statusText  } = data;
             showNotification('success', 'Success', statusText);
-            router.push('/home');
+            router.push('/login');
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []
     );

@@ -1,5 +1,6 @@
 import { Typography as AntdTypography } from 'antd';
 import styled from 'styled-components';
+import clsx from 'clsx';
 import { Color } from '../Color';
 
 const { Text } = AntdTypography;
@@ -7,6 +8,7 @@ const { Text } = AntdTypography;
 export interface TypographyProps {
     level?: 'H1' | 'H2' | 'H5' | 'H4' | 'H6' | 'B1' | 'B2' | 'text';
     color?: 'primary' | 'danger' | 'secondary';
+    className?: string;
     children?: any;
 }
 
@@ -76,7 +78,7 @@ const Typography = (props: TypographyProps) => {
             break;
     }
     return (
-        <TextStyled className={props.level} style={{ color }}>{props.children}</TextStyled>
+        <TextStyled className={clsx(props.level, props.className)} style={{ color }}>{props.children}</TextStyled>
     )
 }
 

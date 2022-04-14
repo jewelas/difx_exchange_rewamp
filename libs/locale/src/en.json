@@ -2,7 +2,9 @@
   "common":{
     "forgot_password":"Forgot password?",
     "register":"Register",
-    "verify":"Verify"
+    "verify":"Verify",
+    "submit": "Submit",
+    "have_acc": "Already have an account?"
   },
   "header": {
     "profile":"Profile",
@@ -19,6 +21,10 @@
     "light_mode": "Light mode",
     "login": "Login",
     "register": "Register"
+  },
+  "forgot":{
+    "forgot": "Forgot Password ?",
+    "enter_val": "Please enter your register email to reset your password."
   },
   "signin":{
     "ip_verification":"IP Verification",

@@ -26,12 +26,10 @@ const GlobalStyles = createGlobalStyle`
                                         supported by Chrome and Opera */
     }
 
-    
-
     .ant-btn.ant-btn-text{
         color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
         &:hover{
-            color: ${({ theme }: { theme: CustomThemeProps }) => theme.textHoverColor}; !important;
+            color: ${({ theme }: { theme: CustomThemeProps }) => theme.textHoverColor} !important;
         }
     }
     .ant-btn-text:focus, .ant-btn-text:hover{
@@ -102,10 +100,10 @@ const GlobalStyles = createGlobalStyle`
         }
         .ant-select-item-option-content{
           .val{
-            color:${({ theme }: { theme: CustomThemeProps }) => theme.textColor}; !important;
+            color:${({ theme }: { theme: CustomThemeProps }) => theme.textColor} !important;
           }
         }
-      } // end .ant-select-dropdown
+      }
 
     // Button
     button.ant-btn{
@@ -170,8 +168,15 @@ const GlobalStyles = createGlobalStyle`
           color: ${({ theme }) => theme.textColor};
         }
         color: ${({ theme }) => theme.textColor};
-        background ${({ theme }) => theme.backgroundColor2};
+        background: ${({ theme }) => theme.backgroundColor2};
       }
+    }
+
+    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
+      background-color:unset !important;
+    }
+    .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left{
+      border-right: unset !important;
     }
 
 

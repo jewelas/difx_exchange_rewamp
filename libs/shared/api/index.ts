@@ -5,7 +5,7 @@ export const axiosInstance = axios.create({
   baseURL: process.env['NX_API_URL']
 });
 
-const socketInstance = io(process.env['NX_API_URL'],
+const socketInstance = io(process.env['NX_WS_URL'],
   {
     path: '/socket.io',
     transports: ['websocket'],

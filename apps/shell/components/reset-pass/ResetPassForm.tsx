@@ -1,24 +1,27 @@
-import { CountrySelect, getCountryInfo, Typography } from '@difx/core-ui';
+import { CountrySelect, getCountryInfo, PasswordField, Typography } from '@difx/core-ui';
 import t from '@difx/locale';
-import { currentUserAtom, ForgotRequest, ForgotResponse, useForgot, useGetCountry } from '@difx/shared';
-import { Button, Form, Input } from 'antd';
+import { SignInRequest, SignInResponse, useGetCountry, useSignIn, currentUserAtom } from '@difx/shared';
+import { Button, Form, Input, Switch } from 'antd';
+import { useUpdateAtom } from 'jotai/utils';
 import { FormInstance } from 'antd/es/form';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
-import { useUpdateAtom } from 'jotai/utils';
 import isEmpty from 'lodash/isEmpty';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { showNotification } from '../../utils/pageUtils';
 
 /* eslint-disable-next-line */
-export interface ForgotFormProps { }
+export interface ResetPassFormProps { }
 
-export function ForgotForm(props: ForgotFormProps) {
+export function ResetPassForm(props: ResetPassFormProps) {
 
     const { data: countryCode } = useGetCountry();
 
+    const setCurrentUser = useUpdateAtom(currentUserAtom);
+
     const [type, setType] = useState<'email' | 'phone'>('email');
+    const [isCorporate, setIsCorporate] = useState(false);
     const [dialCode, setDialCode] = useState(null);
     const [hasFieldError, setHasFieldError] = useState(true);
     const formRef = useRef<FormInstance>(null);
@@ -39,7 +42,7 @@ export function ForgotForm(props: ForgotFormProps) {
 
     useEffect(() => {
         onFormChange();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [type]);
 
     const onChangePass = (isValidate: boolean, value: string) => {
@@ -56,13 +59,29 @@ export function ForgotForm(props: ForgotFormProps) {
 
     const onSuccess = useCallback(
         (
-            response: AxiosResponse<ForgotResponse>
+            response: AxiosResponse<SignInResponse>
         ) => {
             const { data } = response;
 
-            const { statusText } = data;
-            showNotification('success', 'Success', statusText);
-            // eslint-disable-next-line react-hooks/exhaustive-deps
+            const { statusCode, sessionId } = data;
+            if (statusCode === 'ENTER_TWOFA_CODE') {
+                localStorage.setItem('twoFaToken', sessionId);
+
+                const fieldsValue = formRef.current.getFieldsValue();
+                localStorage.setItem('loginFormData', JSON.stringify(fieldsValue));
+
+                router.push('/two-factor');
+            } else {
+                localStorage.setItem('currentUser', JSON.stringify(data));
+                setCurrentUser(data);
+
+                localStorage.removeItem('twoFaToken');
+                localStorage.removeItem('loginFormData');
+
+                showNotification('success', 'Signin successfully', null);
+                router.push('/home');
+            }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []
     );
 
@@ -100,20 +119,21 @@ export function ForgotForm(props: ForgotFormProps) {
             const { response } = error;
             const { statusText } = response.data;
 
-            showNotification('error', 'Error', statusText);
+            showNotification('error', 'Login failed', statusText);
         }, []
     );
 
-    const { mutate: forgot, isLoading } = useForgot({ onSuccess, onError });
+    const { mutate: signIn, isLoading } = useSignIn({ onSuccess, onError });
 
-    const onSubmit = async (formData: ForgotRequest) => {
+    const onSubmit = async (formData: SignInRequest) => {
+        formData.usertype = isCorporate ? 'BUS' : 'IND';
 
         if (type === 'phone') {
             formData.email = '';
             formData.phonenumber = (formData.dial_code + formData.phonenumber).replace('+', '');
         }
 
-        forgot(formData);
+        signIn(formData);
     }
 
     const onChangeLoginType = (type: 'email' | 'phone') => {
@@ -132,11 +152,14 @@ export function ForgotForm(props: ForgotFormProps) {
                         <Typography level='B1'>{t('signin.phone_number')}</Typography>
                     </div>
                 </div>
+                <div className='right'>
+                    <div className='pointer' onClick={() => { setIsCorporate(!isCorporate) }}>
+                        <Typography level='B2'>{t('signin.corporate')}</Typography>
+                    </div>
+                    <Switch size='small' checked={isCorporate} onChange={(checked) => { setIsCorporate(checked) }} />
+                </div>
             </div>
             <div className='content'>
-                <div className='guide'>
-                    <Typography level='B1'>{t('forgot.enter_val', {value: type==='email' ? 'email' : 'phone number'})}</Typography>
-                </div>
                 {
                     type === 'email'
                         ?
@@ -175,10 +198,14 @@ export function ForgotForm(props: ForgotFormProps) {
                         </div>
                 }
 
-                <Button disabled={isLoading || hasFieldError} htmlType='submit' className='sign-in-btn' type='primary'>{t('common.submit')}</Button>
+
+                <Form.Item name="password">
+                    <PasswordField onChange={onChangePass} />
+                </Form.Item>
+                <Button disabled={isLoading || hasFieldError} htmlType='submit' className='sign-in-btn' type='primary'>{t('signin.login')}</Button>
             </div>
         </Form>
     );
 }
 
-export default ForgotForm;
+export default ResetPassForm;

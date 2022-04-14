@@ -24,7 +24,7 @@
   },
   "forgot":{
     "forgot": "Forgot Password ?",
-    "enter_val": "Please enter your register email to reset your password."
+    "enter_val": "Please enter your register {{value}} to reset your password."
   },
   "signin":{
     "ip_verification":"IP Verification",

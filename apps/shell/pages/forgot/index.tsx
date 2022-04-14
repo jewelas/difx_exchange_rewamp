@@ -1,10 +1,10 @@
-import { Color, Icon, Typography } from '@difx/core-ui';
-import { Button, Col, Row } from 'antd';
+import { Typography } from '@difx/core-ui';
 import t from '@difx/locale';
+import { Col, Row } from 'antd';
 import Link from 'next/link';
 import AppLayout from '..';
-import PageStyled from './../../styles/Forgot.styled';
 import ForgotForm from './../../components/forgot/ForgotForm';
+import PageStyled from './../../styles/Forgot.styled';
 
 /* eslint-disable-next-line */
 export interface ForgotPageProps { }

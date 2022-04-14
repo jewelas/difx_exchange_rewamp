@@ -2,53 +2,15 @@ import { Form, Input, Popover } from 'antd';
 import { TooltipPlacement } from 'antd/lib/tooltip';
 import clsx from 'clsx';
 import { useState } from 'react';
-import styled from 'styled-components';
 import t from '../../../../locale';
-import { Color } from '../Color';
 import CheckCircleIcon from './../Icon/CheckCircleIcon';
 import CloseCircleIcon from './../Icon/CloseCircleIcon';
-
+import { FieldStyled } from './styled';
 export interface PasswordFieldProps {
   rules?: [any];
   onChange: (isValidate: boolean, value: string) => void;
   placeholder?: string;
 }
-
-const FieldStyled = styled.div`
-  width: 100%;
-  border: 1px solid ${({ theme }) => theme.inputBorderColor || Color.grey.buttonSecondary};
-  border-radius:2px;
-  height: 54px;
-  .ant-form-item-control-input-content{
-    height: 48px;
-  }
-  .ant-form-item-control-input{
-    background: ${({ theme }) => theme.inputBackgroundColor};
-  }
-  .ant-input{
-    background: transparent !important;
-    margin-top: -4px;
-  }
-  &.fail{
-    border-color: ${Color.red.failure}
-  }
-  .view-pass{
-    display: inline-block;
-    position: absolute;
-    top: 16px;
-    right: 10px;
-    cursor:pointer;
-  }
-  input{
-    height: 48px;
-  }
-  .ant-input-suffix{
-    svg{
-      path{
-        fill: ${({ theme }) => theme.textColor};
-      } 
-    }
-  }`
 
 const PasswordField = (props: PasswordFieldProps) => {
 

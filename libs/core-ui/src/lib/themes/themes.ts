@@ -11,7 +11,6 @@ export interface CustomThemeProps extends Theme {
   textHoverColor?: string,
   logoFillColor?: string,
   titleColor?: string,
-  primaryColor?: string
 }
 
 /* 

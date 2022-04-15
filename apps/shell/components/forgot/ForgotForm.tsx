@@ -6,7 +6,6 @@ import { FormInstance } from 'antd/es/form';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import isEmpty from 'lodash/isEmpty';
-import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { showNotification } from '../../utils/pageUtils';
 
@@ -21,8 +20,6 @@ export function ForgotForm(props: ForgotFormProps) {
     const [dialCode, setDialCode] = useState(null);
     const [hasFieldError, setHasFieldError] = useState(true);
     const formRef = useRef<FormInstance>(null);
-
-    const router = useRouter();
 
     useEffect(() => {
         if (countryCode) {

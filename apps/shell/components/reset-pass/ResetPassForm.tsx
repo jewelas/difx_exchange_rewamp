@@ -1,13 +1,12 @@
-import { getCountryInfo, PasswordField } from '@difx/core-ui';
+import { PasswordField } from '@difx/core-ui';
 import t from '@difx/locale';
-import { currentUserAtom, ResetPassRequest, ResetPassResponse, useGetCountry, useResetPass } from '@difx/shared';
+import { ResetPassRequest, ResetPassResponse, useResetPass } from '@difx/shared';
 import { Button, Form, Input } from 'antd';
 import { FormInstance } from 'antd/es/form';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useUpdateAtom } from 'jotai/utils';
 import isEmpty from 'lodash/isEmpty';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { showNotification } from '../../utils/pageUtils';
 
 /* eslint-disable-next-line */

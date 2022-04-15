@@ -1,11 +1,11 @@
-import { Color, Icon, Typography } from '@difx/core-ui';
-import { Button, Col, Row } from 'antd';
+import { Typography } from '@difx/core-ui';
 import t from '@difx/locale';
-import { useRouter } from 'next/router';
+import { Col, Row } from 'antd';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import AppLayout from '../..';
-import PageStyled from './styled';
 import ResetPassForm from '../../../components/reset-pass/ResetPassForm';
+import PageStyled from './styled';
 
 /* eslint-disable-next-line */
 export interface ResetPassPageProps { }

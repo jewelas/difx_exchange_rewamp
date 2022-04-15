@@ -1,3 +1,4 @@
+import { BaseResponse } from './Base';
 import { User } from './User';
 export interface SignUpRequest {
   firstname: string;
@@ -13,5 +14,5 @@ export interface SignUpRequest {
   type: string;
 }
 
-export interface SignUpResponse extends User {
+export interface SignUpResponse extends User, BaseResponse {
 }

@@ -1,29 +1,23 @@
 import { Button, Col, Drawer, Menu, Row } from 'antd';
 import clsx from 'clsx';
-import { atom, PrimitiveAtom, useAtom } from 'jotai';
-import { useAtomValue } from 'jotai/utils';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { User } from './../../../../shared';
 import t from './../../../../locale';
-import { User } from './../../../../shared/type/User';
 import { Icon } from './../Icon';
 import { StyledButtonGroup, StyledHeader, StyledIconButton, StyledLine, StyledMoreMenuGroup } from './styled';
 
 export interface HeaderProps {
   onNavigation: (page: string) => void;
   onChangeTheme: () => void;
+  theme?: string;
+  currentUser?: User;
 }
-
-export const themeAtom = atom<string>('light');
-export const currentUserAtom = atom<User | undefined>(undefined) as PrimitiveAtom<User | undefined>;
-
 
 const SMALL_SIZE: number = 637;
 
 export function Header(props: HeaderProps) {
-  const { onNavigation } = props;
-
-  const currentUser = useAtomValue(currentUserAtom);
+  const { onNavigation, theme, currentUser } = props;
 
   const {
     LogoIcon, EarthIcon, MoonIcon, HorizontalLineIcon, CloseIcon, HomeIcon,
@@ -38,8 +32,6 @@ export function Header(props: HeaderProps) {
     SettingIcon,
     DownloadIcon
   } = Icon;
-
-  const [theme,] = useAtom(themeAtom);
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [width, setWidth] = useState<number>(0);

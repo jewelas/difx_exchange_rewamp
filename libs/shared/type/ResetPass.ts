@@ -1,3 +1,5 @@
+import { BaseResponse } from "./Base";
+
 export interface ResetPassRequest {
   email: string;
   activationcode: string;
@@ -5,7 +7,7 @@ export interface ResetPassRequest {
   rpassword: string;
 }
 
-export interface ResetPassResponse {
+export interface ResetPassResponse extends BaseResponse  {
   statusCode: string;
   statusText: string;
 }

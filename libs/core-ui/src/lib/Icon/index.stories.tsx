@@ -1,6 +1,5 @@
 import { Story, Meta } from '@storybook/react';
 import styled from 'styled-components';
-import 'antd/dist/antd.css';
 import { Icon } from './index';
 
 export default {

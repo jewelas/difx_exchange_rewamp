@@ -1,10 +1,11 @@
 import { Header} from '@difx/core-ui';
 import { dark, light } from '@difx/core-ui/themes';
-import { themeAtom, UpdateTokenRequest, UpdateTokenResponse, useUpdateToken } from '@difx/shared';
+import {themeAtom, currentUserAtom, UpdateTokenRequest, UpdateTokenResponse, useUpdateToken } from '@difx/shared';
 import { ConfigProvider, Layout } from 'antd';
 import 'antd/dist/antd.variable.min.css';
 import { AxiosResponse } from 'axios';
 import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai/utils';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
@@ -28,6 +29,7 @@ export function LoggedInLayout({ children }: LoggedInLayoutProps) {
   const router = useRouter();
 
   const [theme, setTheme] = useAtom(themeAtom);
+  const currentUser = useAtomValue(currentUserAtom);
 
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -66,7 +68,7 @@ export function LoggedInLayout({ children }: LoggedInLayoutProps) {
 
   return (
       <LayoutStyled>
-        <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
+        <Header currentUser={currentUser} theme={theme} onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
         <ContentStyled>{children}</ContentStyled>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED.</Footer>
       </LayoutStyled>

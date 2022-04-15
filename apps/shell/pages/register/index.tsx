@@ -2,51 +2,13 @@ import { Typography } from '@difx/core-ui';
 import t from '@difx/locale';
 import { Col, Row } from 'antd';
 import React from 'react';
-import styled from 'styled-components';
 import AppLayout from '..';
 import RegisterFormComponent from './../../components/register/RegisterForm';
+import { PageStyled } from './styled';
 import CoverImage from './svg/CoverImage';
 
 /* eslint-disable-next-line */
 export interface RegisterPageProps { }
-
-const PageStyled = styled.div`
-  .left-side{
-    margin-top:-5px;
-    .message{
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      margin-top: 50px;
-      .H1{
-        margin-top: 20px;
-      }
-      .H5{
-        margin-top: 20px;
-      }
-    }
-    .cover-group{
-      margin-top: 30px;
-      text-align:center;
-    }
-  }
-
-  .right-side{
-    background: #fff;
-    margin-top: -4px;
-  }
-
-  @media (max-width: 1026px) {
-    .left-side{
-      display: none !important;
-    }
-    .right-side{
-      width: 100%;
-      max-width: unset !important;
-      flex: unset;
-    }
-  }
-`;
 
 export function RegisterPage(props: RegisterPageProps) {
   return (

@@ -15,6 +15,7 @@
     "@ant-design/colors": "^6.0.0",
     "@nrwl/next": "^13.9.5",
     "@types/lodash": "^4.14.181",
+    "@types/socket.io-client": "^3.0.0",
     "antd": "^4.19.3",
     "axios": "^0.26.1",
     "clsx": "^1.1.1",
@@ -31,6 +32,7 @@
     "react-query": "^3.34.19",
     "react-trend": "^1.2.5",
     "regenerator-runtime": "0.13.7",
+    "socket.io-client": "^4.4.1",
     "styled-components": "5.3.3",
     "tslib": "^2.0.0"
   },

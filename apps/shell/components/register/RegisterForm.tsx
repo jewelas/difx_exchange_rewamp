@@ -1,110 +1,18 @@
-import { Color, CountrySelect, getCountryInfo, Icon, PasswordField, Typography } from '@difx/core-ui';
+import { CountrySelect, getCountryInfo, Icon, PasswordField, Typography } from '@difx/core-ui';
 import t from '@difx/locale';
-import { useRouter } from 'next/router';
-import { SignUpRequest, SignUpResponse, useGetCountry, useSignUp, currentUserAtom } from '@difx/shared';
+import { currentUserAtom, SignUpRequest, SignUpResponse, useGetCountry, useSignUp } from '@difx/shared';
 import { Button, Checkbox, Form, Input, notification } from 'antd';
 import { FormInstance } from 'antd/es/form';
-import { useUpdateAtom } from 'jotai/utils';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
+import { useUpdateAtom } from 'jotai/utils';
 import { isEmpty } from 'lodash';
+import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import ReactTooltip from 'react-tooltip';
-import styled from 'styled-components';
+import { FormStyled } from '../../pages/register/styled';
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps { }
-
-const PageStyled = styled.div`
-  background: ${({theme})=> theme.backgroundColor2};
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    padding: 40px;
-    .H6{
-        margin-top: 20px;
-        display:block;
-    }
-    
-    .country-select-group{
-      margin-top:10px;
-      .ant-select{
-        width:100% !important;
-      }
-    }
-    .referral-group{
-      display:flex;
-      cursor:pointer;
-      width: 147px;
-      .icon{
-        margin-top: 23px;
-        margin-left: 10px;
-      }
-    }
-    .term-group{
-      margin-top: 20px;
-    }
-    .sign-up-btn{
-      margin-top:20px;
-      height: 48px !important;
-      width: 100%;
-    }
-    .input-group{
-      margin-top:30px;
-      .ant-input{
-        height: 48px;
-        font-size: 14px;
-        font-weight: 400;
-        line-height:22px;
-      }
-      .input-item{
-        margin-bottom:30px;
-        display:flex;
-        .ant-row.ant-form-item{
-          margin-bottom: unset;
-          width: 100%;
-        }
-        &.dial{
-          .dropdown-dial{
-            margin-right:20px;
-          }
-        }
-      }
-    }
-    .account-type-group{
-      margin-top:30px;
-      button:nth-child(2){
-        margin-left:30px;
-      }
-      button{
-        padding:unset;
-        height: 74px;
-        width: 87px;
-        border-radius: 2px;
-        color: ${Color.grey.buttonSecondary};
-        svg path{
-          fill: ${Color.grey.buttonSecondary};
-        }
-        &.active{
-          color: ${Color.blue.primary};
-          border-color: ${Color.blue.primary} !important;
-          svg path{
-            fill: ${Color.blue.primary} !important;
-          }
-        }
-        &:hover{
-          transition: unset !important;
-          color: ${Color.blue.primary} !important;
-          border-color: ${Color.blue.primary} !important;
-          svg path{
-            fill: ${Color.blue.primary} !important;
-          }
-        }
-      }
-    }
-  
-`;
 
 export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
@@ -237,7 +145,7 @@ const [showReferral, setShowReferral] = useState(false);
 
   const onChangePass = (isValidate: boolean, value: string) => {
     formRef.current?.setFieldsValue({ password: value });
-    setHasFieldError(!isValidate)
+    setHasFieldError(!isValidate || isRequiredFieldsEmpty())
   }
 
   const onChangeDialCode = (item: { key: string, value: string }) => {
@@ -250,7 +158,7 @@ const [showReferral, setShowReferral] = useState(false);
   }
 
   return (
-    <PageStyled>
+    <FormStyled>
       <Form ref={formRef} onFinish={onSubmit} onFieldsChange={onFormChange} autoComplete="off">
         <Typography level={'H2'}>{t('register.register_your_account')}</Typography>
         <Typography level={'H6'}>{t('register.resident_country')}</Typography>
@@ -340,9 +248,7 @@ const [showReferral, setShowReferral] = useState(false);
       </Form>
 
 
-      <ReactTooltip />
-
-    </PageStyled>
+    </FormStyled>
   );
 }
 

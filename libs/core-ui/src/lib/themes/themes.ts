@@ -3,6 +3,7 @@ import { Theme } from 'antd/lib/config-provider/context';
 export interface CustomThemeProps extends Theme {
   currentTheme? : 'light' | 'dark';
   borderColor?: string,
+  borderColorLighter?: string,
   backgroundColor?: string,
   backgroundColor2?: string,
   inputBorderColor?: string,
@@ -22,6 +23,7 @@ export const light: CustomThemeProps = {
   backgroundColor: '#F7F7F8',
   backgroundColor2: '#FFF',
   borderColor: '#eee',
+  borderColorLighter: '#eee',
   inputBorderColor: '#d9d9d9',
   inputBackgroundColor: '#fff',
   textColor: '#000',
@@ -36,6 +38,7 @@ export const dark: CustomThemeProps = {
   backgroundColor: '#161f30',
   backgroundColor2: '#0d1421',
   borderColor: '#000',
+  borderColorLighter: '#191E27',
   inputBorderColor: '#161f30',
   inputBackgroundColor: '#161f30',
   textColor: '#fff',

@@ -24,6 +24,9 @@ import QRCodeIcon from './QRCodeIcon';
 import NotificationIcon from './NotificationIcon';
 import SettingIcon from './SettingIcon';
 import DownloadIcon from './DownloadIcon';
+import OrderBuySellIcon from './OrderBuySellIcon';
+import OrderBuyIcon from './OrderBuyIcon';
+import OrderSellIcon from './OrderSellIcon';
 
 export interface IconProps {
   width?: number;
@@ -59,7 +62,10 @@ const Icon = {
   QRCodeIcon,
   NotificationIcon,
   SettingIcon,
-  DownloadIcon
+  DownloadIcon,
+  OrderBuySellIcon,
+  OrderBuyIcon,
+  OrderSellIcon
 }
 
 export { Icon }

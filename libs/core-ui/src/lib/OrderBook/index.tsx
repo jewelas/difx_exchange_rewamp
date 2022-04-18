@@ -1,6 +1,7 @@
 import { Select } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import OrderBuyIcon from './../Icon/OrderBuyIcon';
 import OrderBuySellIcon from './../Icon/OrderBuySellIcon';
 import OrderSellIcon from './../Icon/OrderSellIcon';
@@ -13,13 +14,18 @@ export type SortType = 'all' | 'bid' | 'ask';
 export interface OrderBookProps {
   bids?: Array<Array<number>>;
   asks?: Array<Array<number>>;
+  priceTrend: string;
+  currentPrice: number;
 }
 
-export function OrderBook({ bids, asks }: OrderBookProps) {
+export function OrderBook({priceTrend, currentPrice, bids, asks }: OrderBookProps) {
 
   const { Option } = Select;
   const [sortType, setSortType] = useState<SortType>('all');
   const [numberFormat, setNumberFormat] = useState('0.01');
+
+  // const [currentPrice, setCurrentPrice] = useState(0.00);
+  // const [previousPrice, setPreviousPrice] = useState(0.00);
 
   if (asks) {
     const maxValueOfAsks = Math.max(...asks.map((ask) => ask[1]), 0);
@@ -42,9 +48,9 @@ export function OrderBook({ bids, asks }: OrderBookProps) {
 
   const renderTableBody = (type: SortType, format: string) => {
     if (!asks || !bids) return null;
-    if (type === 'all') return <BidAskData bids={bids} asks={asks} numberFormat={numberFormat} />
-    else if (type === 'ask') return <OnlyAskData asks={asks} numberFormat={numberFormat} />
-    else if (type === 'bid') return <OnlyBidData bids={bids} numberFormat={numberFormat} />
+    if (type === 'all') return <BidAskData priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} asks={asks.reverse()} numberFormat={numberFormat} />
+    else if (type === 'ask') return <OnlyAskData priceTrend={priceTrend} currentPrice={currentPrice} asks={asks.reverse()} numberFormat={numberFormat} />
+    else if (type === 'bid') return <OnlyBidData priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} numberFormat={numberFormat} />
     return null;
   }
 

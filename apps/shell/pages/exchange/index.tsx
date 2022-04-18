@@ -50,17 +50,7 @@ export function ExchangePage(props: ExchangePageProps) {
   }
 
   const handleGridResize = (widgets) => {
-
-    // const orderBookGrid = widgets.find(e => e.i === 'order-book');
-    // if (orderBookGrid) {
-    //   console.log('xxxx');
-    //   console.log(orderBookRef, 'orderBookRef')
-    //   if (orderBookRef && orderBookRef.current) {
-    //     const clientHeight = orderBookRef.current.clientHeight;
-    //     setOrderBookWidgetHeight(clientHeight - 90);
-    //   }
-
-    // }
+    // TODO
   }
 
   return (

@@ -1,5 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
+import clsx from 'clsx';
 import { formatNumber } from './../../util/formatter';
 import { Typography } from './../Typography';
 import { BarStyled } from './styled';
@@ -10,18 +11,19 @@ export interface OrderBookProps {
   bids?: Array<Array<number>>;
   asks?: Array<Array<number>>;
   numberFormat?: '0.01' | '0.1' | '1' | '10' | string;
+  priceTrend: string;
+  currentPrice: number;
 }
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-function renderData(max_row: number, type: 'sell' | 'buy', data: Array<Array<number>> | undefined, numberFormat:string) {
+
+function renderData(max_row: number, type: 'sell' | 'buy', data: Array<Array<number>> | undefined, numberFormat: string) {
   const result = [];
 
   if (!data) return [];
-  let _data = data;
-  if (type === 'sell') _data = data.reverse();
   for (let i = 0; i < max_row; i++) {
-    const row = _data[i];
+    const row = data[i];
     if (row) {
       result.push(
         <div key={`${type}_${row[0]}_${i}`} className='table-row'>
@@ -38,12 +40,26 @@ function renderData(max_row: number, type: 'sell' | 'buy', data: Array<Array<num
         </div>
       )
     }
-
   }
   return result;
 }
 
-export function BidAskData({ bids, asks, numberFormat = '0.01' }: OrderBookProps) {
+function renderCurrentPrice(currentPrice: number, priceTrend: string) {
+  return (
+    <div className='center-group'>
+      <div className='left'>
+        <Typography level="B1" className={clsx('price', priceTrend)}>
+          {formatNumber(currentPrice)}
+        </Typography>
+      </div>
+      <div className='right'>
+        More
+      </div>
+    </div>
+  )
+}
+
+export function BidAskData({ bids, asks, numberFormat = '0.01', currentPrice, priceTrend }: OrderBookProps) {
   const MAX_ROW = 12;
 
   if (!bids || !asks) {
@@ -56,16 +72,7 @@ export function BidAskData({ bids, asks, numberFormat = '0.01' }: OrderBookProps
         {renderData(MAX_ROW, 'sell', asks, numberFormat)}
       </div>
 
-      <div className='center-group'>
-        <div className='left'>
-          <Typography level="B1" className='price'>
-            38,348.75≈$38,360.25
-          </Typography>
-        </div>
-        <div className='right'>
-          More
-        </div>
-      </div>
+      {renderCurrentPrice(currentPrice, priceTrend)}
 
       <div className='buy'>
         {renderData(MAX_ROW, 'buy', bids, numberFormat)}
@@ -74,7 +81,7 @@ export function BidAskData({ bids, asks, numberFormat = '0.01' }: OrderBookProps
   );
 }
 
-export function OnlyBidData({ bids, numberFormat = '0.01' }: OrderBookProps) {
+export function OnlyBidData({ bids, numberFormat = '0.01', currentPrice, priceTrend }: OrderBookProps) {
   const MAX_ROW = 24;
 
   if (!bids) {
@@ -83,16 +90,7 @@ export function OnlyBidData({ bids, numberFormat = '0.01' }: OrderBookProps) {
 
   return (
     <div className='table-body'>
-      <div className='center-group'>
-        <div className='left'>
-          <Typography level="B1" className='price buy'>
-            38,348.75≈$38,360.25
-          </Typography>
-        </div>
-        <div className='right'>
-          More
-        </div>
-      </div>
+      {renderCurrentPrice(currentPrice, priceTrend)}
       <div className='buy'>
         {renderData(MAX_ROW, 'buy', bids, numberFormat)}
       </div>
@@ -100,7 +98,7 @@ export function OnlyBidData({ bids, numberFormat = '0.01' }: OrderBookProps) {
   );
 }
 
-export function OnlyAskData({ asks, numberFormat = '0.01' }: OrderBookProps) {
+export function OnlyAskData({ asks, numberFormat = '0.01', currentPrice, priceTrend }: OrderBookProps) {
   const MAX_ROW = 24;
 
   if (!asks) {
@@ -109,19 +107,10 @@ export function OnlyAskData({ asks, numberFormat = '0.01' }: OrderBookProps) {
 
   return (
     <div className='table-body'>
-      <div className='center-group'>
-        <div className='left'>
-          <Typography level="B1" className='price sell'>
-            38,348.75≈$38,360.25
-          </Typography>
-        </div>
-        <div className='right'>
-          More
-        </div>
-      </div>
       <div className='sell'>
-        {renderData(MAX_ROW, 'sell', asks, numberFormat)}
+        {renderData(MAX_ROW, 'sell', asks.reverse(), numberFormat)}
       </div>
+      {renderCurrentPrice(currentPrice, priceTrend)}
     </div>
   );
 }

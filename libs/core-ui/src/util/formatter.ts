@@ -1,4 +1,5 @@
-export const formatNumber = (value: number, type: string): string => {
+export const formatNumber = (value: number, type?: string): string => {
+    if(!type) type = '0.01';
     let numberFormatted = 0.00;
     let digit = 2;
     if (type === '0.01') {

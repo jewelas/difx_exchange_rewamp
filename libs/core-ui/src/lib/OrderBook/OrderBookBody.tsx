@@ -1,6 +1,7 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import { Typography } from '../Typography';
+import { formatNumber } from './../../util/formatter';
+import { Typography } from './../Typography';
 import { BarStyled } from './styled';
 
 /* eslint-disable-next-line */
@@ -8,33 +9,13 @@ export type SortType = 'all' | 'bid' | 'ask';
 export interface OrderBookProps {
   bids?: Array<Array<number>>;
   asks?: Array<Array<number>>;
-  numberFormat?: string;
+  numberFormat?: '0.01' | '0.1' | '1' | '10' | string;
 }
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 function renderData(max_row: number, type: 'sell' | 'buy', data: Array<Array<number>> | undefined, numberFormat:string) {
   const result = [];
-
-  const formatNumber = (value:number): string=>{
-    let numberFormatted = 0.00;
-    let digit = 2;
-    if(numberFormat === '0.01'){
-      numberFormatted = Number(value.toFixed(2));
-      digit = 2;
-    }else if(numberFormat === '0.1'){
-      numberFormatted = Number(value.toFixed(1));
-      digit = 1;
-    }else if(numberFormat === '1'){
-      numberFormatted = value;
-      digit = 0;
-    }else if(numberFormat === '10'){
-      numberFormatted = value * 10;
-      digit = 0
-    }
-    if(numberFormatted !== 0.00) return numberFormatted.toLocaleString('en-us', {maximumFractionDigits: digit, minimumFractionDigits: digit});
-    return numberFormatted.toString();
-  }
 
   if (!data) return [];
   let _data = data;
@@ -46,13 +27,13 @@ function renderData(max_row: number, type: 'sell' | 'buy', data: Array<Array<num
         <div key={`${type}_${row[0]}_${i}`} className='table-row'>
           <BarStyled className={type} width={row[2].toString()} />
           <Typography level="B3" className='price'>
-            {formatNumber(row[0])}
+            {formatNumber(row[0], numberFormat)}
           </Typography>
           <Typography level="B3" className='amount'>
-            {formatNumber(row[1])}
+            {formatNumber(row[1], numberFormat)}
           </Typography>
           <Typography level="B3" className='total'>
-            {formatNumber(row[0] * row[1])}
+            {formatNumber(row[0] * row[1], numberFormat)}
           </Typography>
         </div>
       )

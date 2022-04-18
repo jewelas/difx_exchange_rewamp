@@ -1,21 +1,52 @@
-import clsx from 'clsx';
 import { Select } from 'antd';
-import { Typography } from './../Typography';
-import OrderBuySellIcon from './../Icon/OrderBuySellIcon';
+import clsx from 'clsx';
+import { useState } from 'react';
 import OrderBuyIcon from './../Icon/OrderBuyIcon';
+import OrderBuySellIcon from './../Icon/OrderBuySellIcon';
 import OrderSellIcon from './../Icon/OrderSellIcon';
+import { Typography } from './../Typography';
+import { BidAskData, OnlyAskData, OnlyBidData } from './OrderBookBody';
 import { ComponentStyled } from './styled';
 
 /* eslint-disable-next-line */
-export type SortType = 'all' | 'buy' | 'sell';
+export type SortType = 'all' | 'bid' | 'ask';
 export interface OrderBookProps {
-  sortType?: SortType,
-  onChangeSort?: (type: SortType) => void;
+  bids?: Array<Array<number>>;
+  asks?: Array<Array<number>>;
 }
 
-export function OrderBook({ sortType = 'all', onChangeSort }: OrderBookProps) {
+export function OrderBook({ bids, asks }: OrderBookProps) {
 
   const { Option } = Select;
+  const [sortType, setSortType] = useState<SortType>('all');
+  const [numberFormat, setNumberFormat] = useState('0.01');
+
+  if (asks) {
+    const maxValueOfAsks = Math.max(...asks.map((ask) => ask[1]), 0);
+    if (asks.length > 0) {
+
+      for (let i = 0; i < asks.length; i++) {
+        asks[i].push((asks[i][1] / maxValueOfAsks) * 100);
+      }
+    }
+  }
+
+  if (bids) {
+    const maxValueOfBids = Math.max(...bids.map((bid) => bid[1]), 0);
+    if (bids.length > 0) {
+      for (let i = 0; i < bids.length; i++) {
+        bids[i].push((bids[i][1] / maxValueOfBids) * 100);
+      }
+    }
+  }
+
+  const renderTableBody = (type: SortType, format: string) => {
+    if (!asks || !bids) return null;
+    if (type === 'all') return <BidAskData bids={bids} asks={asks} numberFormat={numberFormat} />
+    else if (type === 'ask') return <OnlyAskData asks={asks} numberFormat={numberFormat} />
+    else if (type === 'bid') return <OnlyBidData bids={bids} numberFormat={numberFormat} />
+    return null;
+  }
 
   return (
     <ComponentStyled>
@@ -24,22 +55,22 @@ export function OrderBook({ sortType = 'all', onChangeSort }: OrderBookProps) {
       </div>
       <div className="com-head">
         <div className='left'>
-          <div onClick={() => { onChangeSort && onChangeSort('all') }} className={clsx(sortType === 'all' && 'active')}>
+          <div onClick={() => { setSortType('all') }} className={clsx(sortType === 'all' && 'active')}>
             <OrderBuySellIcon useDarkMode />
           </div>
-          <div onClick={() => { onChangeSort && onChangeSort('buy') }} className={clsx(sortType === 'buy' && 'active')}>
+          <div onClick={() => { setSortType('bid') }} className={clsx(sortType === 'bid' && 'active')}>
             <OrderBuyIcon useDarkMode />
           </div>
-          <div onClick={() => { onChangeSort && onChangeSort('sell') }} className={clsx(sortType === 'sell' && 'active')}>
+          <div onClick={() => { setSortType('ask') }} className={clsx(sortType === 'ask' && 'active')}>
             <OrderSellIcon useDarkMode />
           </div>
         </div>
         <div className='right'>
-          <Select defaultValue="0.0001" style={{ width: 120 }} onChange={(v) => { console.log(v) }}>
-            <Option value="0.0001">0.0001</Option>
-            <Option value="0.001">0.001</Option>
+          <Select defaultValue="0.01" style={{ width: 120 }} onChange={(v: string) => { setNumberFormat(v) }}>
+            <Option value="0.01">0.01</Option>
             <Option value="0.1">0.1</Option>
             <Option value="1">1</Option>
+            <Option value="10">10</Option>
           </Select>
         </div>
       </div>
@@ -47,290 +78,9 @@ export function OrderBook({ sortType = 'all', onChangeSort }: OrderBookProps) {
         <div className='table-head'>
           <div><Typography level="text">Price(USDT)</Typography></div>
           <div><Typography level="text">Quantity(BTC)</Typography></div>
-          <div><Typography level="text">Quantity</Typography></div>
+          <div><Typography level="text">Total</Typography></div>
         </div>
-        <div className='table-body'>
-          <div className='sell'>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-          </div>
-
-          <div className='center-group'>
-            <div className='left'>
-              <Typography level="B1" className='price'>
-              38,348.75≈$38,360.25
-              </Typography>
-            </div>
-            <div className='right'>
-              More
-            </div>
-          </div>
-
-          <div className='buy'>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-            <div className='table-row'>
-              <Typography level="B3" className='price'>
-                38273.61
-              </Typography>
-              <Typography level="B3">
-                0.18031
-              </Typography>
-              <Typography level="B3">
-                12,714.44068
-              </Typography>
-            </div>
-          </div>
-        </div>
+        {renderTableBody(sortType, numberFormat)}
       </div>
     </ComponentStyled>
   );

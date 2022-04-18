@@ -1,18 +1,28 @@
-import { Typography, OrderBook, SortType } from "@difx/core-ui";
-import { useState } from "react";
-import { Responsive, WidthProvider } from "react-grid-layout";
-import AppLayout from '..';
-import { PageStyled } from './styled';
-import '/node_modules/react-grid-layout/css/styles.css';
-import '/node_modules/react-resizable/css/styles.css';
+import { OrderBook } from "@difx/core-ui";
+import { socket } from "@difx/shared";
+import { useEffect, useState } from "react";
 
 /* eslint-disable-next-line */
-export interface OrderBookWrapperProps { }
+export interface OrderBookWrapperProps {
+}
 
-export function OrderBookWrapper(props: OrderBookWrapperProps) {
-    const [sortType, setSortType] = useState<SortType>('all')
+export function OrderBookWrapper() {
+    const [bids, setBids] = useState([]);
+    const [asks, setAsks] = useState([]);
+
+    useEffect(() => {
+        socket.listen('orderbook_limited', data => {
+            setBids(data.bids);
+            setAsks(data.asks);
+            console.log(data)
+        });
+        return ()=>{
+            socket.off('orderbook_limited');
+        }
+    }, []);
+
     return (
-        <OrderBook sortType={sortType} onChangeSort={(type) => { setSortType(type) }} />
+        <OrderBook bids={bids} asks={asks} />
     );
 }
 

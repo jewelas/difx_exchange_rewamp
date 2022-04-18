@@ -21,8 +21,14 @@ export const socket = {
       callback(type, data)
     });
   },
+  send:(event:string, data:any) =>{
+    socketInstance.emit(event, data);
+  },
   listen: (event:string, callback) =>{
     socketInstance.on(event, callback);
+  },
+  off: (event?: string) =>{
+    socketInstance.off(event);
   },
   disconnect: () =>{
     socketInstance.disconnect();

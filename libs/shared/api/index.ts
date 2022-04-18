@@ -17,6 +17,8 @@ const socketInstance = io(process.env['NX_WS_URL'],
 
 export const socket = {
   packet: (callback)=>{
+    socketInstance.disconnect();
+    socketInstance.connect();
     socketInstance.io.on("packet", ({ type, data }) => {
       callback(type, data)
     });
@@ -25,6 +27,8 @@ export const socket = {
     socketInstance.emit(event, data);
   },
   listen: (event:string, callback) =>{
+    socketInstance.disconnect();
+    socketInstance.connect();
     socketInstance.on(event, callback);
   },
   off: (event?: string) =>{

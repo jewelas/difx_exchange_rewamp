@@ -16,9 +16,6 @@ export function OrderBookWrapper() {
             setAsks(data.asks);
             console.log(data)
         });
-        return ()=>{
-            socket.off('orderbook_limited');
-        }
     }, []);
 
     return (

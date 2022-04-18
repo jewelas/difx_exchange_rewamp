@@ -15,6 +15,7 @@ export function ExchangePage(props: ExchangePageProps) {
   useEffect(()=>{
     socket.send('leave','BNBUSDT');
     socket.send('join','BNBUSDT');
+    return ()=> socket.disconnect();
   }, []);
 
   const ResponsiveGridLayout = WidthProvider(Responsive);

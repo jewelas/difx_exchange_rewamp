@@ -46,6 +46,9 @@ function renderData(max_row: number, type: 'bid' | 'ask', data: Array<Array<numb
 }
 
 function renderCurrentPrice(currentPrice: number, priceTrend: string) {
+  if (!currentPrice) {
+    return <Spin className='loading' indicator={loadingIcon} />
+  }
   return (
     <div className='center-group'>
       <div className='left'>
@@ -109,7 +112,7 @@ export function OnlyAskData({ asks, numberFormat = '0.01', currentPrice, priceTr
   return (
     <div className='table-body'>
       <div className='ask'>
-        {renderData(MAX_ROW, 'ask', asks.reverse(), numberFormat)}
+        {renderData(MAX_ROW, 'ask', asks, numberFormat)}
       </div>
       {renderCurrentPrice(currentPrice, priceTrend)}
     </div>

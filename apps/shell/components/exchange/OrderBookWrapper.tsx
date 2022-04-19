@@ -18,7 +18,7 @@ export function OrderBookWrapper() {
         socket.listen('orderbook_limited', data => {
             const { asks, bids } = data;
             setBids(bids);
-            setAsks(asks);
+            setAsks(asks.reverse());
         });
     }, []);
 

@@ -45,8 +45,8 @@ export function OrderBook({priceTrend, currentPrice, bids, asks }: OrderBookProp
 
   const renderTableBody = (type: SortType, format: string) => {
     if (!asks || !bids) return null;
-    if (type === 'all') return <BidAskData priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} asks={asks.reverse()} numberFormat={numberFormat} />
-    else if (type === 'ask') return <OnlyAskData priceTrend={priceTrend} currentPrice={currentPrice} asks={asks.reverse()} numberFormat={numberFormat} />
+    if (type === 'all') return <BidAskData priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} asks={asks} numberFormat={numberFormat} />
+    else if (type === 'ask') return <OnlyAskData priceTrend={priceTrend} currentPrice={currentPrice} asks={asks} numberFormat={numberFormat} />
     else if (type === 'bid') return <OnlyBidData priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} numberFormat={numberFormat} />
     return null;
   }

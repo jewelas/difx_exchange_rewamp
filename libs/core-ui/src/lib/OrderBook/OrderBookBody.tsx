@@ -18,7 +18,7 @@ export interface OrderBookProps {
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 
-function renderData(max_row: number, type: 'sell' | 'buy', data: Array<Array<number>> | undefined, numberFormat: string) {
+function renderData(max_row: number, type: 'bid' | 'ask', data: Array<Array<number>> | undefined, numberFormat: string) {
   const result = [];
 
   if (!data) return [];
@@ -68,14 +68,14 @@ export function BidAskData({ bids, asks, numberFormat = '0.01', currentPrice, pr
 
   return (
     <div className='table-body'>
-      <div className='sell'>
-        {renderData(MAX_ROW, 'sell', asks, numberFormat)}
+      <div className='ask'>
+        {renderData(MAX_ROW, 'ask', asks, numberFormat)}
       </div>
 
       {renderCurrentPrice(currentPrice, priceTrend)}
 
-      <div className='buy'>
-        {renderData(MAX_ROW, 'buy', bids, numberFormat)}
+      <div className='bid'>
+        {renderData(MAX_ROW, 'bid', bids, numberFormat)}
       </div>
     </div>
   );
@@ -91,8 +91,8 @@ export function OnlyBidData({ bids, numberFormat = '0.01', currentPrice, priceTr
   return (
     <div className='table-body'>
       {renderCurrentPrice(currentPrice, priceTrend)}
-      <div className='buy'>
-        {renderData(MAX_ROW, 'buy', bids, numberFormat)}
+      <div className='bid'>
+        {renderData(MAX_ROW, 'bid', bids, numberFormat)}
       </div>
     </div>
   );
@@ -107,8 +107,8 @@ export function OnlyAskData({ asks, numberFormat = '0.01', currentPrice, priceTr
 
   return (
     <div className='table-body'>
-      <div className='sell'>
-        {renderData(MAX_ROW, 'sell', asks.reverse(), numberFormat)}
+      <div className='ask'>
+        {renderData(MAX_ROW, 'ask', asks.reverse(), numberFormat)}
       </div>
       {renderCurrentPrice(currentPrice, priceTrend)}
     </div>

@@ -24,9 +24,6 @@ export function OrderBook({priceTrend, currentPrice, bids, asks }: OrderBookProp
   const [sortType, setSortType] = useState<SortType>('all');
   const [numberFormat, setNumberFormat] = useState('0.01');
 
-  // const [currentPrice, setCurrentPrice] = useState(0.00);
-  // const [previousPrice, setPreviousPrice] = useState(0.00);
-
   if (asks) {
     const maxValueOfAsks = Math.max(...asks.map((ask) => ask[1]), 0);
     if (asks.length > 0) {

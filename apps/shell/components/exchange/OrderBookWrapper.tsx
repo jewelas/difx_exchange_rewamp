@@ -26,10 +26,9 @@ export function OrderBookWrapper() {
         if (asks && bids && !isEmpty(asks) && !isEmpty(bids)) {
             const newPrice = Number(((asks[asks.length - 1][0] + bids[0][0]) / 2).toFixed(1));
             setCurrentPrice(newPrice);
-            if (currentPrice < newPrice) setPriceTrend('buy');
-            else if (currentPrice > newPrice) setPriceTrend('sell');
+            if (currentPrice < newPrice) setPriceTrend('bid');
+            else if (currentPrice > newPrice) setPriceTrend('ask');
             else setPriceTrend('');
-
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [asks, bids]);

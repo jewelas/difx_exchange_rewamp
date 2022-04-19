@@ -16,9 +16,10 @@ export interface OrderBookProps {
   asks?: Array<Array<number>>;
   priceTrend: string;
   currentPrice: number;
+  networkStatus?: string;
 }
 
-export function OrderBook({priceTrend, currentPrice, bids, asks }: OrderBookProps) {
+export function OrderBook({priceTrend, currentPrice, bids, asks, networkStatus }: OrderBookProps) {
 
   const { Option } = Select;
   const [sortType, setSortType] = useState<SortType>('all');
@@ -45,9 +46,9 @@ export function OrderBook({priceTrend, currentPrice, bids, asks }: OrderBookProp
 
   const renderTableBody = (type: SortType, format: string) => {
     if (!asks || !bids) return null;
-    if (type === 'all') return <BidAskData priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} asks={asks} numberFormat={numberFormat} />
-    else if (type === 'ask') return <OnlyAskData priceTrend={priceTrend} currentPrice={currentPrice} asks={asks} numberFormat={numberFormat} />
-    else if (type === 'bid') return <OnlyBidData priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} numberFormat={numberFormat} />
+    if (type === 'all') return <BidAskData networkStatus={networkStatus} priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} asks={asks} numberFormat={numberFormat} />
+    else if (type === 'ask') return <OnlyAskData networkStatus={networkStatus} priceTrend={priceTrend} currentPrice={currentPrice} asks={asks} numberFormat={numberFormat} />
+    else if (type === 'bid') return <OnlyBidData networkStatus={networkStatus} priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} numberFormat={numberFormat} />
     return null;
   }
 

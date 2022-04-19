@@ -1,5 +1,5 @@
 import { OrderBook } from "@difx/core-ui";
-import { socket } from "@difx/shared";
+import { socket, useGetPairs } from "@difx/shared";
 import isEmpty from 'lodash/isEmpty';
 import { useEffect, useState } from "react";
 
@@ -12,7 +12,9 @@ export function OrderBookWrapper() {
     const [asks, setAsks] = useState([]);
 
     const [currentPrice, setCurrentPrice] = useState(0.00);
-    const [priceTrend, setPriceTrend] = useState<string|undefined>();
+    const [priceTrend, setPriceTrend] = useState<string | undefined>();
+
+    const { data: pairs } = useGetPairs(true);
 
     useEffect(() => {
         socket.listen('orderbook_limited', data => {
@@ -20,6 +22,7 @@ export function OrderBookWrapper() {
             setBids(bids);
             setAsks(asks.reverse());
         });
+
     }, []);
 
     useEffect(() => {
@@ -30,11 +33,11 @@ export function OrderBookWrapper() {
             else if (currentPrice > newPrice) setPriceTrend('ask');
             else setPriceTrend('');
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [asks, bids]);
 
     return (
-        <OrderBook priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} asks={asks} />
+        <OrderBook networkStatus={pairs ? pairs[0].networkStatus : 'weak'} priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} asks={asks} />
     );
 }
 

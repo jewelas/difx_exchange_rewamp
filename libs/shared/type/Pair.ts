@@ -1,4 +1,5 @@
   export interface PairType {
+    networkStatus?: string;
     symbol: string;
     order: number;
     currency1: string;

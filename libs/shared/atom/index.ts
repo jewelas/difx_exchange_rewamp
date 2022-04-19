@@ -1,8 +1,5 @@
 import { atom, PrimitiveAtom } from 'jotai';
-import { User } from './../type/User';
-import { themeAtom, currentUserAtom } from './../../core-ui/src/lib/Header';
+import { User } from '@difx/shared';
 
-export {
-    themeAtom,
-    currentUserAtom
-}
+export const themeAtom = atom<string>('light');
+export const currentUserAtom = atom<User | undefined>(undefined) as PrimitiveAtom<User | undefined>;

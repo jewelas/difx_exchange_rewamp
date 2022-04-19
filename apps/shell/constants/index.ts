@@ -6,3 +6,5 @@ export const THEME = {
   LIGHT: 'light',
   DARK: 'dark'
 }
+
+export const DEFAULT_PAIR = 'BNBUSDT'

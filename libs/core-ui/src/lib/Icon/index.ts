@@ -24,12 +24,17 @@ import QRCodeIcon from './QRCodeIcon';
 import NotificationIcon from './NotificationIcon';
 import SettingIcon from './SettingIcon';
 import DownloadIcon from './DownloadIcon';
+import OrderBuySellIcon from './OrderBuySellIcon';
+import OrderBuyIcon from './OrderBuyIcon';
+import OrderSellIcon from './OrderSellIcon';
+import WifiIcon from './WifiIcon';
 
 export interface IconProps {
   width?: number;
   height?: number;
   className?: string;
   fill?: string;
+  variant?: 'min' | 'medium' | 'max' | 'weak' | 'medium' | 'fast' | string;
   useDarkMode?: boolean; // If true: just use black/white color
 }
 
@@ -59,7 +64,11 @@ const Icon = {
   QRCodeIcon,
   NotificationIcon,
   SettingIcon,
-  DownloadIcon
+  DownloadIcon,
+  OrderBuySellIcon,
+  OrderBuyIcon,
+  OrderSellIcon,
+  WifiIcon
 }
 
 export { Icon }

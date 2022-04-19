@@ -103,6 +103,14 @@ const GlobalStyles = createGlobalStyle`
             color:${({ theme }: { theme: CustomThemeProps }) => theme.textColor} !important;
           }
         }
+        .rc-virtual-list-holder{
+          .ant-select-item-option.ant-select-item-option-disabled{
+            opacity: 0.2;
+          }
+          .ant-select-item-option{
+            color:${({ theme }: { theme: CustomThemeProps }) => theme.textColor} !important;
+          }
+        }
       }
 
     // Button

@@ -48,6 +48,12 @@ export const TextStyled = styled(Text)`
   line-height: 22px;
   color: ${({theme})=> theme.textColor};
 }
+&.B3{
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: ${({theme})=> theme.textColor};
+}
 
 &.text{
   font-weight: 500;

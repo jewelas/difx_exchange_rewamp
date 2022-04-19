@@ -35,7 +35,7 @@ export function GuestLayout({ children }: GuestLayoutProps) {
   return (
 
       <LayoutStyled>
-        <Header onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
+        <Header theme={theme} onChangeTheme={changeTheme} onNavigation={(page: string) => router.push(page)} />
         <ContentStyled>{children}</ContentStyled>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </LayoutStyled>

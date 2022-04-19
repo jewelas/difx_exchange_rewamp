@@ -1,5 +1,4 @@
 import { Story, Meta } from '@storybook/react';
-import 'antd/dist/antd.css';
 import { CountrySelect, CountrySelectProps } from '.';
 
 

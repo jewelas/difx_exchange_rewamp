@@ -1,6 +1,5 @@
 import { Story, Meta } from '@storybook/react';
 import styled from 'styled-components';
-import 'antd/dist/antd.css';
 import { Icon } from './index';
 
 export default {
@@ -25,7 +24,7 @@ const Template: Story = (args) => {
   const {
     ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon, UserIcon,
     BankIcon, MenuDownIcon, MenuUpIcon, CheckCircleIcon, CloseCircleIcon, EyeHiddenIcon, EyeVisibleIcon,
-    LightIcon, LockIcon, QRCodeIcon, NotificationIcon, SettingIcon, DownloadIcon
+    LightIcon, LockIcon, QRCodeIcon, NotificationIcon, SettingIcon, DownloadIcon, OrderBuySellIcon, OrderBuyIcon, OrderSellIcon, WifiIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -83,6 +82,10 @@ const Template: Story = (args) => {
         {renderIcon('NotificationIcon', <NotificationIcon {...iconArgs}  />)}
         {renderIcon('SettingIcon', <SettingIcon {...iconArgs}  />)}
         {renderIcon('DownloadIcon', <DownloadIcon {...iconArgs}  />)}
+        {renderIcon('OrderBuySellIcon', <OrderBuySellIcon {...iconArgs}  />)}
+        {renderIcon('OrderBuyIcon', <OrderBuyIcon {...iconArgs}  />)}
+        {renderIcon('OrderSellIcon', <OrderSellIcon {...iconArgs}  />)}
+        {renderIcon('WifiIcon', <WifiIcon {...iconArgs}  />)}
       </div>
     </div>
   )

@@ -6,3 +6,4 @@ export * from './lib/Typography';
 export * from './lib/Flag';
 export * from './lib/CountrySelect';
 export * from './lib/PasswordField';
+export * from './lib/OrderBook';

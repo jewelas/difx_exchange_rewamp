@@ -1,13 +1,12 @@
+import { BaseResponse } from "./Base";
+
   export interface TwoFactorRequest {
     code: string;
     sessionId: string;
     rememberMe: boolean;
   }
 
-  export interface TwoFactorResponse {
-    statusCode: string;
-    statusText: string;
-
+  export interface TwoFactorResponse extends BaseResponse {
     corp_kyc: boolean;
     email: string;
     emailverified: boolean;

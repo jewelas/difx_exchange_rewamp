@@ -27,12 +27,14 @@ import DownloadIcon from './DownloadIcon';
 import OrderBuySellIcon from './OrderBuySellIcon';
 import OrderBuyIcon from './OrderBuyIcon';
 import OrderSellIcon from './OrderSellIcon';
+import WifiIcon from './WifiIcon';
 
 export interface IconProps {
   width?: number;
   height?: number;
   className?: string;
   fill?: string;
+  variant?: 'min' | 'medium' | 'max';
   useDarkMode?: boolean; // If true: just use black/white color
 }
 
@@ -65,7 +67,8 @@ const Icon = {
   DownloadIcon,
   OrderBuySellIcon,
   OrderBuyIcon,
-  OrderSellIcon
+  OrderSellIcon,
+  WifiIcon
 }
 
 export { Icon }

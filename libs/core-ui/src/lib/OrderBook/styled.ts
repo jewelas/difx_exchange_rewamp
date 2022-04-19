@@ -10,10 +10,10 @@ export const BarStyled = styled.div<BarStyledProps>`
     position: absolute;
     right:0;
     height:30px;
-    &.bid{
+    &.ask{
       background: rgba(219, 83, 84, 0.2);
     }
-    &.ask{
+    &.bid{
       background: rgba(33, 193, 152,0.2);
     }
     width: ${p=>`${p.width}%` || 0};

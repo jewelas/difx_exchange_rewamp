@@ -2,6 +2,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import clsx from 'clsx';
 import { formatNumber } from './../../util/formatter';
+import WifiIcon from './../Icon/WifiIcon';
 import { Typography } from './../Typography';
 import { BarStyled } from './styled';
 
@@ -53,7 +54,7 @@ function renderCurrentPrice(currentPrice: number, priceTrend: string) {
         </Typography>
       </div>
       <div className='right'>
-        More
+        <WifiIcon variant='min'/>
       </div>
     </div>
   )

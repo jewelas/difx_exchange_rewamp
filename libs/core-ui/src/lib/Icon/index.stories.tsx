@@ -24,7 +24,7 @@ const Template: Story = (args) => {
   const {
     ArrowDownIcon, EarthIcon, MoonIcon, CloseIcon, EarnIcon, MarketIcon, ExchangeIcon, WalletIcon, OrderIcon, LogoIcon, HomeIcon, HorizontalLineIcon, UserIcon,
     BankIcon, MenuDownIcon, MenuUpIcon, CheckCircleIcon, CloseCircleIcon, EyeHiddenIcon, EyeVisibleIcon,
-    LightIcon, LockIcon, QRCodeIcon, NotificationIcon, SettingIcon, DownloadIcon, OrderBuySellIcon, OrderBuyIcon, OrderSellIcon
+    LightIcon, LockIcon, QRCodeIcon, NotificationIcon, SettingIcon, DownloadIcon, OrderBuySellIcon, OrderBuyIcon, OrderSellIcon, WifiIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -85,6 +85,7 @@ const Template: Story = (args) => {
         {renderIcon('OrderBuySellIcon', <OrderBuySellIcon {...iconArgs}  />)}
         {renderIcon('OrderBuyIcon', <OrderBuyIcon {...iconArgs}  />)}
         {renderIcon('OrderSellIcon', <OrderSellIcon {...iconArgs}  />)}
+        {renderIcon('WifiIcon', <WifiIcon {...iconArgs}  />)}
       </div>
     </div>
   )

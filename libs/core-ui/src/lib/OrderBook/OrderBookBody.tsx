@@ -14,7 +14,7 @@ export interface OrderBookProps {
   numberFormat?: '0.01' | '0.1' | '1' | '10' | string;
   priceTrend: string;
   currentPrice: number;
-  networkStatus?: 'weak' | 'medium' | 'fast';
+  networkStatus?: string;
 }
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;

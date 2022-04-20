@@ -34,7 +34,7 @@ export interface IconProps {
   height?: number;
   className?: string;
   fill?: string;
-  variant?: 'min' | 'medium' | 'max' | 'weak' | 'medium' | 'fast' | string;
+  variant?: 'min' | 'medium' | 'max' | 'off' | '2g' | '3g' | '4g' | string;
   useDarkMode?: boolean; // If true: just use black/white color
 }
 

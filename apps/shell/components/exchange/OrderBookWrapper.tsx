@@ -1,5 +1,5 @@
 import { OrderBook } from "@difx/core-ui";
-import { socket, useGetPairs } from "@difx/shared";
+import { socket, useGetPairs, useNetwork } from "@difx/shared";
 import isEmpty from 'lodash/isEmpty';
 import { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ export function OrderBookWrapper() {
     const [currentPrice, setCurrentPrice] = useState(0.00);
     const [priceTrend, setPriceTrend] = useState<string | undefined>();
 
-    const { data: pairs } = useGetPairs(true);
+    const { effectiveType, online } = useNetwork();
 
     useEffect(() => {
         socket.listen('orderbook_limited', data => {
@@ -37,7 +37,7 @@ export function OrderBookWrapper() {
     }, [asks, bids]);
 
     return (
-        <OrderBook networkStatus={pairs ? pairs[0].networkStatus : 'weak'} priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} asks={asks} />
+        <OrderBook networkStatus={online ? effectiveType : 'off'} priceTrend={priceTrend} currentPrice={currentPrice} bids={bids} asks={asks} />
     );
 }
 

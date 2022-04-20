@@ -12,12 +12,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "baseUrl": "./",
-    "paths": {
-      "src/*": [
-        "./src/*"
-      ],
-    }
+    "baseUrl": "./"
   },
   "files": [],
   "include": [],

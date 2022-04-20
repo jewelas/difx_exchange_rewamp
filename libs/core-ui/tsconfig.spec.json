@@ -15,5 +15,5 @@
     "**/*.test.jsx",
     "**/*.spec.jsx",
     "**/*.d.ts"
-, "src/lib/core-ui.tsx" ]
+  ]
 }

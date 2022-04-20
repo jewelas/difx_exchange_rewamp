@@ -3,10 +3,10 @@ import clsx from 'clsx';
 import { useState } from 'react';
 
 import { NetworkStatusType } from './../../../../shared/type/Network';
-import OrderBuyIcon from './../Icon/OrderBuyIcon';
-import OrderBuySellIcon from './../Icon/OrderBuySellIcon';
-import OrderSellIcon from './../Icon/OrderSellIcon';
-import { Typography } from './../Typography';
+import OrderBuyIcon from '../Icon/OrderBuyIcon';
+import OrderBuySellIcon from '../Icon/OrderBuySellIcon';
+import OrderSellIcon from '../Icon/OrderSellIcon';
+import { Typography } from '../Typography';
 import { BidAskData, OnlyAskData, OnlyBidData } from './OrderBookBody';
 import { ComponentStyled } from './styled';
 

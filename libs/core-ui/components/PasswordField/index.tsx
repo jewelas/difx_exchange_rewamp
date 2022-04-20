@@ -2,9 +2,9 @@ import { Form, Input, Popover } from 'antd';
 import { TooltipPlacement } from 'antd/lib/tooltip';
 import clsx from 'clsx';
 import { useState } from 'react';
-import t from '../../../../locale';
-import CheckCircleIcon from './../Icon/CheckCircleIcon';
-import CloseCircleIcon from './../Icon/CloseCircleIcon';
+import t from './../../../locale';
+import CheckCircleIcon from '../Icon/CheckCircleIcon';
+import CloseCircleIcon from '../Icon/CloseCircleIcon';
 import { FieldStyled } from './styled';
 export interface PasswordFieldProps {
   rules?: [any];

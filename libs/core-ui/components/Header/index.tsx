@@ -2,9 +2,9 @@ import { Button, Col, Drawer, Menu, Row } from 'antd';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { User } from './../../../../shared';
-import t from './../../../../locale';
-import { Icon } from './../Icon';
+import { User } from './../../../shared';
+import t from './../../../locale';
+import { Icon } from '../Icon';
 import { StyledButtonGroup, StyledHeader, StyledIconButton, StyledLine, StyledMoreMenuGroup } from './styled';
 
 export interface HeaderProps {

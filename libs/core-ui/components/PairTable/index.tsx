@@ -3,7 +3,7 @@ import Trend from 'react-trend';
 import {Color} from '../Color'
 import { Table, Tag, Space } from 'antd';
 
-import { PairType } from '../../../../shared/type/Pair';
+import { PairType } from './../../../shared/type/Pair';
 
 /* eslint-disable-next-line */
 export interface PairTableProps {

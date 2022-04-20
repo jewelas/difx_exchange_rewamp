@@ -21,7 +21,6 @@ export function useGetPairs(isCheckStatus?: boolean) {
         {
             refetchOnMount: false,
             refetchOnWindowFocus: false,
-            refetchInterval: 3000,
         }
     );
     return query;

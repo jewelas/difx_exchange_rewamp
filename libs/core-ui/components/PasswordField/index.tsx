@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form, Input, Popover } from 'antd';
 import { TooltipPlacement } from 'antd/lib/tooltip';
 import clsx from 'clsx';
@@ -35,6 +36,7 @@ const PasswordField = (props: PasswordFieldProps) => {
     const _containsLowerCase = /[a-z]/.test(value);
     const _containsUpperCase = /[A-Z]/.test(value);
     const _containsNumberCase = /[0-9]/.test(value);
+    // eslint-disable-next-line no-useless-escape
     const _containsSpecialChar = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value);
 
     setNotContainsSpace(_notContainSpace);

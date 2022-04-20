@@ -1,5 +1,5 @@
 import { OrderBook } from "@difx/core-ui";
-import { socket, useGetPairs, useNetwork } from "@difx/shared";
+import { socket, useNetwork } from "@difx/shared";
 import isEmpty from 'lodash/isEmpty';
 import { useEffect, useState } from "react";
 

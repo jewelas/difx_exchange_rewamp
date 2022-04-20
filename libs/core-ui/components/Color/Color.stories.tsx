@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Story, Meta } from '@storybook/react';
 import {Color} from '.';
 
@@ -17,7 +18,7 @@ function wc_hex_is_light(color: string) {
     return brightness > 155;
 }
 
-const Template: Story<{}> = (args) => {
+const Template: Story = (args) => {
     const renderColorRange = (name: string, colorsParam: any) => {
         const keys: any = Object.keys(colorsParam);
 

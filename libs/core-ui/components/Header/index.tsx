@@ -14,7 +14,7 @@ export interface HeaderProps {
   currentUser?: User;
 }
 
-const SMALL_SIZE: number = 637;
+const SMALL_SIZE = 637;
 
 export function Header(props: HeaderProps) {
   const { onNavigation, theme, currentUser } = props;

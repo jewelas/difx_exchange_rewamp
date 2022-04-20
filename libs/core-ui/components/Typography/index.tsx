@@ -6,7 +6,7 @@ export interface TypographyProps {
     level?: 'H1' | 'H2' | 'H5' | 'H4' | 'H6' | 'B1' | 'B2' | 'B3' | 'text';
     color?: 'primary' | 'danger' | 'secondary';
     className?: string;
-    children?: any;
+    children?: React.ReactChild;
 }
 
 const Typography = (props: TypographyProps) => {

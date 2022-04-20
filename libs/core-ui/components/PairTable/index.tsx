@@ -1,9 +1,10 @@
-import styled from 'styled-components';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Table } from 'antd';
 import Trend from 'react-trend';
-import {Color} from '../Color'
-import { Table, Tag, Space } from 'antd';
-
+import styled from 'styled-components';
+import { Color } from '../Color';
 import { PairType } from './../../../shared/type/Pair';
+
 
 /* eslint-disable-next-line */
 export interface PairTableProps {

@@ -6,15 +6,15 @@ function getNetworkConnection() {
 }
 
 function getNetworkConnectionInfo() {
-    const connection: NetworkInformation = getNetworkConnection();
+    const connection: NetworkType = getNetworkConnection();
     if (!connection) {
         return {}
     }
     return {
-        downlink: connection['downlink'],
-        rtt: connection['rtt'],
-        effectiveType: connection['effectiveType'],
-        saveData: connection['saveData']
+        downlink: connection.downlink,
+        rtt: connection.rtt,
+        effectiveType: connection.effectiveType,
+        saveData: connection.saveData
     }
 }
 

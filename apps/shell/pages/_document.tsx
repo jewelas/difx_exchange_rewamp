@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
-import { ReactElement } from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+import { ReactElement } from "react";
+import Document, { Html, Head, Main, NextScript } from "next/document";
+import { ServerStyleSheet } from "styled-components";
 
 export default class CustomDocument extends Document<{
   styleTags: ReactElement[];
@@ -24,8 +24,15 @@ export default class CustomDocument extends Document<{
         <Head>
           {this.props.styleTags}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin='true' />
-          <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"></link>
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="true"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+            rel="stylesheet"
+          ></link>
         </Head>
         <body>
           <Main />

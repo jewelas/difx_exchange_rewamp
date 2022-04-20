@@ -4,3 +4,4 @@
 yarn test
 nx lint shell
 nx lint core-ui
+nx format

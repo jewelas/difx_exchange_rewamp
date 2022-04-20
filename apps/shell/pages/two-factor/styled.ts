@@ -1,77 +1,78 @@
-import { Color } from '@difx/core-ui';
-import styled from 'styled-components';
+import { Color } from "@difx/core-ui";
+import styled from "styled-components";
 
 const PageStyled = styled.div`
-  .ant-row.row-group{
+  .ant-row.row-group {
     background: ${({ theme }) => theme.backgroundColor};
-    .ant-col.col-group{
+    .ant-col.col-group {
       padding: 50px;
       margin: 0 auto;
       margin-top: 70px;
       margin-bottom: 70px;
       background: ${({ theme }) => theme.backgroundColor2};
       border-radius: 15px;
-      .form{
+      .form {
         margin-top: 25px;
       }
-      .H4, .B2{
+      .H4,
+      .B2 {
         display: flex;
         justify-content: center;
       }
-      .B2{
+      .B2 {
         margin-top: 10px;
         color: ${Color.grey.linkSecondary};
       }
-      .B1{
+      .B1 {
         color: ${Color.grey.linkSecondary};
       }
-      .left-right{
+      .left-right {
         display: flex;
         justify-content: space-between;
-        margin-top:10px;
-        margin-bottom:10px;
-        .left{
-          display:flex;
-          .tab{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        .left {
+          display: flex;
+          .tab {
             cursor: pointer;
-            &.active{
-              .ant-typography{
-                color: ${Color.blue.primary}
+            &.active {
+              .ant-typography {
+                color: ${Color.blue.primary};
               }
             }
           }
-          .splitter{
-            border-left: solid 1px #C7CDD5;
+          .splitter {
+            border-left: solid 1px #c7cdd5;
             height: 14px;
             margin-top: 4px;
             margin-left: 21px;
             margin-right: 21px;
           }
         }
-        .pointer{
+        .pointer {
           cursor: pointer;
         }
-        .right{
-          .ant-switch{
+        .right {
+          .ant-switch {
             margin-top: 1px;
             margin-left: 6px;
           }
-          &:not(.forgot-pass){
+          &:not(.forgot-pass) {
             display: flex;
             margin-top: 4px;
           }
-          .B2{
+          .B2 {
             font-weight: 500 !important;
             line-height: 17px !important;
           }
         }
       }
-      .content{
-        .email{
+      .content {
+        .email {
           margin-bottom: 15px;
         }
       }
-      .ant-btn{
+      .ant-btn {
         width: 100%;
       }
     }

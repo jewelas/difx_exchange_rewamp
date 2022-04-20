@@ -1,12 +1,13 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const PageStyled = styled.div`
   background: #fff;
   padding: 25px;
-  span{
-    font-weight: bold; font-size: 18px;
+  span {
+    font-weight: bold;
+    font-size: 18px;
   }
-  a{
+  a {
     font-size: 18px;
   }
   .policyContainer {

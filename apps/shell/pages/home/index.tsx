@@ -1,48 +1,46 @@
-import { PairTable } from '@difx/core-ui';
-import { useGetPairs } from '@difx/shared';
-import { Layout } from 'antd';
-import styled from 'styled-components';
-import AppLayout from '..';
+import { PairTable } from "@difx/core-ui";
+import { useGetPairs } from "@difx/shared";
+import { Layout } from "antd";
+import styled from "styled-components";
+import AppLayout from "..";
 
 /* eslint-disable-next-line */
-export interface HomePageProps { }
+export interface HomePageProps {}
 
-const PageStyled = styled.div`
-`;
+const PageStyled = styled.div``;
 
 const MarketContentStyled = styled(Layout.Content)`
-  .title{
+  .title {
     font-weight: 600;
     font-size: 30px;
-    color: #090E16;
+    color: #090e16;
   }
-  .summary{
+  .summary {
     font-weight: 600;
     font-size: 20px;
     line-height: 28px;
-    color: #090E16;
+    color: #090e16;
   }
-  .widgets{
-
+  .widgets {
   }
-`
+`;
 
 const ListPairsContentStyled = styled(Layout.Content)`
   background: #fff;
-  margin-top:20px;
-  .title{
+  margin-top: 20px;
+  .title {
     font-size: 16px;
     font-weight: 600;
-    color: #3D7EFF;
+    color: #3d7eff;
     text-transform: uppercase;
     height: 32px;
     border-bottom: solid 2px;
-    display: inline-block
+    display: inline-block;
   }
-  .pairs{
+  .pairs {
     margin-top: 20px;
   }
-`
+`;
 
 export function HomePage(props: HomePageProps) {
   const { data: pairs } = useGetPairs();
@@ -50,20 +48,19 @@ export function HomePage(props: HomePageProps) {
   return (
     <AppLayout>
       <PageStyled>
-        <MarketContentStyled style={{ padding: '0 50px' }}>
-          <div className='title'>
-            Market
-          </div>
-          <div className='summary'>
-            In the pass 24 hours Market is down <span style={{ color: '#DB5354' }}>3.08%</span>
+        <MarketContentStyled style={{ padding: "0 50px" }}>
+          <div className="title">Market</div>
+          <div className="summary">
+            In the pass 24 hours Market is down{" "}
+            <span style={{ color: "#DB5354" }}>3.08%</span>
           </div>
         </MarketContentStyled>
-        <ListPairsContentStyled style={{ padding: '10px 50px' }}>
-          <div className='title'>All</div>
-          <div className='pairs'>
+        <ListPairsContentStyled style={{ padding: "10px 50px" }}>
+          <div className="title">All</div>
+          <div className="pairs">
             <PairTable pairs={pairs} />
           </div>
-        </ListPairsContentStyled >
+        </ListPairsContentStyled>
       </PageStyled>
     </AppLayout>
   );

@@ -1,31 +1,35 @@
-import { Typography } from '@difx/core-ui';
-import t from '@difx/locale';
-import { Col, Row } from 'antd';
-import React from 'react';
-import AppLayout from '..';
-import RegisterFormComponent from './../../components/register/RegisterForm';
-import { PageStyled } from './styled';
-import CoverImage from './svg/CoverImage';
+import { Typography } from "@difx/core-ui";
+import t from "@difx/locale";
+import { Col, Row } from "antd";
+import React from "react";
+import AppLayout from "..";
+import RegisterFormComponent from "./../../components/register/RegisterForm";
+import { PageStyled } from "./styled";
+import CoverImage from "./svg/CoverImage";
 
 /* eslint-disable-next-line */
-export interface RegisterPageProps { }
+export interface RegisterPageProps {}
 
 export function RegisterPage(props: RegisterPageProps) {
   return (
     <AppLayout>
       <PageStyled>
         <Row>
-          <Col className='left-side' md={{ span: 15 }}>
-            <div className='message'>
-              <Typography level={'H2'}>{t('register.message1')}</Typography>
-              <Typography level={'H1'} color={'primary'}>{t('register.message2')}</Typography>
-              <Typography level={'H5'} color={'secondary'}>{t('register.message3')}</Typography>
+          <Col className="left-side" md={{ span: 15 }}>
+            <div className="message">
+              <Typography level={"H2"}>{t("register.message1")}</Typography>
+              <Typography level={"H1"} color={"primary"}>
+                {t("register.message2")}
+              </Typography>
+              <Typography level={"H5"} color={"secondary"}>
+                {t("register.message3")}
+              </Typography>
             </div>
-            <div className='cover-group'>
+            <div className="cover-group">
               <CoverImage />
             </div>
           </Col>
-          <Col className='right-side' md={{ span: 9 }}>
+          <Col className="right-side" md={{ span: 9 }}>
             <RegisterFormComponent />
           </Col>
         </Row>

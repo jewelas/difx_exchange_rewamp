@@ -1,40 +1,39 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from "axios";
 import { io } from "socket.io-client";
 
 export const axiosInstance = axios.create({
-  baseURL: process.env['NX_API_URL']
+  baseURL: process.env["NX_API_URL"],
 });
 
-const socketInstance = io(process.env['NX_WS_URL'],
-  {
-    path: '/socket.io',
-    transports: ['websocket'],
-    auth: { token: 'guest' },
-    reconnection: true,
-    reconnectionAttempts: 5,
-    reconnectionDelay: 3000,
-  });
+const socketInstance = io(process.env["NX_WS_URL"], {
+  path: "/socket.io",
+  transports: ["websocket"],
+  auth: { token: "guest" },
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 3000,
+});
 
 export const socket = {
-  packet: (callback)=>{
+  packet: (callback) => {
     socketInstance.disconnect();
     socketInstance.connect();
     socketInstance.io.on("packet", ({ type, data }) => {
-      callback(type, data)
+      callback(type, data);
     });
   },
-  send:(event:string, data:any) =>{
+  send: (event: string, data: any) => {
     socketInstance.emit(event, data);
   },
-  listen: (event:string, callback) =>{
+  listen: (event: string, callback) => {
     socketInstance.disconnect();
     socketInstance.connect();
     socketInstance.on(event, callback);
   },
-  off: (event?: string) =>{
+  off: (event?: string) => {
     socketInstance.off(event);
   },
-  disconnect: () =>{
+  disconnect: () => {
     socketInstance.disconnect();
-  }
-}
+  },
+};

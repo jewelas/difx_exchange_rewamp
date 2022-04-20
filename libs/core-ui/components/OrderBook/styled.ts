@@ -1,148 +1,146 @@
-
-import styled from 'styled-components';
-import { Color } from '../Color';
+import styled from "styled-components";
+import { Color } from "../Color";
 
 interface BarStyledProps {
   width?: string;
 }
 export const BarStyled = styled.div<BarStyledProps>`
-    z-index: 1;
-    position: absolute;
-    right:0;
-    height:30px;
-    &.ask{
-      background: rgba(219, 83, 84, 0.2);
-    }
-    &.bid{
-      background: rgba(33, 193, 152,0.2);
-    }
-    width: ${p=>`${p.width}%` || 0};
-    margin-top:-5px;
-`
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  height: 30px;
+  &.ask {
+    background: rgba(219, 83, 84, 0.2);
+  }
+  &.bid {
+    background: rgba(33, 193, 152, 0.2);
+  }
+  width: ${(p) => `${p.width}%` || 0};
+  margin-top: -5px;
+`;
 
 export const ComponentStyled = styled.div`
   background: ${({ theme }) => theme.backgroundColor2};
   height: 100%;
-  .com-title{
+  .com-title {
     padding-top: 10px;
     padding-left: 20px;
     border-bottom: solid 1px ${({ theme }) => theme.borderColorLighter};
     padding-bottom: 10px;
   }
-  .com-head{
+  .com-head {
     display: flex;
     justify-content: space-between;
-    padding:15px 15px 12px 10px;
+    padding: 15px 15px 12px 10px;
     border-bottom: solid 1px ${({ theme }) => theme.borderColorLighter};
-    
-    .left{
+
+    .left {
       display: flex;
       width: 120px;
       justify-content: space-around;
-      svg{
+      svg {
         cursor: pointer;
         opacity: 0.4;
       }
-      .active{
-        svg{
-          opacity:1
+      .active {
+        svg {
+          opacity: 1;
         }
       }
     }
 
-    .right{
-      .ant-select{
+    .right {
+      .ant-select {
         margin-top: -6px;
       }
     }
   }
 
-  .com-table-content{
+  .com-table-content {
     padding: 10px 15px 10px 20px;
     color: ${({ theme }) => theme.textColor};
-    .table-head{
-      display:flex;
+    .table-head {
+      display: flex;
       justify-content: space-between;
     }
-    .loading{
+    .loading {
       display: flex;
       justify-content: center;
       margin-top: 30px;
     }
-    .table-body{
+    .table-body {
       margin-top: 10px;
       overflow: hidden;
-      .table-row{
+      .table-row {
         display: flex;
         justify-content: space-between;
-        margin-bottom:1px;
+        margin-bottom: 1px;
         margin-left: -20px;
         margin-right: -15px;
-        padding:5px;
+        padding: 5px;
         padding-left: 20px;
         padding-right: 15px;
-        .ant-typography{
+        .ant-typography {
           z-index: 2;
-          &.price{
+          &.price {
             width: 70px;
             max-width: 70px;
             overflow: hidden;
             overflow: hidden;
             white-space: nowrap;
-            display:flex;
+            display: flex;
             justify-content: flex-start;
           }
-          &.amount{
+          &.amount {
             width: 70px;
             max-width: 70px;
             overflow: hidden;
             overflow: hidden;
             white-space: nowrap;
-            display:flex;
+            display: flex;
             justify-content: flex-end;
           }
-          &.total{
+          &.total {
             overflow: hidden;
             overflow: hidden;
             flex-grow: 1;
             max-width: 70px;
             white-space: nowrap;
-            display:flex;
+            display: flex;
             justify-content: flex-end;
           }
         }
       }
-      .center-group{
+      .center-group {
         display: flex;
         justify-content: space-between;
-        margin:10px 0;
-        .left{
-          .B1{
+        margin: 10px 0;
+        .left {
+          .B1 {
             font-weight: 600;
-            &.bid{
-              color: ${Color.green.success}
+            &.bid {
+              color: ${Color.green.success};
             }
-            &.ask{
-              color: ${Color.red.failure}
+            &.ask {
+              color: ${Color.red.failure};
             }
           }
         }
-        .right{
-
+        .right {
         }
       }
-      .ask{
+      .ask {
         overflow: hidden;
-        .price{
-          color: ${Color.red.failure}
+        .price {
+          color: ${Color.red.failure};
         }
       }
-      .bid{
+      .bid {
         overflow: hidden;
-        .price{
-          color: ${Color.green.success}
+        .price {
+          color: ${Color.green.success};
         }
       }
     }
   }
-`
+`;

@@ -1,9 +1,9 @@
-import { render } from '@testing-library/react';
+import { render } from "@testing-library/react";
 
-import PairTable from '.';
+import PairTable from ".";
 
-describe('CoreUi', () => {
-  it('should render successfully', () => {
+describe("CoreUi", () => {
+  it("should render successfully", () => {
     const { baseElement } = render(<PairTable pairs={[]} />);
     expect(baseElement).toBeTruthy();
   });

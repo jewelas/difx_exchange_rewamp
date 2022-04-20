@@ -6,7 +6,7 @@ function getNetworkConnection() {
 }
 
 function getNetworkConnectionInfo() {
-    const connection: NetworkType = getNetworkConnection();
+    const connection: NetworkType | any = getNetworkConnection();
     if (!connection) {
         return {}
     }
@@ -19,10 +19,11 @@ function getNetworkConnectionInfo() {
 }
 
 export function useNetwork() {
-    const [state, setState] = useState<NetworkType>({
+    const initState: NetworkType = {
         since: undefined,
         online: true
-    });
+    }
+    const [state, setState] = useState<NetworkType>(initState);
 
     useEffect(() => {
 

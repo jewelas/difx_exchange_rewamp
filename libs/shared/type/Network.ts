@@ -1,9 +1,9 @@
 
 export type NetworkStatusType = 'off' | '2g' | '3g' | '4g';
 
-export interface NetworkType extends NetworkInformation {
+export interface NetworkType  {
     online?: boolean;
-    since?: number;
+    since?: number | undefined;
     downlink?: number;
     rtt?: number;
     effectiveType?: NetworkStatusType;

@@ -1,9 +1,10 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import clsx from 'clsx';
-import { formatNumber } from './../../util/formatter';
-import WifiIcon from './../Icon/WifiIcon';
-import { Typography } from './../Typography';
+import { NetworkStatusType } from './../../../../shared/type/Network';
+import { formatNumber } from '../../utils/formatter';
+import WifiIcon from '../Icon/WifiIcon';
+import { Typography } from '../Typography';
 import { BarStyled } from './styled';
 
 /* eslint-disable-next-line */
@@ -14,7 +15,7 @@ export interface OrderBookProps {
   numberFormat?: '0.01' | '0.1' | '1' | '10' | string;
   priceTrend: string;
   currentPrice: number;
-  networkStatus?: string;
+  networkStatus?: NetworkStatusType;
 }
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;

@@ -20,10 +20,10 @@
     "baseUrl": ".",
     "paths": {
       "@difx/core-ui": [
-        "libs/core-ui/src/index.ts"
+        "libs/core-ui/components/index.ts"
       ],
       "@difx/core-ui/themes": [
-        "libs/core-ui/src/lib/themes/index.ts"
+        "libs/core-ui/themes/index.ts"
       ],
       "@difx/locale": [
         "libs/locale/index.ts"

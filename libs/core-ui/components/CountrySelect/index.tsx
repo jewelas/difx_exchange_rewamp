@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Select } from 'antd';
-import { Flag } from './../Flag';
+import { Flag } from '../Flag';
 import countries from './countries.json';
 import { OptionGroupStyled, SelectStyled } from './styled';
 

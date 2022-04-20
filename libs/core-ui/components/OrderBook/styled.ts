@@ -1,6 +1,6 @@
 
 import styled from 'styled-components';
-import { Color } from './../Color';
+import { Color } from '../Color';
 
 interface BarStyledProps {
   width?: string;

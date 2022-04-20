@@ -1,11 +1,12 @@
 import { Select } from 'antd';
 import clsx from 'clsx';
 import { useState } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import OrderBuyIcon from './../Icon/OrderBuyIcon';
-import OrderBuySellIcon from './../Icon/OrderBuySellIcon';
-import OrderSellIcon from './../Icon/OrderSellIcon';
-import { Typography } from './../Typography';
+
+import { NetworkStatusType } from './../../../../shared/type/Network';
+import OrderBuyIcon from '../Icon/OrderBuyIcon';
+import OrderBuySellIcon from '../Icon/OrderBuySellIcon';
+import OrderSellIcon from '../Icon/OrderSellIcon';
+import { Typography } from '../Typography';
 import { BidAskData, OnlyAskData, OnlyBidData } from './OrderBookBody';
 import { ComponentStyled } from './styled';
 
@@ -16,7 +17,7 @@ export interface OrderBookProps {
   asks?: Array<Array<number>>;
   priceTrend: string;
   currentPrice: number;
-  networkStatus?: string;
+  networkStatus?: NetworkStatusType;
 }
 
 export function OrderBook({priceTrend, currentPrice, bids, asks, networkStatus }: OrderBookProps) {

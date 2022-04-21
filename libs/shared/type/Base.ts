@@ -1,4 +1,4 @@
-export interface BaseResponse{
-    statusCode: string;
-    statusText: string;
+export interface BaseResponse {
+  statusCode: string;
+  statusText: string;
 }

@@ -1,28 +1,19 @@
 import React, { useEffect } from "react";
 import { socket } from "@difx/shared";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import AppLayout from '..';
-import OrderBookWrapper from '../../components/exchange/OrderBookWrapper';
-import { PageStyled } from './styled';
-import '/node_modules/react-grid-layout/css/styles.css';
-import '/node_modules/react-resizable/css/styles.css';
+import AppLayout from "..";
+import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
+import { PageStyled } from "./styled";
+import "/node_modules/react-grid-layout/css/styles.css";
+import "/node_modules/react-resizable/css/styles.css";
 
 /* eslint-disable-next-line */
-export interface ExchangePageProps { }
+export interface ExchangePageProps {}
 
 export function ExchangePage(props: ExchangePageProps) {
-
   const router = useRouter();
-  const { pair} = router.query;
-
-  useEffect(()=>{
-    if(pair){
-      socket.send('leave',pair);
-      socket.send('join', pair);
-    }
-    return ()=> socket.disconnect();
-  }, [pair]);
+  const { pair } = router.query;
 
   const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -52,12 +43,13 @@ export function ExchangePage(props: ExchangePageProps) {
   ];
 
   const layouts = {
-    lg, md
-  }
+    lg,
+    md,
+  };
 
   const handleGridResize = (widgets) => {
     // TODO
-  }
+  };
 
   return (
     <AppLayout>
@@ -67,16 +59,29 @@ export function ExchangePage(props: ExchangePageProps) {
           layouts={layouts}
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
           cols={{ lg: 24, md: 24, sm: 24, xs: 1, xxs: 1 }}
-          onResizeStop={handleGridResize}>
+          onResizeStop={handleGridResize}
+        >
           <div key="order-book">
-            <OrderBookWrapper />
+            <OrderBookWrapper pair={pair} />
           </div>
-          <div key="pair-info" className="temp">Pair Info</div>
-          <div key="chart" className="temp">Chart</div>
-          <div key="pair-search" className="temp">Search</div>
-          <div key="trade-info" className="temp">Trade Info</div>
-          <div key="place-order" className="temp">Place Order</div>
-          <div key="report" className="temp">Report</div>
+          <div key="pair-info" className="temp">
+            Pair Info
+          </div>
+          <div key="chart" className="temp">
+            Chart
+          </div>
+          <div key="pair-search" className="temp">
+            Search
+          </div>
+          <div key="trade-info" className="temp">
+            Trade Info
+          </div>
+          <div key="place-order" className="temp">
+            Place Order
+          </div>
+          <div key="report" className="temp">
+            Report
+          </div>
         </ResponsiveGridLayout>
       </PageStyled>
     </AppLayout>

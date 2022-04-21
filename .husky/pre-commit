@@ -2,5 +2,5 @@
 . "$(dirname "$0")/_/husky.sh"
 
 yarn test
-nx lint shell
-nx lint core-ui
+npx nx lint shell
+npx nx lint core-ui

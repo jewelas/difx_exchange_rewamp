@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 /* eslint-disable-next-line */
 export interface OrderBookWrapperProps {
-  pair?: string | string[];
+  pair?: string;
 }
 
 export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
@@ -22,7 +22,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   useEffect(() => {
     if (data) {
       setBids(data.bids);
-      setAsks(data.asks);
+      setAsks(data.asks.reverse());
     }
   }, [data]);
 

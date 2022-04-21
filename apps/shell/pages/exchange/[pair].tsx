@@ -1,51 +1,25 @@
-import React, { useEffect } from "react";
-import { socket } from "@difx/shared";
 import { useRouter } from "next/router";
+import React from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import AppLayout from "..";
 import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
+import { getLayoutType } from "./LayoutType";
 import { PageStyled } from "./styled";
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
 
 /* eslint-disable-next-line */
-export interface ExchangePageProps {}
+export interface ExchangePageProps {
+  isStaticWidgets?: boolean
+}
 
-export function ExchangePage(props: ExchangePageProps) {
+export function ExchangePage({isStaticWidgets = false}: ExchangePageProps) {
   const router = useRouter();
   const { pair } = router.query;
 
   const ResponsiveGridLayout = WidthProvider(Responsive);
 
-  const lg = [
-    { i: "order-book", x: 0, y: 0, w: 6, h: 6, minH: 6, static: true },
-
-    { i: "pair-info", x: 6, y: 0, w: 12, h: 1 },
-    { i: "chart", x: 6, y: 1, w: 12, h: 3 },
-    { i: "place-order", x: 6, y: 2, w: 12, h: 2 },
-
-    { i: "pair-search", x: 18, y: 0, w: 6, h: 3 },
-    { i: "trade-info", x: 18, y: 1, w: 6, h: 3 },
-
-    { i: "report", x: 0, y: 3, w: 24, h: 2 },
-  ];
-
-  const md = [
-    { i: "pair-info", x: 0, y: 0, w: 16, h: 1 },
-    { i: "chart", x: 0, y: 1, w: 16, h: 3 },
-    { i: "place-order", x: 0, y: 2, w: 16, h: 2 },
-
-    { i: "pair-search", x: 16, y: 0, w: 8, h: 3 },
-    { i: "trade-info", x: 16, y: 1, w: 8, h: 3 },
-
-    { i: "report", x: 0, y: 0, w: 16, h: 6 },
-    { i: "order-book", x: 16, y: 0, w: 8, h: 6, minH: 6 },
-  ];
-
-  const layouts = {
-    lg,
-    md,
-  };
+  const layouts = getLayoutType(isStaticWidgets);
 
   const handleGridResize = (widgets) => {
     // TODO
@@ -62,7 +36,7 @@ export function ExchangePage(props: ExchangePageProps) {
           onResizeStop={handleGridResize}
         >
           <div key="order-book">
-            <OrderBookWrapper pair={pair} />
+            <OrderBookWrapper pair={pair as string} />
           </div>
           <div key="pair-info" className="temp">
             Pair Info

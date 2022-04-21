@@ -3,22 +3,27 @@ import { socket } from "./../api/index";
 
 export interface useSocketProps {
   event: "orderbook_limited";
-  pair?: string | string[];
+  leavePair?: string;
+  pair?: string;
 }
 
-export function useSocket({ event, pair }: useSocketProps) {
+export function useSocket({leavePair,  event, pair }: useSocketProps) {
   const [state, setState] = useState(null);
 
   useEffect(() => {
     if (pair) {
       if (event === "orderbook_limited") {
-        socket.send("leave", pair);
+        if(leavePair) socket.send("leave", leavePair);
         socket.send("join", pair);
-        socket.listen("orderbook_limited", (data) => {
+        socket.listen(event, (data) => {
           setState(data);
         });
       }
+      return ()=>{
+        socket.disconnect();
+      }
     }
+    
   }, [pair]);
   return state;
 }

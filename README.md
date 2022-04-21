@@ -49,3 +49,15 @@ yarn test
 ## Running end-to-end test
 
 yarn test:e2e
+
+## Running lint check
+
+yarn lint
+
+## Running code formatting
+
+yarn format
+
+## Running check code format
+
+yarn format:check

@@ -6,13 +6,16 @@ export interface useSocketProps {
   event: "orderbook_limited";
   leavePair?: string;
   pair?: string;
+  refetchOnWindowFocus?: boolean
 }
 
-export function useSocket({ leavePair, event, pair }: useSocketProps) {
+export function useSocket({ leavePair, event, pair, refetchOnWindowFocus = true }: useSocketProps) {
   const [state, setState] = useState(null);
 
+  const [isTurnOnReceiving, setIsTurnOnReceiving] = useState(true);
+
   useEffect(() => {
-    if (pair) {
+    if (pair && isTurnOnReceiving) {
       if (event === "orderbook_limited") {
         if (leavePair) socket.send("leave", leavePair);
         socket.send("join", pair);
@@ -20,7 +23,33 @@ export function useSocket({ leavePair, event, pair }: useSocketProps) {
           if (!isEqual(data, state)) setState(data);
         });
       }
+    }else {
+      socket.off(event)
     }
-  }, [pair]);
+  }, [pair, isTurnOnReceiving]);
+
+
+  // Only get websocket data when user focus on browser
+  useEffect(() => {
+    const onFocus = ()=>{
+      setIsTurnOnReceiving(true);
+    }
+
+    const onBlur = ()=>{
+      socket.off(event);
+      setIsTurnOnReceiving(false);
+    }
+    if(refetchOnWindowFocus){
+      window.addEventListener("focus", onFocus);
+      window.addEventListener("blur", onBlur);
+    }
+    return () => {
+      if(refetchOnWindowFocus){
+        window.removeEventListener("focus", onFocus);
+        window.removeEventListener("blur", onBlur);
+      }
+    };
+}, []);
+
   return state;
 }

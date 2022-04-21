@@ -1,8 +1,64 @@
-// export interface ThemeInterface {
+export interface CommonThemeInterface {
+  fontFamily: string,
+  fontWeight:{
+    regular:number,
+    medium: number,
+    semiBold: number,
+    bold: number
+  },
+  typography:{
+    h1: number,
+    h2: number,
+    h3: number,
+    h4: number,
+    h5: number,
+    h6: number,
+    large: number,
+    medium: number,
+    small: number,
+    xsmall: number,
+  },
+  shadow: {
+    light: string,
+    strong: string,
+  }
+  border: string,
+  borderRadius: {
+    regular: string,
+    rounded: string,
+    circle: string,
+  },
+  buttonHeight:{
+    large: string,
+    medium: string,
+    small: string
+  }
+}
+export interface CustomThemeInterface extends CommonThemeInterface {
+  color:{
+    primary: string,
+    secondary: string,
+    success: string,
+    danger: string,
+    warning: string,
+    info: string,
+  },
+  background:{
+    primary: string,
+    secondary: string,
+  },
+  fontColor: {
+    primary: string,
+    secondary: string,
+    muted: string,
+    link: string
+  },
+}
 
+// export const light : CustomThemeInterface = {
 // }
 
-// export const light = {
+// export const dark = {
 
 // }
 

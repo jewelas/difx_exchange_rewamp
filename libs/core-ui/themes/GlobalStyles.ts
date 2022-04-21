@@ -1,6 +1,6 @@
-import { createGlobalStyle } from 'styled-components';
-import { Color } from '../components/Color';
-import { CustomThemeProps } from './themes'
+import { createGlobalStyle } from "styled-components";
+import { Color } from "../components/Color";
+import { CustomThemeProps } from "./themes";
 
 const GlobalStyles = createGlobalStyle`
     html {
@@ -29,7 +29,8 @@ const GlobalStyles = createGlobalStyle`
     .ant-btn.ant-btn-text{
         color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
         &:hover{
-            color: ${({ theme }: { theme: CustomThemeProps }) => theme.textHoverColor} !important;
+            color: ${({ theme }: { theme: CustomThemeProps }) =>
+              theme.textHoverColor} !important;
         }
     }
     .ant-btn-text:focus, .ant-btn-text:hover{
@@ -48,9 +49,12 @@ const GlobalStyles = createGlobalStyle`
         &:not(.ant-form-item-has-error) {
           .ant-form-item-control-input-content {
             input {
-              background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor};
-              color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};;
-              border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
+              background: ${({ theme }: { theme: CustomThemeProps }) =>
+                theme.inputBackgroundColor};
+              color: ${({ theme }: { theme: CustomThemeProps }) =>
+                theme.textColor};;
+              border-color: ${({ theme }: { theme: CustomThemeProps }) =>
+                theme.inputBorderColor};
               box-shadow: unset;
             }
           }
@@ -59,13 +63,16 @@ const GlobalStyles = createGlobalStyle`
         &.ant-form-item-has-error {
           .ant-form-item-control-input-content {
             input {
-              background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor};
-              color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
+              background: ${({ theme }: { theme: CustomThemeProps }) =>
+                theme.inputBackgroundColor};
+              color: ${({ theme }: { theme: CustomThemeProps }) =>
+                theme.textColor};
               border-color: #ff4d4f !important;
             }
           }
           .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover{
-            background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor};
+            background: ${({ theme }: { theme: CustomThemeProps }) =>
+              theme.inputBackgroundColor};
           }
         }
       } //end .ant-form-item
@@ -78,29 +85,41 @@ const GlobalStyles = createGlobalStyle`
             z-index: 1;
           }
           .ant-select-selector {
-            background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor} !important;
-            border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor} !important;
-            color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
+            background: ${({ theme }: { theme: CustomThemeProps }) =>
+              theme.inputBackgroundColor} !important;
+            border-color: ${({ theme }: { theme: CustomThemeProps }) =>
+              theme.inputBorderColor} !important;
+            color: ${({ theme }: { theme: CustomThemeProps }) =>
+              theme.textColor};
             box-shadow: unset !important;
           }
           .ant-select-arrow {
             svg {
-              fill: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
+              fill: ${({ theme }: { theme: CustomThemeProps }) =>
+                theme.textColor};
             }
           }
       } // end .ant-select
 
       .ant-select-dropdown{
-        background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor} !important;
+        background: ${({ theme }: { theme: CustomThemeProps }) =>
+          theme.inputBackgroundColor} !important;
         .ant-select-item-option-active:not(.ant-select-item-option-disabled){
-          background: ${({ theme }) => theme.currentTheme === 'light' ? '#f5f5f5' : 'rgba(13, 20, 33, 0.6)'};
+          background: ${({ theme }) =>
+            theme.currentTheme === "light"
+              ? "#f5f5f5"
+              : "rgba(13, 20, 33, 0.6)"};
         }
         .ant-select-item.ant-select-item-option.ant-select-item-option-selected{
-          background: ${({ theme }) => theme.currentTheme === 'light' ? 'var(--ant-primary-1)' : 'rgba(13, 20, 33, 0.6)'};
+          background: ${({ theme }) =>
+            theme.currentTheme === "light"
+              ? "var(--ant-primary-1)"
+              : "rgba(13, 20, 33, 0.6)"};
         }
         .ant-select-item-option-content{
           .val{
-            color:${({ theme }: { theme: CustomThemeProps }) => theme.textColor} !important;
+            color:${({ theme }: { theme: CustomThemeProps }) =>
+              theme.textColor} !important;
           }
         }
         .rc-virtual-list-holder{
@@ -108,7 +127,8 @@ const GlobalStyles = createGlobalStyle`
             opacity: 0.2;
           }
           .ant-select-item-option{
-            color:${({ theme }: { theme: CustomThemeProps }) => theme.textColor} !important;
+            color:${({ theme }: { theme: CustomThemeProps }) =>
+              theme.textColor} !important;
           }
         }
       }
@@ -117,17 +137,23 @@ const GlobalStyles = createGlobalStyle`
     button.ant-btn{
       height: 48px;
       &.with-icon{
-        background: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBackgroundColor} !important;
-        border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor} !important;
+        background: ${({ theme }: { theme: CustomThemeProps }) =>
+          theme.inputBackgroundColor} !important;
+        border-color: ${({ theme }: { theme: CustomThemeProps }) =>
+          theme.inputBorderColor} !important;
       }
       &[disabled]{
-        background-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
-        border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
+        background-color: ${({ theme }: { theme: CustomThemeProps }) =>
+          theme.inputBorderColor};
+        border-color: ${({ theme }: { theme: CustomThemeProps }) =>
+          theme.inputBorderColor};
         color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
         opacity: 0.5;
         &:hover{
-          background-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
-          border-color: ${({ theme }: { theme: CustomThemeProps }) => theme.inputBorderColor};
+          background-color: ${({ theme }: { theme: CustomThemeProps }) =>
+            theme.inputBorderColor};
+          border-color: ${({ theme }: { theme: CustomThemeProps }) =>
+            theme.inputBorderColor};
           color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
         }
       }
@@ -206,6 +232,6 @@ const GlobalStyles = createGlobalStyle`
 
 
 
-`
+`;
 
 export { GlobalStyles };

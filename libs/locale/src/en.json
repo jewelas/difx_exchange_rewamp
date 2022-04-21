@@ -1,13 +1,13 @@
 {
-  "common":{
-    "forgot_password":"Forgot password?",
-    "register":"Register",
-    "verify":"Verify",
+  "common": {
+    "forgot_password": "Forgot password?",
+    "register": "Register",
+    "verify": "Verify",
     "submit": "Submit",
     "have_acc": "Already have an account?"
   },
   "header": {
-    "profile":"Profile",
+    "profile": "Profile",
     "notification": "Notification",
     "home": "Home",
     "markets": "Markets",
@@ -22,30 +22,30 @@
     "login": "Login",
     "register": "Register"
   },
-  "resetPass":{
+  "resetPass": {
     "title": "Reset Password"
   },
-  "forgot":{
+  "forgot": {
     "forgot": "Forgot Password ?",
     "enter_val": "Please enter your register {{value}} to reset your password.",
-    "enter_new_pass":"Enter new password",
-    "confirm_pass":"Confirm password "
+    "enter_new_pass": "Enter new password",
+    "confirm_pass": "Confirm password "
   },
-  "signin":{
-    "ip_verification":"IP Verification",
-    "email":"Email",
-    "phone_number":"Phone Number",
-    "corporate":"Corporate",
-    "login":"Login",
-    "login_qr":"Login with QR Code",
-    "new_account":"New account?",
-    "login_in_difx":"Login in DIFX",
-    "check_correct_url":"Please check that you are visiting the correct URL"
+  "signin": {
+    "ip_verification": "IP Verification",
+    "email": "Email",
+    "phone_number": "Phone Number",
+    "corporate": "Corporate",
+    "login": "Login",
+    "login_qr": "Login with QR Code",
+    "new_account": "New account?",
+    "login_in_difx": "Login in DIFX",
+    "check_correct_url": "Please check that you are visiting the correct URL"
   },
-  "2fa":{
-    "enter_code":"Enter two factor authentication code!",
-    "2fa":"Two Factor Verification",
-    "verify_success":"Verification successfully!"
+  "2fa": {
+    "enter_code": "Enter two factor authentication code!",
+    "2fa": "Two Factor Verification",
+    "verify_success": "Verification successfully!"
   },
   "register": {
     "message1": "Register to get upto",

@@ -1,24 +1,23 @@
-
-import en from './src/en.json';
+import en from "./src/en.json";
 
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 const resources = {
-    en: { translation: en },
+  en: { translation: en },
 };
 
 let lang = "en";
 if (typeof window !== "undefined") {
-    lang = window.localStorage.getItem('lang') || 'en';
+  lang = window.localStorage.getItem("lang") || "en";
 }
 
 i18n.use(initReactI18next).init({
-    resources,
-    lng: lang,
-    interpolation: {
-        escapeValue: false // react already safes from xss
-    }
+  resources,
+  lng: lang,
+  interpolation: {
+    escapeValue: false, // react already safes from xss
+  },
 });
 
 const { t } = i18n;

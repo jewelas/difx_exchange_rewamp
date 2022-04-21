@@ -1,5 +1,5 @@
-import { BaseResponse } from './Base';
-import { User } from './User';
+import { BaseResponse } from "./Base";
+import { User } from "./User";
 export interface SignUpRequest {
   firstname: string;
   lastname: string;
@@ -10,9 +10,8 @@ export interface SignUpRequest {
   dial_code: string;
   code?: string;
   agree: boolean;
-  usertype: 'IND' | 'BUS';
+  usertype: "IND" | "BUS";
   type: string;
 }
 
-export interface SignUpResponse extends User, BaseResponse {
-}
+export interface SignUpResponse extends User, BaseResponse {}

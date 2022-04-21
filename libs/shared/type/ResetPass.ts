@@ -7,7 +7,7 @@ export interface ResetPassRequest {
   rpassword: string;
 }
 
-export interface ResetPassResponse extends BaseResponse  {
+export interface ResetPassResponse extends BaseResponse {
   statusCode: string;
   statusText: string;
 }

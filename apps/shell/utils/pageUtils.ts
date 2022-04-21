@@ -1,8 +1,12 @@
-import { notification } from 'antd';
+import { notification } from "antd";
 
-export function showNotification(type: 'error' | 'success', title: string, description) {
-    notification[type]({
-        message: title,
-        description
-    });
-};
+export function showNotification(
+  type: "error" | "success",
+  title: string,
+  description
+) {
+  notification[type]({
+    message: title,
+    description,
+  });
+}

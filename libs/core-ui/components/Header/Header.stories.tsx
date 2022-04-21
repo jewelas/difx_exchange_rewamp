@@ -1,19 +1,21 @@
-import { Meta, Story } from '@storybook/react';
-import { Header, HeaderProps } from '.';
+import { Meta, Story } from "@storybook/react";
+import { Header, HeaderProps } from ".";
 
 export default {
   component: Header,
-  title: 'Module/Header',
+  title: "Module/Header",
 } as Meta;
 
 const Template: Story<HeaderProps> = (args) => <Header {...args} />;
 
 export const Primary = Template.bind({});
-Primary.parameters = {
-
-};
+Primary.parameters = {};
 
 Primary.args = {
-  onNavigation: (page: string) => { console.log('onNavigation') },
-  onChangeTheme: () => { console.log('onChangeTheme') },
+  onNavigation: (page: string) => {
+    console.log("onNavigation");
+  },
+  onChangeTheme: () => {
+    console.log("onChangeTheme");
+  },
 };

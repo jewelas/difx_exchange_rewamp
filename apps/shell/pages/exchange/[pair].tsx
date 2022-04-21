@@ -10,10 +10,10 @@ import "/node_modules/react-resizable/css/styles.css";
 
 /* eslint-disable-next-line */
 export interface ExchangePageProps {
-  isStaticWidgets?: boolean
+  isStaticWidgets?: boolean;
 }
 
-export function ExchangePage({isStaticWidgets = false}: ExchangePageProps) {
+export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
   const router = useRouter();
   const { pair } = router.query;
 

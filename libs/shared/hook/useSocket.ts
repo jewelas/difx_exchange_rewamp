@@ -8,20 +8,19 @@ export interface useSocketProps {
   pair?: string;
 }
 
-export function useSocket({leavePair,  event, pair }: useSocketProps) {
+export function useSocket({ leavePair, event, pair }: useSocketProps) {
   const [state, setState] = useState(null);
 
   useEffect(() => {
     if (pair) {
       if (event === "orderbook_limited") {
-        if(leavePair) socket.send("leave", leavePair);
+        if (leavePair) socket.send("leave", leavePair);
         socket.send("join", pair);
         socket.listen(event, (data) => {
-          if(!isEqual(data,state)) setState(data);
+          if (!isEqual(data, state)) setState(data);
         });
       }
     }
-    
   }, [pair]);
   return state;
 }

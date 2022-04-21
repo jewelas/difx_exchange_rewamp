@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 
 /* eslint-disable-next-line */
 export interface OrderBookWrapperProps {
+    pair?: string | string[];
 }
 
-export function OrderBookWrapper() {
+export function OrderBookWrapper({pair}: OrderBookWrapperProps) {
     const [bids, setBids] = useState([]);
     const [asks, setAsks] = useState([]);
 
@@ -17,13 +18,14 @@ export function OrderBookWrapper() {
     const { effectiveType, online } = useNetwork();
 
     useEffect(() => {
-        socket.listen('orderbook_limited', data => {
-            const { asks, bids } = data;
-            setBids(bids);
-            setAsks(asks.reverse());
-        });
-
-    }, []);
+        if(pair){
+            socket.listen('orderbook_limited', data => {
+                const { asks, bids } = data;
+                setBids(bids);
+                setAsks(asks.reverse());
+            });
+        }
+    }, [pair]);
 
     useEffect(() => {
         if (asks && bids && !isEmpty(asks) && !isEmpty(bids)) {

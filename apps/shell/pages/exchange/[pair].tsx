@@ -9,7 +9,7 @@ import '/node_modules/react-grid-layout/css/styles.css';
 import '/node_modules/react-resizable/css/styles.css';
 
 /* eslint-disable-next-line */
-export interface ExchangePageProps { }
+export interface ExchangePageProps {}
 
 export function ExchangePage(props: ExchangePageProps) {
 
@@ -21,7 +21,6 @@ export function ExchangePage(props: ExchangePageProps) {
       socket.send('leave',pair);
       socket.send('join', pair);
     }
-    return ()=> socket.disconnect();
   }, [pair]);
 
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -69,7 +68,7 @@ export function ExchangePage(props: ExchangePageProps) {
           cols={{ lg: 24, md: 24, sm: 24, xs: 1, xxs: 1 }}
           onResizeStop={handleGridResize}>
           <div key="order-book">
-            <OrderBookWrapper />
+            <OrderBookWrapper pair={pair} />
           </div>
           <div key="pair-info" className="temp">Pair Info</div>
           <div key="chart" className="temp">Chart</div>

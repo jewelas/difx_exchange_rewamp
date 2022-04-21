@@ -1,53 +1,44 @@
 import { OrderBook } from "@difx/core-ui";
-import { useSocket, useSocketProps, useNetwork } from "@difx/shared";
-import isEmpty from "lodash/isEmpty";
-import { useEffect, useState } from "react";
+import { useNetwork, useSocket, useSocketProps } from "@difx/shared";
 
 /* eslint-disable-next-line */
 export interface OrderBookWrapperProps {
-  pair?: string;
+    pair?: string;
 }
 
 export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
-  const [bids, setBids] = useState([]);
-  const [asks, setAsks] = useState([]);
+    let bids = [];
+    let asks = [];
 
-  const [currentPrice, setCurrentPrice] = useState(0.0);
-  const [priceTrend, setPriceTrend] = useState<string | undefined>();
+    let currentPrice = 0.0;
+    let priceTrend = null;
 
-  const { effectiveType, online } = useNetwork();
+    const { effectiveType, online } = useNetwork();
 
-  const param: useSocketProps = { pair, event: "orderbook_limited" };
-  const data = useSocket(param);
-  useEffect(() => {
+    const param: useSocketProps = { pair, event: "orderbook_limited" };
+    const data = useSocket(param);
     if (data) {
-      setBids(data.bids);
-      setAsks(data.asks.reverse());
+        const { bids: _bids, asks: _asks } = data;
+        bids = _bids;
+        asks = _asks;
+        const newPrice = Number(
+            ((asks[asks.length - 1][0] + bids[0][0]) / 2).toFixed(1)
+        );
+        if (currentPrice < newPrice) priceTrend = "bid";
+        else if (currentPrice > newPrice) priceTrend = "ask";
+        else priceTrend = null;
+        currentPrice = newPrice;
     }
-  }, [data]);
 
-  useEffect(() => {
-    if (asks && bids && !isEmpty(asks) && !isEmpty(bids)) {
-      const newPrice = Number(
-        ((asks[asks.length - 1][0] + bids[0][0]) / 2).toFixed(1)
-      );
-      setCurrentPrice(newPrice);
-      if (currentPrice < newPrice) setPriceTrend("bid");
-      else if (currentPrice > newPrice) setPriceTrend("ask");
-      else setPriceTrend("");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [asks, bids]);
-
-  return (
-    <OrderBook
-      networkStatus={online ? effectiveType : "off"}
-      priceTrend={priceTrend}
-      currentPrice={currentPrice}
-      bids={bids}
-      asks={asks}
-    />
-  );
+    return (
+        <OrderBook
+            networkStatus={online ? effectiveType : "off"}
+            priceTrend={priceTrend}
+            currentPrice={currentPrice}
+            bids={bids}
+            asks={asks}
+        />
+    );
 }
 
 export default OrderBookWrapper;

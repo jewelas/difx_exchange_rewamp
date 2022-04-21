@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import isEqual from "lodash/isEqual";
 import { socket } from "./../api/index";
 
 export interface useSocketProps {
@@ -16,11 +17,8 @@ export function useSocket({leavePair,  event, pair }: useSocketProps) {
         if(leavePair) socket.send("leave", leavePair);
         socket.send("join", pair);
         socket.listen(event, (data) => {
-          setState(data);
+          if(!isEqual(data,state)) setState(data);
         });
-      }
-      return ()=>{
-        socket.disconnect();
       }
     }
     

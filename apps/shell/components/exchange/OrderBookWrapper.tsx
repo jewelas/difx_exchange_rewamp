@@ -1,5 +1,5 @@
 import { OrderBook } from "@difx/core-ui";
-import { socket, useNetwork } from "@difx/shared";
+import { useSocket, useNetwork } from "@difx/shared";
 import isEmpty from 'lodash/isEmpty';
 import { useEffect, useState } from "react";
 
@@ -17,15 +17,13 @@ export function OrderBookWrapper({pair}: OrderBookWrapperProps) {
 
     const { effectiveType, online } = useNetwork();
 
-    useEffect(() => {
-        if(pair){
-            socket.listen('orderbook_limited', data => {
-                const { asks, bids } = data;
-                setBids(bids);
-                setAsks(asks.reverse());
-            });
+    const data = useSocket(pair);
+    useEffect(()=>{
+        if(data){
+            setBids(data.bids);
+            setAsks(data.asks)
         }
-    }, [pair]);
+    }, [data]);
 
     useEffect(() => {
         if (asks && bids && !isEmpty(asks) && !isEmpty(bids)) {

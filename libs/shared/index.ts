@@ -10,6 +10,7 @@ export * from './hook/useUpdateToken';
 export * from './hook/useForgot';
 export * from './hook/useResetPass';
 export * from './hook/useNetwork';
+export * from './hook/useSocket';
 
 export * from './type/User';
 export * from './type/Pair';

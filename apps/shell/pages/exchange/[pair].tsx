@@ -16,13 +16,6 @@ export function ExchangePage(props: ExchangePageProps) {
   const router = useRouter();
   const { pair} = router.query;
 
-  useEffect(()=>{
-    if(pair){
-      socket.send('leave',pair);
-      socket.send('join', pair);
-    }
-  }, [pair]);
-
   const ResponsiveGridLayout = WidthProvider(Responsive);
 
   const lg = [

@@ -1,5 +1,5 @@
 import { OrderBook } from "@difx/core-ui";
-import { useSocket, useNetwork } from "@difx/shared";
+import { useSocket, useSocketProps, useNetwork } from "@difx/shared";
 import isEmpty from 'lodash/isEmpty';
 import { useEffect, useState } from "react";
 
@@ -17,7 +17,8 @@ export function OrderBookWrapper({pair}: OrderBookWrapperProps) {
 
     const { effectiveType, online } = useNetwork();
 
-    const data = useSocket(pair);
+    const param: useSocketProps = {pair};
+    const data = useSocket(param);
     useEffect(()=>{
         if(data){
             setBids(data.bids);

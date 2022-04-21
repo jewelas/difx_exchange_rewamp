@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { socket } from './../api/index';
 
-export function useSocket(pair: string | string[]) {
+export interface useSocketProps {
+    pair?: string | string[];
+}
+
+export function useSocket({ pair }: useSocketProps) {
     const [state, setState] = useState(null);
 
     useEffect(() => {

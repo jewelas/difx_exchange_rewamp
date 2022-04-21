@@ -17,7 +17,7 @@ export function OrderBookWrapper({pair}: OrderBookWrapperProps) {
 
     const { effectiveType, online } = useNetwork();
 
-    const param: useSocketProps = {pair};
+    const param: useSocketProps = {pair, event:'orderbook_limited'};
     const data = useSocket(param);
     useEffect(()=>{
         if(data){

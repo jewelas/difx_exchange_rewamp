@@ -119,7 +119,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
           <Typography level="B2">{lowPrice}</Typography>
         </div>
         <div className="price">
-          <Typography level="B3">24h Volume(BTC)</Typography>
+          <Typography level="B3">{`24h Volume(${pairInfo.currency1})`}</Typography>
           <Typography level="B2">34534.28</Typography>
         </div>
       </div>

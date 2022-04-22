@@ -2,17 +2,19 @@ import { Select } from "antd";
 import clsx from "clsx";
 import { useState } from "react";
 
-import { NetworkStatusType } from "./../../../../shared/type/Network";
+import { NetworkStatusType } from "./../../../shared/type/Network";
 import OrderBuyIcon from "../Icon/OrderBuyIcon";
 import OrderBuySellIcon from "../Icon/OrderBuySellIcon";
 import OrderSellIcon from "../Icon/OrderSellIcon";
 import { Typography } from "../Typography";
 import { BidAskData, OnlyAskData, OnlyBidData } from "./OrderBookBody";
 import { ComponentStyled } from "./styled";
+import { PairType } from "./../../../shared";
 
 /* eslint-disable-next-line */
 export type SortType = "all" | "bid" | "ask";
 export interface OrderBookProps {
+  pairInfo: PairType;
   bids?: Array<Array<number>>;
   asks?: Array<Array<number>>;
   priceTrend: string;
@@ -21,6 +23,7 @@ export interface OrderBookProps {
 }
 
 export function OrderBook({
+  pairInfo,
   priceTrend,
   currentPrice,
   bids,
@@ -35,7 +38,9 @@ export function OrderBook({
     const maxValueOfAsks = Math.max(...asks.map((ask) => ask[1]), 0);
     if (asks.length > 0) {
       for (let i = 0; i < asks.length; i++) {
-        asks[i].push((asks[i][1] / maxValueOfAsks) * 100);
+        const value = (asks[i][1] / maxValueOfAsks) * 100;
+        if (asks[i].length >= 3) asks[i][2] = value;
+        else asks[i].push(value);
       }
     }
   }
@@ -44,7 +49,9 @@ export function OrderBook({
     const maxValueOfBids = Math.max(...bids.map((bid) => bid[1]), 0);
     if (bids.length > 0) {
       for (let i = 0; i < bids.length; i++) {
-        bids[i].push((bids[i][1] / maxValueOfBids) * 100);
+        const value = (bids[i][1] / maxValueOfBids) * 100;
+        if (bids[i].length >= 3) bids[i][2] = value;
+        else bids[i].push(value);
       }
     }
   }
@@ -135,10 +142,10 @@ export function OrderBook({
       <div className="com-table-content">
         <div className="table-head">
           <div>
-            <Typography level="text">Price(USDT)</Typography>
+            <Typography level="text">{`Price(${pairInfo.currency2})`}</Typography>
           </div>
           <div>
-            <Typography level="text">Quantity(BTC)</Typography>
+            <Typography level="text">{`Quantity(${pairInfo.currency1})`}</Typography>
           </div>
           <div>
             <Typography level="text">Total</Typography>

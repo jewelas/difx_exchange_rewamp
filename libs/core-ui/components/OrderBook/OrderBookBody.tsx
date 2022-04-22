@@ -1,7 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import clsx from "clsx";
-import { NetworkStatusType } from "./../../../../shared/type/Network";
+import { NetworkStatusType } from "./../../../shared/type/Network";
 import { formatNumber } from "../../utils/formatter";
 import WifiIcon from "../Icon/WifiIcon";
 import { Typography } from "../Typography";

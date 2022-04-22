@@ -29,7 +29,7 @@ export const socket = {
     socketInstance.on(event, callback);
   },
   off: (event?: string) => {
-    if(event) socketInstance.off(event);
+    if (event) socketInstance.off(event);
     else socketInstance.off();
   },
   disconnect: () => {

@@ -3,6 +3,7 @@ import React from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import AppLayout from "..";
 import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
+import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
 import { getLayoutType } from "./LayoutType";
 import { PageStyled } from "./styled";
 import "/node_modules/react-grid-layout/css/styles.css";
@@ -15,7 +16,6 @@ export interface ExchangePageProps {
 
 export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
   const router = useRouter();
-  const { pair } = router.query;
 
   const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -29,6 +29,8 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
     <AppLayout>
       <PageStyled>
         <ResponsiveGridLayout
+          margin={[5, 5]}
+          rowHeight={70}
           className="layout"
           layouts={layouts}
           breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
@@ -36,10 +38,10 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           onResizeStop={handleGridResize}
         >
           <div key="order-book">
-            <OrderBookWrapper pair={pair as string} />
+            <OrderBookWrapper />
           </div>
           <div key="pair-info" className="temp">
-            Pair Info
+            <PairMetaDataWrapper />
           </div>
           <div key="chart" className="temp">
             Chart

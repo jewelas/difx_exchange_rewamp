@@ -3,15 +3,14 @@ import { Color } from "../Color";
 
 export const FieldStyled = styled.div`
   width: 100%;
-  border: 1px solid
-    ${({ theme }) => theme.inputBorderColor || Color.grey.buttonSecondary};
+  border: ${({ theme }) => theme.border};
   border-radius: 2px;
   height: 54px;
   .ant-form-item-control-input-content {
     height: 48px;
   }
   .ant-form-item-control-input {
-    background: ${({ theme }) => theme.inputBackgroundColor};
+    background: ${({ theme }) => theme.background.primary};
   }
   .ant-input {
     background: transparent !important;
@@ -33,7 +32,7 @@ export const FieldStyled = styled.div`
   .ant-input-suffix {
     svg {
       path {
-        fill: ${({ theme }) => theme.textColor};
+        fill: ${({ theme }) => theme.fontColor.primary};
       }
     }
   }

@@ -2,7 +2,7 @@ import { Color } from "@difx/core-ui";
 import styled from "styled-components";
 
 export const FormStyled = styled.div`
-  background: ${({ theme }) => theme.backgroundColor2};
+  background: ${({ theme }) => theme.background.secondary};
   display: flex;
   flex-direction: column;
   justify-content: center;

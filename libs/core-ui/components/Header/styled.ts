@@ -12,8 +12,8 @@ export const StyledMoreMenuGroup = styled.div`
     flex-direction: column;
     position: absolute;
     right: 0;
-    background: ${({ theme }) => theme.backgroundColor};
-    color: ${({ theme }) => theme.textColor};
+    background: ${({ theme }) => theme.background.primary};
+    color: ${({ theme }) => theme.fontColor.primary};
     height: 100%;
     width: 250px;
     box-shadow: -4px 4px 16px 0px rgba(0, 0, 0, 0.07);
@@ -134,9 +134,9 @@ export const StyledHeader = styled(Layout.Header)`
   .group {
     display: flex;
     background: #fff;
-    border-bottom: solid 5px ${({ theme }) => theme.borderColor || "#eee"} !important;
+    border-bottom: ${({ theme }) => theme.border } !important;
     .logo {
-      background: ${({ theme }) => theme.backgroundColor2};
+      background: ${({ theme }) => theme.background.primary};
       display: flex;
       width: 122px;
       svg {
@@ -147,7 +147,7 @@ export const StyledHeader = styled(Layout.Header)`
         #Layer_5 path,
         #Layer_2-2 #Layer_3 path,
         #Layer_2-2 #Layer_4 path {
-          fill: ${({ theme }) => theme.logoFillColor};
+          fill: ${({ theme }) => theme.color.primary};
         }
       }
       .title {
@@ -155,12 +155,12 @@ export const StyledHeader = styled(Layout.Header)`
         font-size: 22px;
         font-weight: 600;
         letter-spacing: 2px;
-        color: ${({ theme }) => theme.titleColor};
+        color: ${({ theme }) => theme.color.primary};
       }
     }
     .ant-menu {
-      background: ${({ theme }) => theme.backgroundColor2};
-      color: ${({ theme }) => theme.textColor};
+      background: ${({ theme }) => theme.background.primary};
+      color: ${({ theme }) => theme.fontColor.primary};
       height: 70px;
       flex-grow: 1;
       border-bottom: unset !important;

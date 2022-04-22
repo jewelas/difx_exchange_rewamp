@@ -14,26 +14,22 @@ const GlobalStyles = createGlobalStyle`
         font-family: "Lato", sans-serif !important;
     }
 
-    scrollbar-color: #464D5F #000;
+    scrollbar-color: ${({ theme }: { theme: CustomThemeProps }) => theme.currentTheme === 'dark' ? '#464D5F' : '#999'} ${({ theme }: { theme: CustomThemeProps }) => theme.borderColor};
     scrollbar-width: thin;
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
-      background: #000;
+      background: ${({ theme }: { theme: CustomThemeProps }) => theme.borderColor};
     }
 
     ::-webkit-scrollbar-corner {
-      background: #000;
+      background: ${({ theme }: { theme: CustomThemeProps }) => theme.borderColor};
     }
 
     ::-webkit-scrollbar-thumb {
-      background: #464d5f;
+      background: ${({ theme }: { theme: CustomThemeProps }) => theme.currentTheme === 'dark' ? '#464D5F' : '#999'};
       border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 1);
-      background-clip: content-box;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #666e87;
+      /* border: 1px solid rgba(255, 255, 255, 1); */
       background-clip: content-box;
     }
     

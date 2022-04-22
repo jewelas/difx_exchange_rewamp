@@ -12,6 +12,7 @@ import { useMemo } from "react";
 import { MAX_ROW_ORDER_BOOK } from "./../../../shell/constants";
 import {
   getAveragePrice,
+  getPriceFormatted,
   getPricePercentChange,
   getTrendPrice,
 } from "./../../utils/priceUtils";
@@ -39,7 +40,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
   };
   const data = useSocket(param);
 
-  const { currentPrice, priceTrend, highPrice, lowPrice, changed } =
+  const { currentPrice, priceTrend, highPrice, lowPrice, changed, precision } =
     useMemo(() => {
       if (data) {
         const { bids: _bids, asks: _asks } = data;
@@ -62,6 +63,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
           highPrice,
           lowPrice,
           changed,
+          precision: pairInfo.group_precision
         };
       } else {
         return {
@@ -70,6 +72,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
           highPrice: 0.0,
           lowPrice: 0.0,
           changed: 0,
+          precision: 2
         };
       }
     }, [data, pairInfo]);
@@ -95,11 +98,11 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
                 : null
             }
           >{`${currentPrice}`}</Typography>
-          <Typography level="B3">{`$${currentPrice}`}</Typography>
+          <Typography level="B3">{`$${getPriceFormatted(currentPrice, precision)}`}</Typography>
         </div>
         <div className="price">
           <Typography level="B3">24h Change</Typography>
-          <Typography level="B2">{`${changed.toFixed(2)}%`}</Typography>
+          <Typography level="B2" color={changed > 0 ? 'success' : changed<0 ? 'danger' : null}>{`${changed.toFixed(2)}%`}</Typography>
         </div>
         <div className="price">
           <Typography level="B3">24h High</Typography>

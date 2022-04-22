@@ -18,3 +18,10 @@ export function getTrendPrice(
 export function getPricePercentChange(last: number, open: number): number {
   return ((last - open) / open) * 100;
 }
+
+export function getPriceFormatted(price: number, precision: number): string {
+  return price.toLocaleString("en-us", {
+    maximumFractionDigits: precision,
+    minimumFractionDigits: precision,
+  });
+} 

@@ -9,7 +9,6 @@ import {
 import sortBy from "lodash/sortBy";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
-import { MAX_ROW_ORDER_BOOK } from "./../../../shell/constants";
 import {
   getAveragePrice,
   getPriceFormatted,
@@ -46,7 +45,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
         const { bids: _bids, asks: _asks } = data;
         const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
         const newPrice = getAveragePrice(
-          reverseAsks[MAX_ROW_ORDER_BOOK][0],
+          reverseAsks[reverseAsks.length-1][0],
           _bids[0][0],
           pairInfo.group_precision
         );

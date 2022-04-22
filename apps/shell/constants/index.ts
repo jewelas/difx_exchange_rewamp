@@ -8,4 +8,3 @@ export const THEME = {
 };
 
 export const DEFAULT_PAIR = "BNBUSDT";
-export const MAX_ROW_ORDER_BOOK = 11;

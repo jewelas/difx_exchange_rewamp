@@ -24,4 +24,4 @@ export function getPriceFormatted(price: number, precision: number): string {
     maximumFractionDigits: precision,
     minimumFractionDigits: precision,
   });
-} 
+}

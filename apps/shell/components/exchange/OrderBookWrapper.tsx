@@ -34,7 +34,7 @@ export function OrderBookWrapper(props: OrderBookWrapperProps) {
   const data = useSocket(param);
 
   const { bids, asks, currentPrice, priceTrend } = useMemo(() => {
-    if (data) {
+    if (data && data.bids && data.asks) {
       const { bids: _bids, asks: _asks } = data;
       const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
       const newPrice = getAveragePrice(

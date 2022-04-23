@@ -38,7 +38,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);
-  PairMetaDataWrapper.previousPair = pairInfo.symbol;
+  PairMetaDataWrapper.previousPair = pairInfo && pairInfo.symbol;
 
   const { currentPrice, priceTrend, highPrice, lowPrice, changed, precision } =
     useMemo(() => {

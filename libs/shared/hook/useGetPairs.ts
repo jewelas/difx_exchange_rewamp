@@ -5,7 +5,7 @@ import { PairType } from "../type/Pair";
 
 export interface UseGetPairsProps {}
 
-export function useGetPairs(isCheckStatus?: boolean) {
+export function useGetPairs() {
   const query = useQuery<PairType[], AxiosError>(
     "useGetPairs",
     async () => {

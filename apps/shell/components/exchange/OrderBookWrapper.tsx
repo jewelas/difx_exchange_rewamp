@@ -32,7 +32,7 @@ export function OrderBookWrapper(props: OrderBookWrapperProps) {
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);
-  OrderBookWrapper.previousPair = pairInfo.symbol;
+  OrderBookWrapper.previousPair = pairInfo && pairInfo.symbol;
 
   const { bids, asks, currentPrice, priceTrend } = useMemo(() => {
     if (data && data.bids && data.asks) {

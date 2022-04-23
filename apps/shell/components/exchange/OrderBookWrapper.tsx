@@ -15,7 +15,6 @@ import { getAveragePrice, getTrendPrice } from "./../../utils/priceUtils";
 /* eslint-disable-next-line */
 export interface OrderBookWrapperProps {}
 
-let previousPrice = 0.0;
 export function OrderBookWrapper(props: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
   const { data: pairs } = useGetPairs();
@@ -29,9 +28,11 @@ export function OrderBookWrapper(props: OrderBookWrapperProps) {
 
   const param: useSocketProps = {
     pair: pairInfo && pairInfo.symbol,
+    leavePair: {...OrderBookWrapper.previousPair},
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);
+  OrderBookWrapper.previousPair = pairInfo.symbol;
 
   const { bids, asks, currentPrice, priceTrend } = useMemo(() => {
     if (data && data.bids && data.asks) {
@@ -42,8 +43,8 @@ export function OrderBookWrapper(props: OrderBookWrapperProps) {
         _bids[0][0],
         pairInfo.group_precision
       );
-      const priceTrend = getTrendPrice(previousPrice, newPrice);
-      previousPrice = newPrice;
+      const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
+      OrderBookWrapper.previousPrice = newPrice;
 
       return {
         bids: _bids,
@@ -75,4 +76,6 @@ export function OrderBookWrapper(props: OrderBookWrapperProps) {
   );
 }
 
+OrderBookWrapper.previousPrice = 0.0;
+OrderBookWrapper.previousPair = null;
 export default OrderBookWrapper;

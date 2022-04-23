@@ -22,7 +22,6 @@ export interface PairMetaDataWrapperProps {
   pairInfo?: PairType;
 }
 
-let previousPrice = 0.0;
 export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
   const { data: pairs } = useGetPairs();
   const router = useRouter();
@@ -35,9 +34,11 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
 
   const param: useSocketProps = {
     pair: pairInfo && pairInfo.symbol,
+    leavePair: { ...PairMetaDataWrapper.previousPair },
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);
+  PairMetaDataWrapper.previousPair = pairInfo.symbol;
 
   const { currentPrice, priceTrend, highPrice, lowPrice, changed, precision } =
     useMemo(() => {
@@ -45,17 +46,17 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
         const { bids: _bids, asks: _asks } = data;
         const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
         const newPrice = getAveragePrice(
-          reverseAsks[reverseAsks.length-1][0],
+          reverseAsks[reverseAsks.length - 1][0],
           _bids[0][0],
           pairInfo.group_precision
         );
-        const priceTrend = getTrendPrice(previousPrice, newPrice);
+        const priceTrend = getTrendPrice(PairMetaDataWrapper.previousPrice, newPrice);
 
         const highPrice = pairInfo.high.toFixed(pairInfo.group_precision);
         const lowPrice = pairInfo.low.toFixed(pairInfo.group_precision);
         const changed = getPricePercentChange(pairInfo.last, pairInfo.open);
 
-        previousPrice = newPrice;
+        PairMetaDataWrapper.previousPrice = newPrice;
         return {
           currentPrice: newPrice,
           priceTrend,
@@ -93,8 +94,8 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
               priceTrend === "ask"
                 ? "danger"
                 : priceTrend === "bid"
-                ? "success"
-                : null
+                  ? "success"
+                  : null
             }
           >{`${currentPrice}`}</Typography>
           <Typography level="B3">{`$${getPriceFormatted(
@@ -131,4 +132,6 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
   );
 }
 
+PairMetaDataWrapper.previousPrice = 0.0;
+PairMetaDataWrapper.previousPair = null;
 export default PairMetaDataWrapper;

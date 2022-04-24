@@ -3,14 +3,13 @@ import t from "@difx/locale";
 import {
   ResetPassRequest,
   ResetPassResponse,
-  useResetPass,
+  useResetPass
 } from "@difx/shared";
 import { Button, Form, Input } from "antd";
-import { FormInstance } from "antd/es/form";
 import { AxiosError, AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { showNotification } from "../../utils/pageUtils";
 
 /* eslint-disable-next-line */
@@ -21,13 +20,14 @@ export interface ResetPassFormProps {
 
 export function ResetPassForm({ email, code }: ResetPassFormProps) {
   const [hasFieldError, setHasFieldError] = useState(true);
-  const formRef = useRef<FormInstance>(null);
+  const [isValidPass, setIsValidPass] = useState(false);
+  const [form] = Form.useForm(null);
 
   const router = useRouter();
 
   const onChangePass = (isValidate: boolean, value: string) => {
-    formRef.current?.setFieldsValue({ password: value });
-    setHasFieldError(!isValidate || isRequiredFieldsEmpty());
+    form.setFieldsValue({ password: value });
+    setIsValidPass(isValidate);
   };
 
   const onSuccess = useCallback(
@@ -42,30 +42,13 @@ export function ResetPassForm({ email, code }: ResetPassFormProps) {
     []
   );
 
-  const isRequiredFieldsEmpty = (): boolean => {
-    let result = false;
-    const values: FormData = formRef.current?.getFieldsValue();
-    /* eslint-disable-next-line */
-    for (const [key, value] of Object.entries(values)) {
-      if (!value) {
-        result = true;
-        break;
-      }
-    }
-    return result;
-  };
-
   const onFormChange = () => {
-    if (isRequiredFieldsEmpty()) {
+    const fieldsError = form.getFieldsError();
+    const errors = fieldsError.find((e) => !isEmpty(e.errors));
+    if (errors && !isEmpty(errors.errors)) {
       setHasFieldError(true);
     } else {
-      const fieldsError = formRef.current?.getFieldsError();
-      const errors = fieldsError.find((e) => !isEmpty(e.errors));
-      if (errors && !isEmpty(errors.errors)) {
-        setHasFieldError(true);
-      } else {
-        setHasFieldError(false);
-      }
+      setHasFieldError(false);
     }
   };
 
@@ -86,7 +69,7 @@ export function ResetPassForm({ email, code }: ResetPassFormProps) {
 
   return (
     <Form
-      ref={formRef}
+    form={form}
       onFinish={onSubmit}
       onFieldsChange={onFormChange}
       autoComplete="off"
@@ -112,7 +95,7 @@ export function ResetPassForm({ email, code }: ResetPassFormProps) {
         </Form.Item>
         <Button
           style={{ marginTop: 10 }}
-          disabled={isLoading || hasFieldError}
+          disabled={isLoading || hasFieldError || !isValidPass}
           htmlType="submit"
           className="sign-in-btn"
           type="primary"

@@ -1,21 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { CountrySelect, getCountryInfo, Typography } from "@difx/core-ui";
 import t from "@difx/locale";
 import {
   ForgotRequest,
   ForgotResponse,
   useForgot,
-  useGetCountry,
+  useGetCountry
 } from "@difx/shared";
 import { Button, Form, Input } from "antd";
-import { FormInstance } from "antd/es/form";
 import { AxiosError, AxiosResponse } from "axios";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { showNotification } from "../../utils/pageUtils";
 
 /* eslint-disable-next-line */
-export interface ForgotFormProps {}
+export interface ForgotFormProps { }
 
 export function ForgotForm(props: ForgotFormProps) {
   const { data: countryCode } = useGetCountry();
@@ -23,7 +23,7 @@ export function ForgotForm(props: ForgotFormProps) {
   const [type, setType] = useState<"email" | "phone">("email");
   const [dialCode, setDialCode] = useState(null);
   const [hasFieldError, setHasFieldError] = useState(true);
-  const formRef = useRef<FormInstance>(null);
+  const [form] = Form.useForm(null);
 
   useEffect(() => {
     if (countryCode) {
@@ -32,18 +32,19 @@ export function ForgotForm(props: ForgotFormProps) {
       const countryInfo: any = getCountryInfo(code);
       if (countryInfo) {
         setDialCode(countryInfo.dial_code);
-        formRef.current?.setFieldsValue({ dial_code: countryInfo?.dial_code });
+        form.setFieldsValue({ dial_code: countryInfo?.dial_code });
       }
     }
   }, [countryCode]);
 
   useEffect(() => {
-    onFormChange();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fieldsValue = form.getFieldsValue();
+    const emptyField = Object.entries(fieldsValue).find(([key, value]) => !value);
+    setHasFieldError(!isEmpty(emptyField));
   }, [type]);
 
   const onChangeDialCode = (item: { key: string; value: string }) => {
-    formRef.current?.setFieldsValue({ dial_code: item.value });
+    form.setFieldsValue({ dial_code: item.value });
 
     /* eslint-disable-next-line */
     setDialCode(item.value);
@@ -57,30 +58,13 @@ export function ForgotForm(props: ForgotFormProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isRequiredFieldsEmpty = (): boolean => {
-    let result = false;
-    const values: FormData = formRef.current?.getFieldsValue();
-    /* eslint-disable-next-line */
-    for (const [key, value] of Object.entries(values)) {
-      if (!value) {
-        result = true;
-        break;
-      }
-    }
-    return result;
-  };
-
   const onFormChange = () => {
-    if (isRequiredFieldsEmpty()) {
+    const fieldsError = form.getFieldsError();
+    const errors = fieldsError.find((e) => !isEmpty(e.errors));
+    if (errors && !isEmpty(errors.errors)) {
       setHasFieldError(true);
     } else {
-      const fieldsError = formRef.current?.getFieldsError();
-      const errors = fieldsError.find((e) => !isEmpty(e.errors));
-      if (errors && !isEmpty(errors.errors)) {
-        setHasFieldError(true);
-      } else {
-        setHasFieldError(false);
-      }
+      setHasFieldError(false);
     }
   };
 
@@ -110,7 +94,7 @@ export function ForgotForm(props: ForgotFormProps) {
 
   return (
     <Form
-      ref={formRef}
+      form={form}
       onFinish={onSubmit}
       onFieldsChange={onFormChange}
       autoComplete="off"
@@ -190,7 +174,7 @@ export function ForgotForm(props: ForgotFormProps) {
         )}
 
         <Button
-          disabled={isLoading || hasFieldError}
+          disabled={isLoading || hasFieldError || !dialCode}
           htmlType="submit"
           className="sign-in-btn"
           type="primary"

@@ -235,7 +235,7 @@ const GlobalStyles = createGlobalStyle`
       .ant-input-affix-wrapper.ant-input-password{
         background: ${({ theme }) => theme.inputBackgroundColor} !important;
         &:not(.ant-input-affix-wrapper-status-error){
-          border: unset;
+          border-color: #d9d9d9;
         }
         svg path{
           fill: ${({ theme }) => theme.textColor} !important;

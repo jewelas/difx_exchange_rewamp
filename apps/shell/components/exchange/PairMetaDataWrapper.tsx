@@ -2,7 +2,7 @@ import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
   PairType,
   SocketEvent,
-  useGetPairs,
+  useHttpGet,
   useSocket,
   useSocketProps,
 } from "@difx/shared";
@@ -15,7 +15,8 @@ import {
   getPricePercentChange,
   getTrendPrice,
 } from "./../../utils/priceUtils";
-import { ComponentStyled } from "./styled";
+import { PairMetadataStyled } from "./styled";
+import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 
 /* eslint-disable-next-line */
 export interface PairMetaDataWrapperProps {
@@ -23,7 +24,7 @@ export interface PairMetaDataWrapperProps {
 }
 
 export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
-  const { data: pairs } = useGetPairs();
+  const { data: pairs } = useHttpGet<null,PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
   const router = useRouter();
   const { pair } = router.query;
 
@@ -80,7 +81,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
   if (!pairInfo) return <Loading />;
 
   return (
-    <ComponentStyled className="pair-metadata">
+    <PairMetadataStyled>
       <div className="left">
         <Typography level="H6">{`${pairInfo.currency1}/${pairInfo.currency2}`}</Typography>
         {/* <Icon.FavoriteIcon useDarkMode /> */}{" "}
@@ -128,7 +129,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
           <Icon.QuestionIcon useDarkMode />
         </div>
       </div>
-    </ComponentStyled>
+    </PairMetadataStyled>
   );
 }
 

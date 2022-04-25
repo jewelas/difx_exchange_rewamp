@@ -47,7 +47,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
             Chart
           </div>
           <div key="pair-search" className="temp">
-            Search
+           Search Pair
           </div>
           <div key="trade-info" className="temp">
             Trade Info

@@ -56,7 +56,7 @@ const GlobalStyles = createGlobalStyle`
       color: unset !important;
     }
 
-    .ant-form-item {
+    /* .ant-form-item { */
 
         // Input
         .ant-input{
@@ -64,6 +64,13 @@ const GlobalStyles = createGlobalStyle`
           font-weight: 400;
           font-size: 14px;
           line-height: 22px;
+          background: ${({ theme }: { theme: CustomThemeProps }) =>
+    theme.inputBackgroundColor} !important;
+              color: ${({ theme }: { theme: CustomThemeProps }) =>
+    theme.textColor}  !important;
+              border-color: ${({ theme }: { theme: CustomThemeProps }) =>
+    theme.inputBorderColor}  !important;
+              box-shadow: unset  !important;
         }
         &:not(.ant-form-item-has-error) {
           .ant-form-item-control-input-content {
@@ -94,7 +101,7 @@ const GlobalStyles = createGlobalStyle`
     theme.inputBackgroundColor};
           }
         }
-      } //end .ant-form-item
+      /* } //end .ant-form-item */
 
     
 

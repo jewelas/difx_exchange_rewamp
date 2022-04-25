@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/router";
 import sortBy from "lodash/sortBy";
 import {
-  useGetPairs,
+  useHttpGet,
   useNetwork,
   useSocket,
   useSocketProps,
@@ -11,13 +11,14 @@ import {
   SocketEvent,
 } from "@difx/shared";
 import { getAveragePrice, getTrendPrice } from "./../../utils/priceUtils";
+import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 
 /* eslint-disable-next-line */
 export interface OrderBookWrapperProps {}
 
 export function OrderBookWrapper(props: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
-  const { data: pairs } = useGetPairs();
+  const { data: pairs } = useHttpGet<null,PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
   const router = useRouter();
   const { pair } = router.query;
 

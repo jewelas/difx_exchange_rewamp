@@ -3,7 +3,7 @@ import t from "@difx/locale";
 import {
   ResetPassRequest,
   ResetPassResponse,
-  useResetPass
+  useHttpPost
 } from "@difx/shared";
 import { Button, Form, Input } from "antd";
 import { AxiosError, AxiosResponse } from "axios";
@@ -11,6 +11,7 @@ import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { showNotification } from "../../utils/pageUtils";
+import { API_ENDPOINT } from "./../../constants";
 
 /* eslint-disable-next-line */
 export interface ResetPassFormProps {
@@ -59,7 +60,7 @@ export function ResetPassForm({ email, code }: ResetPassFormProps) {
     showNotification("error", "Error", statusText);
   }, []);
 
-  const { mutate: resetPass, isLoading } = useResetPass({ onSuccess, onError });
+  const { mutate: resetPass, isLoading } = useHttpPost<ResetPassRequest, ResetPassResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.RESET_PASS });
 
   const onSubmit = async (formData: ResetPassRequest) => {
     formData.email = email;

@@ -4,8 +4,8 @@ import t from "@difx/locale";
 import {
   ForgotRequest,
   ForgotResponse,
-  useForgot,
-  useGetCountry
+  useHttpGet,
+  useHttpPost
 } from "@difx/shared";
 import { Button, Form, Input } from "antd";
 import { AxiosError, AxiosResponse } from "axios";
@@ -13,12 +13,14 @@ import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { useCallback, useEffect, useState } from "react";
 import { showNotification } from "../../utils/pageUtils";
+import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 
 /* eslint-disable-next-line */
 export interface ForgotFormProps { }
 
 export function ForgotForm(props: ForgotFormProps) {
-  const { data: countryCode } = useGetCountry();
+  const { data: countryCode } = useHttpGet<null, string>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
+
 
   const [type, setType] = useState<"email" | "phone">("email");
   const [dialCode, setDialCode] = useState(null);
@@ -75,7 +77,7 @@ export function ForgotForm(props: ForgotFormProps) {
     showNotification("error", "Error", statusText);
   }, []);
 
-  const { mutate: forgot, isLoading } = useForgot({ onSuccess, onError });
+  const { mutate: forgot, isLoading } = useHttpPost<ForgotRequest, ForgotResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.FORGOT });
 
   const onSubmit = async (formData: ForgotRequest) => {
     if (type === "phone") {

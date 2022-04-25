@@ -10,8 +10,8 @@ import {
   currentUserAtom,
   SignUpRequest,
   SignUpResponse,
-  useGetCountry,
-  useSignUp
+  useHttpGet,
+  useHttpPost
 } from "@difx/shared";
 import { Button, Checkbox, Form, Input, notification } from "antd";
 import { AxiosError, AxiosResponse } from "axios";
@@ -21,12 +21,13 @@ import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { FormStyled } from "../../pages/register/styled";
+import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps {}
 
 export function RegisterFormComponent(props: RegisterFormComponentProps) {
-  const { data: countryCode } = useGetCountry();
+  const { data: countryCode } = useHttpGet<null, string>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
   const setCurrentUser = useUpdateAtom(currentUserAtom);
 
@@ -109,7 +110,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     signUpFailNotification(statusText);
   }, []);
 
-  const { mutate: signUp, isLoading } = useSignUp({ onSuccess, onError });
+  const { mutate: signUp, isLoading } = useHttpPost<SignUpRequest, SignUpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNUP });
 
   const onSubmit = async (formData: SignUpRequest) => {
     formData.phonenumber = (formData.dial_code + formData.phonenumber).replace(

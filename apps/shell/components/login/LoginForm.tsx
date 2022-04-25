@@ -9,8 +9,8 @@ import t from "@difx/locale";
 import {
   currentUserAtom, SignInRequest,
   SignInResponse,
-  useGetCountry,
-  useSignIn
+  useHttpGet,
+  useHttpPost
 } from "@difx/shared";
 import { Button, Form, Input, Switch } from "antd";
 import { AxiosError, AxiosResponse } from "axios";
@@ -19,13 +19,14 @@ import { useUpdateAtom } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 import { showNotification } from "./../../utils/pageUtils";
 
 /* eslint-disable-next-line */
 export interface LoginFormProps {}
 
 export function LoginForm(props: LoginFormProps) {
-  const { data: countryCode } = useGetCountry();
+  const { data: countryCode } = useHttpGet<null, string>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
   const setCurrentUser = useUpdateAtom(currentUserAtom);
 
@@ -109,7 +110,7 @@ export function LoginForm(props: LoginFormProps) {
     showNotification("error", "Login failed", statusText);
   }, []);
 
-  const { mutate: signIn, isLoading } = useSignIn({ onSuccess, onError });
+  const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
 
   const onSubmit = async (formData: SignInRequest) => {
     formData.usertype = isCorporate ? "BUS" : "IND";

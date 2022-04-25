@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-export const ComponentStyled = styled.div`
-  &.pair-metadata {
+export const PairMetadataStyled = styled.div`
     display: flex;
     height: 100%;
     padding: 0 10px;
@@ -31,5 +30,11 @@ export const ComponentStyled = styled.div`
         margin-top: 22px;
       }
     }
-  }
+`;
+
+export const ListPairStyled = styled.div`
+    padding: 15px 24px; 
+    .ant-input{
+      height: 32px;
+    }
 `;

@@ -28,7 +28,9 @@ const PageStyled = styled.div`
         color: ${({ theme }) => theme.fontColor.primary};
         border: 0.5px solid
           ${({ theme }) =>
-            theme.currentTheme === "light" ? "#E1DDDD" : theme.background.primary};
+            theme.currentTheme === "light"
+              ? "#E1DDDD"
+              : theme.background.primary};
         box-sizing: border-box;
         border-radius: 13.5px;
         padding: 2px 0px;

@@ -134,7 +134,7 @@ export const StyledHeader = styled(Layout.Header)`
   .group {
     display: flex;
     background: #fff;
-    border-bottom: ${({ theme }) => theme.border } !important;
+    border-bottom: ${({ theme }) => theme.border} !important;
     .logo {
       background: ${({ theme }) => theme.background.primary};
       display: flex;

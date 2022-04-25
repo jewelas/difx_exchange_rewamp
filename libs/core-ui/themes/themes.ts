@@ -1,70 +1,70 @@
 export interface ThemeInterface {
-  color:{
-    primary: string,
-    secondary: string,
-    success: string,
-    danger: string,
-    warning: string,
-    info: string,
-    primaryHover: string,
-    successHover: string,
-    dangerHover: string,
-    primaryActive: string,
-    successActive: string,
-    dangerActive: string,
-    primaryDisabled: string,
-    successDisabled: string,
-    dangerDisabled: string,
-  },
-  background:{
-    primary: string,
-    secondary: string,
-  },
+  color: {
+    primary: string;
+    secondary: string;
+    success: string;
+    danger: string;
+    warning: string;
+    info: string;
+    primaryHover: string;
+    successHover: string;
+    dangerHover: string;
+    primaryActive: string;
+    successActive: string;
+    dangerActive: string;
+    primaryDisabled: string;
+    successDisabled: string;
+    dangerDisabled: string;
+  };
+  background: {
+    primary: string;
+    secondary: string;
+  };
   fontColor: {
-    primary: string,
-    secondary: string,
-    button: string,
-    muted: string,
-    link: string
-  },
-  fontWeight:{
-    regular:number,
-    medium: number,
-    semiBold: number,
-    bold: number
-  },
-  typography:{
-    h1: string,
-    h2: string,
-    h3: string,
-    h4: string,
-    h5: string,
-    h6: string,
-    large: string,
-    medium: string,
-    small: string,
-    xsmall: string,
-  },
+    primary: string;
+    secondary: string;
+    button: string;
+    muted: string;
+    link: string;
+  };
+  fontWeight: {
+    regular: number;
+    medium: number;
+    semiBold: number;
+    bold: number;
+  };
+  typography: {
+    h1: string;
+    h2: string;
+    h3: string;
+    h4: string;
+    h5: string;
+    h6: string;
+    large: string;
+    medium: string;
+    small: string;
+    xsmall: string;
+  };
   shadow: {
-    light: string,
-    strong: string,
-  }
-  border: string,
+    light: string;
+    strong: string;
+  };
+  border: string;
   borderRadius: {
-    regular: string,
-    rounded: string,
-    circle: string,
-  },
-  buttonHeight:{
-    large: string,
-    medium: string,
-    small: string
-  },
-  transition: string,
+    regular: string;
+    rounded: string;
+    circle: string;
+  };
+  buttonHeight: {
+    large: string;
+    medium: string;
+    small: string;
+  };
+  transition: string;
 }
 
-export const light : ThemeInterface = {
-  color:{
+export const light: ThemeInterface = {
+  color: {
     primary: "#3D7EFF",
     secondary: "#FAAD14",
     success: "#21C198",
@@ -81,7 +81,7 @@ export const light : ThemeInterface = {
     successDisabled: "#E8F8F2",
     dangerDisabled: "#FFF3F3",
   },
-  background:{
+  background: {
     primary: "#FFFFFF",
     secondary: "#F8FAFD",
   },
@@ -90,15 +90,15 @@ export const light : ThemeInterface = {
     secondary: "#9AA5B4",
     button: "#FFFFF",
     muted: "A1A1A1",
-    link: "#3D7EFF"
+    link: "#3D7EFF",
   },
-  fontWeight:{
+  fontWeight: {
     regular: 400,
     medium: 500,
     semiBold: 600,
     bold: 700,
   },
-  typography:{
+  typography: {
     h1: "56px",
     h2: "46px",
     h3: "38px",
@@ -120,16 +120,16 @@ export const light : ThemeInterface = {
     rounded: "10px",
     circle: "50%",
   },
-  buttonHeight:{
+  buttonHeight: {
     large: "48px",
     medium: "42px",
-    small: "38px"
+    small: "38px",
   },
   transition: "all 0.2s ease-in-out",
-}
+};
 
-export const dark : ThemeInterface = {
-  color:{
+export const dark: ThemeInterface = {
+  color: {
     primary: "#3D7EFF",
     secondary: "#FAAD14",
     success: "#21C198",
@@ -146,24 +146,24 @@ export const dark : ThemeInterface = {
     successDisabled: "#E8F8F2",
     dangerDisabled: "#FFF3F3",
   },
-  background:{
+  background: {
     primary: "#0D1421",
     secondary: "#161F30",
   },
-  fontColor:{
+  fontColor: {
     primary: "#FFFFFF",
     secondary: "#9AA5B4",
     button: "#FFFFFF",
     muted: "A1A1A1",
-    link: "#3D7EFF"
+    link: "#3D7EFF",
   },
-  fontWeight:{
+  fontWeight: {
     regular: 400,
     medium: 500,
     semiBold: 600,
     bold: 700,
   },
-  typography:{
+  typography: {
     h1: "56px",
     h2: "46px",
     h3: "38px",
@@ -185,34 +185,15 @@ export const dark : ThemeInterface = {
     rounded: "10px",
     circle: "50%",
   },
-  buttonHeight:{
+  buttonHeight: {
     large: "48px",
     medium: "42px",
-    small: "38px"
+    small: "38px",
   },
   transition: "all 0.2s ease-in-out",
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+};
 
 //--------------------- OLD THEME --------------------------------------
-
 
 // import { Theme } from "antd/lib/config-provider/context";
 
@@ -230,7 +211,7 @@ export const dark : ThemeInterface = {
 //   titleColor?: string;
 // }
 
-// /* 
+// /*
 //    Note: Overriding fields value inside Theme interface (e.g: primaryColor, infoColor,...) it will affect on the whole antd component
 //  */
 
@@ -263,5 +244,3 @@ export const dark : ThemeInterface = {
 //   titleColor: "#fff",
 //   primaryColor: "#1890F8",
 // };
-
-

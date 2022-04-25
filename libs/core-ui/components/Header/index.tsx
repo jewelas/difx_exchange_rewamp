@@ -12,7 +12,7 @@ import {
   StyledLine,
   StyledMoreMenuGroup,
 } from "./styled";
-import { useTheme } from "../../../shared"
+import { useTheme } from "../../../shared";
 
 export interface HeaderProps {
   onNavigation: (page: string) => void;
@@ -47,7 +47,7 @@ export function Header(props: HeaderProps) {
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [width, setWidth] = useState<number>(0);
-  const {theme, switchTheme } = useTheme()
+  const { theme, switchTheme } = useTheme();
 
   useEffect(() => {
     function handleResize() {
@@ -199,7 +199,7 @@ export function Header(props: HeaderProps) {
                 <StyledButtonGroup>
                   <StyledIconButton
                     ghost
-                    onClick={()=>switchTheme()}
+                    onClick={() => switchTheme()}
                     icon={
                       theme === "light" ? (
                         <MoonIcon useDarkMode />
@@ -321,7 +321,7 @@ export function Header(props: HeaderProps) {
                       <EarthIcon useDarkMode />
                       <div className="txt">{t("header.english")}</div>
                     </div>
-                    <div onClick={()=>switchTheme()} className="menu-item">
+                    <div onClick={() => switchTheme()} className="menu-item">
                       {theme === "light" ? (
                         <MoonIcon useDarkMode />
                       ) : (

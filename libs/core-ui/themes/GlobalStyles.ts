@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 // import { Color } from "../components/Color";
 import { ThemeInterface } from "./themes";
 
@@ -13,27 +13,33 @@ const GlobalStyles = createGlobalStyle`
     }
     body {
         font-family: "Lato", sans-serif !important;
-        transform: ${({ theme }: { theme: ThemeInterface }) => theme.transition} !important;
-        background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+        transform: ${({ theme }: { theme: ThemeInterface }) =>
+          theme.transition} !important;
+        background: ${({ theme }: { theme: ThemeInterface }) =>
+          theme.background.primary} !important;
     }
 
     .ant-btn.ant-btn-text{
-      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button};
+      color: ${({ theme }: { theme: ThemeInterface }) =>
+        theme.fontColor.button};
       &:hover{
         color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary};
       }
     }
 
     .ant-btn-primary{
-      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button};
-      border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
-      background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) =>
+        theme.fontColor.button};
+      border-color: ${({ theme }: { theme: ThemeInterface }) =>
+        theme.color.primary} !important;
+      background: ${({ theme }: { theme: ThemeInterface }) =>
+        theme.color.primary} !important;
     }
 
     .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
       background-color:unset !important;
     }
-`
+`;
 
 export { GlobalStyles };
 
@@ -48,7 +54,7 @@ export { GlobalStyles };
 //     body {
 //         font-family: "Lato", sans-serif !important;
 //     }
-    
+
 //     .noselect,
 //     button,
 //     div {
@@ -94,7 +100,7 @@ export { GlobalStyles };
 //             }
 //           }
 //         }
-  
+
 //         &.ant-form-item-has-error {
 //           .ant-form-item-control-input-content {
 //             input {
@@ -111,8 +117,6 @@ export { GlobalStyles };
 //           }
 //         }
 //       } //end .ant-form-item
-
-    
 
 //       // Select
 //       .ant-select {
@@ -194,7 +198,6 @@ export { GlobalStyles };
 //       }
 //     } // end button.ant-btn
 
-
 //     // Popover content
 //     .ant-popover-content{
 //       .ant-popover-arrow .ant-popover-arrow-content{
@@ -227,7 +230,6 @@ export { GlobalStyles };
 //         }
 //       }
 //     } // end ant-popover-content
-    
 
 //     // Notification
 //     .ant-notification{

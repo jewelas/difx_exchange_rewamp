@@ -13,16 +13,16 @@ const ContentStyled = styled.div`
 `;
 
 export interface BaseLayoutProps {
-    children: React.ReactChild;
+  children: React.ReactChild;
 }
 
-export default function BaseLayout({ children } : BaseLayoutProps) {
+export default function BaseLayout({ children }: BaseLayoutProps) {
   const router = useRouter();
 
   return (
     <LayoutStyled>
-        <Header onNavigation={(page: string) => router.push(page)} />
-        <ContentStyled>{ children }</ContentStyled>
+      <Header onNavigation={(page: string) => router.push(page)} />
+      <ContentStyled>{children}</ContentStyled>
     </LayoutStyled>
-  )
+  );
 }

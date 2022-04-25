@@ -1,15 +1,16 @@
 import { useRouter } from "next/router";
-import privateRoutes from "../utils/privateRoutes"
 
-export interface GuestLayoutProps {
+import authRoutes from "../utils/authRoutes"
+
+export interface PrivateLayoutProps {
   children: React.ReactChild;
 }
 
-export default function GuestLayout({ children }: GuestLayoutProps) {
+export default function PrivateLayout({ children }: PrivateLayoutProps) {
   const router = useRouter()
   const { pathname } = router;
 
-  if(privateRoutes.includes(pathname)){
+  if(authRoutes.includes(pathname)){
     router.push("/home");
     return null; 
   }

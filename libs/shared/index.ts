@@ -12,6 +12,7 @@ export * from "./hook/useResetPass";
 export * from "./hook/useNetwork";
 export * from "./hook/useSocket";
 export * from "./hook/useTheme";
+export * from "./hook/useAuth";
 
 export * from "./type/User";
 export * from "./type/Pair";

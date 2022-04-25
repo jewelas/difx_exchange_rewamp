@@ -1,52 +1,55 @@
-import {
-  UpdateTokenResponse,
-  useUpdateToken,
-  currentUserAtom,
-} from "@difx/shared";
-import { AxiosResponse } from "axios";
-import { useUpdateAtom } from "jotai/utils";
-import { useEffect, useState } from "react";
+// import {
+//   UpdateTokenResponse,
+//   useUpdateToken,
+//   currentUserAtom,
+// } from "@difx/shared";
+// import { AxiosResponse } from "axios";
+// import { useUpdateAtom } from "jotai/utils";
 import { ThemeProvider } from "styled-components";
-import LoggedInLayout from "../layouts/LoggedInLayout";
-import { REFRESH_TOKEN } from "./../constants/index";
+// import LoggedInLayout from "../layouts/LoggedInLayout";
+// import { REFRESH_TOKEN } from "./../constants/index";
+import BaseLayout from "../layouts/BaseLayout";
+import PrivateLayout from "../layouts/PrivateLayout";
 import GuestLayout from "./../layouts/GuestLayout";
 import { dark, light, GlobalStyles } from "@difx/core-ui/themes";
-import { useTheme } from "@difx/shared";
+import { useTheme, useAuth } from "@difx/shared";
 
 export interface AppLayoutProps {
   children: React.ReactChild;
-  ghost?: boolean;
 }
 
-export function AppLayout({ children, ghost }: AppLayoutProps) {
-  const [hasLoggedIn, setHasLoggedIn] = useState<boolean>(false);
-  const {theme} = useTheme()
+export function AppLayout({ children}: AppLayoutProps) {
+  // const [hasLoggedIn, setHasLoggedIn] = useState<boolean>(false);
+  const { isLoggedIn } = useAuth();
+  const { theme } = useTheme();
 
-  const setCurrentUser = useUpdateAtom(currentUserAtom);
+  // const setCurrentUser = useUpdateAtom(currentUserAtom);
 
-  useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (currentUser && currentUser.token) {
-      setHasLoggedIn(true);
-      setCurrentUser(currentUser);
-    } else setHasLoggedIn(false);
-  }, [currentUserAtom]);
+  // useEffect(() => {
+  //   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  //   if (currentUser && currentUser.token) {
+  //     setHasLoggedIn(true);
+  //     setCurrentUser(currentUser);
+  //   } else setHasLoggedIn(false);
+  // }, [currentUserAtom]);
 
-  const { mutate: updateToken } = useUpdateToken({
-    onSuccess: (response: AxiosResponse<UpdateTokenResponse>) => {
-      setTimeout(() => {
-        updateToken({ token: response.data.token });
-      }, REFRESH_TOKEN.EXPIRY_TIME);
-    },
-  });
+  // const { mutate: updateToken } = useUpdateToken({
+  //   onSuccess: (response: AxiosResponse<UpdateTokenResponse>) => {
+  //     setTimeout(() => {
+  //       updateToken({ token: response.data.token });
+  //     }, REFRESH_TOKEN.EXPIRY_TIME);
+  //   },
+  // });
 
-  const LayoutDispatcher = hasLoggedIn ? LoggedInLayout : GuestLayout;
+  const LayoutDispatcher = isLoggedIn ? PrivateLayout : GuestLayout
 
   return (
     // Use theme in ThemeProvider to reuse variable when customize the styled-component
     <ThemeProvider theme={theme === "light" ? light : dark}>
       <GlobalStyles />
-      <LayoutDispatcher>{children}</LayoutDispatcher>
+      <BaseLayout>
+        <LayoutDispatcher>{children}</LayoutDispatcher>
+      </BaseLayout>
     </ThemeProvider>
   );
 }

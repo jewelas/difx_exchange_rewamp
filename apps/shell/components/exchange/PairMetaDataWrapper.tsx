@@ -24,7 +24,7 @@ export interface PairMetaDataWrapperProps {
 }
 
 export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
-  const { data: pairs } = useHttpGet<null,PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
+  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
   const router = useRouter();
   const { pair } = router.query;
 

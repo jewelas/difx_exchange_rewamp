@@ -14,11 +14,11 @@ import { getAveragePrice, getTrendPrice } from "./../../utils/priceUtils";
 import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 
 /* eslint-disable-next-line */
-export interface OrderBookWrapperProps {}
+export interface OrderBookWrapperProps { }
 
 export function OrderBookWrapper(props: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
-  const { data: pairs } = useHttpGet<null,PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
+  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
   const router = useRouter();
   const { pair } = router.query;
 
@@ -29,7 +29,7 @@ export function OrderBookWrapper(props: OrderBookWrapperProps) {
 
   const param: useSocketProps = {
     pair: pairInfo && pairInfo.symbol,
-    leavePair: {...OrderBookWrapper.previousPair},
+    leavePair: { ...OrderBookWrapper.previousPair },
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);
@@ -40,7 +40,7 @@ export function OrderBookWrapper(props: OrderBookWrapperProps) {
       const { bids: _bids, asks: _asks } = data;
       const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
       const newPrice = getAveragePrice(
-        reverseAsks[reverseAsks.length-1][0],
+        reverseAsks[reverseAsks.length - 1][0],
         _bids[0][0],
         pairInfo.group_precision
       );

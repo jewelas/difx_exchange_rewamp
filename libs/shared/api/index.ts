@@ -26,12 +26,11 @@ export const socket = {
     socketInstance.emit(event, data);
   },
   listen: (event: string, callback) => {
-    socketInstance.disconnect();
-    socketInstance.connect();
     socketInstance.on(event, callback);
   },
   off: (event?: string) => {
-    socketInstance.off(event);
+    if (event) socketInstance.off(event);
+    else socketInstance.off();
   },
   disconnect: () => {
     socketInstance.disconnect();

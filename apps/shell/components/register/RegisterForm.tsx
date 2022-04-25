@@ -3,31 +3,31 @@ import {
   getCountryInfo,
   Icon,
   PasswordField,
-  Typography,
+  Typography
 } from "@difx/core-ui";
 import t from "@difx/locale";
 import {
   currentUserAtom,
   SignUpRequest,
   SignUpResponse,
-  useGetCountry,
-  useSignUp,
+  useHttpGet,
+  useHttpPost
 } from "@difx/shared";
 import { Button, Checkbox, Form, Input, notification } from "antd";
-import { FormInstance } from "antd/es/form";
 import { AxiosError, AxiosResponse } from "axios";
 import clsx from "clsx";
 import { useUpdateAtom } from "jotai/utils";
 import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FormStyled } from "../../pages/register/styled";
+import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps {}
 
 export function RegisterFormComponent(props: RegisterFormComponentProps) {
-  const { data: countryCode } = useGetCountry();
+  const { data: countryCode } = useHttpGet<null, string>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
   const setCurrentUser = useUpdateAtom(currentUserAtom);
 
@@ -35,10 +35,11 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
   const [showReferral, setShowReferral] = useState(false);
 
-  const formRef = useRef<FormInstance>(null);
+  const [form] = Form.useForm(null);
 
   const [acceptTerm, setAcceptTerm] = useState(false);
   const [hasFieldError, setHasFieldError] = useState(true);
+  const [isValidPass, setIsValidPass] = useState(false);
   const [dialCode, setDialCode] = useState(null);
   const [country, setCountry] = useState(null);
   const [userType, setUserType] = useState<"IND" | "BUS">("IND");
@@ -51,7 +52,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
       if (countryInfo) {
         setCountry(countryInfo.name);
         setDialCode(countryInfo.dial_code);
-        formRef.current?.setFieldsValue({ dial_code: countryInfo?.dial_code });
+        form.setFieldsValue({ dial_code: countryInfo?.dial_code });
       }
     }
   }, [countryCode]);
@@ -69,25 +70,12 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     });
   };
 
-  const isRequiredFieldsEmpty = (): boolean => {
-    let result = false;
-    const values: FormData = formRef.current?.getFieldsValue();
-    /* eslint-disable-next-line */
-    for (const [key, value] of Object.entries(values)) {
-      if (!value) {
-        result = true;
-        break;
-      }
-    }
-    return result;
-  };
-
   const onChangeCountry = (item: { key: string; value: string }) => {
     /* eslint-disable-next-line */
     const countryInfo: any = getCountryInfo(item.key);
     setDialCode(countryInfo?.dial_code);
     setCountry(item.value);
-    formRef.current?.setFieldsValue({ dial_code: countryInfo?.dial_code });
+    form.setFieldsValue({ dial_code: countryInfo?.dial_code });
   };
 
   /* eslint-disable-next-line */
@@ -97,16 +85,12 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   };
 
   const onFormChange = () => {
-    if (isRequiredFieldsEmpty()) {
+    const fieldsError = form.getFieldsError();
+    const errors = fieldsError.find((e) => !isEmpty(e.errors));
+    if (errors && !isEmpty(errors.errors)) {
       setHasFieldError(true);
     } else {
-      const fieldsError = formRef.current?.getFieldsError();
-      const errors = fieldsError.find((e) => !isEmpty(e.errors));
-      if (errors && !isEmpty(errors.errors)) {
-        setHasFieldError(true);
-      } else {
-        setHasFieldError(false);
-      }
+      setHasFieldError(false);
     }
   };
 
@@ -126,7 +110,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     signUpFailNotification(statusText);
   }, []);
 
-  const { mutate: signUp, isLoading } = useSignUp({ onSuccess, onError });
+  const { mutate: signUp, isLoading } = useHttpPost<SignUpRequest, SignUpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNUP });
 
   const onSubmit = async (formData: SignUpRequest) => {
     formData.phonenumber = (formData.dial_code + formData.phonenumber).replace(
@@ -147,12 +131,12 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   };
 
   const onChangePass = (isValidate: boolean, value: string) => {
-    formRef.current?.setFieldsValue({ password: value });
-    setHasFieldError(!isValidate || isRequiredFieldsEmpty());
+    form.setFieldsValue({ password: value });
+    setIsValidPass(isValidate);
   };
 
   const onChangeDialCode = (item: { key: string; value: string }) => {
-    formRef.current?.setFieldsValue({ dial_code: item.value });
+    form.setFieldsValue({ dial_code: item.value });
 
     /* eslint-disable-next-line */
     const countryInfo: any = getCountryInfo(item.key);
@@ -163,7 +147,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   return (
     <FormStyled>
       <Form
-        ref={formRef}
+        form={form}
         onFinish={onSubmit}
         onFieldsChange={onFormChange}
         autoComplete="off"
@@ -282,7 +266,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
         </div>
 
         <Button
-          disabled={isLoading || hasFieldError || !acceptTerm}
+          disabled={isLoading || hasFieldError || !acceptTerm || !isValidPass || !dialCode || !country}
           htmlType="submit"
           className="sign-up-btn"
           type="primary"

@@ -1,46 +1,73 @@
-import { OrderBook } from "@difx/core-ui";
-import { useSocket, useSocketProps, useNetwork } from "@difx/shared";
-import isEmpty from "lodash/isEmpty";
-import { useEffect, useState } from "react";
+import { OrderBook, Loading } from "@difx/core-ui";
+import { useMemo } from "react";
+import { useRouter } from "next/router";
+import sortBy from "lodash/sortBy";
+import {
+  useHttpGet,
+  useNetwork,
+  useSocket,
+  useSocketProps,
+  PairType,
+  SocketEvent,
+} from "@difx/shared";
+import { getAveragePrice, getTrendPrice } from "./../../utils/priceUtils";
+import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 
 /* eslint-disable-next-line */
-export interface OrderBookWrapperProps {
-  pair?: string | string[];
-}
+export interface OrderBookWrapperProps { }
 
-export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
-  const [bids, setBids] = useState([]);
-  const [asks, setAsks] = useState([]);
-
-  const [currentPrice, setCurrentPrice] = useState(0.0);
-  const [priceTrend, setPriceTrend] = useState<string | undefined>();
-
+export function OrderBookWrapper(props: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
+  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
+  const router = useRouter();
+  const { pair } = router.query;
 
-  const param: useSocketProps = { pair, event: "orderbook_limited" };
+  let pairInfo = null;
+  if (pairs) {
+    pairInfo = pairs.find((e) => e.symbol === pair);
+  }
+
+  const param: useSocketProps = {
+    pair: pairInfo && pairInfo.symbol,
+    leavePair: { ...OrderBookWrapper.previousPair },
+    event: SocketEvent.orderbook_limited,
+  };
   const data = useSocket(param);
-  useEffect(() => {
-    if (data) {
-      setBids(data.bids);
-      setAsks(data.asks);
-    }
-  }, [data]);
+  OrderBookWrapper.previousPair = pairInfo && pairInfo.symbol;
 
-  useEffect(() => {
-    if (asks && bids && !isEmpty(asks) && !isEmpty(bids)) {
-      const newPrice = Number(
-        ((asks[asks.length - 1][0] + bids[0][0]) / 2).toFixed(1)
+  const { bids, asks, currentPrice, priceTrend } = useMemo(() => {
+    if (data && data.bids && data.asks) {
+      const { bids: _bids, asks: _asks } = data;
+      const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
+      const newPrice = getAveragePrice(
+        reverseAsks[reverseAsks.length - 1][0],
+        _bids[0][0],
+        pairInfo.group_precision
       );
-      setCurrentPrice(newPrice);
-      if (currentPrice < newPrice) setPriceTrend("bid");
-      else if (currentPrice > newPrice) setPriceTrend("ask");
-      else setPriceTrend("");
+      const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
+      OrderBookWrapper.previousPrice = newPrice;
+
+      return {
+        bids: _bids,
+        asks: reverseAsks,
+        priceTrend,
+        currentPrice: newPrice,
+      };
+    } else {
+      return {
+        bids: [],
+        asks: [],
+        priceTrend: null,
+        currentPrice: 0.0,
+      };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [asks, bids]);
+  }, [data, pairInfo]);
+
+  if (!pairInfo) return <Loading />;
 
   return (
     <OrderBook
+      pairInfo={pairInfo}
       networkStatus={online ? effectiveType : "off"}
       priceTrend={priceTrend}
       currentPrice={currentPrice}
@@ -50,4 +77,6 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   );
 }
 
+OrderBookWrapper.previousPrice = 0.0;
+OrderBookWrapper.previousPair = null;
 export default OrderBookWrapper;

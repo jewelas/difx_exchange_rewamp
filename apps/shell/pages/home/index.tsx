@@ -1,6 +1,7 @@
 import { PairTable } from "@difx/core-ui";
-import { useGetPairs } from "@difx/shared";
+import { PairType, useHttpGet } from "@difx/shared";
 import { Layout } from "antd";
+import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 import styled from "styled-components";
 import AppLayout from "..";
 
@@ -43,7 +44,9 @@ const ListPairsContentStyled = styled(Layout.Content)`
 `;
 
 export function HomePage(props: HomePageProps) {
-  const { data: pairs } = useGetPairs();
+  const { data: pairs } = useHttpGet<null,PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
+
+  console.log(pairs)
 
   return (
     <AppLayout>

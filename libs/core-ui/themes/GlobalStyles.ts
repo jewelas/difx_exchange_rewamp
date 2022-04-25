@@ -13,6 +13,25 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: "Lato", sans-serif !important;
     }
+
+    scrollbar-color: ${({ theme }: { theme: CustomThemeProps }) => theme.currentTheme === 'dark' ? '#464D5F' : '#999'} ${({ theme }: { theme: CustomThemeProps }) => theme.borderColor};
+    scrollbar-width: thin;
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+      background: ${({ theme }: { theme: CustomThemeProps }) => theme.borderColor};
+    }
+
+    ::-webkit-scrollbar-corner {
+      background: ${({ theme }: { theme: CustomThemeProps }) => theme.borderColor};
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: ${({ theme }: { theme: CustomThemeProps }) => theme.currentTheme === 'dark' ? '#464D5F' : '#999'};
+      border-radius: 4px;
+      /* border: 1px solid rgba(255, 255, 255, 1); */
+      background-clip: content-box;
+    }
     
     .noselect,
     button,
@@ -30,14 +49,14 @@ const GlobalStyles = createGlobalStyle`
         color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
         &:hover{
             color: ${({ theme }: { theme: CustomThemeProps }) =>
-              theme.textHoverColor} !important;
+    theme.textHoverColor} !important;
         }
     }
     .ant-btn-text:focus, .ant-btn-text:hover{
       color: unset !important;
     }
 
-    .ant-form-item {
+    /* .ant-form-item { */
 
         // Input
         .ant-input{
@@ -45,16 +64,23 @@ const GlobalStyles = createGlobalStyle`
           font-weight: 400;
           font-size: 14px;
           line-height: 22px;
+          background: ${({ theme }: { theme: CustomThemeProps }) =>
+    theme.inputBackgroundColor} !important;
+              color: ${({ theme }: { theme: CustomThemeProps }) =>
+    theme.textColor}  !important;
+              border-color: ${({ theme }: { theme: CustomThemeProps }) =>
+    theme.inputBorderColor}  !important;
+              box-shadow: unset  !important;
         }
         &:not(.ant-form-item-has-error) {
           .ant-form-item-control-input-content {
             input {
               background: ${({ theme }: { theme: CustomThemeProps }) =>
-                theme.inputBackgroundColor};
+    theme.inputBackgroundColor};
               color: ${({ theme }: { theme: CustomThemeProps }) =>
-                theme.textColor};;
+    theme.textColor};;
               border-color: ${({ theme }: { theme: CustomThemeProps }) =>
-                theme.inputBorderColor};
+    theme.inputBorderColor};
               box-shadow: unset;
             }
           }
@@ -64,18 +90,18 @@ const GlobalStyles = createGlobalStyle`
           .ant-form-item-control-input-content {
             input {
               background: ${({ theme }: { theme: CustomThemeProps }) =>
-                theme.inputBackgroundColor};
+    theme.inputBackgroundColor};
               color: ${({ theme }: { theme: CustomThemeProps }) =>
-                theme.textColor};
+    theme.textColor};
               border-color: #ff4d4f !important;
             }
           }
           .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover{
             background: ${({ theme }: { theme: CustomThemeProps }) =>
-              theme.inputBackgroundColor};
+    theme.inputBackgroundColor};
           }
         }
-      } //end .ant-form-item
+      /* } //end .ant-form-item */
 
     
 
@@ -86,40 +112,40 @@ const GlobalStyles = createGlobalStyle`
           }
           .ant-select-selector {
             background: ${({ theme }: { theme: CustomThemeProps }) =>
-              theme.inputBackgroundColor} !important;
+    theme.inputBackgroundColor} !important;
             border-color: ${({ theme }: { theme: CustomThemeProps }) =>
-              theme.inputBorderColor} !important;
+    theme.inputBorderColor} !important;
             color: ${({ theme }: { theme: CustomThemeProps }) =>
-              theme.textColor};
+    theme.textColor};
             box-shadow: unset !important;
           }
           .ant-select-arrow {
             svg {
               fill: ${({ theme }: { theme: CustomThemeProps }) =>
-                theme.textColor};
+    theme.textColor};
             }
           }
       } // end .ant-select
 
       .ant-select-dropdown{
         background: ${({ theme }: { theme: CustomThemeProps }) =>
-          theme.inputBackgroundColor} !important;
+    theme.inputBackgroundColor} !important;
         .ant-select-item-option-active:not(.ant-select-item-option-disabled){
           background: ${({ theme }) =>
-            theme.currentTheme === "light"
-              ? "#f5f5f5"
-              : "rgba(13, 20, 33, 0.6)"};
+    theme.currentTheme === "light"
+      ? "#f5f5f5"
+      : "rgba(13, 20, 33, 0.6)"};
         }
         .ant-select-item.ant-select-item-option.ant-select-item-option-selected{
           background: ${({ theme }) =>
-            theme.currentTheme === "light"
-              ? "var(--ant-primary-1)"
-              : "rgba(13, 20, 33, 0.6)"};
+    theme.currentTheme === "light"
+      ? "var(--ant-primary-1)"
+      : "rgba(13, 20, 33, 0.6)"};
         }
         .ant-select-item-option-content{
           .val{
             color:${({ theme }: { theme: CustomThemeProps }) =>
-              theme.textColor} !important;
+    theme.textColor} !important;
           }
         }
         .rc-virtual-list-holder{
@@ -128,7 +154,7 @@ const GlobalStyles = createGlobalStyle`
           }
           .ant-select-item-option{
             color:${({ theme }: { theme: CustomThemeProps }) =>
-              theme.textColor} !important;
+    theme.textColor} !important;
           }
         }
       }
@@ -138,22 +164,22 @@ const GlobalStyles = createGlobalStyle`
       height: 48px;
       &.with-icon{
         background: ${({ theme }: { theme: CustomThemeProps }) =>
-          theme.inputBackgroundColor} !important;
+    theme.inputBackgroundColor} !important;
         border-color: ${({ theme }: { theme: CustomThemeProps }) =>
-          theme.inputBorderColor} !important;
+    theme.inputBorderColor} !important;
       }
       &[disabled]{
         background-color: ${({ theme }: { theme: CustomThemeProps }) =>
-          theme.inputBorderColor};
+    theme.inputBorderColor};
         border-color: ${({ theme }: { theme: CustomThemeProps }) =>
-          theme.inputBorderColor};
+    theme.inputBorderColor};
         color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
         opacity: 0.5;
         &:hover{
           background-color: ${({ theme }: { theme: CustomThemeProps }) =>
-            theme.inputBorderColor};
+    theme.inputBorderColor};
           border-color: ${({ theme }: { theme: CustomThemeProps }) =>
-            theme.inputBorderColor};
+    theme.inputBorderColor};
           color: ${({ theme }: { theme: CustomThemeProps }) => theme.textColor};
         }
       }
@@ -216,7 +242,7 @@ const GlobalStyles = createGlobalStyle`
       .ant-input-affix-wrapper.ant-input-password{
         background: ${({ theme }) => theme.inputBackgroundColor} !important;
         &:not(.ant-input-affix-wrapper-status-error){
-          border: unset;
+          border-color: #d9d9d9;
         }
         svg path{
           fill: ${({ theme }) => theme.textColor} !important;

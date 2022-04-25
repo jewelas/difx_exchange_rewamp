@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Form, Input, Popover } from "antd";
+import { Input, Popover } from "antd";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import clsx from "clsx";
 import { useState } from "react";
-import t from "./../../../locale";
 import CheckCircleIcon from "../Icon/CheckCircleIcon";
 import CloseCircleIcon from "../Icon/CloseCircleIcon";
+import t from "./../../../locale";
 import { FieldStyled } from "./styled";
 export interface PasswordFieldProps {
   rules?: [any];
@@ -83,44 +83,42 @@ const PasswordField = (props: PasswordFieldProps) => {
       data-for={"password-validate-field"}
       data-event="click focus"
     >
-      <Form.Item name="password" rules={props.rules || []}>
-        <Popover
-          content={
-            <div className="check-list-group">
-              {renderCheckItem(t("error.min_10_chars"), min10Chars)}
-              {renderCheckItem(
-                t("error.should_contain_uppercase"),
-                containsUpperCase
-              )}
-              {renderCheckItem(
-                t("error.should_contain_lowercase"),
-                containsLowerCase
-              )}
-              {renderCheckItem(
-                t("error.should_contain_special_char"),
-                containsSpecialChars
-              )}
-              {renderCheckItem(
-                t("error.should_contain_number"),
-                containsNumber
-              )}
-              {renderCheckItem(
-                t("error.should_not_contain_space"),
-                notContainsSpace
-              )}
-            </div>
-          }
-          placement={placement}
-          trigger="focus"
-        >
-          <Input.Password
-            bordered={false}
-            onChange={onChangePass}
-            autoComplete="new-password"
-            placeholder={props.placeholder || "Password"}
-          />
-        </Popover>
-      </Form.Item>
+      <Popover
+        content={
+          <div className="check-list-group">
+            {renderCheckItem(t("error.min_10_chars"), min10Chars)}
+            {renderCheckItem(
+              t("error.should_contain_uppercase"),
+              containsUpperCase
+            )}
+            {renderCheckItem(
+              t("error.should_contain_lowercase"),
+              containsLowerCase
+            )}
+            {renderCheckItem(
+              t("error.should_contain_special_char"),
+              containsSpecialChars
+            )}
+            {renderCheckItem(
+              t("error.should_contain_number"),
+              containsNumber
+            )}
+            {renderCheckItem(
+              t("error.should_not_contain_space"),
+              notContainsSpace
+            )}
+          </div>
+        }
+        placement={placement}
+        trigger="focus"
+      >
+        <Input.Password
+          bordered={false}
+          onChange={onChangePass}
+          autoComplete="new-password"
+          placeholder={props.placeholder || "Password"}
+        />
+      </Popover>
     </FieldStyled>
   );
 };

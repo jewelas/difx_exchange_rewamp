@@ -4,7 +4,7 @@ import {
   TwoFactorResponse,
   UpdateTokenRequest,
   UpdateTokenResponse,
-  useTwoFactor,
+  useHttpPost,
   useUpdateToken,
   currentUserAtom,
 } from "@difx/shared";
@@ -17,6 +17,7 @@ import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { showNotification } from "./../../utils/pageUtils";
+import { API_ENDPOINT } from "./../../constants";
 
 export function TwoFactorForm() {
   const [hasFieldError, setHasFieldError] = useState(true);
@@ -79,7 +80,7 @@ export function TwoFactorForm() {
     showNotification("error", t("2fa.2fa"), statusText);
   };
 
-  const { mutate: twoFactor, isLoading } = useTwoFactor({ onSuccess, onError });
+  const { mutate: twoFactor, isLoading } = useHttpPost<TwoFactorRequest, TwoFactorResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.TWO_FACTOR });
 
   const { mutate: updateToken } = useUpdateToken({
     onSuccess: (response: AxiosResponse<UpdateTokenResponse>) => {

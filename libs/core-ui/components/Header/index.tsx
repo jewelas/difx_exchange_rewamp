@@ -2,6 +2,7 @@ import { Button, Col, Drawer, Menu, Row } from "antd";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useAuth } from "./../../../shared";
 import { Icon } from "../Icon";
 import t from "./../../../locale";
 import { User, useTheme } from "./../../../shared";
@@ -15,15 +16,12 @@ import {
 
 export interface HeaderProps {
   onNavigation: (page: string) => void;
-  // onChangeTheme: () => void;
-  // theme?: string;
-  currentUser?: User;
 }
 
 const SMALL_SIZE = 637;
 
 export function Header(props: HeaderProps) {
-  const { onNavigation, currentUser } = props;
+  const { onNavigation } = props;
 
   const {
     LogoIcon,
@@ -47,6 +45,7 @@ export function Header(props: HeaderProps) {
   const [showDrawer, setShowDrawer] = useState(false);
   const [width, setWidth] = useState<number>(0);
   const { theme, switchTheme } = useTheme();
+  const { isLoggedIn, logOut } = useAuth();
 
   useEffect(() => {
     function handleResize() {
@@ -124,7 +123,7 @@ export function Header(props: HeaderProps) {
             </Menu>
 
             <Menu className="right-nav-group">
-              {!currentUser ? (
+              {!isLoggedIn ? (
                 <>
                   <Menu.Item className="right-nav login" key="/login">
                     <Button
@@ -168,6 +167,7 @@ export function Header(props: HeaderProps) {
                         ghost
                         icon={<UserIcon useDarkMode />}
                         size={"small"}
+                        onClick={()=>logOut()}
                       />
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>
@@ -182,6 +182,7 @@ export function Header(props: HeaderProps) {
                     ghost
                     icon={<DownloadIcon useDarkMode />}
                     size={"small"}
+                    type="text"
                   />
                   <StyledLine />
                 </StyledButtonGroup>
@@ -192,6 +193,7 @@ export function Header(props: HeaderProps) {
                     ghost
                     icon={<EarthIcon useDarkMode />}
                     size={"small"}
+                    type="text"
                   />
                   <StyledLine />
                 </StyledButtonGroup>
@@ -209,11 +211,12 @@ export function Header(props: HeaderProps) {
                       )
                     }
                     size={"small"}
+                    type="text"
                   />
                 </StyledButtonGroup>
               </Menu.Item>
 
-              {currentUser && (
+              {isLoggedIn && (
                 <Menu.Item className="right-nav" key="setting">
                   <StyledButtonGroup>
                     <StyledLine />
@@ -239,7 +242,7 @@ export function Header(props: HeaderProps) {
                     <CloseIcon useDarkMode />
                   </div>
                   <div className="menu-item-group">
-                    {!currentUser ? (
+                    {!isLoggedIn ? (
                       <>
                         <div className="menu-item-btn">
                           <Button

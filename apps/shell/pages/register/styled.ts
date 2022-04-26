@@ -33,13 +33,13 @@ export const FormStyled = styled.div`
   }
   .sign-up-btn {
     margin-top: 20px;
-    height: 48px !important;
+    /* height: 48px !important; */
     width: 100%;
   }
   .input-group {
     margin-top: 30px;
     .ant-input {
-      height: 48px;
+      /* height: 48px; */
       font-size: 14px;
       font-weight: 400;
       line-height: 22px;

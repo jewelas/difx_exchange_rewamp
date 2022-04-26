@@ -15,6 +15,8 @@ export interface ThemeInterface {
     primaryDisabled: string;
     successDisabled: string;
     dangerDisabled: string;
+    disabled: string;
+    selected: string;
   };
   background: {
     primary: string;
@@ -48,8 +50,12 @@ export interface ThemeInterface {
   shadow: {
     light: string;
     strong: string;
+    accent: string
   };
-  border: string;
+  border: {
+    primary: string,
+    secondary: string
+  };
   borderRadius: {
     regular: string;
     rounded: string;
@@ -60,6 +66,7 @@ export interface ThemeInterface {
     medium: string;
     small: string;
   };
+  inputFieldHeight: string,
   transition: string;
 }
 
@@ -80,6 +87,8 @@ export const light: ThemeInterface = {
     primaryDisabled: "#E8F3FE",
     successDisabled: "#E8F8F2",
     dangerDisabled: "#FFF3F3",
+    disabled: "#f5f5f5",
+    selected: "var(--ant-primary-1)"
   },
   background: {
     primary: "#FFFFFF",
@@ -113,8 +122,12 @@ export const light: ThemeInterface = {
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",
     strong: "0 3px 10px rgb(0,0,0,0.2)",
+    accent: "0 3px 10px #3D7EFF",
   },
-  border: "1px solid rgba(0, 0, 0, 0.06)",
+  border: {
+    primary: "1px solid #3D7EFF",
+    secondary: "1px solid rgba(0, 0, 0, 0.06)"
+  },
   borderRadius: {
     regular: "2px",
     rounded: "10px",
@@ -125,6 +138,7 @@ export const light: ThemeInterface = {
     medium: "42px",
     small: "32px",
   },
+  inputFieldHeight: "52px",
   transition: "all 0.2s ease-in-out",
 };
 
@@ -145,6 +159,8 @@ export const dark: ThemeInterface = {
     primaryDisabled: "#E8F3FE",
     successDisabled: "#E8F8F2",
     dangerDisabled: "#FFF3F3",
+    disabled: "rgba(13, 20, 33, 0.6)",
+    selected: "rgba(13, 20, 33, 0.6)"
   },
   background: {
     primary: "#0D1421",
@@ -178,8 +194,12 @@ export const dark: ThemeInterface = {
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",
     strong: "0 3px 10px rgb(0,0,0,0.2)",
+    accent: "0 3px 10px #3D7EFF",
   },
-  border: "1px solid rgba(0, 0, 0, 0.06)",
+  border: {
+    primary: "1px solid #3D7EFF",
+    secondary: "1px solid #161F30"
+  },
   borderRadius: {
     regular: "2px",
     rounded: "10px",
@@ -190,6 +210,7 @@ export const dark: ThemeInterface = {
     medium: "42px",
     small: "38px",
   },
+  inputFieldHeight: "52px",
   transition: "all 0.2s ease-in-out",
 };
 

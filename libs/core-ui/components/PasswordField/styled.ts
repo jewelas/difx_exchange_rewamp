@@ -7,7 +7,7 @@ export const FieldStyled = styled.div`
   border-radius: 2px;
   height: 54px;
   .ant-form-item-control-input-content {
-    height: 48px;
+    /* height: 48px; */
   }
   .ant-form-item-control-input {
     background: ${({ theme }) => theme.background.primary};
@@ -27,7 +27,7 @@ export const FieldStyled = styled.div`
     cursor: pointer;
   }
   input {
-    height: 48px;
+    /* height: 48px; */
   }
   .ant-input-suffix {
     svg {

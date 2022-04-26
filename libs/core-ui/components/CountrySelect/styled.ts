@@ -10,10 +10,10 @@ export const SelectStyled = styled(Select)`
       line-height: 28px !important;
     }
     .ant-select-selector {
-      height: 48px !important;
+      /* height: 48px !important; */
       .ant-select-selection-search {
         input {
-          height: 48px !important;
+          /* height: 48px !important; */
           font-size: 20px;
           padding-left: 48px;
         }
@@ -28,10 +28,10 @@ export const SelectStyled = styled(Select)`
       line-height: 28px !important;
     }
     .ant-select-selector {
-      height: 48px !important;
+      /* height: 48px !important; */
       .ant-select-selection-search {
         input {
-          height: 48px !important;
+          /* height: 48px !important; */
           font-size: 14px;
           padding-left: 48px;
         }

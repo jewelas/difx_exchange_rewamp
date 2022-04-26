@@ -109,7 +109,6 @@ export const StyledHeader = styled(Layout.Header)`
   padding: unset !important;
   height: 70px !important;
   line-height: 70px !important;
-  z-index: 9999;
   position: fixed;
   width: 100%;
 

@@ -156,6 +156,7 @@ export function Header(props: HeaderProps) {
                         ghost
                         icon={<NotificationIcon useDarkMode />}
                         size={"small"}
+                        type="text"
                       />
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>
@@ -167,6 +168,7 @@ export function Header(props: HeaderProps) {
                         icon={<UserIcon useDarkMode />}
                         size={"small"}
                         onClick={()=>logOut()}
+                        type="text"
                       />
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>
@@ -222,6 +224,7 @@ export function Header(props: HeaderProps) {
                       ghost
                       icon={<SettingIcon useDarkMode />}
                       size={"small"}
+                      type="text"
                     />
                   </StyledButtonGroup>
                 </Menu.Item>

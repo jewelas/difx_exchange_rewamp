@@ -180,6 +180,7 @@ export function Header(props: HeaderProps) {
                     ghost
                     icon={<DownloadIcon useDarkMode />}
                     size={"small"}
+                    type="text"
                   />
                   <StyledLine />
                 </StyledButtonGroup>
@@ -190,6 +191,7 @@ export function Header(props: HeaderProps) {
                     ghost
                     icon={<EarthIcon useDarkMode />}
                     size={"small"}
+                    type="text"
                   />
                   <StyledLine />
                 </StyledButtonGroup>
@@ -207,6 +209,7 @@ export function Header(props: HeaderProps) {
                       )
                     }
                     size={"small"}
+                    type="text"
                   />
                 </StyledButtonGroup>
               </Menu.Item>

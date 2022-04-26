@@ -5,6 +5,8 @@ const PageStyled = styled.div`
   .ant-row.row-group {
     background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {
+      width: 100%;
+      max-width: 550px;
       padding: 50px;
       margin: 0 auto;
       margin-top: 70px;

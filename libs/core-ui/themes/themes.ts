@@ -124,7 +124,6 @@ export const light: ThemeInterface = {
     primary: "1px solid #3D7EFF",
     secondary: "1px solid rgba(0, 0, 0, 0.06)"
   },
-  // border: "1px solid rgba(0, 0, 0, 0.06)",
   borderRadius: {
     regular: "2px",
     rounded: "10px",
@@ -195,7 +194,6 @@ export const dark: ThemeInterface = {
     primary: "1px solid #3D7EFF",
     secondary: "1px solid #161F30"
   },
-  // border: "1px solid rgba(0, 0, 0, 0.06)",
   borderRadius: {
     regular: "2px",
     rounded: "10px",

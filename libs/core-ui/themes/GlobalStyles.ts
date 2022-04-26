@@ -105,6 +105,14 @@ const GlobalStyles = createGlobalStyle`
 
     .ant-select-selector{
       height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+      border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+    }
+
+    .ant-switch-checked{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
     }
 
     .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{

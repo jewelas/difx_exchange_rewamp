@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 import "antd/dist/antd.css";
-// import { Color } from "../components/Color";
 import { ThemeInterface } from "./themes";
 
 const GlobalStyles = createGlobalStyle`
@@ -19,15 +18,24 @@ const GlobalStyles = createGlobalStyle`
     theme.background.primary} !important;
     }
 
-    
+    /* Style for scrollbar */
+    scrollbar-color: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar} ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
+    scrollbar-width: thin;
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
+    }
 
-    /* .ant-btn.ant-btn-text{
-      color: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.fontColor.button};
-      &:hover{
-        color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary};
-      }
-    } */
+    ::-webkit-scrollbar-corner {
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar};
+      border-radius: 4px;
+      background-clip: content-box;
+    }
 
     //---------------------- Ant Design Custom Design -------------------------------------------------
 
@@ -83,12 +91,13 @@ const GlobalStyles = createGlobalStyle`
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      box-shadow: unset !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
 
-    .ant-input:hover{
+    /* .ant-input:hover{
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
-    }
+    } */
 
     .ant-input-affix-wrapper-borderless, 
     .ant-input-affix-wrapper-borderless:hover,
@@ -182,6 +191,9 @@ const GlobalStyles = createGlobalStyle`
 
     .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
       background-color:unset !important;
+    }
+    .ant-menu-item:active{
+      background-color: unset !important;
     }
 
     a.ant-typography, .ant-typography a{

@@ -18,6 +18,10 @@ export interface ThemeInterface {
     disabled: string;
     selected: string;
   };
+  scrollbar:{
+    bar: string;
+    background: string
+  }
   background: {
     primary: string;
     secondary: string;
@@ -88,11 +92,15 @@ export const light: ThemeInterface = {
     successDisabled: "#E8F8F2",
     dangerDisabled: "#FFF3F3",
     disabled: "#f5f5f5",
-    selected: "var(--ant-primary-1)"
+    selected: "var(--ant-primary-1)",
+  },
+  scrollbar:{
+    bar: "#999",
+    background: "#eee"
   },
   background: {
-    primary: "#FFFFFF",
-    secondary: "#F8FAFD",
+    primary: "#F8FAFD",
+    secondary: "#FFFFFF",
   },
   fontColor: {
     primary: "#454552",
@@ -160,11 +168,15 @@ export const dark: ThemeInterface = {
     successDisabled: "#E8F8F2",
     dangerDisabled: "#FFF3F3",
     disabled: "rgba(13, 20, 33, 0.6)",
-    selected: "rgba(13, 20, 33, 0.6)"
+    selected: "rgba(13, 20, 33, 0.6)",
+  },
+  scrollbar:{
+    bar: "#464D5F",
+    background: "#000",
   },
   background: {
-    primary: "#0D1421",
-    secondary: "#161F30",
+    primary: "#161F30",
+    secondary: "#0D1421",
   },
   fontColor: {
     primary: "#FFFFFF",

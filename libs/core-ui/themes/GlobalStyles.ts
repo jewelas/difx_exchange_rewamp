@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import "antd/dist/antd.css";
+// import { Color } from "../components/Color";
 import { ThemeInterface } from "./themes";
 
 const GlobalStyles = createGlobalStyle`
@@ -13,16 +14,16 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: "Lato", sans-serif !important;
         transform: ${({ theme }: { theme: ThemeInterface }) =>
-          theme.transition} !important;
+    theme.transition} !important;
         background: ${({ theme }: { theme: ThemeInterface }) =>
-          theme.background.primary} !important;
+    theme.background.primary} !important;
     }
 
     
 
     /* .ant-btn.ant-btn-text{
       color: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.fontColor.button};
+    theme.fontColor.button};
       &:hover{
         color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary};
       }
@@ -35,7 +36,7 @@ const GlobalStyles = createGlobalStyle`
     }
     .ant-btn{
       background: transparent !important;
-      color: ${({ theme }: { theme: ThemeInterface }) =>theme.color.primary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.medium} !important;
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary};
@@ -55,26 +56,26 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-btn-text{
-      color: ${({ theme }: { theme: ThemeInterface }) =>theme.fontColor.primary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       border: none !important;
     }
 
     .ant-btn-primary{
       color: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.fontColor.button} !important;
+    theme.fontColor.button} !important;
       border-color: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.color.primary} !important;
+    theme.color.primary} !important;
       background: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.color.primary} !important;
+    theme.color.primary} !important;
     }
 
     .ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
       color: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.fontColor.button} !important;
+    theme.fontColor.button} !important;
       border-color: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.color.primary} !important;
+    theme.color.primary} !important;
       background: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.color.primary} !important;
+    theme.color.primary} !important;
       opacity: 0.5;
     }
     .ant-input{
@@ -123,7 +124,7 @@ const GlobalStyles = createGlobalStyle`
         .ant-select-item-option-content{
           .val{
             color:${({ theme }: { theme: ThemeInterface }) =>
-              theme.fontColor.primary} !important;
+    theme.fontColor.primary} !important;
           }
         }
         .rc-virtual-list-holder{
@@ -132,10 +133,42 @@ const GlobalStyles = createGlobalStyle`
           }
           .ant-select-item-option{
             color:${({ theme }: { theme: ThemeInterface }) =>
-              theme.fontColor.primary} !important;
+    theme.fontColor.primary} !important;
           }
         }
       }
+
+     .ant-popover-content{
+       .ant-popover-arrow .ant-popover-arrow-content{
+         &:before{
+           background:unset;
+         }
+         background: ${({ theme }) => theme.background.primary};
+       }
+       .ant-popover-inner{
+         background: ${({ theme }) => theme.background.primary};
+         .check-list-group{
+           .check-item{
+             margin: 5px 0;
+             display:flex;
+             .icon{
+               padding-top: 4px;
+               margin-right: 8px;
+             }
+             .content{
+               margin-top: 3px;
+               font-size: 12px;
+               font-weight: 400;
+               line-height: 20px;
+               color: #DB5354 !important;
+               &.success{
+                 color: #21C198 !important;
+               }
+             }
+           }
+         }
+       }
+     }
 
     .ant-select-arrow {
       svg {

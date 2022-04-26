@@ -109,7 +109,7 @@ export const StyledHeader = styled(Layout.Header)`
   .group {
     display: flex;
     background: ${({ theme }) => theme.background.secondary};
-    border-bottom: solid 5px ${({ theme }) => theme.background.primary} !important;
+    border-bottom: solid 5px ${({ theme }) => theme.scrollbar.background} !important;
     .logo {
       background: transparent;
       display: flex;

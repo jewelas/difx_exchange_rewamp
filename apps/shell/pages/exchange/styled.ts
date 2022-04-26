@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PageStyled = styled.div`
-  background: ${({ theme }) => theme.background.primay};
+  background: ${({ theme }) => theme.scrollbar.background};
   margin-top: -5px;
 
   .react-grid-item {

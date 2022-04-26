@@ -19,12 +19,26 @@ const GlobalStyles = createGlobalStyle`
           theme.background.primary} !important;
     }
 
-    .ant-btn.ant-btn-text{
+    
+
+    /* .ant-btn.ant-btn-text{
       color: ${({ theme }: { theme: ThemeInterface }) =>
         theme.fontColor.button};
       &:hover{
         color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary};
       }
+    } */
+    .ant-btn{
+      border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
+      height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.medium} !important;
+    }
+
+    .ant-btn-sm{
+      height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.small} !important;
+    }
+
+    .ant-btn-lg{
+      height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.large} !important;
     }
 
     .ant-btn-primary{
@@ -34,6 +48,16 @@ const GlobalStyles = createGlobalStyle`
         theme.color.primary} !important;
       background: ${({ theme }: { theme: ThemeInterface }) =>
         theme.color.primary} !important;
+    }
+
+    .ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
+      color: ${({ theme }: { theme: ThemeInterface }) =>
+        theme.fontColor.button} !important;
+      border-color: ${({ theme }: { theme: ThemeInterface }) =>
+        theme.color.primary} !important;
+      background: ${({ theme }: { theme: ThemeInterface }) =>
+        theme.color.primary} !important;
+      opacity: 0.5;
     }
 
     .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{

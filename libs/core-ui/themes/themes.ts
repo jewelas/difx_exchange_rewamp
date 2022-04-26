@@ -88,7 +88,7 @@ export const light: ThemeInterface = {
   fontColor: {
     primary: "#454552",
     secondary: "#9AA5B4",
-    button: "#FFFFF",
+    button: "#FFFFFF",
     muted: "A1A1A1",
     link: "#3D7EFF",
   },
@@ -123,7 +123,7 @@ export const light: ThemeInterface = {
   buttonHeight: {
     large: "48px",
     medium: "42px",
-    small: "38px",
+    small: "32px",
   },
   transition: "all 0.2s ease-in-out",
 };

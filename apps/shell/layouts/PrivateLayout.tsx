@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import authRoutes from "../utils/authRoutes"
+import { authRoutes } from "../utils/routes"
 
 export interface PrivateLayoutProps {
   children: React.ReactChild;

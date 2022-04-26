@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import privateRoutes from "../utils/privateRoutes"
+import { privateRoutes } from "../utils/routes"
 
 export interface GuestLayoutProps {
   children: React.ReactChild;

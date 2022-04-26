@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useAtom } from "jotai";
-import { currentUserAtom, isLoggedInAtom } from "../atom/index";
+import { currentUserAtom, isLoggedInAtom, sessionToken } from "../atom/index";
 import { User } from "@difx/shared";
 
 export function useAuth() {
   const [user, setUser] = useAtom(currentUserAtom);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const [token, setToken] = useAtom(sessionToken);
 
   useEffect(() => {
     let currentUser = localStorage?.getItem("currentUser");
@@ -17,8 +18,10 @@ export function useAuth() {
   useEffect(() => {
     if (user != undefined || null){
         setIsLoggedIn(true);
-    }else{
+        updateSessionToken(user.token)
+    }else{   
         setIsLoggedIn(false);
+        updateSessionToken(null)
     }
   }, [user]);
 
@@ -33,5 +36,9 @@ export function useAuth() {
     setUser(updatedUser);
   };
 
-  return { user, isLoggedIn, refreshToken, updateUser };
+  const updateSessionToken = (token) => {
+    setToken(token)
+  }
+
+  return { user, isLoggedIn, token,  refreshToken, updateUser, updateSessionToken };
 }

@@ -166,14 +166,14 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
         <div className="account-type-group">
           <Button
             onClick={() => setUserType("IND")}
-            className={clsx("with-icon", userType === "IND" && "active")}
+            className={clsx("with-icon", userType === "IND" && "active", "custom-btn")}
           >
             <Icon.UserIcon />
             <div>{t("register.individual")}</div>
           </Button>
           <Button
             onClick={() => setUserType("BUS")}
-            className={clsx("with-icon", userType === "BUS" && "active")}
+            className={clsx("with-icon", userType === "BUS" && "active", "custom-btn")}
           >
             <Icon.BankIcon />
             <div>{t("register.corporate")}</div>

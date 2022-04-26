@@ -3,7 +3,9 @@ import styled from "styled-components";
 
 export const StyledButtonGroup = styled.div`
   display: flex;
-  margin-top: 23px;
+  height: 100%;
+  justify-items: center;
+  align-items: center;
 `;
 
 export const StyledMoreMenuGroup = styled.div`
@@ -119,7 +121,6 @@ export const StyledHeader = styled(Layout.Header)`
     .right-nav {
       height: 100%;
       button:not(.ant-btn-icon-only) {
-        margin-top: 6px;
       }
     }
     .ant-menu-item,
@@ -172,6 +173,13 @@ export const StyledHeader = styled(Layout.Header)`
       right: 0;
       display: none;
     }
+  }
+
+  .ant-menu-item{
+    margin: 0px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   @media (max-width: 1083px) {

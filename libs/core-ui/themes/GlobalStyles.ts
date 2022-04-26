@@ -122,6 +122,10 @@ const GlobalStyles = createGlobalStyle`
     a.ant-typography, .ant-typography a{
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.link} !important;
     }
+
+    .ant-menu-vertical{
+      border: none !important;
+    }
 `;
 
 export { GlobalStyles };

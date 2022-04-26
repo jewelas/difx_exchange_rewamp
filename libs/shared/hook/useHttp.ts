@@ -51,7 +51,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                onError(error as AxiosError);
+                onError && onError(error as AxiosError);
             },
         }
     );
@@ -71,7 +71,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                onError(error as AxiosError);
+                onError && onError(error as AxiosError);
             },
         }
     );

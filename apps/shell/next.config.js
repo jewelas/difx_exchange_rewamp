@@ -11,6 +11,9 @@ const nextConfig = {
     svgr: false,
   },
   generateBuildId: () => "build",
+  experimental: {
+    styledComponents: true
+  }
 };
 
 module.exports = withNx(nextConfig);

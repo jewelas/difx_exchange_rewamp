@@ -28,6 +28,8 @@ import OrderBuySellIcon from "./OrderBuySellIcon";
 import OrderBuyIcon from "./OrderBuyIcon";
 import OrderSellIcon from "./OrderSellIcon";
 import WifiIcon from "./WifiIcon";
+import FavoriteIcon from "./FavoriteIcon";
+import QuestionIcon from "./QuestionIcon";
 
 export interface IconProps {
   width?: number;
@@ -69,6 +71,8 @@ const Icon = {
   OrderBuyIcon,
   OrderSellIcon,
   WifiIcon,
+  FavoriteIcon,
+  QuestionIcon,
 };
 
 export { Icon };

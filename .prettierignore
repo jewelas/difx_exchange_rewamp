@@ -1,0 +1,5 @@
+# Ignore Dist File
+/dist
+
+# Ignore Node Modules
+/node_modules

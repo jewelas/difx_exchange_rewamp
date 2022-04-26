@@ -37,7 +37,7 @@ function Layout({
   pathIndex,
 }: {
   fill: string;
-  children: any;
+  children: React.ReactChild;
   useDarkMode?: boolean;
   pathIndex?: number;
 }) {

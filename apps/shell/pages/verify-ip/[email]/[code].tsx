@@ -1,10 +1,11 @@
-import { useVerifyIp, VerifyIpRequest, VerifyIpResponse } from "@difx/shared";
+import { useHttpPost, VerifyIpRequest, VerifyIpResponse } from "@difx/shared";
 import { AxiosError, AxiosResponse } from "axios";
 import t from "@difx/locale";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import AppLayout from "../..";
 import { showNotification } from "./../../../utils/pageUtils";
+import { API_ENDPOINT } from "./../../../constants";
 
 export function VerifyIpPage() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export function VerifyIpPage() {
     showNotification("error", t("signin.ip_verification"), statusText);
   }, []);
 
-  const { mutate: verifyIp } = useVerifyIp({ onSuccess, onError });
+  const { mutate: verifyIp } = useHttpPost<VerifyIpRequest, VerifyIpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.VERIFY_IP });
 
   useEffect(() => {
     if (email && code) {

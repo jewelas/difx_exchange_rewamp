@@ -51,6 +51,8 @@ const Template: Story = (args) => {
     OrderBuyIcon,
     OrderSellIcon,
     WifiIcon,
+    FavoriteIcon,
+    QuestionIcon,
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -120,6 +122,8 @@ const Template: Story = (args) => {
         {renderIcon("OrderBuyIcon", <OrderBuyIcon {...iconArgs} />)}
         {renderIcon("OrderSellIcon", <OrderSellIcon {...iconArgs} />)}
         {renderIcon("WifiIcon", <WifiIcon {...iconArgs} />)}
+        {renderIcon("FavoriteIcon", <FavoriteIcon {...iconArgs} />)}
+        {renderIcon("QuestionIcon", <QuestionIcon {...iconArgs} />)}
       </div>
     </div>
   );

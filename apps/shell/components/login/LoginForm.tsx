@@ -1,32 +1,32 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   CountrySelect,
   getCountryInfo,
   PasswordField,
-  Typography,
+  Typography
 } from "@difx/core-ui";
 import t from "@difx/locale";
 import {
-  SignInRequest,
+  currentUserAtom, SignInRequest,
   SignInResponse,
-  useGetCountry,
-  useSignIn,
-  currentUserAtom,
+  useHttpGet,
+  useHttpPost
 } from "@difx/shared";
 import { Button, Form, Input, Switch } from "antd";
-import { useUpdateAtom } from "jotai/utils";
-import { FormInstance } from "antd/es/form";
 import { AxiosError, AxiosResponse } from "axios";
 import clsx from "clsx";
+import { useUpdateAtom } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 import { showNotification } from "./../../utils/pageUtils";
 
 /* eslint-disable-next-line */
 export interface LoginFormProps {}
 
 export function LoginForm(props: LoginFormProps) {
-  const { data: countryCode } = useGetCountry();
+  const { data: countryCode } = useHttpGet<null, string>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
   const setCurrentUser = useUpdateAtom(currentUserAtom);
 
@@ -34,7 +34,8 @@ export function LoginForm(props: LoginFormProps) {
   const [isCorporate, setIsCorporate] = useState(false);
   const [dialCode, setDialCode] = useState(null);
   const [hasFieldError, setHasFieldError] = useState(true);
-  const formRef = useRef<FormInstance>(null);
+  const [isValidPass, setIsValidPass] = useState(false);
+  const [form] = Form.useForm(null);
 
   const router = useRouter();
 
@@ -45,23 +46,24 @@ export function LoginForm(props: LoginFormProps) {
       const countryInfo: any = getCountryInfo(code);
       if (countryInfo) {
         setDialCode(countryInfo.dial_code);
-        formRef.current?.setFieldsValue({ dial_code: countryInfo?.dial_code });
+        form.setFieldsValue({ dial_code: countryInfo?.dial_code });
       }
     }
   }, [countryCode]);
 
-  useEffect(() => {
-    onFormChange();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type]);
+  useEffect(()=>{
+    const fieldsValue = form.getFieldsValue();
+    const emptyField = Object.entries(fieldsValue).find(([key,value])=> !value);
+    setHasFieldError(!isEmpty(emptyField));
+  },[type]);
 
   const onChangePass = (isValidate: boolean, value: string) => {
-    formRef.current?.setFieldsValue({ password: value });
-    setHasFieldError(!isValidate || isRequiredFieldsEmpty());
+    form.setFieldsValue({ password: value });
+    setIsValidPass(isValidate);
   };
 
   const onChangeDialCode = (item: { key: string; value: string }) => {
-    formRef.current?.setFieldsValue({ dial_code: item.value });
+    form.setFieldsValue({ dial_code: item.value });
 
     /* eslint-disable-next-line */
     setDialCode(item.value);
@@ -74,7 +76,7 @@ export function LoginForm(props: LoginFormProps) {
     if (statusCode === "ENTER_TWOFA_CODE") {
       localStorage.setItem("twoFaToken", sessionId);
 
-      const fieldsValue = formRef.current.getFieldsValue();
+      const fieldsValue = form.getFieldsValue();
       localStorage.setItem("loginFormData", JSON.stringify(fieldsValue));
 
       router.push("/two-factor");
@@ -85,47 +87,30 @@ export function LoginForm(props: LoginFormProps) {
       localStorage.removeItem("twoFaToken");
       localStorage.removeItem("loginFormData");
 
-      showNotification("success", "Signin successfully", null);
+      // showNotification("success", "Signin successfully", null);
       router.push("/home");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isRequiredFieldsEmpty = (): boolean => {
-    let result = false;
-    const values: FormData = formRef.current?.getFieldsValue();
-    /* eslint-disable-next-line */
-    for (const [key, value] of Object.entries(values)) {
-      if (!value) {
-        result = true;
-        break;
-      }
-    }
-    return result;
-  };
-
   const onFormChange = () => {
-    if (isRequiredFieldsEmpty()) {
-      setHasFieldError(true);
-    } else {
-      const fieldsError = formRef.current?.getFieldsError();
+    const fieldsError = form.getFieldsError();
       const errors = fieldsError.find((e) => !isEmpty(e.errors));
       if (errors && !isEmpty(errors.errors)) {
         setHasFieldError(true);
       } else {
         setHasFieldError(false);
       }
-    }
   };
 
   const onError = useCallback((error: AxiosError) => {
     const { response } = error;
     const { statusText } = response.data;
 
-    showNotification("error", "Login failed", statusText);
+    // showNotification("error", "Login failed", statusText);
   }, []);
 
-  const { mutate: signIn, isLoading } = useSignIn({ onSuccess, onError });
+  const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
 
   const onSubmit = async (formData: SignInRequest) => {
     formData.usertype = isCorporate ? "BUS" : "IND";
@@ -133,7 +118,7 @@ export function LoginForm(props: LoginFormProps) {
     if (type === "phone") {
       formData.email = "";
       formData.phonenumber = (
-        formData.dial_code + formData.phonenumber
+      formData.dial_code + formData.phonenumber
       ).replace("+", "");
     }
 
@@ -146,7 +131,7 @@ export function LoginForm(props: LoginFormProps) {
 
   return (
     <Form
-      ref={formRef}
+      form={form}
       onFinish={onSubmit}
       onFieldsChange={onFormChange}
       autoComplete="off"
@@ -239,7 +224,7 @@ export function LoginForm(props: LoginFormProps) {
           <PasswordField onChange={onChangePass} />
         </Form.Item>
         <Button
-          disabled={isLoading || hasFieldError}
+          disabled={isLoading || hasFieldError || !isValidPass || !dialCode}
           htmlType="submit"
           className="sign-in-btn"
           type="primary"

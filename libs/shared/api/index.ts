@@ -5,6 +5,10 @@ export const axiosInstance = axios.create({
   baseURL: process.env["NX_API_URL"],
 });
 
+if(!process.env["NX_WS_URL"]){
+  throw new Error("Cannot found the Websocket URL");
+}
+
 const socketInstance = io(process.env["NX_WS_URL"], {
   path: "/socket.io",
   transports: ["websocket"],
@@ -15,7 +19,7 @@ const socketInstance = io(process.env["NX_WS_URL"], {
 });
 
 export const socket = {
-  packet: (callback) => {
+  packet: (callback:any) => {
     socketInstance.disconnect();
     socketInstance.connect();
     socketInstance.io.on("packet", ({ type, data }) => {
@@ -25,7 +29,7 @@ export const socket = {
   send: (event: string, data: any) => {
     socketInstance.emit(event, data);
   },
-  listen: (event: string, callback) => {
+  listen: (event: string, callback:any) => {
     socketInstance.on(event, callback);
   },
   off: (event?: string) => {

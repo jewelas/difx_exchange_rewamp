@@ -2,17 +2,16 @@ import { Button, Col, Drawer, Menu, Row } from "antd";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { User } from "./../../../shared";
-import t from "./../../../locale";
 import { Icon } from "../Icon";
+import t from "./../../../locale";
+import { User, useTheme } from "./../../../shared";
 import {
   StyledButtonGroup,
   StyledHeader,
   StyledIconButton,
   StyledLine,
-  StyledMoreMenuGroup,
+  StyledMoreMenuGroup
 } from "./styled";
-import { useTheme } from "../../../shared";
 
 export interface HeaderProps {
   onNavigation: (page: string) => void;

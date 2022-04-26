@@ -1,12 +1,16 @@
 import { useEffect } from "react";
 import { useAtom } from "jotai";
+import { useUpdateAtom, useAtomValue} from "jotai/utils";
 import { currentUserAtom, isLoggedInAtom, sessionToken } from "../atom/index";
-import { User } from "@difx/shared";
+import { User } from "..";
 
 export function useAuth() {
-  const [user, setUser] = useAtom(currentUserAtom);
+  const user = useAtomValue(currentUserAtom);
+  const setUser = useUpdateAtom(currentUserAtom);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
-  const [token, setToken] = useAtom(sessionToken);
+
+  const token = useAtomValue(sessionToken);
+  const setToken = useUpdateAtom(sessionToken);
 
   useEffect(() => {
     let currentUser = localStorage?.getItem("currentUser");
@@ -16,7 +20,7 @@ export function useAuth() {
   }, []);
 
   useEffect(() => {
-    if (user != undefined || null){
+    if (user){
         setIsLoggedIn(true);
         updateSessionToken(user.token)
     }else{   
@@ -26,9 +30,11 @@ export function useAuth() {
   }, [user]);
 
   const refreshToken = (newToken: string): void => {
-    user.token = newToken;
-    localStorage?.setItem("currentUser", JSON.stringify(user));
-    setUser(user);
+    if(user){
+      user.token = newToken;
+      localStorage?.setItem("currentUser", JSON.stringify(user));
+      setUser(user);
+    }
   };
 
   const updateUser = (updatedUser: User): void => {
@@ -36,7 +42,7 @@ export function useAuth() {
     setUser(updatedUser);
   };
 
-  const updateSessionToken = (token) => {
+  const updateSessionToken = (token:string | null) => {
     setToken(token)
   }
 

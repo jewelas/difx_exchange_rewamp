@@ -1,5 +1,5 @@
 import { atom, PrimitiveAtom } from "jotai";
-import { User } from "@difx/shared";
+import { User } from "..";
 
 export const themeAtom = atom<string>("light");
 export const currentUserAtom = atom<User | undefined>(

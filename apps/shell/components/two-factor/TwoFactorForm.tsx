@@ -1,23 +1,17 @@
 import t from "@difx/locale";
 import {
-  TwoFactorRequest,
-  TwoFactorResponse,
-  UpdateTokenRequest,
-  UpdateTokenResponse,
-  useHttpPost,
-  useUpdateToken,
-  currentUserAtom,
+  currentUserAtom, TwoFactorRequest,
+  TwoFactorResponse, useAuth, useHttpPost
 } from "@difx/shared";
 import { Button, Form, Input } from "antd";
 import { FormInstance } from "antd/es/form";
-import { useUpdateAtom } from "jotai/utils";
-import { REFRESH_TOKEN } from "./../../constants";
 import { AxiosError, AxiosResponse } from "axios";
+import { useUpdateAtom } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { showNotification } from "./../../utils/pageUtils";
 import { API_ENDPOINT } from "./../../constants";
+import { showNotification } from "./../../utils/pageUtils";
 
 export function TwoFactorForm() {
   const [hasFieldError, setHasFieldError] = useState(true);
@@ -40,8 +34,7 @@ export function TwoFactorForm() {
 
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     if (currentUser && currentUser.token) {
-      const request: UpdateTokenRequest = { token: currentUser.token };
-      updateToken(request);
+      updateSessionToken(currentUser.token);
     }
 
     router.push("/home");
@@ -82,13 +75,7 @@ export function TwoFactorForm() {
 
   const { mutate: twoFactor, isLoading } = useHttpPost<TwoFactorRequest, TwoFactorResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.TWO_FACTOR });
 
-  const { mutate: updateToken } = useUpdateToken({
-    onSuccess: (response: AxiosResponse<UpdateTokenResponse>) => {
-      setTimeout(() => {
-        updateToken({ token: response.data.token });
-      }, REFRESH_TOKEN.EXPIRY_TIME);
-    },
-  });
+  const {updateSessionToken} = useAuth();
 
   const onSubmit = async (formData: TwoFactorRequest) => {
     const twoFaToken = localStorage.getItem("twoFaToken");

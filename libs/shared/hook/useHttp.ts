@@ -35,13 +35,30 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
     return query;
 }
 
-
-interface Props<Response> {
-    onSuccess: (response: AxiosResponse<Response>) => void;
-    onError: (error: AxiosError) => void;
+interface EventProps<Response> {
+    onSuccess?: (response: AxiosResponse<Response>) => void;
+    onError?: (error: AxiosError) => void;
     endpoint: string
 }
-export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: Props<Response>) {
+
+export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
+    const mutation = useMutation(
+        (request: Request) => {
+            return instance.get<null, AxiosResponse<Response>>(endpoint, request)
+        },
+        {
+            onSuccess: (response: AxiosResponse<Response>) => {
+                onSuccess && onSuccess(response);
+            },
+            onError: (error: AxiosError) => {
+                onError(error as AxiosError);
+            },
+        }
+    );
+    return mutation;
+}
+
+export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
     const mutation = useMutation(
         (request: Request) => {
             return instance.post<Request, AxiosResponse<Response>>(

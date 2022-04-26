@@ -44,7 +44,7 @@ interface EventProps<Response> {
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
     const mutation = useMutation(
         (request: Request) => {
-            return instance.get<null, AxiosResponse<Response>>(endpoint, request)
+            return instance.get<Request, AxiosResponse<Response>>(endpoint, request)
         },
         {
             onSuccess: (response: AxiosResponse<Response>) => {

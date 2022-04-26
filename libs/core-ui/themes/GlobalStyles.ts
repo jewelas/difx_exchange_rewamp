@@ -28,9 +28,20 @@ const GlobalStyles = createGlobalStyle`
         color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary};
       }
     } */
+
+    //---------------------- Ant Design Custom Design -------------------------------------------------
+
     .ant-btn{
+      background: transparent !important;
+      color: ${({ theme }: { theme: ThemeInterface }) =>theme.color.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.medium} !important;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
+      box-shadow: none !important;
+    }
+
+    .ant-btn:hover{
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary};
     }
 
     .ant-btn-sm{
@@ -41,9 +52,14 @@ const GlobalStyles = createGlobalStyle`
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.large} !important;
     }
 
+    .ant-btn-text{
+      color: ${({ theme }: { theme: ThemeInterface }) =>theme.fontColor.primary} !important;
+      border: none !important;
+    }
+
     .ant-btn-primary{
       color: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.fontColor.button};
+        theme.fontColor.button} !important;
       border-color: ${({ theme }: { theme: ThemeInterface }) =>
         theme.color.primary} !important;
       background: ${({ theme }: { theme: ThemeInterface }) =>
@@ -59,9 +75,44 @@ const GlobalStyles = createGlobalStyle`
         theme.color.primary} !important;
       opacity: 0.5;
     }
+    .ant-input{
+      height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+      border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+    }
+
+    .ant-input:hover{
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
+    }
+
+    .ant-input-affix-wrapper-borderless, 
+    .ant-input-affix-wrapper-borderless:hover,
+    .ant-input-affix-wrapper-borderless:focus, 
+    .ant-input-affix-wrapper-borderless-focused, 
+    .ant-input-affix-wrapper-borderless-disabled, 
+    .ant-input-affix-wrapper-borderless[disabled]{
+      height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+      border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+    }
+
+    .ant-input-affix-wrapper > input.ant-input{
+      border: none !important;
+    }
+
+    .ant-select-selector{
+      height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
+    }
 
     .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
       background-color:unset !important;
+    }
+
+    a.ant-typography, .ant-typography a{
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.link} !important;
     }
 `;
 

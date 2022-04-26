@@ -48,8 +48,12 @@ export interface ThemeInterface {
   shadow: {
     light: string;
     strong: string;
+    accent: string
   };
-  border: string;
+  border: {
+    primary: string,
+    secondary: string
+  };
   borderRadius: {
     regular: string;
     rounded: string;
@@ -60,6 +64,7 @@ export interface ThemeInterface {
     medium: string;
     small: string;
   };
+  inputFieldHeight: string,
   transition: string;
 }
 
@@ -113,8 +118,13 @@ export const light: ThemeInterface = {
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",
     strong: "0 3px 10px rgb(0,0,0,0.2)",
+    accent: "0 3px 10px #3D7EFF",
   },
-  border: "1px solid rgba(0, 0, 0, 0.06)",
+  border: {
+    primary: "1px solid #3D7EFF",
+    secondary: "1px solid rgba(0, 0, 0, 0.06)"
+  },
+  // border: "1px solid rgba(0, 0, 0, 0.06)",
   borderRadius: {
     regular: "2px",
     rounded: "10px",
@@ -125,6 +135,7 @@ export const light: ThemeInterface = {
     medium: "42px",
     small: "32px",
   },
+  inputFieldHeight: "52px",
   transition: "all 0.2s ease-in-out",
 };
 
@@ -178,8 +189,13 @@ export const dark: ThemeInterface = {
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",
     strong: "0 3px 10px rgb(0,0,0,0.2)",
+    accent: "0 3px 10px #3D7EFF",
   },
-  border: "1px solid rgba(0, 0, 0, 0.06)",
+  border: {
+    primary: "1px solid #3D7EFF",
+    secondary: "1px solid #161F30"
+  },
+  // border: "1px solid rgba(0, 0, 0, 0.06)",
   borderRadius: {
     regular: "2px",
     rounded: "10px",
@@ -190,6 +206,7 @@ export const dark: ThemeInterface = {
     medium: "42px",
     small: "38px",
   },
+  inputFieldHeight: "52px",
   transition: "all 0.2s ease-in-out",
 };
 

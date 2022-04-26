@@ -1,6 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# yarn test
-# npx nx lint shell
-# npx nx lint core-ui
+yarn test
+npx nx lint shell
+npx nx lint core-ui

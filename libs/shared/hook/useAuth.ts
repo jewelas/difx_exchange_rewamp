@@ -40,5 +40,10 @@ export function useAuth() {
     setToken(token)
   }
 
-  return { user, isLoggedIn, token,  refreshToken, updateUser, updateSessionToken };
+  const logOut = () : void => {
+    localStorage?.removeItem("currentUser");
+    setUser(undefined)
+  }
+
+  return { user, isLoggedIn, token,  refreshToken, updateUser, updateSessionToken, logOut };
 }

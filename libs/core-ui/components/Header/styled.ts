@@ -4,6 +4,9 @@ import styled from "styled-components";
 export const StyledButtonGroup = styled.div`
   display: flex;
   margin-top: 23px;
+  .ant-btn{
+    line-height: unset !important;
+  }
 `;
 
 export const StyledMoreMenuGroup = styled.div`
@@ -51,35 +54,6 @@ export const StyledMoreMenuGroup = styled.div`
       }
     }
 
-    &.open {
-      -webkit-animation: linear infinite;
-      -webkit-animation-iteration-count: 1;
-      -webkit-animation-name: runOpen;
-      -webkit-animation-duration: 0.1s;
-      @keyframes runOpen {
-        0% {
-          right: -250px;
-        }
-        100% {
-          right: 0;
-        }
-      }
-    }
-    &.close {
-      -webkit-animation: linear infinite;
-      -webkit-animation-iteration-count: 1;
-      -webkit-animation-name: runClose;
-      -webkit-animation-duration: 0.1s;
-      @keyframes runClose {
-        0% {
-          right: 0;
-        }
-        100% {
-          right: -250px;
-        }
-      }
-    }
-
     .close-icon {
       position: absolute;
       top: 30px;
@@ -92,6 +66,7 @@ export const StyledIconButton = styled(Button)`
   background: unset;
   border: unset !important;
   box-shadow: unset !important;
+  margin-top:-4px;
   svg {
     margin: 0 auto;
   }
@@ -133,10 +108,10 @@ export const StyledHeader = styled(Layout.Header)`
   }
   .group {
     display: flex;
-    background: #fff;
-    border-bottom: ${({ theme }) => theme.border} !important;
+    background: ${({ theme }) => theme.background.secondary};
+    border-bottom: solid 5px ${({ theme }) => theme.background.primary} !important;
     .logo {
-      background: ${({ theme }) => theme.background.primary};
+      background: transparent;
       display: flex;
       width: 122px;
       svg {
@@ -159,7 +134,7 @@ export const StyledHeader = styled(Layout.Header)`
       }
     }
     .ant-menu {
-      background: ${({ theme }) => theme.background.primary};
+      background: transparent;
       color: ${({ theme }) => theme.fontColor.primary};
       height: 70px;
       flex-grow: 1;

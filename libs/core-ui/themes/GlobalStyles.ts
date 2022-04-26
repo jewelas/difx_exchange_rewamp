@@ -28,6 +28,10 @@ const GlobalStyles = createGlobalStyle`
         color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary};
       }
     } */
+
+    .ant-menu-vertical{
+      border-right: unset !important;
+    }
     .ant-btn{
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.medium} !important;

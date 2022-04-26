@@ -154,6 +154,7 @@ export function Header(props: HeaderProps) {
                   <Menu.Item className="right-nav" key="/notification">
                     <StyledButtonGroup>
                       <StyledIconButton
+                        style={{marginTop:-2}}
                         ghost
                         icon={<NotificationIcon useDarkMode />}
                         size={"small"}
@@ -177,6 +178,7 @@ export function Header(props: HeaderProps) {
               <Menu.Item className="right-nav" key="download">
                 <StyledButtonGroup>
                   <StyledIconButton
+                    style={{marginTop:-5}}
                     ghost
                     icon={<DownloadIcon useDarkMode />}
                     size={"small"}

@@ -2,7 +2,7 @@ import { Color } from "@difx/core-ui";
 import styled from "styled-components";
 
 export const FormStyled = styled.div`
-  background: ${({ theme }) => theme.backgroundColor2};
+  background: ${({ theme }) => theme.background.secondary};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,13 +33,13 @@ export const FormStyled = styled.div`
   }
   .sign-up-btn {
     margin-top: 20px;
-    height: 48px !important;
+    /* height: 48px !important; */
     width: 100%;
   }
   .input-group {
     margin-top: 30px;
     .ant-input {
-      height: 48px;
+      /* height: 48px; */
       font-size: 14px;
       font-weight: 400;
       line-height: 22px;
@@ -65,26 +65,27 @@ export const FormStyled = styled.div`
     }
     button {
       padding: unset;
-      height: 74px;
+      height: 74px !important;
       width: 87px;
       border-radius: 2px;
-      color: ${Color.grey.buttonSecondary};
+      border-color: ${({ theme }) => theme.fontColor.secondary} !important;
+      color: ${({ theme }) => theme.fontColor.secondary} !important;
       svg path {
-        fill: ${Color.grey.buttonSecondary};
+        fill: ${({ theme }) => theme.fontColor.secondary} !important;
       }
       &.active {
-        color: ${({ theme }) => theme.primaryColor};
-        border-color: ${({ theme }) => theme.primaryColor} !important;
+        color: ${({ theme }) => theme.color.primary} !important;
+        border-color: ${({ theme }) => theme.color.primary} !important;
         svg path {
-          fill: ${({ theme }) => theme.primaryColor} !important;
+          fill: ${({ theme }) => theme.color.primary} !important;
         }
       }
       &:hover {
         transition: unset !important;
-        color: ${({ theme }) => theme.primaryColor} !important;
-        border-color: ${({ theme }) => theme.primaryColor} !important;
+        color: ${({ theme }) => theme.color.primary} !important;
+        border-color: ${({ theme }) => theme.color.primary} !important;
         svg path {
-          fill: ${({ theme }) => theme.primaryColor} !important;
+          fill: ${({ theme }) => theme.color.primary} !important;
         }
       }
     }

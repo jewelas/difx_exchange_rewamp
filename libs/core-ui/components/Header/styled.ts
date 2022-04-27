@@ -3,7 +3,9 @@ import styled from "styled-components";
 
 export const StyledButtonGroup = styled.div`
   display: flex;
-  margin-top: 23px;
+  height: 100%;
+  justify-items: center;
+  align-items: center;
 `;
 
 export const StyledMoreMenuGroup = styled.div`
@@ -12,8 +14,8 @@ export const StyledMoreMenuGroup = styled.div`
     flex-direction: column;
     position: absolute;
     right: 0;
-    background: ${({ theme }) => theme.backgroundColor};
-    color: ${({ theme }) => theme.textColor};
+    background: ${({ theme }) => theme.background.primary};
+    color: ${({ theme }) => theme.fontColor.primary};
     height: 100%;
     width: 250px;
     box-shadow: -4px 4px 16px 0px rgba(0, 0, 0, 0.07);
@@ -51,35 +53,6 @@ export const StyledMoreMenuGroup = styled.div`
       }
     }
 
-    &.open {
-      -webkit-animation: linear infinite;
-      -webkit-animation-iteration-count: 1;
-      -webkit-animation-name: runOpen;
-      -webkit-animation-duration: 0.1s;
-      @keyframes runOpen {
-        0% {
-          right: -250px;
-        }
-        100% {
-          right: 0;
-        }
-      }
-    }
-    &.close {
-      -webkit-animation: linear infinite;
-      -webkit-animation-iteration-count: 1;
-      -webkit-animation-name: runClose;
-      -webkit-animation-duration: 0.1s;
-      @keyframes runClose {
-        0% {
-          right: 0;
-        }
-        100% {
-          right: -250px;
-        }
-      }
-    }
-
     .close-icon {
       position: absolute;
       top: 30px;
@@ -92,6 +65,7 @@ export const StyledIconButton = styled(Button)`
   background: unset;
   border: unset !important;
   box-shadow: unset !important;
+  margin-top:-4px;
   svg {
     margin: 0 auto;
   }
@@ -109,7 +83,6 @@ export const StyledHeader = styled(Layout.Header)`
   padding: unset !important;
   height: 70px !important;
   line-height: 70px !important;
-  z-index: 9999;
   position: fixed;
   width: 100%;
 
@@ -120,7 +93,6 @@ export const StyledHeader = styled(Layout.Header)`
     .right-nav {
       height: 100%;
       button:not(.ant-btn-icon-only) {
-        margin-top: 6px;
       }
     }
     .ant-menu-item,
@@ -133,10 +105,10 @@ export const StyledHeader = styled(Layout.Header)`
   }
   .group {
     display: flex;
-    background: #fff;
-    border-bottom: solid 5px ${({ theme }) => theme.borderColor || "#eee"} !important;
+    background: ${({ theme }) => theme.background.secondary};
+    border-bottom: solid 5px ${({ theme }) => theme.scrollbar.background} !important;
     .logo {
-      background: ${({ theme }) => theme.backgroundColor2};
+      background: transparent;
       display: flex;
       width: 122px;
       svg {
@@ -147,7 +119,7 @@ export const StyledHeader = styled(Layout.Header)`
         #Layer_5 path,
         #Layer_2-2 #Layer_3 path,
         #Layer_2-2 #Layer_4 path {
-          fill: ${({ theme }) => theme.logoFillColor};
+          fill: ${({ theme }) => theme.color.primary};
         }
       }
       .title {
@@ -155,12 +127,12 @@ export const StyledHeader = styled(Layout.Header)`
         font-size: 22px;
         font-weight: 600;
         letter-spacing: 2px;
-        color: ${({ theme }) => theme.titleColor};
+        color: ${({ theme }) => theme.color.primary};
       }
     }
     .ant-menu {
-      background: ${({ theme }) => theme.backgroundColor2};
-      color: ${({ theme }) => theme.textColor};
+      background: transparent;
+      color: ${({ theme }) => theme.fontColor.primary};
       height: 70px;
       flex-grow: 1;
       border-bottom: unset !important;
@@ -173,6 +145,13 @@ export const StyledHeader = styled(Layout.Header)`
       right: 0;
       display: none;
     }
+  }
+
+  .ant-menu-item{
+    margin: 0px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   @media (max-width: 1083px) {

@@ -3,13 +3,15 @@ import styled from "styled-components";
 
 const PageStyled = styled.div`
   .ant-row.row-group {
-    background: ${({ theme }) => theme.backgroundColor};
+    background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {
+      width: 100%;
+      max-width: 550px;
       padding: 50px;
       margin: 0 auto;
       margin-top: 70px;
       margin-bottom: 70px;
-      background: ${({ theme }) => theme.backgroundColor2};
+      background: ${({ theme }) => theme.background.secondary};
       border-radius: 15px;
       .H4,
       .B2 {
@@ -24,11 +26,13 @@ const PageStyled = styled.div`
       }
       .link {
         cursor: pointer;
-        background: ${({ theme }) => theme.backgroundColor2};
-        color: ${({ theme }) => theme.textColor};
+        background: ${({ theme }) => theme.background.secondary};
+        color: ${({ theme }) => theme.fontColor.primary};
         border: 0.5px solid
           ${({ theme }) =>
-            theme.currentTheme === "light" ? "#E1DDDD" : theme.backgroundColor};
+            theme.currentTheme === "light"
+              ? "#E1DDDD"
+              : theme.background.primary};
         box-sizing: border-box;
         border-radius: 13.5px;
         padding: 2px 0px;
@@ -106,7 +110,7 @@ const PageStyled = styled.div`
         margin-bottom: 40px;
         color: #9aa5b4;
         div {
-          background: ${({ theme }) => theme.backgroundColor2};
+          background: ${({ theme }) => theme.background.secondary};
           width: 36px;
           text-align: center;
           position: absolute;

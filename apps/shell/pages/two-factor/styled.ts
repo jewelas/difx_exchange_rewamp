@@ -3,13 +3,13 @@ import styled from "styled-components";
 
 const PageStyled = styled.div`
   .ant-row.row-group {
-    background: ${({ theme }) => theme.backgroundColor};
+    background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {
       padding: 50px;
       margin: 0 auto;
       margin-top: 70px;
       margin-bottom: 70px;
-      background: ${({ theme }) => theme.backgroundColor2};
+      background: ${({ theme }) => theme.background.secondary};
       border-radius: 15px;
       .form {
         margin-top: 25px;

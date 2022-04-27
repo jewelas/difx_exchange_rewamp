@@ -46,8 +46,6 @@ export function LoginPage(props: LoginPageProps) {
             <Button
               htmlType="submit"
               className="sign-in-qrcode"
-              ghost
-              type="primary"
             >
               <Icon.QRCodeIcon />
               <span>{t("signin.login_qr")}</span>

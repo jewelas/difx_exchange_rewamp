@@ -13,7 +13,7 @@ const IconStyled = styled.div<IconStyledProps>`
         fill: ${(p) =>
           !p.useDarkMode
             ? p.fill
-            : ({ theme }) => theme.textColor || "#262626"};
+            : ({ theme }) => theme.fontColor.primary || "#262626"};
       }
     }
   }
@@ -23,7 +23,7 @@ const IconStyled = styled.div<IconStyledProps>`
         fill: ${(p) =>
           !p.useDarkMode
             ? p.fill
-            : ({ theme }) => theme.textColor || "#262626"};
+            : ({ theme }) => theme.fontColor.primary || "#262626"};
       }
     }
   }

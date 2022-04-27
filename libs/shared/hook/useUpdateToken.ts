@@ -18,10 +18,10 @@ export function useUpdateToken({ onSuccess }: Props) {
       onSuccess: (response: AxiosResponse<UpdateTokenResponse>) => {
         const setCurrentUser = useUpdateAtom(currentUserAtom);
 
-        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        currentUser.token = response.data.token;
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        setCurrentUser(currentUser);
+        // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        // currentUser.token = response.data.token;
+        // localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        // setCurrentUser(currentUser);
 
         onSuccess && onSuccess(response);
       },

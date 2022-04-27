@@ -3,13 +3,13 @@ import styled from "styled-components";
 
 const PageStyled = styled.div`
   .ant-row.row-group {
-    background: ${({ theme }) => theme.backgroundColor};
+    background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {
       padding: 50px;
       margin: 0 auto;
       margin-top: 70px;
       margin-bottom: 70px;
-      background: ${({ theme }) => theme.backgroundColor2};
+      background: ${({ theme }) => theme.background.secondary};
       border-radius: 15px;
       .H4 {
         margin-bottom: 30px;
@@ -72,7 +72,7 @@ const PageStyled = styled.div`
           margin-top: 15px;
           margin-bottom: 30px;
           .B1 {
-            color: ${({ theme }) => theme.textColor};
+            color: ${({ theme }) => theme.fontColor.primary};
           }
         }
         .dial-group {
@@ -97,7 +97,7 @@ const PageStyled = styled.div`
         margin-bottom: 40px;
         color: #9aa5b4;
         div {
-          background: ${({ theme }) => theme.backgroundColor2};
+          background: ${({ theme }) => theme.background.secondary};
           width: 36px;
           text-align: center;
           position: absolute;

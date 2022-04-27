@@ -20,7 +20,7 @@ import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
-import { showNotification } from "./../../utils/pageUtils";
+// import { showNotification } from "./../../utils/pageUtils";
 
 /* eslint-disable-next-line */
 export interface LoginFormProps {}
@@ -87,7 +87,7 @@ export function LoginForm(props: LoginFormProps) {
       localStorage.removeItem("twoFaToken");
       localStorage.removeItem("loginFormData");
 
-      showNotification("success", "Signin successfully", null);
+      // showNotification("success", "Signin successfully", null);
       router.push("/home");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,7 +107,7 @@ export function LoginForm(props: LoginFormProps) {
     const { response } = error;
     const { statusText } = response.data;
 
-    showNotification("error", "Login failed", statusText);
+    // showNotification("error", "Login failed", statusText);
   }, []);
 
   const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
@@ -118,7 +118,7 @@ export function LoginForm(props: LoginFormProps) {
     if (type === "phone") {
       formData.email = "";
       formData.phonenumber = (
-        formData.dial_code + formData.phonenumber
+      formData.dial_code + formData.phonenumber
       ).replace("+", "");
     }
 

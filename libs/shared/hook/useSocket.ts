@@ -27,7 +27,7 @@ export function useSocket({
       if (event === SocketEvent.orderbook_limited) {
         if (leavePair) socket.send("leave", leavePair);
         socket.send("join", pair);
-        socket.listen(SocketEvent[event], (data) => {
+        socket.listen(SocketEvent[event], (data:any) => {
           if (!isEqual(data, state)) setState(data);
         });
       }

@@ -65,11 +65,11 @@ const CountrySelect = (props: CountrySelectProps) => {
       defaultValue={props.defaultValue}
       className={props.size || "medium"}
       style={{ height: 48, width: props.width ? props.width : 300 }}
-      showSearch
+      // showSearch
       placeholder={props.placeHolder || "Select..."}
       optionFilterProp="children"
       onChange={onChange}
-      onSearch={onSearch}
+      // onSearch={onSearch}
       filterOption={(input, option: any) => {
         const keys = [];
         for (const country of countries) {

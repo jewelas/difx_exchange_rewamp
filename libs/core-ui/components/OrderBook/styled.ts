@@ -20,19 +20,19 @@ export const BarStyled = styled.div<BarStyledProps>`
 `;
 
 export const ComponentStyled = styled.div`
-  background: ${({ theme }) => theme.backgroundColor2};
+  background: ${({ theme }) => theme.background.secondary};
   height: 100%;
   .com-title {
     padding-top: 10px;
     padding-left: 20px;
-    border-bottom: solid 1px ${({ theme }) => theme.borderColorLighter};
+    border-bottom: ${({ theme }) => theme.border};
     padding-bottom: 10px;
   }
   .com-head {
     display: flex;
     justify-content: space-between;
     padding: 15px 15px 12px 10px;
-    border-bottom: solid 1px ${({ theme }) => theme.borderColorLighter};
+    border-bottom: ${({ theme }) => theme.border};
 
     .left {
       display: flex;
@@ -58,7 +58,7 @@ export const ComponentStyled = styled.div`
 
   .com-table-content {
     padding: 10px 15px 10px 20px;
-    color: ${({ theme }) => theme.textColor};
+    color: ${({ theme }) => theme.fontColor.primary};
     .table-head {
       display: flex;
       justify-content: space-between;

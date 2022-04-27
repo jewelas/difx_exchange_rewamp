@@ -15,7 +15,4 @@ Primary.args = {
   onNavigation: (page: string) => {
     console.log("onNavigation");
   },
-  onChangeTheme: () => {
-    console.log("onChangeTheme");
-  },
 };

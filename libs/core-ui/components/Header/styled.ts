@@ -104,7 +104,9 @@ export const StyledHeader = styled(Layout.Header)`
   .ant-menu-title-content{
     .ant-btn{
       border: unset !important;
-      margin-top: 21px;
+    }
+    .ant-btn.ant-btn-icon-only{
+       margin-top: 5px;
     }
   }
   .ant-menu-submenu-title {

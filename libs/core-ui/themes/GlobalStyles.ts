@@ -18,6 +18,24 @@ const GlobalStyles = createGlobalStyle`
           theme.background.primary} !important;
     }
 
+    scrollbar-color: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar} ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
+    scrollbar-width: thin;
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
+    }
+
+    ::-webkit-scrollbar-corner {
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar};
+      border-radius: 4px;
+      background-clip: content-box;
+    }
+
     //---------------------- Ant Design Custom Design -------------------------------------------------
 
     .ant-btn{
@@ -121,6 +139,32 @@ const GlobalStyles = createGlobalStyle`
     .ant-menu-vertical{
       border: none !important;
     }
+
+    .ant-select-dropdown{
+        background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+        .ant-select-item-option-active:not(.ant-select-item-option-disabled){
+          background: ${({ theme }) => theme.color.disabled};
+        }
+        .ant-select-item.ant-select-item-option.ant-select-item-option-selected{
+          background: ${({ theme }) => theme.color.selected};
+        }
+        .ant-select-item-option-content{
+          .val{
+            color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+          }
+        }
+        .rc-virtual-list-holder{
+          .ant-select-item-option.ant-select-item-option-disabled{
+            opacity: 0.2;
+          }
+          .ant-select-item-option{
+            color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+          }
+        }
+      }
+
+
+
 `;
 
 export { GlobalStyles };

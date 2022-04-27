@@ -80,6 +80,7 @@ export const StyledLine = styled.div`
 `;
 
 export const StyledHeader = styled(Layout.Header)`
+  z-index: 9999;
   padding: unset !important;
   height: 70px !important;
   line-height: 70px !important;
@@ -98,6 +99,14 @@ export const StyledHeader = styled(Layout.Header)`
     .ant-menu-item,
     .ant-menu-submenu-title {
       padding: 0 2px;
+    }
+  }
+  .ant-menu-title-content{
+    .ant-btn{
+      border: unset !important;
+    }
+    .ant-btn.ant-btn-icon-only{
+       margin-top: 5px;
     }
   }
   .ant-menu-submenu-title {

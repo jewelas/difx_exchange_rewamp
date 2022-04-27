@@ -1,6 +1,6 @@
 export function getLayoutType(isStatic?: boolean) {
   const isStaticWidgets = isStatic || false;
-  const lg = [
+  const ThreeCols = [
     {
       i: "order-book",
       x: 0,
@@ -30,7 +30,7 @@ export function getLayoutType(isStatic?: boolean) {
     { i: "report", x: 0, y: 3, w: 24, h: 5, static: isStaticWidgets },
   ];
 
-  const md = [
+  const TwoCols = [
     {
       i: "pair-info",
       x: 0,
@@ -59,5 +59,5 @@ export function getLayoutType(isStatic?: boolean) {
     },
   ];
 
-  return { lg, md };
+  return { lg:ThreeCols, md:ThreeCols, sm:TwoCols };
 }

@@ -2,10 +2,9 @@ import { Button, Col, Drawer, Menu, Row } from "antd";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useAuth } from "./../../../shared";
 import { Icon } from "../Icon";
 import t from "./../../../locale";
-import { User, useTheme } from "./../../../shared";
+import { useAuth, useTheme } from "./../../../shared";
 import {
   StyledButtonGroup,
   StyledHeader,

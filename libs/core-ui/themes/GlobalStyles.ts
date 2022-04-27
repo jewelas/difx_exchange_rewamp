@@ -163,6 +163,37 @@ const GlobalStyles = createGlobalStyle`
         }
       }
 
+      .ant-popover-content{
+      .ant-popover-arrow .ant-popover-arrow-content{
+        &:before{
+          background:unset;
+        }
+        background: ${({ theme }) => theme.background.primary};
+      }
+      .ant-popover-inner{
+        background: ${({ theme }) => theme.background.primary};
+        .check-list-group{
+          .check-item{
+            margin: 5px 0;
+            display:flex;
+            .icon{
+              padding-top: 4px;
+              margin-right: 8px;
+            }
+            .content{
+              margin-top: 3px;
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 20px;
+              color: #DB5354 !important;
+              &.success{
+                color: #21C198 !important;
+              }
+            }
+          }
+        }
+      }
+    } 
 
 
 `;

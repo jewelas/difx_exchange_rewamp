@@ -101,6 +101,12 @@ export const StyledHeader = styled(Layout.Header)`
       padding: 0 2px;
     }
   }
+  .ant-menu-title-content{
+    .ant-btn{
+      border: unset !important;
+      margin-top: 21px;
+    }
+  }
   .ant-menu-submenu-title {
     display: none !important;
   }

@@ -111,6 +111,12 @@ const GlobalStyles = createGlobalStyle`
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
 
+    .ant-select-arrow {
+      svg {
+        fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      }
+    }
+
     .ant-switch-checked{
       background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
     }

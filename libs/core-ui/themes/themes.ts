@@ -106,7 +106,7 @@ export const light: ThemeInterface = {
     primary: "#454552",
     secondary: "#9AA5B4",
     button: "#FFFFFF",
-    muted: "A1A1A1",
+    muted: "#A1A1A1",
     link: "#3D7EFF",
   },
   fontWeight: {
@@ -182,7 +182,7 @@ export const dark: ThemeInterface = {
     primary: "#FFFFFF",
     secondary: "#9AA5B4",
     button: "#FFFFFF",
-    muted: "A1A1A1",
+    muted: "#A1A1A1",
     link: "#3D7EFF",
   },
   fontWeight: {

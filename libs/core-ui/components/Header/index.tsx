@@ -113,7 +113,6 @@ export function Header(props: HeaderProps) {
               <Menu.Item className="more-nav" key="open-drawer">
                 <StyledButtonGroup>
                   <StyledIconButton
-                    ghost
                     onClick={onOpenDrawer}
                     icon={<HorizontalLineIcon useDarkMode />}
                     size={"small"}
@@ -153,10 +152,9 @@ export function Header(props: HeaderProps) {
                   <Menu.Item className="right-nav" key="/notification">
                     <StyledButtonGroup>
                       <StyledIconButton
-                        style={{marginTop:-2}}
-                        ghost
                         icon={<NotificationIcon useDarkMode />}
                         size={"small"}
+                        type="text"
                       />
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>
@@ -164,10 +162,11 @@ export function Header(props: HeaderProps) {
                   <Menu.Item className="right-nav" key="/user">
                     <StyledButtonGroup>
                       <StyledIconButton
-                        ghost
+  
                         icon={<UserIcon useDarkMode />}
                         size={"small"}
                         onClick={()=>logOut()}
+                        type="text"
                       />
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>
@@ -178,8 +177,6 @@ export function Header(props: HeaderProps) {
               <Menu.Item className="right-nav" key="download">
                 <StyledButtonGroup>
                   <StyledIconButton
-                    style={{marginTop:-5}}
-                    ghost
                     icon={<DownloadIcon useDarkMode />}
                     size={"small"}
                     type="text"
@@ -190,7 +187,6 @@ export function Header(props: HeaderProps) {
               <Menu.Item className="right-nav" key="lang">
                 <StyledButtonGroup>
                   <StyledIconButton
-                    ghost
                     icon={<EarthIcon useDarkMode />}
                     size={"small"}
                     type="text"
@@ -201,7 +197,6 @@ export function Header(props: HeaderProps) {
               <Menu.Item className="right-nav" key="theme">
                 <StyledButtonGroup>
                   <StyledIconButton
-                    ghost
                     onClick={() => switchTheme()}
                     icon={
                       theme === "light" ? (
@@ -221,9 +216,9 @@ export function Header(props: HeaderProps) {
                   <StyledButtonGroup>
                     <StyledLine />
                     <StyledIconButton
-                      ghost
                       icon={<SettingIcon useDarkMode />}
                       size={"small"}
+                      type="text"
                     />
                   </StyledButtonGroup>
                 </Menu.Item>

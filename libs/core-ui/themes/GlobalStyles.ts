@@ -13,41 +13,19 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: "Lato", sans-serif !important;
         transform: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.transition} !important;
+          theme.transition} !important;
         background: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.background.primary} !important;
-    }
-
-    /* Style for scrollbar */
-    scrollbar-color: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar} ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
-    scrollbar-width: thin;
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-      background: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
-    }
-
-    ::-webkit-scrollbar-corner {
-      background: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar};
-      border-radius: 4px;
-      background-clip: content-box;
+          theme.background.primary} !important;
     }
 
     //---------------------- Ant Design Custom Design -------------------------------------------------
 
-    .ant-menu-vertical{
-      border-right: unset !important;
-    }
     .ant-btn{
       background: transparent !important;
-      color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) =>theme.color.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.medium} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary};
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
       box-shadow: none !important;
     }
 
@@ -64,26 +42,26 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-btn-text{
-      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) =>theme.fontColor.primary} !important;
       border: none !important;
     }
 
     .ant-btn-primary{
       color: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.fontColor.button} !important;
+        theme.fontColor.button} !important;
       border-color: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.color.primary} !important;
+        theme.color.primary} !important;
       background: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.color.primary} !important;
+        theme.color.primary} !important;
     }
 
     .ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
       color: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.fontColor.button} !important;
+        theme.fontColor.button} !important;
       border-color: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.color.primary} !important;
+        theme.color.primary} !important;
       background: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.color.primary} !important;
+        theme.color.primary} !important;
       opacity: 0.5;
     }
     .ant-input{
@@ -91,13 +69,12 @@ const GlobalStyles = createGlobalStyle`
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
-      box-shadow: unset !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
 
-    /* .ant-input:hover{
+    .ant-input:hover{
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
-    } */
+    }
 
     .ant-input-affix-wrapper-borderless, 
     .ant-input-affix-wrapper-borderless:hover,
@@ -116,72 +93,16 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-select-selector{
-      height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight};
+      height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
-    .ant-select-dropdown{
-        background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
-        .ant-select-item-option-active:not(.ant-select-item-option-disabled){
-          background: ${({ theme }) => theme.color.disabled};
-        }
-        .ant-select-item.ant-select-item-option.ant-select-item-option-selected{
-          background: ${({ theme }) => theme.color.selected};
-        }
-        .ant-select-item-option-content{
-          .val{
-            color:${({ theme }: { theme: ThemeInterface }) =>
-    theme.fontColor.primary} !important;
-          }
-        }
-        .rc-virtual-list-holder{
-          .ant-select-item-option.ant-select-item-option-disabled{
-            opacity: 0.2;
-          }
-          .ant-select-item-option{
-            color:${({ theme }: { theme: ThemeInterface }) =>
-    theme.fontColor.primary} !important;
-          }
-        }
-      }
-
-     .ant-popover-content{
-       .ant-popover-arrow .ant-popover-arrow-content{
-         &:before{
-           background:unset;
-         }
-         background: ${({ theme }) => theme.background.primary};
-       }
-       .ant-popover-inner{
-         background: ${({ theme }) => theme.background.primary};
-         .check-list-group{
-           .check-item{
-             margin: 5px 0;
-             display:flex;
-             .icon{
-               padding-top: 4px;
-               margin-right: 8px;
-             }
-             .content{
-               margin-top: 3px;
-               font-size: 12px;
-               font-weight: 400;
-               line-height: 20px;
-               color: #DB5354 !important;
-               &.success{
-                 color: #21C198 !important;
-               }
-             }
-           }
-         }
-       }
-     }
 
     .ant-select-arrow {
       svg {
-        fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
+        fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       }
     }
 
@@ -192,12 +113,13 @@ const GlobalStyles = createGlobalStyle`
     .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
       background-color:unset !important;
     }
-    .ant-menu-item:active{
-      background-color: unset !important;
-    }
 
     a.ant-typography, .ant-typography a{
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.link} !important;
+    }
+
+    .ant-menu-vertical{
+      border: none !important;
     }
 `;
 

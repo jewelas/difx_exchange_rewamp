@@ -13,7 +13,7 @@ export interface CountrySelectProps {
   size?: "medium" | "large";
   type?: "name" | "dial_code";
   onChange: (value: { key: string; value: string }) => void;
-  onSearch?: (value: string) => void;
+  // onSearch?: (value: string) => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -26,9 +26,9 @@ const CountrySelect = (props: CountrySelectProps) => {
     props.onChange({ key: item.key, value });
   };
 
-  const onSearch = (val: string) => {
-    if (props.onSearch) props.onSearch(val);
-  };
+  // const onSearch = (val: string) => {
+  //   if (props.onSearch) props.onSearch(val);
+  // };
 
   const renderOptions = () => {
     const result: any[] = [];

@@ -1,7 +1,7 @@
 import { PairType, useHttpGet } from "@difx/shared";
 import AppLayout from "..";
 import HomeComponent from './../../components/home/HomeComponent';
-import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
 
 /* eslint-disable-next-line */
 export interface HomePageProps {}

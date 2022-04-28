@@ -1,6 +1,6 @@
 import { PairTable } from "@difx/core-ui";
 import { PairType, useHttpGet } from "@difx/shared";
-import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
 import { ListPairsContentStyled, MarketContentStyled, PageStyled } from './styled';
 
 /* eslint-disable-next-line */

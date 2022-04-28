@@ -14,6 +14,14 @@ export const QUERY_KEY = {
   PAIRS: 'pairs'
 }
 
+export const FETCHING = {
+  REFETCH_INTERVAL: 10000
+}
+
+export const STORE_KEY = {
+  FAVORITE_PAIRS : 'favoritePairs'
+}
+
 export const API_ENDPOINT = {
   GET_COUNTRY: 'https://ip2c.org/s',
   GET_PAIRS: '/api/v1/pairs',

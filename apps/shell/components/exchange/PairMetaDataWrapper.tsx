@@ -2,21 +2,20 @@ import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
   PairType,
   SocketEvent,
-  useHttpGet,
-  useSocket,
-  useSocketProps,
+  useHttpGet, useLocalStorage, useSocket,
+  useSocketProps
 } from "@difx/shared";
 import sortBy from "lodash/sortBy";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "./../../constants";
 import {
   getAveragePrice,
   getPriceFormatted,
   getPricePercentChange,
-  getTrendPrice,
+  getTrendPrice
 } from "./../../utils/priceUtils";
 import { PairMetadataStyled } from "./styled";
-import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
 
 /* eslint-disable-next-line */
 export interface PairMetaDataWrapperProps {
@@ -25,6 +24,8 @@ export interface PairMetaDataWrapperProps {
 
 export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
+  const {value: pairsStored} = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
+
   const router = useRouter();
   const { pair } = router.query;
 
@@ -32,6 +33,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
   if (pairs) {
     pairInfo = pairs.find((e) => e.symbol === pair);
   }
+
 
   const param: useSocketProps = {
     pair: pairInfo && pairInfo.symbol,
@@ -84,8 +86,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
     <PairMetadataStyled>
       <div className="left">
         <Typography level="H6">{`${pairInfo.currency1}/${pairInfo.currency2}`}</Typography>
-        {/* <Icon.FavoriteIcon useDarkMode /> */}{" "}
-        {/* TODO: will be handled when completed List Favorite Pair Component */}
+        {pairsStored.includes(`${pairInfo.currency1}/${pairInfo.currency2}`) && <Icon.FavoriteIcon useDarkMode />}
       </div>
       <div className="center">
         <div className="price">

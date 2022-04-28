@@ -195,6 +195,10 @@ const GlobalStyles = createGlobalStyle`
       }
     } 
 
+    .ant-notification-notice{
+      margin-top: 62px;
+    }
+
 
 `;
 

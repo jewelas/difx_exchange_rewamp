@@ -19,7 +19,7 @@ import { useUpdateAtom } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
 // import { showNotification } from "./../../utils/pageUtils";
 
 /* eslint-disable-next-line */

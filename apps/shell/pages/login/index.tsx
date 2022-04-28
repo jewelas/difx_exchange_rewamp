@@ -21,7 +21,7 @@ export function LoginPage(props: LoginPageProps) {
               <Icon.LockIcon />
               <div>
                 <span style={{ color: Color.green.success }}>https://</span>
-                difx.io
+                difx.com
               </div>
             </div>
 

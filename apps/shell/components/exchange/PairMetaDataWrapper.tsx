@@ -16,7 +16,7 @@ import {
   getTrendPrice,
 } from "./../../utils/priceUtils";
 import { PairMetadataStyled } from "./styled";
-import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
 
 /* eslint-disable-next-line */
 export interface PairMetaDataWrapperProps {

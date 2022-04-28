@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Icon } from "../Icon";
 import t from "./../../../locale";
 import { useAuth, useTheme } from "./../../../shared";
-import { DEFAULT_PAIR } from "./../../../../apps/shell/constants";
+// import { DEFAULT_PAIR } from ".";
 import {
   StyledButtonGroup,
   StyledHeader,
@@ -100,7 +100,7 @@ export function Header(props: HeaderProps) {
               <Menu.Item
                 className="left-nav"
                 key="/exchange"
-                onClick={() => onNavigation(`/exchange/${DEFAULT_PAIR}`)}
+                onClick={() => onNavigation(`/exchange/`)}
               >
                 {t("header.exchange")}
               </Menu.Item>

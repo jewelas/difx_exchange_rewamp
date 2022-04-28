@@ -13,6 +13,13 @@ export const PairMetadataStyled = styled.div`
         margin-top: 5px;
         margin-left: 12px;
         margin-right: -12px;
+        cursor: pointer;
+        path{
+          fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;
+        }
+      }
+      .isFavorited svg path{
+        fill: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
       }
     }
     .center {
@@ -34,9 +41,9 @@ export const PairMetadataStyled = styled.div`
 `;
 
 export const ListPairStyled = styled.div`
-    padding: 15px 24px; 
+    padding: 15px 16px; 
     .ant-input{
-      height: 32px !important;
+      height: 25px !important;
     }
     .table-group{
       .head{
@@ -65,62 +72,34 @@ export const ListPairStyled = styled.div`
         }
       }
       .content{
-        .ant-table{
-          background: transparent !important;
-          .ant-table-cell-scrollbar{
-            box-shadow: unset;
-          }
-          .ant-table-thead{
-            th{
-              background: transparent !important;
-              color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
-              border-bottom: unset;
-              padding: 16px 0;
-              .ant-table-column-sorters{
-                justify-content: unset;
-                .ant-table-column-title{
-                  flex: unset !important;
-                }
-              }
+        overflow-x:hidden;
+        .pair{
+          width: 100px;
+          display:flex;
+          svg{
+            cursor: pointer;
+            margin-right: 8px;
+            path{
+              fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important; 
             }
           }
-          .ant-table-tbody{
-            tr{
-              line-height: 0.5;
-              td{
-                border:unset;
-                background: transparent !important;
-                color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
-                padding: 8px 0;
-                .pair{
-                  display:flex;
-                  svg{
-                    cursor: pointer;
-                    margin-right: 8px;
-                    path{
-                      fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important; 
-                    }
-                  }
-                  .added{
-                    svg path{
-                      fill: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
-                    }
-                  }
-                }
-              }
+          .added{
+            svg path{
+              fill: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
             }
           }
-          .ant-table-body{
-            overflow: hidden !important;
-            padding-right: 5px;
-            &:hover{
-              overflow: auto scroll !important;
-              padding-right: 0;
-              ::-webkit-scrollbar {
-                  width: 5px;
-                  background: transparent;
-              }
-            }
+        }
+        .price{
+          width:80px;
+        }
+        .change{
+          width:90px;
+        }
+        .header-change{
+          display:flex;
+          /* margin-left:-10px; */
+          svg{
+            margin-right: 5px;
           }
         }
       }

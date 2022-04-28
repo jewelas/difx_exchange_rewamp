@@ -1,9 +1,10 @@
+import { SearchOutlined } from '@ant-design/icons';
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { useEffect, useRef, useState } from 'react';
 import {
   PairType, useHttpGet, useLocalStorage
 } from "@difx/shared";
 import { Input, Table } from "antd";
+import { useMemo, useRef, useState } from 'react';
 import { API_ENDPOINT, FETCHING, QUERY_KEY, STORE_KEY } from "../../constants";
 import { getPriceFormatted, getPricePercentChange } from "./../../utils/priceUtils";
 import { ListPairStyled } from "./styled";
@@ -12,10 +13,12 @@ export function ListPairWrapper() {
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: FETCHING.REFETCH_INTERVAL });
 
   const [tab, setTab] = useState<'favorite' | 'all'>('all');
+  const [searchValue, setSearchValue] = useState("");
+  const [typeChange, setTypeChange] = useState<'percent' | 'volume'>('percent')
 
   const componentRef = useRef(null);
 
-  const {value: pairsStored, setValue: setPairsStore} = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
+  const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
 
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];
@@ -25,12 +28,16 @@ export function ListPairWrapper() {
     }
   }
 
-  const removeFromFavorite = (pair: string)=>{
+  const removeFromFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];
     if (_pairs.includes(pair)) {
-      const pairsFiltered = _pairs.filter(e=>e!==pair);
+      const pairsFiltered = _pairs.filter(e => e !== pair);
       setPairsStore(pairsFiltered);
     }
+  }
+
+  const onSearch = (e) => {
+    setSearchValue(e.target.value);
   }
 
   const columns = [
@@ -38,10 +45,10 @@ export function ListPairWrapper() {
       title: 'Pair',
       dataIndex: 'pair',
       sorter: {
-        compare: (a, b) => a.pair - b.pair,
+        compare: (a, b) => a.pair.localeCompare(b.pair),
         multiple: 3,
       },
-      render: (text, record, index) => {
+      render: (text, record) => {
         return (
           <div className="pair" key={`${record.key}_${record.pair}`}>
             <div
@@ -55,7 +62,11 @@ export function ListPairWrapper() {
       }
     },
     {
-      title: 'Price',
+      title: () => {
+        return (
+          <div className='header-price'>Price</div>
+        )
+      },
       dataIndex: 'price',
       sorter: {
         compare: (a, b) => a.price - b.price,
@@ -63,12 +74,24 @@ export function ListPairWrapper() {
       },
       render: (text, record) => {
         return (
-          <Typography level="B3" color={record.trend === 'up' ? 'success' : 'danger'}>{text}</Typography>
+          <div className='price'>
+            <Typography level="B3" color={record.trend === 'up' ? 'success' : 'danger'}>{text}</Typography>
+          </div>
         )
       }
     },
     {
-      title: 'Change',
+      title: () => {
+        return (
+          <div className="header-change">
+            <div
+              onClick={() => { setTypeChange(typeChange === 'percent' ? 'volume' : 'percent') }}>
+              <Icon.SwitchIcon useDarkMode />
+            </div>
+            {typeChange === 'percent' ? 'Change' : 'Volume'}
+          </div>
+        )
+      },
       dataIndex: 'change',
       sorter: {
         compare: (a, b) => a.change - b.change,
@@ -76,44 +99,74 @@ export function ListPairWrapper() {
       },
       render: (text, record) => {
         return (
-          <Typography level="B3" color={record.trend === 'up' ? 'success' : 'danger'}>{text}</Typography>
+          <div className='change'>
+          <Typography
+            level="B3"
+            color={record.trend === 'up' ? 'success' : 'danger'}
+          >
+            {typeChange === 'percent' ? record.change : record.volume}
+          </Typography>
+          </div>
         )
       }
     },
   ];
 
 
-  if (!pairs) return <Loading />;
 
-  const allDataPairs = pairs.map((pair: PairType) => {
-    const percentPriceChange = getPricePercentChange(pair.last, pair.open);
-    const trend: 'up' | 'down' = percentPriceChange < 0 ? 'down' : 'up';
+  const allDataPairs = useMemo(() => {
+    if (!pairs) return null;
 
-    return {
-      key: pair.symbol,
-      pair: `${pair.currency1}/${pair.currency2}`,
-      price: getPriceFormatted(pair.last, pair.group_precision),
-      change: `${percentPriceChange < 0 ? '' : '+'}${percentPriceChange.toFixed(2)}%`,
-      trend
+    const result = [];
+
+    for (const pair of pairs) {
+      const percentPriceChange = getPricePercentChange(pair.last, pair.open);
+      const trend: 'up' | 'down' = percentPriceChange < 0 ? 'down' : 'up';
+
+      const searchValueUpper = searchValue.toUpperCase();
+      const isVisible = !searchValueUpper || pair.currency1.includes(searchValueUpper) || pair.currency2.includes(searchValueUpper);
+      if (isVisible) {
+        result.push(
+          {
+            key: pair.symbol,
+            pair: `${pair.currency1}/${pair.currency2}`,
+            price: getPriceFormatted(pair.last, pair.group_precision),
+            change: `${percentPriceChange < 0 ? '' : '+'}${percentPriceChange.toFixed(2)}%`,
+            volume: `${getPriceFormatted(pair.volume, 2)}`,
+            trend,
+          }
+        )
+      }
     }
-  });
 
-  let favoriteDataPairs = [];
-  if(pairsStored){
-    favoriteDataPairs = allDataPairs.filter(e=>pairsStored.includes(e.pair));
-  }
-  
+    return result;
+
+  }, [searchValue, pairs]);
+
+  const favoriteDataPairs = useMemo(() => {
+    if (allDataPairs) {
+      return allDataPairs.filter(e => pairsStored.includes(e.pair));
+    } else return null;
+  }, [pairsStored, allDataPairs]);
+
+  if (!pairs) return <Loading />;
 
   return (
     <ListPairStyled ref={componentRef}>
-      <Input placeholder="Search" />
+      <Input onKeyUp={onSearch} placeholder="Search" prefix={<SearchOutlined />} />
       <div className="table-group">
         <div className="head">
-          <div onClick={()=>{setTab('favorite')}} className={tab}><Icon.FavoriteIcon useDarkMode /></div>
-          <div onClick={()=>{setTab('all')}} className={tab}><Typography level='B2'>All</Typography></div>
+          <div onClick={() => { setTab('favorite') }} className={tab}><Icon.FavoriteIcon useDarkMode /></div>
+          <div onClick={() => { setTab('all') }} className={tab}><Typography level='B2'>All</Typography></div>
         </div>
         <div className="content">
-          <Table scroll={{ x: "max-content", y: 270 }} pagination={false} columns={columns} dataSource={tab==='all' ? allDataPairs : favoriteDataPairs} onChange={() => { console.log('ssss') }} />
+          <Table
+            showSorterTooltip={false}
+            scroll={{ x: "max-content", y: 270 }}
+            pagination={false}
+            columns={columns}
+            dataSource={tab === 'all' ? allDataPairs : favoriteDataPairs}
+          />
         </div>
       </div>
     </ListPairStyled>

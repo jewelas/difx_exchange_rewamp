@@ -16,7 +16,6 @@ export interface ExchangePageProps {
 }
 
 export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
-  const router = useRouter();
 
   const ResponsiveGridLayout = WidthProvider(Responsive);
 

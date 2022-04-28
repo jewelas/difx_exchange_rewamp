@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { useQuery, useMutation } from "react-query";
 import { axiosInstance as instance } from "./../api/index";
 import { notification } from 'antd';
@@ -11,6 +11,8 @@ import { notification } from 'antd';
  * @param request  : request params
  * @returns 
  */
+
+
 export function useHttpGet<Request, Response>(queryKey: string, endpoint: string, options: {}, request?: Request) {
     const defaultOption = {
         refetchOnMount: false,
@@ -20,11 +22,21 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
         ...defaultOption,
         ... options
     }
+
+    instance.interceptors.request.use(function (config : AxiosRequestConfig) {
+        const token = localStorage?.getItem('sessionToken');
+        // @ts-ignore
+        config.headers["x-access-key"] =  token ? token : "";
+        // @ts-ignore
+        config.headers["x-api-key"]=  "DIFXExchange";
+        return config;
+    })
+
     const query = useQuery<Response, AxiosError>(
         queryKey,
         async () => {
-            const res = await instance.get<null, AxiosResponse<Response>>(endpoint, request);
-            const data: Response = res.data;
+            const res = await instance.get<null, AxiosResponse>(endpoint, request);
+            const data =  res.data.data;
 
             if (data) {
                 return data;
@@ -43,6 +55,15 @@ interface EventProps<Response> {
 }
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
+    instance.interceptors.request.use(function (config: AxiosRequestConfig) {
+        const token = localStorage?.getItem('sessionToken');
+        // @ts-ignore
+        config.headers["x-access-key"] =  token ? token : "";
+        // @ts-ignore
+        config.headers["x-api-key"] =  "DIFXExchange";
+        return config;
+    })
+
     const mutation = useMutation(
         (request: Request) => {
             return instance.get<Request, AxiosResponse<Response>>(endpoint, request)
@@ -60,6 +81,15 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 }
 
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
+    instance.interceptors.request.use(function (config: AxiosRequestConfig) {
+        const token = localStorage?.getItem('sessionToken');
+        // @ts-ignore
+        config.headers["x-access-key"] =  token ? token : "";
+        // @ts-ignore
+        config.headers["x-api-key"]=  "DIFXExchange";
+        return config;
+    })
+
     const mutation = useMutation(
         (request: Request) => {
             return instance.post<Request, AxiosResponse<Response>>(

@@ -8,7 +8,7 @@ import {
 import sortBy from "lodash/sortBy";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
-import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "./../../constants";
+import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import {
   getAveragePrice,
   getPriceFormatted,

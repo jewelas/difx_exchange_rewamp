@@ -5,7 +5,7 @@ import {
 } from "@difx/shared";
 import { Input, Table } from "antd";
 import { useMemo, useRef, useState } from 'react';
-import { API_ENDPOINT, FETCHING, QUERY_KEY, STORE_KEY } from "../../constants";
+import { API_ENDPOINT, FETCHING, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { getPriceFormatted, getPricePercentChange } from "./../../utils/priceUtils";
 import { ListPairStyled } from "./styled";
 

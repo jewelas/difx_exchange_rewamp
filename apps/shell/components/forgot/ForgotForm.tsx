@@ -13,7 +13,7 @@ import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { useCallback, useEffect, useState } from "react";
 import { showNotification } from "../../utils/pageUtils";
-import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 
 /* eslint-disable-next-line */
 export interface ForgotFormProps { }

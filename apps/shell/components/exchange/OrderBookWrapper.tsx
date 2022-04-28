@@ -11,7 +11,7 @@ import {
   SocketEvent,
 } from "@difx/shared";
 import { getAveragePrice, getTrendPrice } from "./../../utils/priceUtils";
-import { API_ENDPOINT, QUERY_KEY } from "./../../constants";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 
 /* eslint-disable-next-line */
 export interface OrderBookWrapperProps { }

@@ -11,7 +11,7 @@ import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { showNotification } from "../../utils/pageUtils";
-import { API_ENDPOINT } from "./../../constants";
+import { API_ENDPOINT } from "@difx/constants";
 
 /* eslint-disable-next-line */
 export interface ResetPassFormProps {

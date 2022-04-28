@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { Icon } from "../Icon";
 import t from "./../../../locale";
 import { useAuth, useTheme } from "./../../../shared";
-// import { DEFAULT_PAIR } from ".";
 import {
   StyledButtonGroup,
   StyledHeader,

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Icon } from "../Icon";
 import t from "./../../../locale";
 import { useAuth, useTheme } from "./../../../shared";
+import { DEFAULT_PAIR } from "./../../../../apps/shell/constants";
 import {
   StyledButtonGroup,
   StyledHeader,
@@ -96,17 +97,26 @@ export function Header(props: HeaderProps) {
               >
                 {t("header.markets")}
               </Menu.Item>
-              <Menu.Item className="left-nav" key="/trade">
-                {t("header.trade")}
+              <Menu.Item
+                className="left-nav"
+                key="/exchange"
+                onClick={() => onNavigation(`/exchange/${DEFAULT_PAIR}`)}
+              >
+                {t("header.exchange")}
               </Menu.Item>
-              <Menu.Item className="left-nav" key="/earn">
-                {t("header.earn")}
-              </Menu.Item>
-              <Menu.Item className="left-nav" key="/wallet">
+              <Menu.Item
+                className="left-nav"
+                key="/wallet"
+                onClick={() => onNavigation("/wallet")}
+              >
                 {t("header.wallet")}
               </Menu.Item>
-              <Menu.Item className="left-nav" key="/order">
-                {t("header.order")}
+              <Menu.Item
+                className="left-nav"
+                key="/staking"
+                onClick={() => onNavigation("/staking")}
+              >
+                {t("header.staking")}
               </Menu.Item>
 
               <Menu.Item className="more-nav" key="open-drawer">
@@ -148,6 +158,12 @@ export function Header(props: HeaderProps) {
                 </>
               ) : (
                 <>
+                  <Menu.Item className="right-nav" key="logout">
+                    <StyledButtonGroup onClick={() => logOut()}>
+                      {t("header.logout")}
+                      <StyledLine style={{ opacity: 0 }} />
+                    </StyledButtonGroup>
+                  </Menu.Item>
                   <Menu.Item className="right-nav" key="/notification">
                     <StyledButtonGroup>
                       <StyledIconButton
@@ -161,10 +177,9 @@ export function Header(props: HeaderProps) {
                   <Menu.Item className="right-nav" key="/user">
                     <StyledButtonGroup>
                       <StyledIconButton
-  
                         icon={<UserIcon useDarkMode />}
                         size={"small"}
-                        onClick={()=>logOut()}
+                        onClick={() => onNavigation("/profile")}
                         type="text"
                       />
                       <StyledLine style={{ opacity: 0 }} />

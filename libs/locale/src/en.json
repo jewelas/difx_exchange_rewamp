@@ -20,7 +20,10 @@
     "dark_mode": "Dark mode",
     "light_mode": "Light mode",
     "login": "Login",
-    "register": "Register"
+    "register": "Register",
+    "exchange": "Exchange",
+    "staking": "Staking",
+    "logout": "Logout"
   },
   "resetPass": {
     "title": "Reset Password"

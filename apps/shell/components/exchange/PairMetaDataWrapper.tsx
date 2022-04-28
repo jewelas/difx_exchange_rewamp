@@ -2,21 +2,20 @@ import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
   PairType,
   SocketEvent,
-  useHttpGet,
-  useSocket,
-  useSocketProps,
+  useHttpGet, useLocalStorage, useSocket,
+  useSocketProps
 } from "@difx/shared";
 import sortBy from "lodash/sortBy";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import {
   getAveragePrice,
   getPriceFormatted,
   getPricePercentChange,
-  getTrendPrice,
+  getTrendPrice
 } from "./../../utils/priceUtils";
 import { PairMetadataStyled } from "./styled";
-import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
 
 /* eslint-disable-next-line */
 export interface PairMetaDataWrapperProps {
@@ -25,6 +24,8 @@ export interface PairMetaDataWrapperProps {
 
 export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
+  const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
+
   const router = useRouter();
   const { pair } = router.query;
 
@@ -40,6 +41,22 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
   };
   const data = useSocket(param);
   PairMetaDataWrapper.previousPair = pairInfo && pairInfo.symbol;
+
+  const addToFavorite = (pair: string) => {
+    const _pairs = pairsStored ? [...pairsStored] : [];
+    if (!_pairs.includes(pair)) {
+      _pairs.push(pair)
+      setPairsStore(_pairs);
+    }
+  }
+
+  const removeFromFavorite = (pair: string) => {
+    const _pairs = pairsStored ? [...pairsStored] : [];
+    if (_pairs.includes(pair)) {
+      const pairsFiltered = _pairs.filter(e => e !== pair);
+      setPairsStore(pairsFiltered);
+    }
+  }
 
   const { currentPrice, priceTrend, highPrice, lowPrice, changed, precision } =
     useMemo(() => {
@@ -80,12 +97,18 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
 
   if (!pairInfo) return <Loading />;
 
+  const pairString = `${pairInfo.currency1}/${pairInfo.currency2}`
+
   return (
     <PairMetadataStyled>
       <div className="left">
         <Typography level="H6">{`${pairInfo.currency1}/${pairInfo.currency2}`}</Typography>
-        {/* <Icon.FavoriteIcon useDarkMode /> */}{" "}
-        {/* TODO: will be handled when completed List Favorite Pair Component */}
+        <div
+          onClick={() => { pairsStored.includes(pairString) ? removeFromFavorite(pairString) : addToFavorite(pairString) }}
+          className={pairsStored.includes(pairString) ? 'isFavorited' : ''}
+        >
+          <Icon.FavoriteIcon useDarkMode />
+        </div>
       </div>
       <div className="center">
         <div className="price">

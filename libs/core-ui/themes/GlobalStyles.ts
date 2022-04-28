@@ -110,6 +110,62 @@ const GlobalStyles = createGlobalStyle`
       border: none !important;
     }
 
+    .ant-input-affix-wrapper{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      .ant-input-prefix{
+        svg{
+          height: 20px;
+          width: 20px;
+          fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;
+        }
+      }
+    }
+
+    .ant-table{
+          background: transparent !important;
+          .ant-table-cell-scrollbar{
+            box-shadow: unset;
+          }
+          .ant-table-thead{
+            th{
+              background: transparent !important;
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+              border-bottom: unset;
+              padding: 16px 0;
+              .ant-table-column-sorters{
+                justify-content: unset;
+                .ant-table-column-title{
+                  flex: unset !important;
+                }
+              }
+            }
+          }
+          .ant-table-tbody{
+            tr{
+              line-height: 0.5;
+              td{
+                border:unset;
+                background: transparent !important;
+                color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+                padding: 8px 0;
+              }
+            }
+          }
+          .ant-table-body{
+            overflow: hidden !important;
+            padding-right: 5px;
+            &:hover{
+              overflow: hidden scroll !important;
+              padding-right: 0;
+              ::-webkit-scrollbar {
+                  width: 5px;
+                  background: transparent;
+              }
+            }
+          }
+        }
+
     .ant-select-selector{
       height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
@@ -194,6 +250,10 @@ const GlobalStyles = createGlobalStyle`
         }
       }
     } 
+
+    .ant-notification-notice{
+      margin-top: 62px;
+    }
 
 
 `;

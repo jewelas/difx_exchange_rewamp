@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import AppLayout from "../..";
 import { showNotification } from "./../../../utils/pageUtils";
-import { API_ENDPOINT } from "@difx/shared";
+import { API_ENDPOINT } from "@difx/constants";
 
 export function VerifyIpPage() {
   const router = useRouter();

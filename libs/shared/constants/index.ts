@@ -14,6 +14,14 @@ export const QUERY_KEY = {
   PAIRS: 'pairs'
 }
 
+export const FETCHING = {
+  REFETCH_INTERVAL: 10000
+}
+
+export const STORE_KEY = {
+  FAVORITE_PAIRS : 'favoritePairs'
+}
+
 export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',

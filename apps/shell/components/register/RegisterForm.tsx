@@ -21,7 +21,7 @@ import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { FormStyled } from "../../pages/register/styled";
-import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps {}

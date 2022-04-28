@@ -19,7 +19,8 @@
       "@difx/core-ui": ["libs/core-ui/components/index.ts"],
       "@difx/core-ui/themes": ["libs/core-ui/themes/index.ts"],
       "@difx/locale": ["libs/locale/index.ts"],
-      "@difx/shared": ["libs/shared/index.ts"]
+      "@difx/shared": ["libs/shared/index.ts"],
+      "@difx/constants": ["libs/shared/constants/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

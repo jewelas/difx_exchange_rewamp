@@ -6,6 +6,10 @@ export interface SignInRequest {
   email?: string;
   password: string;
   usertype: "IND" | "BUS";
+  captcha: string;
+  captcha_type: string;
+  device_token: string;
+  device: string
 }
 
 export interface SignInResponse extends User, BaseResponse {

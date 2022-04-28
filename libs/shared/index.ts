@@ -17,6 +17,8 @@ export * from "./type/UpdateToken";
 export * from "./type/Forgot";
 export * from "./type/ResetPass";
 export * from "./type/Network";
+export * from "./type/Permissions";
+export * from "./type/Config";
 
 export * from "./atom";
 

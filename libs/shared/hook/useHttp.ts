@@ -26,7 +26,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
     instance.interceptors.request.use(function (config : AxiosRequestConfig) {
         const token = localStorage?.getItem('sessionToken');
         // @ts-ignore
-        config.headers["x-access-key"] =  token ? token : "";
+        config.headers["x-access-token"] =  token ? token : "";
         // @ts-ignore
         config.headers["x-api-key"]=  "DIFXExchange";
         return config;
@@ -58,7 +58,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
     instance.interceptors.request.use(function (config: AxiosRequestConfig) {
         const token = localStorage?.getItem('sessionToken');
         // @ts-ignore
-        config.headers["x-access-key"] =  token ? token : "";
+        config.headers["x-access-token"] =  token ? token : "";
         // @ts-ignore
         config.headers["x-api-key"] =  "DIFXExchange";
         return config;
@@ -84,7 +84,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
     instance.interceptors.request.use(function (config: AxiosRequestConfig) {
         const token = localStorage?.getItem('sessionToken');
         // @ts-ignore
-        config.headers["x-access-key"] =  token ? token : "";
+        config.headers["x-access-token"] =  token ? token : "";
         // @ts-ignore
         config.headers["x-api-key"]=  "DIFXExchange";
         return config;
@@ -102,10 +102,9 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                console.log(error.response)
                 notification.open({
-                    message: error.response?.data.statusCode,
-                    description:error.response?.data.statusText,
+                    message: "Oops",
+                    description:error.response?.data.message,
                 });
                 onError && onError(error as AxiosError);
             },

@@ -1,27 +1,38 @@
 import { useEffect, useCallback } from "react";
+import { AxiosResponse, AxiosError } from "axios";
 import { useAtom } from "jotai";
-import { useUpdateAtom, useAtomValue} from "jotai/utils";
-import { currentUserAtom, isLoggedInAtom } from "../atom/index";
-import { User } from "..";
-// import { useHttpPost } from "./useHttp";
-// import { API_ENDPOINT } from "@difx/shared";
+import {
+  currentUserAtom,
+  isLoggedInAtom,
+  permissionsAtom,
+  configAtom
+} from "../atom/index";
+import { useHttpPost } from "./useHttp";
+import { API_ENDPOINT } from "@difx/shared";
 
 export function useAuth() {
-  const user = useAtomValue(currentUserAtom);
-  const setUser = useUpdateAtom(currentUserAtom);
+  const [user, setUser] = useAtom(currentUserAtom);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const [permissions, setPermissions] = useAtom(permissionsAtom);
+  const [config, setConfig] = useAtom(configAtom);
 
-  // const onSuccess = useCallback((response: AxiosResponse<>) => {
+  const onSuccess = useCallback((response: AxiosResponse) => {
+    let { anonymousToken, config, permission } = response.data.data
+    localStorage?.setItem("sessionToken", anonymousToken)
+    localStorage?.setItem("permissions", JSON.stringify(permission))
+    localStorage?.setItem("config", JSON.stringify(config))
+    setPermissions(permission)
+    setConfig(config)
+  }, []);
 
-  // }
-
-  // const onError = () => {
-
-  // }
+  const onError = useCallback((response: AxiosError) => {
+    console.log(response)
+    
+  }, []);
 
   // const { mutate: refreshSessionToken, isLoading } = useHttpPost({ onSuccess, onError, endpoint: API_ENDPOINT.REFRESH_TOKEN });
 
-  // const { mutate: getAnonymusToken } = useHttpPost({ onSuccess, onError, endpoint: API_ENDPOINT.GET_ANONYMOUS_TOKEN});
+  const { mutate: getAnonymusToken } = useHttpPost({ onSuccess, onError, endpoint: API_ENDPOINT.GET_ANONYMOUS_TOKEN});
 
   useEffect(() => {
     let currentUser  =  JSON.parse(localStorage?.getItem("currentUser")!);
@@ -34,7 +45,7 @@ export function useAuth() {
         device_type: "web",
         push_token: "21321321312"
       }
-      // getAnonymusToken(config)
+      getAnonymusToken(config)
     }
   }, []);
 
@@ -74,5 +85,13 @@ export function useAuth() {
     setUser(undefined)
   }
 
-  return { user, isLoggedIn,  refreshToken, updateSessionToken, logOut };
+  return {
+    user,
+    isLoggedIn,
+    permissions,
+    config,
+    refreshToken,
+    updateSessionToken,
+    logOut
+   };
 }

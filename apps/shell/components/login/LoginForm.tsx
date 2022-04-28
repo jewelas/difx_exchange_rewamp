@@ -15,11 +15,12 @@ import {
 import { Button, Form, Input, Switch } from "antd";
 import { AxiosError, AxiosResponse } from "axios";
 import clsx from "clsx";
-import { useUpdateAtom } from "jotai/utils";
+// import { useUpdateAtom } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
+import { useAuth } from "@difx/shared";
 // import { showNotification } from "./../../utils/pageUtils";
 
 /* eslint-disable-next-line */
@@ -28,7 +29,8 @@ export interface LoginFormProps {}
 export function LoginForm(props: LoginFormProps) {
   const { data: countryCode } = useHttpGet<null, object>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
-  const setCurrentUser = useUpdateAtom(currentUserAtom);
+  // const setCurrentUser = useUpdateAtom(currentUserAtom);
+  const { user, config } = useAuth();
 
   const [type, setType] = useState<"email" | "phone">("email");
   const [isCorporate, setIsCorporate] = useState(false);
@@ -72,25 +74,27 @@ export function LoginForm(props: LoginFormProps) {
   const onSuccess = useCallback((response: AxiosResponse<SignInResponse>) => {
     const { data } = response;
 
-    const { statusCode, sessionId } = data;
-    if (statusCode === "ENTER_TWOFA_CODE") {
-      localStorage.setItem("twoFaToken", sessionId);
+    console.log( data )
 
-      const fieldsValue = form.getFieldsValue();
-      localStorage.setItem("loginFormData", JSON.stringify(fieldsValue));
+    // const { statusCode, sessionId } = data;
+    // if (statusCode === "ENTER_TWOFA_CODE") {
+    //   localStorage.setItem("twoFaToken", sessionId);
 
-      router.push("/two-factor");
-    } else {
-      localStorage.setItem("currentUser", JSON.stringify(data));
-      setCurrentUser(data);
+    //   const fieldsValue = form.getFieldsValue();
+    //   localStorage.setItem("loginFormData", JSON.stringify(fieldsValue));
 
-      localStorage.removeItem("twoFaToken");
-      localStorage.removeItem("loginFormData");
+    //   router.push("/two-factor");
+    // } else {
+    //   localStorage.setItem("currentUser", JSON.stringify(data));
+    //   setCurrentUser(data);
 
-      // showNotification("success", "Signin successfully", null);
-      router.push("/home");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    //   localStorage.removeItem("twoFaToken");
+    //   localStorage.removeItem("loginFormData");
+
+    //   // showNotification("success", "Signin successfully", null);
+    //   router.push("/home");
+    // }
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onFormChange = () => {
@@ -113,7 +117,13 @@ export function LoginForm(props: LoginFormProps) {
   const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
 
   const onSubmit = async (formData: SignInRequest) => {
-    formData.usertype = isCorporate ? "BUS" : "IND";
+
+    /* eslint-disable */
+    formData.captcha = "shdvhsjvfdfdf",
+    formData.captcha_type = config.captcha,
+    formData.device_token = "DSfdsgfdsgfdgfdgf",
+    formData.device = "web";
+    /* eslint-enable */
 
     if (type === "phone") {
       formData.email = "";

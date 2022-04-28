@@ -7,7 +7,7 @@ import {
 } from "@difx/shared";
 import sortBy from "lodash/sortBy";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "./../../constants";
 import {
   getAveragePrice,

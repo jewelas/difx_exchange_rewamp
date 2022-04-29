@@ -11,7 +11,8 @@ export const DEFAULT_PAIR = "BNBUSDT";
 
 export const QUERY_KEY = {
   COUNTRIES: 'countries',
-  PAIRS: 'pairs'
+  PAIRS: 'pairs',
+  TRADES: 'trades'
 }
 
 export const FETCHING = {
@@ -26,6 +27,7 @@ export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: '/api/v1/pairs',
+  GET_TRADES: '/api/v1/market/trades/',
   SIGNIN: '/api/v1/auth/login',
   SIGNUP: '/api/v1/auth/sign-up',
   FORGOT: '/api/v1/password/forgot',

@@ -7,7 +7,7 @@ import { Input, Table } from "antd";
 import { useMemo, useRef, useState } from 'react';
 import { API_ENDPOINT, FETCHING, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { getPriceFormatted, getPricePercentChange } from "./../../utils/priceUtils";
-import { ListPairStyled } from "./styled";
+import { TableWraperStyled } from "./styled";
 
 export function ListPairWrapper() {
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: FETCHING.REFETCH_INTERVAL });
@@ -152,7 +152,7 @@ export function ListPairWrapper() {
   if (!pairs) return <Loading />;
 
   return (
-    <ListPairStyled ref={componentRef}>
+    <TableWraperStyled ref={componentRef}>
       <Input onKeyUp={onSearch} placeholder="Search" prefix={<SearchOutlined />} />
       <div className="table-group">
         <div className="head">
@@ -169,7 +169,7 @@ export function ListPairWrapper() {
           />
         </div>
       </div>
-    </ListPairStyled>
+    </TableWraperStyled>
   );
 }
 

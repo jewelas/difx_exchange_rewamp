@@ -5,6 +5,7 @@ import AppLayout from "..";
 import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
 import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
 import ListPairWrapper from "../../components/exchange/ListPairWrapper";
+import TradeInfoWrapper from "../../components/exchange/TradeInfoWrapper";
 import { getLayoutType } from "./LayoutType";
 import { PageStyled } from "./styled";
 import "/node_modules/react-grid-layout/css/styles.css";
@@ -50,7 +51,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           <ListPairWrapper />
           </div>
           <div key="trade-info" className="temp">
-            Trade Info
+          <TradeInfoWrapper />
           </div>
           <div key="place-order" className="temp">
             Place Order

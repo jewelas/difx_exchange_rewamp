@@ -40,7 +40,7 @@ export const PairMetadataStyled = styled.div`
     }
 `;
 
-export const ListPairStyled = styled.div`
+export const TableWraperStyled = styled.div`
     padding: 15px 16px; 
     .ant-input{
       height: 25px !important;
@@ -69,6 +69,7 @@ export const ListPairStyled = styled.div`
         }
         .B2{
           cursor: pointer;
+          font-weight: 600;
         }
       }
       .content{

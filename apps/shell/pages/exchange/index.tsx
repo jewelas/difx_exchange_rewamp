@@ -1,4 +1,4 @@
-import { DEFAULT_PAIR } from "@difx/shared";
+import { DEFAULT_PAIR } from "@difx/constants";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 export function ExchangeDefault() {

@@ -23,20 +23,20 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
         ... options
     }
 
-    instance.interceptors.request.use(function (config : AxiosRequestConfig) {
-        const token = localStorage?.getItem('sessionToken');
-        // @ts-ignore
-        config.headers["x-access-key"] =  token ? token : "";
-        // @ts-ignore
-        config.headers["x-api-key"]=  "DIFXExchange";
-        return config;
-    })
+    // instance.interceptors.request.use(function (config : AxiosRequestConfig) {
+    //     const token = localStorage?.getItem('sessionToken');
+    //     // @ts-ignore
+    //     config.headers["x-access-key"] =  token ? token : "";
+    //     // @ts-ignore
+    //     config.headers["x-api-key"]=  "DIFXExchange";
+    //     return config;
+    // })
 
     const query = useQuery<Response, AxiosError>(
         queryKey,
         async () => {
             const res = await instance.get<null, AxiosResponse>(endpoint, request);
-            const data =  res.data.data;
+            const data =  res.data;
 
             if (data) {
                 return data;
@@ -55,14 +55,14 @@ interface EventProps<Response> {
 }
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
-    instance.interceptors.request.use(function (config: AxiosRequestConfig) {
-        const token = localStorage?.getItem('sessionToken');
-        // @ts-ignore
-        config.headers["x-access-key"] =  token ? token : "";
-        // @ts-ignore
-        config.headers["x-api-key"] =  "DIFXExchange";
-        return config;
-    })
+    // instance.interceptors.request.use(function (config: AxiosRequestConfig) {
+    //     const token = localStorage?.getItem('sessionToken');
+    //     // @ts-ignore
+    //     config.headers["x-access-key"] =  token ? token : "";
+    //     // @ts-ignore
+    //     config.headers["x-api-key"] =  "DIFXExchange";
+    //     return config;
+    // })
 
     const mutation = useMutation(
         (request: Request) => {
@@ -81,14 +81,14 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 }
 
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
-    instance.interceptors.request.use(function (config: AxiosRequestConfig) {
-        const token = localStorage?.getItem('sessionToken');
-        // @ts-ignore
-        config.headers["x-access-key"] =  token ? token : "";
-        // @ts-ignore
-        config.headers["x-api-key"]=  "DIFXExchange";
-        return config;
-    })
+    // instance.interceptors.request.use(function (config: AxiosRequestConfig) {
+    //     const token = localStorage?.getItem('sessionToken');
+    //     // @ts-ignore
+    //     config.headers["x-access-key"] =  token ? token : "";
+    //     // @ts-ignore
+    //     config.headers["x-api-key"]=  "DIFXExchange";
+    //     return config;
+    // })
 
     const mutation = useMutation(
         (request: Request) => {

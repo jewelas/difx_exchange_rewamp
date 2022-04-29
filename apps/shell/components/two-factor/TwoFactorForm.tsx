@@ -10,7 +10,7 @@ import { useUpdateAtom } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { API_ENDPOINT } from "./../../constants";
+import { API_ENDPOINT } from "@difx/shared";
 import { showNotification } from "./../../utils/pageUtils";
 
 export function TwoFactorForm() {

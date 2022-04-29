@@ -17,4 +17,4 @@ export const configAtom = atom<Config | undefined>(
   undefined
 ) as PrimitiveAtom<Config | undefined>;
 
-
+export const localStorageAtom = atom<{[key: string]: string}>({}) as PrimitiveAtom<{[key: string]: string}>;

@@ -35,8 +35,8 @@ export function useGuestAuth() {
 
       if(sessionToken) {
         if(!permissions && !config){
-          let permissions = JSON.parse(localStorage?.getItem("permissions"))
-          let config = JSON.parse(localStorage?.getItem("config"))
+          let permissions = JSON.parse(localStorage?.getItem("permissions") || "null")
+          let config = JSON.parse(localStorage?.getItem("config")  || "null")
           setPermissions(permissions)
           setConfig(config)
         }

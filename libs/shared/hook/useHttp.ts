@@ -109,7 +109,8 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
             },
             onError: (error: AxiosError) => {
                 let { response } = error
-                let statusCode =  response.data.statusCode
+                // @ts-ignore
+                let { statusCode } =  response.data
                 switch (statusCode) {
                     case 410:
                         notification.info({

@@ -5,10 +5,11 @@ import {
   currentUserAtom,
   isLoggedInAtom,
   permissionsAtom,
-  configAtom
-} from "../atom/index";
+  User,
+  Permissions
+} from "..";
 import { useHttpPost } from "./useHttp";
-import { API_ENDPOINT } from "@difx/shared";
+import { API_ENDPOINT } from "..";
 
 export function useAuth() {
   const [user, setUser] = useAtom(currentUserAtom);
@@ -17,11 +18,11 @@ export function useAuth() {
 
   useEffect(()=>{
     if(!isLoggedIn){
-      let currentUser = JSON.parse(localStorage?.getItem("currentUser"))
+      let currentUser: User = JSON.parse(localStorage?.getItem("currentUser") || "null")
 
       if(currentUser){
-        let permissions = JSON.parse(localStorage?.getItem("permissions"))
-        delete currentUser.token
+        let permissions: Permissions = JSON.parse(localStorage?.getItem("permissions") || "null")
+        delete currentUser?.token
         setUser(currentUser);
         setPermissions(permissions)
         setIsLoggedIn(true);
@@ -29,12 +30,16 @@ export function useAuth() {
     }
   },[isLoggedIn])
 
-  const updateSession = (updatedUser, permission): void => {
+  useEffect(()=>{
+    console.log(user)
+  },[user])
+
+  const updateSession = (updatedUser: User, permission: Permissions): void => {
     localStorage?.setItem("currentUser", JSON.stringify(updatedUser))
     localStorage?.setItem("sessionToken", updatedUser.token.accessToken)
     localStorage?.setItem("refreshToken", updatedUser.token.refreshToken)
     localStorage?.setItem("permissions", JSON.stringify(permission))
-    delete updatedUser.token
+    delete updatedUser?.token
     setUser(updatedUser);
     setPermissions(permission)
     setIsLoggedIn(true);
@@ -51,7 +56,7 @@ export function useAuth() {
     localStorage?.removeItem("refreshToken")
     localStorage?.removeItem("permissions")
     setUser(undefined);
-    setPermissions(null)
+    setPermissions(undefined)
     setIsLoggedIn(false);
   }
 

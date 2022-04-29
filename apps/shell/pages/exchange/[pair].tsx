@@ -2,9 +2,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import AppLayout from "..";
+import ListPairWrapper from "../../components/exchange/ListPairWrapper";
 import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
 import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
-import ListPairWrapper from "../../components/exchange/ListPairWrapper";
 import TradeInfoWrapper from "../../components/exchange/TradeInfoWrapper";
 import { getLayoutType } from "./LayoutType";
 import { PageStyled } from "./styled";
@@ -19,6 +19,9 @@ export interface ExchangePageProps {
 export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
 
   const ResponsiveGridLayout = WidthProvider(Responsive);
+
+  const router = useRouter();
+  const { pair } = router.query;
 
   const layouts = getLayoutType(isStaticWidgets);
 
@@ -39,19 +42,19 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           onResizeStop={handleGridResize}
         >
           <div key="order-book">
-            <OrderBookWrapper />
+            {pair && <OrderBookWrapper pair={pair as string} />}
           </div>
           <div key="pair-info" className="temp">
-            <PairMetaDataWrapper />
+            {pair && <PairMetaDataWrapper pair={pair as string} />}
           </div>
           <div key="chart" className="temp">
             Chart
           </div>
           <div key="pair-search" className="temp">
-          <ListPairWrapper />
+            <ListPairWrapper />
           </div>
           <div key="trade-info" className="temp">
-          <TradeInfoWrapper />
+            {pair && <TradeInfoWrapper pair={pair as string} />}
           </div>
           <div key="place-order" className="temp">
             Place Order

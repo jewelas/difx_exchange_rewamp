@@ -1,39 +1,17 @@
-import { API_ENDPOINT, FETCHING, QUERY_KEY, STORE_KEY } from "@difx/constants";
+import { API_ENDPOINT, FETCHING, QUERY_KEY } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
 import {
-  PairType, SocketEvent, useHttpGet, useLocalStorage, useSocket, useSocketProps
+  PairType, SocketEvent, useHttpGet, useSocket, useSocketProps
 } from "@difx/shared";
 import { Table } from "antd";
-import { useRouter } from "next/router";
 import { useMemo, useRef } from 'react';
 import { getCurrentTimeByDateString } from "./../../utils/dateTimeUtils";
 import { TableWraperStyled } from "./styled";
 
-export function TradeInfoWrapper() {
+export function TradeInfoWrapper({ pair }: { pair: string }) {
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: FETCHING.REFETCH_INTERVAL });
 
-  const router = useRouter();
-  const { pair } = router.query;
-
   const componentRef = useRef(null);
-
-  const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
-
-  const addToFavorite = (pair: string) => {
-    const _pairs = pairsStored ? [...pairsStored] : [];
-    if (!_pairs.includes(pair)) {
-      _pairs.push(pair)
-      setPairsStore(_pairs);
-    }
-  }
-
-  const removeFromFavorite = (pair: string) => {
-    const _pairs = pairsStored ? [...pairsStored] : [];
-    if (_pairs.includes(pair)) {
-      const pairsFiltered = _pairs.filter(e => e !== pair);
-      setPairsStore(pairsFiltered);
-    }
-  }
 
   const columns = [
     {
@@ -71,7 +49,6 @@ export function TradeInfoWrapper() {
     },
   ];
 
-
   const { data: tradesData } = useHttpGet<null, Array<number | string>>(QUERY_KEY.TRADES, `${API_ENDPOINT.GET_TRADES}${pair}`, null);
   const marketTrades: Array<{ trend: number, price: number, size: number, at: string }> = useMemo(() => {
     if (tradesData && tradesData.length >= 4) {
@@ -101,7 +78,7 @@ export function TradeInfoWrapper() {
     return marketTrades.splice(0, 12);
   }, [tradeChangedSocketData, marketTrades]);
 
-  if (!pairs) return <Loading />;
+  if (!pairs || !pair) return <Loading />;
 
   return (
     <TableWraperStyled style={{ marginTop: -29 }} ref={componentRef}>

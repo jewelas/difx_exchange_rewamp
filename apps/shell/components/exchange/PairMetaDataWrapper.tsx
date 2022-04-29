@@ -1,3 +1,4 @@
+import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
   PairType,
@@ -6,9 +7,7 @@ import {
   useSocketProps
 } from "@difx/shared";
 import sortBy from "lodash/sortBy";
-import { useRouter } from "next/router";
 import { useMemo } from "react";
-import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import {
   getAveragePrice,
   getPriceFormatted,
@@ -19,15 +18,12 @@ import { PairMetadataStyled } from "./styled";
 
 /* eslint-disable-next-line */
 export interface PairMetaDataWrapperProps {
-  pairInfo?: PairType;
+  pair: string;
 }
 
-export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
+export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
-
-  const router = useRouter();
-  const { pair } = router.query;
 
   let pairInfo = null;
   if (pairs) {

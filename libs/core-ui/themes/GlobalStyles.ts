@@ -122,6 +122,11 @@ const GlobalStyles = createGlobalStyle`
       }
     }
 
+    .ant-table-placeholder{
+      .ant-empty-description{
+        color: ${({theme})=> theme.fontColor.primary}
+      }
+    }
     .ant-table{
           background: transparent !important;
           .ant-table-cell-scrollbar{

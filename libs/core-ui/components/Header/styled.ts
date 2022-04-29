@@ -18,9 +18,6 @@ export const StyledMoreMenuGroup = styled.div`
     color: ${({ theme }) => theme.fontColor.primary};
     height: 100%;
     width: 250px;
-    box-shadow: -4px 4px 16px 0px rgba(0, 0, 0, 0.07);
-    -webkit-box-shadow: -4px 4px 16px 0px rgba(0, 0, 0, 0.07);
-    -moz-box-shadow: -4px 4px 16px 0px rgba(0, 0, 0, 0.07);
 
     .menu-item-group {
       margin-top: 60px;
@@ -84,7 +81,7 @@ export const StyledHeader = styled(Layout.Header)`
   padding: unset !important;
   height: 70px !important;
   line-height: 70px !important;
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
 
   .right-nav-group {
@@ -115,7 +112,7 @@ export const StyledHeader = styled(Layout.Header)`
   .group {
     display: flex;
     background: ${({ theme }) => theme.background.secondary};
-    border-bottom: solid 5px ${({ theme }) => theme.scrollbar.background} !important;
+    border-bottom: solid 2px ${({ theme }) => theme.scrollbar.background} !important;
     .logo {
       background: transparent;
       display: flex;

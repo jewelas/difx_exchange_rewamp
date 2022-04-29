@@ -13,11 +13,10 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: "Lato", sans-serif !important;
         transform: ${({ theme }: { theme: ThemeInterface }) =>
-          theme.transition} !important;
+        theme.transition} !important;
         background: ${({ theme }: { theme: ThemeInterface }) =>
-          theme.background.primary} !important;
+        theme.background.body} !important;
     }
-
     scrollbar-color: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar} ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
     scrollbar-width: thin;
     ::-webkit-scrollbar {
@@ -88,12 +87,14 @@ const GlobalStyles = createGlobalStyle`
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      &::placeholder{
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.color.InputPlaceholder} !important;;
+      }
+      &:hover{
+        border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
+      }
     }
-
-    .ant-input:hover{
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
-    }
-
+    .ant-input-affix-wrapper,
     .ant-input-affix-wrapper-borderless, 
     .ant-input-affix-wrapper-borderless:hover,
     .ant-input-affix-wrapper-borderless:focus, 
@@ -104,6 +105,9 @@ const GlobalStyles = createGlobalStyle`
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      &:focus{
+        box-shadow: none !important;
+      }
     }
 
     .ant-input-affix-wrapper > input.ant-input{

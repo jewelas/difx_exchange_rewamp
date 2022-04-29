@@ -17,6 +17,7 @@ export interface ThemeInterface {
     dangerDisabled: string;
     disabled: string;
     selected: string;
+    InputPlaceholder: string
   };
   scrollbar:{
     bar: string;
@@ -25,6 +26,7 @@ export interface ThemeInterface {
   background: {
     primary: string;
     secondary: string;
+    body: string,
   };
   fontColor: {
     primary: string;
@@ -93,6 +95,7 @@ export const light: ThemeInterface = {
     dangerDisabled: "#FFF3F3",
     disabled: "#f5f5f5",
     selected: "var(--ant-primary-1)",
+    InputPlaceholder: "#8C8C8C"
   },
   scrollbar:{
     bar: "#999",
@@ -101,6 +104,7 @@ export const light: ThemeInterface = {
   background: {
     primary: "#F8FAFD",
     secondary: "#FFFFFF",
+    body: "#F3F6FB",
   },
   fontColor: {
     primary: "#454552",
@@ -146,7 +150,7 @@ export const light: ThemeInterface = {
     medium: "42px",
     small: "32px",
   },
-  inputFieldHeight: "52px",
+  inputFieldHeight: "48px",
   transition: "all 0.2s ease-in-out",
 };
 
@@ -169,6 +173,7 @@ export const dark: ThemeInterface = {
     dangerDisabled: "#FFF3F3",
     disabled: "rgba(13, 20, 33, 0.6)",
     selected: "rgba(13, 20, 33, 0.6)",
+    InputPlaceholder: "#8C8C8C"
   },
   scrollbar:{
     bar: "#464D5F",
@@ -177,6 +182,7 @@ export const dark: ThemeInterface = {
   background: {
     primary: "#161F30",
     secondary: "#0D1421",
+    body: "#161F30",
   },
   fontColor: {
     primary: "#FFFFFF",
@@ -222,7 +228,7 @@ export const dark: ThemeInterface = {
     medium: "42px",
     small: "38px",
   },
-  inputFieldHeight: "52px",
+  inputFieldHeight: "48px",
   transition: "all 0.2s ease-in-out",
 };
 

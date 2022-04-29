@@ -8,6 +8,7 @@ interface IconStyledProps {
 
 const IconStyled = styled.div<IconStyledProps>`
   &.allPath {
+    display: flex;
     svg {
       path {
         fill: ${(p) =>

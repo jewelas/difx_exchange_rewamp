@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PageStyled = styled.div`
-  background: ${({ theme }) => theme.scrollbar.background};
+  background: ${({ theme }) => theme.background.body};
   margin-top: -5px;
   padding: 0 100px;
 

@@ -5,6 +5,7 @@ export * from "./hook/useNetwork";
 export * from "./hook/useSocket";
 export * from "./hook/useTheme";
 export * from "./hook/useAuth";
+export * from "./hook/useGuestAuth";
 export * from "./hook/useHttp";
 
 export * from "./type/User";
@@ -19,7 +20,8 @@ export * from "./type/ResetPass";
 export * from "./type/Network";
 export * from "./type/Permissions";
 export * from "./type/Config";
+export * from "./type/ExtraAuth";
 
 export * from "./atom";
 
-export * from "./constants"
+export * from "./constants";

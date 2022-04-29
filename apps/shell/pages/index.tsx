@@ -1,6 +1,5 @@
 import { dark, GlobalStyles, light } from "@difx/core-ui/themes";
-import { useAuth, useTheme } from "@difx/shared";
-import { useEffect } from "react";
+import { useAuth, useGuestAuth, useTheme } from "@difx/shared";
 import { ThemeProvider } from "styled-components";
 import BaseLayout from "../layouts/BaseLayout";
 import PrivateLayout from "../layouts/PrivateLayout";
@@ -14,11 +13,9 @@ export interface AppLayoutProps {
 export function AppLayout({ children = <HomeComponent/>}: AppLayoutProps) {
   const { isLoggedIn } = useAuth();
   const { theme } = useTheme();
-
-  useEffect(()=>{
-    // console.log(localStorage?.getItem("currentUser"))
-  },[])
-
+  
+  useGuestAuth()
+  
   const LayoutDispatcher = isLoggedIn ? PrivateLayout : GuestLayout
 
   return (

@@ -22,7 +22,7 @@ export const API_ENDPOINT = {
   SIGNUP: '/api/v1/auth/sign-up',
   FORGOT: '/api/v1/password/forgot',
   RESET_PASS: '/api/v1/password/reset',
-  TWO_FACTOR: '/api/v1/auth/twofa-login',
+  TWO_FACTOR: '/api/v1/auth/verify-twofa',
   VERIFY_IP: '/api/v1/auth/verify-ip',
   REFRESH_TOKEN: '/api/v1/auth/refresh'
 }

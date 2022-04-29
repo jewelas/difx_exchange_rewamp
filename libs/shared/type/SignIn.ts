@@ -13,5 +13,7 @@ export interface SignInRequest {
 }
 
 export interface SignInResponse extends User, BaseResponse {
-  sessionId: string;
+  data: any
+  message: string
+  timestamp: string
 }

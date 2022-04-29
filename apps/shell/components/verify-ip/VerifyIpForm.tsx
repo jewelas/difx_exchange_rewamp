@@ -1,8 +1,7 @@
 import t from "@difx/locale";
 import {
-  TwoFactorRequest,
-  TwoFactorResponse,
-  useAuth,
+  VerifyIpRequest,
+  VerifyIpResponse,
   useHttpPost
 } from "@difx/shared";
 import { Button, Form, Input } from "antd";
@@ -12,20 +11,22 @@ import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { API_ENDPOINT } from "@difx/shared";
+import { showNotification } from "./../../utils/pageUtils";
 
-export function TwoFactorForm({sessionId}) {
+export function VerifyIpForm({ userEmail }) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const formRef = useRef<FormInstance>(null);
 
-  const { updateSession } = useAuth();
-
   const router = useRouter();
 
-  const onSuccess = (response: AxiosResponse<TwoFactorResponse>) => {
-    const { data } = response.data;
-    const { permission, user } = data
-    updateSession(user, permission)
-    router.push("/home");
+  const onSuccess = (response: AxiosResponse<VerifyIpResponse>) => {
+    const { data } = response;
+
+    if (data.statusText === "SUCCESS"){
+      showNotification("success", t("2fa.2fa"), t("2fa.verify_success"));
+      localStorage.removeItem("extraAuthRequired")
+      router.push("/login");
+    }
   };
 
   const isRequiredFieldsEmpty = (): boolean => {
@@ -59,11 +60,11 @@ export function TwoFactorForm({sessionId}) {
     formRef.current?.setFieldsValue({ code: null });
   };
 
-  const { mutate: twoFactor, isLoading } = useHttpPost<TwoFactorRequest, TwoFactorResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.TWO_FACTOR });
+  const { mutate: verifyIP, isLoading } = useHttpPost<VerifyIpRequest, VerifyIpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.VERIFY_IP });
 
-  const onSubmit = async (formData: TwoFactorRequest) => {
-    formData.session_id = sessionId
-    twoFactor(formData);
+  const onSubmit = async (formData: VerifyIpRequest) => {
+    formData.email = userEmail;
+    verifyIP(formData);
   };
 
   return (
@@ -80,11 +81,11 @@ export function TwoFactorForm({sessionId}) {
           rules={[
             {
               required: true,
-              message: t("error.input_2factor_code"),
+              message: t("error.input_email_otp"),
             },
           ]}
         >
-          <Input placeholder={t("2fa.enter_code")} />
+          <Input type="number" placeholder={t("verify_ip.enter_code")} />
         </Form.Item>
         <Button
           htmlType="submit"
@@ -99,4 +100,4 @@ export function TwoFactorForm({sessionId}) {
   );
 }
 
-export default TwoFactorForm;
+export default VerifyIpForm;

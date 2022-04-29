@@ -29,6 +29,8 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
         config.headers["x-access-token"] =  token ? token : "";
         // @ts-ignore
         config.headers["x-api-key"]=  "DIFXExchange";
+        // @ts-ignore
+        config.headers["Device"]=  "web";
         return config;
     })
 
@@ -61,6 +63,8 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
         config.headers["x-access-token"] =  token ? token : "";
         // @ts-ignore
         config.headers["x-api-key"] =  "DIFXExchange";
+        // @ts-ignore
+        config.headers["Device"]=  "web";
         return config;
     })
 
@@ -87,6 +91,8 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
         config.headers["x-access-token"] =  token ? token : "";
         // @ts-ignore
         config.headers["x-api-key"]=  "DIFXExchange";
+        // @ts-ignore
+        config.headers["Device"]=  "web";
         return config;
     })
 
@@ -102,25 +108,25 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                let statusCode = error.response.data.statusCode
-                console.log(statusCode)
+                let { response } = error
+                let statusCode =  response.data.statusCode
                 switch (statusCode) {
                     case 410:
                         notification.info({
                             message: "Verify IP",
-                            description:error.response?.data.message,
+                            description: response?.data.message,
                         });
                         break
                     case 411:
                         notification.info({
                             message: "Verify 2FA Code",
-                            description:error.response?.data.message,
+                            description: response?.data.message,
                         });
                         break
                     default: 
                         notification.error({
                             message: "Oops",
-                            description:error.response?.data.message,
+                            description: response?.data.message,
                         });
                         break
                 }

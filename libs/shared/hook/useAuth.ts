@@ -14,84 +14,53 @@ export function useAuth() {
   const [user, setUser] = useAtom(currentUserAtom);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [permissions, setPermissions] = useAtom(permissionsAtom);
-  const [config, setConfig] = useAtom(configAtom);
 
-  const onSuccess = useCallback((response: AxiosResponse) => {
-    let { anonymousToken, config, permission } = response.data.data
-    localStorage?.setItem("sessionToken", anonymousToken)
-    localStorage?.setItem("permissions", JSON.stringify(permission))
-    localStorage?.setItem("config", JSON.stringify(config))
-    setPermissions(permission)
-    setConfig(config)
-  }, []);
+  useEffect(()=>{
+    if(!isLoggedIn){
+      let currentUser = JSON.parse(localStorage?.getItem("currentUser"))
 
-  const onError = useCallback((response: AxiosError) => {
-    console.log(response)
-    
-  }, []);
-
-  // const { mutate: refreshSessionToken, isLoading } = useHttpPost({ onSuccess, onError, endpoint: API_ENDPOINT.REFRESH_TOKEN });
-
-  const { mutate: getAnonymusToken } = useHttpPost({ onSuccess, onError, endpoint: API_ENDPOINT.GET_ANONYMOUS_TOKEN});
-
-  useEffect(() => {
-    let currentUser  =  JSON.parse(localStorage?.getItem("currentUser")!);
-    if (currentUser) {
-      delete currentUser.token
-      setUser(currentUser);
-    }else{
-      let config = {
-        identifier: "1234",
-        device_type: "web",
-        push_token: "21321321312"
-      }
-      getAnonymusToken(config)
-    }
-  }, []);
-
-  useEffect(() => {
-    if (user){
+      if(currentUser){
+        let permissions = JSON.parse(localStorage?.getItem("permissions"))
+        delete currentUser.token
+        setUser(currentUser);
+        setPermissions(permissions)
         setIsLoggedIn(true);
-        updateSessionToken(user.token)
-    }else{   
-        setIsLoggedIn(false);
-        updateSessionToken(null)
+      }
     }
-  }, [user]);
+  },[isLoggedIn])
 
-  const refreshToken = (newToken: string): void => {
-    // if(user){
-    //   user.token = newToken;
-    //   localStorage?.setItem("currentUser", JSON.stringify(user));
-    //   setUser(user);
-    // }
+  const updateSession = (updatedUser, permission): void => {
+    localStorage?.setItem("currentUser", JSON.stringify(updatedUser))
+    localStorage?.setItem("sessionToken", updatedUser.token.accessToken)
+    localStorage?.setItem("refreshToken", updatedUser.token.refreshToken)
+    localStorage?.setItem("permissions", JSON.stringify(permission))
+    delete updatedUser.token
+    setUser(updatedUser);
+    setPermissions(permission)
+    setIsLoggedIn(true);
   };
 
-  // const updateUser = (updatedUser): void => {
-  //   localStorage?.setItem("currentUser", JSON.stringify(updatedUser));
-  //   delete updatedUser.token
-  //   setUser(updatedUser);
-  // };
-
   const updateSessionToken = (token:string | null) => {
-    let currentUser = JSON.parse(localStorage?.getItem("currentUser")!);
-    if(currentUser){
-      localStorage?.setItem("sessionToken",currentUser.token)
-    }
+    // get new token
+    // update session token
   }
 
   const logOut = () : void => {
-    localStorage?.removeItem("currentUser");
-    setUser(undefined)
+    localStorage?.removeItem("currentUser")
+    localStorage?.removeItem("sessionToken")
+    localStorage?.removeItem("refreshToken")
+    localStorage?.removeItem("permissions")
+    setUser(undefined);
+    setPermissions(null)
+    setIsLoggedIn(false);
   }
 
   return {
     user,
     isLoggedIn,
     permissions,
-    config,
-    refreshToken,
+    updateSession,
     updateSessionToken,
-    logOut
+    logOut,
    };
 }

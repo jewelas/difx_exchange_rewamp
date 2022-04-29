@@ -251,6 +251,9 @@ const GlobalStyles = createGlobalStyle`
       }
     } 
 
+    .ant-layout-header{
+      z-index: 9999;
+    }
     .ant-notification-notice{
       margin-top: 62px;
     }

@@ -102,10 +102,28 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                notification.open({
-                    message: "Oops",
-                    description:error.response?.data.message,
-                });
+                let statusCode = error.response.data.statusCode
+                console.log(statusCode)
+                switch (statusCode) {
+                    case 410:
+                        notification.info({
+                            message: "Verify IP",
+                            description:error.response?.data.message,
+                        });
+                        break
+                    case 411:
+                        notification.info({
+                            message: "Verify 2FA Code",
+                            description:error.response?.data.message,
+                        });
+                        break
+                    default: 
+                        notification.error({
+                            message: "Oops",
+                            description:error.response?.data.message,
+                        });
+                        break
+                }
                 onError && onError(error as AxiosError);
             },
         }

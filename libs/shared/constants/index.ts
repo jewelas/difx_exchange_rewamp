@@ -1,3 +1,24 @@
+const calcChartDateRange = (type) => {
+  const to = Math.floor(new Date().getTime() / 1000);
+
+  const date = new Date();
+  let from = 0;
+  switch (type) {
+    case '5m': date.setDate(date.getDate() - 3)
+      break;
+    case '15m': date.setDate(date.getDate() - 6)
+      break;
+    case '30m': date.setDate(date.getDate() - 12)
+      break;
+    case '1h': date.setDate(date.getDate() - 24)
+      break;
+    case '1d': date.setMonth(date.getMonth() - 12)
+      break;
+  }
+  return { to, from: Math.floor(date.getTime() / 1000) };
+}
+
+
 export const REFRESH_TOKEN = {
   EXPIRY_TIME: 300000,
 };
@@ -12,22 +33,33 @@ export const DEFAULT_PAIR = "BNBUSDT";
 export const QUERY_KEY = {
   COUNTRIES: 'countries',
   PAIRS: 'pairs',
-  TRADES: 'trades'
+  TRADES: 'trades',
+  CHART_HISTORY: 'chart_history',
+  CHART_CURRENT: 'chart_current',
 }
 
-export const FETCHING = {
-  REFETCH_INTERVAL: 10000
+export const REFETCH = {
+  _10SECS: 10000,
+  _3SECS: 3000
 }
 
 export const STORE_KEY = {
-  FAVORITE_PAIRS : 'favoritePairs'
+  FAVORITE_PAIRS: 'favoritePairs'
 }
 
 export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: '/api/v1/pairs',
-  GET_TRADES: '/api/v1/market/trades/',
+  GET_TRADES: (symbol: string) => `/api/v1/market/trades/${symbol}`,
+  GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
+    const { from, to } = calcChartDateRange(resolution);
+    return `/api/v1/tradingview-chart/history?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
+  },
+  GET_CHART_CURRENT: (symbol: string, resolution: string = '5m') => {
+    const { from, to } = calcChartDateRange(resolution);
+    return `/api/v1/tradingview-chart/current?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
+  },
   SIGNIN: '/api/v1/auth/login',
   SIGNUP: '/api/v1/auth/sign-up',
   FORGOT: '/api/v1/password/forgot',

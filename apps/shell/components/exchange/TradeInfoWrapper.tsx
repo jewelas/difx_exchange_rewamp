@@ -1,15 +1,15 @@
-import { API_ENDPOINT, FETCHING, QUERY_KEY } from "@difx/constants";
+import { API_ENDPOINT, REFETCH, QUERY_KEY } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
+import { getCurrentTimeByDateString } from "@difx/utils";
 import {
   PairType, SocketEvent, useHttpGet, useSocket, useSocketProps
 } from "@difx/shared";
 import { Table } from "antd";
 import { useMemo, useRef } from 'react';
-import { getCurrentTimeByDateString } from "./../../utils/dateTimeUtils";
 import { TableWraperStyled } from "./styled";
 
 export function TradeInfoWrapper({ pair }: { pair: string }) {
-  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: FETCHING.REFETCH_INTERVAL });
+  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: REFETCH._10SECS });
 
   const componentRef = useRef(null);
 
@@ -49,7 +49,7 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
     },
   ];
 
-  const { data: tradesData } = useHttpGet<null, Array<number | string>>(QUERY_KEY.TRADES, `${API_ENDPOINT.GET_TRADES}${pair}`, null);
+  const { data: tradesData } = useHttpGet<null, Array<number | string>>(QUERY_KEY.TRADES, `${API_ENDPOINT.GET_TRADES(pair)}`, null);
   const marketTrades: Array<{ trend: number, price: number, size: number, at: string }> = useMemo(() => {
     if (tradesData && tradesData.length >= 4) {
       return tradesData.map(e => ({
@@ -92,6 +92,7 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
             pagination={false}
             columns={columns}
             dataSource={tableData}
+            rowKey="at"
           />
         </div>
       </div>

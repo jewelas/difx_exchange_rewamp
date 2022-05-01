@@ -1,16 +1,16 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Icon, Loading, Typography } from "@difx/core-ui";
+import { getPriceFormatted, getPricePercentChange } from "@difx/utils";
 import {
   PairType, useHttpGet, useLocalStorage
 } from "@difx/shared";
 import { Input, Table } from "antd";
 import { useMemo, useRef, useState } from 'react';
-import { API_ENDPOINT, FETCHING, QUERY_KEY, STORE_KEY } from "@difx/constants";
-import { getPriceFormatted, getPricePercentChange } from "./../../utils/priceUtils";
+import { API_ENDPOINT, REFETCH, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { TableWraperStyled } from "./styled";
 
 export function ListPairWrapper() {
-  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: FETCHING.REFETCH_INTERVAL });
+  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: REFETCH._10SECS });
 
   const [tab, setTab] = useState<'favorite' | 'all'>('all');
   const [searchValue, setSearchValue] = useState("");

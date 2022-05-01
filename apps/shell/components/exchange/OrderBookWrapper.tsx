@@ -1,5 +1,6 @@
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { Loading, OrderBook } from "@difx/core-ui";
+import { getAveragePrice, getTrendPrice } from "@difx/utils";
 import {
   PairType,
   SocketEvent, useHttpGet,
@@ -9,7 +10,6 @@ import {
 } from "@difx/shared";
 import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
-import { getAveragePrice, getTrendPrice } from "./../../utils/priceUtils";
 
 /* eslint-disable-next-line */
 export interface OrderBookWrapperProps {

@@ -13,7 +13,7 @@ import {
   getPriceFormatted,
   getPricePercentChange,
   getTrendPrice
-} from "./../../utils/priceUtils";
+} from "@difx/utils";
 import { PairMetadataStyled } from "./styled";
 
 /* eslint-disable-next-line */

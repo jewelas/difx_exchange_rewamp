@@ -106,6 +106,12 @@ export const ChartStyled = styled.div`
     opacity: 0.5;
     margin-right: 5px;
   }
+  &.active{
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
+    svg{
+      opacity: 0.8;
+    }
+  }
 }
 `;
 

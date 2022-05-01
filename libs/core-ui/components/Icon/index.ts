@@ -31,6 +31,13 @@ import WifiIcon from "./WifiIcon";
 import FavoriteIcon from "./FavoriteIcon";
 import QuestionIcon from "./QuestionIcon";
 import SwitchIcon from "./SwitchIcon";
+import CandleSolidIcon from "./CandleSolidIcon";
+import CandleStrokeIcon from "./CandleStrokeIcon";
+import CandleUpStrokeIcon from "./CandleUpStrokeIcon";
+import CandleDownStrokeIcon from "./CandleDownStrokeIcon";
+import BarIcon from "./BarIcon";
+import AreaIcon from "./AreaIcon";
+import IndicatorIcon from "./IndicatorIcon";
 
 export interface IconProps {
   width?: number;
@@ -39,6 +46,9 @@ export interface IconProps {
   fill?: string;
   variant?: "min" | "medium" | "max" | "off" | "2g" | "3g" | "4g" | string;
   useDarkMode?: boolean; // If true: just use black/white color
+  useDarkModeFor?: 'svg' | 'path' // default is 'path'
+  stroke?: string;
+  displayStroke?: boolean;
 }
 
 const Icon = {
@@ -74,7 +84,14 @@ const Icon = {
   WifiIcon,
   FavoriteIcon,
   QuestionIcon,
-  SwitchIcon
+  SwitchIcon,
+  CandleSolidIcon,
+  CandleStrokeIcon,
+  CandleUpStrokeIcon,
+  CandleDownStrokeIcon,
+  BarIcon,
+  AreaIcon,
+  IndicatorIcon
 };
 
 export { Icon };

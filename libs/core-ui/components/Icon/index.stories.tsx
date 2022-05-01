@@ -53,7 +53,14 @@ const Template: Story = (args) => {
     WifiIcon,
     FavoriteIcon,
     QuestionIcon,
-    SwitchIcon
+    SwitchIcon,
+    CandleSolidIcon,
+    CandleStrokeIcon,
+    CandleUpStrokeIcon,
+    CandleDownStrokeIcon,
+    BarIcon,
+    AreaIcon,
+    IndicatorIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -126,6 +133,13 @@ const Template: Story = (args) => {
         {renderIcon("FavoriteIcon", <FavoriteIcon {...iconArgs} />)}
         {renderIcon("QuestionIcon", <QuestionIcon {...iconArgs} />)}
         {renderIcon("SwitchIcon", <SwitchIcon {...iconArgs} />)}
+        {renderIcon("CandleSolidIcon", <CandleSolidIcon {...iconArgs} />)}
+        {renderIcon("CandleStrokeIcon", <CandleStrokeIcon {...iconArgs} />)}
+        {renderIcon("CandleUpStrokeIcon", <CandleUpStrokeIcon {...iconArgs} />)}
+        {renderIcon("CandleDownStrokeIcon", <CandleDownStrokeIcon {...iconArgs} />)}
+        {renderIcon("BarIcon", <BarIcon {...iconArgs} />)}
+        {renderIcon("AreaIcon", <AreaIcon {...iconArgs} />)}
+        {renderIcon("IndicatorIcon", <IndicatorIcon {...iconArgs} />)}
       </div>
     </div>
   );

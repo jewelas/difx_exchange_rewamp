@@ -106,3 +106,25 @@ export const TableWraperStyled = styled.div`
       }
     }
 `;
+
+export const ChartWraperStyled = styled.div`
+    padding: 10px; 
+    .head{
+      .options{
+        width: 200px;
+        display:flex;
+        .B3{
+          margin-right: 23px;
+          cursor: pointer;
+          padding-bottom:2px;
+          &.active{
+            color: ${({theme})=> theme.color.primary};
+            border-bottom: solid 2px ${({theme})=> theme.color.primary};
+          }
+        }
+      }
+    }
+    .content{
+
+    }
+`;

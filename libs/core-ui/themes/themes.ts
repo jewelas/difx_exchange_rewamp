@@ -70,6 +70,9 @@ export interface ThemeInterface {
     medium: string;
     small: string;
   };
+  chart:{
+    line: string;
+  }
   inputFieldHeight: string,
   transition: string;
 }
@@ -97,6 +100,9 @@ export const light: ThemeInterface = {
   scrollbar:{
     bar: "#999",
     background: "#eee"
+  },
+  chart:{
+    line: "rgba(0,0,0,0.1)"
   },
   background: {
     primary: "#F8FAFD",
@@ -173,6 +179,9 @@ export const dark: ThemeInterface = {
   scrollbar:{
     bar: "#464D5F",
     background: "#000",
+  },
+  chart:{
+    line: "rgba(255,255,255,0.1)"
   },
   background: {
     primary: "#161F30",

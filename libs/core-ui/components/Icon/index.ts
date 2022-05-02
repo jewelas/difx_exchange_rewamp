@@ -39,7 +39,20 @@ import BarIcon from "./BarIcon";
 import AreaIcon from "./AreaIcon";
 import IndicatorIcon from "./IndicatorIcon";
 import FullScreenIcon from "./FullScreenIcon";
-
+import ChartInd2SlashIcon from "./ChartInd2SlashIcon";
+import ChartInd3SlashIcon from "./ChartInd3SlashIcon";
+import ChartIndFibIcon from "./ChartIndFibIcon";
+import ChartIndHLine1Icon from "./ChartIndHLine1Icon";
+import ChartIndHLine2Icon from "./ChartIndHLine2Icon";
+import ChartIndHLine3Icon from "./ChartIndHLine3Icon";
+import ChartIndPriceLineIcon from "./ChartIndPriceLineIcon";
+import ChartIndSlash1Icon from "./ChartIndSlash1Icon";
+import ChartIndSlash2Icon from "./ChartIndSlash2Icon";
+import ChartIndSlash3Icon from "./ChartIndSlash3Icon";
+import ChartIndVLine1Icon from "./ChartIndVLine1Icon";
+import ChartIndVLine2Icon from "./ChartIndVLine2Icon";
+import ChartIndVLine3Icon from "./ChartIndVLine3Icon";
+import TrashIcon from "./TrashIcon";
 export interface IconProps {
   width?: number;
   height?: number;
@@ -93,7 +106,21 @@ const Icon = {
   BarIcon,
   AreaIcon,
   IndicatorIcon,
-  FullScreenIcon
+  FullScreenIcon,
+  ChartInd2SlashIcon,
+  ChartInd3SlashIcon,
+  ChartIndFibIcon,
+  ChartIndHLine1Icon,
+  ChartIndHLine2Icon,
+  ChartIndHLine3Icon,
+  ChartIndPriceLineIcon,
+  ChartIndSlash1Icon,
+  ChartIndSlash2Icon,
+  ChartIndSlash3Icon,
+  ChartIndVLine1Icon,
+  ChartIndVLine2Icon,
+  ChartIndVLine3Icon,
+  TrashIcon
 };
 
 export { Icon };

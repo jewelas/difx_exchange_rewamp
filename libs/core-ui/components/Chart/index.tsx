@@ -54,11 +54,13 @@ export interface ChartProps {
   history: ChartDataType[];
   current: ChartDataType;
   onChangeResolution: (type: string) => void;
+  type?:'basic' | 'pro'
 }
 
-function Chart({ history, current, onChangeResolution }: ChartProps) {
+function Chart({ history, current, onChangeResolution, type='basic' }: ChartProps) {
 
   const { theme } = useTheme();
+  const mainGroupRef = useRef<HTMLDivElement>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HTMLDivElement>(null);
   const [candleStyle, setCandleStyle] = useState('candle_solid');
@@ -131,9 +133,9 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
   }
 
   const onChangeMainIndex = (t: string | null) => {
-    if(!t){
+    if (!t) {
       lineChart?.removeTechnicalIndicator('candle_pane', t as string);
-    }else{
+    } else {
       lineChart?.createTechnicalIndicator(t as string, false, { id: 'candle_pane' });
     }
     setMainIndex(t)
@@ -163,7 +165,7 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
 
   const handleFullScreen = async () => {
     if (!document.fullscreenElement) {
-      chartContainerRef.current?.requestFullscreen();
+      mainGroupRef.current?.requestFullscreen();
 
       setTimeout(() => {
         if (chartContainerRef.current) chartContainerRef.current.style.height = '100%';
@@ -208,39 +210,63 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
   )
 
   return (
-    <MainStyled>
-      <div ref={chartContainerRef} className="k-line-chart-container">
-        <div className='menubar'>
-          <div className="left">
-            {
-              TIMES.map(e => <div key={e} className={clsx('text', time === e && 'active')} onClick={() => { onChangeTime(e) }} >{e}</div>)
-            }
-            <div onMouseLeave={() => { setIsShowMainIndicators(false) }} onMouseEnter={() => { setIsShowMainIndicators(true) }} className='icon-dropdown'>
+    <MainStyled ref={mainGroupRef}>
+      {
+        type==='basic'
+        &&
+        <div className='shape-group'>
+        <Icon.ChartIndHLine1Icon useDarkMode />
+        <Icon.ChartIndHLine2Icon useDarkMode />
+        <Icon.ChartIndHLine3Icon useDarkMode />
+        <Icon.ChartIndVLine1Icon useDarkMode />
+        <Icon.ChartIndVLine2Icon useDarkMode />
+        <Icon.ChartIndVLine3Icon useDarkMode />
+        <Icon.ChartIndSlash1Icon useDarkMode />
+        <Icon.ChartIndSlash2Icon useDarkMode />
+        <Icon.ChartIndSlash3Icon useDarkMode />
+        <Icon.ChartIndPriceLineIcon useDarkMode />
+        <Icon.ChartInd2SlashIcon useDarkMode />
+        <Icon.ChartInd3SlashIcon useDarkMode />
+        <Icon.ChartIndFibIcon useDarkMode />
+        <Icon.TrashIcon className='trash-icon' useDarkMode />
+      </div>
+      }
+    
+      <div style={{flexGrow:1}}>
+        <div ref={chartContainerRef} className="k-line-chart-container">
+          <div className='menubar'>
+            <div className="left">
+              {
+                TIMES.map(e => <div key={e} className={clsx('text', time === e && 'active')} onClick={() => { onChangeTime(e) }} >{e}</div>)
+              }
+              <div onMouseLeave={() => { setIsShowMainIndicators(false) }} onMouseEnter={() => { setIsShowMainIndicators(true) }} className='icon-dropdown'>
                 <div className='icon'>
                   <Icon.CandleSolidIcon useDarkMode />
                 </div>
                 {
-                isShowMainIndicators && <div className='items'>{chartStyles}</div>
-              }
-            </div>
-
-            <div onMouseLeave={() => { setIsShowSubIndicators(false) }} onMouseEnter={() => { setIsShowSubIndicators(true) }} className='icon-dropdown'>
-              <div className='icon'>
-                <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
+                  isShowMainIndicators && <div className='items'>{chartStyles}</div>
+                }
               </div>
-              {
-                isShowSubIndicators && <div className='items'>{indicators}</div>
-              }
+
+              <div onMouseLeave={() => { setIsShowSubIndicators(false) }} onMouseEnter={() => { setIsShowSubIndicators(true) }} className='icon-dropdown'>
+                <div className='icon'>
+                  <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
+                </div>
+                {
+                  isShowSubIndicators && <div className='items'>{indicators}</div>
+                }
+              </div>
+            </div>
+            <div className="right">
+              <div onClick={() => { handleFullScreen() }} className='icon'>
+                <Icon.FullScreenIcon useDarkMode />
+              </div>
             </div>
           </div>
-          <div className="right">
-            <div onClick={() => { handleFullScreen() }} className='icon'>
-              <Icon.FullScreenIcon useDarkMode />
-            </div>
-          </div>
+          <div id="k-line-chart" ref={chartRef} className="k-line-chart" />
         </div>
-        <div id="k-line-chart" ref={chartRef} className="k-line-chart" />
       </div>
+
     </MainStyled>
   )
 }

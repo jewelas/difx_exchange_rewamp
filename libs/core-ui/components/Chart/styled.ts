@@ -2,13 +2,35 @@ import styled from "styled-components";
 import { Popover } from 'antd';
 import { ThemeInterface, dark, light } from "./../../themes";
 
-interface MainStyledProps {
-  width: number;
-  height: number;
-}
 export const MainStyled = styled.div`
+  padding-top:10px;
   height:500px;
-  background-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
+  background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
+  display:flex;
+  width:100%;
+
+  .shape-group{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
+    width: 40px;
+    height: 100%;
+    z-index: 9;
+    margin-right:5px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    svg{
+      margin-top:-5px;
+      transform: scale(0.75);
+      cursor: pointer;
+      opacity: 0.5;
+      &:hover{
+        opacity: 0.8;
+      }
+      &.trash-icon{
+        margin: 3px 0 0 3px;
+      }
+    }
+  }
   .k-line-chart-container {
     display: flex;
     flex-direction: column;

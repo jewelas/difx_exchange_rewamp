@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Popover } from 'antd';
+import { Button } from 'antd';
 import clsx from 'clsx';
-import isNull from 'lodash/isNull';
 import { Chart as LineChart, dispose, init } from 'klinecharts';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from './../../../shared';
 import { Icon } from './../Icon';
 import { ChartStyled, GridStyled, IndicatorStyled, MainStyled } from './styled';
@@ -68,6 +67,9 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
   const [subsIndex, setSubsIndex] = useState<Array<{ paneId: string, indicator: string }>>([]);
   const [lineChart, setLineChart] = useState<LineChart>();
 
+  const [isShowSubIndicators, setIsShowSubIndicators] = useState(false);
+  const [isShowMainIndicators, setIsShowMainIndicators] = useState(false);
+
   useEffect(() => {
     const kLineChart = init('k-line-chart', GridStyled(theme));
     if (kLineChart) {
@@ -105,7 +107,7 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
 
   useEffect(() => {
     const eventListener = () => {
-      if(document.fullscreenElement === null){
+      if (document.fullscreenElement === null) {
         onExitFullScreen();
       }
     };
@@ -115,7 +117,7 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
     };
   }, [document.fullscreenElement]);
 
-  const onExitFullScreen = ()=>{
+  const onExitFullScreen = () => {
     setTimeout(() => {
       if (chartContainerRef.current) chartContainerRef.current.style.height = '330px';
       if (chartRef.current) chartRef.current.style.height = '330px';
@@ -129,7 +131,11 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
   }
 
   const onChangeMainIndex = (t: string | null) => {
-    lineChart?.createTechnicalIndicator(t as string, false, { id: 'candle_pane' });
+    if(!t){
+      lineChart?.removeTechnicalIndicator('candle_pane', t as string);
+    }else{
+      lineChart?.createTechnicalIndicator(t as string, false, { id: 'candle_pane' });
+    }
     setMainIndex(t)
   }
 
@@ -209,17 +215,23 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
             {
               TIMES.map(e => <div key={e} className={clsx('text', time === e && 'active')} onClick={() => { onChangeTime(e) }} >{e}</div>)
             }
-            <Popover content={chartStyles} placement="bottom">
-              <div className='icon'>
-                <Icon.CandleSolidIcon useDarkMode />
-              </div>
-            </Popover>
+            <div onMouseLeave={() => { setIsShowMainIndicators(false) }} onMouseEnter={() => { setIsShowMainIndicators(true) }} className='icon-dropdown'>
+                <div className='icon'>
+                  <Icon.CandleSolidIcon useDarkMode />
+                </div>
+                {
+                isShowMainIndicators && <div className='items'>{chartStyles}</div>
+              }
+            </div>
 
-            <Popover style={{ zIndex: 9999 }} content={indicators} placement="bottom">
+            <div onMouseLeave={() => { setIsShowSubIndicators(false) }} onMouseEnter={() => { setIsShowSubIndicators(true) }} className='icon-dropdown'>
               <div className='icon'>
                 <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
               </div>
-            </Popover>
+              {
+                isShowSubIndicators && <div className='items'>{indicators}</div>
+              }
+            </div>
           </div>
           <div className="right">
             <div onClick={() => { handleFullScreen() }} className='icon'>

@@ -48,6 +48,16 @@ export const MainStyled = styled.div`
             color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary};
           }
         }
+        .icon-dropdown{
+          .items{
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary};
+            padding:15px;
+            border-radius: 5px;
+            position: absolute;
+            z-index: 9999;
+          }
+        }
+
         .icon{
           margin-left: 5px;
           margin-right: 5px;

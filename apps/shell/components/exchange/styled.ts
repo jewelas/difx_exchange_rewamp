@@ -125,6 +125,5 @@ export const ChartWraperStyled = styled.div`
       }
     }
     .content{
-
     }
 `;

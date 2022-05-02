@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { Popover } from 'antd';
-import { ThemeInterface, dark, light } from "./../../themes";
+import { dark, light, ThemeInterface } from "./../../themes";
 
 export const MainStyled = styled.div`
   padding-top:10px;
@@ -33,6 +32,7 @@ export const MainStyled = styled.div`
     }
   }
   .k-line-chart-container {
+    box-shadow: unset !important;
     display: flex;
     flex-direction: column;
     margin:-14px 0 10px -14px;
@@ -78,6 +78,9 @@ export const MainStyled = styled.div`
             border-radius: 5px;
             position: absolute;
             z-index: 9999;
+            box-shadow: 7px 8px 13px -7px rgba(0,0,0,0.15);
+            -webkit-box-shadow: 7px 8px 13px -7px rgba(0,0,0,0.15);
+            -moz-box-shadow: 7px 8px 13px -7px rgba(0,0,0,0.15);
           }
         }
 
@@ -385,12 +388,12 @@ export const GridStyled = (themeType: string) => {
       height: null,
       axisLine: {
         show: true,
-        color: '#888888',
+        color: theme.chart.line,
         size: 1
       },
       tickText: {
         show: true,
-        color: '#D9D9D9',
+        color: theme.fontColor.primary,
         family: 'Helvetica Neue',
         weight: 'normal',
         size: 12,
@@ -414,12 +417,12 @@ export const GridStyled = (themeType: string) => {
       inside: false,
       axisLine: {
         show: true,
-        color: '#888888',
+        color: theme.chart.line,
         size: 1
       },
       tickText: {
         show: true,
-        color: '#D9D9D9',
+        color: theme.fontColor.primary,
         family: 'Helvetica Neue',
         weight: 'normal',
         size: 12,

@@ -107,7 +107,13 @@ function Chart({ history, current, onChangeResolution, type = 'basic' }: ChartPr
     if (lineChart) {
       if (history) lineChart.applyNewData(history)
     }
-  }, [lineChart, theme, history]);
+  }, [lineChart, history]);
+
+  useEffect(() => {
+    if (lineChart) {
+      lineChart.setStyleOptions(GridStyled(theme))
+    }
+  }, [lineChart, theme]);
 
   useEffect(() => {
     if (lineChart && history) {
@@ -231,11 +237,9 @@ function Chart({ history, current, onChangeResolution, type = 'basic' }: ChartPr
   )
 
   return (
-    <MainStyled ref={mainGroupRef}>
+    <MainStyled style={type==='basic'?{marginLeft:-30}:{}} ref={mainGroupRef}>
       {
-        type === 'basic'
-        &&
-        <div className='shape-group'>
+        <div style={type==='basic'?{visibility:'hidden'}:{}} className='shape-group'>
           {
             SHAPE_TYPES.map(e =>
               e.key !== 'clear'

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Popover } from 'antd';
 import clsx from 'clsx';
+import isNull from 'lodash/isNull';
 import { Chart as LineChart, dispose, init } from 'klinecharts';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from './../../../shared';
@@ -63,10 +64,10 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
   const [candleStyle, setCandleStyle] = useState('candle_solid');
   const [time, setTime] = useState('5m');
   const [mainIndex, setMainIndex] = useState<string | null>(null);
-  const [subsIndex, setSubsIndex] = useState<Array<string | null>>([]);
+  const [subsIndex, setSubsIndex] = useState<Array<{ paneId: string, indicator: string }>>([]);
   const [lineChart, setLineChart] = useState<LineChart>();
 
-  useEffect(()=>{
+  useEffect(() => {
     const kLineChart = init('k-line-chart', GridStyled(theme));
     if (kLineChart) {
       setLineChart(kLineChart);
@@ -74,7 +75,7 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
     return () => {
       dispose('k-line-chart')
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (lineChart) {
@@ -99,7 +100,7 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
         }
       })
     }
-    
+
   }, [candleStyle, lineChart]);
 
   const { width } = useMemo(() => {
@@ -114,17 +115,42 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
   }
 
   const onChangeMainIndex = (t: string | null) => {
+    lineChart?.createTechnicalIndicator(t as string, false, { id: 'candle_pane' });
     setMainIndex(t)
   }
 
   const onChangeSubsIndex = (t: string | null) => {
-    if (subsIndex.includes(t)) {
-      const newSubs = subsIndex.filter(e => e !== t);
-      setSubsIndex(newSubs)
-    } else {
-      const newSubs = [...subsIndex];
-      newSubs.push(t);
+
+    // Remove
+    const sub = subsIndex.find(e => e.indicator === t);
+    if (sub) {
+      lineChart?.removeTechnicalIndicator(sub.paneId, sub.indicator);
+
+      const newSubs = subsIndex.filter(e => e.indicator !== t);
       setSubsIndex(newSubs);
+
+      // Add
+    } else {
+
+      const paneId = lineChart?.createTechnicalIndicator(t as string, false);
+      lineChart?.createTechnicalIndicator(t as string, false, { id: paneId as string })
+
+      const newSubs = [...subsIndex];
+      newSubs.push({ paneId: paneId as string, indicator: t as string });
+      setSubsIndex(newSubs);
+    }
+  }
+
+  const handleFullScreen = () => {
+    if(document.fullscreenElement === null){
+      // lineChart?.resize();
+      chartRef.current?.requestFullscreen();
+      // if(chartRef.current){
+        // chartRef.current.style.width='100%';
+        // lineChart?.resize();
+      // }
+    }else{
+      document.exitFullscreen();
     }
   }
 
@@ -153,7 +179,7 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
       <div style={{ marginTop: 20 }} className="head">Sub index</div>
       <div className="group-items">
         {
-          SUBS_INDEX.map(e => <Button key={e} onClick={() => { onChangeSubsIndex(e) }} className={clsx("item", subsIndex.includes(e) && 'active')}>{e}</Button>)
+          SUBS_INDEX.map(e => <Button key={e} onClick={() => { onChangeSubsIndex(e) }} className={clsx("item", subsIndex.find(_e => _e.indicator === e) && 'active')}>{e}</Button>)
         }
       </div>
     </IndicatorStyled>
@@ -163,21 +189,27 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
     <MainStyled ref={chartRef} width={width || 0}
       className="k-line-chart-container">
       <div className='menubar'>
-        {
-          TIMES.map(e => <div key={e} className={clsx('text', time === e && 'active')} onClick={() => { onChangeTime(e) }} >{e}</div>)
-        }
-        <Popover content={chartStyles} placement="bottom">
-          <div className='icon'>
-            <Icon.CandleSolidIcon useDarkMode />
-          </div>
-        </Popover>
+        <div className="left">
+          {
+            TIMES.map(e => <div key={e} className={clsx('text', time === e && 'active')} onClick={() => { onChangeTime(e) }} >{e}</div>)
+          }
+          <Popover content={chartStyles} placement="bottom">
+            <div className='icon'>
+              <Icon.CandleSolidIcon useDarkMode />
+            </div>
+          </Popover>
 
-        <Popover content={indicators} placement="bottom">
-          <div className='icon'>
-            <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
+          <Popover content={indicators} placement="bottom">
+            <div className='icon'>
+              <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
+            </div>
+          </Popover>
+        </div>
+        <div className="right">
+          <div onClick={() => { handleFullScreen() }} className='icon'>
+            <Icon.FullScreenIcon useDarkMode />
           </div>
-        </Popover>
-
+        </div>
       </div>
       <div id="k-line-chart" className="k-line-chart" />
     </MainStyled>

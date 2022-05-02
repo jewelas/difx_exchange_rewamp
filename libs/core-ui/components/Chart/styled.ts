@@ -33,25 +33,43 @@ export const MainStyled = styled.div<MainStyledProps>`
     .menubar{
       display:flex;
       margin-bottom: 20px;
-      .text{
-        font-size: 12px;
-        cursor: pointer;
-        margin-right:10px;
-        color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary};
-        &.active, &:hover{
-          opacity: 0.7;
-          color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary};
+      justify-content: space-between;
+      .left{
+        display:flex;
+        .text{
+          font-size: 12px;
+          cursor: pointer;
+          margin-right:10px;
+          color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary};
+          &.active, &:hover{
+            opacity: 0.7;
+            color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary};
+          }
+        }
+        .icon{
+          margin-left: 5px;
+          margin-right: 5px;
+          svg{
+            margin-top:-2px;
+            cursor: pointer;
+            opacity: 0.5;
+            &:hover{
+              opacity: 0.8;
+            }
+          }
         }
       }
-      .icon{
-        margin-left: 5px;
-        margin-right: 5px;
-        svg{
-          margin-top:-2px;
-          cursor: pointer;
-          opacity: 0.5;
-          &:hover{
-            opacity: 0.8;
+      .right{
+        .icon{
+          margin-left: 5px;
+          margin-right: 5px;
+          svg{
+            margin-top:-2px;
+            cursor: pointer;
+            opacity: 0.5;
+            &:hover{
+              opacity: 0.8;
+            }
           }
         }
       }

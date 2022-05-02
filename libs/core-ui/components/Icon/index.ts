@@ -38,6 +38,7 @@ import CandleDownStrokeIcon from "./CandleDownStrokeIcon";
 import BarIcon from "./BarIcon";
 import AreaIcon from "./AreaIcon";
 import IndicatorIcon from "./IndicatorIcon";
+import FullScreenIcon from "./FullScreenIcon";
 
 export interface IconProps {
   width?: number;
@@ -91,7 +92,8 @@ const Icon = {
   CandleDownStrokeIcon,
   BarIcon,
   AreaIcon,
-  IndicatorIcon
+  IndicatorIcon,
+  FullScreenIcon
 };
 
 export { Icon };

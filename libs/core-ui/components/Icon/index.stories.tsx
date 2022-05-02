@@ -60,7 +60,8 @@ const Template: Story = (args) => {
     CandleDownStrokeIcon,
     BarIcon,
     AreaIcon,
-    IndicatorIcon
+    IndicatorIcon,
+    FullScreenIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -140,6 +141,7 @@ const Template: Story = (args) => {
         {renderIcon("BarIcon", <BarIcon {...iconArgs} />)}
         {renderIcon("AreaIcon", <AreaIcon {...iconArgs} />)}
         {renderIcon("IndicatorIcon", <IndicatorIcon {...iconArgs} />)}
+        {renderIcon("FullScreenIcon", <FullScreenIcon {...iconArgs} />)}
       </div>
     </div>
   );

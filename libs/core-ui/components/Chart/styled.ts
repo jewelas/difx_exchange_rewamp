@@ -57,7 +57,7 @@ export const MainStyled = styled.div`
     }
     .menubar{
       display:flex;
-      margin-bottom: 20px;
+      margin-bottom: 7px;
       justify-content: space-between;
       .left{
         display:flex;

@@ -14,6 +14,7 @@ export const MainStyled = styled.div`
     width: 40px;
     height: 100%;
     z-index: 9;
+    margin-top:35px;
     margin-right:5px;
     display:flex;
     flex-direction: column;

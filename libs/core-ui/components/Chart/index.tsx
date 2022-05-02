@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from 'antd';
 import clsx from 'clsx';
 import { Chart as LineChart, dispose, init } from 'klinecharts';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from './../../../shared';
+import { rect, circle } from './shapeDefinition';
 import { Icon } from './../Icon';
 import { ChartStyled, GridStyled, IndicatorStyled, MainStyled } from './styled';
 
@@ -43,6 +45,24 @@ const CANDLE_STYLES = [
     label: 'Area'
   }
 ]
+
+const SHAPE_TYPES = [
+  { key: 'horizontalRayLine', icon: <Icon.ChartIndHLine1Icon useDarkMode /> },
+  { key: 'horizontalSegment', icon: <Icon.ChartIndHLine2Icon useDarkMode /> },
+  { key: 'horizontalStraightLine', icon: <Icon.ChartIndHLine3Icon useDarkMode /> },
+  { key: 'verticalRayLine', icon: <Icon.ChartIndVLine1Icon useDarkMode /> },
+  { key: 'verticalSegment', icon: <Icon.ChartIndVLine2Icon useDarkMode /> },
+  { key: 'verticalStraightLine', icon: <Icon.ChartIndVLine3Icon useDarkMode /> },
+  { key: 'rayLine', icon: <Icon.ChartIndSlash1Icon useDarkMode /> },
+  { key: 'segment', icon: <Icon.ChartIndSlash2Icon useDarkMode /> },
+  { key: 'horizontalSegment', icon: <Icon.ChartIndSlash3Icon useDarkMode /> },
+  { key: 'priceLine', icon: <Icon.ChartIndPriceLineIcon useDarkMode /> },
+  { key: 'priceChannelLine', icon: <Icon.ChartInd2SlashIcon useDarkMode /> },
+  { key: 'parallelStraightLine', icon: <Icon.ChartInd3SlashIcon useDarkMode /> },
+  { key: 'fibonacciLine', icon: <Icon.ChartIndFibIcon useDarkMode /> },
+  { key: 'clear', icon: <Icon.TrashIcon className='trash-icon' useDarkMode /> },
+]
+
 export interface ChartDataType {
   close: number;
   low: number;
@@ -54,10 +74,10 @@ export interface ChartProps {
   history: ChartDataType[];
   current: ChartDataType;
   onChangeResolution: (type: string) => void;
-  type?:'basic' | 'pro'
+  type?: 'basic' | 'pro'
 }
 
-function Chart({ history, current, onChangeResolution, type='basic' }: ChartProps) {
+function Chart({ history, current, onChangeResolution, type = 'basic' }: ChartProps) {
 
   const { theme } = useTheme();
   const mainGroupRef = useRef<HTMLDivElement>(null);
@@ -75,6 +95,7 @@ function Chart({ history, current, onChangeResolution, type='basic' }: ChartProp
   useEffect(() => {
     const kLineChart = init('k-line-chart', GridStyled(theme));
     if (kLineChart) {
+      kLineChart.addShapeTemplate([rect as any, circle as any]);
       setLineChart(kLineChart);
     }
     return () => {
@@ -212,27 +233,25 @@ function Chart({ history, current, onChangeResolution, type='basic' }: ChartProp
   return (
     <MainStyled ref={mainGroupRef}>
       {
-        type==='basic'
+        type === 'basic'
         &&
         <div className='shape-group'>
-        <Icon.ChartIndHLine1Icon useDarkMode />
-        <Icon.ChartIndHLine2Icon useDarkMode />
-        <Icon.ChartIndHLine3Icon useDarkMode />
-        <Icon.ChartIndVLine1Icon useDarkMode />
-        <Icon.ChartIndVLine2Icon useDarkMode />
-        <Icon.ChartIndVLine3Icon useDarkMode />
-        <Icon.ChartIndSlash1Icon useDarkMode />
-        <Icon.ChartIndSlash2Icon useDarkMode />
-        <Icon.ChartIndSlash3Icon useDarkMode />
-        <Icon.ChartIndPriceLineIcon useDarkMode />
-        <Icon.ChartInd2SlashIcon useDarkMode />
-        <Icon.ChartInd3SlashIcon useDarkMode />
-        <Icon.ChartIndFibIcon useDarkMode />
-        <Icon.TrashIcon className='trash-icon' useDarkMode />
-      </div>
+          {
+            SHAPE_TYPES.map(e =>
+              e.key !== 'clear'
+                ?
+                <div key={`shape_${e.key}`} onClick={() => { lineChart?.createShape(e.key) }}>
+                  {e.icon}
+                </div>
+                :
+                <div key={`shape_${e.key}`} onClick={() => { lineChart?.removeShape() }}>
+                  {e.icon}
+                </div>
+            )
+          }
+        </div>
       }
-    
-      <div style={{flexGrow:1}}>
+      <div style={{ flexGrow: 1 }}>
         <div ref={chartContainerRef} className="k-line-chart-container">
           <div className='menubar'>
             <div className="left">

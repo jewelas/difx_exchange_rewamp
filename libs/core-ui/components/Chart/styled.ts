@@ -4,18 +4,20 @@ import { ThemeInterface, dark, light } from "./../../themes";
 
 interface MainStyledProps {
   width: number;
+  height: number;
 }
-export const MainStyled = styled.div<MainStyledProps>`
-  &.k-line-chart-container {
+export const MainStyled = styled.div`
+  height:500px;
+  background-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
+  .k-line-chart-container {
     display: flex;
     flex-direction: column;
     margin:-14px 0 10px -14px;
     border-radius: 2px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .3);
-    background-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
-    width: ${p => p.width > 0 ? `${p.width}px` : 'unset'};
-    height: 400px;
+    height: calc(100% - 100px);
     padding: 16px 6px 16px 16px;
+    background-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
     .chart-styles-group{
       .item{
         display:flex;

@@ -60,6 +60,7 @@ export interface ChartProps {
 function Chart({ history, current, onChangeResolution }: ChartProps) {
 
   const { theme } = useTheme();
+  const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HTMLDivElement>(null);
   const [candleStyle, setCandleStyle] = useState('candle_solid');
   const [time, setTime] = useState('5m');
@@ -103,12 +104,6 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
 
   }, [candleStyle, lineChart]);
 
-  const { width } = useMemo(() => {
-    return {
-      width: chartRef.current?.clientWidth
-    }
-  }, [chartRef]);
-
   const onChangeTime = (t: string) => {
     setTime(t);
     onChangeResolution(t);
@@ -141,16 +136,23 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
     }
   }
 
-  const handleFullScreen = () => {
-    if(document.fullscreenElement === null){
-      // lineChart?.resize();
-      chartRef.current?.requestFullscreen();
-      // if(chartRef.current){
-        // chartRef.current.style.width='100%';
-        // lineChart?.resize();
-      // }
-    }else{
+  const handleFullScreen = async () => {
+    if (document.fullscreenElement === null) {
+      chartContainerRef.current?.requestFullscreen();
+
+      setTimeout(() => {
+        if (chartContainerRef.current) chartContainerRef.current.style.height = '100%';
+        lineChart?.resize();
+      }, 500);
+
+    } else {
       document.exitFullscreen();
+
+      setTimeout(() => {
+        if (chartContainerRef.current) chartContainerRef.current.style.height = '330px';
+        if (chartRef.current) chartRef.current.style.height = '330px';
+        lineChart?.resize();
+      }, 500);
     }
   }
 
@@ -186,32 +188,33 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
   )
 
   return (
-    <MainStyled ref={chartRef} width={width || 0}
-      className="k-line-chart-container">
-      <div className='menubar'>
-        <div className="left">
-          {
-            TIMES.map(e => <div key={e} className={clsx('text', time === e && 'active')} onClick={() => { onChangeTime(e) }} >{e}</div>)
-          }
-          <Popover content={chartStyles} placement="bottom">
-            <div className='icon'>
-              <Icon.CandleSolidIcon useDarkMode />
-            </div>
-          </Popover>
+    <MainStyled>
+      <div ref={chartContainerRef} className="k-line-chart-container">
+        <div className='menubar'>
+          <div className="left">
+            {
+              TIMES.map(e => <div key={e} className={clsx('text', time === e && 'active')} onClick={() => { onChangeTime(e) }} >{e}</div>)
+            }
+            <Popover content={chartStyles} placement="bottom">
+              <div className='icon'>
+                <Icon.CandleSolidIcon useDarkMode />
+              </div>
+            </Popover>
 
-          <Popover content={indicators} placement="bottom">
-            <div className='icon'>
-              <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
+            <Popover content={indicators} placement="bottom">
+              <div className='icon'>
+                <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
+              </div>
+            </Popover>
+          </div>
+          <div className="right">
+            <div onClick={() => { handleFullScreen() }} className='icon'>
+              <Icon.FullScreenIcon useDarkMode />
             </div>
-          </Popover>
-        </div>
-        <div className="right">
-          <div onClick={() => { handleFullScreen() }} className='icon'>
-            <Icon.FullScreenIcon useDarkMode />
           </div>
         </div>
+        <div id="k-line-chart" ref={chartRef} className="k-line-chart" />
       </div>
-      <div id="k-line-chart" className="k-line-chart" />
     </MainStyled>
   )
 }

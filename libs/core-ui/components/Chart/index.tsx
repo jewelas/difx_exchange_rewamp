@@ -101,8 +101,27 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
         }
       })
     }
-
   }, [candleStyle, lineChart]);
+
+  useEffect(() => {
+    const eventListener = () => {
+      if(document.fullscreenElement === null){
+        onExitFullScreen();
+      }
+    };
+    document.addEventListener("fullscreenchange", eventListener, false);
+    return () => {
+      document.removeEventListener("fullscreenchange", eventListener, false);
+    };
+  }, [document.fullscreenElement]);
+
+  const onExitFullScreen = ()=>{
+    setTimeout(() => {
+      if (chartContainerRef.current) chartContainerRef.current.style.height = '330px';
+      if (chartRef.current) chartRef.current.style.height = '330px';
+      lineChart?.resize();
+    }, 500);
+  }
 
   const onChangeTime = (t: string) => {
     setTime(t);
@@ -137,7 +156,7 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
   }
 
   const handleFullScreen = async () => {
-    if (document.fullscreenElement === null) {
+    if (!document.fullscreenElement) {
       chartContainerRef.current?.requestFullscreen();
 
       setTimeout(() => {
@@ -147,12 +166,7 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
 
     } else {
       document.exitFullscreen();
-
-      setTimeout(() => {
-        if (chartContainerRef.current) chartContainerRef.current.style.height = '330px';
-        if (chartRef.current) chartRef.current.style.height = '330px';
-        lineChart?.resize();
-      }, 500);
+      onExitFullScreen();
     }
   }
 
@@ -201,7 +215,7 @@ function Chart({ history, current, onChangeResolution }: ChartProps) {
               </div>
             </Popover>
 
-            <Popover content={indicators} placement="bottom">
+            <Popover style={{ zIndex: 9999 }} content={indicators} placement="bottom">
               <div className='icon'>
                 <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
               </div>

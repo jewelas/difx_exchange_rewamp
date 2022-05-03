@@ -39,16 +39,26 @@ const GlobalStyles = createGlobalStyle`
     //---------------------- Ant Design Custom Design -------------------------------------------------
 
     .ant-btn{
-      background: transparent !important;
-      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
-      border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
+      /* background: transparent !important; */
+      /* color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; */
+      /* border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important; */
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.medium} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary};
-      box-shadow: none !important;
+      /* border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary}; */
+      /* box-shadow: none !important; */
+
+      &.success{
+        background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+        border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+        &:hover{
+          background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+          border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+          filter: brightness(80%);
+        }
+      }
     }
 
     .ant-btn:hover{
-      border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+      /* border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; */
     }
 
     .ant-btn-sm{
@@ -65,23 +75,18 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-btn-primary{
-      color: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.fontColor.button} !important;
-      border-color: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.color.primary} !important;
-      background: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.color.primary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
+      /* border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; */
+      /* background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; */
     }
 
     .ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
-      color: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.fontColor.button} !important;
-      border-color: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.color.primary} !important;
-      background: ${({ theme }: { theme: ThemeInterface }) =>
-    theme.color.primary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
+      border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
       opacity: 0.5;
     }
+    
     .ant-input{
       height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
@@ -221,6 +226,14 @@ const GlobalStyles = createGlobalStyle`
 
     a.ant-typography, .ant-typography a{
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.link} !important;
+    }
+
+    .ant-slider{
+      .ant-slider-mark{
+        .ant-slider-mark-text{
+          color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+        }
+      }
     }
 
     .ant-menu-vertical{

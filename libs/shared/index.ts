@@ -6,6 +6,7 @@ export * from "./hook/useTheme";
 export * from "./hook/useAuth";
 export * from "./hook/useHttp";
 export * from "./hook/useLocalStorage";
+export * from "./hook/useResize";
 
 export * from "./type/User";
 export * from "./type/Pair";

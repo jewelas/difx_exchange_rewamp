@@ -127,3 +127,21 @@ export const ChartWraperStyled = styled.div`
     .content{
     }
 `;
+
+export const PlaceOrderWraperStyled = styled.div`
+    padding: 10px;
+    .content{
+      .place-order-group{
+        display: flex;
+        .bid{
+          margin-right: 10px;
+          flex-grow: 1;
+        }
+        .ask{
+          margin-left: 10px;
+          flex-grow: 1;
+        }
+      }
+    }
+
+`;

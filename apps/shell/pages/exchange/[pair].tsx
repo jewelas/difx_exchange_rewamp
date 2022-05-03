@@ -7,6 +7,7 @@ import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
 import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
 import ChartWrapper from "../../components/exchange/ChartWrapper";
 import TradeInfoWrapper from "../../components/exchange/TradeInfoWrapper";
+import PlaceOrderWrapper from "../../components/exchange/PlaceOrderWrapper";
 import { getLayoutType } from "./LayoutType";
 import { PageStyled } from "./styled";
 import "/node_modules/react-grid-layout/css/styles.css";
@@ -58,7 +59,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
             {pair && <TradeInfoWrapper pair={pair as string} />}
           </div>
           <div key="place-order" className="temp">
-            Place Order
+          {pair && <PlaceOrderWrapper pair={pair as string} />}
           </div>
           <div key="report" className="temp">
             Report

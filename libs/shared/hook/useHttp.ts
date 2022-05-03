@@ -91,9 +91,9 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
     // })
 
     const mutation = useMutation(
-        (request: Request) => {
+        (request: Request, newEndpoint?: string) => {
             return instance.post<Request, AxiosResponse<Response>>(
-                endpoint,
+                newEndpoint ? newEndpoint : endpoint,
                 request
             );
         },

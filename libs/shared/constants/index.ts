@@ -68,5 +68,8 @@ export const API_ENDPOINT = {
   RESET_PASS: '/api/v1/password/reset',
   TWO_FACTOR: '/api/v1/auth/twofa-login',
   VERIFY_IP: '/api/v1/auth/verify-ip',
-  REFRESH_TOKEN: '/api/v1/auth/refresh'
+  REFRESH_TOKEN: '/api/v1/auth/refresh',
+  PLACE_ORDER_LIMIT: '/api/v1/order/make-limit',
+  PLACE_ORDER_MARKET: '/api/v1/order/make-market',
+  PLACE_ORDER_STOP: '/api/v1/order/make-stop'
 }

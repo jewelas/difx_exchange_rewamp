@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+
+import { AxiosResponse, AxiosError } from "axios";
+import { Tabs } from "antd";
+import React, { useEffect, useState, useMemo } from 'react';
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from "@difx/constants";
 import { OrderForm, OrderSideType, OrderType, Loading } from "@difx/core-ui";
-import { useHttpGetByEvent, useHttpGet, useAuth, Balance, PairType } from "@difx/shared";
-import { Tabs } from "antd";
-import { AxiosResponse } from "axios";
-import React, { useEffect, useState, useMemo } from 'react';
+import { useHttpGetByEvent, useHttpGet, useAuth, Balance, PairType, useHttpPost, PlaceOrderRequest, PlaceOrderResponse } from "@difx/shared";
 import { PlaceOrderWraperStyled } from "./styled";
 
 export function PlaceOrderWrapper({ pair }: { pair: string }) {
@@ -16,10 +17,10 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
 
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
-  const pairInfo = useMemo(() => {
+  const pairInfo: PairType = useMemo(() => {
     if (pairs)
       return pairs.find((e) => e.symbol === pair);
-    else return {};
+    else return {} as PairType;
   }, [pairs, pair]);
 
   const getBalancesSuccess = (response: AxiosResponse<Array<Balance>>) => {
@@ -30,6 +31,15 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
 
   const { mutate: getBalances } = useHttpGetByEvent<any, Array<Balance>>({ onSuccess: getBalancesSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
+  const placeOrderSuccess = (response: AxiosResponse<PlaceOrderResponse>) => {
+    if (response.data) {
+      // setBalances(response.data);
+    }
+  }
+  const placeOrderError = (error: AxiosError) => {
+    // setBalances(response.data);
+  }
+  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, onError: placeOrderError, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
 
   useEffect(() => {
     if (token) {

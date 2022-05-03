@@ -49,10 +49,12 @@ const GlobalStyles = createGlobalStyle`
       &.success{
         background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
         border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
-        &:hover{
+        &:hover, &:focus, &:active{
           background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
           border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
-          filter: brightness(80%);
+          &:not([disabled]){
+            filter: brightness(80%);
+          }
         }
       }
     }
@@ -82,9 +84,9 @@ const GlobalStyles = createGlobalStyle`
 
     .ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
-      border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
-      background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
-      opacity: 0.5;
+      border-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+      opacity: 0.8;
     }
     
     .ant-input{

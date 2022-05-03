@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Input, Slider, Button } from "antd";
+import { Button, Form, Input, Slider } from "antd";
 import clsx from "clsx";
 import { useEffect, useState } from 'react';
-import { FieldData } from "rc-field-form/lib/interface";
-import DepositIcon from "./../Icon/DepositIcon";
-import t from "./../../../locale";
+import { PairType, PlaceOrderRequest } from "./../../../shared";
 import { Balance } from "./../../../shared/type/Balance";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
-
+import DepositIcon from "./../Icon/DepositIcon";
 import {
   ComponentStyled
 } from "./styled";
-import { PlaceOrderRequest } from "./../../../shared";
+
 
 export type OrderSideType = 'bid' | 'ask';
 export type OrderType = 'limit' | 'market' | 'stop-limit';
@@ -23,10 +21,11 @@ export interface OrderFormProps {
   quoteCurrency?: string,
   isLoggedIn?: boolean,
   balance?: Balance,
-  priceSelected?: number
+  priceSelected?: number,
+  pairInfo?: PairType
 }
 
-export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance }: OrderFormProps) {
+export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: '0%',
@@ -45,13 +44,42 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
     if (priceSelected) form.setFieldsValue({ [`${side}.price`]: priceSelected })
   }, [priceSelected]);
 
+  useEffect(() => {
+    if (pairInfo) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
+  }, [pairInfo]);
+
   const onSubmit = (formData: PlaceOrderRequest) => {
     console.log(formData, 'formData');
   };
 
   const onFormChange = (changeField: any) => {
 
-    if(changeField && changeField[0].name[0] === `${side}.total`) setSliderValue(0);
+    // Update input
+    const fieldName = changeField[0].name[0];
+    const fieldValue = changeField[0].value;
+    console.log(fieldValue,'fieldValue')
+    if (fieldName === `${side}.total`){
+      const currentPrice = form.getFieldValue(`${side}.price`);
+      const amount: number = currentPrice ? fieldValue/currentPrice : 0;
+      form.setFieldsValue({
+        [`${side}.amount`]: Math.round(amount * 100) / 100,
+      });
+    }else if(fieldName === `${side}.amount`){
+      const currentPrice = form.getFieldValue(`${side}.price`);
+      const newTotal: number = currentPrice * fieldValue;
+      form.setFieldsValue({
+        [`${side}.total`]: Math.round(newTotal * 100) / 100,
+      });
+    }else if(fieldName === `${side}.price`){
+      const amount = form.getFieldValue(`${side}.amount`);
+      const currentPrice = form.getFieldValue(`${side}.price`);
+      const newTotal: number = amount * currentPrice;
+      form.setFieldsValue({
+        [`${side}.total`]: Math.round(newTotal * 100) / 100,
+      });
+    }
+
+    setSliderValue(0);
 
     const fieldsValue = form.getFieldsValue();
 
@@ -64,15 +92,6 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
     } else {
       setIsDisabled(false);
     }
-
-
-    // const fieldsError = form.getFieldsError();
-    //   const errors = fieldsError.find((e) => !isEmpty(e.errors));
-    //   if (errors && !isEmpty(errors.errors)) {
-    //     setHasFieldError(true);
-    //   } else {
-    //     setHasFieldError(false);
-    //   }
   };
 
   const getButtonSubmitLabel = () => {
@@ -81,10 +100,15 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
     if (side === 'bid') return 'Buy'
   }
 
-  const onSliderChange = (value:number)=>{
-    if(balance){
-      const total:number = (balance.amount * value)/100;
-      form.setFieldsValue({ [`${side}.total`]: Math.round(total) })
+  const onSliderChange = (value: number) => {
+    if (balance) {
+      const currentPrice = pairInfo?.last || priceSelected;
+      const total: number = (balance.amount * value) / 100;
+      const amount: number = currentPrice ? total/currentPrice :0;
+      form.setFieldsValue({
+        [`${side}.total`]: Math.round(total * 100) / 100,
+        [`${side}.amount`]: Math.round(amount * 100) / 100,
+      });
     }
     setSliderValue(value);
   }

@@ -63,7 +63,8 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
             quoteCurrency={pairInfo.currency2}
             type={orderType}
             isLoggedIn={isLoggedIn}
-            balance={balances.find(e => e.currency === pairInfo.currency2)} />
+            balance={balances.find(e => e.currency === pairInfo.currency2)}
+            pairInfo={pairInfo} />
         </div>
         <div className="ask">
           <OrderForm
@@ -73,7 +74,8 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
             side="ask"
             type={orderType}
             isLoggedIn={isLoggedIn}
-            balance={balances.find(e => e.currency === pairInfo.currency1)} />
+            balance={balances.find(e => e.currency === pairInfo.currency1)}
+            pairInfo={pairInfo} />
         </div>
       </div>
     )

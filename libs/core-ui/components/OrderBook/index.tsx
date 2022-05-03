@@ -1,6 +1,7 @@
 import { Select } from "antd";
 import clsx from "clsx";
 import { useState } from "react";
+import { useAtom } from "jotai";
 
 import { NetworkStatusType } from "./../../../shared/type/Network";
 import OrderBuyIcon from "../Icon/OrderBuyIcon";
@@ -9,7 +10,7 @@ import OrderSellIcon from "../Icon/OrderSellIcon";
 import { Typography } from "../Typography";
 import { BidAskData, OnlyAskData, OnlyBidData } from "./OrderBookBody";
 import { ComponentStyled } from "./styled";
-import { PairType } from "./../../../shared";
+import { PairType, priceSelectedAtom } from "./../../../shared";
 
 /* eslint-disable-next-line */
 export type SortType = "all" | "bid" | "ask";
@@ -33,6 +34,8 @@ export function OrderBook({
   const { Option } = Select;
   const [sortType, setSortType] = useState<SortType>("all");
   const [numberFormat, setNumberFormat] = useState("0.01");
+
+  const [priceSelected, setPriceSelected] = useAtom(priceSelectedAtom);
 
   if (asks) {
     const maxValueOfAsks = Math.max(...asks.map((ask) => ask[1]), 0);
@@ -67,6 +70,7 @@ export function OrderBook({
           bids={bids}
           asks={asks}
           numberFormat={numberFormat}
+          onPriceSelected={setPriceSelected}
         />
       );
     else if (type === "ask")
@@ -77,6 +81,7 @@ export function OrderBook({
           currentPrice={currentPrice}
           asks={asks}
           numberFormat={numberFormat}
+          onPriceSelected={setPriceSelected}
         />
       );
     else if (type === "bid")
@@ -87,6 +92,7 @@ export function OrderBook({
           currentPrice={currentPrice}
           bids={bids}
           numberFormat={numberFormat}
+          onPriceSelected={setPriceSelected}
         />
       );
     return null;

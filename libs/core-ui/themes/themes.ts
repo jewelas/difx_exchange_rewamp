@@ -22,6 +22,7 @@ export interface ThemeInterface extends Theme {
     dangerDisabled: string;
     disabled: string;
     selected: string;
+    rowHover: string
   };
   scrollbar: {
     bar: string;
@@ -107,6 +108,7 @@ export const light: ThemeInterface = {
     dangerDisabled: "#FFF3F3",
     disabled: "#f5f5f5",
     selected: "var(--ant-primary-1)",
+    rowHover: "rgba(0,0,0,0.1)" 
   },
   scrollbar: {
     bar: "#999",
@@ -192,6 +194,7 @@ export const dark: ThemeInterface = {
     dangerDisabled: "#FFF3F3",
     disabled: "rgba(13, 20, 33, 0.6)",
     selected: "rgba(13, 20, 33, 0.6)",
+    rowHover: "rgba(255,255,255,0.1)"
   },
   scrollbar: {
     bar: "#464D5F",

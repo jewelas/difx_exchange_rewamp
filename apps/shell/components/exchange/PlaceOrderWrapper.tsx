@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 
-import { AxiosResponse, AxiosError } from "axios";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
+import { Loading, OrderForm, OrderType } from "@difx/core-ui";
+import { Balance, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, useAuth, useHttpGet, useHttpGetByEvent, useHttpPost } from "@difx/shared";
 import { Tabs } from "antd";
-import React, { useEffect, useState, useMemo } from 'react';
-import { API_ENDPOINT, QUERY_KEY, REFETCH } from "@difx/constants";
-import { OrderForm, OrderSideType, OrderType, Loading } from "@difx/core-ui";
-import { useHttpGetByEvent, useHttpGet, useAuth, Balance, PairType, useHttpPost, PlaceOrderRequest, PlaceOrderResponse } from "@difx/shared";
+import { AxiosError, AxiosResponse } from "axios";
+import { useAtom } from "jotai";
+import React, { useEffect, useMemo, useState } from 'react';
 import { PlaceOrderWraperStyled } from "./styled";
 
 export function PlaceOrderWrapper({ pair }: { pair: string }) {
@@ -14,6 +15,9 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
   const [tab, setTab] = useState('limit');
   const { isLoggedIn, token } = useAuth();
   const [balances, setBalances] = useState<Array<Balance>>([]);
+
+  const [priceSelected,] = useAtom(priceSelectedAtom);
+  console.log(priceSelected, 'priceSelected')
 
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
@@ -55,6 +59,7 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
       <div className="place-order-group">
         <div className="bid">
           <OrderForm
+            priceSelected={priceSelected}
             baseCurrency={pairInfo.currency1}
             quoteCurrency={pairInfo.currency2}
             type={orderType}
@@ -63,6 +68,7 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
         </div>
         <div className="ask">
           <OrderForm
+            priceSelected={priceSelected}
             baseCurrency={pairInfo.currency1}
             quoteCurrency={pairInfo.currency2}
             side="ask"

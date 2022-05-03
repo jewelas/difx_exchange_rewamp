@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Input, Slider, Button } from "antd";
 import clsx from "clsx";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DepositIcon from "./../Icon/DepositIcon";
 import t from "./../../../locale";
 import { Balance } from "./../../../shared/type/Balance";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
+
 import {
   ComponentStyled
 } from "./styled";
@@ -18,10 +20,11 @@ export interface OrderFormProps {
   baseCurrency?: string,
   quoteCurrency?: string,
   isLoggedIn?: boolean,
-  balance?: Balance
+  balance?: Balance,
+  priceSelected?: number
 }
 
-export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance }: OrderFormProps) {
+export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance }: OrderFormProps) {
 
   const marks = {
     0: '0',
@@ -34,6 +37,11 @@ export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCur
   const [isDisabled, setIsDisabled] = useState(true);
 
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (priceSelected) form.setFieldsValue({ [`${side}.price`]: priceSelected })
+  }, [priceSelected]);
+
   const onSubmit = (formData: PlaceOrderRequest) => {
     console.log(formData, 'formData');
 
@@ -44,11 +52,11 @@ export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCur
 
     if (type === 'limit') {
       setIsDisabled(!fieldsValue[`${side}.price`] || !fieldsValue[`${side}.amount`] || !fieldsValue[`${side}.total`]);
-    } else if (type === 'market'){
+    } else if (type === 'market') {
       setIsDisabled(!fieldsValue[`${side}.price`] || !fieldsValue[`${side}.total`]);
-    } else if (type === 'stop-limit'){
+    } else if (type === 'stop-limit') {
       setIsDisabled(!fieldsValue[`${side}.trigger`] || !fieldsValue[`${side}.price`] || !fieldsValue[`${side}.amount`] || !fieldsValue[`${side}.total`]);
-    }else{
+    } else {
       setIsDisabled(false);
     }
 
@@ -95,10 +103,20 @@ export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCur
             </Form.Item>
           }
 
-          <Form.Item
-            name={`${side}.price`}>
-            <Input disabled={type === 'market'} type="number" placeholder={type !== "market" ? "Price" : "Market Price"} suffix={quoteCurrency} />
-          </Form.Item>
+          {
+            type === 'market'
+              ?
+              <Form.Item
+                name={`${side}.marketPrice`}>
+                <Input disabled={type === 'market'} type="number" placeholder={"Market Price"} suffix={quoteCurrency} />
+              </Form.Item>
+              :
+              <Form.Item
+                name={`${side}.price`}>
+                <Input type="number" placeholder={"Price"} suffix={quoteCurrency} />
+              </Form.Item>
+          }
+
           {
             ['limit', 'stop-limit'].includes(type)
             &&

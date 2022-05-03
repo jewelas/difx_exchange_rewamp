@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ThemeInterface } from "themes";
 import { Color } from "../Color";
 
 interface BarStyledProps {
@@ -57,9 +58,10 @@ export const ComponentStyled = styled.div`
   }
 
   .com-table-content {
-    padding: 10px 15px 10px 20px;
+    /* padding: 10px 15px 10px 20px; */
     color: ${({ theme }) => theme.fontColor.primary};
     .table-head {
+      padding: 10px 15px 10px 20px;
       display: flex;
       justify-content: space-between;
     }
@@ -75,11 +77,13 @@ export const ComponentStyled = styled.div`
         display: flex;
         justify-content: space-between;
         margin-bottom: 1px;
-        margin-left: -20px;
-        margin-right: -15px;
         padding: 5px;
         padding-left: 20px;
         padding-right: 15px;
+        &:hover{
+          cursor: pointer;
+          background: ${({ theme }:{theme:ThemeInterface}) => theme.color.rowHover};;
+        }
         .ant-typography {
           z-index: 2;
           &.price {
@@ -115,6 +119,7 @@ export const ComponentStyled = styled.div`
         display: flex;
         justify-content: space-between;
         margin: 10px 0;
+        padding: 0 20px;
         .left {
           .B1 {
             font-weight: 600;

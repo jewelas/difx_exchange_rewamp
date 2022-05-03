@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Input, Slider, Button } from "antd";
 import clsx from "clsx";
 import { useEffect, useState } from 'react';
+import { FieldData } from "rc-field-form/lib/interface";
 import DepositIcon from "./../Icon/DepositIcon";
 import t from "./../../../locale";
 import { Balance } from "./../../../shared/type/Balance";
@@ -27,14 +29,15 @@ export interface OrderFormProps {
 export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance }: OrderFormProps) {
 
   const marks = {
-    0: '0',
-    25: '25',
-    50: '50',
-    75: '75',
-    100: '100',
+    0: '0%',
+    25: '25%',
+    50: '50%',
+    75: '75%',
+    100: '100%',
   };
 
   const [isDisabled, setIsDisabled] = useState(true);
+  const [sliderValue, setSliderValue] = useState(0);
 
   const [form] = Form.useForm();
 
@@ -44,10 +47,12 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
 
   const onSubmit = (formData: PlaceOrderRequest) => {
     console.log(formData, 'formData');
-
   };
 
-  const onFormChange = () => {
+  const onFormChange = (changeField: any) => {
+
+    if(changeField && changeField[0].name[0] === `${side}.total`) setSliderValue(0);
+
     const fieldsValue = form.getFieldsValue();
 
     if (type === 'limit') {
@@ -74,6 +79,14 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
     if (!isLoggedIn) return 'Log in or Sign up';
     if (side === 'ask') return 'Sell';
     if (side === 'bid') return 'Buy'
+  }
+
+  const onSliderChange = (value:number)=>{
+    if(balance){
+      const total:number = (balance.amount * value)/100;
+      form.setFieldsValue({ [`${side}.total`]: Math.round(total) })
+    }
+    setSliderValue(value);
   }
 
   return (
@@ -131,7 +144,7 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
             <Input type="number" placeholder="Total" suffix={quoteCurrency} />
           </Form.Item>
           <div className={clsx("slider-group", side)}>
-            <Slider marks={marks} step={null} defaultValue={0} />
+            <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />
           </div>
           <Button disabled={isDisabled} htmlType="submit" className={clsx(side === 'bid' && "success")} type='primary' danger={side === "ask"}>{getButtonSubmitLabel()}</Button>
         </div>

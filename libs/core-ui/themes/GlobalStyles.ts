@@ -83,7 +83,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
-      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       border-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       opacity: 0.8;

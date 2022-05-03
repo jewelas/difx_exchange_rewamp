@@ -8,6 +8,7 @@ import { useTheme } from './../../../shared';
 import { rect, circle } from './shapeDefinition';
 import { Icon } from './../Icon';
 import { ChartStyled, GridStyled, IndicatorStyled, MainStyled } from './styled';
+import BackgroundIcon from './BackgroundIcon';
 
 const TIMES = ['5m', '15m', '30m', '1h', '1d'];
 const MAINS_INDEX = ['MA', 'EMA', 'BOLL', 'SAR'];
@@ -238,13 +239,16 @@ function Chart({ history, current, onChangeResolution, type = 'basic' }: ChartPr
 
   return (
     <MainStyled style={type==='basic'?{marginLeft:-30}:{}} ref={mainGroupRef}>
+      <div className='background'>
+        <BackgroundIcon/>
+      </div>
       {
         <div style={type==='basic'?{visibility:'hidden'}:{}} className='shape-group'>
           {
-            SHAPE_TYPES.map(e =>
+            SHAPE_TYPES.map((e,i) =>
               e.key !== 'clear'
                 ?
-                <div key={`shape_${e.key}`} onClick={() => { lineChart?.createShape(e.key) }}>
+                <div key={`shape_${e.key}_${i}`} onClick={() => { lineChart?.createShape(e.key) }}>
                   {e.icon}
                 </div>
                 :

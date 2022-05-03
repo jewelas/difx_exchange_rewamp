@@ -7,7 +7,15 @@ export const MainStyled = styled.div`
   background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
   display:flex;
   width:100%;
-
+  .background{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top:50%;
+    text-align: center;
+  }
   .shape-group{
     background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
     width: 40px;

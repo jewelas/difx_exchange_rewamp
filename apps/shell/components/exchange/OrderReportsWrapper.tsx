@@ -5,7 +5,9 @@ import { Tabs } from "antd";
 import { useState } from 'react';
 import OrderOpenReport from "./OrderOpenReport";
 import OrderHistoryReport from "./OrderHistoryReport";
+import FundReport from "./FundReport";
 import { OrderReportsWraperStyled } from "./styled";
+import OrderStopLimitReport from "./OrderStopLimitReport";
 
 export function OrderReportsWrapper({ pair }: { pair: string }) {
 
@@ -27,6 +29,8 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
         <div className="report-group">
           {tab === 'open-order' && <OrderOpenReport />}
           {tab === 'trade-history' && <OrderHistoryReport pair={pair} />}
+          {tab === 'stop-limit-orders' && <OrderStopLimitReport />}
+          {tab === 'funds' && <FundReport />}
         </div>
       </div>
     </OrderReportsWraperStyled>

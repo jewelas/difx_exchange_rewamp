@@ -9,7 +9,7 @@ import { AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
-export function OrderOpenReport() {
+export function OrderStopLimitReport() {
 
   const { token } = useAuth();
   const headers = { headers: { 'x-access-token': token } }
@@ -27,7 +27,7 @@ export function OrderOpenReport() {
       }
     }
   }
-  const { mutate: getOrderBooks } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN });
+  const { mutate: getOrderBooks } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT });
 
   useEffect(() => {
     getOrderBooks(headers);
@@ -66,9 +66,9 @@ export function OrderOpenReport() {
     },
     {
       title: 'Type',
-      dataIndex: 's',
+      dataIndex: 'side',
       sorter: {
-        compare: (a, b) => a.s - b.s,
+        compare: (a, b) => a.side - b.side,
         multiple: 3,
       },
       render: (text) => {
@@ -143,4 +143,4 @@ export function OrderOpenReport() {
   );
 }
 
-export default OrderOpenReport;
+export default OrderStopLimitReport;

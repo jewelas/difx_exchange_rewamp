@@ -70,7 +70,8 @@ export const API_ENDPOINT = {
   TWO_FACTOR: '/api/v1/auth/twofa-login',
   VERIFY_IP: '/api/v1/auth/verify-ip',
   REFRESH_TOKEN: '/api/v1/auth/refresh',
-  GET_ORDER_BOOK: '/api/v1/user/orderbook',
+  GET_ORDER_OPEN: '/api/v1/user/orderbook',
+  GET_ORDER_STOP_LIMIT: '/api/v1/user/stoplimits',
   PLACE_ORDER_LIMIT: '/api/v1/order/make-limit',
   PLACE_ORDER_MARKET: '/api/v1/order/make-market',
   PLACE_ORDER_STOP: '/api/v1/order/make-stop'

@@ -51,7 +51,8 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
 interface EventProps<Response> {
     onSuccess?: (response: AxiosResponse<Response>) => void;
     onError?: (error: AxiosError) => void;
-    endpoint: string
+    endpoint: string,
+    headers?: any
 }
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
@@ -80,7 +81,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
     return mutation;
 }
 
-export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
+export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint, headers }: EventProps<Response>) {
     // instance.interceptors.request.use(function (config: AxiosRequestConfig) {
     //     const token = localStorage?.getItem('sessionToken');
     //     // @ts-ignore
@@ -91,10 +92,11 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
     // })
 
     const mutation = useMutation(
-        (request: Request, newEndpoint?: string) => {
+        (request: Request | any) => {
             return instance.post<Request, AxiosResponse<Response>>(
-                newEndpoint ? newEndpoint : endpoint,
-                request
+                request.endpoint ? request.endpoint : endpoint,
+                request,
+                headers
             );
         },
         {

@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
-import { Loading, OrderForm, OrderType } from "@difx/core-ui";
+import { Loading, OrderForm, OrderType, OrderSideType } from "@difx/core-ui";
 import { Balance, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, useAuth, useHttpGet, useHttpGetByEvent, useHttpPost } from "@difx/shared";
 import { Tabs } from "antd";
+import { showNotification } from "./../../utils/pageUtils";
 import { AxiosError, AxiosResponse } from "axios";
 import { useAtom } from "jotai";
 import React, { useEffect, useMemo, useState } from 'react';
@@ -16,7 +17,6 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
   const [balances, setBalances] = useState<Array<Balance>>([]);
 
   const [priceSelected,] = useAtom(priceSelectedAtom);
-  console.log(priceSelected, 'priceSelected')
 
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
@@ -25,6 +25,9 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
       return pairs.find((e) => e.symbol === pair);
     else return {} as PairType;
   }, [pairs, pair]);
+
+
+  const headers = { headers: { 'x-access-token': token } }
 
   const getBalancesSuccess = (response: AxiosResponse<Array<Balance>>) => {
     if (response.data) {
@@ -35,29 +38,54 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
   const { mutate: getBalances } = useHttpGetByEvent<any, Array<Balance>>({ onSuccess: getBalancesSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
   const placeOrderSuccess = (response: AxiosResponse<PlaceOrderResponse>) => {
-    if (response.data) {
-      // setBalances(response.data);
-    }
+    const { data } = response;
+    showNotification('success', 'Success', `Order created successfully, id: ${data.order_id}`)
   }
   const placeOrderError = (error: AxiosError) => {
-    // setBalances(response.data);
+    // Todo...
   }
-  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, onError: placeOrderError, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
+  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, onError: placeOrderError, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT, headers });
 
   useEffect(() => {
-    if (token) {
-      const headers = { headers: { 'x-access-token': token } };
-      getBalances(headers)
-    }
-  }, [token, getBalances]);
+    getBalances(headers)
+  }, []);
 
   const { TabPane } = Tabs;
+
+  const onSubmitOrder = (formData: PlaceOrderRequest, type: OrderType, side: OrderSideType) => {
+
+    const data = {
+      side: side === 'bid' ? 0 : 1,
+      price: formData[`${side}.price`],
+      amount: formData[`${side}.amount`],
+      stop: formData[`${side}.stop`],
+      total: formData[`${side}.total`],
+      symbol: pairInfo.symbol,
+    }
+
+    if (type === 'limit') {
+      placeOrder(data);
+    } else if (type === 'market') {
+      data.price = pairInfo.last;
+      data.amount = data.total;
+      placeOrder({ ...data, endpoint: API_ENDPOINT.PLACE_ORDER_MARKET });
+    } else if (type === 'stop-limit') {
+      placeOrder({ ...data, endpoint: API_ENDPOINT.PLACE_ORDER_STOP });
+    }
+
+    // Update balance
+    setTimeout(()=>{
+      getBalances(headers);
+    },3000)
+  }
 
   const PlaceOrder = (orderType: OrderType) => {
     return (
       <div className="place-order-group">
         <div className="bid">
           <OrderForm
+            isLoading={isLoading}
+            onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}
             baseCurrency={pairInfo.currency1}
             quoteCurrency={pairInfo.currency2}
@@ -68,6 +96,8 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
         </div>
         <div className="ask">
           <OrderForm
+            isLoading={isLoading}
+            onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}
             baseCurrency={pairInfo.currency1}
             quoteCurrency={pairInfo.currency2}

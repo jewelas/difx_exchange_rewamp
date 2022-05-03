@@ -5,7 +5,9 @@ export interface PlaceOrderRequest extends BaseRequest {
   price?: number,
   amount?: number,
   stop?: number,
-  symbol: string
+  symbol: string,
 }
 
-export interface PlaceOrderResponse extends BaseResponse {}
+export interface PlaceOrderResponse extends BaseResponse {
+  order_id: string;
+}

@@ -22,10 +22,12 @@ export interface OrderFormProps {
   isLoggedIn?: boolean,
   balance?: Balance,
   priceSelected?: number,
-  pairInfo?: PairType
+  pairInfo?: PairType,
+  onPlaceOrder: (formData: PlaceOrderRequest, type: OrderType, side: OrderSideType) => void,
+  isLoading?: boolean
 }
 
-export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
+export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: '0%',
@@ -49,50 +51,67 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
   }, [pairInfo]);
 
   const onSubmit = (formData: PlaceOrderRequest) => {
-    console.log(formData, 'formData');
+    onPlaceOrder(formData, type, side);
   };
+
+  const isValidPriceNumber = (value: number): boolean => {
+    return value > 0;
+  }
 
   const onFormChange = (changeField: any) => {
 
     // Update input
-    const fieldName = changeField[0].name[0];
-    const fieldValue = changeField[0].value;
-    console.log(fieldValue,'fieldValue')
-    if (fieldName === `${side}.total`){
-      const currentPrice = form.getFieldValue(`${side}.price`);
-      const amount: number = currentPrice ? fieldValue/currentPrice : 0;
-      form.setFieldsValue({
-        [`${side}.amount`]: Math.round(amount * 100) / 100,
-      });
-    }else if(fieldName === `${side}.amount`){
-      const currentPrice = form.getFieldValue(`${side}.price`);
-      const newTotal: number = currentPrice * fieldValue;
-      form.setFieldsValue({
-        [`${side}.total`]: Math.round(newTotal * 100) / 100,
-      });
-    }else if(fieldName === `${side}.price`){
-      const amount = form.getFieldValue(`${side}.amount`);
-      const currentPrice = form.getFieldValue(`${side}.price`);
-      const newTotal: number = amount * currentPrice;
-      form.setFieldsValue({
-        [`${side}.total`]: Math.round(newTotal * 100) / 100,
-      });
+    if (changeField && changeField[0]) {
+      const fieldName = changeField[0].name[0];
+      const fieldValue = changeField[0].value;
+      if (fieldName === `${side}.total`) {
+        const currentPrice = form.getFieldValue(`${side}.price`);
+        const amount: number = currentPrice ? fieldValue / currentPrice : 0;
+        form.setFieldsValue({
+          [`${side}.amount`]: Math.round(amount * 100) / 100,
+        });
+      } else if (fieldName === `${side}.amount`) {
+        const currentPrice = form.getFieldValue(`${side}.price`);
+        const newTotal: number = currentPrice * fieldValue;
+        form.setFieldsValue({
+          [`${side}.total`]: Math.round(newTotal * 100) / 100,
+        });
+      } else if (fieldName === `${side}.price`) {
+        const amount = form.getFieldValue(`${side}.amount`);
+        const currentPrice = form.getFieldValue(`${side}.price`);
+        const newTotal: number = amount * currentPrice;
+        form.setFieldsValue({
+          [`${side}.total`]: Math.round(newTotal * 100) / 100,
+        });
+      }
+      setSliderValue(0);
     }
 
-    setSliderValue(0);
+    validateForm();
+  };
 
+  const validateForm = ()=>{
     const fieldsValue = form.getFieldsValue();
 
     if (type === 'limit') {
-      setIsDisabled(!fieldsValue[`${side}.price`] || !fieldsValue[`${side}.amount`] || !fieldsValue[`${side}.total`]);
+      setIsDisabled(
+        !isValidPriceNumber(fieldsValue[`${side}.price`]) ||
+        !isValidPriceNumber(fieldsValue[`${side}.amount`]) ||
+        !isValidPriceNumber(fieldsValue[`${side}.total`])
+      );
     } else if (type === 'market') {
-      setIsDisabled(!fieldsValue[`${side}.price`] || !fieldsValue[`${side}.total`]);
+      setIsDisabled(
+        !isValidPriceNumber(fieldsValue[`${side}.total`])
+      );
     } else if (type === 'stop-limit') {
-      setIsDisabled(!fieldsValue[`${side}.trigger`] || !fieldsValue[`${side}.price`] || !fieldsValue[`${side}.amount`] || !fieldsValue[`${side}.total`]);
+      setIsDisabled(
+        !isValidPriceNumber(fieldsValue[`${side}.stop`]) ||
+        !isValidPriceNumber(fieldsValue[`${side}.price`]) || !isValidPriceNumber(fieldsValue[`${side}.amount`]) ||
+        !isValidPriceNumber(fieldsValue[`${side}.total`]));
     } else {
       setIsDisabled(false);
     }
-  };
+  }
 
   const getButtonSubmitLabel = () => {
     if (!isLoggedIn) return 'Log in or Sign up';
@@ -104,13 +123,14 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
     if (balance) {
       const currentPrice = pairInfo?.last || priceSelected;
       const total: number = (balance.amount * value) / 100;
-      const amount: number = currentPrice ? total/currentPrice :0;
+      const amount: number = currentPrice ? total / currentPrice : 0;
       form.setFieldsValue({
         [`${side}.total`]: Math.round(total * 100) / 100,
         [`${side}.amount`]: Math.round(amount * 100) / 100,
       });
     }
     setSliderValue(value);
+    validateForm();
   }
 
   return (
@@ -135,7 +155,7 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
             type === 'stop-limit'
             &&
             <Form.Item
-              name={`${side}.trigger`}>
+              name={`${side}.stop`}>
               <Input type="number" placeholder="Trigger Price" suffix={quoteCurrency} />
             </Form.Item>
           }
@@ -170,7 +190,7 @@ export function OrderForm({ priceSelected, side = 'bid', type = 'limit', baseCur
           <div className={clsx("slider-group", side)}>
             <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />
           </div>
-          <Button disabled={isDisabled} htmlType="submit" className={clsx(side === 'bid' && "success")} type='primary' danger={side === "ask"}>{getButtonSubmitLabel()}</Button>
+          <Button disabled={isDisabled || isLoading} htmlType="submit" className={clsx(side === 'bid' && "success")} type='primary' danger={side === "ask"}>{getButtonSubmitLabel()}</Button>
         </div>
 
       </Form>

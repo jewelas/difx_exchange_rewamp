@@ -53,7 +53,7 @@ const GlobalStyles = createGlobalStyle`
           background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
           border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
           &:not([disabled]){
-            filter: brightness(80%);
+            opacity: 0.9;
           }
         }
       }

@@ -1,5 +1,6 @@
 import { Form, Input, Slider, Button } from "antd";
 import clsx from "clsx";
+import DepositIcon from "./../Icon/DepositIcon";
 import t from "./../../../locale";
 import {
   ComponentStyled
@@ -9,10 +10,12 @@ export type OrderSideType = 'bid' | 'ask';
 export type OrderType = 'limit' | 'market' | 'stop-limit';
 export interface OrderFormProps {
   side?: OrderSideType,
-  type?: OrderType
+  type?: OrderType,
+  baseCurrency?: string,
+  quoteCurrency?: string
 }
 
-export function OrderForm({ side = 'bid', type = 'limit' }: OrderFormProps) {
+export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCurrency }: OrderFormProps) {
 
   const marks = {
     0: '0',
@@ -45,12 +48,17 @@ export function OrderForm({ side = 'bid', type = 'limit' }: OrderFormProps) {
         onFieldsChange={onFormChange}
         autoComplete="off"
       >
-        <div className="head">
-
+        <div className="balance">
+          <div className="value">
+            {`Balance: 0.00 ${quoteCurrency}`}
+          </div>
+          <div className="deposit">
+            <DepositIcon useDarkMode />
+          </div>
         </div>
         <div className="content">
           <Form.Item
-            name="price"
+            name={`${side}.price`}
             rules={[
               {
                 required: true,
@@ -58,10 +66,26 @@ export function OrderForm({ side = 'bid', type = 'limit' }: OrderFormProps) {
               }
             ]}
           >
-            <Input placeholder="Price" />
+            <Input disabled={type==='market'} type="number" placeholder={type!=="market" ? "Price" : "Market Price"} suffix={quoteCurrency} />
           </Form.Item>
+          {
+            ['limit', 'stop-limit'].includes(type)
+            &&
+            <Form.Item
+              name={`${side}.amount`}
+              rules={[
+                {
+                  required: true,
+                  message: t("error.input_email"),
+                }
+              ]}
+            >
+              <Input placeholder="Amount" suffix={baseCurrency} />
+            </Form.Item>
+          }
+
           <Form.Item
-            name="price"
+            name={`${side}.total`}
             rules={[
               {
                 required: true,
@@ -69,23 +93,12 @@ export function OrderForm({ side = 'bid', type = 'limit' }: OrderFormProps) {
               }
             ]}
           >
-            <Input placeholder="Amount" />
-          </Form.Item>
-          <Form.Item
-            name="price"
-            rules={[
-              {
-                required: true,
-                message: t("error.input_email"),
-              }
-            ]}
-          >
-            <Input placeholder="Total" />
+            <Input placeholder="Total" suffix={quoteCurrency} />
           </Form.Item>
           <div className={clsx("slider-group", side)}>
             <Slider marks={marks} step={null} defaultValue={0} />
           </div>
-          <Button className={clsx(side==='bid' && "success")} type='primary' danger={side==="ask"}>{side==="ask"?"Sell" : "Buy"}</Button>
+          <Button className={clsx(side === 'bid' && "success")} type='primary' danger={side === "ask"}>{side === "ask" ? "Sell" : "Buy"}</Button>
         </div>
 
       </Form>

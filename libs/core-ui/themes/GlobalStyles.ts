@@ -94,6 +94,9 @@ const GlobalStyles = createGlobalStyle`
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
+    .ant-input-suffix{
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      }
 
     .ant-input:hover{
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;

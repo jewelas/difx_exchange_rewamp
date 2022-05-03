@@ -267,16 +267,12 @@ export const GridStyled = (themeType: string) => {
           color: '#D9D9D9',
           textMargin: 5,
           textSize: 10,
-          textFamily: 'Helvetica Neue',
-          textWeight: 'normal'
         },
         low: {
           show: true,
           color: '#D9D9D9',
           textMargin: 5,
           textSize: 10,
-          textFamily: 'Helvetica Neue',
-          textWeight: 'normal',
         },
         last: {
           show: true,
@@ -298,8 +294,6 @@ export const GridStyled = (themeType: string) => {
             paddingRight: 2,
             paddingBottom: 2,
             color: '#FFFFFF',
-            family: 'Helvetica Neue',
-            weight: 'normal',
             borderRadius: 2
           }
         }
@@ -327,8 +321,6 @@ export const GridStyled = (themeType: string) => {
         },
         text: {
           size: 12,
-          family: 'Helvetica Neue',
-          weight: 'normal',
           color: theme.fontColor.secondary,
           marginLeft: 8,
           marginTop: 6,
@@ -362,8 +354,6 @@ export const GridStyled = (themeType: string) => {
           show: false,
           color: '#ffffff',
           size: 12,
-          family: 'Helvetica Neue',
-          weight: 'normal',
           paddingLeft: 3,
           paddingTop: 2,
           paddingRight: 3,
@@ -381,8 +371,6 @@ export const GridStyled = (themeType: string) => {
         defaultValue: 'n/a',
         text: {
           size: 12,
-          family: 'Helvetica Neue',
-          weight: 'normal',
           color: '#D9D9D9',
           marginTop: 6,
           marginRight: 8,
@@ -402,8 +390,6 @@ export const GridStyled = (themeType: string) => {
       tickText: {
         show: true,
         color: theme.fontColor.primary,
-        family: 'Helvetica Neue',
-        weight: 'normal',
         size: 12,
         paddingTop: 3,
         paddingBottom: 6
@@ -431,8 +417,6 @@ export const GridStyled = (themeType: string) => {
       tickText: {
         show: true,
         color: theme.fontColor.primary,
-        family: 'Helvetica Neue',
-        weight: 'normal',
         size: 12,
         paddingLeft: 3,
         paddingRight: 6

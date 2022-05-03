@@ -20,5 +20,6 @@ export * from "./type/ResetPass";
 export * from "./type/Network";
 export * from "./type/Balance";
 export * from "./type/PlaceOrder";
+export * from "./type/Order";
 
 export * from "./atom";

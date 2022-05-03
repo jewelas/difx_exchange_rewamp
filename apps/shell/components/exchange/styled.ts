@@ -143,5 +143,22 @@ export const PlaceOrderWraperStyled = styled.div`
         }
       }
     }
+`;
 
+
+export const OrderReportsWraperStyled = styled.div`
+    padding: 10px 20px;
+    .content{
+      .place-order-group{
+        display: flex;
+        .bid{
+          margin-right: 10px;
+          flex-grow: 1;
+        }
+        .ask{
+          margin-left: 10px;
+          flex-grow: 1;
+        }
+      }
+    }
 `;

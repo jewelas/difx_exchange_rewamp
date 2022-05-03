@@ -8,6 +8,7 @@ import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
 import ChartWrapper from "../../components/exchange/ChartWrapper";
 import TradeInfoWrapper from "../../components/exchange/TradeInfoWrapper";
 import PlaceOrderWrapper from "../../components/exchange/PlaceOrderWrapper";
+import OrderReportsWrapper from "../../components/exchange/OrderReportsWrapper";
 import { getLayoutType } from "./LayoutType";
 import { PageStyled } from "./styled";
 import "/node_modules/react-grid-layout/css/styles.css";
@@ -46,23 +47,23 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           <div key="order-book">
             {pair && <OrderBookWrapper pair={pair as string} />}
           </div>
-          <div key="pair-info" className="temp">
+          <div key="pair-info" className="base">
             {pair && <PairMetaDataWrapper pair={pair as string} />}
           </div>
-          <div key="chart" className="temp">
+          <div key="chart" className="base">
             {pair && <ChartWrapper pair={pair as string} />}
           </div>
-          <div key="pair-search" className="temp">
+          <div key="pair-search" className="base">
             <ListPairWrapper />
           </div>
-          <div key="trade-info" className="temp">
+          <div key="trade-info" className="base">
             {pair && <TradeInfoWrapper pair={pair as string} />}
           </div>
-          <div key="place-order" className="temp">
-          {pair && <PlaceOrderWrapper pair={pair as string} />}
+          <div key="place-order" className="base">
+            {pair && <PlaceOrderWrapper pair={pair as string} />}
           </div>
-          <div key="report" className="temp">
-            Report
+          <div key="report" className="base">
+            {pair && <OrderReportsWrapper pair={pair as string} />}
           </div>
         </ResponsiveGridLayout>
       </PageStyled>

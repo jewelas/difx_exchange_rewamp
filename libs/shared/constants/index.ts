@@ -53,6 +53,7 @@ export const API_ENDPOINT = {
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: '/api/v1/pairs',
   GET_TRADES: (symbol: string) => `/api/v1/market/trades/${symbol}`,
+  GET_MY_TRADES: (symbol:string) => `/api/v1/user/trades/${symbol}`,
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
     return `/api/v1/tradingview-chart/history?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
@@ -69,6 +70,7 @@ export const API_ENDPOINT = {
   TWO_FACTOR: '/api/v1/auth/twofa-login',
   VERIFY_IP: '/api/v1/auth/verify-ip',
   REFRESH_TOKEN: '/api/v1/auth/refresh',
+  GET_ORDER_BOOK: '/api/v1/user/orderbook',
   PLACE_ORDER_LIMIT: '/api/v1/order/make-limit',
   PLACE_ORDER_MARKET: '/api/v1/order/make-market',
   PLACE_ORDER_STOP: '/api/v1/order/make-stop'

@@ -2,6 +2,8 @@ import { Form, Input, Slider, Button } from "antd";
 import clsx from "clsx";
 import DepositIcon from "./../Icon/DepositIcon";
 import t from "./../../../locale";
+import { Balance } from "./../../../shared/type/Balance";
+import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
 import {
   ComponentStyled
 } from "./styled";
@@ -12,10 +14,12 @@ export interface OrderFormProps {
   side?: OrderSideType,
   type?: OrderType,
   baseCurrency?: string,
-  quoteCurrency?: string
+  quoteCurrency?: string,
+  isLoggedIn?: boolean,
+  balance?: Balance
 }
 
-export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCurrency }: OrderFormProps) {
+export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance }: OrderFormProps) {
 
   const marks = {
     0: '0',
@@ -40,6 +44,12 @@ export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCur
     //   }
   };
 
+  const getButtonSubmitLabel = () => {
+    if (!isLoggedIn) return 'Log in or Sign up';
+    if (side === 'ask') return 'Sell';
+    if (side === 'bid') return 'Buy'
+  }
+
   return (
     <ComponentStyled>
       <Form
@@ -50,7 +60,7 @@ export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCur
       >
         <div className="balance">
           <div className="value">
-            {`Balance: 0.00 ${quoteCurrency}`}
+            {`Balance: ${getPriceFormatted(balance?.amount || 0, 2)} ${side==='bid' ? quoteCurrency : baseCurrency}`}
           </div>
           <div className="deposit">
             <DepositIcon useDarkMode />
@@ -58,47 +68,26 @@ export function OrderForm({ side = 'bid', type = 'limit', baseCurrency, quoteCur
         </div>
         <div className="content">
           <Form.Item
-            name={`${side}.price`}
-            rules={[
-              {
-                required: true,
-                message: t("error.input_email"),
-              }
-            ]}
-          >
-            <Input disabled={type==='market'} type="number" placeholder={type!=="market" ? "Price" : "Market Price"} suffix={quoteCurrency} />
+            name={`${side}.price`}>
+            <Input disabled={type === 'market'} type="number" placeholder={type !== "market" ? "Price" : "Market Price"} suffix={quoteCurrency} />
           </Form.Item>
           {
             ['limit', 'stop-limit'].includes(type)
             &&
             <Form.Item
-              name={`${side}.amount`}
-              rules={[
-                {
-                  required: true,
-                  message: t("error.input_email"),
-                }
-              ]}
-            >
-              <Input placeholder="Amount" suffix={baseCurrency} />
+              name={`${side}.amount`}>
+              <Input type="number" placeholder="Amount" suffix={baseCurrency} />
             </Form.Item>
           }
 
           <Form.Item
-            name={`${side}.total`}
-            rules={[
-              {
-                required: true,
-                message: t("error.input_email"),
-              }
-            ]}
-          >
-            <Input placeholder="Total" suffix={quoteCurrency} />
+            name={`${side}.total`}>
+            <Input type="number" placeholder="Total" suffix={quoteCurrency} />
           </Form.Item>
           <div className={clsx("slider-group", side)}>
             <Slider marks={marks} step={null} defaultValue={0} />
           </div>
-          <Button className={clsx(side === 'bid' && "success")} type='primary' danger={side === "ask"}>{side === "ask" ? "Sell" : "Buy"}</Button>
+          <Button className={clsx(side === 'bid' && "success")} type='primary' danger={side === "ask"}>{getButtonSubmitLabel()}</Button>
         </div>
 
       </Form>

@@ -36,6 +36,7 @@ export const QUERY_KEY = {
   TRADES: 'trades',
   CHART_HISTORY: 'chart_history',
   CHART_CURRENT: 'chart_current',
+  BALANCE: 'balance',
 }
 
 export const REFETCH = {
@@ -60,6 +61,7 @@ export const API_ENDPOINT = {
     const { from, to } = calcChartDateRange(resolution);
     return `/api/v1/tradingview-chart/current?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
   },
+  GET_BALANCE: '/api/v1/user/balance',
   SIGNIN: '/api/v1/auth/login',
   SIGNUP: '/api/v1/auth/sign-up',
   FORGOT: '/api/v1/password/forgot',

@@ -8,7 +8,7 @@ import OrderBuyIcon from "../Icon/OrderBuyIcon";
 import OrderBuySellIcon from "../Icon/OrderBuySellIcon";
 import OrderSellIcon from "../Icon/OrderSellIcon";
 import { Typography } from "../Typography";
-import { BidAskData, OnlyAskData, OnlyBidData } from "./OrderBookBody";
+import { OrderData, CurrentPrice } from "./OrderBookBody";
 import { ComponentStyled } from "./styled";
 import { PairType, priceSelectedAtom } from "./../../../shared";
 
@@ -35,7 +35,7 @@ export function OrderBook({
   const [sortType, setSortType] = useState<SortType>("all");
   const [numberFormat, setNumberFormat] = useState("0.01");
 
-  const [priceSelected, setPriceSelected] = useAtom(priceSelectedAtom);
+  const [, setPriceSelected] = useAtom(priceSelectedAtom);
 
   if (asks) {
     const maxValueOfAsks = Math.max(...asks.map((ask) => ask[1]), 0);
@@ -59,41 +59,53 @@ export function OrderBook({
     }
   }
 
-  const renderTableBody = (type: SortType, format: string) => {
+  const BidComponent = ({ maxRow = 12 }: { maxRow?: number }) => (
+    <OrderData
+      type="bid"
+      data={bids}
+      numberFormat={numberFormat}
+      onPriceSelected={setPriceSelected}
+      priceOpenOrders={[]}
+      maxRowData={maxRow}
+    />
+  )
+
+  const AskComponent = ({ maxRow = 12 }: { maxRow?: number }) => (
+    <OrderData
+      type="ask"
+      data={asks}
+      numberFormat={numberFormat}
+      onPriceSelected={setPriceSelected}
+      priceOpenOrders={[]}
+      maxRowData={maxRow}
+    />
+  )
+
+  const CurrentPriceComponent = () => (
+    <CurrentPrice
+      networkStatus={networkStatus}
+      priceTrend={priceTrend}
+      currentPrice={currentPrice}
+    />
+  )
+
+  const renderTableBody = (type: SortType) => {
     if (!asks || !bids) return null;
     if (type === "all")
       return (
-        <BidAskData
-          networkStatus={networkStatus}
-          priceTrend={priceTrend}
-          currentPrice={currentPrice}
-          bids={bids}
-          asks={asks}
-          numberFormat={numberFormat}
-          onPriceSelected={setPriceSelected}
-        />
+        <>
+          <AskComponent />
+          <CurrentPriceComponent />
+          <BidComponent />
+        </>
       );
     else if (type === "ask")
       return (
-        <OnlyAskData
-          networkStatus={networkStatus}
-          priceTrend={priceTrend}
-          currentPrice={currentPrice}
-          asks={asks}
-          numberFormat={numberFormat}
-          onPriceSelected={setPriceSelected}
-        />
+        <AskComponent maxRow={24} />
       );
     else if (type === "bid")
       return (
-        <OnlyBidData
-          networkStatus={networkStatus}
-          priceTrend={priceTrend}
-          currentPrice={currentPrice}
-          bids={bids}
-          numberFormat={numberFormat}
-          onPriceSelected={setPriceSelected}
-        />
+        <BidComponent maxRow={24} />
       );
     return null;
   };
@@ -157,7 +169,9 @@ export function OrderBook({
             <Typography level="text">Total</Typography>
           </div>
         </div>
-        {renderTableBody(sortType, numberFormat)}
+        <div className="table-body">
+          {renderTableBody(sortType)}
+        </div>
       </div>
     </ComponentStyled>
   );

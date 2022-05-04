@@ -23,6 +23,11 @@ export const BarStyled = styled.div<BarStyledProps>`
 export const ComponentStyled = styled.div`
   background: ${({ theme }) => theme.background.secondary};
   height: 100%;
+  .dot{
+    margin-left:-15px;
+    margin-right:-15px;
+    margin-top:-2px;
+  }
   .com-title {
     padding-top: 10px;
     padding-left: 20px;

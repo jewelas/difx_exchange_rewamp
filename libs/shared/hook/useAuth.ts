@@ -25,7 +25,6 @@ export function useAuth() {
         setIsLoggedIn(true);
         updateSessionToken(user.token)
         socket.updateAuth(user.token);
-        console.log('xxxxx')
     }else{   
         setIsLoggedIn(false);
         updateSessionToken(null)

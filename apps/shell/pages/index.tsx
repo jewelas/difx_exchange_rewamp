@@ -23,10 +23,6 @@ export function AppLayout({ children = <HomeComponent/>}: AppLayoutProps) {
       : { theme: dark }
   );
 
-  useEffect(()=>{
-    // console.log(localStorage?.getItem("currentUser"))
-  },[])
-
   const LayoutDispatcher = isLoggedIn ? PrivateLayout : GuestLayout
 
   return (

@@ -4,6 +4,7 @@ import { socket } from "./../api/index";
 
 export enum SocketEvent {
   orderbook_limited,
+  trades
 }
 export interface useSocketProps {
   event: SocketEvent;
@@ -24,13 +25,20 @@ export function useSocket({
 
   useEffect(() => {
     if (pair && isTurnOnReceiving) {
-      if (event === SocketEvent.orderbook_limited) {
-        if (leavePair) socket.send("leave", leavePair);
-        socket.send("join", pair);
-        socket.listen(SocketEvent[event], (data:any) => {
-          if (!isEqual(data, state)) setState(data);
-        });
+
+      // Sending
+      switch (event) {
+        case SocketEvent.orderbook_limited:
+          if (leavePair) socket.send("leave", leavePair);
+          socket.send("join", pair);
+          break;
       }
+
+      // Receiving
+      socket.listen(SocketEvent[event], (data: any) => {
+        setState(data);
+      });
+
     } else {
       socket.off();
     }

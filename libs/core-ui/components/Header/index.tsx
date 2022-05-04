@@ -96,7 +96,11 @@ export function Header(props: HeaderProps) {
               >
                 {t("header.markets")}
               </Menu.Item>
-              <Menu.Item className="left-nav" key="/trade">
+              <Menu.Item 
+                className="left-nav"
+                key="/trade"
+                onClick={() => onNavigation("/exchange")}
+              >
                 {t("header.trade")}
               </Menu.Item>
               <Menu.Item className="left-nav" key="/earn">

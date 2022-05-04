@@ -21,13 +21,13 @@ import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { FormStyled } from "../../pages/register/styled";
-import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps {}
 
 export function RegisterFormComponent(props: RegisterFormComponentProps) {
-  const { data: countryCode } = useHttpGet<null, string>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
+  const { data: countryCode } = useHttpGet<null, object>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
   const setCurrentUser = useUpdateAtom(currentUserAtom);
 
@@ -46,7 +46,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
 
   useEffect(() => {
     if (countryCode) {
-      const code = countryCode.split(";")[1];
+      const code: string = countryCode["isocode"]
       /* eslint-disable-next-line */
       const countryInfo: any = getCountryInfo(code);
       if (countryInfo) {

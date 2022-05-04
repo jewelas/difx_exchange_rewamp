@@ -16,6 +16,7 @@ export interface OrderBookProps {
   priceTrend: string;
   currentPrice: number;
   networkStatus?: NetworkStatusType;
+  onPriceSelected?: (price:number) => void
 }
 
 const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -24,7 +25,8 @@ function renderData(
   max_row: number,
   type: "bid" | "ask",
   data: Array<Array<number>> | undefined,
-  numberFormat: string
+  numberFormat: string,
+  onPriceSelected?: (price:number) => void
 ) {
   const result = [];
 
@@ -33,7 +35,7 @@ function renderData(
     const row = data[i];
     if (row) {
       result.push(
-        <div key={`${type}_${row[0]}_${i}`} className="table-row">
+        <div onClick={()=>{onPriceSelected && onPriceSelected(row[0])}} key={`${type}_${row[0]}_${i}`} className="table-row">
           <BarStyled className={type} width={row[2].toString()} />
           <Typography level="B3" className="price">
             {formatNumber(row[0], numberFormat)}
@@ -80,6 +82,7 @@ export function BidAskData({
   numberFormat = "0.01",
   currentPrice,
   priceTrend,
+  onPriceSelected
 }: OrderBookProps) {
   const MAX_ROW = 12;
 
@@ -90,13 +93,13 @@ export function BidAskData({
   return (
     <div className="table-body">
       <div className="ask">
-        {renderData(MAX_ROW, "ask", asks, numberFormat)}
+        {renderData(MAX_ROW, "ask", asks, numberFormat, onPriceSelected)}
       </div>
 
       {renderCurrentPrice(currentPrice, priceTrend, networkStatus)}
 
       <div className="bid">
-        {renderData(MAX_ROW, "bid", bids, numberFormat)}
+        {renderData(MAX_ROW, "bid", bids, numberFormat, onPriceSelected)}
       </div>
     </div>
   );
@@ -108,6 +111,7 @@ export function OnlyBidData({
   numberFormat = "0.01",
   currentPrice,
   priceTrend,
+  onPriceSelected
 }: OrderBookProps) {
   const MAX_ROW = 24;
 
@@ -119,7 +123,7 @@ export function OnlyBidData({
     <div className="table-body">
       {renderCurrentPrice(currentPrice, priceTrend, networkStatus)}
       <div className="bid">
-        {renderData(MAX_ROW, "bid", bids, numberFormat)}
+        {renderData(MAX_ROW, "bid", bids, numberFormat, onPriceSelected)}
       </div>
     </div>
   );
@@ -131,6 +135,7 @@ export function OnlyAskData({
   numberFormat = "0.01",
   currentPrice,
   priceTrend,
+  onPriceSelected
 }: OrderBookProps) {
   const MAX_ROW = 24;
 
@@ -141,7 +146,7 @@ export function OnlyAskData({
   return (
     <div className="table-body">
       <div className="ask">
-        {renderData(MAX_ROW, "ask", asks, numberFormat)}
+        {renderData(MAX_ROW, "ask", asks, numberFormat, onPriceSelected)}
       </div>
       {renderCurrentPrice(currentPrice, priceTrend, networkStatus)}
     </div>

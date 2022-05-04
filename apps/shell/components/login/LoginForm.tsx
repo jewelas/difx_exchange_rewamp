@@ -19,14 +19,14 @@ import { useUpdateAtom } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 // import { showNotification } from "./../../utils/pageUtils";
 
 /* eslint-disable-next-line */
 export interface LoginFormProps {}
 
 export function LoginForm(props: LoginFormProps) {
-  const { data: countryCode } = useHttpGet<null, string>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
+  const { data: countryCode } = useHttpGet<null, object>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
   const setCurrentUser = useUpdateAtom(currentUserAtom);
 
@@ -41,7 +41,7 @@ export function LoginForm(props: LoginFormProps) {
 
   useEffect(() => {
     if (countryCode) {
-      const code = countryCode.split(";")[1];
+      const code: string = countryCode["isocode"]
       /* eslint-disable-next-line */
       const countryInfo: any = getCountryInfo(code);
       if (countryInfo) {
@@ -224,7 +224,7 @@ export function LoginForm(props: LoginFormProps) {
           <PasswordField onChange={onChangePass} />
         </Form.Item>
         <Button
-          disabled={isLoading || hasFieldError || !isValidPass || !dialCode}
+          disabled={isLoading || hasFieldError || !isValidPass || (type === 'phone' && !dialCode)}
           htmlType="submit"
           className="sign-in-btn"
           type="primary"

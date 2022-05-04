@@ -74,5 +74,8 @@ export const API_ENDPOINT = {
   GET_ORDER_STOP_LIMIT: '/api/v1/user/stoplimits',
   PLACE_ORDER_LIMIT: '/api/v1/order/make-limit',
   PLACE_ORDER_MARKET: '/api/v1/order/make-market',
-  PLACE_ORDER_STOP: '/api/v1/order/make-stop'
+  PLACE_ORDER_STOP: '/api/v1/order/make-stop',
+  CANCEL_BID_ORDER: '/api/v1/order/cancel-bid',
+  CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
+  CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop'
 }

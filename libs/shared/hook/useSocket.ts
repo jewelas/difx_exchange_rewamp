@@ -5,7 +5,9 @@ export enum SocketEvent {
   orderbook_limited,
   trades,
   user_orders,
-  user_balances
+  user_stoplimits,
+  user_balances,
+  off
 }
 export interface useSocketProps {
   event: SocketEvent;
@@ -34,16 +36,19 @@ export function useSocket({
           socket.send("join", pair);
           break;
       }
+    }
 
-      // Receiving
+    // Receiving
+    if(event !== SocketEvent.off){
       socket.listen(SocketEvent[event], (data: any) => {
         setState(data);
       });
-
     } else {
       socket.off();
     }
-  }, [pair, isTurnOnReceiving]);
+
+
+  }, [pair, event, isTurnOnReceiving]);
 
   // Only get websocket data when user focus on browser
   useEffect(() => {

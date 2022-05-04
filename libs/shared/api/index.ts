@@ -35,9 +35,12 @@ export const socket = {
     else socketInstance.off();
   },
   updateAuth: (token: string) =>{
-    socketInstance.auth = {token};
-    socketInstance.disconnect();
-    socketInstance.connect();
+    const currentAuth:any = socketInstance.auth;
+    if(currentAuth.token !== token){
+      socketInstance.auth = {token};
+      socketInstance.disconnect();
+      socketInstance.connect();
+    }
   },
   disconnect: () => {
     socketInstance.disconnect();

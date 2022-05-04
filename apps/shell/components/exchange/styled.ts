@@ -160,5 +160,14 @@ export const OrderReportsWraperStyled = styled.div`
           flex-grow: 1;
         }
       }
+      .cell{
+        svg{
+          cursor: pointer;
+          opacity: 0.7;
+          &:hover{
+            opacity: 1;
+          }
+        }
+      }
     }
 `;

@@ -39,7 +39,7 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
 
   const placeOrderSuccess = (response: AxiosResponse<PlaceOrderResponse>) => {
     const { data } = response;
-    showNotification('success', 'Success', `Order created successfully, id: ${data.order_id}`)
+    showNotification('success', 'Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
   }
   const placeOrderError = (error: AxiosError) => {
     // Todo...

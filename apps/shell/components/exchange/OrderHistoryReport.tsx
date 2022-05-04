@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import isEmpty from "lodash/isEmpty";
 import { API_ENDPOINT } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
 import { Order, useAuth, useHttpGetByEvent } from "@difx/shared";
@@ -26,7 +27,7 @@ export function OrderHistoryReport({pair}:{pair:string}) {
       }
     }
   }
-  const { mutate: getOrderBooks } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
 
   useEffect(() => {
     getOrderBooks(headers);
@@ -128,6 +129,8 @@ export function OrderHistoryReport({pair}:{pair:string}) {
       }
     }
   ];
+
+  if (isEmpty(tableData) && isDataLoading) return <Loading />
 
   return (
     <Table

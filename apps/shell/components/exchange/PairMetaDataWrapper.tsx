@@ -6,14 +6,14 @@ import {
   useHttpGet, useLocalStorage, useSocket,
   useSocketProps
 } from "@difx/shared";
-import sortBy from "lodash/sortBy";
-import { useMemo } from "react";
 import {
   getAveragePrice,
   getPriceFormatted,
   getPricePercentChange,
   getTrendPrice
 } from "@difx/utils";
+import sortBy from "lodash/sortBy";
+import { useMemo } from "react";
 import { PairMetadataStyled } from "./styled";
 
 /* eslint-disable-next-line */
@@ -68,9 +68,8 @@ export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
 
         const highPrice = pairInfo.high.toFixed(pairInfo.group_precision);
         const lowPrice = pairInfo.low.toFixed(pairInfo.group_precision);
-        let changed = getPricePercentChange(pairInfo.last, pairInfo.open);
+        const changed = getPricePercentChange(pairInfo.last, pairInfo.open);
 
-        if(isNaN(changed)) changed = 0;
         PairMetaDataWrapper.previousPrice = newPrice;
         return {
           currentPrice: newPrice,

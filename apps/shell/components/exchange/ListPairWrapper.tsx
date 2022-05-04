@@ -120,13 +120,12 @@ export function ListPairWrapper() {
     const result = [];
 
     for (const pair of pairs) {
-      let percentPriceChange = getPricePercentChange(pair.last, pair.open);
+      const percentPriceChange = getPricePercentChange(pair.last, pair.open);
       const trend: 'up' | 'down' = percentPriceChange < 0 ? 'down' : 'up';
 
       const searchValueUpper = searchValue.toUpperCase();
       const isVisible = !searchValueUpper || pair.currency1.includes(searchValueUpper) || pair.currency2.includes(searchValueUpper);
       if (isVisible) {
-        if(isNaN(percentPriceChange)) percentPriceChange = 0;
         result.push(
           {
             key: pair.symbol,

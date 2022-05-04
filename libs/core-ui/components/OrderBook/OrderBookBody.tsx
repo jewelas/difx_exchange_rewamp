@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Spin } from "antd";
 import clsx from "clsx";
-import { formatNumber } from "../../utils/formatter";
-import DotIcon from "../Icon/DotIcon";
-import WifiIcon from "../Icon/WifiIcon";
+import { formatNumber } from "./../../utils/formatter";
+import DotIcon from "./../Icon/DotIcon";
+import WifiIcon from "./../Icon/WifiIcon";
 import { Typography } from "../Typography";
 import { NetworkStatusType } from "./../../../shared/type/Network";
 import Loading from "./../Loading";
@@ -14,7 +15,7 @@ export interface OrderBookBodyProps {
   currentPrice?: number;
   networkStatus?: NetworkStatusType;
   onPriceSelected?: (price: number) => void;
-  priceOpenOrders?: Array<number>;
+  priceOpenOrders?: Array<any>;
 
   maxRowData?: number;
   type?: 'bid' | 'ask';
@@ -31,6 +32,8 @@ function renderData(
 ) {
   const result = [];
 
+  console.log(priceOpenOrders)
+
   if (!data) return [];
   for (let i = 0; i < max_row; i++) {
     const row = data[i];
@@ -39,7 +42,7 @@ function renderData(
         <div onClick={() => { onPriceSelected && onPriceSelected(row[0]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
           <BarStyled className={type} width={row[2].toString()} />
           {
-            priceOpenOrders.includes(row[0]) &&
+            priceOpenOrders.find((e:any)=>e.side === type && e.price === row[0]) &&
             <div className={clsx("dot", type)}>
               <DotIcon fill={type === 'ask' ? '#DB5354' : '#21C198'} />
             </div>
@@ -92,9 +95,10 @@ export function OrderData({
     return <Spin className="loading" indicator={<Loading />} />;
   }
 
+  if(!type || !onPriceSelected) return null;
   return (
     <div className={type}>
-      {renderData(maxRowData, type, data, numberFormat, onPriceSelected, priceOpenOrders)}
+      {renderData(maxRowData, type, data, numberFormat, onPriceSelected, priceOpenOrders || [])}
     </div>
   );
 }

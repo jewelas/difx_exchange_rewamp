@@ -37,6 +37,7 @@ export const QUERY_KEY = {
   CHART_HISTORY: 'chart_history',
   CHART_CURRENT: 'chart_current',
   BALANCE: 'balance',
+  OPEN_ORDERS: 'open_orders'
 }
 
 export const REFETCH = {

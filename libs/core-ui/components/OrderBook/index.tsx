@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Select } from "antd";
 import clsx from "clsx";
 import { useState } from "react";
@@ -21,6 +22,7 @@ export interface OrderBookProps {
   priceTrend: string;
   currentPrice: number;
   networkStatus?: NetworkStatusType;
+  priceOpenOrders?: Array<any>;
 }
 
 export function OrderBook({
@@ -30,6 +32,7 @@ export function OrderBook({
   bids,
   asks,
   networkStatus,
+  priceOpenOrders
 }: OrderBookProps) {
   const { Option } = Select;
   const [sortType, setSortType] = useState<SortType>("all");
@@ -65,7 +68,7 @@ export function OrderBook({
       data={bids}
       numberFormat={numberFormat}
       onPriceSelected={setPriceSelected}
-      priceOpenOrders={[]}
+      priceOpenOrders={priceOpenOrders}
       maxRowData={maxRow}
     />
   )
@@ -76,7 +79,7 @@ export function OrderBook({
       data={asks}
       numberFormat={numberFormat}
       onPriceSelected={setPriceSelected}
-      priceOpenOrders={[]}
+      priceOpenOrders={priceOpenOrders}
       maxRowData={maxRow}
     />
   )

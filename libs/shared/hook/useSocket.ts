@@ -44,7 +44,6 @@ export function useSocket({
       socket.off();
     }
 
-
   }, [pair, event]);
 
   return state;

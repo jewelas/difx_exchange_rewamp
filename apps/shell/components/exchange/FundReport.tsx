@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT } from "@difx/constants";
-import { Loading, Typography } from "@difx/core-ui";
-import { Balance, Order, useAuth, useHttpGetByEvent } from "@difx/shared";
-import { getCurrentDateTimeByDateString } from "@difx/utils";
+import { Typography } from "@difx/core-ui";
+import { Balance, useAuth, useHttpGetByEvent } from "@difx/shared";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
-import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
 export function FundReport() {
@@ -18,7 +16,7 @@ export function FundReport() {
 
   const getDataSuccess = (response: AxiosResponse<Array<Balance>>) => {
     const { data } = response;
-    if (data) {
+    if (data && tableData) {
       for (const order of data) {
         if (!tableData.find(e => e.currency === order.currency)) {
           tableData.push(order);
@@ -65,8 +63,6 @@ export function FundReport() {
       }
     }
   ];
-
-  if(isEmpty(tableData)) return <Loading/>
 
   return (
     <Table

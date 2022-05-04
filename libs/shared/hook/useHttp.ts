@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { useQuery, useMutation } from "react-query";
-import { axiosInstance as instance } from "./../api/index";
+import { axiosInstance as instance } from "../api/index";
 import { notification } from 'antd';
 
 /**
@@ -23,14 +23,16 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
         ... options
     }
 
-    // instance.interceptors.request.use(function (config : AxiosRequestConfig) {
-    //     const token = localStorage?.getItem('sessionToken');
-    //     // @ts-ignore
-    //     config.headers["x-access-key"] =  token ? token : "";
-    //     // @ts-ignore
-    //     config.headers["x-api-key"]=  "DIFXExchange";
-    //     return config;
-    // })
+    instance.interceptors.request.use(function (config : AxiosRequestConfig) {
+        const token = localStorage?.getItem('sessionToken');
+        // @ts-ignore
+        config.headers["x-access-token"] =  token ? token : "";
+        // @ts-ignore
+        // config.headers["x-api-key"]=  "DIFXExchange";
+        // // @ts-ignore
+        // config.headers["Device"]=  "web";
+        return config;
+    })
 
     const query = useQuery<Response, AxiosError>(
         queryKey,
@@ -51,19 +53,20 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
 interface EventProps<Response> {
     onSuccess?: (response: AxiosResponse<Response>) => void;
     onError?: (error: AxiosError) => void;
-    endpoint: string,
-    headers?: any
+    endpoint: string
 }
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
-    // instance.interceptors.request.use(function (config: AxiosRequestConfig) {
-    //     const token = localStorage?.getItem('sessionToken');
-    //     // @ts-ignore
-    //     config.headers["x-access-key"] =  token ? token : "";
-    //     // @ts-ignore
-    //     config.headers["x-api-key"] =  "DIFXExchange";
-    //     return config;
-    // })
+    instance.interceptors.request.use(function (config: AxiosRequestConfig) {
+        const token = localStorage?.getItem('sessionToken');
+        // @ts-ignore
+        config.headers["x-access-token"] =  token ? token : "";
+        // @ts-ignore
+        // config.headers["x-api-key"] =  "DIFXExchange";
+        // // @ts-ignore
+        // config.headers["Device"]=  "web";
+        return config;
+    })
 
     const mutation = useMutation(
         (request: Request) => {
@@ -81,22 +84,23 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
     return mutation;
 }
 
-export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint, headers }: EventProps<Response>) {
-    // instance.interceptors.request.use(function (config: AxiosRequestConfig) {
-    //     const token = localStorage?.getItem('sessionToken');
-    //     // @ts-ignore
-    //     config.headers["x-access-key"] =  token ? token : "";
-    //     // @ts-ignore
-    //     config.headers["x-api-key"]=  "DIFXExchange";
-    //     return config;
-    // })
+export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
+    instance.interceptors.request.use(function (config: AxiosRequestConfig) {
+        const token = localStorage?.getItem('sessionToken');
+        // @ts-ignore
+        config.headers["x-access-token"] =  token ? token : "";
+        // @ts-ignore
+        // config.headers["x-api-key"]=  "DIFXExchange";
+        // // @ts-ignore
+        // config.headers["Device"]=  "web";
+        return config;
+    })
 
     const mutation = useMutation(
-        (request: Request | any) => {
+        (request: Request) => {
             return instance.post<Request, AxiosResponse<Response>>(
-                request.endpoint ? request.endpoint : endpoint,
-                request,
-                headers
+                endpoint,
+                request
             );
         },
         {
@@ -104,11 +108,29 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint, h
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                console.log(error.response)
-                notification.open({
-                    message: error.response?.data.statusCode,
-                    description:error.response?.data.statusText,
-                });
+                let { response } = error
+                // @ts-ignore
+                let { statusCode } =  response.data
+                switch (statusCode) {
+                    case 410:
+                        notification.info({
+                            message: "Verify IP",
+                            description: response?.data.message,
+                        });
+                        break
+                    case 411:
+                        notification.info({
+                            message: "Verify 2FA Code",
+                            description: response?.data.message,
+                        });
+                        break
+                    default: 
+                        notification.error({
+                            message: "Oops",
+                            description: response?.data.message,
+                        });
+                        break
+                }
                 onError && onError(error as AxiosError);
             },
         }

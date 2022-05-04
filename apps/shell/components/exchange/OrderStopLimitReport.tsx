@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT } from "@difx/constants";
-import { Loading, Typography } from "@difx/core-ui";
+import { Typography } from "@difx/core-ui";
 import { Order, useAuth, useHttpGetByEvent } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
-import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
 export function OrderStopLimitReport() {
@@ -129,8 +128,6 @@ export function OrderStopLimitReport() {
       }
     }
   ];
-
-  if(isEmpty(tableData)) return <Loading/>
 
   return (
     <Table

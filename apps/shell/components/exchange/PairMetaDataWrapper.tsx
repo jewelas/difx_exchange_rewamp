@@ -68,8 +68,9 @@ export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
 
         const highPrice = pairInfo.high.toFixed(pairInfo.group_precision);
         const lowPrice = pairInfo.low.toFixed(pairInfo.group_precision);
-        const changed = getPricePercentChange(pairInfo.last, pairInfo.open);
+        let changed = getPricePercentChange(pairInfo.last, pairInfo.open);
 
+        if(isNaN(changed)) changed = 0;
         PairMetaDataWrapper.previousPrice = newPrice;
         return {
           currentPrice: newPrice,

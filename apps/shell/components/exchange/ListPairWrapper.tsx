@@ -1,12 +1,12 @@
 import { SearchOutlined } from '@ant-design/icons';
+import { API_ENDPOINT, QUERY_KEY, REFETCH, STORE_KEY } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { getPriceFormatted, getPricePercentChange } from "@difx/utils";
 import {
   PairType, useHttpGet, useLocalStorage
 } from "@difx/shared";
+import { getPriceFormatted, getPricePercentChange } from "@difx/utils";
 import { Input, Table } from "antd";
 import { useMemo, useRef, useState } from 'react';
-import { API_ENDPOINT, REFETCH, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { TableWraperStyled } from "./styled";
 
 export function ListPairWrapper() {
@@ -104,7 +104,7 @@ export function ListPairWrapper() {
             level="B3"
             color={record.trend === 'up' ? 'success' : 'danger'}
           >
-            {typeChange === 'percent' ? record.change : record.volume}
+            {typeChange === 'percent' ? record.change  : record.volume}
           </Typography>
           </div>
         )
@@ -120,12 +120,13 @@ export function ListPairWrapper() {
     const result = [];
 
     for (const pair of pairs) {
-      const percentPriceChange = getPricePercentChange(pair.last, pair.open);
+      let percentPriceChange = getPricePercentChange(pair.last, pair.open);
       const trend: 'up' | 'down' = percentPriceChange < 0 ? 'down' : 'up';
 
       const searchValueUpper = searchValue.toUpperCase();
       const isVisible = !searchValueUpper || pair.currency1.includes(searchValueUpper) || pair.currency2.includes(searchValueUpper);
       if (isVisible) {
+        if(isNaN(percentPriceChange)) percentPriceChange = 0;
         result.push(
           {
             key: pair.symbol,

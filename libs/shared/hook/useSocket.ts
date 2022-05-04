@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import isEqual from "lodash/isEqual";
 import { socket } from "./../api/index";
 
 export enum SocketEvent {
   orderbook_limited,
-  trades
+  trades,
+  user_orders,
+  user_balances
 }
 export interface useSocketProps {
   event: SocketEvent;

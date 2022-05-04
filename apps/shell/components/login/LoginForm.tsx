@@ -103,14 +103,7 @@ export function LoginForm(props: LoginFormProps) {
       }
   };
 
-  const onError = useCallback((error: AxiosError) => {
-    const { response } = error;
-    const { statusText } = response.data;
-
-    // showNotification("error", "Login failed", statusText);
-  }, []);
-
-  const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
+  const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, endpoint: API_ENDPOINT.SIGNIN });
 
   const onSubmit = async (formData: SignInRequest) => {
     formData.usertype = isCorporate ? "BUS" : "IND";

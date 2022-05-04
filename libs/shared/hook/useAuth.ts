@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { useUpdateAtom, useAtomValue} from "jotai/utils";
-import { currentUserAtom, isLoggedInAtom, sessionToken } from "../atom/index";
+import { currentUserAtom, isLoggedInAtom, sessionToken } from "./../atom/index";
+import { socket } from "./../api";
 import { User } from "..";
 
 export function useAuth() {
@@ -23,6 +24,7 @@ export function useAuth() {
     if (user){
         setIsLoggedIn(true);
         updateSessionToken(user.token)
+        socket.updateAuth(user.token);
     }else{   
         setIsLoggedIn(false);
         updateSessionToken(null)

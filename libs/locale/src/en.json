@@ -4,7 +4,8 @@
     "register": "Register",
     "verify": "Verify",
     "submit": "Submit",
-    "have_acc": "Already have an account?"
+    "have_acc": "Already have an account?",
+    "search": "Search"
   },
   "header": {
     "profile": "Profile",
@@ -74,5 +75,14 @@
     "should_contain_number": "Should contain number",
     "should_not_contain_space": "Should not contain space",
     "re_input_pass": "Please re-enter your password!"
+  },
+  "market": {
+    "market": "Market",
+    "marketDown": "In the pass 24 hours Market is down",
+    "top_gainer": "Top Gainer",
+    "top_looser": "Top Looser",
+    "top_volume": "Top Volume",
+    "new_listing": "New Listing",
+    "futures": "Futures"
   }
 }

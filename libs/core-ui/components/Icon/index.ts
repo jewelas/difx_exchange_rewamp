@@ -31,6 +31,7 @@ import WifiIcon from "./WifiIcon";
 import FavoriteIcon from "./FavoriteIcon";
 import QuestionIcon from "./QuestionIcon";
 import SearchIcon from "./SearchIcon";
+import CoinPlaceholder from "./CoinPlaceholder";
 
 export interface IconProps {
   width?: number;
@@ -74,7 +75,8 @@ const Icon = {
   WifiIcon,
   FavoriteIcon,
   QuestionIcon,
-  SearchIcon
+  SearchIcon,
+  CoinPlaceholder
 };
 
 export { Icon };

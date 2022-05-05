@@ -144,6 +144,13 @@ const GlobalStyles = createGlobalStyle`
       border: none !important;
     }
 
+    .ant-typography.ant-typography-success {
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
+    }
+    .ant-typography.ant-typography-danger {
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+    }
+
     .ant-select-dropdown{
         background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
         .ant-select-item-option-active:not(.ant-select-item-option-disabled){

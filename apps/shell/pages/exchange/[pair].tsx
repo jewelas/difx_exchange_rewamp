@@ -19,9 +19,9 @@ export interface ExchangePageProps {
   isStaticWidgets?: boolean;
 }
 
-export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
-  const ResponsiveGridLayout = WidthProvider(Responsive);
+export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
 
   const router = useRouter();
   const { pair } = router.query;

@@ -2,10 +2,7 @@ import styled from "styled-components";
 import { ThemeInterface } from "themes";
 import { Color } from "../Color";
 
-interface BarStyledProps {
-  width?: string;
-}
-export const BarStyled = styled.div<BarStyledProps>`
+export const BarStyled = styled.div`
   z-index: 1;
   position: absolute;
   right: 0;
@@ -16,7 +13,6 @@ export const BarStyled = styled.div<BarStyledProps>`
   &.bid {
     background: rgba(33, 193, 152, 0.2);
   }
-  width: ${(p) => `${p.width}%` || 0};
   margin-top: -5px;
 `;
 

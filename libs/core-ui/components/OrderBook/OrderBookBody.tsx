@@ -38,7 +38,7 @@ function renderData(
     if (row) {
       result.push(
         <div onClick={() => { onPriceSelected && onPriceSelected(row[0]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
-          <BarStyled className={type} width={row[2].toString()} />
+          <BarStyled className={type} style={{width: `${row[2].toString()}%` }} />
           {
             priceOpenOrders.find((e:any)=>e.side === type && e.price === row[0]) &&
             <div className={clsx("dot", type)}>

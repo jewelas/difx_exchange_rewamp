@@ -135,12 +135,8 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     validateForm();
   }
 
-  const onPriceChange = (e:any) =>{
-    // const re = /^[0-9\b]+$/;
+  const onReplaceComma = (e:any) =>{
     e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
-    // if (e.target.value === '' || re.test(e.target.value)) {
-      // form.setFieldsValue({ [`${side}.price`]: e.target.value })
-    // }
  }
 
   return (
@@ -166,7 +162,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
             &&
             <Form.Item
               name={`${side}.stop`}>
-              <Input type="number" onWheel={preventScroll} placeholder="Trigger Price" suffix={quoteCurrency} />
+              <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Trigger Price" suffix={quoteCurrency} />
             </Form.Item>
           }
 
@@ -175,12 +171,12 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
               ?
               <Form.Item
                 name={`${side}.marketPrice`}>
-                <Input disabled={type === 'market'} type="number" onWheel={preventScroll} placeholder={"Market Price"} suffix={quoteCurrency} />
+                <Input disabled={type === 'market'} onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Market Price"} suffix={quoteCurrency} />
               </Form.Item>
               :
               <Form.Item
                 name={`${side}.price`}>
-                <Input onInput={onPriceChange} type="text" onWheel={preventScroll} placeholder={"Price"} suffix={quoteCurrency} />
+                <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Price"} suffix={quoteCurrency} />
               </Form.Item>
           }
 
@@ -189,13 +185,13 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
             &&
             <Form.Item
               name={`${side}.amount`}>
-              <Input type="number" onWheel={preventScroll} placeholder="Amount" suffix={baseCurrency} />
+              <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Amount" suffix={baseCurrency} />
             </Form.Item>
           }
 
           <Form.Item
             name={`${side}.total`}>
-            <Input type="number" onWheel={preventScroll} placeholder="Total" suffix={quoteCurrency} />
+            <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Total" suffix={quoteCurrency} />
           </Form.Item>
           <div className={clsx("slider-group", side)}>
             <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />

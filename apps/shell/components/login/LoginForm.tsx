@@ -9,6 +9,7 @@ import t from "@difx/locale";
 import {
   SignInRequest,
   SignInResponse,
+  CaptchaType,
   useAuth,
   useHttpGet,
   useHttpPost,
@@ -19,11 +20,11 @@ import { AxiosError, AxiosResponse } from "axios";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
 import { ExtraAuth } from "@difx/shared";
 import { useAtom } from "jotai";
-
+import { useRecaptcha } from "@difx/shared"
 
 /* eslint-disable-next-line */
 export interface LoginFormProps {}
@@ -31,10 +32,11 @@ export interface LoginFormProps {}
 export function LoginForm(props: LoginFormProps) {
   const { data: countryCode } = useHttpGet<null, object>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
-  // const setCurrentUser = useUpdateAtom(currentUserAtom);
   const { updateSession } = useAuth();
   const [config] = useAtom(configAtom)
 
+  const [ getCaptcha ] = useRecaptcha()
+ 
   const [type, setType] = useState<"email" | "phone">("email");
   const [isCorporate, setIsCorporate] = useState(false);
   const [dialCode, setDialCode] = useState(null);
@@ -126,10 +128,12 @@ export function LoginForm(props: LoginFormProps) {
 
   const onSubmit = async (formData: SignInRequest) => {
 
+    const captcha = await getCaptcha(config.captcha)
+
     /* eslint-disable */
-    formData.captcha = "shdvhsjvfdfdf",
+    formData.captcha = captcha,
     formData.captcha_type = config.captcha,
-    formData.device_token = "DSfdsgfdsgfdgfdgf",
+    formData.device_token = "sdasdasd",
     formData.device = "web";
     /* eslint-enable */
 
@@ -154,6 +158,11 @@ export function LoginForm(props: LoginFormProps) {
       onFieldsChange={onFormChange}
       autoComplete="off"
     >
+      {/* <ReCAPTCHA
+        ref={recaptchaRef}
+        size="invisible"
+        sitekey={process.env.NX_GOOGLE_CAPTCHA_ID}
+      /> */}
       <div className="left-right">
         <div className="left">
           <div

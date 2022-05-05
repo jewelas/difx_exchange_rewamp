@@ -23,7 +23,7 @@ export function ChartWrapper({ pair }: { pair: string }) {
 
   useEffect(() => {
     getChartHistory(null);
-  }, [resolution, getChartHistory]);
+  }, [resolution, pair]);
 
   return (
     <ChartWraperStyled>
@@ -47,7 +47,7 @@ export function ChartWrapper({ pair }: { pair: string }) {
           tab === 'info'
           &&
           <div>
-            Todo... Waiting backend complete
+            Todo... Waiting for backend complete
           </div>
         }
       </div>

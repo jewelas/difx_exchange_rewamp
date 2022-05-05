@@ -156,7 +156,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
             &&
             <Form.Item
               name={`${side}.stop`}>
-              <Input type="number" placeholder="Trigger Price" suffix={quoteCurrency} />
+              <Input type="number" onWheel={(e:any) => {e.target.blur()}} placeholder="Trigger Price" suffix={quoteCurrency} />
             </Form.Item>
           }
 
@@ -165,12 +165,12 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
               ?
               <Form.Item
                 name={`${side}.marketPrice`}>
-                <Input disabled={type === 'market'} type="number" placeholder={"Market Price"} suffix={quoteCurrency} />
+                <Input disabled={type === 'market'} type="number" onWheel={(e:any) => {e.target.blur()}} placeholder={"Market Price"} suffix={quoteCurrency} />
               </Form.Item>
               :
               <Form.Item
                 name={`${side}.price`}>
-                <Input type="number" placeholder={"Price"} suffix={quoteCurrency} />
+                <Input type="number" onWheel={(e:any) => {e.target.blur()}} placeholder={"Price"} suffix={quoteCurrency} />
               </Form.Item>
           }
 
@@ -179,13 +179,13 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
             &&
             <Form.Item
               name={`${side}.amount`}>
-              <Input type="number" placeholder="Amount" suffix={baseCurrency} />
+              <Input type="number" onWheel={(e:any) => {e.target.blur()}} placeholder="Amount" suffix={baseCurrency} />
             </Form.Item>
           }
 
           <Form.Item
             name={`${side}.total`}>
-            <Input type="number" placeholder="Total" suffix={quoteCurrency} />
+            <Input type="number" onWheel={(e:any) => {e.target.blur()}} placeholder="Total" suffix={quoteCurrency} />
           </Form.Item>
           <div className={clsx("slider-group", side)}>
             <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />

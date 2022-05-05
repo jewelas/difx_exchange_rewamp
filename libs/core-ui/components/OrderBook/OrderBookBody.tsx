@@ -32,8 +32,6 @@ function renderData(
 ) {
   const result = [];
 
-  console.log(priceOpenOrders)
-
   if (!data) return [];
   for (let i = 0; i < max_row; i++) {
     const row = data[i];

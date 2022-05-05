@@ -54,7 +54,31 @@ const Template: Story = (args) => {
     FavoriteIcon,
     QuestionIcon,
     SearchIcon,
-    CoinPlaceholder
+    CoinPlaceholder,
+    SwitchIcon,
+    CandleSolidIcon,
+    CandleStrokeIcon,
+    CandleUpStrokeIcon,
+    CandleDownStrokeIcon,
+    BarIcon,
+    AreaIcon,
+    IndicatorIcon,
+    FullScreenIcon,
+    ChartInd2SlashIcon,
+    ChartInd3SlashIcon,
+    ChartIndFibIcon,
+    ChartIndHLine1Icon,
+    ChartIndHLine2Icon,
+    ChartIndHLine3Icon,
+    ChartIndPriceLineIcon,
+    ChartIndSlash1Icon,
+    ChartIndSlash2Icon,
+    ChartIndSlash3Icon,
+    ChartIndVLine1Icon,
+    ChartIndVLine2Icon,
+    ChartIndVLine3Icon,
+    TrashIcon,
+    DepositIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -128,6 +152,30 @@ const Template: Story = (args) => {
         {renderIcon("QuestionIcon", <QuestionIcon {...iconArgs} />)}
         {renderIcon("SearchIcon", <SearchIcon {...iconArgs} />)}
         {renderIcon("CoinPlaceholder", <CoinPlaceholder {...iconArgs} />)}
+        {renderIcon("SwitchIcon", <SwitchIcon {...iconArgs} />)}
+        {renderIcon("CandleSolidIcon", <CandleSolidIcon {...iconArgs} />)}
+        {renderIcon("CandleStrokeIcon", <CandleStrokeIcon {...iconArgs} />)}
+        {renderIcon("CandleUpStrokeIcon", <CandleUpStrokeIcon {...iconArgs} />)}
+        {renderIcon("CandleDownStrokeIcon", <CandleDownStrokeIcon {...iconArgs} />)}
+        {renderIcon("BarIcon", <BarIcon {...iconArgs} />)}
+        {renderIcon("AreaIcon", <AreaIcon {...iconArgs} />)}
+        {renderIcon("IndicatorIcon", <IndicatorIcon {...iconArgs} />)}
+        {renderIcon("FullScreenIcon", <FullScreenIcon {...iconArgs} />)}
+        {renderIcon("ChartIndSlash3Icon", <ChartIndSlash3Icon {...iconArgs} />)}
+        {renderIcon("ChartIndSlash2Icon", <ChartIndSlash2Icon {...iconArgs} />)}
+        {renderIcon("ChartIndSlash1Icon", <ChartIndSlash1Icon {...iconArgs} />)}
+        {renderIcon("ChartIndPriceLineIcon", <ChartIndPriceLineIcon {...iconArgs} />)}
+        {renderIcon("ChartIndHLine3Icon", <ChartIndHLine3Icon {...iconArgs} />)}
+        {renderIcon("ChartIndHLine2Icon", <ChartIndHLine2Icon {...iconArgs} />)}
+        {renderIcon("ChartIndHLine1Icon", <ChartIndHLine1Icon {...iconArgs} />)}
+        {renderIcon("ChartIndFibIcon", <ChartIndFibIcon {...iconArgs} />)}
+        {renderIcon("ChartInd3SlashIcon", <ChartInd3SlashIcon {...iconArgs} />)}
+        {renderIcon("ChartInd2SlashIcon", <ChartInd2SlashIcon {...iconArgs} />)}
+        {renderIcon("TrashIcon", <TrashIcon {...iconArgs} />)}
+        {renderIcon("ChartIndVLine3Icon", <ChartIndVLine3Icon {...iconArgs} />)}
+        {renderIcon("ChartIndVLine2Icon", <ChartIndVLine2Icon {...iconArgs} />)}
+        {renderIcon("ChartIndVLine1Icon", <ChartIndVLine1Icon {...iconArgs} />)}
+        {renderIcon("DepositIcon", <DepositIcon {...iconArgs} />)}
       </div>
     </div>
   );

@@ -77,7 +77,7 @@ export const StyledLine = styled.div`
 `;
 
 export const StyledHeader = styled(Layout.Header)`
-  z-index: 9999;
+  /* z-index: 9999; */
   padding: unset !important;
   height: 70px !important;
   line-height: 70px !important;

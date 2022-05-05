@@ -1,26 +1,24 @@
-import { OrderBook, Loading } from "@difx/core-ui";
-import { useMemo } from "react";
-import { useRouter } from "next/router";
-import sortBy from "lodash/sortBy";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
+import { Loading, OrderBook } from "@difx/core-ui";
+import { getAveragePrice, getTrendPrice } from "@difx/utils";
 import {
-  useHttpGet,
+  PairType,
+  SocketEvent, useHttpGet,
   useNetwork,
   useSocket,
-  useSocketProps,
-  PairType,
-  SocketEvent,
+  useSocketProps
 } from "@difx/shared";
-import { getAveragePrice, getTrendPrice } from "./../../utils/priceUtils";
-import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
+import sortBy from "lodash/sortBy";
+import { useMemo } from "react";
 
 /* eslint-disable-next-line */
-export interface OrderBookWrapperProps { }
+export interface OrderBookWrapperProps {
+  pair: string;
+}
 
-export function OrderBookWrapper(props: OrderBookWrapperProps) {
+export function OrderBookWrapper({pair}: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
-  const router = useRouter();
-  const { pair } = router.query;
 
   let pairInfo = null;
   if (pairs) {

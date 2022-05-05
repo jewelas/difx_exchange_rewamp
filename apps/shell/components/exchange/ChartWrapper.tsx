@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from "@difx/constants";
 import { Chart, ChartDataType } from "@difx/core-ui";
 import { useHttpGet, useHttpGetByEvent } from "@difx/shared";

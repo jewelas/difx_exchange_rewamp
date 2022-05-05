@@ -135,6 +135,14 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     validateForm();
   }
 
+  const onPriceChange = (e:any) =>{
+    // const re = /^[0-9\b]+$/;
+    e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+    // if (e.target.value === '' || re.test(e.target.value)) {
+      // form.setFieldsValue({ [`${side}.price`]: e.target.value })
+    // }
+ }
+
   return (
     <ComponentStyled>
       <Form
@@ -172,7 +180,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
               :
               <Form.Item
                 name={`${side}.price`}>
-                <Input type="number" onWheel={preventScroll} placeholder={"Price"} suffix={quoteCurrency} />
+                <Input onInput={onPriceChange} type="text" onWheel={preventScroll} placeholder={"Price"} suffix={quoteCurrency} />
               </Form.Item>
           }
 

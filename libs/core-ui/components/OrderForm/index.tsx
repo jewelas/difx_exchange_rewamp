@@ -47,7 +47,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
   }, [priceSelected]);
 
   useEffect(() => {
-    if (pairInfo) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
+    if (pairInfo && type==='market') form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
   }, [pairInfo]);
 
   const onSubmit = (formData: PlaceOrderRequest) => {
@@ -119,6 +119,8 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     if (side === 'bid') return 'Buy'
   }
 
+  const preventScroll = (e:any)=> {e.target.blur()};
+
   const onSliderChange = (value: number) => {
     if (balance) {
       const currentPrice = pairInfo?.last || priceSelected;
@@ -156,7 +158,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
             &&
             <Form.Item
               name={`${side}.stop`}>
-              <Input type="number" onWheel={(e:any) => {e.target.blur()}} placeholder="Trigger Price" suffix={quoteCurrency} />
+              <Input type="number" onWheel={preventScroll} placeholder="Trigger Price" suffix={quoteCurrency} />
             </Form.Item>
           }
 
@@ -165,12 +167,12 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
               ?
               <Form.Item
                 name={`${side}.marketPrice`}>
-                <Input disabled={type === 'market'} type="number" onWheel={(e:any) => {e.target.blur()}} placeholder={"Market Price"} suffix={quoteCurrency} />
+                <Input disabled={type === 'market'} type="number" onWheel={preventScroll} placeholder={"Market Price"} suffix={quoteCurrency} />
               </Form.Item>
               :
               <Form.Item
                 name={`${side}.price`}>
-                <Input type="number" onWheel={(e:any) => {e.target.blur()}} placeholder={"Price"} suffix={quoteCurrency} />
+                <Input type="number" onWheel={preventScroll} placeholder={"Price"} suffix={quoteCurrency} />
               </Form.Item>
           }
 
@@ -179,13 +181,13 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
             &&
             <Form.Item
               name={`${side}.amount`}>
-              <Input type="number" onWheel={(e:any) => {e.target.blur()}} placeholder="Amount" suffix={baseCurrency} />
+              <Input type="number" onWheel={preventScroll} placeholder="Amount" suffix={baseCurrency} />
             </Form.Item>
           }
 
           <Form.Item
             name={`${side}.total`}>
-            <Input type="number" onWheel={(e:any) => {e.target.blur()}} placeholder="Total" suffix={quoteCurrency} />
+            <Input type="number" onWheel={preventScroll} placeholder="Total" suffix={quoteCurrency} />
           </Form.Item>
           <div className={clsx("slider-group", side)}>
             <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />

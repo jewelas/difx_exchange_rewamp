@@ -36,13 +36,13 @@ export function useSocket({
     }
 
     // Receiving
-    if(event !== SocketEvent.off){
+    if (event !== SocketEvent.off) {
       socket.listen(SocketEvent[event], (data: any) => {
         setState(data);
       });
-    } else {
-      socket.off();
     }
+
+    return () => { socket.off(SocketEvent[event]) }
 
   }, [pair, event]);
 

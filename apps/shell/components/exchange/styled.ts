@@ -80,6 +80,7 @@ export const TableWraperStyled = styled.div`
           svg{
             cursor: pointer;
             margin-right: 8px;
+            margin-left:3px;
             path{
               fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important; 
             }
@@ -101,6 +102,12 @@ export const TableWraperStyled = styled.div`
           /* margin-left:-10px; */
           svg{
             margin-right: 5px;
+          }
+        }
+        .ant-table-body{
+          tr:hover{
+            cursor: pointer;
+            background: ${({ theme }:{theme:ThemeInterface}) => theme.color.rowHover};
           }
         }
       }

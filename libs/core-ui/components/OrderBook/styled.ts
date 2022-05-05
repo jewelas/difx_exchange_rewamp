@@ -88,7 +88,7 @@ export const ComponentStyled = styled.div`
         padding-right: 15px;
         &:hover{
           cursor: pointer;
-          background: ${({ theme }:{theme:ThemeInterface}) => theme.color.rowHover};;
+          background: ${({ theme }:{theme:ThemeInterface}) => theme.color.rowHover};
         }
         .ant-typography {
           z-index: 2;

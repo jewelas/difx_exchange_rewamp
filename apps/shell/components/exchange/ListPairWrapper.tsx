@@ -1,4 +1,5 @@
 import { SearchOutlined } from '@ant-design/icons';
+import { useRouter } from "next/router";
 import { API_ENDPOINT, QUERY_KEY, REFETCH, STORE_KEY } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
@@ -15,6 +16,8 @@ export function ListPairWrapper() {
   const [tab, setTab] = useState<'favorite' | 'all'>('all');
   const [searchValue, setSearchValue] = useState("");
   const [typeChange, setTypeChange] = useState<'percent' | 'volume'>('percent')
+
+  const router = useRouter();
 
   const componentRef = useRef(null);
 
@@ -166,6 +169,11 @@ export function ListPairWrapper() {
             pagination={false}
             columns={columns}
             dataSource={tab === 'all' ? allDataPairs : favoriteDataPairs}
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: () => {router.push(`/exchange/${record.key}`)}
+              };
+            }}
           />
         </div>
       </div>

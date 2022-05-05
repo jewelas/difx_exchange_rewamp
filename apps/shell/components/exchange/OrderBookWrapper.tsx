@@ -44,13 +44,13 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
 
   let openOrder = [];
   if (openOrderData) openOrder = openOrder.concat(openOrderData.map(e => {
-    if(e) return {id: e.id, side: e.s===0 ? 'bid' : 'ask', price: e.p}
+    if (e) return { id: e.id, side: e.s === 0 ? 'bid' : 'ask', price: e.p }
   }));
-  if(openOrderSocketData){
-    if(openOrderSocketData.q !== 0){
-      openOrder.push({id: openOrderSocketData.id, side: openOrderSocketData.s===0 ? 'bid' : 'ask', price: openOrderSocketData.p});
-    }else{
-      openOrder = openOrder.filter(e=>e.id !== openOrderSocketData.id)
+  if (openOrderSocketData) {
+    if (openOrderSocketData.q !== 0) {
+      openOrder.push({ id: openOrderSocketData.id, side: openOrderSocketData.s === 0 ? 'bid' : 'ask', price: openOrderSocketData.p });
+    } else {
+      openOrder = openOrder.filter(e => e.id !== openOrderSocketData.id)
     }
   }
 
@@ -62,7 +62,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
       const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
       const newPrice = getAveragePrice(
         reverseAsks[reverseAsks.length - 1][0],
-        _bids[0][0],
+        (_bids && _bids[0]) ? _bids[0][0] : 0,
         pairInfo.group_precision
       );
       const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);

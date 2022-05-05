@@ -44,26 +44,26 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           cols={{ lg: 24, md: 24, sm: 24, xs: 1, xxs: 1 }}
           onResizeStop={handleGridResize}
         >
+          <div key="report" className="base">
+            {pair && <OrderReportsWrapper pair={pair as string} />}
+          </div>
           <div key="order-book">
             {pair && <OrderBookWrapper pair={pair as string} />}
           </div>
           <div key="pair-info" className="base">
             {pair && <PairMetaDataWrapper pair={pair as string} />}
           </div>
+          <div key="place-order" className="base">
+            {pair && <PlaceOrderWrapper pair={pair as string} />}
+          </div>
           <div key="chart" className="base">
             {pair && <ChartWrapper pair={pair as string} />}
-          </div>
-          <div key="pair-search" className="base">
-            <ListPairWrapper />
           </div>
           <div key="trade-info" className="base">
             {pair && <TradeInfoWrapper pair={pair as string} />}
           </div>
-          <div key="place-order" className="base">
-            {pair && <PlaceOrderWrapper pair={pair as string} />}
-          </div>
-          <div key="report" className="base">
-            {pair && <OrderReportsWrapper pair={pair as string} />}
+          <div key="pair-search" className="base">
+            <ListPairWrapper />
           </div>
         </ResponsiveGridLayout>
       </PageStyled>

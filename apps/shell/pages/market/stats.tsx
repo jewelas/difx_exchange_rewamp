@@ -4,7 +4,7 @@ import Text from "antd/lib/typography/Text";
 import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
 
-const { LogoIcon } = Icon;
+const { LogoIcon, CoinPlaceholder } = Icon;
 
 export function Stats() {
   return (
@@ -13,7 +13,7 @@ export function Stats() {
             <Card title={t("market.top_gainer")} bordered={false}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} />
+                        <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src="https://joeschmoe.io/api/v1/random"/>
                         <Text>BTC</Text>
                     </Col>
                     <Col>
@@ -25,7 +25,7 @@ export function Stats() {
                 </Row>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>BTC</Text>
                     </Col>
                     <Col>
@@ -37,7 +37,7 @@ export function Stats() {
                 </Row>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>BTC</Text>
                     </Col>
                     <Col>
@@ -53,7 +53,7 @@ export function Stats() {
             <Card title={t("market.top_looser")} bordered={false}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>LINK</Text>
                     </Col>
                     <Col>
@@ -65,7 +65,7 @@ export function Stats() {
                 </Row>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>LINK</Text>
                     </Col>
                     <Col>
@@ -77,7 +77,7 @@ export function Stats() {
                 </Row>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>LINK</Text>
                     </Col>
                     <Col>
@@ -93,7 +93,7 @@ export function Stats() {
             <Card title={t("market.top_volume")} bordered={false}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>BTC</Text>
                     </Col>
                     <Col>
@@ -105,7 +105,7 @@ export function Stats() {
                 </Row>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>BTC</Text>
                     </Col>
                     <Col>
@@ -117,7 +117,7 @@ export function Stats() {
                 </Row>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>BTC</Text>
                     </Col>
                     <Col>
@@ -133,7 +133,7 @@ export function Stats() {
             <Card title={t("market.futures")} bordered={false}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>BTC</Text>
                     </Col>
                     <Col>
@@ -145,7 +145,7 @@ export function Stats() {
                 </Row>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>BTC</Text>
                     </Col>
                     <Col>
@@ -157,7 +157,7 @@ export function Stats() {
                 </Row>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <Avatar icon={<LogoIcon width={20} height={20} />} size={34} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
                         <Text>BTC</Text>
                     </Col>
                     <Col>

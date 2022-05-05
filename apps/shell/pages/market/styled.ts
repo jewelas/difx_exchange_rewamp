@@ -33,5 +33,29 @@ const MarketCard = styled.div`
     }
     }
 `;
+const MarketTabsWrapper = styled.div`
+    background: ${({theme}) => theme.background.white};
+    margin-bottom: 3px;
+    border-radius: 2px;
+    padding: 0px 30px;
+    .ant-tabs-top{
+        margin-bottom: -3px;
+    }
+    .ant-tabs-top>.ant-tabs-nav{
+        margin: 0px;
+    }
+    .ant-tabs-top>.ant-tabs-nav .ant-tabs-ink-bar{
+        height: 3px;
+    }
+`
+const MarketWrapper = styled.div`
+    margin-top: 15px;
+`
+const MarketContentWrapper = styled.div`
+    background: ${({theme}) => theme.background.white};
+    border-radius: 2px;   
+`
+const MarketGridLayout = styled.div`
+`
 
-export {MarketCard, MarketContentStyled, PageStyled}
+export {MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout}

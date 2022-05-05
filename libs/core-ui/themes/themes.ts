@@ -33,6 +33,8 @@ export interface ThemeInterface extends Theme {
     primary: string;
     secondary: string;
     body: string,
+    white: string,
+    star: string
   };
   fontColor: {
     primary: string;
@@ -111,7 +113,7 @@ export const light: ThemeInterface = {
     disabled: "#f5f5f5",
     selected: "var(--ant-primary-1)",
     InputPlaceholder: "#8C8C8C",
-    rowHover: "rgba(0,0,0,0.1)" 
+    rowHover: "rgba(0,0,0,0.1)"
   },
   scrollbar: {
     bar: "#999",
@@ -124,6 +126,8 @@ export const light: ThemeInterface = {
     primary: "#F8FAFD",
     secondary: "#FFFFFF",
     body: "#F3F6FB",
+    white: "#FFFFFF",
+    star: "#FFC107"
   },
   fontColor: {
     primary: "#454552",
@@ -212,6 +216,8 @@ export const dark: ThemeInterface = {
     primary: "#161F30",
     secondary: "#0D1421",
     body: "#161F30",
+    white: "#FFFFFF",
+    star: "#FFC107"
   },
   fontColor: {
     primary: "#FFFFFF",

@@ -1,4 +1,4 @@
-const calcChartDateRange = (type) => {
+const calcChartDateRange = (type:any) => {
   const to = Math.floor(new Date().getTime() / 1000);
 
   const date = new Date();

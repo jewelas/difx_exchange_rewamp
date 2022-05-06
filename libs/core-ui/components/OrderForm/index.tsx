@@ -47,7 +47,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
   }, [priceSelected]);
 
   useEffect(() => {
-    if (pairInfo) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
+    if (pairInfo && type==='market') form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
   }, [pairInfo]);
 
   const onSubmit = (formData: PlaceOrderRequest) => {
@@ -119,6 +119,8 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     if (side === 'bid') return 'Buy'
   }
 
+  const preventScroll = (e:any)=> {e.target.blur()};
+
   const onSliderChange = (value: number) => {
     if (balance) {
       const currentPrice = pairInfo?.last || priceSelected;
@@ -132,6 +134,10 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     setSliderValue(value);
     validateForm();
   }
+
+  const onReplaceComma = (e:any) =>{
+    e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+ }
 
   return (
     <ComponentStyled>
@@ -156,7 +162,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
             &&
             <Form.Item
               name={`${side}.stop`}>
-              <Input type="number" placeholder="Trigger Price" suffix={quoteCurrency} />
+              <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Trigger Price" suffix={quoteCurrency} />
             </Form.Item>
           }
 
@@ -165,12 +171,12 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
               ?
               <Form.Item
                 name={`${side}.marketPrice`}>
-                <Input disabled={type === 'market'} type="number" placeholder={"Market Price"} suffix={quoteCurrency} />
+                <Input disabled={type === 'market'} onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Market Price"} suffix={quoteCurrency} />
               </Form.Item>
               :
               <Form.Item
                 name={`${side}.price`}>
-                <Input type="number" placeholder={"Price"} suffix={quoteCurrency} />
+                <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Price"} suffix={quoteCurrency} />
               </Form.Item>
           }
 
@@ -179,13 +185,13 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
             &&
             <Form.Item
               name={`${side}.amount`}>
-              <Input type="number" placeholder="Amount" suffix={baseCurrency} />
+              <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Amount" suffix={baseCurrency} />
             </Form.Item>
           }
 
           <Form.Item
             name={`${side}.total`}>
-            <Input type="number" placeholder="Total" suffix={quoteCurrency} />
+            <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Total" suffix={quoteCurrency} />
           </Form.Item>
           <div className={clsx("slider-group", side)}>
             <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />

@@ -17,12 +17,13 @@ export const MainStyled = styled.div`
     text-align: center;
   }
   .shape-group{
+    position: absolute;
     background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
     width: 40px;
-    height: 100%;
+    margin-top: 50px;
+    overflow: hidden;
+    height: calc(100% - 20px);
     z-index: 9;
-    margin-top:35px;
-    margin-right:5px;
     display:flex;
     flex-direction: column;
     justify-content: center;

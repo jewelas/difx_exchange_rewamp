@@ -54,6 +54,7 @@ import ChartIndVLine2Icon from "./ChartIndVLine2Icon";
 import ChartIndVLine3Icon from "./ChartIndVLine3Icon";
 import TrashIcon from "./TrashIcon";
 import DepositIcon from "./DepositIcon";
+import DotIcon from "./DotIcon";
 export interface IconProps {
   width?: number;
   height?: number;
@@ -122,7 +123,8 @@ const Icon = {
   ChartIndVLine2Icon,
   ChartIndVLine3Icon,
   TrashIcon,
-  DepositIcon
+  DepositIcon,
+  DotIcon
 };
 
 export { Icon };

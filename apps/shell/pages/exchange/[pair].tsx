@@ -2,14 +2,14 @@ import { useRouter } from "next/router";
 import React from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import AppLayout from "..";
-import ListPairWrapper from "../../components/exchange/ListPairWrapper";
-import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
-import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
+import ListPairWrapper from "./../../components/exchange/ListPairWrapper";
+import OrderBookWrapper from "./../../components/exchange/OrderBookWrapper";
+import PairMetaDataWrapper from "./../../components/exchange/PairMetaDataWrapper";
 import ChartWrapper from "../../components/exchange/ChartWrapper";
 import TradeInfoWrapper from "../../components/exchange/TradeInfoWrapper";
 import PlaceOrderWrapper from "../../components/exchange/PlaceOrderWrapper";
 import OrderReportsWrapper from "../../components/exchange/OrderReportsWrapper";
-import { getLayoutType } from "./LayoutType";
+import { getLayoutType, breakpoints } from "./LayoutType";
 import { PageStyled } from "./styled";
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
@@ -19,9 +19,9 @@ export interface ExchangePageProps {
   isStaticWidgets?: boolean;
 }
 
-export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
-  const ResponsiveGridLayout = WidthProvider(Responsive);
+export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
 
   const router = useRouter();
   const { pair } = router.query;
@@ -40,7 +40,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           rowHeight={70}
           className="layout"
           layouts={layouts}
-          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+          breakpoints={breakpoints}
           cols={{ lg: 24, md: 24, sm: 24, xs: 1, xxs: 1 }}
           onResizeStop={handleGridResize}
         >

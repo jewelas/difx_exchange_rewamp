@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from "@difx/constants";
 import { Chart, ChartDataType } from "@difx/core-ui";
 import { useHttpGet, useHttpGetByEvent } from "@difx/shared";
@@ -23,7 +24,7 @@ export function ChartWrapper({ pair }: { pair: string }) {
 
   useEffect(() => {
     getChartHistory(null);
-  }, [resolution, getChartHistory]);
+  }, [resolution, pair]);
 
   return (
     <ChartWraperStyled>
@@ -47,7 +48,7 @@ export function ChartWrapper({ pair }: { pair: string }) {
           tab === 'info'
           &&
           <div>
-            Todo... Waiting backend complete
+            Todo... Waiting for backend complete
           </div>
         }
       </div>

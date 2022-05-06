@@ -9,7 +9,7 @@ import { useMemo, useRef } from 'react';
 import { TableWraperStyled } from "./styled";
 
 export function TradeInfoWrapper({ pair }: { pair: string }) {
-  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: REFETCH._10SECS });
+  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
   const componentRef = useRef(null);
 

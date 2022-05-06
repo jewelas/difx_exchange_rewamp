@@ -1,30 +1,30 @@
 import { useEffect, useState } from "react";
-import isEqual from "lodash/isEqual";
 import { socket } from "./../api/index";
 
 export enum SocketEvent {
   orderbook_limited,
-  trades
+  trades,
+  user_orders,
+  user_stoplimits,
+  user_balances,
+  off
 }
 export interface useSocketProps {
   event: SocketEvent;
   leavePair?: string;
   pair?: string;
-  refetchOnWindowFocus?: boolean;
 }
 
 export function useSocket({
   leavePair,
   event,
   pair,
-  refetchOnWindowFocus = true,
 }: useSocketProps) {
   const [state, setState] = useState(null);
 
-  const [isTurnOnReceiving, setIsTurnOnReceiving] = useState(true);
 
   useEffect(() => {
-    if (pair && isTurnOnReceiving) {
+    if (pair) {
 
       // Sending
       switch (event) {
@@ -33,38 +33,18 @@ export function useSocket({
           socket.send("join", pair);
           break;
       }
+    }
 
-      // Receiving
+    // Receiving
+    if (event !== SocketEvent.off) {
       socket.listen(SocketEvent[event], (data: any) => {
         setState(data);
       });
-
-    } else {
-      socket.off();
     }
-  }, [pair, isTurnOnReceiving]);
 
-  // Only get websocket data when user focus on browser
-  useEffect(() => {
-    const onFocus = () => {
-      setIsTurnOnReceiving(true);
-    };
+    return () => { socket.off(SocketEvent[event]) }
 
-    const onBlur = () => {
-      socket.off();
-      setIsTurnOnReceiving(false);
-    };
-    if (refetchOnWindowFocus) {
-      window.addEventListener("focus", onFocus);
-      window.addEventListener("blur", onBlur);
-    }
-    return () => {
-      if (refetchOnWindowFocus) {
-        window.removeEventListener("focus", onFocus);
-        window.removeEventListener("blur", onBlur);
-      }
-    };
-  }, []);
+  }, [pair, event]);
 
   return state;
 }

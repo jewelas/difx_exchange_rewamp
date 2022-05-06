@@ -238,27 +238,10 @@ function Chart({ history, current, onChangeResolution, type = 'basic' }: ChartPr
   )
 
   return (
-    <MainStyled style={type==='basic'?{marginLeft:-30}:{}} ref={mainGroupRef}>
+    <MainStyled ref={mainGroupRef}>
       <div className='background'>
         <BackgroundIcon/>
       </div>
-      {
-        <div style={type==='basic'?{visibility:'hidden'}:{}} className='shape-group'>
-          {
-            SHAPE_TYPES.map((e,i) =>
-              e.key !== 'clear'
-                ?
-                <div key={`shape_${e.key}_${i}`} onClick={() => { lineChart?.createShape(e.key) }}>
-                  {e.icon}
-                </div>
-                :
-                <div key={`shape_${e.key}`} onClick={() => { lineChart?.removeShape() }}>
-                  {e.icon}
-                </div>
-            )
-          }
-        </div>
-      }
       <div style={{ flexGrow: 1 }}>
         <div ref={chartContainerRef} className="k-line-chart-container">
           <div className='menubar'>
@@ -290,6 +273,23 @@ function Chart({ history, current, onChangeResolution, type = 'basic' }: ChartPr
               </div>
             </div>
           </div>
+          {
+        <div style={type==='basic'?{display:'none'}:{}} className='shape-group'>
+          {
+            SHAPE_TYPES.map((e,i) =>
+              e.key !== 'clear'
+                ?
+                <div key={`shape_${e.key}_${i}`} onClick={() => { lineChart?.createShape(e.key) }}>
+                  {e.icon}
+                </div>
+                :
+                <div key={`shape_${e.key}`} onClick={() => { lineChart?.removeShape() }}>
+                  {e.icon}
+                </div>
+            )
+          }
+        </div>
+      }
           <div id="k-line-chart" ref={chartRef} className="k-line-chart" />
         </div>
       </div>

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT } from "@difx/constants";
-import { Typography } from "@difx/core-ui";
+import { Typography, Loading } from "@difx/core-ui";
+import isEmpty from "lodash/isEmpty";
 import { Balance, useAuth, useHttpGetByEvent } from "@difx/shared";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -25,7 +26,7 @@ export function FundReport() {
       }
     }
   }
-  const { mutate: getData } = useHttpGetByEvent<any, Array<Balance>>({ onSuccess: getDataSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
+  const { mutate: getData, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Balance>>({ onSuccess: getDataSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
   useEffect(() => {
     getData(headers);
@@ -63,6 +64,8 @@ export function FundReport() {
       }
     }
   ];
+
+  if (isEmpty(tableData) && isDataLoading) return <Loading />
 
   return (
     <Table

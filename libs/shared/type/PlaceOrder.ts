@@ -10,4 +10,5 @@ export interface PlaceOrderRequest extends BaseRequest {
 
 export interface PlaceOrderResponse extends BaseResponse {
   order_id: string;
+  stop_id: string
 }

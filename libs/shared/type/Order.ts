@@ -8,4 +8,9 @@ export interface Order {
   symbol: string;
   tfee: number;
   timestamp: string;
+
+  amount: number;
+  limit: number;
+  stop: number;
+  usetokens: true
 }

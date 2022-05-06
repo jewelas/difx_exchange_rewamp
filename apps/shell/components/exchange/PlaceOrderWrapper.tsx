@@ -1,13 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
-import { Loading, OrderForm, OrderType, OrderSideType } from "@difx/core-ui";
-import { Balance, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, useAuth, useHttpGet, useHttpGetByEvent, useHttpPost } from "@difx/shared";
+import { Loading, OrderForm, OrderSideType, OrderType } from "@difx/core-ui";
+import { useSocketProps, useSocket, SocketEvent,  Balance, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, useAuth, useHttpGet, useHttpGetByEvent, useHttpPost } from "@difx/shared";
 import { Tabs } from "antd";
-import { showNotification } from "./../../utils/pageUtils";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { useAtom } from "jotai";
 import React, { useEffect, useMemo, useState } from 'react';
+import { showNotification } from "./../../utils/pageUtils";
 import { PlaceOrderWraperStyled } from "./styled";
 
 export function PlaceOrderWrapper({ pair }: { pair: string }) {
@@ -19,6 +20,21 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
   const [priceSelected,] = useAtom(priceSelectedAtom);
 
   const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
+
+  const param: useSocketProps = {
+    event: SocketEvent.user_balances,
+  };
+  const balanceData = useSocket(param);
+
+  useEffect(() => {
+    if (balanceData) {
+      const index = balances.findIndex(e=>e.currency === balanceData.currency);
+      if(index!==-1){
+        balances[index].amount += balanceData.change;
+        setBalances(balances);
+      }
+    }
+  }, [balanceData]);
 
   const pairInfo: PairType = useMemo(() => {
     if (pairs)
@@ -39,12 +55,10 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
 
   const placeOrderSuccess = (response: AxiosResponse<PlaceOrderResponse>) => {
     const { data } = response;
-    showNotification('success', 'Success', `Order created successfully, id: ${data.order_id}`)
+    showNotification('success', 'Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
   }
-  const placeOrderError = (error: AxiosError) => {
-    // Todo...
-  }
-  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, onError: placeOrderError, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT, headers });
+
+  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT, headers });
 
   useEffect(() => {
     getBalances(headers)
@@ -73,10 +87,7 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
       placeOrder({ ...data, endpoint: API_ENDPOINT.PLACE_ORDER_STOP });
     }
 
-    // Update balance
-    setTimeout(()=>{
-      getBalances(headers);
-    },3000)
+    ////xxxxx
   }
 
   const PlaceOrder = (orderType: OrderType) => {

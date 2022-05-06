@@ -56,8 +56,9 @@ import ChartIndVLine2Icon from "./ChartIndVLine2Icon";
 import ChartIndVLine3Icon from "./ChartIndVLine3Icon";
 import TrashIcon from "./TrashIcon";
 import DepositIcon from "./DepositIcon";
-import ListViewIcon from "./ListViewIcon"
-import CardViewIcon from "./CardViewIcon"
+import ListViewIcon from "./ListViewIcon";
+import CardViewIcon from "./CardViewIcon";
+import DotIcon from "./DotIcon";
 export interface IconProps {
   width?: number;
   height?: number;
@@ -130,7 +131,8 @@ const Icon = {
   TrashIcon,
   DepositIcon,
   ListViewIcon,
-  CardViewIcon
+  CardViewIcon,
+  DotIcon
 };
 
 export { Icon };

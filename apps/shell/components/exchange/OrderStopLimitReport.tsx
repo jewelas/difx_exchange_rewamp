@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT } from "@difx/constants";
-import { Typography } from "@difx/core-ui";
-import { Order, useAuth, useHttpGetByEvent } from "@difx/shared";
+import { Icon, Loading, Typography } from "@difx/core-ui";
+import { BaseResponse, Order, useAuth, SocketEvent, useSocket, useSocketProps, useHttpGetByEvent, useHttpPost } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
+import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
 export function OrderStopLimitReport() {
@@ -15,18 +17,50 @@ export function OrderStopLimitReport() {
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
+  const param: useSocketProps = {
+    event: SocketEvent.user_stoplimits,
+  };
+  const userOrdersData = useSocket(param);
+
+  useEffect(() => {
+    if (userOrdersData) {
+      const index = tableData.findIndex(e => e.id === userOrdersData.id)
+      if (index !== -1) {
+        if (userOrdersData.amount === 0) {
+          tableData.splice(index, 1);
+        }
+      } else {
+        userOrdersData.timestamp = new Date();
+        tableData.push(userOrdersData);
+      }
+      setTableData([...tableData]);
+    }
+  }, [userOrdersData]);
+
   const getOrderBookSuccess = (response: AxiosResponse<Array<Order>>) => {
     const { data } = response;
     if (data) {
       for (const order of data) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
-          setTableData(tableData);
+          setTableData([...tableData]);
         }
       }
+    } else {
+      setTableData([]);
     }
   }
-  const { mutate: getOrderBooks } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT });
+
+  const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
+    const { data } = response;
+    if (data) {
+      getOrderBooks(headers);
+    }
+  }
+
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT });
+  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_STOP_LIMIT_ORDER, headers }); // TODO: handle headers in interceptor in useHttp
+
 
   useEffect(() => {
     getOrderBooks(headers);
@@ -79,10 +113,10 @@ export function OrderStopLimitReport() {
       }
     },
     {
-      title: 'Price',
-      dataIndex: 'p',
+      title: 'Limit',
+      dataIndex: 'limit',
       sorter: {
-        compare: (a, b) => a.p - b.p,
+        compare: (a, b) => a.limit - b.limit,
         multiple: 4,
       },
       render: (text) => {
@@ -94,11 +128,26 @@ export function OrderStopLimitReport() {
       }
     },
     {
-      title: 'Size',
-      dataIndex: 'q',
+      title: 'Stop',
+      dataIndex: 'stop',
       sorter: {
-        compare: (a, b) => a.q - b.q,
-        multiple: 4,
+        compare: (a, b) => a.stop - b.stop,
+        multiple: 5,
+      },
+      render: (text) => {
+        return (
+          <div className='cell'>
+            <Typography level="B3">{text}</Typography>
+          </div>
+        )
+      }
+    },
+    {
+      title: 'Size',
+      dataIndex: 'amount',
+      sorter: {
+        compare: (a, b) => a.amount - b.amount,
+        multiple: 6,
       },
       render: (text) => {
         return (
@@ -126,8 +175,25 @@ export function OrderStopLimitReport() {
           </div>
         )
       }
+    },
+    {
+      title: '',
+      dataIndex: '',
+      render: (text, record) => {
+        return (
+          <div
+            onClick={() => {
+              if (!isLoading) cancelOrder({ id: record.id })
+            }}
+            className="cell">
+            <Icon.TrashIcon useDarkMode width={20} height={20} />
+          </div>
+        )
+      }
     }
   ];
+
+  if (isEmpty(tableData) && isDataLoading) return <Loading />
 
   return (
     <Table

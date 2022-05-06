@@ -80,7 +80,8 @@ const Template: Story = (args) => {
     TrashIcon,
     DepositIcon,
     ListViewIcon,
-    CardViewIcon
+    CardViewIcon,
+    DotIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -180,6 +181,7 @@ const Template: Story = (args) => {
         {renderIcon("DepositIcon", <DepositIcon {...iconArgs} />)}
         {renderIcon("ListViewIcon", <ListViewIcon {...iconArgs} />)}
         {renderIcon("CardViewIcon", <CardViewIcon {...iconArgs} />)}
+        {renderIcon("DotIcon", <DotIcon {...iconArgs} />)}
       </div>
     </div>
   );

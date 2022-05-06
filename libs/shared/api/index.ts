@@ -20,8 +20,6 @@ const socketInstance = io(process.env["NX_WS_URL"], {
 
 export const socket = {
   packet: (callback:any) => {
-    socketInstance.disconnect();
-    socketInstance.connect();
     socketInstance.io.on("packet", ({ type, data }) => {
       callback(type, data);
     });
@@ -35,6 +33,14 @@ export const socket = {
   off: (event?: string) => {
     if (event) socketInstance.off(event);
     else socketInstance.off();
+  },
+  updateAuth: (token: string) =>{
+    const currentAuth:any = socketInstance.auth;
+    if(currentAuth.token !== token){
+      socketInstance.auth = {token};
+      socketInstance.disconnect();
+      socketInstance.connect();
+    }
   },
   disconnect: () => {
     socketInstance.disconnect();

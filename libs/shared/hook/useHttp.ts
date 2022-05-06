@@ -104,7 +104,6 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint, h
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                console.log(error.response)
                 notification.open({
                     message: error.response?.data.statusCode,
                     description:error.response?.data.statusText,

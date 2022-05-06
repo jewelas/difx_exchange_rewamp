@@ -2,10 +2,7 @@ import styled from "styled-components";
 import { ThemeInterface } from "themes";
 import { Color } from "../Color";
 
-interface BarStyledProps {
-  width?: string;
-}
-export const BarStyled = styled.div<BarStyledProps>`
+export const BarStyled = styled.div`
   z-index: 1;
   position: absolute;
   right: 0;
@@ -16,13 +13,18 @@ export const BarStyled = styled.div<BarStyledProps>`
   &.bid {
     background: rgba(33, 193, 152, 0.2);
   }
-  width: ${(p) => `${p.width}%` || 0};
   margin-top: -5px;
 `;
 
 export const ComponentStyled = styled.div`
   background: ${({ theme }) => theme.background.secondary};
   height: 100%;
+  .dot{
+    position: absolute;
+    margin-left:-15px;
+    margin-right:-15px;
+    margin-top:-2px;
+  }
   .com-title {
     padding-top: 10px;
     padding-left: 20px;
@@ -82,7 +84,7 @@ export const ComponentStyled = styled.div`
         padding-right: 15px;
         &:hover{
           cursor: pointer;
-          background: ${({ theme }:{theme:ThemeInterface}) => theme.color.rowHover};;
+          background: ${({ theme }:{theme:ThemeInterface}) => theme.color.rowHover};
         }
         .ant-typography {
           z-index: 2;

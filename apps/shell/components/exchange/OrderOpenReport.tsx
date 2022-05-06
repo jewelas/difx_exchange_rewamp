@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT } from "@difx/constants";
-import { Loading, Typography } from "@difx/core-ui";
-import { Order, useAuth, useHttpGetByEvent } from "@difx/shared";
+import { Typography, Icon, Loading } from "@difx/core-ui";
+import { Order, useAuth, useHttpPost, useHttpGetByEvent, SocketEvent, useSocket, useSocketProps, BaseResponse } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
+import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
 export function OrderOpenReport() {
@@ -15,18 +17,51 @@ export function OrderOpenReport() {
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
+  const param: useSocketProps = {
+    event: SocketEvent.user_orders,
+  };
+  const userOrdersData = useSocket(param);
+
   const getOrderBookSuccess = (response: AxiosResponse<Array<Order>>) => {
     const { data } = response;
     if (data) {
       for (const order of data) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
-          setTableData(tableData);
+          setTableData([...tableData]);
         }
       }
+    }else{
+      setTableData([]);
     }
   }
-  const { mutate: getOrderBooks } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN });
+
+  useEffect(() => {
+    if (userOrdersData) {
+      const index = tableData.findIndex(e => e.id === userOrdersData.id);
+      if (index !== -1) {
+        if (userOrdersData.q === 0) {
+          tableData.splice(index, 1);
+        }else{
+          tableData[index].q = userOrdersData.q;
+        }
+      } else {
+        userOrdersData.timestamp = new Date();
+        tableData.push(userOrdersData);
+      }
+      setTableData([...tableData]);
+    }
+  }, [userOrdersData]);
+
+  const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
+    const { data } = response;
+    if (data) {
+      getOrderBooks(headers);
+    }
+  }
+
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN });
+  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_BID_ORDER, headers }); // TODO: handle headers in interceptor in useHttp
 
   useEffect(() => {
     getOrderBooks(headers);
@@ -126,15 +161,37 @@ export function OrderOpenReport() {
           </div>
         )
       }
+    },
+    {
+      title: '',
+      dataIndex: '',
+      render: (text, record) => {
+        return (
+          <div
+            onClick={() => {
+              if (!isLoading) {
+                record.s === 0
+                  ? cancelOrder({ id: record.id }) // Cancel Bid Order
+                  : cancelOrder({ id: record.id, endpoint: API_ENDPOINT.CANCEL_ASK_ORDER }) // Cancel Ask Order
+              }
+            }}
+            className="cell">
+            <Icon.TrashIcon useDarkMode width={20} height={20} />
+          </div>
+        )
+      }
     }
   ];
 
+  if (isEmpty(tableData) && isDataLoading) return <Loading />
+
   return (
     <Table
+      scroll={{ x: "max-content", y: 260 }}
       showSorterTooltip={false}
       pagination={false}
       columns={columns}
-      dataSource={[...tableData]}
+      dataSource={tableData}
       rowKey="id"
     />
   );

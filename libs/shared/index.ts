@@ -8,6 +8,7 @@ export * from "./hook/useHttp";
 export * from "./hook/useLocalStorage";
 export * from "./hook/useResize";
 
+export * from "./type/Base";
 export * from "./type/User";
 export * from "./type/Pair";
 export * from "./type/SignUp";

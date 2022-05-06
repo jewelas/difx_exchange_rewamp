@@ -31,10 +31,6 @@ export function useAuth() {
     }
   },[isLoggedIn])
 
-  // useEffect(()=>{
-  //   console.log(user)
-  // },[user])
-
   const updateSession = (updatedUser: User, permission: Permissions): void => {
     localStorage?.setItem("currentUser", JSON.stringify(updatedUser))
     localStorage?.setItem("sessionToken", updatedUser.token.accessToken)

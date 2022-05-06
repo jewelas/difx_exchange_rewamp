@@ -36,6 +36,26 @@ const GlobalStyles = createGlobalStyle`
     }
 
     //---------------------- Ant Design Custom Design -------------------------------------------------
+    .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
+    .common-table{
+      padding: 0 30px;
+    tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
+    tr{
+      padding:0 30px
+    }
+    .ant-table .ant-table-thead th{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;padding:15px 0;font-weight:500;font-size:16px}
+    .ant-table-measure-row td{border-bottom:none !important}
+    .ant-tag {
+        font-size: 14px;
+        padding: 7px 20px;
+      &.roundtag{
+        border-radius: 35px;
+        border:none
+      }
+      &.ant-tag-green{background:${({ theme }: { theme: ThemeInterface }) => theme.color.successDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.success};}
+      &.ant-tag-red{background:${({ theme }: { theme: ThemeInterface }) => theme.color.dangerDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.danger};}
+    }
+    }
 
     .ant-btn{
       /* background: transparent !important; */
@@ -108,7 +128,7 @@ const GlobalStyles = createGlobalStyle`
     .ant-input:hover{
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
     }
-    
+
     .ant-input-affix-wrapper,
     .ant-input-affix-wrapper-borderless, 
     .ant-input-affix-wrapper-borderless:hover,
@@ -183,6 +203,10 @@ const GlobalStyles = createGlobalStyle`
               color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
               border-bottom: unset;
               padding: 16px 0;
+
+              &:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before{
+                display: none;
+              }
               .ant-table-column-sorters{
                 justify-content: unset;
                 .ant-table-column-title{

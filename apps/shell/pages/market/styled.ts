@@ -57,5 +57,17 @@ const MarketContentWrapper = styled.div`
 `
 const MarketGridLayout = styled.div`
 `
+const TableLastPrice = styled.div`
+    padding: 3px;
+    line-height: 22px;
+    font-size: 16px;
+    span{
+        display: block;
+        color: ${({theme}) => theme.fontColor.secondary};
+    }
+`
+const CoinText = styled.div`
+    
+`
 
-export {MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout}
+export {MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}

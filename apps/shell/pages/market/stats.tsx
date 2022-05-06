@@ -1,175 +1,53 @@
-import React from "react";
-import { Avatar, Card, Col, Row } from "antd";
-import Text from "antd/lib/typography/Text";
+import React, { useState } from "react";
+import { Col, Row, Tabs } from "antd";
 import { Icon } from "@difx/core-ui";
-import t from "@difx/locale";
-
-const { LogoIcon, CoinPlaceholder } = Icon;
+import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice } from "./styled";
+import GridView from "./gridView";
+import ListView from "./ListView";
 
 export function Stats() {
+    const [tab, setTab] = useState('favorites');
+    const { TabPane } = Tabs;
   return (
-    <Row gutter={16}>
-        <Col span={6}>
-            <Card title={t("market.top_gainer")} bordered={false}>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src="https://joeschmoe.io/api/v1/random"/>
-                        <Text>BTC</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="success">+10</Text>
-                    </Col>
-                </Row>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>BTC</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="success">+10</Text>
-                    </Col>
-                </Row>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>BTC</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="success">+10</Text>
-                    </Col>
-                </Row>
-            </Card>
-        </Col>
-        <Col span={6}>
-            <Card title={t("market.top_looser")} bordered={false}>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>LINK</Text>
-                    </Col>
-                    <Col>
-                        <Text type="danger">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="danger">-10</Text>
-                    </Col>
-                </Row>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>LINK</Text>
-                    </Col>
-                    <Col>
-                        <Text type="danger">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="danger">-10</Text>
-                    </Col>
-                </Row>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>LINK</Text>
-                    </Col>
-                    <Col>
-                        <Text type="danger">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="danger">-10</Text>
-                    </Col>
-                </Row>
-            </Card>
-        </Col>
-        <Col span={6}>
-            <Card title={t("market.top_volume")} bordered={false}>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>BTC</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="success">+10</Text>
-                    </Col>
-                </Row>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>BTC</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">$36414</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">+10</Text>
-                    </Col>
-                </Row>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>BTC</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="success">+10</Text>
-                    </Col>
-                </Row>
-            </Card>
-        </Col>
-        <Col span={6}>
-            <Card title={t("market.futures")} bordered={false}>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>BTC</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="success">+10</Text>
-                    </Col>
-                </Row>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>BTC</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="success">+10</Text>
-                    </Col>
-                </Row>
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Avatar icon={<CoinPlaceholder width={34} height={34} />} size={34} src="https://joeschmoe.io/api/v1/random" />
-                        <Text>BTC</Text>
-                    </Col>
-                    <Col>
-                        <Text type="success">$36414</Text>
-                    </Col>
-                    <Col>
-                    <Text type="success">+10</Text>
-                    </Col>
-                </Row>
-            </Card>
-        </Col>
-    </Row>
+    <MarketWrapper>
+        <MarketTabsWrapper>
+            <Row justify="space-between" align="middle">
+                <Col>
+                    <div className="content">
+                        <Tabs defaultActiveKey="1" onChange={(e) => { setTab(e) }} size="large" tabBarGutter={50}>
+                            <TabPane tab={<Row className="d-flex"><Icon.FavoriteIcon fill="#FFC107" variant="medium" /><div style={{marginLeft: 8}}>Favorites</div></Row>} key="favorites" />
+                            <TabPane tab="Spot" key="spot" />
+                            <TabPane tab="Futures" key="futures" />
+                        </Tabs>
+                    </div>
+                </Col>
+                <Col>
+                    <MarketGridLayout>
+                        <Row>
+                            <Col style={{marginRight:5}}>
+                                <Icon.ListViewIcon />
+                            </Col>
+                            <Col>
+                                <Icon.CardViewIcon />
+                            </Col>
+                        </Row>
+                    </MarketGridLayout>
+                </Col>
+            </Row>
+        </MarketTabsWrapper>
+        <MarketContentWrapper>
+            <div className="report-group">
+                {tab === 'favorites' &&
+                <div> 
+                    <ListView  />
+                    <GridView />
+                </div>
+                }
+                {tab === 'spot' && "Spot"}
+                {tab === 'futures' && "Futures"}
+            </div>
+        </MarketContentWrapper>
+    </MarketWrapper>
   );
 }
 

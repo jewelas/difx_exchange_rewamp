@@ -25,7 +25,7 @@ export const STORE_KEY = {
 export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
-  GET_PAIRS: '/api/v1/pairs',
+  GET_PAIRS: 'api/v1/market/pairs',
   SIGNIN: '/api/v1/auth/login',
   SIGNUP: '/api/v1/auth/sign-up',
   FORGOT: '/api/v1/password/forgot',

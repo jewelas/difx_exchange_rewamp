@@ -2,6 +2,7 @@ import { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { useQuery, useMutation } from "react-query";
 import { axiosInstance as instance } from "./../api/index";
 import { notification } from 'antd';
+import { useAuth } from '..'
 
 /**
  * 
@@ -85,6 +86,9 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 }
 
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
+
+    const { refreshToken } = useAuth()
+
     instance.interceptors.request.use(function (config: AxiosRequestConfig) {
         const token = localStorage?.getItem('sessionToken');
         // @ts-ignore
@@ -112,6 +116,9 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 // @ts-ignore
                 let { statusCode } =  response.data
                 switch (statusCode) {
+                    case 401:
+                        refreshToken()
+                        break
                     case 410:
                         notification.info({
                             message: "Verify IP",

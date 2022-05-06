@@ -7,9 +7,6 @@ import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 export interface HomePageProps {}
 
 export function HomePage(props: HomePageProps) {
-  const { data: pairs } = useHttpGet<null,PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
-
-  console.log(pairs)
 
   return (
     <AppLayout>

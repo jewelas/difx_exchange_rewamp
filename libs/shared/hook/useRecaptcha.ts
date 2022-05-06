@@ -17,23 +17,22 @@ export const useRecaptcha = () => {
       const googleCaptchaScript = document.createElement('script');
   
       if(captcha === "GEETEST"){
-        geetestCaptchaScript.src = `https://static.geetest.com/v4/gt4.js`;
+        geetestCaptchaScript.src = process.env['NX_GEETEST_CAPTCHA_URL'];
         geetestCaptchaScript.id = 'geetestCaptcha';
         document.body.appendChild(geetestCaptchaScript);
   
         return () => {
-          document.body.removeChild(geetestCaptchaScript);
+          geetestCaptchaScript.remove();
         }
-
       }else{
-        googleCaptchaScript.src = `https://www.google.com/recaptcha/api.js?render=${process.env["NX_GOOGLE_CAPTCHA_ID"]}&trustedtypes=true`;
+        googleCaptchaScript.src = process.env['NX_GOOGLE_CAPTCHA_URL'];
         googleCaptchaScript.id = 'googleCaptcha';
         document.body.appendChild(googleCaptchaScript);
   
         return () => {
-          document.body.removeChild(googleCaptchaScript);
+          googleCaptchaScript.remove();
+          document.querySelector('.grecaptcha-badge').remove()
         }
-
       }
     }
 

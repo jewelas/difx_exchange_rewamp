@@ -31,7 +31,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
           content="DIFX is the fastest &amp; the most-secure cryptocurrency exchange &amp; has been named 'Best New Trading Platform - 2021'. Available on desktop, Android &amp; iOS devices."
         />
         <meta name="og:image" content={"/imgs/logo.svg"} />
-        {/* <script src="https://static.geetest.com/v4/gt4.js"></script> */}
       </Head>
       <Provider>
         <QueryClientProvider client={queryClient}>

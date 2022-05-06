@@ -1,6 +1,8 @@
 import { useEffect, useCallback } from "react";
-import { AxiosResponse, AxiosError } from "axios";
+import { AxiosResponse } from "axios";
+import { axiosInstance as instance } from "./../api/index";
 import { useAtom } from "jotai";
+import { notification } from 'antd';
 import {
   currentUserAtom,
   isLoggedInAtom,
@@ -8,7 +10,6 @@ import {
   User,
   Permissions
 } from "..";
-import { useHttpPost } from "./useHttp";
 import { API_ENDPOINT } from "..";
 
 export function useAuth() {
@@ -43,11 +44,6 @@ export function useAuth() {
     setIsLoggedIn(true);
   };
 
-  const updateSessionToken = (token:string | null) => {
-    // get new token
-    // update session token
-  }
-
   const logOut = () : void => {
     localStorage?.removeItem("currentUser")
     localStorage?.removeItem("sessionToken")
@@ -58,12 +54,45 @@ export function useAuth() {
     setIsLoggedIn(false);
   }
 
+  const refreshToken = async() => {
+    let refreshToken = localStorage?.getItem("refreshToken")
+    const reqData = {
+      id: user.id,
+      refreshToken
+    }
+    
+    //use axios instance instead of useHttpPost because otherwise it will cause a loop of hooks
+    instance.interceptors.request.use(function (config: any) {
+        const token = localStorage?.getItem('sessionToken');
+        // @ts-ignore
+        config.headers["x-access-token"] =  token ? token : "";
+        // @ts-ignore
+        config.headers["x-api-key"]=  "DIFXExchange";
+        // @ts-ignore
+        config.headers["Device"]=  "web";
+        return config;
+    })
+
+    try{
+      const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.REFRESH_TOKEN,reqData)
+      const { data } = response.data
+      localStorage?.setItem("sessionToken", data.accessToken)
+      localStorage?.setItem("refreshToken", data.refreshToken)
+    }catch(err){
+      this.logOut()
+      notification.error({
+        message: "Oops",
+        description: "Token Expired, Login Again",
+    });
+    }
+  };
+
   return {
     user,
     isLoggedIn,
     permissions,
     updateSession,
-    updateSessionToken,
+    refreshToken,
     logOut,
    };
 }

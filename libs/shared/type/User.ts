@@ -1,4 +1,5 @@
 export interface User {
+  id: number
   token: {
     accessToken: string,
     refreshToken: string

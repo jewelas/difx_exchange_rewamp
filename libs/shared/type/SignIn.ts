@@ -14,7 +14,7 @@ export interface SignInRequest {
   email?: string;
   password: string;
   usertype: "IND" | "BUS";
-  captcha: any;
+  captcha: string | CaptchaType;
   captcha_type: string;
   device_token: string;
   device: string

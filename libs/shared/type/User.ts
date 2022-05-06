@@ -1,5 +1,5 @@
 export interface User {
-  token?: {
+  token: {
     accessToken: string,
     refreshToken: string
   };

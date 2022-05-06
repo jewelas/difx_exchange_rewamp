@@ -22,8 +22,9 @@ export function useAuth() {
 
       if(currentUser){
         let permissions: Permissions = JSON.parse(localStorage?.getItem("permissions") || "null")
-        delete currentUser?.token
-        setUser(currentUser);
+        const stateUser: any = currentUser
+        delete stateUser?.token
+        setUser(stateUser);
         setPermissions(permissions)
         setIsLoggedIn(true);
       }
@@ -39,8 +40,9 @@ export function useAuth() {
     localStorage?.setItem("sessionToken", updatedUser.token.accessToken)
     localStorage?.setItem("refreshToken", updatedUser.token.refreshToken)
     localStorage?.setItem("permissions", JSON.stringify(permission))
-    delete updatedUser?.token
-    setUser(updatedUser);
+    const stateUser: any = updatedUser
+    delete stateUser?.token
+    setUser(stateUser);
     setPermissions(permission)
     setIsLoggedIn(true);
   };

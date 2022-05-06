@@ -1,32 +1,44 @@
-import { useEffect } from "react";
-import { CaptchaType } from "@difx/shared";
+import { useEffect, useState } from "react";
+import { CaptchaType } from "..";
 
 export const useRecaptcha = () => {
+  const [captchaType, setCaptchaType] = useState()
 
   useEffect(()=>{
-    const googleCaptchaScript = document.createElement('script');
+    const config = JSON.parse(localStorage?.getItem("config") || "null")
+    const captcha = config.captcha
+    setCaptchaType(captcha)
     const geetestCaptchaScript = document.createElement('script');
-    googleCaptchaScript.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NX_GOOGLE_CAPTCHA_ID}&trustedtypes=true`;
-    geetestCaptchaScript.src = `https://static.geetest.com/v4/gt4.js`;
-    googleCaptchaScript.id = 'googleCaptcha';
-    geetestCaptchaScript.id = 'geetestCaptcha';
-    document.body.appendChild(googleCaptchaScript);
-    document.body.appendChild(geetestCaptchaScript);
+    const googleCaptchaScript = document.createElement('script');
 
-    return () => {
-      document.body.removeChild(googleCaptchaScript);
-      document.body.removeChild(geetestCaptchaScript);
+    if(captcha === "GEETEST"){
+      geetestCaptchaScript.src = `https://static.geetest.com/v4/gt4.js`;
+      geetestCaptchaScript.id = 'geetestCaptcha';
+      document.body.appendChild(geetestCaptchaScript);
+
+      return () => {
+        document.body.removeChild(geetestCaptchaScript);
+      }
+    }else{
+      googleCaptchaScript.src = `https://www.google.com/recaptcha/api.js?render=${process.env["NX_GOOGLE_CAPTCHA_ID"]}&trustedtypes=true`;
+      googleCaptchaScript.id = 'googleCaptcha';
+      document.body.appendChild(googleCaptchaScript);
+
+      return () => {
+        document.body.removeChild(googleCaptchaScript);
+      }
     }
+
   },[])
 
-  const getCaptcha = (captchaType: string) => {
+  const getCaptcha = (): Promise<string | CaptchaType> => {
     return new Promise((resolve,reject)=>{
       try{
         if(captchaType === "GOOGLE"){
           // @ts-ignore:next-line
           grecaptcha.ready(function() {
             // @ts-ignore:next-line
-            grecaptcha.execute(process.env.NX_GOOGLE_CAPTCHA_ID).then((token: string)=>{
+            grecaptcha.execute(process.env["NX_GOOGLE_CAPTCHA_ID"]).then((token: string)=>{
                 resolve(token)
             });
           });
@@ -34,9 +46,10 @@ export const useRecaptcha = () => {
           // @ts-ignore:next-line
           initGeetest4({ 
             product: 'bind',
-            captchaId: '647f5ed2ed8acb4be36784e01556bb71',
-            language: 'en' 
-          },function (captchaObj) { 
+            captchaId: process.env["NX_GEETEST_CAPTCHA_ID"],
+            language: 'en',
+            timeout: 3000 
+          },function (captchaObj: any) { 
             captchaObj.onReady(()=>{
               captchaObj.showBox()
             }).onSuccess(()=>{

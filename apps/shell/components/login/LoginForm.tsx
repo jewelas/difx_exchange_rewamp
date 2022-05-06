@@ -127,8 +127,7 @@ export function LoginForm(props: LoginFormProps) {
   const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
 
   const onSubmit = async (formData: SignInRequest) => {
-
-    const captcha = await getCaptcha(config.captcha)
+    const captcha: string | CaptchaType = await getCaptcha()
 
     /* eslint-disable */
     formData.captcha = captcha,
@@ -158,11 +157,6 @@ export function LoginForm(props: LoginFormProps) {
       onFieldsChange={onFormChange}
       autoComplete="off"
     >
-      {/* <ReCAPTCHA
-        ref={recaptchaRef}
-        size="invisible"
-        sitekey={process.env.NX_GOOGLE_CAPTCHA_ID}
-      /> */}
       <div className="left-right">
         <div className="left">
           <div

@@ -34,11 +34,11 @@ const GlobalStyles = createGlobalStyle`
       border-radius: 4px;
       background-clip: content-box;
     }
+    .text-muted{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary};}
 
     //---------------------- Ant Design Custom Design -------------------------------------------------
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
     .common-table{
-      padding: 0 30px;
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
     tr{
       padding:0 30px

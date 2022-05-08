@@ -24,7 +24,7 @@ const MarketCard = styled.div`
         }
     }
     .ant-card-body {
-        padding: 0 24px 20px;
+        padding: 0 20px 16px;
     &>div{
         margin: 8px 0;
         .ant-typography{
@@ -53,7 +53,8 @@ const MarketWrapper = styled.div`
 `
 const MarketContentWrapper = styled.div`
     background: ${({theme}) => theme.background.white};
-    border-radius: 2px;   
+    border-radius: 2px;
+    padding: 0 30px;
 `
 const MarketGridLayout = styled.div`
 `
@@ -67,7 +68,30 @@ const TableLastPrice = styled.div`
     }
 `
 const CoinText = styled.div`
-    
+    &>.ant-typography{
+        display: block;
+        font-size: 24px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+`
+const CoinPriceInfo = styled.div`
+    margin-top: 10px;
+    .ant-typography{
+        display: block;
+    }
+    .ant-row .ant-col:nth-child(2){
+        border-right:${({theme}) => theme.border.secondary};
+        border-left:${({theme}) => theme.border.secondary};
+    }
+`
+const MarketCardBtns = styled.div`
+    margin-top:15px;
+    .ant-btn{width:100%}
+`
+const CardStar = styled.div`
+    position: absolute;
+    right: 20px;
 `
 
-export {MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}
+export {CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}

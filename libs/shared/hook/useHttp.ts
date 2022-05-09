@@ -25,9 +25,12 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
     }
 
     instance.interceptors.request.use(function (config : AxiosRequestConfig) {
-        const token = localStorage?.getItem('sessionToken');
+        const anonymousToken = localStorage?.getItem('anonymousToken');
+        const sessionToken = localStorage?.getItem('sessionToken');
         // @ts-ignore
-        config.headers["x-access-token"] =  token ? token : "";
+        config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
+        // @ts-ignore
+        config.headers["Authorization"] =  sessionToken ? sessionToken : "";
         // @ts-ignore
         config.headers["x-api-key"]=  "DIFXExchange";
         // @ts-ignore
@@ -59,11 +62,14 @@ interface EventProps<Response> {
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
     instance.interceptors.request.use(function (config: AxiosRequestConfig) {
-        const token = localStorage?.getItem('sessionToken');
+        const anonymousToken = localStorage?.getItem('anonymousToken');
+        const sessionToken = localStorage?.getItem('sessionToken');
         // @ts-ignore
-        config.headers["x-access-token"] =  token ? token : "";
+        config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
         // @ts-ignore
-        config.headers["x-api-key"] =  "DIFXExchange";
+        config.headers["Authorization"] =  sessionToken ? sessionToken : "";
+        // @ts-ignore
+        config.headers["x-api-key"]=  "DIFXExchange";
         // @ts-ignore
         config.headers["Device"]=  "web";
         return config;
@@ -91,9 +97,12 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
     const { refreshAnonymousToken } = useGuestAuth()
 
     instance.interceptors.request.use(function (config: AxiosRequestConfig) {
-        const token = localStorage?.getItem('sessionToken');
+        const anonymousToken = localStorage?.getItem('anonymousToken');
+        const sessionToken = localStorage?.getItem('sessionToken');
         // @ts-ignore
-        config.headers["x-access-token"] =  token ? token : "";
+        config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
+        // @ts-ignore
+        config.headers["Authorization"] =  sessionToken ? sessionToken : "";
         // @ts-ignore
         config.headers["x-api-key"]=  "DIFXExchange";
         // @ts-ignore

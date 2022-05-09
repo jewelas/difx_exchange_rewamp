@@ -65,14 +65,17 @@ export function useAuth() {
     
     //use axios instance instead of useHttpPost because otherwise it will cause a loop of hooks
     instance.interceptors.request.use(function (config: any) {
-        const token = localStorage?.getItem('sessionToken');
-        // @ts-ignore
-        config.headers["x-access-token"] =  token ? token : "";
-        // @ts-ignore
-        config.headers["x-api-key"]=  "DIFXExchange";
-        // @ts-ignore
-        config.headers["Device"]=  "web";
-        return config;
+      const anonymousToken = localStorage?.getItem('anonymousToken');
+      const sessionToken = localStorage?.getItem('sessionToken');
+      // @ts-ignore
+      config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
+      // @ts-ignore
+      config.headers["Authorization"] =  sessionToken ? sessionToken : "";
+      // @ts-ignore
+      config.headers["x-api-key"]=  "DIFXExchange";
+      // @ts-ignore
+      config.headers["Device"]=  "web";
+      return config;
     })
 
     try{

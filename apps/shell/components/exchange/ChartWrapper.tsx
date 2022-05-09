@@ -26,6 +26,10 @@ export function ChartWrapper({ pair }: { pair: string }) {
     getChartHistory(null);
   }, [resolution, pair]);
 
+  useEffect(()=>{
+    console.log(chartCurrent)
+  },[chartCurrent])
+
   return (
     <ChartWraperStyled>
       <div className="head">

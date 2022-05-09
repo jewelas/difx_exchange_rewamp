@@ -51,7 +51,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
             {pair && <PairMetaDataWrapper pair={pair as string} />}
           </div>
           <div key="chart" className="base">
-            {/* {pair && <ChartWrapper pair={pair as string} />} */}
+            {pair && <ChartWrapper pair={pair as string} />}
           </div>
           <div key="pair-search" className="base">
             <ListPairWrapper />

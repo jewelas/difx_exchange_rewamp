@@ -26,7 +26,6 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
 
   let pairInfo = null;
   if (pairsData) {
-    console.log(pairsData)
     pairInfo = pairsData.spot.find((e) => e.symbol === pair);
   }
 

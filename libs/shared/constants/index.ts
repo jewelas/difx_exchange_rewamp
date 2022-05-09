@@ -58,12 +58,10 @@ export const API_ENDPOINT = {
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view?symbol=ETCUSDT&resolution=${resolution || '5m'}&from=${from}&to=${to}`
-    // return `/api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${from}`
   },
   GET_CHART_CURRENT: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view-current?symbol=${symbol}&resolution=${resolution}`
-    // return `/api/v1/chart/normal-view-current?symbol=${symbol}&resolution=${symbol}&from=${from}&to=${to}`
   },
   GET_BALANCE: '/api/v1/user/balance',
   SIGNIN: '/api/v1/auth/login',

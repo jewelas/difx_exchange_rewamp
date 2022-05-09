@@ -39,12 +39,12 @@ const GlobalStyles = createGlobalStyle`
     //---------------------- Ant Design Custom Design -------------------------------------------------
 
     .ant-btn{
-      /* background: transparent !important; */
-      /* color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; */
-      /* border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important; */
+      background: transparent !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.medium} !important;
-      /* border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary}; */
-      /* box-shadow: none !important; */
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary};
+      box-shadow: none !important;
 
       &.success{
         background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
@@ -60,7 +60,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-btn:hover{
-      /* border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; */
+      border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
     }
 
     .ant-btn-sm{
@@ -78,8 +78,8 @@ const GlobalStyles = createGlobalStyle`
 
     .ant-btn-primary{
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
-      /* border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; */
-      /* background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; */
+      border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
     }
 
     .ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{

@@ -21,6 +21,7 @@
     "@types/socket.io-client": "^3.0.0",
     "antd": "^4.19.3",
     "axios": "^0.26.1",
+    "clientjs": "^0.2.1",
     "clsx": "^1.1.1",
     "core-js": "^3.6.5",
     "country-flag-icons": "^1.4.25",

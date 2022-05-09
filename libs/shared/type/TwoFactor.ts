@@ -2,18 +2,11 @@ import { BaseResponse } from "./Base";
 
 export interface TwoFactorRequest {
   code: string;
-  sessionId: string;
-  rememberMe: boolean;
+  session_id: string;
 }
 
 export interface TwoFactorResponse extends BaseResponse {
-  corp_kyc: boolean;
-  email: string;
-  emailverified: boolean;
-  firstname: string;
-  kycverified: boolean;
-  lastname: string;
-  token: string;
-  twofaenabled: boolean;
-  type: "IND" | "BUS";
+  data: any
+  message: string
+  timestamp: string
 }

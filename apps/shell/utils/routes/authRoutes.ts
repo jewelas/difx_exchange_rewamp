@@ -1,6 +1,7 @@
 export const authRoutes = [
     "/login",
     "/register",
-    "two-factor",
+    "/two-factor",
+    "/verify-ip"
 ]
 

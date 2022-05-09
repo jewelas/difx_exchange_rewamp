@@ -5,23 +5,23 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AppLayout from "..";
 import PageStyled from "./styled";
-import TwoFactorForm from "./../../components/two-factor/TwoFactorForm";
+import VerifyIpForm from "./../../components/verify-ip/VerifyIpForm";
 
 /* eslint-disable-next-line */
-export interface TwoFactorProps {}
+export interface VerifyIpProps {}
 
-export function TwoFactorPage(props: TwoFactorProps) {
+export function VeipfyIPPage(props: VerifyIpProps) {
+  const [userEmail, setUserEmail] = useState()
   const [restricted, setRestricted] = useState(false)
-  const [sessionId, setSessionId] = useState()
 
   const router = useRouter()
 
   useEffect(()=>{
     const extraAuth = JSON.parse(localStorage?.getItem("extraAuthRequired"))
-    if(!extraAuth || extraAuth.type != "TFA"){
+    if(!extraAuth || extraAuth.type != "IP_VERIFICATION"){
       setRestricted(true)
     }else{
-      setSessionId(extraAuth.details.session_id)
+      setUserEmail(extraAuth.details.email)
     }
   },[])
 
@@ -35,12 +35,12 @@ export function TwoFactorPage(props: TwoFactorProps) {
       <PageStyled>
         <Row className="row-group">
           <Col className="col-group" xs={24} sm={20} md={16} lg={14} xl={10}>
-            <Typography level="H4">{t("2fa.2fa")}</Typography>
+            <Typography level="H4">{t("verify_ip.header")}</Typography>
             <Typography level="B2">
-              Enter the 2FA Code
+              Enter the security code sent to {userEmail}
             </Typography>
             <div className="form">
-              <TwoFactorForm sessionId={sessionId}/>
+              <VerifyIpForm userEmail={userEmail} />
             </div>
           </Col>
         </Row>
@@ -49,4 +49,4 @@ export function TwoFactorPage(props: TwoFactorProps) {
   );
 }
 
-export default TwoFactorPage;
+export default VeipfyIPPage;

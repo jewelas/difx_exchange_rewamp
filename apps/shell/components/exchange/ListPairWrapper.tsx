@@ -1,28 +1,42 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { useRouter } from "next/router";
-import { API_ENDPOINT, QUERY_KEY, REFETCH, STORE_KEY } from "@difx/constants";
+// import { API_ENDPOINT, QUERY_KEY, REFETCH, STORE_KEY } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
   PairType, useHttpGet, useLocalStorage
 } from "@difx/shared";
 import { getPriceFormatted, getPricePercentChange } from "@difx/utils";
 import { Input, Table } from "antd";
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { TableWraperStyled } from "./styled";
+// import { getPriceFormatted, getPricePercentChange } from "./../../utils/priceUtils";
+// import { ListPairStyled } from "./styled";
+
+// export function ListPairWrapper() {
+  // const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: FETCHING.REFETCH_INTERVAL });
+// import { useMemo, useRef, useState } from 'react';
 
 export function ListPairWrapper() {
-  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null/*{ refetchInterval: REFETCH._10SECS }*/);
+  const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null/*{ refetchInterval: REFETCH._10SECS }*/);
 
   const [tab, setTab] = useState<'favorite' | 'all'>('all');
   const [searchValue, setSearchValue] = useState("");
+  const [pairs, setPairs] = useState<any>()
   const [typeChange, setTypeChange] = useState<'percent' | 'volume'>('percent')
 
   const router = useRouter();
 
   const componentRef = useRef(null);
-
+  
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
-
+  
+  useEffect(()=>{
+    if(resData){
+      setPairs(resData.spot)
+    }
+  },[resData])
+  
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];
     if (!_pairs.includes(pair)) {

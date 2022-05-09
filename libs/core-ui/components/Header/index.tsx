@@ -1,10 +1,10 @@
 import { Button, Col, Drawer, Menu, Row } from "antd";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "../Icon";
 import t from "./../../../locale";
-import { useAuth, useTheme } from "./../../../shared";
+import { useAuth, useTheme, useRTL } from "./../../../shared";
 import {
   StyledButtonGroup,
   StyledHeader,
@@ -45,6 +45,7 @@ export function Header(props: HeaderProps) {
   const [width, setWidth] = useState<number>(0);
   const { theme, switchTheme } = useTheme();
   const { isLoggedIn, logOut } = useAuth();
+  const { toggleRTL } = useRTL()
 
   useEffect(() => {
     function handleResize() {
@@ -193,6 +194,7 @@ export function Header(props: HeaderProps) {
                     icon={<EarthIcon useDarkMode />}
                     size={"small"}
                     type="text"
+                    onClick={()=>toggleRTL()}
                   />
                   <StyledLine />
                 </StyledButtonGroup>

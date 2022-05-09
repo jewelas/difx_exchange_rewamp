@@ -55,6 +55,11 @@ import ChartIndVLine3Icon from "./ChartIndVLine3Icon";
 import TrashIcon from "./TrashIcon";
 import DepositIcon from "./DepositIcon";
 import DotIcon from "./DotIcon";
+import ExpandIcon from "./ExpandIcon";
+import RewardIcon from "./RewardIcon";
+import CompodingIcon from "./CompodingIcon";
+import CoinIcon from "./CoinIcon";
+import HeadTagIcon from "./HeadTagIcon";
 export interface IconProps {
   width?: number;
   height?: number;
@@ -124,7 +129,12 @@ const Icon = {
   ChartIndVLine3Icon,
   TrashIcon,
   DepositIcon,
-  DotIcon
+  DotIcon,
+  CompodingIcon,
+  RewardIcon,
+  ExpandIcon,
+  CoinIcon,
+  HeadTagIcon
 };
 
 export { Icon };

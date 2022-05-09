@@ -77,7 +77,12 @@ const Template: Story = (args) => {
     ChartIndVLine3Icon,
     TrashIcon,
     DepositIcon,
-    DotIcon
+    DotIcon,
+    ExpandIcon,
+    CompodingIcon,
+    RewardIcon,
+    CoinIcon,
+    HeadTagIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -174,6 +179,11 @@ const Template: Story = (args) => {
         {renderIcon("ChartIndVLine1Icon", <ChartIndVLine1Icon {...iconArgs} />)}
         {renderIcon("DepositIcon", <DepositIcon {...iconArgs} />)}
         {renderIcon("DotIcon", <DotIcon {...iconArgs} />)}
+        {renderIcon("ExpandIcon", <ExpandIcon {...iconArgs} />)}
+        {renderIcon("RewardIcon", <RewardIcon {...iconArgs} />)}
+        {renderIcon("CompodingIcon", <CompodingIcon {...iconArgs} />)}
+        {renderIcon("CoinIcon", <CoinIcon {...iconArgs} />)}
+        {renderIcon("HeadTagIcon", <HeadTagIcon {...iconArgs} />)}
       </div>
     </div>
   );

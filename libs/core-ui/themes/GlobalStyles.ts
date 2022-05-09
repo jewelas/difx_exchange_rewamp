@@ -59,6 +59,19 @@ const GlobalStyles = createGlobalStyle`
       }
     }
 
+    .ant-btn.ant-btn-background-ghost:not(.ant-btn-primary){
+      border: unset;
+      margin: unset !important;
+      &:hover{
+        svg{
+          opacity: 0.8;
+        }
+      }
+    }
+    .ant-btn.ant-btn-primary.ant-btn-background-ghost{
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; 
+    }
+
     .ant-btn:hover{
       /* border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; */
     }
@@ -123,12 +136,16 @@ const GlobalStyles = createGlobalStyle`
     .ant-input-affix-wrapper{
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      height: 48px;
       .ant-input-prefix{
         svg{
           height: 20px;
           width: 20px;
           fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;
         }
+      }
+      .ant-input{
+        height: 40px !important;
       }
     }
 

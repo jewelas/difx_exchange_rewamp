@@ -13,25 +13,26 @@ export const useRecaptcha = () => {
       // @ts-ignore:next-line
       const captcha = config.captcha
       setCaptchaType(captcha)
-      const geetestCaptchaScript = document.createElement('script');
-      const googleCaptchaScript = document.createElement('script');
-  
+      
       if(captcha === "GEETEST"){
-        geetestCaptchaScript.src = process.env['NX_GEETEST_CAPTCHA_URL'];
+        const geetestCaptchaScript = document.createElement('script');
+        geetestCaptchaScript.src = process.env['NX_GEETEST_CAPTCHA_URL'] || "";
         geetestCaptchaScript.id = 'geetestCaptcha';
         document.body.appendChild(geetestCaptchaScript);
-  
+        
         return () => {
           geetestCaptchaScript.remove();
         }
-      }else{
-        googleCaptchaScript.src = process.env['NX_GOOGLE_CAPTCHA_URL'];
+      }else {
+        const googleCaptchaScript = document.createElement('script');
+        googleCaptchaScript.src = process.env['NX_GOOGLE_CAPTCHA_URL'] || "";
         googleCaptchaScript.id = 'googleCaptcha';
         document.body.appendChild(googleCaptchaScript);
   
         return () => {
           googleCaptchaScript.remove();
-          document.querySelector('.grecaptcha-badge').remove()
+          const captchaBadge = document.querySelector('.grecaptcha-badge')
+          captchaBadge ? captchaBadge.remove() : null
         }
       }
     }

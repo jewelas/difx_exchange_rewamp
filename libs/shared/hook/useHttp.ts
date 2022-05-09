@@ -2,7 +2,7 @@ import { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { useQuery, useMutation } from "react-query";
 import { axiosInstance as instance } from "./../api/index";
 import { notification } from 'antd';
-import { useAuth } from '..'
+import { useAuth, useGuestAuth } from '..'
 
 /**
  * 
@@ -88,6 +88,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
     const { refreshToken } = useAuth()
+    const { refreshAnonymousToken } = useGuestAuth()
 
     instance.interceptors.request.use(function (config: AxiosRequestConfig) {
         const token = localStorage?.getItem('sessionToken');
@@ -118,6 +119,13 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 switch (statusCode) {
                     case 401:
                         refreshToken()
+                        break
+                    case 406:
+                        refreshAnonymousToken()
+                        notification.info({
+                            message: "Oops",
+                            description: "Something went wrong, try again",
+                        });
                         break
                     case 410:
                         notification.info({

@@ -1,12 +1,13 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { AxiosResponse, AxiosError } from "axios";
+import { axiosInstance as instance } from "./../api/index";
+import { notification } from 'antd';
 import { useAtom } from "jotai";
 import {
   isLoggedInAtom,
   permissionsAtom,
   configAtom
 } from "../atom/index";
-import { useHttpPost } from "./useHttp";
 import { API_ENDPOINT } from "..";
 
 export function useGuestAuth() {
@@ -14,20 +15,6 @@ export function useGuestAuth() {
   const [permissions, setPermissions] = useAtom(permissionsAtom);
   const [config, setConfig] = useAtom(configAtom);
 
-  const onSuccess = useCallback((response: AxiosResponse) => {
-    let { anonymousToken, config, permission } = response.data.data
-    localStorage?.setItem("sessionToken", anonymousToken)
-    localStorage?.setItem("permissions", JSON.stringify(permission))
-    localStorage?.setItem("config", JSON.stringify(config))
-    setPermissions(permission)
-    setConfig(config)
-  }, []);
-
-  const onError = useCallback((response: AxiosError) => {
-    console.log(response)
-  }, []);
-
-  const { mutate: getAnonymusToken } = useHttpPost({ onSuccess, onError, endpoint: API_ENDPOINT.GET_ANONYMOUS_TOKEN});
 
   useEffect(() => {
     if(!isLoggedIn){
@@ -42,15 +29,44 @@ export function useGuestAuth() {
         }
         return
       }
-      
-      let deviceConfig = {
-        identifier: "1234",
-        device_type: "web",
-        push_token: "21321321312"
-      }
-      getAnonymusToken(deviceConfig)
+  
+      refreshAnonymousToken()
     }
   }, [isLoggedIn]);
 
-  return {permissions, config};
+  const refreshAnonymousToken = async() => {
+    const reqData = {
+      identifier: "1234",
+      device_type: "web",
+      push_token: "21321321312"
+    }
+    
+    //use axios instance instead of useHttpPost because otherwise it will cause a loop of hooks
+    instance.interceptors.request.use(function (config: any) {
+        const token = localStorage?.getItem('sessionToken');
+        // @ts-ignore
+        config.headers["x-access-token"] =  token ? token : "";
+        // @ts-ignore
+        config.headers["x-api-key"]=  "DIFXExchange";
+        // @ts-ignore
+        config.headers["Device"]=  "web";
+        return config;
+    })
+
+    try{
+      const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.GET_ANONYMOUS_TOKEN,reqData)
+      const { data } = response.data
+      console.log(data)
+      let { anonymousToken, config, permission } = data
+      localStorage?.setItem("sessionToken", anonymousToken)
+      localStorage?.setItem("permissions", JSON.stringify(permission))
+      localStorage?.setItem("config", JSON.stringify(config))
+      setPermissions(permission)
+      setConfig(config)
+    }catch(err){
+      console.log(err)
+    }
+  };
+
+  return {permissions, config, refreshAnonymousToken};
 }

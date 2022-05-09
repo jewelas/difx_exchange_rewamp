@@ -20,3 +20,5 @@ export const configAtom = atom<Config | undefined>(
 export const sessionToken = atom<string | null>(null) as PrimitiveAtom<string | null>;
 
 export const localStorageAtom = atom<{[key: string]: string}>({}) as PrimitiveAtom<{[key: string]: string}>;
+
+export const RTLAtom = atom<boolean>(false);

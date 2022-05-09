@@ -8,6 +8,7 @@ export * from "./hook/useGuestAuth";
 export * from "./hook/useHttp";
 export * from "./hook/useLocalStorage";
 export * from "./hook/useRecaptcha";
+export * from "./hook/useRTL";
 
 export * from "./type/User";
 export * from "./type/Pair";

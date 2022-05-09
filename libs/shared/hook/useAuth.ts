@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { AxiosResponse } from "axios";
 import { axiosInstance as instance } from "./../api/index";
 import { useAtom } from "jotai";
@@ -55,7 +55,9 @@ export function useAuth() {
   }
 
   const refreshToken = async() => {
+    if(!user) return
     let refreshToken = localStorage?.getItem("refreshToken")
+
     const reqData = {
       id: user.id,
       refreshToken
@@ -79,11 +81,11 @@ export function useAuth() {
       localStorage?.setItem("sessionToken", data.accessToken)
       localStorage?.setItem("refreshToken", data.refreshToken)
     }catch(err){
-      this.logOut()
+      logOut()
       notification.error({
-        message: "Oops",
-        description: "Token Expired, Login Again",
-    });
+          message: "Oops",
+          description: "Token Expired, Login Again",
+      });
     }
   };
 

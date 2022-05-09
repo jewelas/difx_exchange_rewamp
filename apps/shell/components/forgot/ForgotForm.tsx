@@ -176,7 +176,7 @@ export function ForgotForm(props: ForgotFormProps) {
         )}
 
         <Button
-          disabled={isLoading || hasFieldError || !dialCode}
+          disabled={isLoading || hasFieldError || (type==='phone' && !dialCode)}
           htmlType="submit"
           className="sign-in-btn"
           type="primary"

@@ -1,3 +1,4 @@
+import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
   PairType,
@@ -5,33 +6,28 @@ import {
   useHttpGet, useLocalStorage, useSocket,
   useSocketProps
 } from "@difx/shared";
-import sortBy from "lodash/sortBy";
-import { useRouter } from "next/router";
-import { useMemo } from "react";
-import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import {
   getAveragePrice,
   getPriceFormatted,
   getPricePercentChange,
   getTrendPrice
-} from "./../../utils/priceUtils";
+} from "@difx/utils";
+import sortBy from "lodash/sortBy";
+import { useMemo } from "react";
 import { PairMetadataStyled } from "./styled";
 
 /* eslint-disable-next-line */
 export interface PairMetaDataWrapperProps {
-  pairInfo?: PairType;
+  pair: string;
 }
 
-export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
-  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
+export function PairMetaDataWrapper({pair}: PairMetaDataWrapperProps) {
+  const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
 
-  const router = useRouter();
-  const { pair } = router.query;
-
   let pairInfo = null;
-  if (pairs) {
-    pairInfo = pairs.find((e) => e.symbol === pair);
+  if (resData) {
+    pairInfo = resData.spot.find((e) => e.symbol === pair);
   }
 
   const param: useSocketProps = {
@@ -65,7 +61,7 @@ export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
         const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
         const newPrice = getAveragePrice(
           reverseAsks[reverseAsks.length - 1][0],
-          _bids[0][0],
+          (_bids && _bids[0]) ? _bids[0][0] :0 ,
           pairInfo.group_precision
         );
         const priceTrend = getTrendPrice(PairMetaDataWrapper.previousPrice, newPrice);

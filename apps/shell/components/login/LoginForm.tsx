@@ -245,7 +245,7 @@ export function LoginForm(props: LoginFormProps) {
           <PasswordField onChange={onChangePass} />
         </Form.Item>
         <Button
-          disabled={isLoading || hasFieldError || !isValidPass || !dialCode}
+          disabled={isLoading || hasFieldError || !isValidPass || (type === 'phone' && !dialCode)}
           htmlType="submit"
           className="sign-in-btn"
           type="primary"

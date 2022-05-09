@@ -16,7 +16,8 @@ export function getTrendPrice(
 }
 
 export function getPricePercentChange(last: number, open: number): number {
-  return ((last - open) / open) * 100;
+  const result = ((last - open) / open) * 100;
+  return isNaN(result) ? 0 : result;
 }
 
 export function getPriceFormatted(price: number, precision: number): string {

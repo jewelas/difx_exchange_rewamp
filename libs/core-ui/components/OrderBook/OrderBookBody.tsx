@@ -1,30 +1,34 @@
-import { LoadingOutlined } from "@ant-design/icons";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Spin } from "antd";
 import clsx from "clsx";
-import { NetworkStatusType } from "./../../../shared/type/Network";
-import { formatNumber } from "../../utils/formatter";
-import WifiIcon from "../Icon/WifiIcon";
+import { formatNumber } from "./../../utils/formatter";
+import DotIcon from "./../Icon/DotIcon";
+import WifiIcon from "./../Icon/WifiIcon";
 import { Typography } from "../Typography";
+import { NetworkStatusType } from "./../../../shared/type/Network";
+import Loading from "./../Loading";
 import { BarStyled } from "./styled";
 
-/* eslint-disable-next-line */
-export type SortType = "all" | "bid" | "ask";
-export interface OrderBookProps {
-  bids?: Array<Array<number>>;
-  asks?: Array<Array<number>>;
+export interface OrderBookBodyProps {
   numberFormat?: "0.01" | "0.1" | "1" | "10" | string;
-  priceTrend: string;
-  currentPrice: number;
+  priceTrend?: string;
+  currentPrice?: number;
   networkStatus?: NetworkStatusType;
-}
+  onPriceSelected?: (price: number) => void;
+  priceOpenOrders?: Array<any>;
 
-const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+  maxRowData?: number;
+  type?: 'bid' | 'ask';
+  data?: Array<Array<number>>;
+}
 
 function renderData(
   max_row: number,
   type: "bid" | "ask",
   data: Array<Array<number>> | undefined,
-  numberFormat: string
+  numberFormat: string,
+  onPriceSelected: (price: number) => void,
+  priceOpenOrders: Array<number>
 ) {
   const result = [];
 
@@ -33,8 +37,14 @@ function renderData(
     const row = data[i];
     if (row) {
       result.push(
-        <div key={`${type}_${row[0]}_${i}`} className="table-row">
-          <BarStyled className={type} width={row[2].toString()} />
+        <div onClick={() => { onPriceSelected && onPriceSelected(row[0]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
+          <BarStyled className={type} style={{width: `${row[2].toString()}%` }} />
+          {
+            priceOpenOrders.find((e:any)=>e.side === type && e.price === row[0]) &&
+            <div className={clsx("dot", type)}>
+              <DotIcon fill={type === 'ask' ? '#DB5354' : '#21C198'} />
+            </div>
+          }
           <Typography level="B3" className="price">
             {formatNumber(row[0], numberFormat)}
           </Typography>
@@ -51,13 +61,9 @@ function renderData(
   return result;
 }
 
-function renderCurrentPrice(
-  currentPrice: number,
-  priceTrend: string,
-  networkStatus?: string
-) {
+export function CurrentPrice({ currentPrice, priceTrend, networkStatus }: OrderBookBodyProps) {
   if (!currentPrice) {
-    return <Spin className="loading" indicator={loadingIcon} />;
+    return <Spin className="loading" indicator={<Loading />} />;
   }
   return (
     <div className="center-group">
@@ -73,77 +79,24 @@ function renderCurrentPrice(
   );
 }
 
-export function BidAskData({
-  networkStatus,
-  bids,
-  asks,
-  numberFormat = "0.01",
-  currentPrice,
-  priceTrend,
-}: OrderBookProps) {
-  const MAX_ROW = 12;
 
-  if (!bids || !asks) {
-    return <Spin className="loading" indicator={loadingIcon} />;
+export function OrderData({
+  type,
+  data,
+  numberFormat = "0.01",
+  onPriceSelected,
+  priceOpenOrders,
+  maxRowData = 12
+}: OrderBookBodyProps) {
+
+  if (!data) {
+    return <Spin className="loading" indicator={<Loading />} />;
   }
 
+  if(!type || !onPriceSelected) return null;
   return (
-    <div className="table-body">
-      <div className="ask">
-        {renderData(MAX_ROW, "ask", asks, numberFormat)}
-      </div>
-
-      {renderCurrentPrice(currentPrice, priceTrend, networkStatus)}
-
-      <div className="bid">
-        {renderData(MAX_ROW, "bid", bids, numberFormat)}
-      </div>
-    </div>
-  );
-}
-
-export function OnlyBidData({
-  networkStatus,
-  bids,
-  numberFormat = "0.01",
-  currentPrice,
-  priceTrend,
-}: OrderBookProps) {
-  const MAX_ROW = 24;
-
-  if (!bids) {
-    return <Spin className="loading" indicator={loadingIcon} />;
-  }
-
-  return (
-    <div className="table-body">
-      {renderCurrentPrice(currentPrice, priceTrend, networkStatus)}
-      <div className="bid">
-        {renderData(MAX_ROW, "bid", bids, numberFormat)}
-      </div>
-    </div>
-  );
-}
-
-export function OnlyAskData({
-  networkStatus,
-  asks,
-  numberFormat = "0.01",
-  currentPrice,
-  priceTrend,
-}: OrderBookProps) {
-  const MAX_ROW = 24;
-
-  if (!asks) {
-    return <Spin className="loading" indicator={loadingIcon} />;
-  }
-
-  return (
-    <div className="table-body">
-      <div className="ask">
-        {renderData(MAX_ROW, "ask", asks, numberFormat)}
-      </div>
-      {renderCurrentPrice(currentPrice, priceTrend, networkStatus)}
+    <div className={type}>
+      {renderData(maxRowData, type, data, numberFormat, onPriceSelected, priceOpenOrders || [])}
     </div>
   );
 }

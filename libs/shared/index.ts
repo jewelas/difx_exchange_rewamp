@@ -9,6 +9,7 @@ export * from "./hook/useHttp";
 export * from "./hook/useLocalStorage";
 export * from "./hook/useRecaptcha";
 export * from "./hook/useRTL";
+export * from "./hook/useFingerprint";
 
 export * from "./type/User";
 export * from "./type/Pair";

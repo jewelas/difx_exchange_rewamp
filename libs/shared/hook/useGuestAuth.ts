@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { AxiosResponse, AxiosError } from "axios";
+import { AxiosResponse } from "axios";
 import { axiosInstance as instance } from "./../api/index";
-import { notification } from 'antd';
 import { useAtom } from "jotai";
 import {
   isLoggedInAtom,
@@ -9,11 +8,13 @@ import {
   configAtom
 } from "../atom/index";
 import { API_ENDPOINT } from "..";
+import { useFingerprint } from "..";
 
 export function useGuestAuth() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [permissions, setPermissions] = useAtom(permissionsAtom);
   const [config, setConfig] = useAtom(configAtom);
+  const { getFingerprint } = useFingerprint() 
 
 
   useEffect(() => {
@@ -35,8 +36,9 @@ export function useGuestAuth() {
   }, [isLoggedIn]);
 
   const refreshAnonymousToken = async() => {
+    const deviceFingerprint = await getFingerprint()
     const reqData = {
-      identifier: "1234",
+      identifier: deviceFingerprint,
       device_type: "web",
       push_token: "21321321312"
     }
@@ -56,7 +58,6 @@ export function useGuestAuth() {
     try{
       const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.GET_ANONYMOUS_TOKEN,reqData)
       const { data } = response.data
-      console.log(data)
       let { anonymousToken, config, permission } = data
       localStorage?.setItem("sessionToken", anonymousToken)
       localStorage?.setItem("permissions", JSON.stringify(permission))

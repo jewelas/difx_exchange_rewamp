@@ -1,4 +1,9 @@
-export interface ThemeInterface {
+import { Theme } from 'antd/lib/config-provider/context';
+
+/* 
+   Note: Overriding fields value inside Theme interface (e.g: primaryColor, infoColor,...) it will affect on the whole antd component
+ */
+export interface ThemeInterface extends Theme {
   color: {
     primary: string;
     secondary: string;
@@ -17,8 +22,9 @@ export interface ThemeInterface {
     dangerDisabled: string;
     disabled: string;
     selected: string;
+    rowHover: string
   };
-  scrollbar:{
+  scrollbar: {
     bar: string;
     background: string
   }
@@ -70,11 +76,20 @@ export interface ThemeInterface {
     medium: string;
     small: string;
   };
+  chart: {
+    line: string;
+  }
   inputFieldHeight: string,
   transition: string;
 }
 
 export const light: ThemeInterface = {
+
+  // antd color
+  successColor: "#21C198",
+  primaryColor: "#3D7EFF",
+  errorColor: "#DB5354",
+
   color: {
     primary: "#3D7EFF",
     secondary: "#FAAD14",
@@ -93,10 +108,14 @@ export const light: ThemeInterface = {
     dangerDisabled: "#FFF3F3",
     disabled: "#f5f5f5",
     selected: "var(--ant-primary-1)",
+    rowHover: "rgba(0,0,0,0.1)" 
   },
-  scrollbar:{
+  scrollbar: {
     bar: "#999",
     background: "#eee"
+  },
+  chart: {
+    line: "rgba(0,0,0,0.1)"
   },
   background: {
     primary: "#F8FAFD",
@@ -151,6 +170,12 @@ export const light: ThemeInterface = {
 };
 
 export const dark: ThemeInterface = {
+  
+  // antd color
+  successColor: "#21C198",
+  primaryColor: "#3D7EFF",
+  errorColor: "#DB5354",
+
   color: {
     primary: "#3D7EFF",
     secondary: "#FAAD14",
@@ -169,10 +194,14 @@ export const dark: ThemeInterface = {
     dangerDisabled: "#FFF3F3",
     disabled: "rgba(13, 20, 33, 0.6)",
     selected: "rgba(13, 20, 33, 0.6)",
+    rowHover: "rgba(255,255,255,0.1)"
   },
-  scrollbar:{
+  scrollbar: {
     bar: "#464D5F",
     background: "#000",
+  },
+  chart: {
+    line: "rgba(255,255,255,0.1)"
   },
   background: {
     primary: "#161F30",

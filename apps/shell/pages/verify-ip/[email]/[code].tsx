@@ -37,7 +37,7 @@ export function VerifyIpPage() {
     }
   }, [email, code, verifyIp]);
 
-  return <AppLayout ghost>.</AppLayout>;
+  return <AppLayout><div></div></AppLayout>;
 }
 
 export default VerifyIpPage;

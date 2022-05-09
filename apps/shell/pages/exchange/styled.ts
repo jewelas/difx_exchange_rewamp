@@ -13,8 +13,7 @@ export const PageStyled = styled.div`
     height: 31px !important;
   }
 
-  // Class .temp will be removed when completed all components for Exchange page
-  .temp {
+  .base {
     background: ${({ theme }) => theme.background.secondary};
     color: ${({ theme }) => theme.fontColor.primary};
   }

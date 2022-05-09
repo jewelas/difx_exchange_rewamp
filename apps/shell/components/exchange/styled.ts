@@ -40,7 +40,7 @@ export const PairMetadataStyled = styled.div`
     }
 `;
 
-export const ListPairStyled = styled.div`
+export const TableWraperStyled = styled.div`
     padding: 15px 16px; 
     .ant-input{
       height: 25px !important;
@@ -69,6 +69,7 @@ export const ListPairStyled = styled.div`
         }
         .B2{
           cursor: pointer;
+          font-weight: 600;
         }
       }
       .content{
@@ -79,6 +80,7 @@ export const ListPairStyled = styled.div`
           svg{
             cursor: pointer;
             margin-right: 8px;
+            margin-left:3px;
             path{
               fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important; 
             }
@@ -100,6 +102,77 @@ export const ListPairStyled = styled.div`
           /* margin-left:-10px; */
           svg{
             margin-right: 5px;
+          }
+        }
+        .ant-table-body{
+          tr:hover{
+            cursor: pointer;
+            background: ${({ theme }:{theme:ThemeInterface}) => theme.color.rowHover};
+          }
+        }
+      }
+    }
+`;
+
+export const ChartWraperStyled = styled.div`
+    padding: 10px; 
+    .head{
+      .options{
+        width: 200px;
+        display:flex;
+        .B3{
+          margin-right: 23px;
+          cursor: pointer;
+          padding-bottom:2px;
+          &.active{
+            color: ${({theme})=> theme.color.primary};
+            border-bottom: solid 2px ${({theme})=> theme.color.primary};
+          }
+        }
+      }
+    }
+    .content{
+    }
+`;
+
+export const PlaceOrderWraperStyled = styled.div`
+    padding: 10px;
+    .content{
+      .place-order-group{
+        display: flex;
+        .bid{
+          margin-right: 10px;
+          flex-grow: 1;
+        }
+        .ask{
+          margin-left: 10px;
+          flex-grow: 1;
+        }
+      }
+    }
+`;
+
+
+export const OrderReportsWraperStyled = styled.div`
+    padding: 10px 20px;
+    .content{
+      .place-order-group{
+        display: flex;
+        .bid{
+          margin-right: 10px;
+          flex-grow: 1;
+        }
+        .ask{
+          margin-left: 10px;
+          flex-grow: 1;
+        }
+      }
+      .cell{
+        svg{
+          cursor: pointer;
+          opacity: 0.7;
+          &:hover{
+            opacity: 1;
           }
         }
       }

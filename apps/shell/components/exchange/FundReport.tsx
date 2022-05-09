@@ -10,12 +10,9 @@ import { useEffect, useState } from 'react';
 
 export function FundReport() {
 
-  const { token } = useAuth();
-  const headers = { headers: { 'x-access-token': token } }
+  const [tableData, setTableData] = useState<any>([]);
 
-  const [tableData, setTableData] = useState<Array<Balance>>([]);
-
-  const getDataSuccess = (response: AxiosResponse<Array<Balance>>) => {
+  const getDataSuccess = (response: AxiosResponse) => {
     const { data } = response;
     if (data && tableData) {
       for (const order of data) {
@@ -26,10 +23,10 @@ export function FundReport() {
       }
     }
   }
-  const { mutate: getData, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Balance>>({ onSuccess: getDataSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
+  const { mutate: getData, isLoading: isDataLoading } = useHttpGetByEvent<any, any>({ onSuccess: getDataSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
   useEffect(() => {
-    getData(headers);
+    getData(null);
   }, []);
 
   const columns = [

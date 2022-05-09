@@ -21,10 +21,10 @@ const PageStyled = styled.div`
       }
       .B2 {
         margin-top: 10px;
-        color: ${Color.grey.linkSecondary};
+        color: ${({ theme }) => theme.fontColor.muted};
       }
       .B1 {
-        color: ${Color.grey.linkSecondary};
+        color: ${({ theme }) => theme.fontColor.muted};
       }
       .left-right {
         display: flex;
@@ -37,7 +37,7 @@ const PageStyled = styled.div`
             cursor: pointer;
             &.active {
               .ant-typography {
-                color: ${Color.blue.primary};
+                color: ${({ theme }) => theme.color.primary};
               }
             }
           }

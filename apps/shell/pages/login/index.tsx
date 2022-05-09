@@ -20,7 +20,7 @@ export function LoginPage(props: LoginPageProps) {
             <div className="link">
               <Icon.LockIcon />
               <div>
-                <span style={{ color: Color.green.success }}>https://</span>
+                <span style={{ color: `${({ theme }) => theme.color.success}` }}>https://</span>
                 difx.com
               </div>
             </div>

@@ -4,7 +4,7 @@ import { Col, Row } from "antd";
 import Link from "next/link";
 import AppLayout from "..";
 import ForgotForm from "./../../components/forgot/ForgotForm";
-import PageStyled from "./styled";
+import {PageStyled} from "./styled";
 
 /* eslint-disable-next-line */
 export interface ForgotPageProps {}

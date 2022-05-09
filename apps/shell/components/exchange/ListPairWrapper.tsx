@@ -17,16 +17,17 @@ export function ListPairWrapper() {
   const [pairs, setPairs] = useState<any>()
   const [typeChange, setTypeChange] = useState<'percent' | 'volume'>('percent')
 
+  
+  const componentRef = useRef(null);
+  
+  const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
+  
   useEffect(()=>{
     if(resData){
       setPairs(resData.spot)
     }
   },[resData])
-
-  const componentRef = useRef(null);
-
-  const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
-
+  
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];
     if (!_pairs.includes(pair)) {

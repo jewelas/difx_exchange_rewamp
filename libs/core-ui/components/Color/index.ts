@@ -1,7 +1,7 @@
 // import * as colors from "@ant-design/colors";
 
 // const Color = colors;
-let Color = {
+const Color = {
   red: {failure:"#DB5354"},
   green: {success:"#21C198"},
   blue: {primary:"#3D7EFF"},

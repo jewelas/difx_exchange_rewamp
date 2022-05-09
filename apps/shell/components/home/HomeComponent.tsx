@@ -21,7 +21,7 @@ export function HomePage(props: HomePageProps) {
           <div className="title">All</div>
           <div className="pairs">
             {
-              // isLoading ? <span>Loading</span> : <PairTable pairs={data.spot} />
+              isLoading ? <span>Loading</span> : <PairTable pairs={data.spot} />
             }
           </div>
         </ListPairsContentStyled>

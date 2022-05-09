@@ -4,17 +4,24 @@ import {
   PairType, useHttpGet, useLocalStorage
 } from "@difx/shared";
 import { Input, Table } from "antd";
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { API_ENDPOINT, FETCHING, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { getPriceFormatted, getPricePercentChange } from "./../../utils/priceUtils";
 import { ListPairStyled } from "./styled";
 
 export function ListPairWrapper() {
-  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: FETCHING.REFETCH_INTERVAL });
+  const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: FETCHING.REFETCH_INTERVAL });
 
   const [tab, setTab] = useState<'favorite' | 'all'>('all');
   const [searchValue, setSearchValue] = useState("");
+  const [pairs, setPairs] = useState<any>()
   const [typeChange, setTypeChange] = useState<'percent' | 'volume'>('percent')
+
+  useEffect(()=>{
+    if(resData){
+      setPairs(resData.spot)
+    }
+  },[resData])
 
   const componentRef = useRef(null);
 

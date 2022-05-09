@@ -23,15 +23,15 @@ export interface PairMetaDataWrapperProps {
 }
 
 export function PairMetaDataWrapper(props: PairMetaDataWrapperProps) {
-  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
+  const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
 
   const router = useRouter();
   const { pair } = router.query;
 
   let pairInfo = null;
-  if (pairs) {
-    pairInfo = pairs.find((e) => e.symbol === pair);
+  if (resData) {
+    pairInfo = resData.spot.find((e) => e.symbol === pair);
   }
 
   const param: useSocketProps = {

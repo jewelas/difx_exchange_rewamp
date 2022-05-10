@@ -15,16 +15,18 @@ export function ChartWrapper({ pair }: { pair: string }) {
   const [chartHistory, setChartHistory] = useState<Array<ChartDataType>>([]);
   const [tab, setTab] = useState('basic')
 
-  const getChartHistorySuccess = (response: AxiosResponse<Array<ChartDataType>>) => {
-    if (response.data) setChartHistory(response.data);
+  const getChartHistorySuccess = (response: AxiosResponse) => {
+    const { data: resData } = response.data
+    if (resData) setChartHistory(resData);
   }
 
-  const { mutate: getChartHistory } = useHttpGetByEvent<null, Array<ChartDataType>>({ onSuccess: getChartHistorySuccess, endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, resolution) });
-  const { data: chartCurrent } = useHttpGet<null, Array<ChartDataType>>(QUERY_KEY.CHART_CURRENT, `${API_ENDPOINT.GET_CHART_CURRENT(pair, resolution)}`, { refetchInterval: REFETCH._3SECS });
+  const { mutate: getChartHistory } = useHttpGetByEvent<null, any>({ onSuccess: getChartHistorySuccess, endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, resolution) });
+  const { data: chartCurrent } = useHttpGet<null, any>(QUERY_KEY.CHART_CURRENT, `${API_ENDPOINT.GET_CHART_CURRENT(pair, resolution)}`, { refetchInterval: REFETCH._3SECS });
 
   useEffect(() => {
     getChartHistory(null);
   }, [resolution, pair]);
+
 
   return (
     <ChartWraperStyled>

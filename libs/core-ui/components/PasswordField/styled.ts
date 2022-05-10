@@ -17,7 +17,7 @@ export const FieldStyled = styled.div`
     margin-top: -4px;
   }
   &.fail {
-    border-color: ${Color.red.failure};
+    border-color: ${({ theme }) => theme.color.danger};
   }
   .view-pass {
     display: inline-block;

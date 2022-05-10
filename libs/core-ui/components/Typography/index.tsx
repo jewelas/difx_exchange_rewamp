@@ -17,13 +17,13 @@ const Typography = ({ color, fontSize, fontWeight, lineHeight, level, className,
   let _color;
   switch (color) {
     case "danger":
-      _color = Color.red.failure;
+      _color = Color.red?.failure;
       break;
     case "primary":
-      _color = Color.blue.primary;
+      _color = Color.blue?.primary;
       break;
     case "success":
-      _color = Color.green.success;
+      _color = Color.green?.success;
       break;
     case "secondary":
       _color = Color.grey.textSecondary;

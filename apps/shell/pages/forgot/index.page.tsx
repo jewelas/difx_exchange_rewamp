@@ -2,9 +2,9 @@ import { Typography } from "@difx/core-ui";
 import t from "@difx/locale";
 import { Col, Row } from "antd";
 import Link from "next/link";
-import AppLayout from "..";
-import ForgotForm from "./../../components/forgot/ForgotForm";
-import PageStyled from "./styled";
+import AppLayout from "../index.page";
+import ForgotForm from "../../components/forgot/ForgotForm";
+import {PageStyled} from "./styled";
 
 /* eslint-disable-next-line */
 export interface ForgotPageProps {}

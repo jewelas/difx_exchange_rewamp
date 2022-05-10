@@ -2,7 +2,11 @@ import { BaseResponse } from "./Base";
 
 export interface VerifyIpRequest {
   email: string;
-  activationCode: string;
+  activationCode: string
 }
 
-export interface VerifyIpResponse extends BaseResponse {}
+export interface VerifyIpResponse extends BaseResponse {
+  data: string,
+  message: string,
+  timestamp: string
+}

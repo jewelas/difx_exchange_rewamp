@@ -44,7 +44,9 @@ export const PageStyled = styled.div`
         .nav{
           display: flex;
           .ant-btn{
-
+            span{
+              color:#fff;
+            }
           }
         }
       }
@@ -79,6 +81,9 @@ export const PageStyled = styled.div`
           .bottom{
             display: flex;
             justify-content: space-around;
+            .ant-btn.ant-btn-primary.ant-btn-background-ghost{
+              color: #fff !important;
+            }
             .ant-btn{
               flex-grow: 1;
               &.l{

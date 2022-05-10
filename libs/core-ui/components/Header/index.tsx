@@ -1,17 +1,17 @@
 import { Button, Col, Drawer, Menu, Row } from "antd";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "../Icon";
 import t from "./../../../locale";
-import { useAuth, useTheme } from "./../../../shared";
+import { useAuth, useTheme, useRTL } from "./../../../shared";
 import {
   StyledButtonGroup,
   StyledHeader,
-  StyledIconButton,
   StyledLine,
   StyledMoreMenuGroup
 } from "./styled";
+
 
 export interface HeaderProps {
   onNavigation: (page: string) => void;
@@ -45,6 +45,7 @@ export function Header(props: HeaderProps) {
   const [width, setWidth] = useState<number>(0);
   const { theme, switchTheme } = useTheme();
   const { isLoggedIn, logOut } = useAuth();
+  const { toggleRTL } = useRTL()
 
   useEffect(() => {
     function handleResize() {
@@ -115,7 +116,7 @@ export function Header(props: HeaderProps) {
 
               <Menu.Item className="more-nav" key="open-drawer">
                 <StyledButtonGroup>
-                  <StyledIconButton
+                  <Button
                     onClick={onOpenDrawer}
                     icon={<HorizontalLineIcon useDarkMode />}
                     size={"small"}
@@ -154,7 +155,7 @@ export function Header(props: HeaderProps) {
                 <>
                   <Menu.Item className="right-nav" key="/notification">
                     <StyledButtonGroup>
-                      <StyledIconButton
+                      <Button
                         icon={<NotificationIcon useDarkMode />}
                         size={"small"}
                         type="text"
@@ -164,7 +165,7 @@ export function Header(props: HeaderProps) {
                   </Menu.Item>
                   <Menu.Item className="right-nav" key="/user">
                     <StyledButtonGroup>
-                      <StyledIconButton
+                      <Button
   
                         icon={<UserIcon useDarkMode />}
                         size={"small"}
@@ -179,7 +180,7 @@ export function Header(props: HeaderProps) {
 
               <Menu.Item className="right-nav" key="download">
                 <StyledButtonGroup>
-                  <StyledIconButton
+                  <Button
                     icon={<DownloadIcon useDarkMode />}
                     size={"small"}
                     type="text"
@@ -189,17 +190,18 @@ export function Header(props: HeaderProps) {
               </Menu.Item>
               <Menu.Item className="right-nav" key="lang">
                 <StyledButtonGroup>
-                  <StyledIconButton
+                  <Button
                     icon={<EarthIcon useDarkMode />}
                     size={"small"}
                     type="text"
+                    onClick={()=>toggleRTL()}
                   />
                   <StyledLine />
                 </StyledButtonGroup>
               </Menu.Item>
               <Menu.Item className="right-nav" key="theme">
                 <StyledButtonGroup>
-                  <StyledIconButton
+                  <Button
                     onClick={() => switchTheme()}
                     icon={
                       theme === "light" ? (
@@ -218,7 +220,7 @@ export function Header(props: HeaderProps) {
                 <Menu.Item className="right-nav" key="setting">
                   <StyledButtonGroup>
                     <StyledLine />
-                    <StyledIconButton
+                    <Button
                       icon={<SettingIcon useDarkMode />}
                       size={"small"}
                       type="text"

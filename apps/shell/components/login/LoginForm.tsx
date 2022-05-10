@@ -43,6 +43,7 @@ export function LoginForm(props: LoginFormProps) {
   const [dialCode, setDialCode] = useState(null);
   const [hasFieldError, setHasFieldError] = useState(true);
   const [isValidPass, setIsValidPass] = useState(false);
+  const [isSubAccount, setIsSubAccount] = useState(false)
   const [form] = Form.useForm(null);
 
   const router = useRouter();
@@ -158,52 +159,60 @@ export function LoginForm(props: LoginFormProps) {
       onFieldsChange={onFormChange}
       autoComplete="off"
     >
-      <div className="left-right">
-        <div className="left">
-          <div
-            onClick={() => {
-              onChangeLoginType("email");
-            }}
-            className={clsx("tab", type === "email" && "active")}
-          >
-            <Typography level="B1">{t("signin.email")}</Typography>
-          </div>
-          
-          {
-            !isCorporate ?
-            <>
-              <div className="splitter" />
-              <div
-                onClick={() => {
-                  onChangeLoginType("phone");
-                }}
-                className={clsx("tab", type === "phone" && "active")}
-              >
-                <Typography level="B1">{t("signin.phone_number")}</Typography>
+      {
+        !isSubAccount ? 
+          <>
+            <div className="left-right">
+              <div className="left">
+                <div
+                  onClick={() => {
+                    onChangeLoginType("email");
+                  }}
+                  className={clsx("tab", type === "email" && "active")}
+                >
+                  <Typography level="B1">{t("signin.email")}</Typography>
+                </div>
+                
+                {
+                  !isCorporate ?
+                  <>
+                    <div className="splitter" />
+                    <div
+                      onClick={() => {
+                        onChangeLoginType("phone");
+                      }}
+                      className={clsx("tab", type === "phone" && "active")}
+                    >
+                      <Typography level="B1">{t("signin.phone_number")}</Typography>
+                    </div>
+                  </>
+                  :
+                      null
+                }
               </div>
-            </>
-            :
-                null
-          }
-        </div>
-        <div className="right">
-          <div
-            className="pointer"
-            onClick={() => {
-              setIsCorporate(!isCorporate);
-            }}
-          >
-            <Typography level="B2">{t("signin.corporate")}</Typography>
-          </div>
-          <Switch
-            size="small"
-            checked={isCorporate}
-            onChange={(checked) => {
-              setIsCorporate(checked);
-            }}
-          />
-        </div>
-      </div>
+              <div className="right">
+                <div
+                  className="pointer"
+                  onClick={() => {
+                    setIsCorporate(!isCorporate);
+                  }}
+                >
+                  <Typography level="B2">{t("signin.corporate")}</Typography>
+                </div>
+                <Switch
+                  size="small"
+                  checked={isCorporate}
+                  onChange={(checked) => {
+                    setIsCorporate(checked);
+                  }}
+                />
+              </div>
+            </div>
+          </>
+        :
+          <>
+          </>
+      }
       <div className="content">
         {type === "email" ? (
           <Form.Item
@@ -264,11 +273,17 @@ export function LoginForm(props: LoginFormProps) {
 
         <div className="left-right">
           <div className="left">
-            <Button
-              type="link"
+            <button 
+              className="sub-account-link"
+              onClick={()=>setIsSubAccount(!isSubAccount) }
             >
-            {t("register.subAccount")}
-            </Button>
+              {
+                !isSubAccount ? 
+                  <>{t("register.subAccount")}</>
+                :
+                  <>{t("register.mainAccount")}</>
+              }
+            </button>
           </div>
           <div className="right.forgot-pass">
             <Typography level="B1">
@@ -277,13 +292,12 @@ export function LoginForm(props: LoginFormProps) {
           </div>
         </div>
         
-        <Button
-          className="register-btn"
-          type="primary"
-        >
-          <span></span>
-          {t("register.title")}
-        </Button>
+        <div className="to-register-box">
+            <Typography level="B1">
+              {t("register.newAccount")}
+              <Link href="/register">{t("register.title")}</Link>
+            </Typography>
+        </div>
 
       </div>
     </Form>

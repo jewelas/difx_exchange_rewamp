@@ -65,6 +65,7 @@ export const API_ENDPOINT = {
   },
   GET_BALANCE: '/api/v1/user/balance',
   SIGNIN: '/api/v1/auth/login',
+  GET_LOGIN_QR: '/api/v1/auth/qr',
   SIGNUP_VERIFICATION: '/api/v1/auth/pre-check',
   SIGNUP: `/api/v1/auth/signup`,
   FORGOT: '/api/v1/password/forgot',

@@ -6,10 +6,10 @@ import { PageStyled, MarketContentStyled, MarketCard } from "./styled";
 import t from "@difx/locale";
 import TopMarket from "./TopMarket";
 import Stats from "./stats";
-// import MarketDrawer from "./drawer";
+import MarketDrawer from "./drawer";
 import { useAtom } from "jotai";
 import { marketPairAtom } from "@difx/shared";
-// import MarketModal from "./modal";
+import MarketModal from "./modal";
 
 export function Market() {
   const [marketPair] = useAtom(marketPairAtom)
@@ -48,7 +48,7 @@ export function Market() {
       <Button type="primary" onClick={showModal}>
         Trade
       </Button>
-        {/* <Drawer
+        <Drawer
           title="Overview"
           placement="left"
           onClose={onClose}
@@ -58,7 +58,7 @@ export function Market() {
         </Drawer>
         <Modal title="&nbsp;" visible={isModalVisible} footer={null}>
             <MarketModal />
-        </Modal> */}
+        </Modal>
       </PageStyled>
     </AppLayout>
   );

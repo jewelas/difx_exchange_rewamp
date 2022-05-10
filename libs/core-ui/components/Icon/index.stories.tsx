@@ -82,7 +82,8 @@ const Template: Story = (args) => {
     CompodingIcon,
     RewardIcon,
     CoinIcon,
-    HeadTagIcon
+    HeadTagIcon,
+    NoDataIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -184,6 +185,7 @@ const Template: Story = (args) => {
         {renderIcon("CompodingIcon", <CompodingIcon {...iconArgs} />)}
         {renderIcon("CoinIcon", <CoinIcon {...iconArgs} />)}
         {renderIcon("HeadTagIcon", <HeadTagIcon {...iconArgs} />)}
+        {renderIcon("NoDataIcon", <NoDataIcon {...iconArgs} />)}
       </div>
     </div>
   );

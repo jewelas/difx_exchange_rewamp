@@ -27,6 +27,9 @@ export const PageStyled = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: center;
+        @media (max-width: 813px) {
+          display:none;
+        }
         .H2{
           margin-bottom: 15px;
           color: #fff !important;
@@ -49,8 +52,12 @@ export const PageStyled = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: center;
+        @media (max-width: 813px) {
+          max-width: 100%;
+        }
         .card{
           background: #fff;
+          min-width: 278px;
           height: 250px;
           padding: 30px;
           border-radius: 3px;
@@ -81,6 +88,14 @@ export const PageStyled = styled.div`
                 margin-left: 5px;
               }
             }
+          }
+        }
+        .nav{
+          display:none;
+          @media (max-width: 813px) {
+            display:flex;
+            width: 100%;
+            margin-top: 10px;
           }
         }
       }
@@ -128,10 +143,17 @@ export const PageStyled = styled.div`
     }
   }
   .body{
+    min-height: 130px;
     .card-group{
       display: grid;
       grid-template-columns: auto auto auto;
-      @media (max-width: 959px) {
+      @media (max-width: 1944px) {
+        grid-template-columns: auto auto auto auto;
+      }
+      @media (max-width: 1796px) {
+        grid-template-columns: auto auto auto;
+      }
+      @media (max-width: 1346px) {
         grid-template-columns: auto auto;
       }
       @media (max-width: 906px) {
@@ -221,7 +243,7 @@ export const PageStyled = styled.div`
             margin-top: 20px;
             display: flex;
             justify-content: space-between;
-            .minmax{
+            /* .minmax{
               .mtitle{
                 .ant-typography{
                   color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important; 
@@ -233,7 +255,7 @@ export const PageStyled = styled.div`
                   color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; 
                 }
               }
-            }
+            } */
           }
         }
         .card-bottom{

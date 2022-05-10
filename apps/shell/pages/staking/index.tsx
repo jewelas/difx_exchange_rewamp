@@ -1,8 +1,11 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import isEmpty from "lodash/isEmpty";
 import { Row, Col, Button, Checkbox, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { Typography, Icon } from '@difx/core-ui'
+import { Typography, Icon, Loading, NoData } from '@difx/core-ui';
+import { QUERY_KEY, API_ENDPOINT } from '@difx/constants';
+import { Staking, useHttpGet } from '@difx/shared'
 import AppLayout from "..";
 import { PageStyled } from "./styled";
 import Card from './../../components/staking/Card';
@@ -15,6 +18,22 @@ export interface StakingPageProps {
 export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
 
   const router = useRouter();
+  const { data: stakingData } = useHttpGet<null, Array<Staking>>(QUERY_KEY.CHART_CURRENT, API_ENDPOINT.GET_STAKING_LIST, null);
+  const [stakingList, setStakingList] = useState<Array<Staking>>([])
+
+  useEffect(() => {
+    setStakingList(stakingData)
+  }, [stakingData]);
+
+  const onSearch = (e) => {
+    const value = e.target.value;
+    if (value) {
+      const filteredData = stakingList.filter(e => e.coin.includes(value) || e.apy === value);
+      setStakingList(filteredData);
+    } else {
+      setStakingList(stakingData)
+    }
+  }
 
   return (
     <AppLayout>
@@ -67,6 +86,20 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
                     <Button className="r" type="primary">Earning</Button>
                   </div>
                 </div>
+                <div className="nav">
+                  <Button ghost>
+                    <Icon.CompodingIcon fill="#fff" />
+                    <span>Compounding</span>
+                  </Button>
+                  <Button ghost>
+                    <Icon.RewardIcon fill="#fff" />
+                    <span>Rewards</span>
+                  </Button>
+                  <Button ghost>
+                    <Icon.ExpandIcon fill="#fff" />
+                    <span>Flexible Interest</span>
+                  </Button>
+                </div>
               </Col>
             </Row>
           </Col>
@@ -80,21 +113,31 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
             </div>
             <div className="right">
               <div className="show-available">
-                <Checkbox onChange={() => {console.log('...')}}>Show available only</Checkbox>
+                <Checkbox onChange={() => { console.log('...') }}>Show available only</Checkbox>
               </div>
               <div className="input-group">
-                <Input placeholder="Search" prefix={<SearchOutlined />} />
+                <Input onChange={onSearch} placeholder="Search" prefix={<SearchOutlined />} />
               </div>
             </div>
           </Col>
         </Row>
         <Row className="body">
           <Col className="card-group" span={21}>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+
+            {
+              isEmpty(stakingList)
+              &&
+              <NoData />
+            }
+            {
+              !stakingData
+                ?
+                <Loading />
+                :
+                stakingList.map(e =>
+                  <Card key={`${e.coin}_${e.apy}`} data={e} />
+                )
+            }
           </Col>
         </Row>
       </PageStyled>

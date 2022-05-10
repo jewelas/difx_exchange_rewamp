@@ -2,7 +2,6 @@ const calcChartDateRange = (type:string) => {
   const to = Math.floor(new Date().getTime() / 1000);
 
   const date = new Date();
-  let from = 0;
   switch (type) {
     case '5m': date.setDate(date.getDate() - 3)
       break;
@@ -78,5 +77,6 @@ export const API_ENDPOINT = {
   PLACE_ORDER_STOP: '/api/v1/order/make-stop',
   CANCEL_BID_ORDER: '/api/v1/order/cancel-bid',
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
-  CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop'
+  CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
+  GET_STAKING_LIST: '/api/v1/staking/list'
 }

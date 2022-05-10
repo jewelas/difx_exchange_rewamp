@@ -24,7 +24,8 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
 import { ExtraAuth } from "@difx/shared";
 import { useAtom } from "jotai";
-import { useRecaptcha } from "@difx/shared"
+import { useRecaptcha } from "@difx/shared";
+import Link from "next/link";
 
 /* eslint-disable-next-line */
 export interface LoginFormProps {}
@@ -167,15 +168,23 @@ export function LoginForm(props: LoginFormProps) {
           >
             <Typography level="B1">{t("signin.email")}</Typography>
           </div>
-          <div className="splitter" />
-          <div
-            onClick={() => {
-              onChangeLoginType("phone");
-            }}
-            className={clsx("tab", type === "phone" && "active")}
-          >
-            <Typography level="B1">{t("signin.phone_number")}</Typography>
-          </div>
+          
+          {
+            !isCorporate ?
+            <>
+              <div className="splitter" />
+              <div
+                onClick={() => {
+                  onChangeLoginType("phone");
+                }}
+                className={clsx("tab", type === "phone" && "active")}
+              >
+                <Typography level="B1">{t("signin.phone_number")}</Typography>
+              </div>
+            </>
+            :
+                null
+          }
         </div>
         <div className="right">
           <div
@@ -252,6 +261,30 @@ export function LoginForm(props: LoginFormProps) {
         >
           {t("signin.login")}
         </Button>
+
+        <div className="left-right">
+          <div className="left">
+            <Button
+              type="link"
+            >
+            {t("register.subAccount")}
+            </Button>
+          </div>
+          <div className="right.forgot-pass">
+            <Typography level="B1">
+              <Link href="/forgot">{t("common.forgot_password")}</Link>
+            </Typography>
+          </div>
+        </div>
+        
+        <Button
+          className="register-btn"
+          type="primary"
+        >
+          <span></span>
+          {t("register.title")}
+        </Button>
+
       </div>
     </Form>
   );

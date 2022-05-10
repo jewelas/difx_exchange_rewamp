@@ -53,6 +53,7 @@
     "verify_success": "Verification successfully!"
   },
   "register": {
+    "title": "Register",
     "message1": "Register to get upto",
     "message2": "$500 worth of DIFX tokens",
     "message3": "Earn rewards easily by signing up today!",
@@ -65,7 +66,9 @@
     "term2": "Terms and Conditions",
     "verifyEmailHeader": "Email Verification Code",
     "verifyEmailMessage": "Please enter the verification code send to ",
-    "verifyEmailButton": "Verify"
+    "verifyEmailButton": "Verify",
+    "subAccount": "Sub-Account",
+    "newAccount": "New Account? "
   },
   "error": {
     "input_2factor_code": "Please enter two factor authentication code",

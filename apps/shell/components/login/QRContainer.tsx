@@ -1,8 +1,16 @@
 import React from 'react'
-import QRScanImage from "./svg/QRScanImage";
+import { QRContainerStyled } from './QRContainer.style'
+import { QRCodeSVG } from 'qrcode.react';
 
 export default function QRContainer() {
+
+  console.log(QRCodeSVG)
+
   return (
-    <QRScanImage />
+    <QRContainerStyled>
+      <QRCodeSVG
+       value="https://difx.com/"
+      />
+    </QRContainerStyled>
   )
 }

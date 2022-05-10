@@ -42,7 +42,7 @@ export function LoginPage(props: LoginPageProps) {
 
                   <LoginForm />
 
-                  <div className="left-right">
+                  {/* <div className="left-right">
                     <div className="left">
                       <Typography level="B1">
                         {t("signin.new_account")}{" "}
@@ -54,13 +54,13 @@ export function LoginPage(props: LoginPageProps) {
                         <Link href="/forgot">{t("common.forgot_password")}</Link>
                       </Typography>
                     </div>
-                  </div>
-                  <div className="or">
-                    <div>Or</div>
-                  </div>
+                  </div> */}
                 </>
             }
 
+            <div className="or">
+              <div>Or</div>
+            </div>
             <Button
               htmlType="submit"
               className="sign-in-qrcode"

@@ -10,19 +10,13 @@ import { Input, Table } from "antd";
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { TableWraperStyled } from "./styled";
-// import { getPriceFormatted, getPricePercentChange } from "./../../utils/priceUtils";
-// import { ListPairStyled } from "./styled";
-
-// export function ListPairWrapper() {
-  // const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: FETCHING.REFETCH_INTERVAL });
-// import { useMemo, useRef, useState } from 'react';
 
 export function ListPairWrapper() {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null/*{ refetchInterval: REFETCH._10SECS }*/);
 
   const [tab, setTab] = useState<'favorite' | 'all'>('all');
   const [searchValue, setSearchValue] = useState("");
-  const [pairs, setPairs] = useState<any>()
+  const [pairs, setPairs] = useState<PairType[]>()
   const [typeChange, setTypeChange] = useState<'percent' | 'volume'>('percent')
 
   const router = useRouter();

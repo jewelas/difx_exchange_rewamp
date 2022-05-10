@@ -12,7 +12,6 @@ export const FormStyled = styled.div`
     margin-top: 20px;
     display: block;
   }
-
   .country-select-group {
     margin-top: 10px;
     .ant-select {
@@ -129,3 +128,41 @@ export const PageStyled = styled.div`
     }
   }
 `;
+
+export const EmailVerifyContainer = styled.div`
+  background: ${({ theme }) => theme.background.secondary} ;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 75vh;
+  padding: 200px 40px 40px 40px;
+
+  .verifyBox{
+    width: 80%;
+  }
+
+  p{
+    margin-top: 10px;
+    font-size: ${({theme}) => theme.typography.large} !important;
+    color: ${({theme}) => theme.fontColor.muted} !important;
+  }
+
+  .otpContainer{
+    justify-content: space-between;
+  }
+
+  .otpbox{
+    width: ${({theme}) => theme.otpBoxSize} !important;
+    height: ${({theme}) => theme.otpBoxSize} !important;
+    border: none;
+    background: ${({theme}) => theme.background.primary} !important;
+    border: 2px;
+    font-size: ${({theme}) => theme.typography.xlarge};
+  }
+
+  .ant-btn{
+    margin-top: 20px;
+    width: 100%;
+  }
+`

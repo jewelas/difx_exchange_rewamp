@@ -52,6 +52,7 @@ export interface ThemeInterface extends Theme {
     h4: string;
     h5: string;
     h6: string;
+    xlarge: string,
     large: string;
     medium: string;
     small: string;
@@ -80,6 +81,7 @@ export interface ThemeInterface extends Theme {
     line: string;
   }
   inputFieldHeight: string,
+  otpBoxSize: string,
   transition: string;
 }
 
@@ -141,6 +143,7 @@ export const light: ThemeInterface = {
     h4: "30px",
     h5: "24px",
     h6: "20px",
+    xlarge: "22px",
     large: "16px",
     medium: "14px",
     small: "12px",
@@ -165,7 +168,8 @@ export const light: ThemeInterface = {
     medium: "42px",
     small: "32px",
   },
-  inputFieldHeight: "52px",
+  inputFieldHeight: "48px",
+  otpBoxSize: "63px",
   transition: "all 0.2s ease-in-out",
 };
 
@@ -227,6 +231,7 @@ export const dark: ThemeInterface = {
     h4: "30px",
     h5: "24px",
     h6: "20px",
+    xlarge: "22px",
     large: "16px",
     medium: "14px",
     small: "12px",
@@ -251,7 +256,8 @@ export const dark: ThemeInterface = {
     medium: "42px",
     small: "38px",
   },
-  inputFieldHeight: "52px",
+  inputFieldHeight: "48px",
+  otpBoxSize: "58px",
   transition: "all 0.2s ease-in-out",
 };
 

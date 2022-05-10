@@ -2,8 +2,8 @@ import { Typography } from "@difx/core-ui";
 import t from "@difx/locale";
 import { Col, Row } from "antd";
 import React from "react";
-import AppLayout from "..";
-import RegisterFormComponent from "./../../components/register/RegisterForm";
+import AppLayout from "../index.page";
+import RegisterFormComponent from "../../components/register/RegisterForm";
 import { PageStyled } from "./styled";
 import CoverImage from "./svg/CoverImage";
 

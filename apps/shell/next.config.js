@@ -14,7 +14,7 @@ const nextConfig = {
   experimental: {
     styledComponents: true
   },
-  pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js']
+  pageExtensions: ['page.tsx','page.ts']
 };
 
 module.exports = withNx(nextConfig);

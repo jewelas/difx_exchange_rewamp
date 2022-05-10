@@ -1,13 +1,24 @@
 import React, { useState } from "react";
-import { Col, Row, Tabs } from "antd";
+import { Button, Col, Row, Tabs } from "antd";
 import { Icon } from "@difx/core-ui";
-import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice } from "./styled";
-import GridView from "./gridView";
+import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, FavoriteFilter } from "./styled";
+import GridView from "./GridView";
 import ListView from "./ListView";
 
 export function Stats() {
     const [tab, setTab] = useState('favorites');
+    const [cardVisible, setCardVisible] = useState(false);
+    const [listVisible, setListVisible] = useState(true);
     const { TabPane } = Tabs;
+
+  const showCardLayout = () => {
+      setCardVisible(true);
+      setListVisible(false);
+  };
+  const showListLayout = () => {
+    setListVisible(true);
+    setCardVisible(false);
+};
   return (
     <MarketWrapper>
         <MarketTabsWrapper>
@@ -25,10 +36,10 @@ export function Stats() {
                     <MarketGridLayout>
                         <Row>
                             <Col style={{marginRight:5}}>
-                                <Icon.ListViewIcon />
+                                <Button onClick={showListLayout}><Icon.ListViewIcon /></Button>
                             </Col>
                             <Col>
-                                <Icon.CardViewIcon />
+                            <Button onClick={showCardLayout}><Icon.CardViewIcon /></Button>
                             </Col>
                         </Row>
                     </MarketGridLayout>
@@ -36,12 +47,20 @@ export function Stats() {
             </Row>
         </MarketTabsWrapper>
         <MarketContentWrapper>
-            <div className="report-group">
+            <div>
                 {tab === 'favorites' &&
-                <div> 
-                    <ListView  />
-                    <GridView />
-                </div>
+                <>
+                  <FavoriteFilter>
+                    <Button>
+                      Spot-8
+                    </Button>
+                    <Button>
+                      Futures-8
+                    </Button>
+                  </FavoriteFilter>
+                  { listVisible ? <ListView /> : null }
+                  { cardVisible ? <GridView /> : null }
+                </>
                 }
                 {tab === 'spot' && "Spot"}
                 {tab === 'futures' && "Futures"}

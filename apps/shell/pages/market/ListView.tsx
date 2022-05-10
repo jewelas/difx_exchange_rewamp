@@ -1,10 +1,11 @@
-import React from "react";
-import { Table, Space, Tag, Button, Avatar } from "antd";
+import React, { useState } from "react";
+import { Table, Space, Tag, Button, Avatar, Tabs, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
 import { TableLastPrice } from "./styled";
-
+import { useAtom } from "jotai";
+import { marketPairAtom } from "@difx/shared";
 
 const favoritesColumns = [
     {
@@ -56,8 +57,7 @@ const favoritesColumns = [
         key: 'action',
         render: () => (
             <Space size="middle">
-              <Button
-                >
+              <Button>
                 {t("common.info")}
                </Button>
                <Button
@@ -83,7 +83,9 @@ const favoriteDataPairs = [
   ];
 
 export function ListView() {
+  const [setMarketPair] = useAtom(marketPairAtom)
   return (
+    <>
     <Table
         scroll={{ x: "max-content", y: 270 }}
         columns={favoritesColumns}
@@ -91,6 +93,7 @@ export function ListView() {
         pagination={{ position: ['bottomCenter'] }}
         className="common-table"
         />
+    </>
   );
 }
 

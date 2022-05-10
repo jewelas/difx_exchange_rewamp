@@ -86,6 +86,12 @@ const GlobalStyles = createGlobalStyle`
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.small} !important;
     }
 
+    .ant-btn-link{
+      &.anchor-link{padding:0px;height:auto !important;display: flex;
+    align-items: center;
+    gap: 10px;}
+    }
+
     .ant-btn-lg{
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.large} !important;
     }

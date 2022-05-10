@@ -54,7 +54,7 @@ const MarketWrapper = styled.div`
 const MarketContentWrapper = styled.div`
     background: ${({theme}) => theme.background.white};
     border-radius: 2px;
-    padding: 0 30px;
+    padding: 20px 30px;
 `
 const MarketGridLayout = styled.div`
 `
@@ -66,6 +66,14 @@ const TableLastPrice = styled.div`
         display: block;
         color: ${({theme}) => theme.fontColor.secondary};
     }
+`
+const FavoriteFilter = styled.div`
+    
+`
+
+// Grid Card Design
+const GridWrapper = styled.div`
+    .ant-card-body{padding: 15px;}
 `
 const CoinText = styled.div`
     &>.ant-typography{
@@ -93,5 +101,12 @@ const CardStar = styled.div`
     position: absolute;
     right: 20px;
 `
+// Drawer Design
+const CoinDrawerInfo = styled.div`
+    margin: 30px 0;
+    &>.ant-row{
+    margin: 10px 0;
+    }
+`
 
-export {CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}
+export {FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}

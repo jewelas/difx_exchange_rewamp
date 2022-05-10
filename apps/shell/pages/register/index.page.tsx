@@ -14,7 +14,7 @@ export function RegisterPage(props: RegisterPageProps) {
   return (
     <AppLayout>
       <PageStyled>
-        <Row>
+        <Row className="contentBox">
           <Col className="left-side" md={{ span: 16 }}>
             <div className="message">
               <Typography level={"H2"}>{t("register.message1")}</Typography>

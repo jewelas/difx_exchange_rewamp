@@ -6,16 +6,17 @@ import React from "react";
 
 /* eslint-disable-next-line */
 export interface CardProps {
-  data: Staking
+  data: Staking;
+  onStake: ()=>void;
 }
 
-export function Card({ data }: CardProps) {
+export function Card({ onStake, data }: CardProps) {
 
   return (
     <div className="card-item">
       <div className="card-head">
         <div className="cleft">
-          <Icon.CoinIcon coin="USDT" />
+          <Icon.CoinIcon coin={data.coin} />
           <Typography fontSize={20} fontWeight={500} lineHeight={22} className="coin-name">{data.coin}</Typography>
         </div>
 
@@ -54,7 +55,7 @@ export function Card({ data }: CardProps) {
 
       </div>
       <div className="card-bottom">
-        <Button type="primary">Stake Now</Button>
+        <Button onClick={onStake} type="primary">Stake Now</Button>
       </div>
     </div>
   );

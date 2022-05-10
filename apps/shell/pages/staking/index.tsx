@@ -9,6 +9,7 @@ import { Staking, useHttpGet } from '@difx/shared'
 import AppLayout from "..";
 import { PageStyled } from "./styled";
 import Card from './../../components/staking/Card';
+import ModalStacking from "../../components/staking/ModalStacking";
 
 /* eslint-disable-next-line */
 export interface StakingPageProps {
@@ -19,7 +20,8 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
 
   const router = useRouter();
   const { data: stakingData } = useHttpGet<null, Array<Staking>>(QUERY_KEY.CHART_CURRENT, API_ENDPOINT.GET_STAKING_LIST, null);
-  const [stakingList, setStakingList] = useState<Array<Staking>>([])
+  const [stakingList, setStakingList] = useState<Array<Staking>>([]);
+  const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     setStakingList(stakingData)
@@ -33,6 +35,10 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
     } else {
       setStakingList(stakingData)
     }
+  }
+
+  const onStake = () => {
+    setIsShowModal(true);
   }
 
   return (
@@ -130,16 +136,17 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
               <NoData />
             }
             {
-              !stakingData
+              !stakingData || !stakingList
                 ?
                 <Loading />
                 :
                 stakingList.map(e =>
-                  <Card key={`${e.coin}_${e.apy}`} data={e} />
+                  <Card onStake={onStake} key={`${e.coin}_${e.apy}`} data={e} />
                 )
             }
           </Col>
         </Row>
+        <ModalStacking title='Locking Stacking' visible={isShowModal} onCancel={() => { setIsShowModal(false) }} />
       </PageStyled>
     </AppLayout>
   );

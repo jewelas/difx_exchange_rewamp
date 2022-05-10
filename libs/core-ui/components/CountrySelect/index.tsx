@@ -26,10 +26,6 @@ const CountrySelect = (props: CountrySelectProps) => {
     props.onChange({ key: item.key, value });
   };
 
-  const onSearch = (val: string) => {
-    if (props.onSearch) props.onSearch(val);
-  };
-
   const renderOptions = () => {
     const result: any[] = [];
 

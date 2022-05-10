@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Color } from "../Color";
 
 export const FieldStyled = styled.div`
   width: 100%;

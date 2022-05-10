@@ -250,6 +250,33 @@ const GlobalStyles = createGlobalStyle`
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.link} !important;
     }
 
+    .ant-typography{
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
+    }
+
+    .ant-modal-close-x{
+      svg{
+        fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
+      }
+    }
+
+    .ant-modal-title{
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+    }
+
+    .ant-modal-header{
+      border-bottom: solid 1px ${({ theme }: { theme: ThemeInterface }) => theme.color.rowHover} !important;
+    }
+    .ant-modal-content, .ant-modal-header{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+    }
+
+    .ant-modal-mask{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+      opacity: 0.7;
+    }
+
     .ant-slider{
       .ant-slider-mark{
         .ant-slider-mark-text{

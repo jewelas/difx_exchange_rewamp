@@ -1,5 +1,5 @@
-import { Modal } from 'antd';
 import React from "react";
+import { Typography, Timeline } from '@difx/core-ui';
 import { ModalStyled } from './styled';
 
 /* eslint-disable-next-line */
@@ -11,7 +11,6 @@ export interface ModalStackingProps {
 
 export function ModalStacking({ onCancel, title, visible }: ModalStackingProps) {
 
-
   return (
     <ModalStyled
       visible={visible}
@@ -20,14 +19,16 @@ export function ModalStacking({ onCancel, title, visible }: ModalStackingProps) 
     >
       <div className='estimated'>
         <div className='es-title'>
-          Estimated Interested Earned
+          <Typography fontSize={12} fontWeight={400} lineHeight={14.4} color="secondary">Estimated Interested Earned</Typography>
         </div>
         <div className='es-content'>
-          90%
+          <Typography fontSize={41} fontWeight={400} lineHeight={49.2}>90%</Typography>
         </div>
-        <div className='timeline'>
-          <div>dot</div>
-        </div>
+
+        <Timeline values={
+          ['Locking at start time', 'Locking at start time', 'Locking at start time']
+        } />
+        
       </div>
       <div className='amount'>
         xxxxx

@@ -14,10 +14,6 @@ export interface LoginPageProps {}
 export function LoginPage(props: LoginPageProps) {
   const [QRLogin, setQRLogin] = useState<boolean>(false)
 
-  useEffect(()=>{
-    console.log(QRLogin)
-  },[QRLogin])
-
   return (
     <AppLayout>
       <PageStyled>
@@ -61,14 +57,25 @@ export function LoginPage(props: LoginPageProps) {
             <div className="or">
               <div>Or</div>
             </div>
-            <Button
-              htmlType="submit"
-              className="sign-in-qrcode"
-              onClick={()=>setQRLogin(!QRLogin)}
-            >
-              <Icon.QRCodeIcon />
-              <span>{t("signin.login_qr")}</span>
-            </Button>
+            {
+              !QRLogin ? 
+                <Button
+                  htmlType="submit"
+                  className="sign-in-qrcode"
+                  onClick={()=>setQRLogin(!QRLogin)}
+                >
+                  <Icon.QRCodeIcon />
+                  <span>{t("signin.login_qr")}</span>
+                </Button>
+              : 
+                <Button
+                    htmlType="submit"
+                    className="sign-in-qrcode"
+                    onClick={()=>setQRLogin(!QRLogin)}
+                  >
+                    <span>{t("signin.login_qr")}</span>
+                  </Button>
+            }
           </Col>
         </Row>
       </PageStyled>

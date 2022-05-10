@@ -38,6 +38,7 @@ export interface ThemeInterface extends Theme {
     button: string;
     muted: string;
     link: string;
+    invert: string;
   };
   fontWeight: {
     regular: number;
@@ -129,6 +130,7 @@ export const light: ThemeInterface = {
     button: "#FFFFFF",
     muted: "#A1A1A1",
     link: "#3D7EFF",
+    invert: "#161F30"
   },
   fontWeight: {
     regular: 400,
@@ -217,6 +219,7 @@ export const dark: ThemeInterface = {
     button: "#FFFFFF",
     muted: "#A1A1A1",
     link: "#3D7EFF",
+    invert: "#FFFFFF"
   },
   fontWeight: {
     regular: 400,

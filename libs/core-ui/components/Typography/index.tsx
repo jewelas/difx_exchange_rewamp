@@ -14,13 +14,13 @@ const Typography = (props: TypographyProps) => {
   let color;
   switch (props.color) {
     case "danger":
-      color = Color.red.failure;
+      color = Color.red?.failure;
       break;
     case "primary":
-      color = Color.blue.primary;
+      color = Color.blue?.primary;
       break;
     case "success":
-      color = Color.green.success;
+      color = Color.green?.success;
       break;
     case "secondary":
       color = Color.grey.textSecondary;

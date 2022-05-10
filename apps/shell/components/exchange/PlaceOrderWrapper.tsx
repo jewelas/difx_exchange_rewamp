@@ -14,12 +14,12 @@ import { PlaceOrderWraperStyled } from "./styled";
 export function PlaceOrderWrapper({ pair }: { pair: string }) {
 
   const [tab, setTab] = useState('limit');
-  const { isLoggedIn, token } = useAuth();
+  const { isLoggedIn } = useAuth();
   const [balances, setBalances] = useState<Array<Balance>>([]);
 
   const [priceSelected,] = useAtom(priceSelectedAtom);
 
-  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
+  const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
   const param: useSocketProps = {
     event: SocketEvent.user_balances,
@@ -37,13 +37,11 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
   }, [balanceData]);
 
   const pairInfo: PairType = useMemo(() => {
-    if (pairs)
-      return pairs.find((e) => e.symbol === pair);
+    if (pairsData)
+      return pairsData.spot.find((e) => e.symbol === pair);
     else return {} as PairType;
-  }, [pairs, pair]);
+  }, [pairsData, pair]);
 
-
-  const headers = { headers: { 'x-access-token': token } }
 
   const getBalancesSuccess = (response: AxiosResponse<Array<Balance>>) => {
     if (response.data) {
@@ -58,10 +56,10 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
     showNotification('success', 'Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
   }
 
-  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT, headers });
+  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT});
 
   useEffect(() => {
-    getBalances(headers)
+    // getBalances()
   }, []);
 
   const { TabPane } = Tabs;

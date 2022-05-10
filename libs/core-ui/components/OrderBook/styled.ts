@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ThemeInterface } from "themes";
+import { ThemeInterface } from "../../themes";
 import { Color } from "../Color";
 
 export const BarStyled = styled.div`
@@ -126,10 +126,10 @@ export const ComponentStyled = styled.div`
           .B1 {
             font-weight: 600;
             &.bid {
-              color: ${Color.green.success};
+              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success};
             }
             &.ask {
-              color: ${Color.red.failure};
+              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger};
             }
           }
         }
@@ -139,13 +139,13 @@ export const ComponentStyled = styled.div`
       .ask {
         overflow: hidden;
         .price {
-          color: ${Color.red.failure};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger};
         }
       }
       .bid {
         overflow: hidden;
         .price {
-          color: ${Color.green.success};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success};
         }
       }
     }

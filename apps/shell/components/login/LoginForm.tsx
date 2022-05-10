@@ -7,20 +7,24 @@ import {
 } from "@difx/core-ui";
 import t from "@difx/locale";
 import {
-  currentUserAtom, SignInRequest,
+  SignInRequest,
   SignInResponse,
+  CaptchaType,
+  useAuth,
   useHttpGet,
-  useHttpPost
+  useHttpPost,
+  configAtom
 } from "@difx/shared";
 import { Button, Form, Input, Switch } from "antd";
 import { AxiosError, AxiosResponse } from "axios";
 import clsx from "clsx";
-import { useUpdateAtom } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
-import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
-// import { showNotification } from "./../../utils/pageUtils";
+import { useCallback, useEffect, useState, useRef } from "react";
+import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
+import { ExtraAuth } from "@difx/shared";
+import { useAtom } from "jotai";
+import { useRecaptcha } from "@difx/shared"
 
 /* eslint-disable-next-line */
 export interface LoginFormProps {}
@@ -28,8 +32,11 @@ export interface LoginFormProps {}
 export function LoginForm(props: LoginFormProps) {
   const { data: countryCode } = useHttpGet<null, object>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
-  const setCurrentUser = useUpdateAtom(currentUserAtom);
+  const { updateSession } = useAuth();
+  const [config] = useAtom(configAtom)
 
+  const [ getCaptcha ] = useRecaptcha()
+ 
   const [type, setType] = useState<"email" | "phone">("email");
   const [isCorporate, setIsCorporate] = useState(false);
   const [dialCode, setDialCode] = useState(null);
@@ -70,27 +77,10 @@ export function LoginForm(props: LoginFormProps) {
   };
 
   const onSuccess = useCallback((response: AxiosResponse<SignInResponse>) => {
-    const { data } = response;
-
-    const { statusCode, sessionId } = data;
-    if (statusCode === "ENTER_TWOFA_CODE") {
-      localStorage.setItem("twoFaToken", sessionId);
-
-      const fieldsValue = form.getFieldsValue();
-      localStorage.setItem("loginFormData", JSON.stringify(fieldsValue));
-
-      router.push("/two-factor");
-    } else {
-      localStorage.setItem("currentUser", JSON.stringify(data));
-      setCurrentUser(data);
-
-      localStorage.removeItem("twoFaToken");
-      localStorage.removeItem("loginFormData");
-
-      // showNotification("success", "Signin successfully", null);
-      router.push("/home");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const { data } = response.data;
+    const { permission, user } = data
+    updateSession(user, permission)
+    router.push("/home");
   }, []);
 
   const onFormChange = () => {
@@ -103,10 +93,48 @@ export function LoginForm(props: LoginFormProps) {
       }
   };
 
-  const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, endpoint: API_ENDPOINT.SIGNIN });
+  const onError = useCallback((error: AxiosError) => {
+    const { response } = error;
+    const { statusText , data} = response.data;
+    let authDetails: ExtraAuth 
+    const fieldsValue = form.getFieldsValue();
+    switch (statusText) {
+      case "IP_VERIFICATION_REQUIRED":
+        authDetails = {
+          type: "IP_VERIFICATION",
+          details: {
+            email: fieldsValue.email
+          }
+        }
+        localStorage.setItem("extraAuthRequired",JSON.stringify(authDetails))
+        router.push("/verify-ip")
+        break
+      case "TFA_REQUIRED":
+        authDetails = {
+          type: "TFA",
+          details: {
+            session_id: data.session_id
+          }
+        }
+        localStorage.setItem("extraAuthRequired",JSON.stringify(authDetails))
+        router.push("/two-factor")
+        break
+      default:
+        break
+    }
+  }, []);
+
+  const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
 
   const onSubmit = async (formData: SignInRequest) => {
-    formData.usertype = isCorporate ? "BUS" : "IND";
+    const captcha: string | CaptchaType = await getCaptcha()
+
+    /* eslint-disable */
+    formData.captcha = captcha,
+    formData.captcha_type = config.captcha,
+    formData.device_token = "sdasdasd",
+    formData.device = "web";
+    /* eslint-enable */
 
     if (type === "phone") {
       formData.email = "";

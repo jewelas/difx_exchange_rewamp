@@ -61,3 +61,7 @@ yarn format
 ## Running check code format
 
 yarn format:check
+
+## Specifying environment variables
+
+always use "NX" as prefix before setting every variables

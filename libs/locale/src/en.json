@@ -52,6 +52,11 @@
     "2fa": "Two Factor Verification",
     "verify_success": "Verification successfully!"
   },
+  "verify_ip": {
+    "header": "IP Verification",
+    "enter_code": "Enter the OTP!",
+    "verify_success": "Verification successfully!"
+  },
   "register": {
     "message1": "Register to get upto",
     "message2": "$500 worth of DIFX tokens",
@@ -66,6 +71,7 @@
   },
   "error": {
     "input_2factor_code": "Please enter two factor authentication code",
+    "input_email_otp": "Please enter the OTP",
     "input_email": "Please input your Email!",
     "email_not_valid": "Email is not valid!",
     "input_phone": "Please input your Phone Number!",

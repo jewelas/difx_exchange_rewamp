@@ -19,10 +19,10 @@ const PageStyled = styled.div`
         justify-content: center;
       }
       .B2 {
-        color: ${Color.grey.linkSecondary};
+        color: ${({ theme }) => theme.fontColor.muted};
       }
       .B1 {
-        color: ${Color.grey.linkSecondary};
+        color: ${({ theme }) => theme.fontColor.muted};
       }
       .link {
         cursor: pointer;
@@ -57,7 +57,7 @@ const PageStyled = styled.div`
             cursor: pointer;
             &.active {
               .ant-typography {
-                color: ${Color.blue.primary};
+                color: ${({ theme }) => theme.color.primary};
               }
             }
           }

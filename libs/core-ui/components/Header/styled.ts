@@ -58,15 +58,15 @@ export const StyledMoreMenuGroup = styled.div`
   }
 `;
 
-export const StyledIconButton = styled(Button)`
-  background: unset;
-  border: unset !important;
-  box-shadow: unset !important;
-  margin-top:-4px;
-  svg {
-    margin: 0 auto;
-  }
-`;
+// export const StyledIconButton = styled(Button)`
+//   background: unset;
+//   border: unset !important;
+//   box-shadow: unset !important;
+//   margin-top:-4px;
+//   svg {
+//     margin: 0 auto;
+//   }
+// `;
 export const StyledLine = styled.div`
   height: 21px;
   margin-left: 10px;

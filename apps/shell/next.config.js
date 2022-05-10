@@ -13,7 +13,8 @@ const nextConfig = {
   generateBuildId: () => "build",
   experimental: {
     styledComponents: true
-  }
+  },
+  pageExtensions: ['page.tsx','page.ts']
 };
 
 module.exports = withNx(nextConfig);

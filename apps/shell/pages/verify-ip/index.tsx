@@ -3,7 +3,7 @@ import t from "@difx/locale";
 import { Col, Row } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import AppLayout from "..";
+import AppLayout from "../index.page";
 import PageStyled from "./styled";
 import VerifyIpForm from "./../../components/verify-ip/VerifyIpForm";
 

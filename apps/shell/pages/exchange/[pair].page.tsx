@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import AppLayout from "..";
-import ListPairWrapper from "./../../components/exchange/ListPairWrapper";
-import OrderBookWrapper from "./../../components/exchange/OrderBookWrapper";
-import PairMetaDataWrapper from "./../../components/exchange/PairMetaDataWrapper";
+import AppLayout from "../index.page";
+import ListPairWrapper from "../../components/exchange/ListPairWrapper";
+import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
+import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
 import ChartWrapper from "../../components/exchange/ChartWrapper";
 import TradeInfoWrapper from "../../components/exchange/TradeInfoWrapper";
 import PlaceOrderWrapper from "../../components/exchange/PlaceOrderWrapper";

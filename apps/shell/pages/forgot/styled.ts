@@ -1,7 +1,7 @@
 import { Color } from "@difx/core-ui";
 import styled from "styled-components";
 
-const PageStyled = styled.div`
+export const PageStyled = styled.div`
   .ant-row.row-group {
     background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {
@@ -20,10 +20,10 @@ const PageStyled = styled.div`
         justify-content: center;
       }
       .B2 {
-        color: ${Color.grey.linkSecondary};
+        color: ${({ theme }) => theme.fontColor.muted};
       }
       .B1 {
-        color: ${Color.grey.linkSecondary};
+        color: ${({ theme }) => theme.fontColor.muted};
       }
 
       .left-right {
@@ -37,7 +37,7 @@ const PageStyled = styled.div`
             cursor: pointer;
             &.active {
               .ant-typography {
-                color: ${Color.blue.primary};
+                color: ${({ theme }) => theme.color.primary};
               }
             }
           }
@@ -118,4 +118,3 @@ const PageStyled = styled.div`
   }
 `;
 
-export default PageStyled;

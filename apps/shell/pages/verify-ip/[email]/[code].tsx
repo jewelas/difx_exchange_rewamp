@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import t from "@difx/locale";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
-import AppLayout from "../..";
+import AppLayout from "../../index.page";
 import { showNotification } from "./../../../utils/pageUtils";
 import { API_ENDPOINT } from "@difx/constants";
 

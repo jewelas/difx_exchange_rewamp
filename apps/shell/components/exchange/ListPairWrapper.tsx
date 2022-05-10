@@ -111,7 +111,14 @@ export function ListPairWrapper() {
       },
       dataIndex: 'change',
       sorter: {
-        compare: (a, b) => a.change - b.change,
+        compare: (a, b) => {
+          let _a = typeChange === 'percent' ? a.change : a.volume;
+          let _b = typeChange === 'percent' ? b.change : b.volume;
+          const regex = /%|\+|-|,/gi;
+          _a = _a.replace(regex,"");
+          _b = _b.replace(regex,"");
+          return Number(_a) - Number(_b);
+        },
         multiple: 1,
       },
       render: (text, record) => {

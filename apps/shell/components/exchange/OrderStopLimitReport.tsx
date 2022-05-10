@@ -12,8 +12,8 @@ import { useEffect, useState } from 'react';
 
 export function OrderStopLimitReport() {
 
-  const { token } = useAuth();
-  const headers = { headers: { 'x-access-token': token } }
+  // const { token } = useAuth();
+  // const headers = { headers: { 'x-access-token': token } }
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
@@ -54,16 +54,16 @@ export function OrderStopLimitReport() {
   const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
     const { data } = response;
     if (data) {
-      getOrderBooks(headers);
+      getOrderBooks(null);
     }
   }
 
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT });
-  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_STOP_LIMIT_ORDER, headers }); // TODO: handle headers in interceptor in useHttp
+  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_STOP_LIMIT_ORDER }); // TODO: handle headers in interceptor in useHttp
 
 
   useEffect(() => {
-    getOrderBooks(headers);
+    getOrderBooks(null);
   }, []);
 
   const columns = [
@@ -183,6 +183,8 @@ export function OrderStopLimitReport() {
         return (
           <div
             onClick={() => {
+              // eslint-disable-next-line
+              // @ts-ignore
               if (!isLoading) cancelOrder({ id: record.id })
             }}
             className="cell">

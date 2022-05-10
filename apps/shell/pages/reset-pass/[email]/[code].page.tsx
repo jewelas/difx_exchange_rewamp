@@ -3,7 +3,7 @@ import t from "@difx/locale";
 import { Col, Row } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import AppLayout from "../..";
+import AppLayout from "../../index.page";
 import ResetPassForm from "../../../components/reset-pass/ResetPassForm";
 import PageStyled from "./styled";
 

@@ -11,8 +11,8 @@ import { useEffect, useState } from 'react';
 
 export function OrderHistoryReport({pair}:{pair:string}) {
 
-  const { token } = useAuth();
-  const headers = { headers: { 'x-access-token': token } }
+  // const { token } = useAuth();
+  // const headers = { headers: { 'x-access-token': token } }
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
@@ -30,7 +30,7 @@ export function OrderHistoryReport({pair}:{pair:string}) {
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
 
   useEffect(() => {
-    getOrderBooks(headers);
+    getOrderBooks(null);
   }, []);
 
   const columns = [

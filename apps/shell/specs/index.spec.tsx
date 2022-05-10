@@ -2,7 +2,7 @@ import React from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { renderHook } from "@testing-library/react-hooks";
 
-import Index from "../pages/index";
+import Index from "../pages/index.page";
 
 export function useCustomHook() {
   return useQuery("customHook", () => "Hello");

@@ -2,7 +2,7 @@ import { Color, Icon, Typography } from "@difx/core-ui";
 import { Button, Col, Row } from "antd";
 import t from "@difx/locale";
 import Link from "next/link";
-import AppLayout from "..";
+import AppLayout from "../index.page";
 import PageStyled from "./styled";
 import LoginForm from "./../../components/login/LoginForm";
 import QRContainer from "./../../components/login/QRContainer";
@@ -28,7 +28,7 @@ export function LoginPage(props: LoginPageProps) {
             <div className="link">
               <Icon.LockIcon />
               <div>
-                <span style={{ color: Color.green.success }}>https://</span>
+                <span style={{ color: `${({ theme }) => theme.color.success}` }}>https://</span>
                 difx.com
               </div>
             </div>

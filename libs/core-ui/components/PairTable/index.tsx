@@ -23,14 +23,14 @@ export function PairTable(props: PairTableProps) {
       render: (text: string, record: any) => {
         const changed = (record.last / record.open) * 100 - 100;
         if (changed >= 0)
-          return (
-            <span style={{ color: Color.green.success }}>
+        return (
+            <span style={{ color: Color.green?.success }}>
               {changed.toFixed(2)}%
             </span>
           );
         else
           return (
-            <span style={{ color: Color.red.failure }}>
+            <span style={{ color: Color.red?.failure }}>
               {changed.toFixed(2)}%
             </span>
           );
@@ -52,8 +52,8 @@ export function PairTable(props: PairTableProps) {
             autoDrawDuration={3000}
             gradient={[
               changed >= 0
-                ? Color.green.success || "#000"
-                : Color.red.failure || "#000",
+                ? Color.green?.success || "#000"
+                : Color.red?.failure || "#000",
             ]}
           />
         );

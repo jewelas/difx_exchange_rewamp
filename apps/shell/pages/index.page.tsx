@@ -3,8 +3,8 @@ import { useAuth, useGuestAuth, useTheme } from "@difx/shared";
 import { ThemeProvider } from "styled-components";
 import BaseLayout from "../layouts/BaseLayout";
 import PrivateLayout from "../layouts/PrivateLayout";
-import HomeComponent from './../components/home/HomeComponent';
-import GuestLayout from "./../layouts/GuestLayout";
+import HomeComponent from '../components/home/HomeComponent';
+import GuestLayout from "../layouts/GuestLayout";
 import 'antd/dist/antd.variable.min.css';
 
 export interface AppLayoutProps {

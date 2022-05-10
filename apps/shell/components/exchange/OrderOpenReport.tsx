@@ -12,8 +12,8 @@ import { useEffect, useState } from 'react';
 
 export function OrderOpenReport() {
 
-  const { token } = useAuth();
-  const headers = { headers: { 'x-access-token': token } }
+  // const { token } = useAuth();
+  // const headers = { headers: { 'x-access-token': token } }
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
@@ -56,15 +56,15 @@ export function OrderOpenReport() {
   const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
     const { data } = response;
     if (data) {
-      getOrderBooks(headers);
+      getOrderBooks(null);
     }
   }
 
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN });
-  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_BID_ORDER, headers }); // TODO: handle headers in interceptor in useHttp
+  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_BID_ORDER }); // TODO: handle headers in interceptor in useHttp
 
   useEffect(() => {
-    getOrderBooks(headers);
+    getOrderBooks(null);
   }, []);
 
   const columns = [
@@ -171,7 +171,11 @@ export function OrderOpenReport() {
             onClick={() => {
               if (!isLoading) {
                 record.s === 0
+                // eslint-disable-next-line
+                // @ts-ignore
                   ? cancelOrder({ id: record.id }) // Cancel Bid Order
+                  // eslint-disable-next-line
+                  // @ts-ignore
                   : cancelOrder({ id: record.id, endpoint: API_ENDPOINT.CANCEL_ASK_ORDER }) // Cancel Ask Order
               }
             }}

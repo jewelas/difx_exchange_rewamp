@@ -62,7 +62,10 @@
     "resident_country": "Resident Country:",
     "referral_code": "Referral Code",
     "term1": "I have read and agree to the",
-    "term2": "Terms and Conditions"
+    "term2": "Terms and Conditions",
+    "verifyEmailHeader": "Email Verification Code",
+    "verifyEmailMessage": "Please enter the verification code send to ",
+    "verifyEmailButton": "Verify"
   },
   "error": {
     "input_2factor_code": "Please enter two factor authentication code",

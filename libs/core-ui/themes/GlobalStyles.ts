@@ -47,11 +47,22 @@ const GlobalStyles = createGlobalStyle`
       box-shadow: none !important;
 
       &.success{
-        background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
-        border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+        background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+        border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
         &:hover, &:focus, &:active{
-          background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
-          border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+          background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+          border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+          &:not([disabled]){
+            opacity: 0.9;
+          }
+        }
+      }
+      &.danger{
+        background: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+        border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+        &:hover, &:focus, &:active{
+          background: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+          border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
           &:not([disabled]){
             opacity: 0.9;
           }

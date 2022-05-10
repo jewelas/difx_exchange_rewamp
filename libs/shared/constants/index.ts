@@ -52,7 +52,7 @@ export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',
-  GET_TRADES: (symbol: string) => `/api/v1/market/trades/${symbol}`,
+  GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
   GET_MY_TRADES: (symbol:string) => `/api/v1/user/trades/${symbol}`,
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);

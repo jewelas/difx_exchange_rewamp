@@ -80,8 +80,8 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
             return instance.get<Request, AxiosResponse<Response>>(endpoint, request)
         },
         {
-            onSuccess: (response: AxiosResponse<Response>) => {
-                onSuccess && onSuccess(response);
+            onSuccess: (response: AxiosResponse) => {
+                onSuccess && onSuccess(response.data);
             },
             onError: (error: AxiosError) => {
                 onError && onError(error as AxiosError);

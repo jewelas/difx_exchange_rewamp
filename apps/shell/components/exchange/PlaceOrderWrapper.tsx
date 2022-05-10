@@ -59,7 +59,7 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
   const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT});
 
   useEffect(() => {
-    // getBalances()
+    getBalances(null)
   }, []);
 
   const { TabPane } = Tabs;
@@ -85,7 +85,6 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
       placeOrder({ ...data, endpoint: API_ENDPOINT.PLACE_ORDER_STOP });
     }
 
-    ////xxxxx
   }
 
   const PlaceOrder = (orderType: OrderType) => {

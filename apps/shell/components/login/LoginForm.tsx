@@ -285,7 +285,7 @@ export function LoginForm(props: LoginFormProps) {
               }
             </button>
           </div>
-          <div className="right.forgot-pass">
+          <div className="forgot-pass">
             <Typography level="B1">
               <Link href="/forgot">{t("common.forgot_password")}</Link>
             </Typography>

@@ -40,7 +40,7 @@
     "login_qr": "Login with QR Code",
     "login_account": "Login with Account",
     "new_account": "New account?",
-    "login_in_difx": "Login in DIFX",
+    "login_in_difx": "LogIn",
     "check_correct_url": "Please check that you are visiting the correct URL"
   },
   "2fa": {

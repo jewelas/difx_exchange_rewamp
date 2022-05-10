@@ -24,7 +24,7 @@ export function LoginPage(props: LoginPageProps) {
             <div className="link">
               <Icon.LockIcon />
               <div>
-                <span style={{ color: `${({ theme }) => theme.color.success}` }}>https://</span>
+                <span className="text-highlight">https://</span>
                 difx.com
               </div>
             </div>
@@ -34,24 +34,7 @@ export function LoginPage(props: LoginPageProps) {
               QRLogin === true ?
                 <QRContainer /> 
               : 
-                <>
-
-                  <LoginForm />
-
-                  {/* <div className="left-right">
-                    <div className="left">
-                      <Typography level="B1">
-                        {t("signin.new_account")}{" "}
-                        <Link href="/register">{t("common.register")}</Link>
-                      </Typography>
-                    </div>
-                    <div className="right.forgot-pass">
-                      <Typography level="B1">
-                        <Link href="/forgot">{t("common.forgot_password")}</Link>
-                      </Typography>
-                    </div>
-                  </div> */}
-                </>
+                <LoginForm />
             }
 
             <div className="or">

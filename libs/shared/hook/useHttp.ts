@@ -1,22 +1,8 @@
 import { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { useQuery, useMutation } from "react-query";
-import { axiosInstance as instance } from "./../api/index";
+import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { notification } from 'antd';
 import { useAuth, useGuestAuth } from '..'
-
-function authorization(config : AxiosRequestConfig) {
-    const anonymousToken = localStorage?.getItem('anonymousToken');
-    const sessionToken = localStorage?.getItem('sessionToken');
-    // @ts-ignore
-    config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
-    // @ts-ignore
-    config.headers["Authorization"] =  sessionToken ? sessionToken : "";
-    // @ts-ignore
-    config.headers["x-api-key"]=  "DIFXExchange";
-    // @ts-ignore
-    config.headers["Device"]=  "web";
-    return config;
-}
 
 /**
  * 
@@ -36,7 +22,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
         ... options
     }
 
-    instance.interceptors.request.use(authorization);
+    instance.interceptors.request.use(axiosAuthorization);
 
     const query = useQuery<Response, AxiosError>(
         queryKey,
@@ -61,7 +47,7 @@ interface EventProps<Response> {
 }
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
-    instance.interceptors.request.use(authorization)
+    instance.interceptors.request.use(axiosAuthorization)
 
     const mutation = useMutation(
         (request: Request) => {
@@ -84,7 +70,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
     const { refreshToken } = useAuth()
     const { refreshAnonymousToken } = useGuestAuth()
 
-    instance.interceptors.request.use(authorization)
+    instance.interceptors.request.use(axiosAuthorization)
 
     const mutation = useMutation(
         (request: any) => {

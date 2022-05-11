@@ -53,6 +53,12 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     if (pairInfo) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
   }, [pairInfo]);
 
+  useEffect(() => {
+    form.setFieldsValue({ [`${side}.stop`]: 0 });
+    form.setFieldsValue({ [`${side}.amount`]: 0 });
+    form.setFieldsValue({ [`${side}.total`]: 0 });
+  }, []);
+
   const onSubmit = (formData: PlaceOrderRequest) => {
     onPlaceOrder(formData, type, side);
   };

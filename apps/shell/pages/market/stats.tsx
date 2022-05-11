@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Button, Col, Row, Tabs } from "antd";
+import { Button, Col, Row, Space, Tabs } from "antd";
 import { Icon } from "@difx/core-ui";
 import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, FavoriteFilter } from "./styled";
 import GridView from "./GridView";
 import ListView from "./ListView";
+import { Market } from '@difx/shared';
+import FutureListView from "./FutureListView";
 
-export function Stats() {
+export function Stats({spotList, futuresList, categoriesList, favorites}) {
     const [tab, setTab] = useState('favorites');
     const [cardVisible, setCardVisible] = useState(false);
     const [listVisible, setListVisible] = useState(true);
@@ -18,7 +20,7 @@ export function Stats() {
   const showListLayout = () => {
     setListVisible(true);
     setCardVisible(false);
-};
+  };
   return (
     <MarketWrapper>
         <MarketTabsWrapper>
@@ -51,19 +53,41 @@ export function Stats() {
                 {tab === 'favorites' &&
                 <>
                   <FavoriteFilter>
-                    <Button>
-                      Spot-8
-                    </Button>
-                    <Button>
-                      Futures-8
-                    </Button>
+                    {/* <Space>
+                      <Button className="active">
+                        Spot
+                      </Button>
+                      <Button>
+                        Futures
+                      </Button>
+                    </Space> */}
                   </FavoriteFilter>
-                  { listVisible ? <ListView /> : null }
-                  { cardVisible ? <GridView /> : null }
+                  { listVisible ? <ListView data={favorites} /> : null }
+                  { cardVisible ? <GridView data={favorites} /> : null }
                 </>
                 }
-                {tab === 'spot' && "Spot"}
-                {tab === 'futures' && "Futures"}
+                {tab === 'spot' && 
+                  <>
+                  <FavoriteFilter>
+                    {/* <Space>
+                      <Button className="active">
+                        Spot
+                      </Button>
+                      <Button>
+                        Futures
+                      </Button>
+                    </Space> */}
+                  </FavoriteFilter>
+                  { listVisible ? <ListView data={spotList} /> : null }
+                  { cardVisible ? <GridView data={spotList} /> : null }
+                </>
+                }
+                {tab === 'futures' && 
+                  <>
+                  { listVisible ? <ListView data={futuresList} /> : null }
+                  { cardVisible ? <GridView data={futuresList} /> : null }
+                </>
+                }
             </div>
         </MarketContentWrapper>
     </MarketWrapper>

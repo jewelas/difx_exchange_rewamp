@@ -25,6 +25,7 @@ const MarketCard = styled.div`
     }
     .ant-card-body {
         padding: 0 20px 16px;
+        height: 150px;
     &>div{
         margin: 8px 0;
         .ant-typography{
@@ -68,7 +69,23 @@ const TableLastPrice = styled.div`
     }
 `
 const FavoriteFilter = styled.div`
-    
+.ant-btn {
+    border: none;
+    border-radius: ${({theme}) => theme.borderRadius.regular};
+    span{
+        color: ${({theme}) => theme.fontColor.secondary};
+    }
+}
+.ant-btn.active {
+    background: ${({theme}) => theme.color.primaryLight} !important;
+    border: none;
+    border-radius: ${({theme}) => theme.borderRadius.regular};
+    span{
+        color: ${({theme}) => theme.color.primary};
+        font-weight: ${({theme}) => theme.fontWeight.semiBold};
+        
+    }
+}
 `
 
 // Grid Card Design
@@ -100,6 +117,7 @@ const MarketCardBtns = styled.div`
 const CardStar = styled.div`
     position: absolute;
     right: 20px;
+    cursor: pointer;
 `
 // Drawer Design
 const CoinDrawerInfo = styled.div`

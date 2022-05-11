@@ -37,8 +37,11 @@ export const QUERY_KEY = {
   CHART_HISTORY: 'chart_history',
   CHART_CURRENT: 'chart_current',
   BALANCE: 'balance',
-  OPEN_ORDERS: 'open_orders'
+  OPEN_ORDERS: 'open_orders',
+  MARKET_PAIRS: 'market_pairs'
 }
+
+export const ASSETS_URL = "https://media.difx.com/"
 
 export const REFETCH = {
   _10SECS: 10000,
@@ -80,5 +83,6 @@ export const API_ENDPOINT = {
   PLACE_ORDER_STOP: '/api/v1/order/make-stop',
   CANCEL_BID_ORDER: '/api/v1/order/cancel-bid',
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
-  CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop'
+  CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
+  GET_MARKET_PAIRS: '/api/v1/market/pairs'
 }

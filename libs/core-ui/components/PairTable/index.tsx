@@ -41,23 +41,23 @@ export function PairTable(props: PairTableProps) {
       title: "Chart",
       key: "pricing",
       width: 180,
-      render: (text: string, record: any) => {
-        const changed = (record.last / record.open) * 100 - 100;
-        return (
-          <Trend
-            smooth
-            data={record.pricing}
-            strokeWidth={3}
-            autoDraw
-            autoDrawDuration={3000}
-            gradient={[
-              changed >= 0
-                ? Color.green?.success || "#000"
-                : Color.red?.failure || "#000",
-            ]}
-          />
-        );
-      },
+      // render: (text: string, record: any) => {
+      //   const changed = (record.last / record.open) * 100 - 100;
+      //   return (
+      //     <Trend
+      //       smooth
+      //       data={record.pricing}
+      //       strokeWidth={3}
+      //       autoDraw
+      //       autoDrawDuration={3000}
+      //       gradient={[
+      //         changed >= 0
+      //           ? Color.green?.success || "#000"
+      //           : Color.red?.failure || "#000",
+      //       ]}
+      //     />
+      //   );
+      // },
     },
     { title: "Action", dataIndex: "action", key: "action" },
   ];

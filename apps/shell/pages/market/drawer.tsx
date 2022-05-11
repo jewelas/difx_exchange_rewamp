@@ -7,11 +7,11 @@ import { CoinDrawerInfo } from "./styled";
 
 const { Title, Paragraph } = Typography;
 
-export function MarketDrawer(pair) {
+export function MarketDrawer() {
 
-    useEffect(() => {
-        console.log(pair)
-    }, [pair])
+    // useEffect(() => {
+    //     console.log(pair)
+    // }, [pair])
   return (
     <>
         <Row>

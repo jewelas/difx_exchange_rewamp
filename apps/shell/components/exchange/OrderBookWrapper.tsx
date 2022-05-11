@@ -100,7 +100,6 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
         currentPrice: 0.0,
       };
     }
-    console.log(pairInfo,'pairInfo')
   }, [data, pairInfo]);
 
   if (!pairInfo) return <Loading />;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { dark, light, ThemeInterface } from "./../../themes";
+import { ThemeInterface } from "./../../themes";
 
 
 export const ComponentStyled = styled.div`

@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { AxiosResponse } from "axios";
-import { axiosInstance as instance } from "./../api/index";
+import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { useAtom } from "jotai";
 import { notification } from 'antd';
+import { socket } from "./../api";
 import {
   currentUserAtom,
   isLoggedInAtom,
@@ -42,6 +43,7 @@ export function useAuth() {
     setUser(stateUser);
     setPermissions(permission)
     setIsLoggedIn(true);
+    socket.updateAuth(updatedUser.token.accessToken);
   };
 
   const logOut = () : void => {
@@ -64,19 +66,7 @@ export function useAuth() {
     }
     
     //use axios instance instead of useHttpPost because otherwise it will cause a loop of hooks
-    instance.interceptors.request.use(function (config: any) {
-      const anonymousToken = localStorage?.getItem('anonymousToken');
-      const sessionToken = localStorage?.getItem('sessionToken');
-      // @ts-ignore
-      config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
-      // @ts-ignore
-      config.headers["Authorization"] =  sessionToken ? sessionToken : "";
-      // @ts-ignore
-      config.headers["x-api-key"]=  "DIFXExchange";
-      // @ts-ignore
-      config.headers["Device"]=  "web";
-      return config;
-    })
+    instance.interceptors.request.use(axiosAuthorization)
 
     try{
       const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.REFRESH_TOKEN,reqData)

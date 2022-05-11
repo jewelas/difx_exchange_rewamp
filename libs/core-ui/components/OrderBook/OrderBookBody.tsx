@@ -16,6 +16,7 @@ export interface OrderBookBodyProps {
   networkStatus?: NetworkStatusType;
   onPriceSelected?: (price: number) => void;
   priceOpenOrders?: Array<any>;
+  totalType?: 'total' | 'sum';
 
   maxRowData?: number;
   type?: 'bid' | 'ask';
@@ -23,6 +24,7 @@ export interface OrderBookBodyProps {
 }
 
 function renderData(
+  totalType: 'total' | 'sum',
   max_row: number,
   type: "bid" | "ask",
   data: Array<Array<number>> | undefined,
@@ -52,7 +54,13 @@ function renderData(
             {formatNumber(row[1], numberFormat)}
           </Typography>
           <Typography level="B3" className="total">
-            {formatNumber(row[0] * row[1], numberFormat)}
+            {
+              totalType === 'total'
+              ?
+              formatNumber(row[0] * row[1], numberFormat)
+              :
+              formatNumber(row[3], numberFormat)
+            }
           </Typography>
         </div>
       );
@@ -86,7 +94,8 @@ export function OrderData({
   numberFormat = "0.01",
   onPriceSelected,
   priceOpenOrders,
-  maxRowData = 12
+  maxRowData = 12,
+  totalType = 'total'
 }: OrderBookBodyProps) {
 
   if (!data) {
@@ -96,7 +105,7 @@ export function OrderData({
   if(!type || !onPriceSelected) return null;
   return (
     <div className={type}>
-      {renderData(maxRowData, type, data, numberFormat, onPriceSelected, priceOpenOrders || [])}
+      {renderData(totalType, maxRowData, type, data, numberFormat, onPriceSelected, priceOpenOrders || [])}
     </div>
   );
 }

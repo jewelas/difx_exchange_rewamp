@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Select } from "antd";
+import { Select, Button } from "antd";
 import clsx from "clsx";
 import { useState } from "react";
 import { useAtom } from "jotai";
@@ -8,6 +8,7 @@ import { NetworkStatusType } from "./../../../shared/type/Network";
 import OrderBuyIcon from "../Icon/OrderBuyIcon";
 import OrderBuySellIcon from "../Icon/OrderBuySellIcon";
 import OrderSellIcon from "../Icon/OrderSellIcon";
+import SwitchIcon from "../Icon/SwitchIcon";
 import { Typography } from "../Typography";
 import { OrderData, CurrentPrice } from "./OrderBookBody";
 import { ComponentStyled } from "./styled";
@@ -37,6 +38,7 @@ export function OrderBook({
   const { Option } = Select;
   const [sortType, setSortType] = useState<SortType>("all");
   const [numberFormat, setNumberFormat] = useState("0.01");
+  const [totalType, setTotalType] = useState<'total' | 'sum'>('total');
 
   const [, setPriceSelected] = useAtom(priceSelectedAtom);
 
@@ -81,6 +83,7 @@ export function OrderBook({
       onPriceSelected={setPriceSelected}
       priceOpenOrders={priceOpenOrders}
       maxRowData={maxRow}
+      totalType={totalType}
     />
   )
 
@@ -168,8 +171,17 @@ export function OrderBook({
           <div>
             <Typography level="text">{`Quantity(${pairInfo.currency1})`}</Typography>
           </div>
-          <div>
-            <Typography level="text">Total</Typography>
+          <div className="col-total">
+            <div style={{marginTop:'-19px !important'}}>
+            <Button onClick={() => { setTotalType(totalType === 'sum' ? 'total' : 'sum') }} ghost><SwitchIcon useDarkMode /></Button>
+            </div>
+            <div>
+              <Typography level="text">{totalType === 'sum' ? `Sum` : `Total`}</Typography>
+              <div>
+                <Typography level="text">{totalType === 'sum' ? `(${pairInfo.currency1})` : `(${pairInfo.currency2})`}</Typography>
+              </div>
+            </div>
+
           </div>
         </div>
         <div className="table-body">

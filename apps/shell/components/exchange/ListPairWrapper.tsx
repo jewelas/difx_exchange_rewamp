@@ -6,7 +6,7 @@ import {
   PairType, useHttpGet, useLocalStorage
 } from "@difx/shared";
 import { getPriceFormatted, getPricePercentChange } from "@difx/utils";
-import { Input, Table } from "antd";
+import { Input, Table, Button } from "antd";
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { TableWraperStyled } from "./styled";
@@ -95,10 +95,10 @@ export function ListPairWrapper() {
       title: () => {
         return (
           <div className="header-change">
-            <div
+            <Button ghost
               onClick={() => { setTypeChange(typeChange === 'percent' ? 'volume' : 'percent') }}>
               <Icon.SwitchIcon useDarkMode />
-            </div>
+            </Button>
             {typeChange === 'percent' ? 'Change' : 'Volume'}
           </div>
         )

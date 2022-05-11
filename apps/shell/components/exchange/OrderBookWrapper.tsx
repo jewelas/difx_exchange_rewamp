@@ -66,6 +66,20 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
       const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
       OrderBookWrapper.previousPrice = newPrice;
 
+      // Sum Bids
+      _bids[0][3] = _bids[0][1];
+      _bids.reduce((a, b) => {
+        b[3] = b[1] + a[3];
+        return b;
+      });
+
+      // Sum Asks
+      _asks[0][3] = _asks[0][1];
+      _asks.reduce((a, b) => {
+        b[3] = b[1] + a[3];
+        return b;
+      });
+
       return {
         bids: _bids,
         asks: reverseAsks,

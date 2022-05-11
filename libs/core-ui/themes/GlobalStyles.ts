@@ -82,6 +82,12 @@ const GlobalStyles = createGlobalStyle`
     .ant-btn.ant-btn-primary.ant-btn-background-ghost{
       color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; 
     }
+    .ant-btn.ant-btn-default.ant-btn-background-ghost{
+      height: unset !important;
+      width: unset !important;
+      padding: unset !important;
+      padding-left: 5px !important
+    }
 
     .ant-btn:hover{
       border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;

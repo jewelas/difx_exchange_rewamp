@@ -20,7 +20,7 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             "asas"
             :
             getTopGainer.slice(0, 3).map(item =>
-                <Row justify="space-between" align="middle">
+                <Row justify="space-between" align="middle" key={item.symbol}>
                     <Col>
                         <Space>
                             <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
@@ -46,7 +46,7 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             "asas"
             :
             getTopLooser.slice(0, 3).map(item =>
-                <Row justify="space-between" align="middle">
+                <Row justify="space-between" align="middle" key={item.symbol}>
                     <Col>
                         <Space>
                             <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
@@ -72,7 +72,7 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             "asas"
             :
             getTopVolume.slice(0, 3).map(item =>
-                <Row justify="space-between" align="middle">
+                <Row justify="space-between" align="middle" key={item.symbol}>
                     <Col>
                         <Space>
                             <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
@@ -98,7 +98,7 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             "asas"
             :
             getFutures.slice(0, 3).map(item =>
-                <Row justify="space-between" align="middle">
+                <Row justify="space-between" align="middle" key={item.symbol}>
                     <Col>
                         <Space>
                             <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>

@@ -71,7 +71,7 @@
     "referral_code": "Referral Code",
     "term1": "I have read and agree to the",
     "term2": "Terms and Conditions",
-    "verifyEmailHeader": "Email Verification Code",
+    "verifyHeader": "Verify OTP",
     "verifyEmailMessage": "Please enter the verification code send to ",
     "verifyEmailButton": "Verify",
     "subAccount": "Sub-Account",

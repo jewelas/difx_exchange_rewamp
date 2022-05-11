@@ -21,6 +21,9 @@ export const SelectStyled = styled(Select)`
     }
   }
   &.medium {
+    &.ant-select{
+      width: 50%!important;
+    }
     .ant-select-selection-placeholder {
       padding-top: 8px !important;
       font-size: 14px;
@@ -28,14 +31,31 @@ export const SelectStyled = styled(Select)`
       line-height: 28px !important;
     }
     .ant-select-selector {
-      /* height: 48px !important; */
+      height: 38px !important;
       .ant-select-selection-search {
         input {
-          /* height: 48px !important; */
+          height: 38px !important;
           font-size: 14px;
           padding-left: 48px;
         }
       }
+      .ant-select-selection-item{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+    }
+    .flag-custom{
+      padding-top: 0px !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg{
+        height: 22px !important;
+      }
+    }
+    .val{
+      padding-top: 0px !important;
     }
   }
 `;

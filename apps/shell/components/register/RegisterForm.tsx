@@ -22,7 +22,7 @@ import { isEmpty } from "lodash";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { FormStyled } from "../../pages/register/styled";
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
-import EmailVerify from "./EmailVerify";
+import VerifyOTP from "./VerifyOTP";
 import { useAtom } from "jotai";
 
 /* eslint-disable-next-line */
@@ -136,7 +136,11 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   };
 
   if(verifyEmail){
-    return <EmailVerify userEmail={form.getFieldValue('email')} verificationToken={verificationToken.current}/>
+    return <VerifyOTP 
+      userEmail={form.getFieldValue('email')}
+      userPhoneNumber={form.getFieldValue('phonenumber')}
+      verificationToken={verificationToken.current}
+    />
   }
 
   return (
@@ -155,7 +159,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
           <CountrySelect
             value={country}
             onChange={onChangeCountry}
-            size="large"
+            size="medium"
           />
         </div>
         <div className="account-type-group">
@@ -182,10 +186,6 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
                 <Form.Item
                   name="email"
                   rules={[
-                    {
-                      required: true,
-                      message: t("error.input_email"),
-                    },
                     {
                       type: "email",
                       message: t("error.email_not_valid"),

@@ -113,6 +113,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   const { mutate: signUp, isLoading } = useHttpPost<SignUpRequest, SignUpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNUP });
 
   const onSubmit = async (formData: SignUpRequest) => {
+    if(isLoading) return;
     formData.phonenumber = (formData.dial_code + formData.phonenumber).replace(
       "+",
       ""

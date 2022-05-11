@@ -145,6 +145,18 @@ const PageStyled = styled.div`
       .forgot-pass a{
         color: ${({ theme }) => theme.fontColor.muted} !important;
       }
+      .subtext{
+        margin-top: 10px;
+        color: ${({ theme }) => theme.fontColor.primary} ;
+      }
+      .sign-in-qrcode{
+        border: 1px solid ${({ theme }) => theme.color.primary} ;
+        color:${({ theme }) => theme.color.primary} !important;
+      }
+      .sign-in-account{
+        border: 1px solid ${({ theme }) => theme.color.primary} ;
+        color:${({ theme }) => theme.color.primary} !important;
+      }
     }
   }
 `;

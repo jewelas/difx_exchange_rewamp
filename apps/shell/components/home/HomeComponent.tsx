@@ -11,21 +11,21 @@ export function HomePage(props: HomePageProps) {
 
   return (
       <PageStyled> 
-        <MarketContentStyled style={{ padding: "0 50px" }}>
+        <MarketContentStyled style={{ padding: "50px 50px" }}>
           <div className="title">Market</div>
           <div className="summary">
             In the pass 24 hours Market is down{" "}
             <span style={{ color: "#DB5354" }}>3.08%</span>
           </div>
         </MarketContentStyled>
-        <ListPairsContentStyled style={{ padding: "10px 50px" }}>
+        {/* <ListPairsContentStyled style={{ padding: "10px 50px" }}>
           <div className="title">All</div>
           <div className="pairs">
             {
               isLoading ? <span>Loading</span> : <PairTable pairs={data.spot} />
             }
           </div>
-        </ListPairsContentStyled>
+        </ListPairsContentStyled> */}
       </PageStyled>
   );
 }

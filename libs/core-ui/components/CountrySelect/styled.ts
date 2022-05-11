@@ -22,7 +22,7 @@ export const SelectStyled = styled(Select)`
   }
   &.medium {
     &.ant-select{
-      width: 50%!important;
+      width: 50% !important;
     }
     .ant-select-selection-placeholder {
       padding-top: 8px !important;

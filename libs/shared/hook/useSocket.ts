@@ -7,7 +7,8 @@ export enum SocketEvent {
   user_orders,
   user_stoplimits,
   user_balances,
-  off
+  off,
+  qr_listen,
 }
 export interface useSocketProps {
   event: SocketEvent;

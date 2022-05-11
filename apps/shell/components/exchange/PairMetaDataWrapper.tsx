@@ -97,9 +97,10 @@ export function PairMetaDataWrapper({pair}: PairMetaDataWrapperProps) {
 
   return (
     <PairMetadataStyled>
-      <div className="left">
+      <div style={{marginLeft:-4}} className="left">
         <Typography level="H6">{`${pairInfo.currency1}/${pairInfo.currency2}`}</Typography>
         <div
+          style={{marginLeft:-6, marginRight:5}}
           onClick={() => { pairsStored.includes(pairString) ? removeFromFavorite(pairString) : addToFavorite(pairString) }}
           className={pairsStored.includes(pairString) ? 'isFavorited' : ''}
         >
@@ -124,7 +125,7 @@ export function PairMetaDataWrapper({pair}: PairMetaDataWrapperProps) {
           )}`}</Typography>
         </div>
         <div className="price">
-          <Typography level="B3">24h Change</Typography>
+          <Typography fontSize={11} level="B3">24h Change</Typography>
           <Typography
             level="B2"
             color={changed > 0 ? "success" : changed < 0 ? "danger" : null}
@@ -135,16 +136,16 @@ export function PairMetaDataWrapper({pair}: PairMetaDataWrapperProps) {
           <Typography level="B2">{highPrice}</Typography>
         </div>
         <div className="price">
-          <Typography level="B3">24h Low</Typography>
+          <Typography fontSize={11} level="B3">24h Low</Typography>
           <Typography level="B2">{lowPrice}</Typography>
         </div>
         <div className="price">
-          <Typography level="B3">{`24h Volume(${pairInfo.currency1})`}</Typography>
+          <Typography fontSize={11} level="B3">{`24h Volume(${pairInfo.currency1})`}</Typography>
           <Typography level="B2">34534.28</Typography>
         </div>
       </div>
       <div className="right">
-        <div>
+        <div style={{marginRight:-4}}>
           <Icon.QuestionIcon useDarkMode />
         </div>
       </div>

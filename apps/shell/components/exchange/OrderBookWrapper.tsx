@@ -59,18 +59,23 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
       const { bids: _bids, asks: _asks } = data;
 
       // Sum Bids
-      _bids[0][3] = _bids[0][1];
-      _bids.reduce((a, b) => {
-        b[3] = b[1] + a[3];
-        return b;
-      });
+      if (_bids[0] && _bids[0].length >= 2) {
+        _bids[0][3] = _bids[0][1];
+        _bids.reduce((a, b) => {
+          b[3] = b[1] + a[3];
+          return b;
+        });
+      }
+
 
       // Sum Asks
-      _asks[0][3] = _asks[0][1];
-      _asks.reduce((a, b) => {
-        b[3] = b[1] + a[3];
-        return b;
-      });
+      if (_asks[0] && _asks[0].length >= 2) {
+        _asks[0][3] = _asks[0][1];
+        _asks.reduce((a, b) => {
+          b[3] = b[1] + a[3];
+          return b;
+        });
+      }
 
       const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
       const newPrice = getAveragePrice(
@@ -95,6 +100,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
         currentPrice: 0.0,
       };
     }
+    console.log(pairInfo,'pairInfo')
   }, [data, pairInfo]);
 
   if (!pairInfo) return <Loading />;

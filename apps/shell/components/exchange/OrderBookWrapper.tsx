@@ -57,14 +57,6 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   const { bids, asks, currentPrice, priceTrend } = useMemo(() => {
     if (data && data.bids && data.asks) {
       const { bids: _bids, asks: _asks } = data;
-      const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
-      const newPrice = getAveragePrice(
-        reverseAsks[reverseAsks.length - 1][0],
-        (_bids && _bids[0]) ? _bids[0][0] : 0,
-        pairInfo.group_precision
-      );
-      const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
-      OrderBookWrapper.previousPrice = newPrice;
 
       // Sum Bids
       _bids[0][3] = _bids[0][1];
@@ -79,6 +71,15 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
         b[3] = b[1] + a[3];
         return b;
       });
+
+      const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
+      const newPrice = getAveragePrice(
+        reverseAsks[reverseAsks.length - 1][0],
+        (_bids && _bids[0]) ? _bids[0][0] : 0,
+        pairInfo.group_precision
+      );
+      const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
+      OrderBookWrapper.previousPrice = newPrice;
 
       return {
         bids: _bids,

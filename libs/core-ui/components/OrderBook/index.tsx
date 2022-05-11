@@ -72,6 +72,7 @@ export function OrderBook({
       onPriceSelected={setPriceSelected}
       priceOpenOrders={priceOpenOrders}
       maxRowData={maxRow}
+      totalType={totalType}
     />
   )
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SearchOutlined } from '@ant-design/icons';
 import { useRouter } from "next/router";
 // import { API_ENDPOINT, QUERY_KEY, REFETCH, STORE_KEY } from "@difx/constants";
@@ -186,7 +187,7 @@ export function ListPairWrapper() {
             dataSource={tab === 'all' ? allDataPairs : favoriteDataPairs}
             onRow={(record, rowIndex) => {
               return {
-                onClick: () => {router.push(`/exchange/${record.key}`)}
+                onClick: (e:any) => {e.target.innerHTML && router.push(`/exchange/${record.key}`)}
               };
             }}
           />

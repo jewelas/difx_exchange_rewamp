@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { useQuery, useMutation } from "react-query";
-import { axiosInstance as instance } from "./../api/index";
+import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { notification } from 'antd';
 import { useAuth, useGuestAuth } from '..'
 
@@ -12,8 +12,6 @@ import { useAuth, useGuestAuth } from '..'
  * @param request  : request params
  * @returns 
  */
-
-
 export function useHttpGet<Request, Response>(queryKey: string, endpoint: string, options: {}, request?: Request) {
     const defaultOption = {
         refetchOnMount: false,
@@ -24,19 +22,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
         ... options
     }
 
-    instance.interceptors.request.use(function (config : AxiosRequestConfig) {
-        const anonymousToken = localStorage?.getItem('anonymousToken');
-        const sessionToken = localStorage?.getItem('sessionToken');
-        // @ts-ignore
-        config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
-        // @ts-ignore
-        config.headers["Authorization"] =  sessionToken ? sessionToken : "";
-        // @ts-ignore
-        config.headers["x-api-key"]=  "DIFXExchange";
-        // @ts-ignore
-        config.headers["Device"]=  "web";
-        return config;
-    })
+    instance.interceptors.request.use(axiosAuthorization);
 
     const query = useQuery<Response, AxiosError>(
         queryKey,
@@ -61,27 +47,15 @@ interface EventProps<Response> {
 }
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
-    instance.interceptors.request.use(function (config: AxiosRequestConfig) {
-        const anonymousToken = localStorage?.getItem('anonymousToken');
-        const sessionToken = localStorage?.getItem('sessionToken');
-        // @ts-ignore
-        config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
-        // @ts-ignore
-        config.headers["Authorization"] =  sessionToken ? sessionToken : "";
-        // @ts-ignore
-        config.headers["x-api-key"]=  "DIFXExchange";
-        // @ts-ignore
-        config.headers["Device"]=  "web";
-        return config;
-    })
+    instance.interceptors.request.use(axiosAuthorization)
 
     const mutation = useMutation(
         (request: Request) => {
             return instance.get<Request, AxiosResponse<Response>>(endpoint, request)
         },
         {
-            onSuccess: (response: AxiosResponse<Response>) => {
-                onSuccess && onSuccess(response);
+            onSuccess: (response: AxiosResponse) => {
+                onSuccess && onSuccess(response.data);
             },
             onError: (error: AxiosError) => {
                 onError && onError(error as AxiosError);
@@ -96,24 +70,12 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
     const { refreshToken } = useAuth()
     const { refreshAnonymousToken } = useGuestAuth()
 
-    instance.interceptors.request.use(function (config: AxiosRequestConfig) {
-        const anonymousToken = localStorage?.getItem('anonymousToken');
-        const sessionToken = localStorage?.getItem('sessionToken');
-        // @ts-ignore
-        config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
-        // @ts-ignore
-        config.headers["Authorization"] =  sessionToken ? sessionToken : "";
-        // @ts-ignore
-        config.headers["x-api-key"]=  "DIFXExchange";
-        // @ts-ignore
-        config.headers["Device"]=  "web";
-        return config;
-    })
+    instance.interceptors.request.use(axiosAuthorization)
 
     const mutation = useMutation(
-        (request: Request) => {
+        (request: any) => {
             return instance.post<Request, AxiosResponse<Response>>(
-                endpoint,
+                request.endpoint || endpoint,
                 request
             );
         },

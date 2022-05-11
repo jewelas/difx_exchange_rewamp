@@ -311,7 +311,9 @@ export function Header(props: HeaderProps) {
                           <MarketIcon useDarkMode />
                           <div className="txt">{t("header.markets")}</div>
                         </div>
-                        <div className="menu-item">
+                        <div 
+                        onClick={() => onNavigation("/exchange")}
+                        className="menu-item">
                           <ExchangeIcon useDarkMode />
                           <div className="txt">{t("header.trade")}</div>
                         </div>

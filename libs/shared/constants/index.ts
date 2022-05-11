@@ -2,7 +2,6 @@ const calcChartDateRange = (type:string) => {
   const to = Math.floor(new Date().getTime() / 1000);
 
   const date = new Date();
-  let from = 0;
   switch (type) {
     case '5m': date.setDate(date.getDate() - 3)
       break;
@@ -56,21 +55,21 @@ export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',
-  GET_TRADES: (symbol: string) => `/api/v1/market/trades/${symbol}`,
+  GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
   GET_MY_TRADES: (symbol:string) => `/api/v1/user/trades/${symbol}`,
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view?symbol=ETCUSDT&resolution=${resolution || '5m'}&from=${from}&to=${to}`
-    // return `/api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${from}`
   },
   GET_CHART_CURRENT: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view-current?symbol=${symbol}&resolution=${resolution}`
-    // return `/api/v1/chart/normal-view-current?symbol=${symbol}&resolution=${symbol}&from=${from}&to=${to}`
   },
   GET_BALANCE: '/api/v1/user/balance',
   SIGNIN: '/api/v1/auth/login',
-  SIGNUP: '/api/v1/auth/sign-up',
+  GET_LOGIN_QR: '/api/v1/auth/qr',
+  SIGNUP_VERIFICATION: '/api/v1/auth/pre-check',
+  SIGNUP: `/api/v1/auth/signup`,
   FORGOT: '/api/v1/password/forgot',
   RESET_PASS: '/api/v1/password/reset',
   TWO_FACTOR: '/api/v1/auth/verify-twofa',
@@ -84,5 +83,6 @@ export const API_ENDPOINT = {
   CANCEL_BID_ORDER: '/api/v1/order/cancel-bid',
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
-  GET_MARKET_PAIRS: '/api/v1/market/pairs'
+  GET_MARKET_PAIRS: '/api/v1/market/pairs',
+  GET_STAKING_LIST: '/api/v1/staking/list'
 }

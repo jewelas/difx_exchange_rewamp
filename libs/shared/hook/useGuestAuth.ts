@@ -19,9 +19,9 @@ export function useGuestAuth() {
 
   useEffect(() => {
     if(!isLoggedIn){
-      let sessionToken = localStorage?.getItem("sessionToken")
+      let anonymousToken = localStorage?.getItem("anonymousToken")
 
-      if(sessionToken) {
+      if(anonymousToken) {
         if(!permissions && !config){
           let permissions = JSON.parse(localStorage?.getItem("permissions") || "null")
           let config = JSON.parse(localStorage?.getItem("config")  || "null")
@@ -30,6 +30,8 @@ export function useGuestAuth() {
         }
         return
       }
+
+      console.log
   
       refreshAnonymousToken()
     }

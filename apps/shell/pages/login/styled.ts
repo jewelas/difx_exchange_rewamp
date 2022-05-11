@@ -118,6 +118,18 @@ const PageStyled = styled.div`
           left: 46%;
         }
       }
+      .sub-account-link{
+        border: none;
+        background: transparent;
+        color: ${({ theme }) => theme.fontColor.link};
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .to-register-box{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       .sign-in-qrcode {
         display: flex;
         justify-content: center;
@@ -126,6 +138,12 @@ const PageStyled = styled.div`
           margin-top: 3px;
           margin-right: 8px;
         }
+      }
+      .text-highlight{
+        color: ${({ theme }) => theme.color.success};
+      }
+      .forgot-pass a{
+        color: ${({ theme }) => theme.fontColor.muted} !important;
       }
     }
   }

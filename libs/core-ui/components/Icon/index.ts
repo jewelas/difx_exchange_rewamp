@@ -59,6 +59,12 @@ import DepositIcon from "./DepositIcon";
 import ListViewIcon from "./ListViewIcon";
 import CardViewIcon from "./CardViewIcon";
 import DotIcon from "./DotIcon";
+import ExpandIcon from "./ExpandIcon";
+import RewardIcon from "./RewardIcon";
+import CompodingIcon from "./CompodingIcon";
+import CoinIcon from "./CoinIcon";
+import HeadTagIcon from "./HeadTagIcon";
+import NoDataIcon from "./NoDataIcon";
 export interface IconProps {
   width?: number;
   height?: number;
@@ -132,7 +138,13 @@ const Icon = {
   DepositIcon,
   ListViewIcon,
   CardViewIcon,
-  DotIcon
+  DotIcon,
+  CompodingIcon,
+  RewardIcon,
+  ExpandIcon,
+  CoinIcon,
+  HeadTagIcon,
+  NoDataIcon
 };
 
 export { Icon };

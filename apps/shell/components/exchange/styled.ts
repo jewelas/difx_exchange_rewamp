@@ -43,7 +43,7 @@ export const PairMetadataStyled = styled.div`
 export const TableWraperStyled = styled.div`
     padding: 15px 16px; 
     .ant-input{
-      height: 25px !important;
+      height: 40px !important;
     }
     .table-group{
       .head{

@@ -14,8 +14,8 @@ export function RegisterPage(props: RegisterPageProps) {
   return (
     <AppLayout>
       <PageStyled>
-        <Row>
-          <Col className="left-side" md={{ span: 15 }}>
+        <Row className="contentBox">
+          <Col className="left-side" md={{ span: 16 }}>
             <div className="message">
               <Typography level={"H2"}>{t("register.message1")}</Typography>
               <Typography level={"H1"} color={"primary"}>
@@ -29,7 +29,7 @@ export function RegisterPage(props: RegisterPageProps) {
               <CoverImage />
             </div>
           </Col>
-          <Col className="right-side" md={{ span: 9 }}>
+          <Col className="right-side" md={{ span: 8 }}>
             <RegisterFormComponent />
           </Col>
         </Row>

@@ -25,6 +25,7 @@ export function TwoFactorForm({sessionId}) {
     const { data } = response.data;
     const { permission, user } = data
     updateSession(user, permission)
+    localStorage.removeItem("extraAuthRequired")
     router.push("/home");
   };
 

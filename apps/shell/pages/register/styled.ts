@@ -12,7 +12,6 @@ export const FormStyled = styled.div`
     margin-top: 20px;
     display: block;
   }
-
   .country-select-group {
     margin-top: 10px;
     .ant-select {
@@ -74,26 +73,39 @@ export const FormStyled = styled.div`
         fill: ${({ theme }) => theme.fontColor.secondary} !important;
       }
       &.active {
-        color: ${({ theme }) => theme.color.primary} !important;
-        border-color: ${({ theme }) => theme.color.primary} !important;
         svg path {
-          fill: ${({ theme }) => theme.color.primary} !important;
+          fill: #FFFFFF !important;
         }
       }
       &:hover {
-        transition: unset !important;
+        /* transition: unset !important;
         color: ${({ theme }) => theme.color.primary} !important;
-        border-color: ${({ theme }) => theme.color.primary} !important;
-        svg path {
+        border-color: ${({ theme }) => theme.color.primary} !important; */
+        /* svg path {
           fill: ${({ theme }) => theme.color.primary} !important;
-        }
+        } */
       }
     }
+  }
+  .with-icon{
+    background: ${({theme}) => theme.background.primary} !important;
+    border: none
+  }
+  .with-icon.active{
+    background: ${({theme}) => theme.color.primary} !important;
+    color: #fff !important;
+    border: none
   }
 `;
 
 export const PageStyled = styled.div`
+  min-height: calc(100vh - 70px);
   .left-side {
+    height: calc(100vh - 70px) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-top: -5px;
     .message {
       display: flex;
@@ -114,6 +126,7 @@ export const PageStyled = styled.div`
   }
 
   .right-side {
+    height: calc(100vh - 70px) !important;
     background: #fff;
     margin-top: -4px;
   }
@@ -129,3 +142,41 @@ export const PageStyled = styled.div`
     }
   }
 `;
+
+export const EmailVerifyContainer = styled.div`
+  background: ${({ theme }) => theme.background.secondary} ;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 75vh;
+  padding: 200px 40px 40px 40px;
+
+  .verifyBox{
+    width: 80%;
+  }
+
+  p{
+    margin-top: 10px;
+    font-size: ${({theme}) => theme.typography.large} !important;
+    color: ${({theme}) => theme.fontColor.muted} !important;
+  }
+
+  .otpContainer{
+    justify-content: space-between;
+  }
+
+  .otpbox{
+    width: ${({theme}) => theme.otpBoxSize} !important;
+    height: ${({theme}) => theme.otpBoxSize} !important;
+    border: none;
+    background: ${({theme}) => theme.background.primary} !important;
+    border: 2px;
+    font-size: ${({theme}) => theme.typography.xlarge};
+  }
+
+  .ant-btn{
+    margin-top: 20px;
+    width: 100%;
+  }
+`

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { ThemeInterface } from "../../themes";
-import { Color } from "../Color";
 
 export const BarStyled = styled.div`
   z-index: 1;

@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { AxiosResponse } from "axios";
 import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { useAtom } from "jotai";
-import { useUpdateAtom, useAtomValue } from "jotai/utils";
 import { notification } from 'antd';
+import { socket } from "./../api";
 import {
   currentUserAtom,
   isLoggedInAtom,
@@ -14,12 +14,9 @@ import {
 import { API_ENDPOINT } from "..";
 
 export function useAuth() {
-  const user = useAtomValue(currentUserAtom);
-  const setUser = useUpdateAtom(currentUserAtom);
+  const [user, setUser] = useAtom(currentUserAtom);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
-
-  const permissions = useAtomValue(permissionsAtom);
-  const setPermissions = useUpdateAtom(permissionsAtom);
+  const [permissions, setPermissions] = useAtom(permissionsAtom);
 
   useEffect(()=>{
     if(!isLoggedIn){
@@ -46,6 +43,7 @@ export function useAuth() {
     setUser(stateUser);
     setPermissions(permission)
     setIsLoggedIn(true);
+    socket.updateAuth(updatedUser.token.accessToken);
   };
 
   const logOut = () : void => {

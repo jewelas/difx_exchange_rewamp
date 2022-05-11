@@ -139,6 +139,12 @@ const PageStyled = styled.div`
           margin-right: 8px;
         }
       }
+      .text-highlight{
+        color: ${({ theme }) => theme.color.success};
+      }
+      .forgot-pass a{
+        color: ${({ theme }) => theme.fontColor.muted} !important;
+      }
     }
   }
 `;

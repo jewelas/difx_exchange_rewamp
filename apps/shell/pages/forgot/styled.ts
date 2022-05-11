@@ -5,6 +5,7 @@ export const PageStyled = styled.div`
   .ant-row.row-group {
     background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {
+      max-width: 550px;
       padding: 50px;
       margin: 0 auto;
       margin-top: 70px;
@@ -113,6 +114,33 @@ export const PageStyled = styled.div`
           margin-top: 3px;
           margin-right: 8px;
         }
+      }
+      .botton-box{
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .resend-box{
+        color: ${({ theme }) => theme.fontColor.muted};
+        span{
+          margin-left: 5px;
+          cursor: pointer;
+          &.active{
+            color: ${({ theme }) => theme.fontColor.link}
+          }
+        }
+      }
+      .paste-btn{
+        color: ${({ theme }) => theme.fontColor.link};
+        cursor: pointer;
+      }
+
+      .ant-input-affix-wrapper{
+        height: ${({ theme }) => theme.inputFieldHeight};
+      }
+
+      #repeat_password.ant-input{
+        height: 42px !important;
       }
     }
   }

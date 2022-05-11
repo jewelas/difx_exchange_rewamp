@@ -29,7 +29,13 @@
     "forgot": "Forgot Password ?",
     "enter_val": "Please enter your register {{value}} to reset your password.",
     "enter_new_pass": "Enter new password",
-    "confirm_pass": "Confirm password "
+    "confirm_pass": "Confirm password ",
+    "verify": "Enter Verification Code",
+    "verify_btn": "Verify",
+    "verify_message": "Please enter the verification code send to ",
+    "paste": "Paste",
+    "resend": "Resend Verification Code",
+    "reset": "Reset Password"
   },
   "signin": {
     "ip_verification": "IP Verification",

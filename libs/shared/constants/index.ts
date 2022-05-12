@@ -36,8 +36,11 @@ export const QUERY_KEY = {
   CHART_HISTORY: 'chart_history',
   CHART_CURRENT: 'chart_current',
   BALANCE: 'balance',
-  OPEN_ORDERS: 'open_orders'
+  OPEN_ORDERS: 'open_orders',
+  MARKET_PAIRS: 'market_pairs'
 }
+
+export const ASSETS_URL = "https://media.difx.com/"
 
 export const REFETCH = {
   _10SECS: 10000,
@@ -67,8 +70,9 @@ export const API_ENDPOINT = {
   GET_LOGIN_QR: '/api/v1/auth/qr',
   SIGNUP_VERIFICATION: '/api/v1/auth/pre-check',
   SIGNUP: `/api/v1/auth/signup`,
-  FORGOT: '/api/v1/password/forgot',
-  RESET_PASS: '/api/v1/password/reset',
+  FORGOT: '/api/v1/auth/forgot-password',
+  VERIFY_FORGOT: '/api/v1/auth/verify-code',
+  RESET_PASS: '/api/v1/auth/reset-password',
   TWO_FACTOR: '/api/v1/auth/verify-twofa',
   VERIFY_IP: '/api/v1/auth/verify-ip',
   REFRESH_TOKEN: '/api/v1/auth/refresh',
@@ -80,5 +84,6 @@ export const API_ENDPOINT = {
   CANCEL_BID_ORDER: '/api/v1/order/cancel-bid',
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
+  GET_MARKET_PAIRS: '/api/v1/market/pairs',
   GET_STAKING_LIST: '/api/v1/staking/list'
 }

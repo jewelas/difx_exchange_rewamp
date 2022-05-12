@@ -11,6 +11,7 @@ interface IconStyledProps {
 
 const IconStyled = styled.div<IconStyledProps>`
   &.allPath {
+    display: flex;
     svg {
       fill: ${p => p.useDarkMode && p.useDarkModeFor === 'svg' ? ({ theme }) => theme.fontColor.primary || "#262626" : ''};
       path {

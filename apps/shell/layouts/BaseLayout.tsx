@@ -5,11 +5,11 @@ import styled from "styled-components";
 import { useRTL } from "@difx/shared";
 
 const LayoutStyled = styled(Layout)`
-  background: ${({ theme }) => theme.background.primary} !important;
+  background: ${({ theme }) => theme.background.body} !important;
 `;
 
 const ContentStyled = styled.div`
-  margin-top: 74px;
+  /* margin-top: 74px; */
   background: ${({ theme }) => theme.background.primary};
 `;
 

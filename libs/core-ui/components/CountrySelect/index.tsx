@@ -13,7 +13,7 @@ export interface CountrySelectProps {
   size?: "medium" | "large";
   type?: "name" | "dial_code";
   onChange: (value: { key: string; value: string }) => void;
-  onSearch?: (value: string) => void;
+  // onSearch?: (value: string) => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -60,7 +60,7 @@ const CountrySelect = (props: CountrySelectProps) => {
       value={props.value}
       defaultValue={props.defaultValue}
       className={props.size || "medium"}
-      style={{ height: 48, width: props.width ? props.width : 300 }}
+      // style={{ height: 48, width: props.width ? props.width : 300 }}
       // showSearch
       placeholder={props.placeHolder || "Select..."}
       optionFilterProp="children"

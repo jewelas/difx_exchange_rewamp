@@ -2,6 +2,7 @@ import { Color } from "@difx/core-ui";
 import styled from "styled-components";
 
 const PageStyled = styled.div`
+  height: calc(100vh - 70px);
   .ant-row.row-group {
     background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {
@@ -89,16 +90,18 @@ const PageStyled = styled.div`
       }
       .content {
         .dial-group {
+          margin: 0px !important;
           display: flex;
           .dropdown-dial {
             margin-right: 10px;
+            margin-bottom: 0px;
           }
           .ant-row.ant-form-item {
             flex-grow: 1;
           }
         }
         .email {
-          margin-bottom: 15px;
+          /* margin-bottom: 15px; */
         }
       }
       .ant-btn {
@@ -144,6 +147,18 @@ const PageStyled = styled.div`
       }
       .forgot-pass a{
         color: ${({ theme }) => theme.fontColor.muted} !important;
+      }
+      .subtext{
+        margin-top: 10px;
+        color: ${({ theme }) => theme.fontColor.primary} ;
+      }
+      .sign-in-qrcode{
+        border: 1px solid ${({ theme }) => theme.color.primary} ;
+        color:${({ theme }) => theme.color.primary} !important;
+      }
+      .sign-in-account{
+        border: 1px solid ${({ theme }) => theme.color.primary} ;
+        color:${({ theme }) => theme.color.primary} !important;
       }
     }
   }

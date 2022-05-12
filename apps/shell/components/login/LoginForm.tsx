@@ -27,7 +27,7 @@ import { useAtom } from "jotai";
 import { useRecaptcha } from "@difx/shared"
 
 /* eslint-disable-next-line */
-export interface LoginFormProps {}
+export interface LoginFormProps { }
 
 export function LoginForm(props: LoginFormProps) {
   const { data: countryCode } = useHttpGet<null, object>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
@@ -35,13 +35,12 @@ export function LoginForm(props: LoginFormProps) {
   const { updateSession } = useAuth();
   const [config] = useAtom(configAtom)
 
-  const [ getCaptcha ] = useRecaptcha()
- 
+  const [getCaptcha] = useRecaptcha()
+
   const [type, setType] = useState<"email" | "phone">("email");
   const [isCorporate, setIsCorporate] = useState(false);
   const [dialCode, setDialCode] = useState(null);
   const [hasFieldError, setHasFieldError] = useState(true);
-  const [isValidPass, setIsValidPass] = useState(false);
   const [form] = Form.useForm(null);
 
   const router = useRouter();
@@ -58,16 +57,11 @@ export function LoginForm(props: LoginFormProps) {
     }
   }, [countryCode]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fieldsValue = form.getFieldsValue();
-    const emptyField = Object.entries(fieldsValue).find(([key,value])=> !value);
+    const emptyField = Object.entries(fieldsValue).find(([key, value]) => !value);
     setHasFieldError(!isEmpty(emptyField));
-  },[type]);
-
-  const onChangePass = (isValidate: boolean, value: string) => {
-    form.setFieldsValue({ password: value });
-    setIsValidPass(isValidate);
-  };
+  }, [type]);
 
   const onChangeDialCode = (item: { key: string; value: string }) => {
     form.setFieldsValue({ dial_code: item.value });
@@ -85,18 +79,27 @@ export function LoginForm(props: LoginFormProps) {
 
   const onFormChange = () => {
     const fieldsError = form.getFieldsError();
-      const errors = fieldsError.find((e) => !isEmpty(e.errors));
-      if (errors && !isEmpty(errors.errors)) {
+
+    const fieldsValue = form.getFieldsValue();
+    for (const [, value] of Object.entries(fieldsValue)) {
+      if (!value) {
         setHasFieldError(true);
-      } else {
-        setHasFieldError(false);
+        return
       }
+    }
+
+    const errors = fieldsError.find((e) => !isEmpty(e.errors));
+    if (errors && !isEmpty(errors.errors)) {
+      setHasFieldError(true);
+    } else {
+      setHasFieldError(false);
+    }
   };
 
   const onError = useCallback((error: AxiosError) => {
     const { response } = error;
-    const { statusText , data} = response.data;
-    let authDetails: ExtraAuth 
+    const { statusText, data } = response.data;
+    let authDetails: ExtraAuth
     const fieldsValue = form.getFieldsValue();
     switch (statusText) {
       case "IP_VERIFICATION_REQUIRED":
@@ -106,7 +109,7 @@ export function LoginForm(props: LoginFormProps) {
             email: fieldsValue.email
           }
         }
-        localStorage.setItem("extraAuthRequired",JSON.stringify(authDetails))
+        localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
         router.push("/verify-ip")
         break
       case "TFA_REQUIRED":
@@ -116,7 +119,7 @@ export function LoginForm(props: LoginFormProps) {
             session_id: data.session_id
           }
         }
-        localStorage.setItem("extraAuthRequired",JSON.stringify(authDetails))
+        localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
         router.push("/two-factor")
         break
       default:
@@ -131,15 +134,15 @@ export function LoginForm(props: LoginFormProps) {
 
     /* eslint-disable */
     formData.captcha = captcha,
-    formData.captcha_type = config.captcha,
-    formData.device_token = "sdasdasd",
-    formData.device = "web";
+      formData.captcha_type = config.captcha,
+      formData.device_token = "sdasdasd",
+      formData.device = "web";
     /* eslint-enable */
 
     if (type === "phone") {
       formData.email = "";
       formData.phonenumber = (
-      formData.dial_code + formData.phonenumber
+        formData.dial_code + formData.phonenumber
       ).replace("+", "");
     }
 
@@ -241,11 +244,17 @@ export function LoginForm(props: LoginFormProps) {
           </div>
         )}
 
-        <Form.Item name="password">
-          <PasswordField onChange={onChangePass} />
+        <Form.Item name="password"
+          rules={[
+            {
+              required: true,
+              message: t("error.inpit_pass"),
+            },
+          ]}>
+          <Input.Password placeholder={t("signin.password")} />
         </Form.Item>
         <Button
-          disabled={isLoading || hasFieldError || !isValidPass || (type === 'phone' && !dialCode)}
+          disabled={isLoading || hasFieldError || (type === 'phone' && !dialCode)}
           htmlType="submit"
           className="sign-in-btn"
           type="primary"

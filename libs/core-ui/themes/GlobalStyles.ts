@@ -88,6 +88,16 @@ const GlobalStyles = createGlobalStyle`
       padding: unset !important;
       padding-left: 5px !important
     }
+    .ant-input-affix-wrapper.ant-input-password.ant-input-affix-wrapper-borderless{
+      .ant-input.ant-input-borderless{
+        margin-top: 1px;
+      }
+    }
+    .ant-input-affix-wrapper.ant-input-password{
+      .ant-input-suffix svg{
+        fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; 
+      }
+    }
 
     .ant-btn:hover{
       border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;

@@ -1,4 +1,5 @@
 export interface PairType {
+  categories: string[];
   networkStatus?: string;
   symbol: string;
   order: number;

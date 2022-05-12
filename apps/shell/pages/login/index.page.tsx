@@ -20,7 +20,7 @@ export function LoginPage(props: LoginPageProps) {
         <Row className="row-group">
           <Col className="col-group" xs={24} sm={20} md={16} lg={14} xl={10}>
             <Typography level="H4">{t("signin.login_in_difx")}</Typography>
-            <Typography level="B2">{t("signin.check_correct_url")}</Typography>
+            <Typography className="subtext" level="B2">{t("signin.check_correct_url")}</Typography>
             <div className="link">
               <Icon.LockIcon />
               <div>
@@ -53,10 +53,10 @@ export function LoginPage(props: LoginPageProps) {
               : 
                 <Button
                     htmlType="submit"
-                    className="sign-in-qrcode"
+                    className="sign-in-account"
                     onClick={()=>setQRLogin(!QRLogin)}
                   >
-                    <span>{t("signin.login_qr")}</span>
+                    <span>{t("signin.login_account")}</span>
                   </Button>
             }
           </Col>

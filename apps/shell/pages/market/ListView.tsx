@@ -76,6 +76,8 @@ export function ListView({data}) {
   return (
     <>
     <Table
+        /* eslint-disable-next-line */
+        //@ts-ignore
         columns={columns}
         dataSource={data}
         pagination={{ position: ['bottomCenter'] }}

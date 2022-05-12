@@ -56,10 +56,10 @@ export function GridView({data}) {
                         <MarketCardBtns>
                             <Row gutter={20}>
                                 <Col span={12}>
-                                    <Button type="primary" className="success ant-btn-lg">Buy</Button>
+                                    <Button type="primary" className="success">Buy</Button>
                                 </Col>
                                 <Col span={12}>
-                                    <Button type="primary" danger className="ant-btn-lg">Sell</Button>
+                                    <Button type="primary" className="danger">Sell</Button>
                                 </Col>
                             </Row>
                         </MarketCardBtns>

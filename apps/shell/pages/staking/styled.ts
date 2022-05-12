@@ -63,6 +63,9 @@ export const PageStyled = styled.div`
           height: 250px;
           padding: 30px;
           border-radius: 3px;
+          .ant-typography{
+            color: #454552 !important;
+          }
           .top{
             margin-bottom: 30px;
           }

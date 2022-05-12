@@ -39,6 +39,7 @@
   "signin": {
     "ip_verification": "IP Verification",
     "email": "Email",
+    "password": "Password",
     "phone_number": "Phone Number",
     "corporate": "Corporate",
     "login": "Login",
@@ -78,6 +79,7 @@
     "mainAccount": "Switch to Main Account"
   },
   "error": {
+    "inpit_pass": "Please input your Password!",
     "input_2factor_code": "Please enter two factor authentication code",
     "input_email_otp": "Please enter the OTP",
     "input_email": "Please input your Email!",

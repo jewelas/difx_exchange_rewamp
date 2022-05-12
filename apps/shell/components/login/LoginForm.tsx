@@ -2,7 +2,6 @@
 import {
   CountrySelect,
   getCountryInfo,
-  PasswordField,
   Typography
 } from "@difx/core-ui";
 import t from "@difx/locale";

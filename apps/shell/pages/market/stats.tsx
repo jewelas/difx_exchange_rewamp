@@ -5,7 +5,6 @@ import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayou
 import GridView from "./GridView";
 import ListView from "./ListView";
 import { Market } from '@difx/shared';
-import FutureListView from "./FutureListView";
 
 export function Stats({spotList, futuresList, categoriesList, favorites}) {
     const [tab, setTab] = useState('favorites');

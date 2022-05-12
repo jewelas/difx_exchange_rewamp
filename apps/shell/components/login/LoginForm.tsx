@@ -78,8 +78,6 @@ export function LoginForm(props: LoginFormProps) {
   }, []);
 
   const onFormChange = () => {
-    const fieldsError = form.getFieldsError();
-
     const fieldsValue = form.getFieldsValue();
     for (const [, value] of Object.entries(fieldsValue)) {
       if (!value) {
@@ -88,6 +86,7 @@ export function LoginForm(props: LoginFormProps) {
       }
     }
 
+    const fieldsError = form.getFieldsError();
     const errors = fieldsError.find((e) => !isEmpty(e.errors));
     if (errors && !isEmpty(errors.errors)) {
       setHasFieldError(true);

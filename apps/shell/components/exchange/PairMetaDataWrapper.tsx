@@ -91,11 +91,7 @@ export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
       }
     }, [data, pairInfo]);
 
-  if (!pairInfo) return (
-    <>
-      <Loading type='skeleton' column={5} row={1} />
-    </>
-  )
+  if (!pairInfo) return  <Loading type='component' />
 
   const pairString = `${pairInfo.currency1}/${pairInfo.currency2}`
 

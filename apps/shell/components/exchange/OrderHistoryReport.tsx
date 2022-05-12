@@ -130,9 +130,7 @@ export function OrderHistoryReport({pair}:{pair:string}) {
     }
   ];
 
-  if (isEmpty(tableData) && isDataLoading) return (
-    <Loading type='skeleton' column={6} row={10} flexGrowForColumns={[2, 1, 1, 3, 1, 2]} />
-  )
+  if (isEmpty(tableData) && isDataLoading) return <Loading type='component' />
 
   return (
     <Table

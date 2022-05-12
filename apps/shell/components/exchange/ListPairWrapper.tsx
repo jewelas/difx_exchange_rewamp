@@ -177,13 +177,7 @@ export function ListPairWrapper() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[tab]);
 
-  if (!pairs) return (
-    <>
-      <Loading type='skeleton' column={1} row={1} />
-      <Loading style={{ marginTop: -20 }} type='skeleton' column={5} row={1} />
-      <Loading style={{ marginTop: -20 }} type='skeleton' column={3} row={15} flexGrowForColumns={[2, 1, 1]} />
-    </>
-  )
+  if (!pairs) return <Loading type='component' />
 
   return (
     <TableWraperStyled ref={componentRef}>

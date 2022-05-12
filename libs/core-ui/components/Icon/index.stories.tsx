@@ -53,6 +53,8 @@ const Template: Story = (args) => {
     WifiIcon,
     FavoriteIcon,
     QuestionIcon,
+    SearchIcon,
+    CoinPlaceholder,
     SwitchIcon,
     CandleSolidIcon,
     CandleStrokeIcon,
@@ -77,6 +79,8 @@ const Template: Story = (args) => {
     ChartIndVLine3Icon,
     TrashIcon,
     DepositIcon,
+    ListViewIcon,
+    CardViewIcon,
     DotIcon,
     ExpandIcon,
     CompodingIcon,
@@ -155,6 +159,8 @@ const Template: Story = (args) => {
         {renderIcon("WifiIcon", <WifiIcon {...iconArgs} />)}
         {renderIcon("FavoriteIcon", <FavoriteIcon {...iconArgs} />)}
         {renderIcon("QuestionIcon", <QuestionIcon {...iconArgs} />)}
+        {renderIcon("SearchIcon", <SearchIcon {...iconArgs} />)}
+        {renderIcon("CoinPlaceholder", <CoinPlaceholder {...iconArgs} />)}
         {renderIcon("SwitchIcon", <SwitchIcon {...iconArgs} />)}
         {renderIcon("CandleSolidIcon", <CandleSolidIcon {...iconArgs} />)}
         {renderIcon("CandleStrokeIcon", <CandleStrokeIcon {...iconArgs} />)}
@@ -179,6 +185,8 @@ const Template: Story = (args) => {
         {renderIcon("ChartIndVLine2Icon", <ChartIndVLine2Icon {...iconArgs} />)}
         {renderIcon("ChartIndVLine1Icon", <ChartIndVLine1Icon {...iconArgs} />)}
         {renderIcon("DepositIcon", <DepositIcon {...iconArgs} />)}
+        {renderIcon("ListViewIcon", <ListViewIcon {...iconArgs} />)}
+        {renderIcon("CardViewIcon", <CardViewIcon {...iconArgs} />)}
         {renderIcon("DotIcon", <DotIcon {...iconArgs} />)}
         {renderIcon("ExpandIcon", <ExpandIcon {...iconArgs} />)}
         {renderIcon("RewardIcon", <RewardIcon {...iconArgs} />)}

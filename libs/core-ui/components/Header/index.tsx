@@ -107,11 +107,19 @@ export function Header(props: HeaderProps) {
               <Menu.Item className="left-nav" key="/earn">
                 {t("header.earn")}
               </Menu.Item>
-              <Menu.Item className="left-nav" key="/wallet">
+              <Menu.Item
+                className="left-nav"
+                key="/wallet"
+                onClick={() => onNavigation("/wallet")}
+              >
                 {t("header.wallet")}
               </Menu.Item>
-              <Menu.Item className="left-nav" key="/order">
-                {t("header.order")}
+              <Menu.Item
+                className="left-nav"
+                key="/staking"
+                onClick={() => onNavigation("/staking")}
+              >
+                {t("header.staking")}
               </Menu.Item>
 
               <Menu.Item className="more-nav" key="open-drawer">
@@ -153,6 +161,12 @@ export function Header(props: HeaderProps) {
                 </>
               ) : (
                 <>
+                  <Menu.Item className="right-nav" key="logout">
+                    <StyledButtonGroup onClick={() => logOut()}>
+                      {t("header.logout")}
+                      <StyledLine style={{ opacity: 0 }} />
+                    </StyledButtonGroup>
+                  </Menu.Item>
                   <Menu.Item className="right-nav" key="/notification">
                     <StyledButtonGroup>
                       <Button
@@ -169,7 +183,7 @@ export function Header(props: HeaderProps) {
   
                         icon={<UserIcon useDarkMode />}
                         size={"small"}
-                        onClick={()=>logOut()}
+                        onClick={() => onNavigation("/profile")}
                         type="text"
                       />
                       <StyledLine style={{ opacity: 0 }} />

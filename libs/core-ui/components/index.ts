@@ -9,6 +9,7 @@ export * from "./Flag";
 export * from "./CountrySelect";
 export * from "./PasswordField";
 export * from "./OrderBook";
+export * from "./SearchInput";
 export * from "./Chart";
 export * from "./OrderForm";
 export * from "./OTPBox";

@@ -6,6 +6,7 @@ import { Theme } from 'antd/lib/config-provider/context';
 export interface ThemeInterface extends Theme {
   color: {
     primary: string;
+    primaryLight: string,
     secondary: string;
     success: string;
     danger: string;
@@ -22,6 +23,7 @@ export interface ThemeInterface extends Theme {
     dangerDisabled: string;
     disabled: string;
     selected: string;
+    InputPlaceholder: string
     rowHover: string
   };
   scrollbar: {
@@ -31,6 +33,9 @@ export interface ThemeInterface extends Theme {
   background: {
     primary: string;
     secondary: string;
+    body: string,
+    white: string,
+    star: string
   };
   fontColor: {
     primary: string;
@@ -95,6 +100,7 @@ export const light: ThemeInterface = {
 
   color: {
     primary: "#3D7EFF",
+    primaryLight: "#E0EFFF",
     secondary: "#FAAD14",
     success: "#21C198",
     danger: "#DB5354",
@@ -111,7 +117,8 @@ export const light: ThemeInterface = {
     dangerDisabled: "#FFF3F3",
     disabled: "#f5f5f5",
     selected: "var(--ant-primary-1)",
-    rowHover: "rgba(0,0,0,0.1)" 
+    InputPlaceholder: "#8C8C8C",
+    rowHover: "rgba(0,0,0,0.1)"
   },
   scrollbar: {
     bar: "#999",
@@ -123,6 +130,9 @@ export const light: ThemeInterface = {
   background: {
     primary: "#F8FAFD",
     secondary: "#FFFFFF",
+    body: "#F3F6FB",
+    white: "#FFFFFF",
+    star: "#FFC107"
   },
   fontColor: {
     primary: "#454552",
@@ -184,6 +194,7 @@ export const dark: ThemeInterface = {
 
   color: {
     primary: "#3D7EFF",
+    primaryLight: "#E0EFFF",
     secondary: "#FAAD14",
     success: "#21C198",
     danger: "#DB5354",
@@ -200,6 +211,7 @@ export const dark: ThemeInterface = {
     dangerDisabled: "#FFF3F3",
     disabled: "rgba(13, 20, 33, 0.6)",
     selected: "rgba(13, 20, 33, 0.6)",
+    InputPlaceholder: "#8C8C8C",
     rowHover: "rgba(255,255,255,0.1)"
   },
   scrollbar: {
@@ -212,6 +224,9 @@ export const dark: ThemeInterface = {
   background: {
     primary: "#161F30",
     secondary: "#0D1421",
+    body: "#161F30",
+    white: "#FFFFFF",
+    star: "#FFC107"
   },
   fontColor: {
     primary: "#FFFFFF",

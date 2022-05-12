@@ -30,6 +30,8 @@ import OrderSellIcon from "./OrderSellIcon";
 import WifiIcon from "./WifiIcon";
 import FavoriteIcon from "./FavoriteIcon";
 import QuestionIcon from "./QuestionIcon";
+import SearchIcon from "./SearchIcon";
+import CoinPlaceholder from "./CoinPlaceholder";
 import SwitchIcon from "./SwitchIcon";
 import CandleSolidIcon from "./CandleSolidIcon";
 import CandleStrokeIcon from "./CandleStrokeIcon";
@@ -54,6 +56,8 @@ import ChartIndVLine2Icon from "./ChartIndVLine2Icon";
 import ChartIndVLine3Icon from "./ChartIndVLine3Icon";
 import TrashIcon from "./TrashIcon";
 import DepositIcon from "./DepositIcon";
+import ListViewIcon from "./ListViewIcon";
+import CardViewIcon from "./CardViewIcon";
 import DotIcon from "./DotIcon";
 import ExpandIcon from "./ExpandIcon";
 import RewardIcon from "./RewardIcon";
@@ -106,6 +110,8 @@ const Icon = {
   WifiIcon,
   FavoriteIcon,
   QuestionIcon,
+  SearchIcon,
+  CoinPlaceholder,
   SwitchIcon,
   CandleSolidIcon,
   CandleStrokeIcon,
@@ -130,6 +136,8 @@ const Icon = {
   ChartIndVLine3Icon,
   TrashIcon,
   DepositIcon,
+  ListViewIcon,
+  CardViewIcon,
   DotIcon,
   CompodingIcon,
   RewardIcon,

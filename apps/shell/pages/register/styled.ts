@@ -141,6 +141,12 @@ export const PageStyled = styled.div`
       flex: unset;
     }
   }
+
+  .hZcEua.allPath{
+    justify-content: center !important;
+    align-items: center !important;
+    display: flex !important;
+  }
 `;
 
 export const EmailVerifyContainer = styled.div`

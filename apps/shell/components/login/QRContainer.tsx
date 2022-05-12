@@ -70,7 +70,6 @@ export default function QRContainer() {
           <QRCodeSVG
           value={qrToken}
           size={180}
-          level={'H'}
           includeMargin={true}
           />
         </div>

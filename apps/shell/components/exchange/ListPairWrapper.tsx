@@ -23,15 +23,15 @@ export function ListPairWrapper() {
   const router = useRouter();
 
   const componentRef = useRef(null);
-  
+
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
-  
-  useEffect(()=>{
-    if(resData){
+
+  useEffect(() => {
+    if (resData) {
       setPairs(resData.spot)
     }
-  },[resData])
-  
+  }, [resData])
+
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];
     if (!_pairs.includes(pair)) {
@@ -110,8 +110,8 @@ export function ListPairWrapper() {
           let _a = typeChange === 'percent' ? a.change : a.volume;
           let _b = typeChange === 'percent' ? b.change : b.volume;
           const regex = /%|\+|-|,/gi;
-          _a = _a.replace(regex,"");
-          _b = _b.replace(regex,"");
+          _a = _a.replace(regex, "");
+          _b = _b.replace(regex, "");
           return Number(_a) - Number(_b);
         },
         multiple: 1,
@@ -119,12 +119,12 @@ export function ListPairWrapper() {
       render: (text, record) => {
         return (
           <div className='change'>
-          <Typography
-            level="B3"
-            color={record.trend === 'up' ? 'success' : 'danger'}
-          >
-            {typeChange === 'percent' ? record.change  : record.volume}
-          </Typography>
+            <Typography
+              level="B3"
+              color={record.trend === 'up' ? 'success' : 'danger'}
+            >
+              {typeChange === 'percent' ? record.change : record.volume}
+            </Typography>
           </div>
         )
       }
@@ -168,7 +168,13 @@ export function ListPairWrapper() {
     } else return null;
   }, [pairsStored, allDataPairs]);
 
-  if (!pairs) return <Loading />;
+  if (!pairs) return (
+    <>
+      <Loading type='skeleton' column={1} row={1} />
+      <Loading style={{ marginTop: -20 }} type='skeleton' column={5} row={1} />
+      <Loading style={{ marginTop: -20 }} type='skeleton' column={3} row={15} flexGrowForColumns={[2, 1, 1]} />
+    </>
+  )
 
   return (
     <TableWraperStyled ref={componentRef}>
@@ -187,7 +193,7 @@ export function ListPairWrapper() {
             dataSource={tab === 'all' ? allDataPairs : favoriteDataPairs}
             onRow={(record, rowIndex) => {
               return {
-                onClick: (e:any) => {e.target.innerHTML && router.push(`/exchange/${record.key}`)}
+                onClick: (e: any) => { e.target.innerHTML && router.push(`/exchange/${record.key}`) }
               };
             }}
           />

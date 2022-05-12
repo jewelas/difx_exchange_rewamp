@@ -62,7 +62,9 @@ export function FundReport() {
     }
   ];
 
-  if (isEmpty(tableData) && isDataLoading) return <Loading />
+  if (isEmpty(tableData) && isDataLoading) return (
+    <Loading type='skeleton' column={2} row={10} flexGrowForColumns={[2, 1]} />
+  )
 
   return (
     <Table

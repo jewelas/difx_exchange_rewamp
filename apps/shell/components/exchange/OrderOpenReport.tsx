@@ -31,7 +31,7 @@ export function OrderOpenReport() {
           setTableData([...tableData]);
         }
       }
-    }else{
+    } else {
       setTableData([]);
     }
   }
@@ -42,7 +42,7 @@ export function OrderOpenReport() {
       if (index !== -1) {
         if (userOrdersData.q === 0) {
           tableData.splice(index, 1);
-        }else{
+        } else {
           tableData[index].q = userOrdersData.q;
         }
       } else {
@@ -171,8 +171,8 @@ export function OrderOpenReport() {
             onClick={() => {
               if (!isLoading) {
                 record.s === 0
-                // eslint-disable-next-line
-                // @ts-ignore
+                  // eslint-disable-next-line
+                  // @ts-ignore
                   ? cancelOrder({ id: record.id }) // Cancel Bid Order
                   // eslint-disable-next-line
                   // @ts-ignore
@@ -187,7 +187,9 @@ export function OrderOpenReport() {
     }
   ];
 
-  if (isEmpty(tableData) && isDataLoading) return <Loading />
+  if (isEmpty(tableData) && isDataLoading) return (
+    <Loading type='skeleton' column={6} row={10} flexGrowForColumns={[2, 1, 1, 3, 1, 2]} />
+  )
 
   return (
     <Table

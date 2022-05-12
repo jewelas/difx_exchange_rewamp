@@ -44,7 +44,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           cols={{ lg: 24, md: 24, sm: 24, xs: 1, xxs: 1 }}
           onResizeStop={handleGridResize}
         >
-          <div key="order-book">
+          <div key="order-book" className="base">
             {pair && <OrderBookWrapper pair={pair as string} />}
           </div>
           <div key="pair-info" className="base">

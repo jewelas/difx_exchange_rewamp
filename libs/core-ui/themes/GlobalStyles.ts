@@ -439,6 +439,18 @@ const GlobalStyles = createGlobalStyle`
     }
 
 
+    /* Skeletion loading */
+    .react-loading-skeleton{
+      background: ${({ theme }) => theme.loadingSkeleton.base} !important;
+      &::after{
+        background-image: linear-gradient(90deg, 
+          ${({ theme }) => theme.loadingSkeleton.base}, 
+          ${({ theme }) => theme.loadingSkeleton.highLight}, 
+          ${({ theme }) => theme.loadingSkeleton.base}
+        ) !important
+      }
+    }
+
 `;
 
 export { GlobalStyles };

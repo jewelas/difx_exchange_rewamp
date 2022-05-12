@@ -39,8 +39,9 @@
     "corporate": "Corporate",
     "login": "Login",
     "login_qr": "Login with QR Code",
+    "login_account": "Login with Account",
     "new_account": "New account?",
-    "login_in_difx": "Login in DIFX",
+    "login_in_difx": "LogIn",
     "check_correct_url": "Please check that you are visiting the correct URL"
   },
   "2fa": {
@@ -54,6 +55,7 @@
     "verify_success": "Verification successfully!"
   },
   "register": {
+    "title": "Register",
     "message1": "Register to get upto",
     "message2": "$500 worth of DIFX tokens",
     "message3": "Earn rewards easily by signing up today!",
@@ -63,7 +65,13 @@
     "resident_country": "Resident Country:",
     "referral_code": "Referral Code",
     "term1": "I have read and agree to the",
-    "term2": "Terms and Conditions"
+    "term2": "Terms and Conditions",
+    "verifyEmailHeader": "Email Verification Code",
+    "verifyEmailMessage": "Please enter the verification code send to ",
+    "verifyEmailButton": "Verify",
+    "subAccount": "Sub-Account",
+    "newAccount": "New Account? ",
+    "mainAccount": "Switch to Main Account"
   },
   "error": {
     "inpit_pass": "Please input your Password!",

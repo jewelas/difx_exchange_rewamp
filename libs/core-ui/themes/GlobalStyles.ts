@@ -122,6 +122,12 @@ const GlobalStyles = createGlobalStyle`
       background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
     }
 
+    .ant-btn-link{
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.link} !important;
+      padding: 0px !important;
+      margin: 0px !important;
+    }
+
     .ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       border-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;

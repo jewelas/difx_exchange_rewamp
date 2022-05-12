@@ -7,42 +7,47 @@ import {
 } from "@difx/core-ui";
 import t from "@difx/locale";
 import {
-  currentUserAtom,
   SignUpRequest,
   SignUpResponse,
   useHttpGet,
-  useHttpPost
+  useHttpPost,
+  CaptchaType,
+  useRecaptcha,
+  configAtom
 } from "@difx/shared";
-import { Button, Checkbox, Form, Input, notification } from "antd";
+import { Button, Checkbox, Form, Input, Tabs, notification } from "antd";
 import { AxiosError, AxiosResponse } from "axios";
 import clsx from "clsx";
-import { useUpdateAtom } from "jotai/utils";
 import { isEmpty } from "lodash";
-import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { FormStyled } from "../../pages/register/styled";
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
+import EmailVerify from "./EmailVerify";
+import { useAtom } from "jotai";
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps {}
 
 export function RegisterFormComponent(props: RegisterFormComponentProps) {
   const { data: countryCode } = useHttpGet<null, object>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
+  const { TabPane } = Tabs;
 
-  const setCurrentUser = useUpdateAtom(currentUserAtom);
-
-  const router = useRouter();
-
-  const [showReferral, setShowReferral] = useState(false);
-
+  const [config] = useAtom(configAtom)
+  
   const [form] = Form.useForm(null);
-
+  
+  const [ getCaptcha ] = useRecaptcha()
+  
+  const [showReferral, setShowReferral] = useState(false);
+  const [verifyEmail, setVerifyEmail] = useState(false)
   const [acceptTerm, setAcceptTerm] = useState(false);
   const [hasFieldError, setHasFieldError] = useState(true);
   const [isValidPass, setIsValidPass] = useState(false);
   const [dialCode, setDialCode] = useState(null);
   const [country, setCountry] = useState(null);
   const [userType, setUserType] = useState<"IND" | "BUS">("IND");
+
+  const verificationToken = useRef()
 
   useEffect(() => {
     if (countryCode) {
@@ -56,19 +61,6 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
       }
     }
   }, [countryCode]);
-
-  const signUpSuccessNotification = () => {
-    notification["success"]({
-      message: "Sign Up successfully",
-    });
-  };
-
-  const signUpFailNotification = (description: string) => {
-    notification["error"]({
-      message: "Sign Up failed",
-      description,
-    });
-  };
 
   const onChangeCountry = (item: { key: string; value: string }) => {
     /* eslint-disable-next-line */
@@ -94,39 +86,38 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     }
   };
 
-  const onSuccess = useCallback((response: AxiosResponse<SignUpResponse>) => {
+  const onSuccess = useCallback((response: AxiosResponse) => {
     const { data } = response;
-    localStorage.setItem("currentUser", JSON.stringify(data));
-    setCurrentUser(data);
-
-    signUpSuccessNotification();
-    router.push("/home");
-    /* eslint-disable-next-line */
+    notification.info({
+      message: "Verify Email",
+      description: data.message,
+    })
+    verificationToken.current = data.data.token
+    setVerifyEmail(true)
   }, []);
 
   const onError = useCallback((error: AxiosError) => {
-    const { response } = error;
-    const { statusText } = response.data;
-    signUpFailNotification(statusText);
+    console.log(error)
   }, []);
 
-  const { mutate: signUp, isLoading } = useHttpPost<SignUpRequest, SignUpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNUP });
+  const { mutate: signUp, isLoading } = useHttpPost<SignUpRequest, SignUpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNUP_VERIFICATION });
 
   const onSubmit = async (formData: SignUpRequest) => {
-    formData.phonenumber = (formData.dial_code + formData.phonenumber).replace(
-      "+",
-      ""
-    );
-
-    let name = formData.email.split("@")[0];
-    name = name.replace(/[^a-zA-Z]/g, "");
-
-    formData.type = "individual";
-    formData.agree = true;
-    formData.usertype = userType;
-    formData.firstname = name;
-    formData.lastname = name;
-    formData.rpassword = formData.password;
+    const captcha: string | CaptchaType = await getCaptcha()
+    if(formData.phonenumber){
+      formData.phonenumber = (formData.dial_code + formData.phonenumber).replace(
+        "+",
+        ""
+      );
+    } 
+    formData.type = userType;
+    formData.captcha = captcha;
+    formData.captcha_type = config.captcha;
+    formData.country = country;
+    formData.device = "web";
+    formData.device_token = "dfx_web";
+    formData.password = form.getFieldValue('password')
+    delete formData.dial_code
     signUp(formData);
   };
 
@@ -143,6 +134,10 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
     setCountry(countryInfo?.name);
     setDialCode(item.value);
   };
+
+  if(verifyEmail){
+    return <EmailVerify userEmail={form.getFieldValue('email')} verificationToken={verificationToken.current}/>
+  }
 
   return (
     <FormStyled>
@@ -180,53 +175,61 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
           </Button>
         </div>
         <div className="input-group">
-          <div className="input-item">
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: t("error.input_email"),
-                },
-                {
-                  type: "email",
-                  message: t("error.email_not_valid"),
-                },
-              ]}
-            >
-              <Input placeholder="Email" />
-            </Form.Item>
-          </div>
+          <Tabs defaultActiveKey="emailSignUp">
 
-          <div className="input-item dial">
-            <div className="dropdown-dial">
-              <Form.Item name="dial_code" rules={[]}>
-                <CountrySelect
-                  value={dialCode}
-                  width={150}
-                  type="dial_code"
-                  onChange={onChangeDialCode}
-                  size="medium"
-                />
-              </Form.Item>
-            </div>
-            <Form.Item
-              name="phonenumber"
-              rules={[
-                {
-                  required: true,
-                  message: t("error.input_phone"),
-                },
-              ]}
-            >
-              <Input type="number" placeholder="Phone Number" />
-            </Form.Item>
-          </div>
+            <TabPane tab="Email" key="emailSignUp">
+              <div className="input-item">
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: t("error.input_email"),
+                    },
+                    {
+                      type: "email",
+                      message: t("error.email_not_valid"),
+                    },
+                  ]}
+                >
+                  <Input placeholder="Email" />
+                </Form.Item>
+              </div>
+            </TabPane>
+
+            <TabPane tab="Phone Number" key="phoneSignUp">
+              <div className="input-item dial">
+                <div className="dropdown-dial">
+                  <Form.Item name="dial_code" rules={[]}>
+                    <CountrySelect
+                      value={dialCode}
+                      width={150}
+                      type="dial_code"
+                      onChange={onChangeDialCode}
+                      size="medium"
+                    />
+                  </Form.Item>
+                </div>
+                <Form.Item
+                  name="phonenumber"
+                  rules={[
+                    {
+                      required: true,
+                      message: t("error.input_phone"),
+                    },
+                  ]}
+                >
+                  <Input type="number" placeholder="Phone Number" />
+                </Form.Item>
+              </div>
+            </TabPane>
+
+          </Tabs>
 
           <div data-tip data-for="password-validate" className="input-item">
             <PasswordField onChange={onChangePass} />
           </div>
-
+          
           <div
             onClick={() => {
               setShowReferral(!showReferral);

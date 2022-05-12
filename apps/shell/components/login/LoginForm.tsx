@@ -24,7 +24,8 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
 import { ExtraAuth } from "@difx/shared";
 import { useAtom } from "jotai";
-import { useRecaptcha } from "@difx/shared"
+import { useRecaptcha } from "@difx/shared";
+import Link from "next/link";
 
 /* eslint-disable-next-line */
 export interface LoginFormProps { }
@@ -41,6 +42,7 @@ export function LoginForm(props: LoginFormProps) {
   const [isCorporate, setIsCorporate] = useState(false);
   const [dialCode, setDialCode] = useState(null);
   const [hasFieldError, setHasFieldError] = useState(true);
+  const [isSubAccount, setIsSubAccount] = useState(false)
   const [form] = Form.useForm(null);
 
   const router = useRouter();
@@ -159,44 +161,60 @@ export function LoginForm(props: LoginFormProps) {
       onFieldsChange={onFormChange}
       autoComplete="off"
     >
-      <div className="left-right">
-        <div className="left">
-          <div
-            onClick={() => {
-              onChangeLoginType("email");
-            }}
-            className={clsx("tab", type === "email" && "active")}
-          >
-            <Typography level="B1">{t("signin.email")}</Typography>
-          </div>
-          <div className="splitter" />
-          <div
-            onClick={() => {
-              onChangeLoginType("phone");
-            }}
-            className={clsx("tab", type === "phone" && "active")}
-          >
-            <Typography level="B1">{t("signin.phone_number")}</Typography>
-          </div>
-        </div>
-        <div className="right">
-          <div
-            className="pointer"
-            onClick={() => {
-              setIsCorporate(!isCorporate);
-            }}
-          >
-            <Typography level="B2">{t("signin.corporate")}</Typography>
-          </div>
-          <Switch
-            size="small"
-            checked={isCorporate}
-            onChange={(checked) => {
-              setIsCorporate(checked);
-            }}
-          />
-        </div>
-      </div>
+      {
+        !isSubAccount ? 
+          <>
+            <div className="left-right">
+              <div className="left">
+                <div
+                  onClick={() => {
+                    onChangeLoginType("email");
+                  }}
+                  className={clsx("tab", type === "email" && "active")}
+                >
+                  <Typography level="B1">{t("signin.email")}</Typography>
+                </div>
+                
+                {
+                  !isCorporate ?
+                  <>
+                    <div className="splitter" />
+                    <div
+                      onClick={() => {
+                        onChangeLoginType("phone");
+                      }}
+                      className={clsx("tab", type === "phone" && "active")}
+                    >
+                      <Typography level="B1">{t("signin.phone_number")}</Typography>
+                    </div>
+                  </>
+                  :
+                      null
+                }
+              </div>
+              <div className="right">
+                <div
+                  className="pointer"
+                  onClick={() => {
+                    setIsCorporate(!isCorporate);
+                  }}
+                >
+                  <Typography level="B2">{t("signin.corporate")}</Typography>
+                </div>
+                <Switch
+                  size="small"
+                  checked={isCorporate}
+                  onChange={(checked) => {
+                    setIsCorporate(checked);
+                  }}
+                />
+              </div>
+            </div>
+          </>
+        :
+          <>
+          </>
+      }
       <div className="content">
         {type === "email" ? (
           <Form.Item
@@ -260,6 +278,35 @@ export function LoginForm(props: LoginFormProps) {
         >
           {t("signin.login")}
         </Button>
+
+        <div className="left-right">
+          <div className="left">
+            <button 
+              className="sub-account-link"
+              onClick={()=>setIsSubAccount(!isSubAccount) }
+            >
+              {
+                !isSubAccount ? 
+                  <>{t("register.subAccount")}</>
+                :
+                  <>{t("register.mainAccount")}</>
+              }
+            </button>
+          </div>
+          <div className="forgot-pass">
+            <Typography level="B1">
+              <Link href="/forgot">{t("common.forgot_password")}</Link>
+            </Typography>
+          </div>
+        </div>
+        
+        <div className="to-register-box">
+            <Typography level="B1">
+              {t("register.newAccount")}
+              <Link href="/register">{t("register.title")}</Link>
+            </Typography>
+        </div>
+
       </div>
     </Form>
   );

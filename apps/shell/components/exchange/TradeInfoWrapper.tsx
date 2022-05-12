@@ -78,7 +78,7 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
     return marketTrades.splice(0, 12);
   }, [tradeChangedSocketData, marketTrades]);
 
-  if (!pairs || !pair) return <Loading />;
+  if (!pairs || !pair) return  <Loading type='component' />
 
   return (
     <TableWraperStyled style={{ marginTop: -29 }} ref={componentRef}>

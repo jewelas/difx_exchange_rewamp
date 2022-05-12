@@ -85,7 +85,11 @@ export interface ThemeInterface extends Theme {
   };
   chart: {
     line: string;
-  }
+  },
+  loadingSkeleton:{
+    base: string,
+    highLight: string
+  },
   inputFieldHeight: string,
   otpBoxSize: string,
   transition: string;
@@ -126,6 +130,10 @@ export const light: ThemeInterface = {
   },
   chart: {
     line: "rgba(0,0,0,0.1)"
+  },
+  loadingSkeleton:{
+    base: "#ebebeb",
+    highLight: "#f5f5f5"
   },
   background: {
     primary: "#F8FAFD",
@@ -220,6 +228,10 @@ export const dark: ThemeInterface = {
   },
   chart: {
     line: "rgba(255,255,255,0.1)"
+  },
+  loadingSkeleton:{
+    base: "rgba(0,0,0,0.15)",
+    highLight: "rgba(0,0,0,0.05)"
   },
   background: {
     primary: "#161F30",

@@ -49,12 +49,30 @@ export const TableWraperStyled = styled.div`
       .head{
         display: flex;
         margin: 25px 0 5px 0;
+        text-transform: capitalize;
+        overflow-x: scroll;
+
+        // Hide scrollbar
+        -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        scrollbar-width: none;  /* Firefox */
+        &::-webkit-scrollbar { 
+          display: none;  /* Safari and Chrome */
+        }
+
         svg path{
           fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important; 
         }
         .favorite{
           svg path{
             fill: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+          }
+        }
+        .tab{
+          margin-right: 10px;
+          &.active{
+            .ant-typography{
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+            }
           }
         }
         .all{
@@ -107,7 +125,7 @@ export const TableWraperStyled = styled.div`
         .ant-table-body{
           tr:hover{
             cursor: pointer;
-            background: ${({ theme }:{theme:ThemeInterface}) => theme.color.rowHover};
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.color.rowHover};
           }
         }
       }
@@ -125,8 +143,8 @@ export const ChartWraperStyled = styled.div`
           cursor: pointer;
           padding-bottom:2px;
           &.active{
-            color: ${({theme})=> theme.color.primary};
-            border-bottom: solid 2px ${({theme})=> theme.color.primary};
+            color: ${({ theme }) => theme.color.primary};
+            border-bottom: solid 2px ${({ theme }) => theme.color.primary};
           }
         }
       }

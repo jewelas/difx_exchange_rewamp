@@ -102,7 +102,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
     }
   }, [data, pairInfo]);
 
-  if (!pairInfo) return <Loading />;
+  if (!pairInfo) return <Loading />
 
   return (
     <OrderBook

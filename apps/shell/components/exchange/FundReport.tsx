@@ -62,7 +62,7 @@ export function FundReport() {
     }
   ];
 
-  if (isEmpty(tableData) && isDataLoading) return <Loading />
+  if (isEmpty(tableData) && isDataLoading) return <Loading type='component' />
 
   return (
     <Table

@@ -142,6 +142,10 @@ export const PageStyled = styled.div`
       #repeat_password.ant-input{
         height: 42px !important;
       }
+
+      .ant-tabs{
+        overflow: hidden;
+      }
     }
   }
 `;

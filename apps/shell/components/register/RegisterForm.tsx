@@ -206,7 +206,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
                       width={150}
                       type="dial_code"
                       onChange={onChangeDialCode}
-                      size="medium"
+                      size="large"
                     />
                   </Form.Item>
                 </div>

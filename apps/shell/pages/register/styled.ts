@@ -15,7 +15,7 @@ export const FormStyled = styled.div`
   .country-select-group {
     margin-top: 10px;
     .ant-select {
-      width: 100% !important;
+      width: 50% !important;
     }
   }
   .referral-group {
@@ -149,7 +149,7 @@ export const EmailVerifyContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 75vh;
+  height: 100%;
   padding: 200px 40px 40px 40px;
 
   .verifyBox{
@@ -200,5 +200,4 @@ export const EmailVerifyContainer = styled.div`
     cursor: pointer;
   }
 
-  
 `

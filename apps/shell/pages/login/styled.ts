@@ -89,16 +89,18 @@ const PageStyled = styled.div`
       }
       .content {
         .dial-group {
+          margin: 0px !important;
           display: flex;
           .dropdown-dial {
             margin-right: 10px;
+            margin-bottom: 0px;
           }
           .ant-row.ant-form-item {
             flex-grow: 1;
           }
         }
         .email {
-          margin-bottom: 15px;
+          /* margin-bottom: 15px; */
         }
       }
       .ant-btn {

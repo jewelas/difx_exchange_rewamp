@@ -126,7 +126,6 @@ export const PageStyled = styled.div`
   }
 
   .right-side {
-    height: calc(100vh - 70px) !important;
     background: #fff;
     margin-top: -4px;
   }

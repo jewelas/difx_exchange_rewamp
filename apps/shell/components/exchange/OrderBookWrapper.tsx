@@ -102,12 +102,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
     }
   }, [data, pairInfo]);
 
-  if (!pairInfo) return (
-    <>
-      <Loading type='skeleton' column={3} row={1} flexGrowForColumns={[1, 2, 3]} />
-      <Loading style={{marginTop:-20}} type='skeleton' column={3} row={39} flexGrowForColumns={[1, 2, 3]} />
-    </>
-  )
+  if (!pairInfo) return <Loading />
 
   return (
     <OrderBook

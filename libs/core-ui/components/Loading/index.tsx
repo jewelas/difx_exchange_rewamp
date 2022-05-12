@@ -6,7 +6,7 @@ import { MainStyled } from './styled';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { CSSProperties } from "react";
 interface LoadingProps {
-  type?: 'icon' | 'skeleton',
+  type?: 'icon' | 'skeleton' | 'component',
   row?: number;
   column?: number;
   flexGrowForColumns?: number[];
@@ -14,7 +14,7 @@ interface LoadingProps {
   className?: string;
   hideColumns?: number[];
 }
-export function Loading({ type = 'icon', row = 1, column = 1, flexGrowForColumns = [], hideColumns = [], style, className }: LoadingProps) {
+export function Loading({ type = 'component', row = 1, column = 1, flexGrowForColumns = [], hideColumns = [], style, className }: LoadingProps) {
 
   if (type === 'icon') {
     return (
@@ -22,6 +22,10 @@ export function Loading({ type = 'icon', row = 1, column = 1, flexGrowForColumns
         style={{ display: "flex", marginTop: 20, justifyContent: "center", position: "absolute", width: "100%" }}
         indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
       />
+    )
+  }else if(type==='component'){
+    return (
+      <Skeleton height='100%' />
     )
   }
 

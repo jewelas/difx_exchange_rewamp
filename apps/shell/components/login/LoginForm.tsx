@@ -241,7 +241,7 @@ export function LoginForm(props: LoginFormProps) {
                   width={150}
                   type="dial_code"
                   onChange={onChangeDialCode}
-                  size="medium"
+                  size="large"
                 />
               </Form.Item>
             </div>

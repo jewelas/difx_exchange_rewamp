@@ -11,5 +11,6 @@ export * from "./PasswordField";
 export * from "./OrderBook";
 export * from "./Chart";
 export * from "./OrderForm";
+export * from "./OTPBox";
 export * from "./ValueField";
 export * from "./Timeline";

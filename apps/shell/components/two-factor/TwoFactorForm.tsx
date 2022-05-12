@@ -5,6 +5,7 @@ import {
   useAuth,
   useHttpPost
 } from "@difx/shared";
+import { OTPBox } from "@difx/core-ui";
 import { Button, Form, Input } from "antd";
 import { FormInstance } from "antd/es/form";
 import { AxiosError, AxiosResponse } from "axios";
@@ -16,6 +17,7 @@ import { API_ENDPOINT } from "@difx/shared";
 export function TwoFactorForm({sessionId}) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const formRef = useRef<FormInstance>(null);
+  const [otpValue, setOtpValue] = useState('')
 
   const { updateSession } = useAuth();
 
@@ -63,9 +65,15 @@ export function TwoFactorForm({sessionId}) {
   const { mutate: twoFactor, isLoading } = useHttpPost<TwoFactorRequest, TwoFactorResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.TWO_FACTOR });
 
   const onSubmit = async (formData: TwoFactorRequest) => {
+    formData.code = otpValue
     formData.session_id = sessionId
     twoFactor(formData);
   };
+
+  const handleChange = (otp) => {
+    setOtpValue(otp)
+    otp.length === 6 ? setHasFieldError(false) : setHasFieldError(true)
+  }
 
   return (
     <Form
@@ -75,7 +83,7 @@ export function TwoFactorForm({sessionId}) {
       autoComplete="off"
     >
       <div className="content">
-        <Form.Item
+        {/* <Form.Item
           className="email"
           name="code"
           rules={[
@@ -86,7 +94,8 @@ export function TwoFactorForm({sessionId}) {
           ]}
         >
           <Input placeholder={t("2fa.enter_code")} />
-        </Form.Item>
+        </Form.Item> */}
+        <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
         <Button
           htmlType="submit"
           disabled={isLoading || hasFieldError}

@@ -1,10 +1,11 @@
 import { BaseResponse } from "./Base";
 
 export interface ResetPassRequest {
-  email: string;
-  activationcode: string;
+  email?: string;
+  phoneNumber?: string;
+  token: string;
   password: string;
-  rpassword: string;
+  repeat_password: string;
 }
 
 export interface ResetPassResponse extends BaseResponse {

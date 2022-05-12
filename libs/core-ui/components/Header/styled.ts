@@ -84,7 +84,7 @@ export const StyledHeader = styled(Layout.Header)`
   padding: unset !important;
   height: 70px !important;
   line-height: 70px !important;
-  position: fixed;
+  position: relative;
   width: 100%;
 
   .right-nav-group {

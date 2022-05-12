@@ -29,7 +29,13 @@
     "forgot": "Forgot Password ?",
     "enter_val": "Please enter your register {{value}} to reset your password.",
     "enter_new_pass": "Enter new password",
-    "confirm_pass": "Confirm password "
+    "confirm_pass": "Confirm password ",
+    "verify": "Enter Verification Code",
+    "verify_btn": "Verify",
+    "verify_message": "Please enter the verification code send to ",
+    "paste": "Paste",
+    "resend": "Resend Verification Code",
+    "reset": "Reset Password"
   },
   "signin": {
     "ip_verification": "IP Verification",
@@ -39,6 +45,7 @@
     "corporate": "Corporate",
     "login": "Login",
     "login_qr": "Login with QR Code",
+    "qr_login_step": "On the homepage of the APP click 'Scan' in the upper right-hand corner to log-in",
     "login_account": "Login with Account",
     "new_account": "New account?",
     "login_in_difx": "LogIn",
@@ -66,7 +73,7 @@
     "referral_code": "Referral Code",
     "term1": "I have read and agree to the",
     "term2": "Terms and Conditions",
-    "verifyEmailHeader": "Email Verification Code",
+    "verifyHeader": "Verify OTP",
     "verifyEmailMessage": "Please enter the verification code send to ",
     "verifyEmailButton": "Verify",
     "subAccount": "Sub-Account",

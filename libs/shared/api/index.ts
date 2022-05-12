@@ -1,9 +1,24 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { io } from "socket.io-client";
 
 export const axiosInstance = axios.create({
   baseURL: process.env["NX_API_URL"],
 });
+
+export function axiosAuthorization(config : AxiosRequestConfig) {
+  const anonymousToken = localStorage?.getItem('anonymousToken');
+  const sessionToken = localStorage?.getItem('sessionToken');
+  // @ts-ignore
+  config.headers["x-access-token"] =  anonymousToken ? anonymousToken : "";
+  // @ts-ignore
+  config.headers["Authorization"] =  sessionToken ? sessionToken : "";
+  // @ts-ignore
+  config.headers["x-api-key"]=  "DIFXExchange";
+  // @ts-ignore
+  config.headers["Device"]=  "web";
+  return config;
+}
+
 
 if(!process.env["NX_WS_URL"]){
   throw new Error("Cannot found the Websocket URL");

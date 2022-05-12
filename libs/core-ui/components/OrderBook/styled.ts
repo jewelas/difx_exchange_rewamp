@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { ThemeInterface } from "../../themes";
-import { Color } from "../Color";
 
 export const BarStyled = styled.div`
   z-index: 1;
@@ -66,6 +65,12 @@ export const ComponentStyled = styled.div`
       padding: 10px 15px 10px 20px;
       display: flex;
       justify-content: space-between;
+      .col-total{
+        display: flex;
+        svg{
+          margin-right: 5px;
+        }
+      }
     }
     .loading {
       display: flex;

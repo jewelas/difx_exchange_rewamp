@@ -29,6 +29,7 @@ export * from "./type/ExtraAuth";
 export * from "./type/Balance";
 export * from "./type/PlaceOrder";
 export * from "./type/Order";
+export * from "./type/Staking";
 
 export * from "./atom";
 

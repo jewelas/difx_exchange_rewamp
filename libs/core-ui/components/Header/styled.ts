@@ -1,4 +1,4 @@
-import { Button, Layout } from "antd";
+import { Layout } from "antd";
 import styled from "styled-components";
 
 export const StyledButtonGroup = styled.div`

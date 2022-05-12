@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, Input, Slider } from "antd";
 import clsx from "clsx";
+import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
 import { PairType, PlaceOrderRequest } from "./../../../shared";
 import { Balance } from "./../../../shared/type/Balance";
@@ -37,7 +38,9 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     100: '100%',
   };
 
-  const [isDisabled, setIsDisabled] = useState(true);
+  const router = useRouter();
+
+  const [isDisabled, setIsDisabled] = useState(isLoggedIn);
   const [sliderValue, setSliderValue] = useState(0);
 
   const [form] = Form.useForm();
@@ -47,8 +50,14 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
   }, [priceSelected]);
 
   useEffect(() => {
-    if (pairInfo && type==='market') form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
+    if (pairInfo) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
   }, [pairInfo]);
+
+  useEffect(() => {
+    form.setFieldsValue({ [`${side}.stop`]: 0 });
+    form.setFieldsValue({ [`${side}.amount`]: 0 });
+    form.setFieldsValue({ [`${side}.total`]: 0 });
+  }, []);
 
   const onSubmit = (formData: PlaceOrderRequest) => {
     onPlaceOrder(formData, type, side);
@@ -122,6 +131,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
   const preventScroll = (e:any)=> {e.target.blur()};
 
   const onSliderChange = (value: number) => {
+    if(!isLoggedIn) return;
     if (balance) {
       const currentPrice = pairInfo?.last || priceSelected;
       const total: number = (balance.amount * value) / 100;
@@ -151,7 +161,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
           <div className="value">
             {`Balance: ${getPriceFormatted(balance?.amount || 0, 2)} ${side === 'bid' ? quoteCurrency : baseCurrency}`}
           </div>
-          <div className="deposit">
+          <div className={clsx("deposit", `_${side}`)}>
             <DepositIcon useDarkMode />
           </div>
         </div>
@@ -196,7 +206,11 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
           <div className={clsx("slider-group", side)}>
             <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />
           </div>
-          <Button disabled={isDisabled || isLoading} htmlType="submit" className={clsx(side === 'bid' && "success")} type='primary' danger={side === "ask"}>{getButtonSubmitLabel()}</Button>
+          <Button 
+          onClick={()=>{!isLoggedIn && router.push('/login')}}
+          disabled={isDisabled || isLoading} 
+          htmlType={isLoggedIn ? "submit": "button"} 
+          className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{getButtonSubmitLabel()}</Button>
         </div>
 
       </Form>

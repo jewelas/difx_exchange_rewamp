@@ -10,3 +10,7 @@ export function getCurrentDateTimeByDateString(dateString): string {
   const localDate = new Date(dateString);
   return localDate.toLocaleString();
 }
+
+export function getDaysBetweenDates(from:Date, to:Date):number {
+  return from.getTime() - to.getTime()/(1000 * 3600 * 24);
+}

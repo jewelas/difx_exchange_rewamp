@@ -43,13 +43,13 @@ export function GridView({data}) {
                                     <Text type="secondary">
                                     24h Change
                                     </Text>
-                                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change.toFixed(3)}%</Text>
+                                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change.toFixed(2)}%</Text>
                                 </Col>
                                 <Col span={8}>
                                     <Text type="secondary">
                                     24h Volume
                                     </Text>
-                                    <Text>{item.volume.toFixed(2)} <span className="text-muted">{item.currency1}</span></Text>
+                                    <Text>{item.volume.toFixed(1)}</Text>
                                 </Col>
                             </Row>
                         </CoinPriceInfo>

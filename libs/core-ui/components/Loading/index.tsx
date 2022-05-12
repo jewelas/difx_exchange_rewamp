@@ -14,7 +14,7 @@ interface LoadingProps {
   className?: string;
   hideColumns?: number[];
 }
-export function Loading({ type = 'skeleton', row = 1, column = 1, flexGrowForColumns = [], hideColumns = [], style, className }: LoadingProps) {
+export function Loading({ type = 'icon', row = 1, column = 1, flexGrowForColumns = [], hideColumns = [], style, className }: LoadingProps) {
 
   if (type === 'icon') {
     return (

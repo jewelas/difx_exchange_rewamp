@@ -161,7 +161,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
           <div className="value">
             {`Balance: ${getPriceFormatted(balance?.amount || 0, 2)} ${side === 'bid' ? quoteCurrency : baseCurrency}`}
           </div>
-          <div className="deposit">
+          <div className={clsx("deposit", `_${side}`)}>
             <DepositIcon useDarkMode />
           </div>
         </div>

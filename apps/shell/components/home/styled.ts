@@ -5,11 +5,13 @@ export const PageStyled = styled.div``;
 
 export const MarketContentStyled = styled(Layout.Content)`
   .title {
+    color:${({theme})=>theme.fontColor.primary} !important;
     font-weight: 600;
     font-size: 30px;
     color: #090e16;
   }
   .summary {
+    color:${({theme})=>theme.fontColor.primary} !important;
     font-weight: 600;
     font-size: 20px;
     line-height: 28px;

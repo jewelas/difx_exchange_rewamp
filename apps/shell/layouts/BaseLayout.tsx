@@ -9,7 +9,8 @@ const LayoutStyled = styled(Layout)`
 `;
 
 const ContentStyled = styled.div`
-  margin-top: 45px;
+  /* margin-top: 74px; */
+  background: ${({ theme }) => theme.background.primary};
 `;
 
 export interface BaseLayoutProps {

@@ -5,21 +5,21 @@ import {
   ResetPassResponse,
   useHttpPost
 } from "@difx/shared";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import { AxiosError, AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import { showNotification } from "../../utils/pageUtils";
 import { API_ENDPOINT } from "@difx/constants";
 
 /* eslint-disable-next-line */
 export interface ResetPassFormProps {
   email: string;
-  code: string;
+  phoneNumber: string;
+  token: string
 }
 
-export function ResetPassForm({ email, code }: ResetPassFormProps) {
+export function ResetPassForm({ email, token ,phoneNumber }: ResetPassFormProps) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const [isValidPass, setIsValidPass] = useState(false);
   const [form] = Form.useForm(null);
@@ -31,17 +31,16 @@ export function ResetPassForm({ email, code }: ResetPassFormProps) {
     setIsValidPass(isValidate);
   };
 
-  const onSuccess = useCallback(
-    (response: AxiosResponse<ResetPassResponse>) => {
+  const onSuccess = useCallback((response: AxiosResponse) => {
       const { data } = response;
 
-      const { statusText } = data;
-      showNotification("success", "Success", statusText);
+      notification.info({
+        message: "Reset Password",
+        description: data.message,
+      })
+
       router.push("/login");
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    []
-  );
+  },[]);
 
   const onFormChange = () => {
     const fieldsError = form.getFieldsError();
@@ -54,17 +53,15 @@ export function ResetPassForm({ email, code }: ResetPassFormProps) {
   };
 
   const onError = useCallback((error: AxiosError) => {
-    const { response } = error;
-    const { statusText } = response.data;
-
-    showNotification("error", "Error", statusText);
+    console.log(error)
   }, []);
 
   const { mutate: resetPass, isLoading } = useHttpPost<ResetPassRequest, ResetPassResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.RESET_PASS });
 
   const onSubmit = async (formData: ResetPassRequest) => {
-    formData.email = email;
-    formData.activationcode = code;
+    email ? formData.email = email : formData.phoneNumber = phoneNumber;
+    formData.token = token;
+
     resetPass(formData);
   };
 
@@ -84,7 +81,7 @@ export function ResetPassForm({ email, code }: ResetPassFormProps) {
         </Form.Item>
         <Form.Item
           className="email"
-          name="rpassword"
+          name="repeat_password"
           rules={[
             {
               required: true,
@@ -92,7 +89,7 @@ export function ResetPassForm({ email, code }: ResetPassFormProps) {
             },
           ]}
         >
-          <Input.Password placeholder={t("forgot.confirm_pass")} />
+          <Input.Password className="confirm-pass" placeholder={t("forgot.confirm_pass")} />
         </Form.Item>
         <Button
           style={{ marginTop: 10 }}

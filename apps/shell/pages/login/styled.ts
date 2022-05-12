@@ -46,6 +46,10 @@ const PageStyled = styled.div`
         svg {
           margin-right: 5px;
         }
+        .irzaSG{
+          justify-content: center;
+          align-items: center;
+        }
       }
       .left-right {
         display: flex;

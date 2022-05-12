@@ -17,6 +17,7 @@ const Wrapper = styled.div`
     background: ${({theme}) => theme.background.primary} !important;
     border: 2px;
     font-size: ${({theme}) => theme.typography.xlarge};
+    color: ${({theme}) => theme.fontColor.primary};
   }
 `
 

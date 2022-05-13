@@ -16,13 +16,17 @@ export interface useSocketProps {
   pair?: string;
 }
 
-export function useSocket({
+
+export function useSocket({event, leavePair, pair}:useSocketProps){
+  
+}
+
+export function _useSocket({
   leavePair,
   event,
   pair,
 }: useSocketProps) {
   const [state, setState] = useState(null);
-
 
   useEffect(() => {
     if (pair) {

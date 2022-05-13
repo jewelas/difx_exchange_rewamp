@@ -174,6 +174,18 @@ export const PlaceOrderWraperStyled = styled.div`
 export const OrderReportsWraperStyled = styled.div`
     padding: 10px 20px;
     height:100%;
+    .display-selected-pair{
+      .ant-checkbox-wrapper{
+        position: absolute;
+        right: 9px;
+        margin-top: 3px;
+        font-size: 12px;
+        line-height: 20px;
+        .label{
+          opacity: 0.8;
+        }
+      }
+    }
     .content{
       height: 100%;
       padding-bottom: 50px;

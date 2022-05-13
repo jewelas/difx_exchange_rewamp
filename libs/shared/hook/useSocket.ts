@@ -28,13 +28,16 @@ export function useSocketByEvent({ event, leavePair, pair, onSuccess }: useSocke
   }
 
   useEffect(() => {
-    return () => { socket.off(SocketEvent[event]) }
+    return () => {
+      if (pair) socket.send("leave", pair);
+      socket.off(SocketEvent[event])
+    }
   }, [])
 
   return { send }
 }
 
-export function useSocket({leavePair,event,pair,
+export function useSocket({ leavePair, event, pair,
 }: useSocketProps) {
   const [state, setState] = useState(null);
 
@@ -49,7 +52,10 @@ export function useSocket({leavePair,event,pair,
       setState(data);
     });
 
-    return () => { socket.off(SocketEvent[event]) }
+    return () => {
+      if (pair) socket.send("leave", pair);
+      socket.off(SocketEvent[event])
+    }
 
   }, [pair, event]);
 

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Button, Col, Row, Space, Tabs } from "antd";
 import { Icon } from "@difx/core-ui";
-import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, FavoriteFilter } from "./styled";
+import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, FavoriteFilter } from "../../pages/market/styled";
 import GridView from "./GridView";
 import ListView from "./ListView";
 import { Market } from '@difx/shared';
-import FutureListView from "./FutureListView";
 
 export function Stats({spotList, futuresList, categoriesList, favorites}) {
     const [tab, setTab] = useState('favorites');

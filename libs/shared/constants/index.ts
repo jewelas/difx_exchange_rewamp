@@ -37,7 +37,9 @@ export const QUERY_KEY = {
   CHART_CURRENT: 'chart_current',
   BALANCE: 'balance',
   OPEN_ORDERS: 'open_orders',
-  MARKET_PAIRS: 'market_pairs'
+  MARKET_PAIRS: 'market_pairs',
+  MARKET_PAIRS_INFO: (coin: string) => `market_pairs_info_${coin}`,
+  USER_FAVORITES: 'user_favorites'
 }
 
 export const ASSETS_URL = "https://media.difx.com/"
@@ -85,5 +87,7 @@ export const API_ENDPOINT = {
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
   GET_MARKET_PAIRS: '/api/v1/market/pairs',
-  GET_STAKING_LIST: '/api/v1/staking/list'
+  GET_SELECTED_MARKET_PAIRS: (coin: string) => `/api/v1/market/pair-detail?coin=${coin}`,
+  GET_STAKING_LIST: '/api/v1/staking/list',
+  GET_USER_FAVORITES: '/api/v1/user/favorite-pair',
 }

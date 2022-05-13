@@ -4,13 +4,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import AppLayout from "../index.page";
 import { PageStyled, MarketContentStyled, MarketCard } from "./styled";
 import t from "@difx/locale";
-import TopMarket from "./TopMarket";
-import Stats from "./stats";
-import MarketDrawer from "./drawer";
+import TopMarket from "../../components/market/TopMarket";
+import Stats from "../../components/market/stats";
+import MarketDrawer from "../../components/market/drawer";
 import { useAtom } from "jotai";
-import { marketPairAtom, Market, useHttpGet } from "@difx/shared";
+import { marketPairAtom, Market, useHttpGet, useHttpPost, useMarketPair, useMarketModal } from "@difx/shared";
 import { QUERY_KEY, API_ENDPOINT } from '@difx/constants';
-import MarketModal from "./modal";
+import MarketModal from "../../components/market/modal";
 
 export function MarketPage() {
   const { data: marketData } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS, API_ENDPOINT.GET_MARKET_PAIRS, null);
@@ -20,6 +20,8 @@ export function MarketPage() {
   const [topGainer, setTopGainer] = useState([])
   const [topLooser, setTopLooser] = useState([])
   const [topVolume, setTopVolume] = useState([])
+
+  // Favorites
 
   const [favorites, setFavorites] = useState([])
 
@@ -59,16 +61,14 @@ export function MarketPage() {
   //       setSpotList(spotList)
   //     }
   //   }
-  const [visible, setVisible] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const showDrawer = () => {
-      setVisible(true);
-  };
+  const {drawerVisible, setDrawerVisible} = useMarketPair();
+  const {modalVisible, setModalVisible} = useMarketModal();
+
   const onClose = () => {
-      setVisible(false)
+    setDrawerVisible(false)
   };
-  const showModal = () => {
-    setIsModalVisible(true);
+  const closeModal = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -91,19 +91,19 @@ export function MarketPage() {
         </MarketContentStyled>
         {/* <Button onClick={showDrawer}>
         Info
-      </Button>
-      <Button type="primary" onClick={showModal}>
+      </Button> */}
+      {/* <Button type="primary" onClick={showModal}>
         Trade
       </Button> */}
         <Drawer
           title="Overview"
           placement="left"
           onClose={onClose}
-          visible={visible}
+          visible={drawerVisible}
         >
           <MarketDrawer />
         </Drawer>
-        <Modal title="&nbsp;" visible={isModalVisible} footer={null}>
+        <Modal title="&nbsp;" visible={modalVisible}>
             <MarketModal />
         </Modal>
       </PageStyled>

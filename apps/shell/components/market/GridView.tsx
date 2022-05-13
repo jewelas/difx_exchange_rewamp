@@ -1,12 +1,14 @@
 import React from "react";
 import { Avatar, Button, Card, Col, Row } from "antd";
 import Text from "antd/lib/typography/Text";
-import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "./styled";
+import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "../../pages/market/styled";
 import { Icon } from "@difx/core-ui";
 import { ASSETS_URL } from "@difx/constants";
+import { useMarketModal } from "@difx/shared";
 
 
 export function GridView({data}) {
+    const {setMarketPair, modalVisible, setModalVisible} = useMarketModal()
   return (
     <GridWrapper>
         <Row gutter={[16, 16]}>
@@ -56,7 +58,10 @@ export function GridView({data}) {
                         <MarketCardBtns>
                             <Row gutter={20}>
                                 <Col span={12}>
-                                    <Button type="primary" className="success">Buy</Button>
+                                    <Button type="primary" className="success" onClick={() => {
+          setMarketPair(item.currency1)
+          setModalVisible(!modalVisible)
+        }}>Buy</Button>
                                 </Col>
                                 <Col span={12}>
                                     <Button type="primary" className="danger">Sell</Button>

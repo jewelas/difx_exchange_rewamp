@@ -46,7 +46,7 @@ const PageStyled = styled.div`
         svg {
           margin-right: 5px;
         }
-        .irzaSG{
+        .allPath{
           justify-content: center;
           align-items: center;
         }

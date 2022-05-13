@@ -72,6 +72,11 @@ export const FormStyled = styled.div`
       svg path {
         fill: ${({ theme }) => theme.fontColor.secondary} !important;
       }
+      .allPath{
+        justify-content: center;
+        align-items: center;
+        display: flex;
+      }
       &.active {
         svg path {
           fill: #FFFFFF !important;

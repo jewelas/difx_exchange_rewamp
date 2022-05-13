@@ -77,20 +77,20 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
         const currentPrice = form.getFieldValue(`${side}.price`);
         const amount: number = currentPrice ? fieldValue / currentPrice : 0;
         form.setFieldsValue({
-          [`${side}.amount`]: Math.round(amount * 100) / 100,
+          [`${side}.amount`]: Math.floor(amount * 100) / 100,
         });
       } else if (fieldName === `${side}.amount`) {
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = currentPrice * fieldValue;
         form.setFieldsValue({
-          [`${side}.total`]: Math.round(newTotal * 100) / 100,
+          [`${side}.total`]: Math.floor(newTotal * 100) / 100,
         });
       } else if (fieldName === `${side}.price`) {
         const amount = form.getFieldValue(`${side}.amount`);
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = amount * currentPrice;
         form.setFieldsValue({
-          [`${side}.total`]: Math.round(newTotal * 100) / 100,
+          [`${side}.total`]: Math.floor(newTotal * 100) / 100,
         });
       }
       setSliderValue(0);
@@ -135,10 +135,10 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     if (balance) {
       const currentPrice = pairInfo?.last || priceSelected;
       const total: number = (balance.amount * value) / 100;
-      const totalRound:number = Math.round(total * 100) / 100;
+      const totalRound:number = Math.floor(total * 100) / 100;
 
       const amount: number = currentPrice ? totalRound / currentPrice : 0;
-      const amountRound: number = Math.round(amount * 100) / 100
+      const amountRound: number = Math.floor(amount * 100) / 100
       form.setFieldsValue({
         [`${side}.total`]: totalRound,
         [`${side}.amount`]: amountRound,

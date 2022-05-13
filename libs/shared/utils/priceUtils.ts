@@ -9,7 +9,7 @@ export function getAveragePrice(
 export function getTrendPrice(
   previousPrice: number,
   currentPrice: number
-): string {
+): string | null {
   if (previousPrice < currentPrice) return "bid";
   else if (previousPrice > currentPrice) return "ask";
   else return null;
@@ -21,6 +21,7 @@ export function getPricePercentChange(last: number, open: number): number {
 }
 
 export function getPriceFormatted(price: number, precision: number): string {
+  if (isNaN(price)) return "0.00";
   return price.toLocaleString("en-us", {
     maximumFractionDigits: precision,
     minimumFractionDigits: precision,

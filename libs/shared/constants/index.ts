@@ -27,7 +27,7 @@ export const THEME = {
   DARK: "dark",
 };
 
-export const DEFAULT_PAIR = "BNBUSDT";
+export const DEFAULT_PAIR = "DIFXUSDT";
 
 export const QUERY_KEY = {
   COUNTRIES: 'countries',
@@ -35,6 +35,7 @@ export const QUERY_KEY = {
   TRADES: 'trades',
   CHART_HISTORY: 'chart_history',
   CHART_CURRENT: 'chart_current',
+  STAKING: 'STAKING',
   BALANCE: 'balance',
   OPEN_ORDERS: 'open_orders',
   MARKET_PAIRS: 'market_pairs'
@@ -56,7 +57,7 @@ export const API_ENDPOINT = {
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',
   GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
-  GET_MY_TRADES: (symbol:string) => `/api/v1/user/trades/${symbol}`,
+  GET_MY_TRADES: (symbol:string) => `/api/v1/user/trade-history?symbol=${symbol}`,
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view?symbol=ETCUSDT&resolution=${resolution || '5m'}&from=${from}&to=${to}`
@@ -78,7 +79,7 @@ export const API_ENDPOINT = {
   VERIFY_IP: '/api/v1/auth/verify-ip',
   RESEND_IP_VERIFICATION_MAIL: `api/v1/auth/resend-ip-verification`,
   REFRESH_TOKEN: '/api/v1/auth/refresh',
-  GET_ORDER_OPEN: '/api/v1/user/orderbook',
+  GET_ORDER_OPEN: '/api/v1/user/open-orders',
   GET_ORDER_STOP_LIMIT: '/api/v1/user/stoplimits',
   PLACE_ORDER_LIMIT: '/api/v1/order/make-limit',
   PLACE_ORDER_MARKET: '/api/v1/order/make-market',

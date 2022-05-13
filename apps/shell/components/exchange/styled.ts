@@ -173,7 +173,13 @@ export const PlaceOrderWraperStyled = styled.div`
 
 export const OrderReportsWraperStyled = styled.div`
     padding: 10px 20px;
+    height:100%;
     .content{
+      height: 100%;
+      padding-bottom: 50px;
+      .report-group{
+        height: 100%;
+      }
       .place-order-group{
         display: flex;
         .bid{

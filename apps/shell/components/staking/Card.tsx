@@ -1,17 +1,16 @@
 import { Icon, Typography, ValueField } from '@difx/core-ui';
 import { Staking } from '@difx/shared';
-import { getPriceFormatted, getDaysBetweenDates } from '@difx/utils';
+import { getDaysBetweenDates, getPriceFormatted } from '@difx/utils';
 import { Button } from 'antd';
 import React from "react";
 
 /* eslint-disable-next-line */
 export interface CardProps {
   data: Staking;
-  onStake: ()=>void;
+  onStake: () => void;
 }
 
 export function Card({ onStake, data }: CardProps) {
-
   return (
     <div className="card-item">
       <div className="card-head">
@@ -44,6 +43,7 @@ export function Card({ onStake, data }: CardProps) {
           </div>
           <div className="lcontent">
             {
+              data.period &&
               data.period.map(e => <Button key={e} ghost>{e}</Button>)
             }
           </div>

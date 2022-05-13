@@ -22,7 +22,7 @@ export interface OrderBookWrapperProps {
 export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
-  const { data: openOrderData } = useHttpGet<BaseRequest, Order[]>(QUERY_KEY.OPEN_ORDERS, API_ENDPOINT.GET_ORDER_OPEN, null);
+  const { data: openOrderData } = useHttpGet<BaseRequest, {result:Order[]}>(QUERY_KEY.OPEN_ORDERS, API_ENDPOINT.GET_ORDER_OPEN, null);
 
   let pairInfo = null;
   if (pairsData) {
@@ -41,7 +41,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   const openOrderSocketData = useSocket({ event: SocketEvent.user_orders });
 
   let openOrder = [];
-  if (openOrderData) openOrder = openOrder.concat(openOrderData.map(e => {
+  if (openOrderData && openOrderData.result) openOrder = openOrder.concat(openOrderData.result.map(e => {
     if (e) return { id: e.id, side: e.s === 0 ? 'bid' : 'ask', price: e.p }
   }));
   if (openOrderSocketData) {

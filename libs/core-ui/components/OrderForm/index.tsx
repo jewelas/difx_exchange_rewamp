@@ -77,20 +77,20 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
         const currentPrice = form.getFieldValue(`${side}.price`);
         const amount: number = currentPrice ? fieldValue / currentPrice : 0;
         form.setFieldsValue({
-          [`${side}.amount`]: Math.round(amount * 100) / 100,
+          [`${side}.amount`]: Math.floor(amount * 100) / 100,
         });
       } else if (fieldName === `${side}.amount`) {
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = currentPrice * fieldValue;
         form.setFieldsValue({
-          [`${side}.total`]: Math.round(newTotal * 100) / 100,
+          [`${side}.total`]: Math.floor(newTotal * 100) / 100,
         });
       } else if (fieldName === `${side}.price`) {
         const amount = form.getFieldValue(`${side}.amount`);
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = amount * currentPrice;
         form.setFieldsValue({
-          [`${side}.total`]: Math.round(newTotal * 100) / 100,
+          [`${side}.total`]: Math.floor(newTotal * 100) / 100,
         });
       }
       setSliderValue(0);
@@ -99,7 +99,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     validateForm();
   };
 
-  const validateForm = ()=>{
+  const validateForm = () => {
     const fieldsValue = form.getFieldsValue();
 
     if (type === 'limit') {
@@ -128,26 +128,41 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     if (side === 'bid') return 'Buy'
   }
 
-  const preventScroll = (e:any)=> {e.target.blur()};
+  const preventScroll = (e: any) => { e.target.blur() };
 
   const onSliderChange = (value: number) => {
-    if(!isLoggedIn) return;
+    if (!isLoggedIn) return;
     if (balance) {
       const currentPrice = pairInfo?.last || priceSelected;
-      const total: number = (balance.amount * value) / 100;
-      const amount: number = currentPrice ? total / currentPrice : 0;
-      form.setFieldsValue({
-        [`${side}.total`]: Math.round(total * 100) / 100,
-        [`${side}.amount`]: Math.round(amount * 100) / 100,
-      });
+
+      const percentOfBalance: number = (balance.amount * value) / 100;
+      const percentOfBalanceRound: number = Math.floor(percentOfBalance * 100) / 100;
+
+      if (side === 'bid') {
+        const amount: number = currentPrice ? percentOfBalanceRound / currentPrice : 0;
+        const amountRound: number = Math.floor(amount * 100) / 100;
+        form.setFieldsValue({
+          [`${side}.total`]: percentOfBalanceRound,
+          [`${side}.amount`]: amountRound,
+        });
+      } else if (side === 'ask') {
+        const total: number = currentPrice ? percentOfBalanceRound * currentPrice : 0;
+        const totalRound: number = Math.floor(total * 100) / 100;
+        form.setFieldsValue({
+          [`${side}.total`]: totalRound,
+          [`${side}.amount`]: percentOfBalanceRound,
+        });
+      }
+
+
     }
     setSliderValue(value);
     validateForm();
   }
 
-  const onReplaceComma = (e:any) =>{
+  const onReplaceComma = (e: any) => {
     e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
- }
+  }
 
   return (
     <ComponentStyled>
@@ -161,9 +176,9 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
           <div className="value">
             {`Balance: ${getPriceFormatted(balance?.amount || 0, 2)} ${side === 'bid' ? quoteCurrency : baseCurrency}`}
           </div>
-          <div className={clsx("deposit", `_${side}`)}>
+          <Button ghost className={clsx("deposit", `_${side}`)}>
             <DepositIcon useDarkMode />
-          </div>
+          </Button>
         </div>
         <div className="content">
 
@@ -206,11 +221,11 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
           <div className={clsx("slider-group", side)}>
             <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />
           </div>
-          <Button 
-          onClick={()=>{!isLoggedIn && router.push('/login')}}
-          disabled={isDisabled || isLoading} 
-          htmlType={isLoggedIn ? "submit": "button"} 
-          className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{getButtonSubmitLabel()}</Button>
+          <Button
+            onClick={() => { !isLoggedIn && router.push('/login') }}
+            disabled={isDisabled || isLoading}
+            htmlType={isLoggedIn ? "submit" : "button"}
+            className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{getButtonSubmitLabel()}</Button>
         </div>
 
       </Form>

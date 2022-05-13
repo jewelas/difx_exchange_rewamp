@@ -20,7 +20,7 @@ export function Switch({defaultTab,  tabs, onChange }: SwitchProps) {
     <Wrapper>
       {
         tabs.map(e=>
-          <div onClick={()=>{onSwitch(e.value)}} className={clsx("switch-item", currentTab===e.value?"active":"")}>{e.label}</div>
+          <div key={`tab_${e}`} onClick={()=>{onSwitch(e.value)}} className={clsx("switch-item", currentTab===e.value?"active":"")}>{e.label}</div>
         )
       }
     </Wrapper>

@@ -43,6 +43,7 @@ export function LoginForm(props: LoginFormProps) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const [isSubAccount, setIsSubAccount] = useState(false)
   const [form] = Form.useForm(null);
+  const [isLoading , setIsLoading ] = useState(false)
 
   const router = useRouter();
 
@@ -97,6 +98,7 @@ export function LoginForm(props: LoginFormProps) {
   };
 
   const onError = useCallback((error: AxiosError) => {
+    setIsLoading(false)
     const { response } = error;
     const { statusText, data } = response.data;
     let authDetails: ExtraAuth
@@ -127,9 +129,10 @@ export function LoginForm(props: LoginFormProps) {
     }
   }, []);
 
-  const { mutate: signIn, isLoading } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
+  const { mutate: signIn } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
 
   const onSubmit = async (formData: SignInRequest) => {
+    setIsLoading(true)
     const captcha: string | CaptchaType = await getCaptcha()
 
     /* eslint-disable */

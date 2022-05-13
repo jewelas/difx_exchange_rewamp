@@ -37,7 +37,7 @@
     "confirm_pass": "Confirm password ",
     "verify": "Enter Verification Code",
     "verify_btn": "Verify",
-    "verify_message": "Please enter the verification code send to ",
+    "verify_message": "Please enter the verification code sent to ",
     "paste": "Paste",
     "resend": "Resend Verification Code",
     "reset": "Reset Password"

@@ -70,6 +70,7 @@ export const API_ENDPOINT = {
   SIGNIN: '/api/v1/auth/login',
   GET_LOGIN_QR: '/api/v1/auth/qr',
   SIGNUP_VERIFICATION: '/api/v1/auth/pre-check',
+  RESEND_SIGNUP_VERIFICATION:`api/v1/auth/resend-pre-check`,
   SIGNUP: `/api/v1/auth/signup`,
   FORGOT: '/api/v1/auth/forgot-password',
   VERIFY_FORGOT: '/api/v1/auth/verify-code',

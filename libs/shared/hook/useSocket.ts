@@ -14,38 +14,40 @@ export interface useSocketProps {
   event: SocketEvent;
   leavePair?: string;
   pair?: string;
+
+  onSuccess?: (data: any) => void;
 }
 
+export function useSocketByEvent({ event, leavePair, pair, onSuccess }: useSocketProps) {
+  const send = () => {
+    if (leavePair) socket.send('leave', leavePair);
+    if (pair) socket.send('join', pair);
+    socket.listen(SocketEvent[event], (data: any) => {
+      onSuccess && onSuccess(data)
+    });
+  }
 
-export function useSocket({event, leavePair, pair}:useSocketProps){
-  
+  useEffect(() => {
+    return () => { socket.off(SocketEvent[event]) }
+  }, [])
+
+  return { send }
 }
 
-export function _useSocket({
-  leavePair,
-  event,
-  pair,
+export function useSocket({leavePair,event,pair,
 }: useSocketProps) {
   const [state, setState] = useState(null);
 
   useEffect(() => {
-    if (pair) {
 
-      // Sending
-      switch (event) {
-        case SocketEvent.orderbook_limited:
-          if (leavePair) socket.send("leave", leavePair);
-          socket.send("join", pair);
-          break;
-      }
-    }
+    // Sending
+    if (leavePair) socket.send("leave", leavePair);
+    if (pair) socket.send("join", pair);
 
     // Receiving
-    if (event !== SocketEvent.off) {
-      socket.listen(SocketEvent[event], (data: any) => {
-        setState(data);
-      });
-    }
+    socket.listen(SocketEvent[event], (data: any) => {
+      setState(data);
+    });
 
     return () => { socket.off(SocketEvent[event]) }
 

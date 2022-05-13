@@ -26,12 +26,12 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
 
   useEffect(()=>{
     const countdown = setInterval(()=>{
-        setTimer((prevState)=>{
-          if(prevState > 0) return prevState-1
-          setResend(true)
-          clearInterval(countdown)
-          return prevState
-        })
+      setTimer((prevState)=>{
+        if(prevState > 0) return prevState-1
+        setResend(true)
+        clearInterval(countdown)
+        return prevState
+      })
     },1000)
     return () => {
       clearInterval(countdown)
@@ -101,7 +101,7 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
       </Button>
       <div className="botton-box">
         <div className="resend-box">
-          {`00:${timer}`}
+          {`00:${timer.toString().padStart(2,'0')}`}
           <span onClick={resendOTP} className={`${resend? 'active' : null}`}>{t("forgot.resend")}</span>
         </div>
         <div className="paste-btn" onClick={()=>pasteCode()}>

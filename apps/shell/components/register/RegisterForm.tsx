@@ -89,7 +89,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   const onSuccess = useCallback((response: AxiosResponse) => {
     const { data } = response;
     notification.info({
-      message: "Verify Email",
+      message: "Verify OTP",
       description: data.message,
     })
     verificationToken.current = data.data.token

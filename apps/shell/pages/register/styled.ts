@@ -25,6 +25,11 @@ export const FormStyled = styled.div`
     .icon {
       margin-top: 23px;
       margin-left: 10px;
+      .allPath{
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
   .term-group {

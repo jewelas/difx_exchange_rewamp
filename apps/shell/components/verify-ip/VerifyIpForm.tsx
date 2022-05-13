@@ -4,30 +4,38 @@ import {
   VerifyIpResponse,
   useHttpPost
 } from "@difx/shared";
-import { Button, Form, Input } from "antd";
+import { OTPBox } from "@difx/core-ui";
+import { Button, Form, notification } from "antd";
 import { FormInstance } from "antd/es/form";
 import { AxiosError, AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { API_ENDPOINT } from "@difx/shared";
 import { showNotification } from "./../../utils/pageUtils";
 
 export function VerifyIpForm({ userEmail }) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const formRef = useRef<FormInstance>(null);
+  const [otpValue, setOtpValue] = useState('')
+  const [timer, setTimer] = useState(30)
+  const [resend, setResend] = useState(false)
 
   const router = useRouter();
 
-  const onSuccess = (response: AxiosResponse<VerifyIpResponse>) => {
-    const { data } = response;
-
-    if (data.statusText === "SUCCESS"){
-      showNotification("success", t("2fa.2fa"), t("2fa.verify_success"));
-      localStorage.removeItem("extraAuthRequired")
-      router.push("/login");
+  useEffect(()=>{
+    const countdown = setInterval(()=>{
+        setTimer((prevState)=>{
+          if(prevState > 0) return prevState-1
+          setResend(true)
+          clearInterval(countdown)
+          return prevState
+        })
+    },1000)
+    return () => {
+      clearInterval(countdown)
     }
-  };
+  },[])
 
   const isRequiredFieldsEmpty = (): boolean => {
     let result = false;
@@ -56,16 +64,52 @@ export function VerifyIpForm({ userEmail }) {
     }
   };
 
+  const onSuccess = (response: AxiosResponse<VerifyIpResponse>) => {
+    const { data } = response;
+
+    if (data.statusText === "SUCCESS"){
+      showNotification("success", t("2fa.2fa"), t("2fa.verify_success"));
+      localStorage.removeItem("extraAuthRequired")
+      router.push("/login");
+    }
+  };
+
+  const onResendSuccess = useCallback((response)=>{
+    const { data } = response
+    notification.info({
+      message: "Resend Email",
+      description: data.message,
+    })
+  },[])
+
   const onError = (error: AxiosError) => {
     formRef.current?.setFieldsValue({ code: null });
   };
 
   const { mutate: verifyIP, isLoading } = useHttpPost<VerifyIpRequest, VerifyIpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.VERIFY_IP });
+  const { mutate: resendMail, isLoading: isResendLoading } = useHttpPost({ onSuccess: onResendSuccess, onError, endpoint: API_ENDPOINT.RESEND_IP_VERIFICATION_MAIL });
 
   const onSubmit = async (formData: VerifyIpRequest) => {
     formData.email = userEmail;
     verifyIP(formData);
   };
+
+  const handleChange = (otp) => {
+    setOtpValue(otp)
+    otp.length === 6 ? setHasFieldError(false) : setHasFieldError(true)
+  }
+
+  const resendOTP = () => {
+    const reqData: any = {
+      email:userEmail
+    }
+    resendMail(reqData)
+  }
+
+  const pasteCode = async() => {
+    const text = await navigator.clipboard.readText();
+    setOtpValue(text)
+  }
 
   return (
     <Form
@@ -75,18 +119,7 @@ export function VerifyIpForm({ userEmail }) {
       autoComplete="off"
     >
       <div className="content">
-        <Form.Item
-          className="email"
-          name="code"
-          rules={[
-            {
-              required: true,
-              message: t("error.input_email_otp"),
-            },
-          ]}
-        >
-          <Input type="number" placeholder={t("verify_ip.enter_code")} />
-        </Form.Item>
+        <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
         <Button
           htmlType="submit"
           disabled={isLoading || hasFieldError}
@@ -95,6 +128,15 @@ export function VerifyIpForm({ userEmail }) {
         >
           {t("common.verify")}
         </Button>
+      </div>
+      <div className="botton-box">
+        <div className="resend-box">
+          {`00:${timer}`}
+          <span onClick={resendOTP} className={`${resend? 'active' : null}`}>{t("forgot.resend")}</span>
+        </div>
+        <div className="paste-btn" onClick={()=>pasteCode()}>
+          {t("forgot.paste")}
+        </div>
       </div>
     </Form>
   );

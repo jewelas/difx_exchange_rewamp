@@ -83,18 +83,6 @@ export function TwoFactorForm({sessionId}) {
       autoComplete="off"
     >
       <div className="content">
-        {/* <Form.Item
-          className="email"
-          name="code"
-          rules={[
-            {
-              required: true,
-              message: t("error.input_2factor_code"),
-            },
-          ]}
-        >
-          <Input placeholder={t("2fa.enter_code")} />
-        </Form.Item> */}
         <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
         <Button
           htmlType="submit"

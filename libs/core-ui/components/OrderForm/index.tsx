@@ -135,10 +135,13 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
     if (balance) {
       const currentPrice = pairInfo?.last || priceSelected;
       const total: number = (balance.amount * value) / 100;
-      const amount: number = currentPrice ? total / currentPrice : 0;
+      const totalRound:number = Math.round(total * 100) / 100;
+
+      const amount: number = currentPrice ? totalRound / currentPrice : 0;
+      const amountRound: number = Math.round(amount * 100) / 100
       form.setFieldsValue({
-        [`${side}.total`]: Math.round(total * 100) / 100,
-        [`${side}.amount`]: Math.round(amount * 100) / 100,
+        [`${side}.total`]: totalRound,
+        [`${side}.amount`]: amountRound,
       });
     }
     setSliderValue(value);
@@ -161,9 +164,9 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
           <div className="value">
             {`Balance: ${getPriceFormatted(balance?.amount || 0, 2)} ${side === 'bid' ? quoteCurrency : baseCurrency}`}
           </div>
-          <div className={clsx("deposit", `_${side}`)}>
+          <Button ghost className={clsx("deposit", `_${side}`)}>
             <DepositIcon useDarkMode />
-          </div>
+          </Button>
         </div>
         <div className="content">
 

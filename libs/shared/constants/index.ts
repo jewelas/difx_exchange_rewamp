@@ -35,6 +35,7 @@ export const QUERY_KEY = {
   TRADES: 'trades',
   CHART_HISTORY: 'chart_history',
   CHART_CURRENT: 'chart_current',
+  STAKING: 'STAKING',
   BALANCE: 'balance',
   OPEN_ORDERS: 'open_orders',
   MARKET_PAIRS: 'market_pairs'

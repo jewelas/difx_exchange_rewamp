@@ -19,7 +19,7 @@ export interface StakingPageProps {
 export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
 
   const router = useRouter();
-  const { data: stakingData, isLoading } = useHttpGet<null, Array<Staking>>(QUERY_KEY.CHART_CURRENT, API_ENDPOINT.GET_STAKING_LIST, null);
+  const { data: stakingData, isLoading } = useHttpGet<null, Array<Staking>>(QUERY_KEY.STAKING, API_ENDPOINT.GET_STAKING_LIST, null);
   const [stakingList, setStakingList] = useState<Array<Staking>>([]);
   const [isShowModal, setIsShowModal] = useState(false);
 

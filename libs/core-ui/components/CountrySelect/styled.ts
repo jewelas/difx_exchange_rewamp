@@ -28,6 +28,7 @@ export const SelectStyled = styled(Select)`
       line-height: 28px !important;
     }
     .ant-select-selector {
+      padding-right: 30px !important;
       height: 38px !important;
       .ant-select-selection-search {
         input {

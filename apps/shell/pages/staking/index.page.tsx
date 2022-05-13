@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import isEmpty from "lodash/isEmpty";
 import { Row, Col, Button, Checkbox, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Typography, Icon, Loading, NoData } from '@difx/core-ui';
@@ -19,7 +18,7 @@ export interface StakingPageProps {
 export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
 
   const router = useRouter();
-  const { data: stakingData } = useHttpGet<null, Array<Staking>>(QUERY_KEY.CHART_CURRENT, API_ENDPOINT.GET_STAKING_LIST, null);
+  const { data: stakingData, isLoading } = useHttpGet<null, Array<Staking>>(QUERY_KEY.CHART_CURRENT, API_ENDPOINT.GET_STAKING_LIST, null);
   const [stakingList, setStakingList] = useState<Array<Staking>>([]);
   const [isShowModal, setIsShowModal] = useState(false);
 
@@ -128,23 +127,27 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
           </Col>
         </Row>
         <Row className="body">
-          <Col className="card-group" span={21}>
-
-            {
-              isEmpty(stakingList)
-              &&
-              <NoData />
-            }
-            {
-              !stakingData || !stakingList
-                ?
-                <Loading />
-                :
-                stakingList.map(e =>
-                  <Card onStake={onStake} key={`${e.coin}_${e.apy}`} data={e} />
-                )
-            }
-          </Col>
+          {
+            isLoading
+              ?
+              <Col className="card-group" span={21}>
+                <Loading type='component' />
+                <Loading type='component' />
+                <Loading type='component' />
+              </Col>
+              :
+              <Col className="card-group" span={21}>
+                {
+                  stakingList
+                    ?
+                    stakingList.map(e =>
+                      e && <Card onStake={onStake} key={`${e.coin}_${e.apy}`} data={e} />
+                    )
+                    :
+                    <NoData />
+                }
+              </Col>
+          }
         </Row>
         <ModalStacking title='Locking Stacking' visible={isShowModal} onCancel={() => { setIsShowModal(false) }} />
       </PageStyled>

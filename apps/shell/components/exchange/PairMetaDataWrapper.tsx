@@ -56,7 +56,7 @@ export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
 
   const { currentPrice, priceTrend, highPrice, lowPrice, changed, precision } =
     useMemo(() => {
-      if (data && data.bids && data.asks) {
+      if (data && data.bids && data.asks && pairInfo) {
         const { bids: _bids, asks: _asks } = data;
         const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
         const newPrice = getAveragePrice(

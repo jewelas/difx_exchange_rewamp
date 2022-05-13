@@ -81,7 +81,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
       const newPrice = getAveragePrice(
         reverseAsks[reverseAsks.length - 1][0],
         (_bids && _bids[0]) ? _bids[0][0] : 0,
-        pairInfo.group_precision
+        (pairInfo ? pairInfo.group_precision : 0)
       );
       const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
       OrderBookWrapper.previousPrice = newPrice;

@@ -189,6 +189,21 @@ export const OrderReportsWraperStyled = styled.div`
     .content{
       height: 100%;
       padding-bottom: 50px;
+      .bar-group{
+        display: flex;
+        justify-content: space-between;
+        border-top: ${({ theme }) => theme.border.secondary};
+        border-bottom: ${({ theme }) => theme.border.secondary};
+        padding: 10px 20px;
+        margin-left: -19px;
+        margin-right: -20px;
+        .bar-left{
+          
+        }
+        .bar-right{
+
+        }
+      }
       .report-group{
         height: 100%;
       }

@@ -33,6 +33,7 @@ export interface ThemeInterface extends Theme {
   background: {
     primary: string;
     secondary: string;
+    space: string;
     body: string,
     white: string,
     star: string
@@ -138,6 +139,7 @@ export const light: ThemeInterface = {
   background: {
     primary: "#F8FAFD",
     secondary: "#FFFFFF",
+    space: "#F3F6FB",
     body: "#F3F6FB",
     white: "#FFFFFF",
     star: "#FFC107"
@@ -236,6 +238,7 @@ export const dark: ThemeInterface = {
   background: {
     primary: "#161F30",
     secondary: "#0D1421",
+    space: "#000",
     body: "#161F30",
     white: "#FFFFFF",
     star: "#FFC107"

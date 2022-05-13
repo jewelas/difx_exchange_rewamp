@@ -32,11 +32,11 @@ export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
 
   const param: useSocketProps = {
     pair: pairInfo && pairInfo.symbol,
-    leavePair: { ...PairMetaDataWrapper.previousPair },
+    leavePair: PairMetaDataWrapper.previousPair,
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);
-  PairMetaDataWrapper.previousPair = pairInfo && pairInfo.symbol;
+  PairMetaDataWrapper.previousPair = pairInfo ? pairInfo.symbol : null;
 
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];

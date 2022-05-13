@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Loading } from "@difx/core-ui";
-import { Tabs } from "antd";
+import { Tabs, Checkbox } from "antd";
 import { useState } from 'react';
 import OrderOpenReport from "./OrderOpenReport";
 import OrderHistoryReport from "./OrderHistoryReport";
@@ -19,6 +19,9 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
 
   return (
     <OrderReportsWraperStyled>
+      <div className="display-selected-pair">
+        <Checkbox onChange={() => {/** TODO */}}><span className="label">Display selected pair only</span></Checkbox>
+      </div>
       <div className="content">
         <Tabs defaultActiveKey="1" onChange={(e) => { setTab(e) }}>
           <TabPane tab="Open Orders" key="open-order" />

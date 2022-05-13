@@ -2,10 +2,12 @@ import { Color } from "@difx/core-ui";
 import styled from "styled-components";
 
 const PageStyled = styled.div`
+  min-height: calc(100vh - 70px);
   .ant-row.row-group {
     background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {
       padding: 50px;
+      max-width: 550px;
       margin: 0 auto;
       margin-top: 70px;
       margin-bottom: 70px;
@@ -77,6 +79,25 @@ const PageStyled = styled.div`
       }
     }
   }
+  .botton-box{
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .resend-box{
+        color: ${({ theme }) => theme.fontColor.muted};
+        span{
+          margin-left: 5px;
+          cursor: pointer;
+          &.active{
+            color: ${({ theme }) => theme.fontColor.link}
+          }
+        }
+      }
+      .paste-btn{
+        color: ${({ theme }) => theme.fontColor.link};
+        cursor: pointer;
+      }
 `;
 
 export default PageStyled;

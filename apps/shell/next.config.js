@@ -11,9 +11,9 @@ const nextConfig = {
     svgr: false,
   },
   generateBuildId: () => "build",
-  experimental: {
-    styledComponents: true
-  },
+  // experimental: {
+  //   styledComponents: true
+  // },
   pageExtensions: ['page.tsx','page.ts']
 };
 

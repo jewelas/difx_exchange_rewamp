@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import isEmpty from 'lodash/isEmpty';
 import { Row, Col, Button, Checkbox, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Typography, Icon, Loading, NoData } from '@difx/core-ui';
@@ -138,10 +139,10 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
               :
               <Col className="card-group" span={21}>
                 {
-                  stakingList
+                  !isEmpty(stakingList)
                     ?
                     stakingList.map(e =>
-                      e && <Card onStake={onStake} key={`${e.coin}_${e.apy}`} data={e} />
+                      !isEmpty(e) && <Card onStake={onStake} key={`${e.coin}_${e.apy}`} data={e} />
                     )
                     :
                     <NoData />

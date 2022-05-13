@@ -67,7 +67,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken } = useAuth()
+    const { refreshToken, logOut } = useAuth()
     const { refreshAnonymousToken } = useGuestAuth()
 
     instance.interceptors.request.use(axiosAuthorization)
@@ -90,6 +90,13 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 switch (statusCode) {
                     case 401:
                         refreshToken()
+                        break
+                    case 403:
+                        logOut()
+                        notification.info({
+                            message: "Oops",
+                            description: "Session Expired, Login Again",
+                        });
                         break
                     case 406:
                         refreshAnonymousToken()

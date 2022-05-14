@@ -13,6 +13,7 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
 
   const [tab, setTab] = useState('open-order');
   const [isSelectedPairOnly, setIsSelectedPairOnly] = useState(false);
+  const [orderType, setOrderType] = useState('limit');
 
   if (!pair) return <Loading />;
 
@@ -29,7 +30,7 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
               setIsSelectedPairOnly(checked);
             }}
           />
-          <span onClick={()=>{setIsSelectedPairOnly(!isSelectedPairOnly)}} className="label">Display selected pair only</span>
+          <span onClick={() => { setIsSelectedPairOnly(!isSelectedPairOnly) }} className="label">Display selected pair only</span>
         </div>
 
       </div>
@@ -37,27 +38,36 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
         <Tabs defaultActiveKey="1" onChange={(e) => { setTab(e) }}>
           <TabPane tab="Open Orders" key="open-order" />
           <TabPane tab="Trade History" key="trade-history" />
-          <TabPane tab="Stop Limit Orders" key="stop-limit-orders" />
+          <TabPane tab="Order History" key="order-history" />
           <TabPane tab="Funds" key="funds" />
         </Tabs>
-        <div className="bar-group">
-          <div className="bar-left">
-            <Switch
-              tabs={[{ value: "limit", label: "Limit Order" }, { value: "stop-limit", label: "Stop Limit" }]}
-              onChange={() => { console.log('TODO...') }}
-            />
+        {
+          ['open-order', 'order-history'].includes(tab)
+          &&
+          <div className="bar-group">
+            <div className="bar-left">
+              <Switch
+                tabs={[{ value: "limit", label: "Limit Order" }, { value: "stop-limit", label: "Stop Limit" }]}
+                onChange={(tab) => { setOrderType(tab) }}
+              />
+            </div>
+            {
+              tab === 'open-order'
+              &&
+              <div className="bar-right">
+                <Button ghost>
+                  <Icon.CancelOrderIcon useDarkMode />
+                  <span>Cancel all</span>
+                </Button>
+              </div>
+            }
           </div>
-          <div className="bar-right">
-            <Button ghost>
-              <Icon.CancelOrderIcon useDarkMode />
-              <span>Cancel all</span>
-            </Button>
-          </div>
-        </div>
+        }
+
         <div className="report-group">
           {tab === 'open-order' && <OrderOpenReport />}
           {tab === 'trade-history' && <OrderHistoryReport pair={pair} />}
-          {tab === 'stop-limit-orders' && <OrderStopLimitReport />}
+          {tab === 'order-history' && <OrderHistoryReport pair={pair} />}
           {tab === 'funds' && <FundReport />}
         </div>
       </div>

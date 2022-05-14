@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Loading, Switch } from "@difx/core-ui";
-import { Tabs, Checkbox, Button } from "antd";
+import { Icon, Loading, Switch } from "@difx/core-ui";
+import { Button, Switch as AntdSwitch, Tabs } from "antd";
 import { useState } from 'react';
-import OrderOpenReport from "./OrderOpenReport";
-import OrderHistoryReport from "./OrderHistoryReport";
 import FundReport from "./FundReport";
-import { OrderReportsWraperStyled } from "./styled";
+import OrderHistoryReport from "./OrderHistoryReport";
+import OrderOpenReport from "./OrderOpenReport";
 import OrderStopLimitReport from "./OrderStopLimitReport";
+import { OrderReportsWraperStyled } from "./styled";
 
 export function OrderReportsWrapper({ pair }: { pair: string }) {
 
   const [tab, setTab] = useState('open-order');
+  const [isSelectedPairOnly, setIsSelectedPairOnly] = useState(false);
 
   if (!pair) return <Loading />;
 
@@ -20,7 +21,17 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
   return (
     <OrderReportsWraperStyled>
       <div className="display-selected-pair">
-        <Checkbox onChange={() => {/** TODO */ }}><span className="label">Display selected pair only</span></Checkbox>
+        <div className="wrapper">
+          <AntdSwitch
+            size="small"
+            checked={isSelectedPairOnly}
+            onChange={(checked) => {
+              setIsSelectedPairOnly(checked);
+            }}
+          />
+          <span onClick={()=>{setIsSelectedPairOnly(!isSelectedPairOnly)}} className="label">Display selected pair only</span>
+        </div>
+
       </div>
       <div className="content">
         <Tabs defaultActiveKey="1" onChange={(e) => { setTab(e) }}>
@@ -33,11 +44,14 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
           <div className="bar-left">
             <Switch
               tabs={[{ value: "limit", label: "Limit Order" }, { value: "stop-limit", label: "Stop Limit" }]}
-              onChange={()=>{console.log('TODO...')}}
+              onChange={() => { console.log('TODO...') }}
             />
           </div>
           <div className="bar-right">
-            <Button ghost>Cancel all</Button>
+            <Button ghost>
+              <Icon.CancelOrderIcon useDarkMode />
+              <span>Cancel all</span>
+            </Button>
           </div>
         </div>
         <div className="report-group">

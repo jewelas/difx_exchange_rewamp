@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ThemeInterface } from "./../../themes";
+import { ThemeInterface } from "../../themes";
 
 const Wrapper = styled.div`
   cursor: pointer;
@@ -22,9 +22,9 @@ const Wrapper = styled.div`
       opacity: 1;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
       animation-name: trans-active;
-      animation-duration: 0.5s;
+      animation-duration: 0.25s;
       &:hover{
-        box-shadow: inset 0 0 100px 100px ${({ theme }: { theme: ThemeInterface }) => theme.color.rowHover};
+        /* box-shadow: inset 0 0 100px 100px ${({ theme }: { theme: ThemeInterface }) => theme.color.rowHover}; */
       }
     }
     @keyframes trans-active {

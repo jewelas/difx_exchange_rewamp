@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useState } from "react";
-import Wrapper from "./style";
+import Wrapper from "./styled";
 
 export interface SwitchProps {
   tabs: Array<{ value: string, label: string }>;
@@ -20,7 +20,7 @@ export function Switch({defaultTab,  tabs, onChange }: SwitchProps) {
     <Wrapper>
       {
         tabs.map(e=>
-          <div key={`tab_${e}`} onClick={()=>{onSwitch(e.value)}} className={clsx("switch-item", currentTab===e.value?"active":"")}>{e.label}</div>
+          <div key={`tab_${e.value}`} onClick={()=>{onSwitch(e.value)}} className={clsx("switch-item", currentTab===e.value?"active":"")}>{e.label}</div>
         )
       }
     </Wrapper>

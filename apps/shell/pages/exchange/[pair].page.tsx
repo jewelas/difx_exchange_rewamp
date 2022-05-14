@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import { useLocalStorage } from "@difx/shared";
+import { STORE_KEY } from "@difx/constants";
 import AppLayout from "../index.page";
 import ListPairWrapper from "../../components/exchange/ListPairWrapper";
 import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
@@ -31,6 +34,11 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
   const handleGridResize = (widgets) => {
     // TODO
   };
+
+  const { setValue: setLastPair } = useLocalStorage(STORE_KEY.LAST_PAIR, null);
+  useEffect(()=>{
+    if(pair) setLastPair(pair)
+  },[pair]);
 
   return (
     <AppLayout>

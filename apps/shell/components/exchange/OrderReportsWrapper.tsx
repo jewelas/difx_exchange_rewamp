@@ -8,6 +8,7 @@ import OrderHistoryReport from "./OrderHistoryReport";
 import OrderOpenReport from "./OrderOpenReport";
 import OrderStopLimitReport from "./OrderStopLimitReport";
 import { OrderReportsWraperStyled } from "./styled";
+import TradeHistoryReport from "./TradeHistoryReport";
 
 export function OrderReportsWrapper({ pair }: { pair: string }) {
 
@@ -71,7 +72,7 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
                 orderType === 'stop-limit' ? <OrderStopLimitReport isSelectedPairOnly={isSelectedPairOnly} pair={pair} /> : null
             )
           }
-          {tab === 'trade-history' && <OrderHistoryReport pair={pair} />}
+          {tab === 'trade-history' && <TradeHistoryReport isSelectedPairOnly={isSelectedPairOnly} pair={pair} />}
           {tab === 'order-history' && <OrderHistoryReport pair={pair} />}
           {tab === 'funds' && <FundReport />}
         </div>

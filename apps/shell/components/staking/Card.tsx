@@ -8,7 +8,7 @@ import React, { useState } from "react";
 /* eslint-disable-next-line */
 export interface CardProps {
   data: Staking;
-  onStake: (detail: StakingDetail) => void;
+  onStake: (data: Staking, detailIndex: number) => void;
 }
 
 export function Card({ onStake, data }: CardProps) {
@@ -58,7 +58,7 @@ export function Card({ onStake, data }: CardProps) {
 
       </div>
       <div className="card-bottom">
-        <Button onClick={()=>{onStake(data.st_conf_detail[configIndex])}} type="primary">Stake Now</Button>
+        <Button onClick={()=>{onStake(data, configIndex)}} type="primary">Stake Now</Button>
       </div>
     </div>
   );

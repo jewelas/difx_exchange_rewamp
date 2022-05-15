@@ -1,15 +1,15 @@
+import { SearchOutlined } from '@ant-design/icons';
+import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
+import { Icon, Loading, NoData, Typography } from '@difx/core-ui';
+import { Staking, useHttpGet } from '@difx/shared';
+import { Button, Checkbox, Col, Input, Row } from 'antd';
+import isEmpty from 'lodash/isEmpty';
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import isEmpty from 'lodash/isEmpty';
-import { Row, Col, Button, Checkbox, Input } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import { Typography, Icon, Loading, NoData } from '@difx/core-ui';
-import { QUERY_KEY, API_ENDPOINT } from '@difx/constants';
-import { Staking, StakingDetail, useHttpGet } from '@difx/shared'
-import AppLayout from "../index.page";
-import { PageStyled } from "./styled";
 import Card from '../../components/staking/Card';
 import ModalStacking from "../../components/staking/ModalStacking";
+import AppLayout from "../index.page";
+import { PageStyled } from "./styled";
 
 /* eslint-disable-next-line */
 export interface StakingPageProps {
@@ -21,7 +21,8 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
   const router = useRouter();
   const { data: stakingData, isLoading } = useHttpGet<null, Array<Staking>>(QUERY_KEY.STAKING, API_ENDPOINT.GET_STAKING_LIST, null);
   const [stakingList, setStakingList] = useState<Array<Staking>>([]);
-  const [stakingDetail, setStakingDetail] = useState(null);
+  const [currentStaking, setCurrentStaking] = useState(null);
+  const [detailIndex, setDetailIndex] = useState(0);
   const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
@@ -38,8 +39,9 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
     }
   }
 
-  const onStake = (detail: StakingDetail) => {
-    setStakingDetail(detail);
+  const onStake = (data: Staking, detailIndex) => {
+    setCurrentStaking(data);
+    setDetailIndex(detailIndex);
     setIsShowModal(true);
   }
 
@@ -152,7 +154,7 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
               </Col>
           }
         </Row>
-        <ModalStacking data={stakingDetail} title='Locking Stacking' visible={isShowModal} onCancel={() => { setIsShowModal(false) }} />
+        <ModalStacking data={currentStaking} atDetailIndex={detailIndex} title='Locking Stacking' visible={isShowModal} onCancel={() => { setIsShowModal(false) }} />
       </PageStyled>
     </AppLayout>
   );

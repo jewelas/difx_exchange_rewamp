@@ -4,6 +4,49 @@ import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { notification } from 'antd';
 import { useAuth, useGuestAuth } from '..'
 
+function onErrorHandle(error: AxiosError) {
+    const { refreshToken, logOut } = useAuth();
+    const { refreshAnonymousToken } = useGuestAuth();
+
+    const { response } = error;
+    const { statusCode } = response?.data;
+
+    // @ts-ignore
+    switch (statusCode) {
+        case 401:
+            refreshToken()
+            break;
+        case 403:
+            logOut();
+            break;
+        case 406:
+            refreshAnonymousToken()
+            notification.info({
+                message: "Oops",
+                description: "Something went wrong, try again",
+            });
+            break
+        case 410:
+            notification.info({
+                message: "Verify IP",
+                description: response?.data.message,
+            });
+            break
+        case 411:
+            notification.info({
+                message: "Verify 2FA Code",
+                description: response?.data.message,
+            });
+            break
+        default:
+            notification.error({
+                message: "Oops",
+                description: response?.data.message,
+            });
+            break
+    }
+}
+
 /**
  * 
  * @param queryKey : this key for caching, in the future you can use  useQuery('[queryKey]', ...) to get caching data
@@ -27,13 +70,23 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
     const query = useQuery<Response, AxiosError>(
         queryKey,
         async () => {
-            const res = await instance.get<null, AxiosResponse>(endpoint, request);
-            const data = res.data.data;
+            try {
+                const res = await instance.get<null, AxiosResponse>(endpoint, request);
+                const data = res.data.data;
 
-            if (data) {
-                return data;
+                if (data) {
+                    return data;
+                }
+            } catch (err:any) {
+                const { response } = err;
+                const { statusCode } = response?.data;
+                if(statusCode===403){
+                    localStorage?.removeItem("currentUser")
+                    localStorage?.removeItem("sessionToken")
+                    localStorage?.removeItem("refreshToken")
+                    localStorage?.removeItem("permissions");
+                }
             }
-            throw new Error("no-data");
         },
         mergeOptions
     );
@@ -58,6 +111,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
                 onSuccess && onSuccess(response.data);
             },
             onError: (error: AxiosError) => {
+                onErrorHandle(error);
                 onError && onError(error as AxiosError);
             },
         }
@@ -66,9 +120,6 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 }
 
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
-
-    const { refreshToken } = useAuth()
-    const { refreshAnonymousToken } = useGuestAuth()
 
     instance.interceptors.request.use(axiosAuthorization)
 
@@ -84,39 +135,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                let { response } = error
-                // @ts-ignore
-                let { statusCode } = response.data
-                switch (statusCode) {
-                    case 401:
-                        refreshToken()
-                        break
-                    case 406:
-                        refreshAnonymousToken()
-                        notification.info({
-                            message: "Oops",
-                            description: "Something went wrong, try again",
-                        });
-                        break
-                    case 410:
-                        notification.info({
-                            message: "Verify IP",
-                            description: response?.data.message,
-                        });
-                        break
-                    case 411:
-                        notification.info({
-                            message: "Verify 2FA Code",
-                            description: response?.data.message,
-                        });
-                        break
-                    default:
-                        notification.error({
-                            message: "Oops",
-                            description: response?.data.message,
-                        });
-                        break
-                }
+                onErrorHandle(error);
                 onError && onError(error as AxiosError);
             },
         }

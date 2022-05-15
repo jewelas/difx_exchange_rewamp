@@ -3,7 +3,7 @@ import { MainStyled } from './styled';
 
 /* eslint-disable-next-line */
 export interface TimelineProps {
-  values: string[];
+  values: any[];
   color?: string;
 }
 

@@ -1,16 +1,19 @@
 import React from "react";
 import { Typography, Timeline } from '@difx/core-ui';
 import { ModalStyled } from './styled';
+import { StakingDetail } from "@difx/shared";
+import { getCurrentDateTimeByDateString } from "@difx/utils";
 
 /* eslint-disable-next-line */
 export interface ModalStackingProps {
   title: string;
   visible: boolean;
+  data?: StakingDetail;
   onCancel: () => void;
 }
 
-export function ModalStacking({ onCancel, title, visible }: ModalStackingProps) {
-
+export function ModalStacking({ onCancel, title, visible, data }: ModalStackingProps) {
+  if(!data) return null;
   return (
     <ModalStyled
       visible={visible}
@@ -22,13 +25,19 @@ export function ModalStacking({ onCancel, title, visible }: ModalStackingProps) 
           <Typography fontSize={12} fontWeight={400} lineHeight={14.4} color="secondary">Estimated Interested Earned</Typography>
         </div>
         <div className='es-content'>
-          <Typography fontSize={41} fontWeight={400} lineHeight={49.2}>90%</Typography>
+          <Typography fontSize={41} fontWeight={400} lineHeight={49.2}>{data.apy}%</Typography>
         </div>
 
         <Timeline values={
-          ['Locking at start time', 'Locking at start time', 'Locking at start time']
+          [
+          <span key={`locking-start-time_${data.id}`}>Locking start time</span>, 
+          <div key={`start-time_${data.id}`}>{getCurrentDateTimeByDateString(data.start_date)}</div>, 
+          <div key={`end-time_${data.id}`}>
+            {getCurrentDateTimeByDateString(data.end_date)}
+          </div>
+        ]
         } />
-        
+
       </div>
       <div className='amount'>
         xxxxx

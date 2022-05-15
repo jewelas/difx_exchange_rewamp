@@ -5,7 +5,7 @@ import { Row, Col, Button, Checkbox, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Typography, Icon, Loading, NoData } from '@difx/core-ui';
 import { QUERY_KEY, API_ENDPOINT } from '@difx/constants';
-import { Staking, useHttpGet } from '@difx/shared'
+import { Staking, StakingDetail, useHttpGet } from '@difx/shared'
 import AppLayout from "../index.page";
 import { PageStyled } from "./styled";
 import Card from '../../components/staking/Card';
@@ -21,6 +21,7 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
   const router = useRouter();
   const { data: stakingData, isLoading } = useHttpGet<null, Array<Staking>>(QUERY_KEY.STAKING, API_ENDPOINT.GET_STAKING_LIST, null);
   const [stakingList, setStakingList] = useState<Array<Staking>>([]);
+  const [stakingDetail, setStakingDetail] = useState(null);
   const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
@@ -30,14 +31,15 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
   const onSearch = (e) => {
     const value = e.target.value;
     if (value) {
-      const filteredData = stakingList.filter(e => e.coin.includes(value) || e.apy === value);
+      const filteredData = stakingList.filter(e => e.coin.includes(value));
       setStakingList(filteredData);
     } else {
       setStakingList(stakingData)
     }
   }
 
-  const onStake = () => {
+  const onStake = (detail: StakingDetail) => {
+    setStakingDetail(detail);
     setIsShowModal(true);
   }
 
@@ -142,7 +144,7 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
                   !isEmpty(stakingList)
                     ?
                     stakingList.map(e =>
-                      !isEmpty(e) && <Card onStake={onStake} key={`${e.coin}_${e.apy}`} data={e} />
+                      !isEmpty(e) && <Card onStake={onStake} key={`staking_card_${e.id}_${e.coin}`} data={e} />
                     )
                     :
                     <NoData />
@@ -150,7 +152,7 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
               </Col>
           }
         </Row>
-        <ModalStacking title='Locking Stacking' visible={isShowModal} onCancel={() => { setIsShowModal(false) }} />
+        <ModalStacking data={stakingDetail} title='Locking Stacking' visible={isShowModal} onCancel={() => { setIsShowModal(false) }} />
       </PageStyled>
     </AppLayout>
   );

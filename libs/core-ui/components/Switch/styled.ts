@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   .switch-item{
     border-radius: 3px;
     width: 160px;
-    padding-top: 1px;
     text-align: center;
     font-size: 12px;
     line-height: 20px;
@@ -21,8 +20,7 @@ const Wrapper = styled.div`
     &.active{
       opacity: 1;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
-      animation-name: trans-active;
-      animation-duration: 0.25s;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary};
       &:hover{
         /* box-shadow: inset 0 0 100px 100px ${({ theme }: { theme: ThemeInterface }) => theme.color.rowHover}; */
       }

@@ -19,7 +19,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
     };
     const mergeOptions = {
         ...defaultOption,
-        ... options
+        ...options
     }
 
     instance.interceptors.request.use(axiosAuthorization);
@@ -28,7 +28,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
         queryKey,
         async () => {
             const res = await instance.get<null, AxiosResponse>(endpoint, request);
-            const data =  res.data.data;
+            const data = res.data.data;
 
             if (data) {
                 return data;
@@ -50,8 +50,8 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
     instance.interceptors.request.use(axiosAuthorization)
 
     const mutation = useMutation(
-        (request: Request) => {
-            return instance.get<Request, AxiosResponse<Response>>(endpoint, request)
+        (request: any) => {
+            return instance.get<Request, AxiosResponse<Response>>(request ? request.endpoint : endpoint, request)
         },
         {
             onSuccess: (response: AxiosResponse) => {
@@ -75,7 +75,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
     const mutation = useMutation(
         (request: any) => {
             return instance.post<Request, AxiosResponse<Response>>(
-                request.endpoint || endpoint,
+                request ? request.endpoint : endpoint,
                 request
             );
         },
@@ -86,7 +86,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
             onError: (error: AxiosError) => {
                 let { response } = error
                 // @ts-ignore
-                let { statusCode } =  response.data
+                let { statusCode } = response.data
                 switch (statusCode) {
                     case 401:
                         refreshToken()
@@ -110,7 +110,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                             description: response?.data.message,
                         });
                         break
-                    default: 
+                    default:
                         notification.error({
                             message: "Oops",
                             description: response?.data.message,

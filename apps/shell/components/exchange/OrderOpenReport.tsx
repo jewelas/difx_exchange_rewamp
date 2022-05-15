@@ -2,15 +2,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT } from "@difx/constants";
-import { Typography, Icon, Loading } from "@difx/core-ui";
-import { Order, useAuth, useHttpPost, useHttpGetByEvent, SocketEvent, useSocket, useSocketProps, BaseResponse } from "@difx/shared";
+import { Icon, Loading, Typography } from "@difx/core-ui";
+import { BaseResponse, Order, SocketEvent, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
-export function OrderOpenReport() {
+interface Props {
+  isSelectedPairOnly?: boolean;
+  pair?: string;
+}
+export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
 
   // const { token } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
@@ -22,10 +26,10 @@ export function OrderOpenReport() {
   };
   const userOrdersData = useSocket(param);
 
-  const getOrderBookSuccess = (response: AxiosResponse<Array<Order>>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
     const { data } = response;
-    if (data) {
-      for (const order of data) {
+    if (data && data.result) {
+      for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
           setTableData([...tableData]);
@@ -60,12 +64,16 @@ export function OrderOpenReport() {
     }
   }
 
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
   const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_BID_ORDER }); // TODO: handle headers in interceptor in useHttp
 
   useEffect(() => {
-    getOrderBooks(null);
-  }, []);
+    if (isSelectedPairOnly && pair) {
+      getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_OPEN(pair) });
+    } else {
+      getOrderBooks(null);
+    }
+  }, [isSelectedPairOnly]);
 
   const columns = [
     {
@@ -187,7 +195,10 @@ export function OrderOpenReport() {
     }
   ];
 
-  if (isEmpty(tableData) && isDataLoading) return <Loading type='component' />
+  if (isEmpty(tableData) && isDataLoading) return <>
+    <Loading type="skeleton" row={1} column={6} flexGrowForColumns={[1, 2, 1, 2, 1, 2]} />
+    <Loading style={{ marginTop: -20 }} type="skeleton" row={10} column={6} flexGrowForColumns={[1, 2, 1, 2, 1, 2]} />
+  </>
 
   return (
     <Table

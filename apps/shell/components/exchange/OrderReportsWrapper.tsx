@@ -65,7 +65,12 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
         }
 
         <div className="report-group">
-          {tab === 'open-order' && <OrderOpenReport />}
+          {tab === 'open-order' &&
+            (
+              orderType === 'limit' ? <OrderOpenReport isSelectedPairOnly={isSelectedPairOnly} pair={pair} /> :
+                orderType === 'stop-limit' ? <OrderStopLimitReport isSelectedPairOnly={isSelectedPairOnly} pair={pair} /> : null
+            )
+          }
           {tab === 'trade-history' && <OrderHistoryReport pair={pair} />}
           {tab === 'order-history' && <OrderHistoryReport pair={pair} />}
           {tab === 'funds' && <FundReport />}

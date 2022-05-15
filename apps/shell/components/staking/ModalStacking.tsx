@@ -25,6 +25,14 @@ export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 
     e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
   }
 
+  const SuffixAmountInput = (
+      <div className="suffix-amount">
+        <Button ghost>BTC</Button>
+        <div className="line"/>
+        <Button ghost>MAX</Button>
+      </div>
+    )
+
   if (!data) return null;
   return (
     <ModalStyled
@@ -57,7 +65,7 @@ export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 
           <div className="am-left">Lock amount</div>
           <div className="am-right">Avaible amount 0.0000 BTC</div>
         </div>
-        <Input type="text" onInput={onReplaceComma} onWheel={(e: any) => { e.target.blur() }} suffix={<div>xxxx</div>} />
+        <Input type="text" onInput={onReplaceComma} onWheel={(e: any) => { e.target.blur() }} suffix={SuffixAmountInput} />
       </div>
       <div className='durations'>
         <div className='du-title'>

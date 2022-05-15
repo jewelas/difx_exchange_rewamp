@@ -72,7 +72,8 @@ export interface ThemeInterface extends Theme {
   };
   border: {
     primary: string,
-    secondary: string
+    secondary: string,
+    color: string
   };
   borderRadius: {
     regular: string;
@@ -178,7 +179,8 @@ export const light: ThemeInterface = {
   },
   border: {
     primary: "1px solid #3D7EFF",
-    secondary: "1px solid rgba(0, 0, 0, 0.06)"
+    secondary: "1px solid rgba(0, 0, 0, 0.06)",
+    color: "rgba(0, 0, 0, 0.06)"
   },
   borderRadius: {
     regular: "2px",
@@ -277,7 +279,8 @@ export const dark: ThemeInterface = {
   },
   border: {
     primary: "1px solid #3D7EFF",
-    secondary: "1px solid #161F30"
+    secondary: "1px solid #161F30",
+    color: "#161F30"
   },
   borderRadius: {
     regular: "2px",

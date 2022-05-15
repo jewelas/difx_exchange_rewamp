@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import clsx from 'clsx';
+import isEmpty from 'lodash/isEmpty';
 import { Typography, Timeline } from '@difx/core-ui';
-import { Button, Input, Checkbox } from 'antd';
+import { Button, Input, Checkbox, Form } from 'antd';
 import { ModalStyled } from './styled';
-import { Staking } from "@difx/shared";
-import { getCurrentDateTimeByDateString } from "@difx/utils";
+import { Staking, Balance, StakingRequest } from "@difx/shared";
+import { getCurrentDateTimeByDateString, getPriceFormatted } from "@difx/utils";
 
 /* eslint-disable-next-line */
 export interface ModalStackingProps {
@@ -13,27 +14,39 @@ export interface ModalStackingProps {
   visible: boolean;
   data?: Staking;
   atDetailIndex?: number;
+  balance: Balance;
   onCancel: () => void;
 }
 
-export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 0 }: ModalStackingProps) {
+export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 0, balance }: ModalStackingProps) {
 
   const [configIndex, setConfigIndex] = useState(0);
   const [isAgreeTerm, setIsAgreeTerm] = useState(false);
+
+  const [form] = Form.useForm();
+
+  const onSubmit = (formData: StakingRequest) => {
+    // onPlaceOrder(formData, type, side);
+  };
+
+  const onFormChange = (changeField: any) => {
+    // TODO
+  };
+
+  if (!data || isEmpty(data.st_conf_detail)) return null;
 
   const onReplaceComma = (e: any) => {
     e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
   }
 
   const SuffixAmountInput = (
-      <div className="suffix-amount">
-        <Button ghost>BTC</Button>
-        <div className="line"/>
-        <Button ghost>MAX</Button>
-      </div>
-    )
+    <div className="suffix-amount">
+      <div style={{ opacity: 0.75 }}>{data.coin}</div>
+      <div className="line" />
+      <Button onClick={() => { form.setFieldsValue({ 'staking_amount': Math.floor(balance.amount * 100) / 100 }) }} ghost>MAX</Button>
+    </div>
+  )
 
-  if (!data) return null;
   return (
     <ModalStyled
       visible={visible}
@@ -41,80 +54,90 @@ export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 
       onCancel={onCancel}
       footer={null}
     >
-      <div className='estimated'>
-        <div className='es-title'>
-          <Typography fontSize={12} fontWeight={400} lineHeight={14.4} color="secondary">Estimated Interested Earned</Typography>
-        </div>
-        <div className='es-content'>
-          <Typography fontSize={41} fontWeight={400} lineHeight={49.2}>{data.st_conf_detail[atDetailIndex].apy}%</Typography>
-        </div>
-
-        <Timeline values={
-          [
-            <span key={`locking-start-time_${data.id}`}>Locking start time</span>,
-            <div key={`start-time_${data.id}`}>{getCurrentDateTimeByDateString(data.st_conf_detail[atDetailIndex].start_date)}</div>,
-            <div key={`end-time_${data.st_conf_detail[atDetailIndex].id}`}>
-              {getCurrentDateTimeByDateString(data.st_conf_detail[atDetailIndex].end_date)}
-            </div>
-          ]
-        } />
-
-      </div>
-      <div className='amount'>
-        <div className="am-title">
-          <div className="am-left">Lock amount</div>
-          <div className="am-right">Avaible amount 0.0000 BTC</div>
-        </div>
-        <Input type="text" onInput={onReplaceComma} onWheel={(e: any) => { e.target.blur() }} suffix={SuffixAmountInput} />
-      </div>
-      <div className='durations'>
-        <div className='du-title'>
-          Duration (Days)
-        </div>
-        <div className='du-arr'>
-          {
-            data.st_conf_detail.map((e, i) => <Button onClick={() => { setConfigIndex(i) }} className={clsx(i === configIndex && 'active')} key={`_period_${e.id}`} ghost>{e.period}</Button>)
-          }
-        </div>
-      </div>
-      <div className='locked-amount'>
-        <div className='locked-amount-title'>
-          Locked amount limitation
-        </div>
-        <div className='locked-amount-content'>
-          <div className="locked-left">
-            <div className="locked-title">
-              Minimum
-            </div>
-            <div className="locked-value">
-              0.01 BTC
-            </div>
+      <Form
+        form={form}
+        onFinish={onSubmit}
+        onFieldsChange={onFormChange}
+        autoComplete="off"
+      >
+        <div className='estimated'>
+          <div className='es-title'>
+            <Typography fontSize={12} fontWeight={400} lineHeight={14.4} color="secondary">Estimated Interested Earned</Typography>
           </div>
-          <div className="locked-right">
-            <div className="locked-title">
-              Maximum
-            </div>
-            <div className="locked-value">
-              0.01 BTC
-            </div>
+          <div className='es-content'>
+            <Typography fontSize={41} fontWeight={400} lineHeight={49.2}>{data.st_conf_detail[atDetailIndex].apy}%</Typography>
+          </div>
+
+          <Timeline values={
+            [
+              <span key={`locking-start-time_${data.id}`}>Locking start time</span>,
+              <div key={`start-time_${data.id}`}>{getCurrentDateTimeByDateString(data.st_conf_detail[atDetailIndex].start_date)}</div>,
+              <div key={`end-time_${data.st_conf_detail[atDetailIndex].id}`}>
+                {getCurrentDateTimeByDateString(data.st_conf_detail[atDetailIndex].end_date)}
+              </div>
+            ]
+          } />
+
+        </div>
+        <div className='amount'>
+          <div className="am-title">
+            <div className="am-left">Lock amount</div>
+            <div className="am-right">Avaible amount {getPriceFormatted(balance.amount, 2)} {balance.currency}</div>
+          </div>
+          <Form.Item
+            name='staking_amount'>
+            <Input placeholder="Please enter the amount" type="text" onInput={onReplaceComma} onWheel={(e: any) => { e.target.blur() }} suffix={SuffixAmountInput} />
+          </Form.Item>
+        </div>
+        <div className='durations'>
+          <div className='du-title'>
+            Duration (Days)
+          </div>
+          <div className='du-arr'>
+            {
+              data.st_conf_detail.map((e, i) => <Button onClick={() => { setConfigIndex(i) }} className={clsx(i === configIndex && 'active')} key={`_period_${e.id}`} ghost>{e.period}</Button>)
+            }
           </div>
         </div>
-      </div>
+        <div className='locked-amount'>
+          <div className='locked-amount-title'>
+            Locked amount limitation
+          </div>
+          <div className='locked-amount-content'>
+            <div className="locked-left">
+              <div className="locked-title">
+                Minimum
+              </div>
+              <div className="locked-value">
+                {data.st_conf_detail[atDetailIndex].min_amount} {data.coin}
+              </div>
+            </div>
+            <div className="locked-right">
+              <div className="locked-title">
+                Maximum
+              </div>
+              <div className="locked-value">
+                {data.st_conf_detail[atDetailIndex].max_amount} {data.coin}
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div className='conditions'>
-        <Checkbox checked={isAgreeTerm} onChange={() => {setIsAgreeTerm(!isAgreeTerm)}}>
-          <Typography level="text">
-            I have read and I agree to
-            <a style={{ marginLeft: 5 }} target="_blank" href="/term">
-              DIFX STACKING CONDITIONS
-            </a>
-          </Typography>
-        </Checkbox>
-      </div>
+        <div className='conditions'>
+          <Checkbox checked={isAgreeTerm} onChange={() => { setIsAgreeTerm(!isAgreeTerm) }}>
+            <Typography level="text">
+              I have read and I agree to
+              <a style={{ marginLeft: 5 }} target="_blank" href="/term">
+                DIFX STACKING CONDITIONS
+              </a>
+            </Typography>
+          </Checkbox>
+        </div>
 
-      <div className="staking-now">
-        <Button disabled={!isAgreeTerm} type="primary">Stake Now</Button>
-      </div>
+        <div className="staking-now">
+          <Button disabled={!isAgreeTerm} type="primary">Stake Now</Button>
+        </div>
+      </Form>
 
     </ModalStyled>
   );

@@ -280,7 +280,7 @@ export const dark: ThemeInterface = {
   border: {
     primary: "1px solid #3D7EFF",
     secondary: "1px solid #161F30",
-    color: "#161F30"
+    color: "rgba(255,255,255,0.1)"
   },
   borderRadius: {
     regular: "2px",

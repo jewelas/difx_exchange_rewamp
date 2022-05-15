@@ -12,6 +12,7 @@ export const ModalStyled = styled(Modal)`
       }
   }
   .amount{
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     .am-title{
       display: flex;
       justify-content: space-between;
@@ -32,6 +33,7 @@ export const ModalStyled = styled(Modal)`
     }
   }
   .durations{
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     .du-title{
       margin-top:20px;
       margin-bottom:5px;
@@ -65,6 +67,7 @@ export const ModalStyled = styled(Modal)`
       }
   }
   .locked-amount{
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     margin-top:20px;
     .locked-amount-title{
       margin-bottom:5px

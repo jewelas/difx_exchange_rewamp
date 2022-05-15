@@ -1,7 +1,7 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
 import { Icon, Loading, NoData, Typography } from '@difx/core-ui';
-import { Staking, useHttpGet } from '@difx/shared';
+import { Staking, Balance, useHttpGet } from '@difx/shared';
 import { Button, Checkbox, Col, Input, Row } from 'antd';
 import isEmpty from 'lodash/isEmpty';
 import { useRouter } from "next/router";
@@ -17,13 +17,13 @@ export interface StakingPageProps {
 }
 
 export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
-
-  const router = useRouter();
   const { data: stakingData, isLoading } = useHttpGet<null, Array<Staking>>(QUERY_KEY.STAKING, API_ENDPOINT.GET_STAKING_LIST, null);
+  const { data: balanceData, isLoading: isLoadingBalance } = useHttpGet<null, Array<Balance>>(QUERY_KEY.BALANCE, API_ENDPOINT.GET_BALANCE, null);
   const [stakingList, setStakingList] = useState<Array<Staking>>([]);
   const [currentStaking, setCurrentStaking] = useState(null);
   const [detailIndex, setDetailIndex] = useState(0);
   const [isShowModal, setIsShowModal] = useState(false);
+
 
   useEffect(() => {
     setStakingList(stakingData)
@@ -37,6 +37,22 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
     } else {
       setStakingList(stakingData)
     }
+  }
+
+  const onFilterAvailableStaking = (isChecked: boolean) => {
+    if (isChecked) {
+      const stakingListClone = [];
+      for (const staking of stakingList) {
+        const stakingClone = { ...staking };
+        const st_conf_detail = [...stakingClone.st_conf_detail.filter(e => e.amount_cap >= e.min_amount)];
+        stakingClone.st_conf_detail = st_conf_detail;
+        stakingListClone.push(stakingClone);
+      }
+      setStakingList(stakingListClone);
+    } else {
+      setStakingList(stakingData);
+    }
+
   }
 
   const onStake = (data: Staking, detailIndex) => {
@@ -123,7 +139,7 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
             </div>
             <div className="right">
               <div className="show-available">
-                <Checkbox onChange={() => { console.log('...') }}>Show available only</Checkbox>
+                <Checkbox onChange={(value) => { onFilterAvailableStaking(value.target.checked) }}>Show available only</Checkbox>
               </div>
               <div className="input-group">
                 <Input onChange={onSearch} placeholder="Search" prefix={<SearchOutlined />} />
@@ -146,7 +162,11 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
                   !isEmpty(stakingList)
                     ?
                     stakingList.map(e =>
-                      !isEmpty(e) && <Card onStake={onStake} key={`staking_card_${e.id}_${e.coin}`} data={e} />
+                      !isEmpty(e) && !isEmpty(e.st_conf_detail) &&
+                      <Card key={`staking_card_${e.id}_${e.coin}`}
+                        onStake={onStake}
+                        data={e}
+                      />
                     )
                     :
                     <NoData />
@@ -154,7 +174,13 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
               </Col>
           }
         </Row>
-        <ModalStacking data={currentStaking} atDetailIndex={detailIndex} title='Locking Stacking' visible={isShowModal} onCancel={() => { setIsShowModal(false) }} />
+        <ModalStacking
+          balance={(balanceData && currentStaking) ? balanceData.find(bal => bal.currency === currentStaking.coin) : null}
+          data={currentStaking}
+          atDetailIndex={detailIndex}
+          title='Locking Stacking'
+          visible={isShowModal}
+          onCancel={() => { setIsShowModal(false) }} />
       </PageStyled>
     </AppLayout>
   );

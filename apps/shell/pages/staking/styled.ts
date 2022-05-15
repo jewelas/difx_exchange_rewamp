@@ -180,6 +180,15 @@ export const PageStyled = styled.div`
           }
           .cright{
             position: relative;
+            .sold-out{
+              background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary};
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary};
+              border-radius: 50px;
+              padding: 3px 27px 5px;
+              font-weight: 700;
+              font-size: 18px;
+              line-height: 22px;
+            }
             svg{
               position:absolute;
               margin-left: -57px;

@@ -1,9 +1,10 @@
 import { Icon, Typography, ValueField } from '@difx/core-ui';
-import { Staking, StakingDetail } from '@difx/shared';
+import { Balance, Staking, StakingDetail } from '@difx/shared';
 import { getDaysBetweenDates, getPriceFormatted } from '@difx/utils';
 import { Button } from 'antd';
 import clsx from 'clsx';
-import React, { useState } from "react";
+import { isEmpty } from 'lodash';
+import React, { useEffect, useState } from "react";
 
 /* eslint-disable-next-line */
 export interface CardProps {
@@ -14,6 +15,13 @@ export interface CardProps {
 export function Card({ onStake, data }: CardProps) {
 
   const [configIndex, setConfigIndex] = useState(0);
+  const [isSoldOut, setIsSoldOut] = useState(false);
+
+  useEffect(() => {
+    const periodHasCoin = data.st_conf_detail.filter(e => e.amount_cap >= e.min_amount);
+    if (isEmpty(periodHasCoin)) setIsSoldOut(true);
+    else setIsSoldOut(false);
+  }, []);
 
   return (
     <div className="card-item">
@@ -30,6 +38,14 @@ export function Card({ onStake, data }: CardProps) {
           <div className="cright">
             <Icon.HeadTagIcon />
             <div className="new">New</div>
+          </div>
+        }
+
+        {
+          isSoldOut
+          &&
+          <div className="cright">
+            <div className="sold-out">Sold out</div>
           </div>
         }
 
@@ -58,7 +74,7 @@ export function Card({ onStake, data }: CardProps) {
 
       </div>
       <div className="card-bottom">
-        <Button onClick={()=>{onStake(data, configIndex)}} type="primary">Stake Now</Button>
+        <Button disabled={isSoldOut} onClick={() => { onStake(data, configIndex) }} type="primary">Stake Now</Button>
       </div>
     </div>
   );

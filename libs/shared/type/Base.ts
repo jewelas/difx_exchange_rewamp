@@ -5,4 +5,5 @@ export interface BaseRequest {
 export interface BaseResponse {
   statusCode: string;
   statusText: string;
+  message: string;
 }

@@ -87,5 +87,6 @@ export const API_ENDPOINT = {
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
   GET_MARKET_PAIRS: '/api/v1/market/pairs',
-  GET_STAKING_LIST: '/api/v1/staking/list'
+  GET_STAKING_LIST: '/api/v1/staking/list',
+  CREATE_STAKING: '/api/v1/staking/create',
 }

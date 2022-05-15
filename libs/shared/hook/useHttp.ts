@@ -4,10 +4,7 @@ import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { notification } from 'antd';
 import { useAuth, useGuestAuth } from '..'
 
-function onErrorHandle(error: AxiosError) {
-    const { refreshToken, logOut } = useAuth();
-    const { refreshAnonymousToken } = useGuestAuth();
-
+function onErrorHandle(error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, logOut: () => void) {
     const { response } = error;
     const { statusCode } = response?.data;
 
@@ -77,10 +74,10 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
                 if (data) {
                     return data;
                 }
-            } catch (err:any) {
+            } catch (err: any) {
                 const { response } = err;
                 const { statusCode } = response?.data;
-                if(statusCode===403){
+                if (statusCode === 403) {
                     localStorage?.removeItem("currentUser")
                     localStorage?.removeItem("sessionToken")
                     localStorage?.removeItem("refreshToken")
@@ -100,18 +97,22 @@ interface EventProps<Response> {
 }
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
+
+    const { refreshToken, logOut } = useAuth();
+    const { refreshAnonymousToken } = useGuestAuth();
+
     instance.interceptors.request.use(axiosAuthorization)
 
     const mutation = useMutation(
         (request: any) => {
-            return instance.get<Request, AxiosResponse<Response>>(request ? request.endpoint : endpoint, request)
+            return instance.get<Request, AxiosResponse<Response>>((request && request.endpoint) ? request.endpoint : endpoint, request)
         },
         {
             onSuccess: (response: AxiosResponse) => {
                 onSuccess && onSuccess(response.data);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error);
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
                 onError && onError(error as AxiosError);
             },
         }
@@ -121,12 +122,15 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
+    const { refreshToken, logOut } = useAuth();
+    const { refreshAnonymousToken } = useGuestAuth();
+
     instance.interceptors.request.use(axiosAuthorization)
 
     const mutation = useMutation(
         (request: any) => {
             return instance.post<Request, AxiosResponse<Response>>(
-                request ? request.endpoint : endpoint,
+                (request && request.endpoint) ? request.endpoint : endpoint,
                 request
             );
         },
@@ -135,7 +139,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error);
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
                 onError && onError(error as AxiosError);
             },
         }

@@ -22,7 +22,7 @@ export interface OrderBookWrapperProps {
 export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
-  const { data: openOrderData } = useHttpGet<BaseRequest, Order[]>(QUERY_KEY.OPEN_ORDERS, API_ENDPOINT.GET_ORDER_OPEN, null);
+  const { data: openOrderData } = useHttpGet<BaseRequest, {result:Order[]}>(QUERY_KEY.OPEN_ORDERS, API_ENDPOINT.GET_ORDER_OPEN(), null);
 
   let pairInfo = null;
   if (pairsData) {
@@ -32,7 +32,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   // Get order book
   const param: useSocketProps = {
     pair: pairInfo && pairInfo.symbol,
-    leavePair: { ...OrderBookWrapper.previousPair },
+    leavePair: OrderBookWrapper.previousPair,
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);
@@ -41,7 +41,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   const openOrderSocketData = useSocket({ event: SocketEvent.user_orders });
 
   let openOrder = [];
-  if (openOrderData) openOrder = openOrder.concat(openOrderData.map(e => {
+  if (openOrderData && openOrderData.result) openOrder = openOrder.concat(openOrderData.result.map(e => {
     if (e) return { id: e.id, side: e.s === 0 ? 'bid' : 'ask', price: e.p }
   }));
   if (openOrderSocketData) {
@@ -52,7 +52,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
     }
   }
 
-  OrderBookWrapper.previousPair = pairInfo && pairInfo.symbol;
+  OrderBookWrapper.previousPair = pairInfo ? pairInfo.symbol : null;
 
   const { bids, asks, currentPrice, priceTrend } = useMemo(() => {
     if (data && data.bids && data.asks) {
@@ -81,7 +81,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
       const newPrice = getAveragePrice(
         reverseAsks[reverseAsks.length - 1][0],
         (_bids && _bids[0]) ? _bids[0][0] : 0,
-        pairInfo.group_precision
+        (pairInfo ? pairInfo.group_precision : 0)
       );
       const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
       OrderBookWrapper.previousPrice = newPrice;
@@ -102,7 +102,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
     }
   }, [data, pairInfo]);
 
-  if (!pairInfo) return <Loading />;
+  if (!pairInfo) return <Loading />
 
   return (
     <OrderBook

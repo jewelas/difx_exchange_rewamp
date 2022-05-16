@@ -34,6 +34,7 @@ export function ForgotForm({setTab, setEmail, setPhoneNumber}: ForgotFormProps) 
   const [type, setType] = useState<"email" | "phone">("email");
   const [dialCode, setDialCode] = useState(null);
   const [hasFieldError, setHasFieldError] = useState(true);
+  const [isLoading , setIsLoading ] = useState(false)
   const [form] = Form.useForm(null);
 
   useEffect(() => {
@@ -88,11 +89,13 @@ export function ForgotForm({setTab, setEmail, setPhoneNumber}: ForgotFormProps) 
 
   const onError = useCallback((error: AxiosError) => {
     console.log(error)
+    setIsLoading(false)
   }, []);
 
-  const { mutate: forgot, isLoading } = useHttpPost<ForgotRequest, ForgotResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.FORGOT });
+  const { mutate: forgot } = useHttpPost<ForgotRequest, ForgotResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.FORGOT });
 
   const onSubmit = async (formData: ForgotRequest) => {
+    setIsLoading(true)
     const captcha: string | CaptchaType = await getCaptcha()
     if (type === "phone") {
       formData.phonenumber = (
@@ -175,7 +178,7 @@ export function ForgotForm({setTab, setEmail, setPhoneNumber}: ForgotFormProps) 
                     width={150}
                     type="dial_code"
                     onChange={onChangeDialCode}
-                    size="medium"
+                    size="large"
                   />
                 </Form.Item>
               </div>

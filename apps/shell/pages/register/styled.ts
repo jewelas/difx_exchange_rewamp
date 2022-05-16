@@ -25,6 +25,11 @@ export const FormStyled = styled.div`
     .icon {
       margin-top: 23px;
       margin-left: 10px;
+      .allPath{
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
   .term-group {
@@ -71,6 +76,11 @@ export const FormStyled = styled.div`
       color: ${({ theme }) => theme.fontColor.secondary} !important;
       svg path {
         fill: ${({ theme }) => theme.fontColor.secondary} !important;
+      }
+      .allPath{
+        justify-content: center;
+        align-items: center;
+        display: flex;
       }
       &.active {
         svg path {
@@ -126,7 +136,6 @@ export const PageStyled = styled.div`
   }
 
   .right-side {
-    height: calc(100vh - 70px) !important;
     background: #fff;
     margin-top: -4px;
   }
@@ -140,6 +149,12 @@ export const PageStyled = styled.div`
       max-width: unset !important;
       flex: unset;
     }
+  }
+
+  .hZcEua.allPath{
+    justify-content: center !important;
+    align-items: center !important;
+    display: flex !important;
   }
 `;
 

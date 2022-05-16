@@ -11,11 +11,12 @@ import { Input, Table, Button } from "antd";
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { TableWraperStyled } from "./styled";
+import clsx from 'clsx';
 
 export function ListPairWrapper() {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null/*{ refetchInterval: REFETCH._10SECS }*/);
 
-  const [tab, setTab] = useState<'favorite' | 'all'>('all');
+  const [tab, setTab] = useState('all');
   const [searchValue, setSearchValue] = useState("");
   const [pairs, setPairs] = useState<PairType[]>()
   const [typeChange, setTypeChange] = useState<'percent' | 'volume'>('percent')
@@ -23,15 +24,15 @@ export function ListPairWrapper() {
   const router = useRouter();
 
   const componentRef = useRef(null);
-  
+
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
-  
-  useEffect(()=>{
-    if(resData){
+
+  useEffect(() => {
+    if (resData) {
       setPairs(resData.spot)
     }
-  },[resData])
-  
+  }, [resData])
+
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];
     if (!_pairs.includes(pair)) {
@@ -110,8 +111,8 @@ export function ListPairWrapper() {
           let _a = typeChange === 'percent' ? a.change : a.volume;
           let _b = typeChange === 'percent' ? b.change : b.volume;
           const regex = /%|\+|-|,/gi;
-          _a = _a.replace(regex,"");
-          _b = _b.replace(regex,"");
+          _a = _a.replace(regex, "");
+          _b = _b.replace(regex, "");
           return Number(_a) - Number(_b);
         },
         multiple: 1,
@@ -119,19 +120,17 @@ export function ListPairWrapper() {
       render: (text, record) => {
         return (
           <div className='change'>
-          <Typography
-            level="B3"
-            color={record.trend === 'up' ? 'success' : 'danger'}
-          >
-            {typeChange === 'percent' ? record.change  : record.volume}
-          </Typography>
+            <Typography
+              level="B3"
+              color={record.trend === 'up' ? 'success' : 'danger'}
+            >
+              {typeChange === 'percent' ? record.change : record.volume}
+            </Typography>
           </div>
         )
       }
     },
   ];
-
-
 
   const allDataPairs = useMemo(() => {
     if (!pairs) return null;
@@ -147,6 +146,7 @@ export function ListPairWrapper() {
       if (isVisible) {
         result.push(
           {
+            categories: pair.categories,
             key: pair.symbol,
             pair: `${pair.currency1}/${pair.currency2}`,
             price: getPriceFormatted(pair.last, pair.group_precision),
@@ -168,7 +168,16 @@ export function ListPairWrapper() {
     } else return null;
   }, [pairsStored, allDataPairs]);
 
-  if (!pairs) return <Loading />;
+  const filterPairsByCategory = useMemo(()=>{
+    if(tab!=='all' && tab !=='favorite'){
+      if(!allDataPairs) return [];
+      return allDataPairs.filter(e=>e.categories && e.categories.includes(tab))
+    }
+    return [];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[tab]);
+
+  if (!pairs) return <Loading type='component' />
 
   return (
     <TableWraperStyled ref={componentRef}>
@@ -176,7 +185,12 @@ export function ListPairWrapper() {
       <div className="table-group">
         <div className="head">
           <div onClick={() => { setTab('favorite') }} className={tab}><Icon.FavoriteIcon useDarkMode /></div>
-          <div onClick={() => { setTab('all') }} className={tab}><Typography level='B2'>All</Typography></div>
+          <div onClick={() => { setTab('all') }} className={clsx('tab', tab)}><Typography level='B2'>All</Typography></div>
+          {
+            resData.categories && resData.categories.map(e=>
+              <div key={`tab_${e}`} onClick={() => { setTab(e) }} className={clsx('tab', tab===e?'active':'')}><Typography level='B2'>{e}</Typography></div>  
+            )
+          }
         </div>
         <div className="content">
           <Table
@@ -184,10 +198,14 @@ export function ListPairWrapper() {
             scroll={{ x: "max-content", y: 270 }}
             pagination={false}
             columns={columns}
-            dataSource={tab === 'all' ? allDataPairs : favoriteDataPairs}
+            dataSource={
+              tab === 'all' ? allDataPairs :
+              tab === 'favorite' ? favoriteDataPairs:
+              filterPairsByCategory
+            }
             onRow={(record, rowIndex) => {
               return {
-                onClick: (e:any) => {e.target.innerHTML && router.push(`/exchange/${record.key}`)}
+                onClick: (e: any) => { e.target.innerHTML && router.push(`/exchange/${record.key}`) }
               };
             }}
           />

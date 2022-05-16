@@ -49,12 +49,30 @@ export const TableWraperStyled = styled.div`
       .head{
         display: flex;
         margin: 25px 0 5px 0;
+        text-transform: capitalize;
+        overflow-x: scroll;
+
+        // Hide scrollbar
+        -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        scrollbar-width: none;  /* Firefox */
+        &::-webkit-scrollbar { 
+          display: none;  /* Safari and Chrome */
+        }
+
         svg path{
           fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important; 
         }
         .favorite{
           svg path{
             fill: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+          }
+        }
+        .tab{
+          margin-right: 10px;
+          &.active{
+            .ant-typography{
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+            }
           }
         }
         .all{
@@ -107,7 +125,7 @@ export const TableWraperStyled = styled.div`
         .ant-table-body{
           tr:hover{
             cursor: pointer;
-            background: ${({ theme }:{theme:ThemeInterface}) => theme.color.rowHover};
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.color.rowHover};
           }
         }
       }
@@ -125,8 +143,8 @@ export const ChartWraperStyled = styled.div`
           cursor: pointer;
           padding-bottom:2px;
           &.active{
-            color: ${({theme})=> theme.color.primary};
-            border-bottom: solid 2px ${({theme})=> theme.color.primary};
+            color: ${({ theme }) => theme.color.primary};
+            border-bottom: solid 2px ${({ theme }) => theme.color.primary};
           }
         }
       }
@@ -155,7 +173,52 @@ export const PlaceOrderWraperStyled = styled.div`
 
 export const OrderReportsWraperStyled = styled.div`
     padding: 10px 20px;
+    height:100%;
+    .display-selected-pair{
+      .wrapper{
+        z-index: 9;
+        cursor: pointer;
+        position: absolute;
+        right: 9px;
+        margin-top: 3px;
+        font-size: 12px;
+        line-height: 20px;
+        .ant-switch{
+          margin-right: 6px;
+          margin-top: -1px;
+        }
+        .label{
+          opacity: 0.8;
+        }
+      }
+    }
     .content{
+      height: 100%;
+      padding-bottom: 50px;
+      .bar-group{
+        display: flex;
+        justify-content: space-between;
+        border-top: ${({ theme }) => theme.border.secondary};
+        border-bottom: ${({ theme }) => theme.border.secondary};
+        padding: 10px 20px;
+        margin-left: -19px;
+        margin-right: -20px;
+        .bar-left{
+          
+        }
+        .bar-right{
+          .ant-btn{
+            display:flex;
+            svg{
+              margin-top: 4px;
+              margin-right:5px;
+            }
+          }
+        }
+      }
+      .report-group{
+        height: 100%;
+      }
       .place-order-group{
         display: flex;
         .bid{

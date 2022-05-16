@@ -1,12 +1,11 @@
-import { Color, Icon, Typography } from "@difx/core-ui";
+import { Icon, Typography } from "@difx/core-ui";
 import { Button, Col, Row } from "antd";
 import t from "@difx/locale";
-import Link from "next/link";
 import AppLayout from "../index.page";
 import PageStyled from "./styled";
 import LoginForm from "./../../components/login/LoginForm";
 import QRContainer from "./../../components/login/QRContainer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 /* eslint-disable-next-line */
 export interface LoginPageProps {}

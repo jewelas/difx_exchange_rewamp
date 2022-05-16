@@ -1,4 +1,4 @@
-const calcChartDateRange = (type:string) => {
+const calcChartDateRange = (type: string) => {
   const to = Math.floor(new Date().getTime() / 1000);
 
   const date = new Date();
@@ -27,7 +27,7 @@ export const THEME = {
   DARK: "dark",
 };
 
-export const DEFAULT_PAIR = "BNBUSDT";
+export const DEFAULT_PAIR = "DIFXUSDT";
 
 export const QUERY_KEY = {
   COUNTRIES: 'countries',
@@ -35,6 +35,7 @@ export const QUERY_KEY = {
   TRADES: 'trades',
   CHART_HISTORY: 'chart_history',
   CHART_CURRENT: 'chart_current',
+  STAKING: 'STAKING',
   BALANCE: 'balance',
   OPEN_ORDERS: 'open_orders',
   MARKET_PAIRS: 'market_pairs',
@@ -49,7 +50,8 @@ export const REFETCH = {
 }
 
 export const STORE_KEY = {
-  FAVORITE_PAIRS: 'favoritePairs'
+  FAVORITE_PAIRS: 'favoritePairs',
+  LAST_PAIR: 'lastPair'
 }
 
 export const API_ENDPOINT = {
@@ -57,7 +59,7 @@ export const API_ENDPOINT = {
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',
   GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
-  GET_MY_TRADES: (symbol:string) => `/api/v1/user/trades/${symbol}`,
+  GET_MY_TRADES: (symbol?: string) => `/api/v1/user/trade-history${symbol ? `?symbol=${symbol}` : ''}`,
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view?symbol=ETCUSDT&resolution=${resolution || '5m'}&from=${from}&to=${to}`
@@ -70,15 +72,18 @@ export const API_ENDPOINT = {
   SIGNIN: '/api/v1/auth/login',
   GET_LOGIN_QR: '/api/v1/auth/qr',
   SIGNUP_VERIFICATION: '/api/v1/auth/pre-check',
+  RESEND_SIGNUP_VERIFICATION:`api/v1/auth/resend-pre-check`,
   SIGNUP: `/api/v1/auth/signup`,
   FORGOT: '/api/v1/auth/forgot-password',
   VERIFY_FORGOT: '/api/v1/auth/verify-code',
+  RESEND_FORGOT_OTP: `api/v1/auth/resend-forgot-password`,
   RESET_PASS: '/api/v1/auth/reset-password',
   TWO_FACTOR: '/api/v1/auth/verify-twofa',
   VERIFY_IP: '/api/v1/auth/verify-ip',
+  RESEND_IP_VERIFICATION_MAIL: `api/v1/auth/resend-ip-verification`,
   REFRESH_TOKEN: '/api/v1/auth/refresh',
-  GET_ORDER_OPEN: '/api/v1/user/orderbook',
-  GET_ORDER_STOP_LIMIT: '/api/v1/user/stoplimits',
+  GET_ORDER_OPEN: (symbol?: string) => `/api/v1/user/open-orders${symbol ? `?symbol=${symbol}` : ''}`,
+  GET_ORDER_STOP_LIMIT: (symbol?: string) => `/api/v1/user/sl-orders${symbol ? `?symbol=${symbol}` : ''}`,
   PLACE_ORDER_LIMIT: '/api/v1/order/make-limit',
   PLACE_ORDER_MARKET: '/api/v1/order/make-market',
   PLACE_ORDER_STOP: '/api/v1/order/make-stop',
@@ -86,8 +91,13 @@ export const API_ENDPOINT = {
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
   GET_MARKET_PAIRS: '/api/v1/market/pairs',
+<<<<<<< HEAD
   GET_SELECTED_MARKET_PAIRS: (coin: string) => `/api/v1/market/pair-detail?coin=${coin}`,
   GET_STAKING_LIST: '/api/v1/staking/list',
   ADD_FAVORITES: '/api/v1/user/favorite-pair',
   REMOVE_FAVORITES: '/api/v1/user/unfavorite-pair',
+=======
+  GET_STAKING_LIST: '/api/v1/staking/list',
+  CREATE_STAKING: '/api/v1/staking/create',
+>>>>>>> 7f1c9debc21f82a3684598122ca4c438c7e58bd7
 }

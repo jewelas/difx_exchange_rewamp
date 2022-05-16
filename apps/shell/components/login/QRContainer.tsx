@@ -19,17 +19,17 @@ export default function QRContainer() {
   const router = useRouter()
   
   const subscribeSocket = (eventName) => {
-    socket.listen(eventName, (data: any)=>{
-      if(data.statusCode === 200){
-        const { user, permission } = data.data
-        updateSession(user,permission)
-        notification.info({
-          message: "Login Success",
-          description: data.message,
-        })
-        router.push("/home")
-      }
-    })
+    // socket.listen(eventName, (data: any)=>{
+    //   if(data.statusCode === 200){
+    //     const { user, permission } = data.data
+    //     updateSession(user,permission)
+    //     notification.info({
+    //       message: "Login Success",
+    //       description: data.message,
+    //     })
+    //     router.push("/home")
+    //   }
+    // })
   }
 
   const onSuccess = useCallback((response)=>{

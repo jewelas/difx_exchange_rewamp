@@ -21,7 +21,7 @@ export interface PairMetaDataWrapperProps {
   pair: string;
 }
 
-export function PairMetaDataWrapper({pair}: PairMetaDataWrapperProps) {
+export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
 
@@ -32,11 +32,11 @@ export function PairMetaDataWrapper({pair}: PairMetaDataWrapperProps) {
 
   const param: useSocketProps = {
     pair: pairInfo && pairInfo.symbol,
-    leavePair: { ...PairMetaDataWrapper.previousPair },
+    leavePair: PairMetaDataWrapper.previousPair,
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);
-  PairMetaDataWrapper.previousPair = pairInfo && pairInfo.symbol;
+  PairMetaDataWrapper.previousPair = pairInfo ? pairInfo.symbol : null;
 
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];
@@ -56,12 +56,12 @@ export function PairMetaDataWrapper({pair}: PairMetaDataWrapperProps) {
 
   const { currentPrice, priceTrend, highPrice, lowPrice, changed, precision } =
     useMemo(() => {
-      if (data && data.bids && data.asks) {
+      if (data && data.bids && data.asks && pairInfo) {
         const { bids: _bids, asks: _asks } = data;
         const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
         const newPrice = getAveragePrice(
           reverseAsks[reverseAsks.length - 1][0],
-          (_bids && _bids[0]) ? _bids[0][0] :0 ,
+          (_bids && _bids[0]) ? _bids[0][0] : 0,
           pairInfo.group_precision
         );
         const priceTrend = getTrendPrice(PairMetaDataWrapper.previousPrice, newPrice);
@@ -91,16 +91,16 @@ export function PairMetaDataWrapper({pair}: PairMetaDataWrapperProps) {
       }
     }, [data, pairInfo]);
 
-  if (!pairInfo) return <Loading />;
+  if (!pairInfo) return  <Loading type='component' />
 
   const pairString = `${pairInfo.currency1}/${pairInfo.currency2}`
 
   return (
     <PairMetadataStyled>
-      <div style={{marginLeft:-4}} className="left">
+      <div style={{ marginLeft: -4 }} className="left">
         <Typography level="H6">{`${pairInfo.currency1}/${pairInfo.currency2}`}</Typography>
         <div
-          style={{marginLeft:-6, marginRight:5}}
+          style={{ marginLeft: -6, marginRight: 5 }}
           onClick={() => { pairsStored.includes(pairString) ? removeFromFavorite(pairString) : addToFavorite(pairString) }}
           className={pairsStored.includes(pairString) ? 'isFavorited' : ''}
         >
@@ -145,7 +145,7 @@ export function PairMetaDataWrapper({pair}: PairMetaDataWrapperProps) {
         </div>
       </div>
       <div className="right">
-        <div style={{marginRight:-4}}>
+        <div style={{ marginRight: -4 }}>
           <Icon.QuestionIcon useDarkMode />
         </div>
       </div>

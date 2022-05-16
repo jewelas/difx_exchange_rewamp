@@ -2,6 +2,7 @@ import { Color } from "@difx/core-ui";
 import styled from "styled-components";
 
 const PageStyled = styled.div`
+  height: calc(100vh - 70px);
   .ant-row.row-group {
     background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {
@@ -44,6 +45,10 @@ const PageStyled = styled.div`
         justify-content: center;
         svg {
           margin-right: 5px;
+        }
+        .allPath{
+          justify-content: center;
+          align-items: center;
         }
       }
       .left-right {

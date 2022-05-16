@@ -9,8 +9,11 @@ import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
-
-export function OrderStopLimitReport() {
+interface Props {
+  isSelectedPairOnly?: boolean;
+  pair?: string;
+}
+export function OrderStopLimitReport({ pair, isSelectedPairOnly = false }: Props) {
 
   // const { token } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
@@ -37,10 +40,10 @@ export function OrderStopLimitReport() {
     }
   }, [userOrdersData]);
 
-  const getOrderBookSuccess = (response: AxiosResponse<Array<Order>>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
     const { data } = response;
-    if (data) {
-      for (const order of data) {
+    if (data && data.result) {
+      for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
           setTableData([...tableData]);
@@ -58,13 +61,17 @@ export function OrderStopLimitReport() {
     }
   }
 
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT() });
   const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_STOP_LIMIT_ORDER }); // TODO: handle headers in interceptor in useHttp
 
 
   useEffect(() => {
-    getOrderBooks(null);
-  }, []);
+    if (isSelectedPairOnly && pair) {
+      getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT(pair) });
+    } else {
+      getOrderBooks(null);
+    }
+  }, [isSelectedPairOnly, pair]);
 
   const columns = [
     {
@@ -195,7 +202,10 @@ export function OrderStopLimitReport() {
     }
   ];
 
-  if (isEmpty(tableData) && isDataLoading) return <Loading />
+  if (isEmpty(tableData) && isDataLoading) return <>
+    <Loading type="skeleton" row={1} column={6} flexGrowForColumns={[1, 2, 1, 2, 1, 2]} />
+    <Loading style={{ marginTop: -20 }} type="skeleton" row={10} column={6} flexGrowForColumns={[1, 2, 1, 2, 1, 2]} />
+  </>
 
   return (
     <Table

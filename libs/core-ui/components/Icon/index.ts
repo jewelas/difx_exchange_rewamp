@@ -65,6 +65,7 @@ import CompodingIcon from "./CompodingIcon";
 import CoinIcon from "./CoinIcon";
 import HeadTagIcon from "./HeadTagIcon";
 import NoDataIcon from "./NoDataIcon";
+import CancelOrderIcon from "./CancelOrderIcon";
 export interface IconProps {
   width?: number;
   height?: number;
@@ -144,7 +145,8 @@ const Icon = {
   ExpandIcon,
   CoinIcon,
   HeadTagIcon,
-  NoDataIcon
+  NoDataIcon,
+  CancelOrderIcon
 };
 
 export { Icon };

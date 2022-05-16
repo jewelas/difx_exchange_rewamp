@@ -4,7 +4,7 @@ import { EmailVerifyContainer } from "../../pages/register/styled";
 import { AxiosError, AxiosResponse } from "axios";
 // import OtpInput from 'react-otp-input';
 import { useCallback, useEffect, useState } from "react";
-import { Button } from "antd"; 
+import { Button, notification } from "antd"; 
 import { useHttpPost, useAuth } from '@difx/shared'
 import { API_ENDPOINT } from "@difx/constants";
 import { useRouter } from "next/router";
@@ -24,6 +24,7 @@ export default function VerifyOTP({userEmail, verificationToken, userPhoneNumber
       setTimer((prevState)=>{
         if(prevState > 0) return prevState-1
         setResend(true)
+        clearInterval(countdown)
         return prevState
       })
     },1000)
@@ -36,24 +37,33 @@ export default function VerifyOTP({userEmail, verificationToken, userPhoneNumber
     otpValue.length === 6 ? setHasFieldError(false) : setHasFieldError(true)
   },[otpValue])
   
-  const onSuccess = useCallback((response: AxiosResponse)=>{
+  const onSignUpSuccess = useCallback((response: AxiosResponse)=>{
     const { user, permission } = response.data.data
     updateSession(user,permission)
     router.push("/home");
+  },[])
+
+  const onResendSuccess = useCallback((response: AxiosResponse)=>{
+    const { data } = response
+    notification.info({
+      message: "Resend OTP",
+      description: data.message,
+    })
   },[])
   
   const onError = useCallback((error: AxiosError)=>{
     console.log(error)
   },[])
   
-  const {mutate: signUp} = useHttpPost({onSuccess, onError, endpoint: API_ENDPOINT.SIGNUP})
+  const {mutate: signUp} = useHttpPost({onSuccess: onSignUpSuccess, onError, endpoint: API_ENDPOINT.SIGNUP})
+  const { mutate: resendMail } = useHttpPost({ onSuccess: onResendSuccess, onError, endpoint: API_ENDPOINT.RESEND_SIGNUP_VERIFICATION });
   
   const submitOtp = () => {
-    const resData = {
+    const reqData = {
       token: verificationToken,
       verification_code: otpValue
     }
-    signUp(resData)
+    signUp(reqData)
   }
 
   const handleChange = (otp) => setOtpValue(otp);
@@ -63,6 +73,13 @@ export default function VerifyOTP({userEmail, verificationToken, userPhoneNumber
     setOtpValue(text)
   }
 
+  const resendOTP = () => {
+    const reqData = {
+      token: verificationToken,
+    }
+    resendMail(reqData)
+  }
+
   return (
     <EmailVerifyContainer>
       <div className="verifyBox">
@@ -70,6 +87,7 @@ export default function VerifyOTP({userEmail, verificationToken, userPhoneNumber
         <p>{t("register.verifyEmailMessage")}{userEmail ? userEmail : userPhoneNumber}</p>
         <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
         <Button
+          disabled={hasFieldError}
           type="primary"
           onClick={submitOtp}
         >
@@ -77,8 +95,8 @@ export default function VerifyOTP({userEmail, verificationToken, userPhoneNumber
         </Button>
         <div className="botton-box">
         <div className="resend-box">
-          {`00:${timer}`}
-          <span className={`${resend? 'active' : null}`}>{t("forgot.resend")}</span>
+          {`00:${timer.toString().padStart(2,'0')}`}
+          <span onClick={resendOTP} className={`${resend? 'active' : null}`}>{t("forgot.resend")}</span>
         </div>
         <div className="paste-btn" onClick={()=>pasteCode()}>
           {t("forgot.paste")}

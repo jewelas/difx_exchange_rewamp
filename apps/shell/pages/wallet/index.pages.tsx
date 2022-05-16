@@ -1,11 +1,11 @@
 import React from "react";
 import { Layout } from "antd";
-import AppLayout from "..";
+import AppLayout from "../index.page";
 import styled from "styled-components";
 
 const PageStyled = styled.div``;
 
-const ProfileContentStyled = styled(Layout.Content)`
+const WalletContentStyled = styled(Layout.Content)`
   .title {
     font-weight: 600;
     font-size: 30px;
@@ -21,16 +21,16 @@ const ProfileContentStyled = styled(Layout.Content)`
   }
 `;
 
-export function Profile() {
+export function Wallet() {
   return (
     <AppLayout>
       <PageStyled>
-        <ProfileContentStyled style={{ padding: "0 50px" }}>
-          <div className="title">staking</div>
-        </ProfileContentStyled>
+        <WalletContentStyled style={{ padding: "0 50px" }}>
+          <div className="title">wallet</div>
+        </WalletContentStyled>
       </PageStyled>
     </AppLayout>
   );
 }
 
-export default Profile;
+export default Wallet;

@@ -37,6 +37,9 @@ const GlobalStyles = createGlobalStyle`
     .text-muted{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary};}
 
     //---------------------- Ant Design Custom Design -------------------------------------------------
+    .ant-checkbox-wrapper{
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+    }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
@@ -443,9 +446,31 @@ const GlobalStyles = createGlobalStyle`
     .ant-notification-notice{
       margin-top: 62px;
     }
+<<<<<<< HEAD
     .successTag{background:${({ theme }) => theme.successColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px;}
     .errorTag{background:${({ theme }) => theme.errorColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px}
     .search-input .ant-input-affix-wrapper, .search-input .ant-input-affix-wrapper input{background:${({ theme }) => theme.background.white} !important}
+=======
+    .ant-notification-notice-error{
+      border: 1px solid ${({ theme }) => theme.color.danger} !important;
+      background: ${({ theme }) => theme.color.dangerDisabled} !important;
+      box-shadow: none !important;
+    }
+
+
+    /* Skeletion loading */
+    .react-loading-skeleton{
+      background: ${({ theme }) => theme.loadingSkeleton.base} !important;
+      &::after{
+        background-image: linear-gradient(90deg, 
+          ${({ theme }) => theme.loadingSkeleton.base}, 
+          ${({ theme }) => theme.loadingSkeleton.highLight}, 
+          ${({ theme }) => theme.loadingSkeleton.base}
+        ) !important
+      }
+    }
+
+>>>>>>> 7f1c9debc21f82a3684598122ca4c438c7e58bd7
 `;
 
 export { GlobalStyles };

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PageStyled = styled.div`
-  background: ${({ theme }) => theme.background.body};
+  background: ${({ theme }) => theme.background.space};
   margin-top: -5px;
   padding: 0 100px;
 

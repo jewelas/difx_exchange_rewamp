@@ -1,4 +1,4 @@
-const calcChartDateRange = (type:string) => {
+const calcChartDateRange = (type: string) => {
   const to = Math.floor(new Date().getTime() / 1000);
 
   const date = new Date();
@@ -49,7 +49,8 @@ export const REFETCH = {
 }
 
 export const STORE_KEY = {
-  FAVORITE_PAIRS: 'favoritePairs'
+  FAVORITE_PAIRS: 'favoritePairs',
+  LAST_PAIR: 'lastPair'
 }
 
 export const API_ENDPOINT = {
@@ -57,7 +58,7 @@ export const API_ENDPOINT = {
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',
   GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
-  GET_MY_TRADES: (symbol:string) => `/api/v1/user/trade-history?symbol=${symbol}`,
+  GET_MY_TRADES: (symbol?: string) => `/api/v1/user/trade-history${symbol ? `?symbol=${symbol}` : ''}`,
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view?symbol=ETCUSDT&resolution=${resolution || '5m'}&from=${from}&to=${to}`
@@ -80,8 +81,8 @@ export const API_ENDPOINT = {
   VERIFY_IP: '/api/v1/auth/verify-ip',
   RESEND_IP_VERIFICATION_MAIL: `api/v1/auth/resend-ip-verification`,
   REFRESH_TOKEN: '/api/v1/auth/refresh',
-  GET_ORDER_OPEN: '/api/v1/user/open-orders',
-  GET_ORDER_STOP_LIMIT: '/api/v1/user/stoplimits',
+  GET_ORDER_OPEN: (symbol?: string) => `/api/v1/user/open-orders${symbol ? `?symbol=${symbol}` : ''}`,
+  GET_ORDER_STOP_LIMIT: (symbol?: string) => `/api/v1/user/sl-orders${symbol ? `?symbol=${symbol}` : ''}`,
   PLACE_ORDER_LIMIT: '/api/v1/order/make-limit',
   PLACE_ORDER_MARKET: '/api/v1/order/make-market',
   PLACE_ORDER_STOP: '/api/v1/order/make-stop',
@@ -89,5 +90,6 @@ export const API_ENDPOINT = {
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
   GET_MARKET_PAIRS: '/api/v1/market/pairs',
-  GET_STAKING_LIST: '/api/v1/staking/list'
+  GET_STAKING_LIST: '/api/v1/staking/list',
+  CREATE_STAKING: '/api/v1/staking/create',
 }

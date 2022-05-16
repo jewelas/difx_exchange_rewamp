@@ -18,6 +18,9 @@ export const MainStyled = styled.div<Props>`
           }
           &.last{
               margin-right:-58px;
+              .dot{
+                  margin-right:48px;
+              }
           }
         .dot{
             margin:0 auto;

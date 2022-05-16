@@ -1,15 +1,15 @@
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import isEmpty from 'lodash/isEmpty';
-import { Row, Col, Button, Checkbox, Input } from 'antd';
+/* eslint-disable react-hooks/exhaustive-deps */
 import { SearchOutlined } from '@ant-design/icons';
-import { Typography, Icon, Loading, NoData } from '@difx/core-ui';
-import { QUERY_KEY, API_ENDPOINT } from '@difx/constants';
-import { Staking, useHttpGet } from '@difx/shared'
-import AppLayout from "../index.page";
-import { PageStyled } from "./styled";
+import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
+import { Icon, Loading, NoData, Typography } from '@difx/core-ui';
+import { Balance, Staking, useHttpGet, useSocketProps, useSocketByEvent, SocketEvent } from '@difx/shared';
+import { Button, Checkbox, Col, Input, Row } from 'antd';
+import isEmpty from 'lodash/isEmpty';
+import React, { useEffect, useState } from "react";
 import Card from '../../components/staking/Card';
 import ModalStacking from "../../components/staking/ModalStacking";
+import AppLayout from "../index.page";
+import { PageStyled } from "./styled";
 
 /* eslint-disable-next-line */
 export interface StakingPageProps {
@@ -17,27 +17,72 @@ export interface StakingPageProps {
 }
 
 export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
-
-  const router = useRouter();
   const { data: stakingData, isLoading } = useHttpGet<null, Array<Staking>>(QUERY_KEY.STAKING, API_ENDPOINT.GET_STAKING_LIST, null);
+  const { data: balanceData, isLoading: isLoadingBalance } = useHttpGet<null, Array<Balance>>(QUERY_KEY.BALANCE, API_ENDPOINT.GET_BALANCE, null);
+
   const [stakingList, setStakingList] = useState<Array<Staking>>([]);
+  const [currentStaking, setCurrentStaking] = useState(null);
+  const [detailIndex, setDetailIndex] = useState(0);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [balances, setBalances] = useState<Array<Balance>>(null);
+
+
+  const getBalanceSocketSuccess = (balanceSocketData: any) => {
+    console.log(balanceSocketData, 'aaaaa')
+    if (balanceSocketData) {
+      const index = balances.findIndex(e => e.currency === balanceSocketData.currency);
+      if (index !== -1) {
+        balances[index].amount += balanceSocketData.change;
+        setBalances(balances);
+      }
+    }
+  }
+  const param: useSocketProps = {
+    event: SocketEvent.user_balances,
+    onSuccess: getBalanceSocketSuccess
+  };
+  const { send } = useSocketByEvent(param);
 
   useEffect(() => {
     setStakingList(stakingData)
   }, [stakingData]);
 
+
+  useEffect(() => {
+    if (balanceData) {
+      setBalances(balanceData);
+    }
+  }, [balanceData]);
+
   const onSearch = (e) => {
     const value = e.target.value;
     if (value) {
-      const filteredData = stakingList.filter(e => e.coin.includes(value) || e.apy === value);
+      const filteredData = stakingList.filter(e => e.coin.includes(value));
       setStakingList(filteredData);
     } else {
       setStakingList(stakingData)
     }
   }
 
-  const onStake = () => {
+  const onFilterAvailableStaking = (isChecked: boolean) => {
+    if (isChecked) {
+      const stakingListClone = [];
+      for (const staking of stakingList) {
+        const stakingClone = { ...staking };
+        const st_conf_detail = [...stakingClone.st_conf_detail.filter(e => e.amount_cap >= e.min_amount)];
+        stakingClone.st_conf_detail = st_conf_detail;
+        stakingListClone.push(stakingClone);
+      }
+      setStakingList(stakingListClone);
+    } else {
+      setStakingList(stakingData);
+    }
+
+  }
+
+  const onStake = (data: Staking, detailIndex) => {
+    setCurrentStaking(data);
+    setDetailIndex(detailIndex);
     setIsShowModal(true);
   }
 
@@ -119,7 +164,7 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
             </div>
             <div className="right">
               <div className="show-available">
-                <Checkbox onChange={() => { console.log('...') }}>Show available only</Checkbox>
+                <Checkbox onChange={(value) => { onFilterAvailableStaking(value.target.checked) }}>Show available only</Checkbox>
               </div>
               <div className="input-group">
                 <Input onChange={onSearch} placeholder="Search" prefix={<SearchOutlined />} />
@@ -142,7 +187,11 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
                   !isEmpty(stakingList)
                     ?
                     stakingList.map(e =>
-                      !isEmpty(e) && <Card onStake={onStake} key={`${e.coin}_${e.apy}`} data={e} />
+                      !isEmpty(e) && !isEmpty(e.st_conf_detail) &&
+                      <Card key={`staking_card_${e.id}_${e.coin}`}
+                        onStake={onStake}
+                        data={e}
+                      />
                     )
                     :
                     <NoData />
@@ -150,7 +199,16 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
               </Col>
           }
         </Row>
-        <ModalStacking title='Locking Stacking' visible={isShowModal} onCancel={() => { setIsShowModal(false) }} />
+        <ModalStacking
+          balance={(balances && currentStaking) ? balances.find(bal => bal.currency === currentStaking.coin) : null}
+          data={currentStaking}
+          configIndex={detailIndex}
+          setConfigIndex={setDetailIndex}
+          title='Locking Stacking'
+          visible={isShowModal}
+          onCancel={() => { setIsShowModal(false) }} 
+          onSubmit={()=>{send()}}
+          />
       </PageStyled>
     </AppLayout>
   );

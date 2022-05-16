@@ -1,75 +1,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import isEmpty from "lodash/isEmpty";
 import { API_ENDPOINT } from "@difx/constants";
-import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, SocketEvent, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
+import { Loading, Typography } from "@difx/core-ui";
+import { Order, useAuth, useHttpGetByEvent } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
-import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
-interface Props {
-  isSelectedPairOnly?: boolean;
-  pair?: string;
-}
-export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
+export function TradeHistoryReport({pair, isSelectedPairOnly}:{pair:string, isSelectedPairOnly?: boolean}) {
 
   // const { token } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
-  const param: useSocketProps = {
-    event: SocketEvent.user_orders,
-  };
-  const userOrdersData = useSocket(param);
-
-  const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
-    const { data } = response;
-    if (data && data.result) {
-      for (const order of data.result) {
-        if (!tableData.find(e => e.id === order.id)) {
-          tableData.push(order);
-          setTableData([...tableData]);
-        }
-      }
-    } else {
-      setTableData([]);
-    }
-  }
-
-  useEffect(() => {
-    if (userOrdersData) {
-      const index = tableData.findIndex(e => e.id === userOrdersData.id);
-      if (index !== -1) {
-        if (userOrdersData.q === 0) {
-          tableData.splice(index, 1);
-        } else {
-          tableData[index].q = userOrdersData.q;
-        }
-      } else {
-        userOrdersData.timestamp = new Date();
-        tableData.push(userOrdersData);
-      }
-      setTableData([...tableData]);
-    }
-  }, [userOrdersData]);
-
-  const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<Array<Order>>) => {
     const { data } = response;
     if (data) {
-      getOrderBooks(null);
+      for (const order of data) {
+        if (!tableData.find(e => e.id === order.id)) {
+          tableData.push(order);
+          setTableData(tableData);
+        }
+      }
     }
   }
-
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
-  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_BID_ORDER }); // TODO: handle headers in interceptor in useHttp
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES() });
 
   useEffect(() => {
     if (isSelectedPairOnly && pair) {
-      getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_OPEN(pair) });
+      getOrderBooks({ endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
     } else {
       getOrderBooks(null);
     }
@@ -169,47 +132,21 @@ export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
           </div>
         )
       }
-    },
-    {
-      title: '',
-      dataIndex: '',
-      render: (text, record) => {
-        return (
-          <div
-            onClick={() => {
-              if (!isLoading) {
-                record.s === 0
-                  // eslint-disable-next-line
-                  // @ts-ignore
-                  ? cancelOrder({ id: record.id }) // Cancel Bid Order
-                  // eslint-disable-next-line
-                  // @ts-ignore
-                  : cancelOrder({ id: record.id, endpoint: API_ENDPOINT.CANCEL_ASK_ORDER }) // Cancel Ask Order
-              }
-            }}
-            className="cell">
-            <Icon.TrashIcon useDarkMode width={20} height={20} />
-          </div>
-        )
-      }
     }
   ];
 
-  if (isEmpty(tableData) && isDataLoading) return <>
-    <Loading type="skeleton" row={1} column={6} flexGrowForColumns={[1, 2, 1, 2, 1, 2]} />
-    <Loading style={{ marginTop: -20 }} type="skeleton" row={10} column={6} flexGrowForColumns={[1, 2, 1, 2, 1, 2]} />
-  </>
+  if (isEmpty(tableData) && isDataLoading) return <Loading type='component' />
 
   return (
     <Table
-      scroll={{ x: "max-content", y: 260 }}
       showSorterTooltip={false}
+      scroll={{ x: "max-content", y: 260 }}
       pagination={false}
       columns={columns}
-      dataSource={tableData}
+      dataSource={[...tableData]}
       rowKey="id"
     />
   );
 }
 
-export default OrderOpenReport;
+export default TradeHistoryReport;

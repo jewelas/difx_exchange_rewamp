@@ -64,10 +64,8 @@ export function Stats({spotList, futuresList, categoriesList, favorites}) {
                         "Loading..."
                         :
                         categoriesList.map(item =>
-                      <Button onClick={() => {
-
-                      }}>
-                      {item}
+                      <Button key={item}>
+                        {item}
                       </Button>
                       )
                     }

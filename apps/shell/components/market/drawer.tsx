@@ -5,6 +5,7 @@ import { Icon } from "@difx/core-ui";
 import { CoinDrawerInfo } from "../../pages/market/styled";
 import { Market, useHttpGet, useHttpGetByEvent, useMarketPair } from "@difx/shared";
 import { QUERY_KEY, API_ENDPOINT, ASSETS_URL } from '@difx/constants';
+import Link from "next/link";
 // import { IconButton } from "@difx/core-ui";
 
 const { Title, Paragraph } = Typography;
@@ -52,7 +53,9 @@ export function MarketDrawer({coin}:{coin:string}) {
                 <Col>
                     <Text type="secondary">Launch date</Text>
                 </Col>
-                <Text strong>{coinInfo.launch_date}</Text>
+                <Text strong>
+                    {coinInfo.launch_date}
+                </Text>
             </Row>
             <Row align="middle" justify="space-between">
                 <Col>
@@ -68,23 +71,27 @@ export function MarketDrawer({coin}:{coin:string}) {
         <Title level={5} style={{marginTop:10}}>Learn more</Title>
         <Space>
             <Col>
-                <Button type="link" className="anchor-link">
-                    <Icon.CardViewIcon /> Offical website
-                </Button>
+                <Link href={"/"}>
+                    <Button type="link" className="anchor-link">
+                        <Icon.CardViewIcon /> Offical website
+                    </Button>
+                </Link>
             </Col>
             <Col>
-                <Button type="link" className="anchor-link">
-                    <Icon.CardViewIcon /> GitHub
-                </Button>
+                <Link href={"/"}>
+                    <Button type="link" className="anchor-link">
+                        <Icon.CardViewIcon /> GitHub
+                    </Button>
+                </Link>
             </Col>
         </Space>
         <Title level={5} style={{marginTop:10}}>Social media</Title>
         <Space>
             <Col>
-                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/facebook.svg"}/>
+                <a href="https://www.facebook.com/difxexchange" target="_blank" rel="noreferrer"><Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/facebook.svg"}/></a>
             </Col>
             <Col>
-                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/twitter.svg"}/>
+            <a href="https://twitter.com/difx_io?lang=en" target="_blank" rel="noreferrer"><Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/twitter.svg"}/></a>
             </Col>
         </Space>
         <Button type="primary" block style={{marginTop:30}}>

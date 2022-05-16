@@ -104,7 +104,7 @@ export function MarketPage() {
         >
           <MarketDrawer />
         </Drawer>
-        <Modal title="&nbsp;" visible={modalVisible}>
+        <Modal title="&nbsp;" visible={modalVisible} footer={null} onCancel={closeModal}>
             <MarketModal />
         </Modal>
       </PageStyled>

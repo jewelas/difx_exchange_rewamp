@@ -26,7 +26,6 @@ export function ListView({data, categoriesList}) {
       symbol: item.symbol
     }
     if(item.favorite){
-      console.log(requestData)
       removeFavorite(requestData)
     } else {
       addFavorite(requestData)

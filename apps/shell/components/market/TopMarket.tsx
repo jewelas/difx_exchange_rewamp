@@ -34,9 +34,10 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             {
             !getTopGainer
             ?
-            "asas"
+            "Loading..."
             :
             getTopGainer.slice(0, 3).map(item =>
+                item.change > 0 ? 
                 <Row justify="space-between" align="middle" key={item.symbol}>
                     <Col>
                         <Space>
@@ -51,6 +52,7 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
                     <Text type="success">{item.change.toFixed(3)}</Text>
                     </Col>
                 </Row>
+                : null
                 )
             }
             </Card>
@@ -60,9 +62,10 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             {
             !getTopLooser
             ?
-            "asas"
+            "Loading..."
             :
             getTopLooser.slice(0, 3).map(item =>
+                item.change < 0 ? 
                 <Row justify="space-between" align="middle" key={item.symbol}>
                     <Col>
                         <Space>
@@ -77,6 +80,7 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
                     <Text type="danger">{item.change.toFixed(3)}</Text>
                     </Col>
                 </Row>
+                : null
                 )
             }
             </Card>
@@ -86,7 +90,7 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             {
             !getTopVolume
             ?
-            "asas"
+            "Loading..."
             :
             getTopVolume.slice(0, 3).map(item =>
                 <Row justify="space-between" align="middle" key={item.symbol}>
@@ -112,7 +116,7 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             {
             !getFutures
             ?
-            "asas"
+            "Loading..."
             :
             getFutures.slice(0, 3).map(item =>
                 <Row justify="space-between" align="middle" key={item.symbol}>

@@ -37,6 +37,9 @@ const GlobalStyles = createGlobalStyle`
     .text-muted{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary};}
 
     //---------------------- Ant Design Custom Design -------------------------------------------------
+    .ant-checkbox-wrapper{
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+    }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}

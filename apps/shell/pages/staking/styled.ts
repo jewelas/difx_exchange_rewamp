@@ -44,6 +44,7 @@ export const PageStyled = styled.div`
         .nav{
           display: flex;
           .ant-btn{
+            margin-right: 10px !important;
             span{
               color:#fff;
             }
@@ -100,6 +101,9 @@ export const PageStyled = styled.div`
         }
         .nav{
           display:none;
+          .ant-btn{
+            margin-right:15px !important;
+          }
           @media (max-width: 813px) {
             display:flex;
             width: 100%;
@@ -153,23 +157,8 @@ export const PageStyled = styled.div`
   .body{
     min-height: 130px;
     .card-group{
-      display: grid;
-      grid-template-columns: auto auto auto;
-      @media (max-width: 1944px) {
-        grid-template-columns: auto auto auto auto;
-      }
-      @media (max-width: 1796px) {
-        grid-template-columns: auto auto auto;
-      }
-      @media (max-width: 1346px) {
-        grid-template-columns: auto auto;
-      }
-      @media (max-width: 906px) {
-        grid-template-columns: auto;
-        .card-item{
-          margin: 0 auto;
-        }
-      }
+      display: flex;
+      flex-flow: wrap;
       row-gap: 46px;
       column-gap: 36px;
       padding: 30px;
@@ -191,6 +180,15 @@ export const PageStyled = styled.div`
           }
           .cright{
             position: relative;
+            .sold-out{
+              background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary};
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary};
+              border-radius: 50px;
+              padding: 3px 27px 5px;
+              font-weight: 700;
+              font-size: 18px;
+              line-height: 22px;
+            }
             svg{
               position:absolute;
               margin-left: -57px;
@@ -227,22 +225,29 @@ export const PageStyled = styled.div`
               margin-bottom: 5px;
             }
             .lcontent{
-              display: grid;
-              grid-template-columns: auto auto auto auto auto;
+              display: flex;
+              flex-flow: wrap;
               row-gap: 6px;
               column-gap: 5px;
               .ant-btn{
-                width: 10px;
                 border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
                 color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;
                 background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary} !important;
-                width: 56px;
+                width: 56px !important;
                 height: 32px !important;
+                display: flex;
+                justify-content: center;
+                padding-left:0px !important;
+                padding-top:3px !important;
                 span{
                   margin:0 auto;
                 }
                 &:hover{
                   background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+                }
+                &.active{
+                  border: solid 1px ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+                  color:${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
                 }
               }
             }

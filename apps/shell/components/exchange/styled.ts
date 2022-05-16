@@ -178,9 +178,48 @@ export const PlaceOrderWraperStyled = styled.div`
 export const OrderReportsWraperStyled = styled.div`
     padding: 10px 20px;
     height:100%;
+    .display-selected-pair{
+      .wrapper{
+        z-index: 9;
+        cursor: pointer;
+        position: absolute;
+        right: 9px;
+        margin-top: 3px;
+        font-size: 12px;
+        line-height: 20px;
+        .ant-switch{
+          margin-right: 6px;
+          margin-top: -1px;
+        }
+        .label{
+          opacity: 0.8;
+        }
+      }
+    }
     .content{
       height: 100%;
       padding-bottom: 50px;
+      .bar-group{
+        display: flex;
+        justify-content: space-between;
+        border-top: ${({ theme }) => theme.border.secondary};
+        border-bottom: ${({ theme }) => theme.border.secondary};
+        padding: 10px 20px;
+        margin-left: -19px;
+        margin-right: -20px;
+        .bar-left{
+          
+        }
+        .bar-right{
+          .ant-btn{
+            display:flex;
+            svg{
+              margin-top: 4px;
+              margin-right:5px;
+            }
+          }
+        }
+      }
       .report-group{
         height: 100%;
       }

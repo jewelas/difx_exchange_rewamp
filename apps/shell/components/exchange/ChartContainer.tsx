@@ -7,7 +7,12 @@ export interface ChartContainerInterface {
 export default function ChartContainer({pair}: ChartContainerInterface) {
   return (
     <ChartContainerStyled>
-      <div>ChartContainer</div>
+      <div className="chart-head">
+
+      </div>
+      <div className="chart body">
+        
+      </div>
     </ChartContainerStyled>
   )
 }

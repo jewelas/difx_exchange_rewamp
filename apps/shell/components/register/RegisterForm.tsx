@@ -46,6 +46,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   const [dialCode, setDialCode] = useState(null);
   const [country, setCountry] = useState(null);
   const [userType, setUserType] = useState<"IND" | "BUS">("IND");
+  const [isLoading, setIsLoading] = useState(false);
 
   const verificationToken = useRef()
 
@@ -97,12 +98,14 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
   }, []);
 
   const onError = useCallback((error: AxiosError) => {
+    setIsLoading(false)
     console.log(error)
   }, []);
 
-  const { mutate: signUp, isLoading } = useHttpPost<SignUpRequest, SignUpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNUP_VERIFICATION });
+  const { mutate: signUp } = useHttpPost<SignUpRequest, SignUpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNUP_VERIFICATION });
 
   const onSubmit = async (formData: SignUpRequest) => {
+    setIsLoading(true)
     const captcha: string | CaptchaType = await getCaptcha()
     if(formData.phonenumber){
       formData.phonenumber = (formData.dial_code + formData.phonenumber).replace(
@@ -197,32 +200,38 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
               </div>
             </TabPane>
 
-            <TabPane tab="Phone Number" key="phoneSignUp">
-              <div className="input-item dial">
-                <div className="dropdown-dial">
-                  <Form.Item name="dial_code" rules={[]}>
-                    <CountrySelect
-                      value={dialCode}
-                      width={150}
-                      type="dial_code"
-                      onChange={onChangeDialCode}
-                      size="large"
-                    />
-                  </Form.Item>
-                </div>
-                <Form.Item
-                  name="phonenumber"
-                  rules={[
-                    {
-                      required: true,
-                      message: t("error.input_phone"),
-                    },
-                  ]}
-                >
-                  <Input type="number" placeholder="Phone Number" />
-                </Form.Item>
-              </div>
-            </TabPane>
+            {
+              userType === "IND" ? 
+                <TabPane tab="Phone Number" key="phoneSignUp">
+                  <div className="input-item dial">
+                    <div className="dropdown-dial">
+                      <Form.Item name="dial_code" rules={[]}>
+                        <CountrySelect
+                          value={dialCode}
+                          width={150}
+                          type="dial_code"
+                          onChange={onChangeDialCode}
+                          size="large"
+                        />
+                      </Form.Item>
+                    </div>
+                    <Form.Item
+                      name="phonenumber"
+                      rules={[
+                        {
+                          required: true,
+                          message: t("error.input_phone"),
+                        },
+                      ]}
+                    >
+                      <Input type="number" placeholder="Phone Number" />
+                    </Form.Item>
+                  </div>
+                </TabPane>
+              :
+                null
+            }
+
 
           </Tabs>
 

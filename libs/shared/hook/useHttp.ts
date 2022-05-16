@@ -122,8 +122,8 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken, logOut } = useAuth();
-    const { refreshAnonymousToken } = useGuestAuth();
+    const { refreshToken, logOut } = useAuth()
+    const { refreshAnonymousToken } = useGuestAuth()
 
     instance.interceptors.request.use(axiosAuthorization)
 

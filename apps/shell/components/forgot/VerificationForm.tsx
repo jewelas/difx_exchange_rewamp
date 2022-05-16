@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react"
 import { OTPBox } from "@difx/core-ui"
 import { Typography } from "@difx/core-ui";
 import t from "@difx/locale";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import {
   useHttpPost
 } from "@difx/shared"
@@ -26,11 +26,12 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
 
   useEffect(()=>{
     const countdown = setInterval(()=>{
-        setTimer((prevState)=>{
-          if(prevState > 0) return prevState-1
-          setResend(true)
-          return prevState
-        })
+      setTimer((prevState)=>{
+        if(prevState > 0) return prevState-1
+        setResend(true)
+        clearInterval(countdown)
+        return prevState
+      })
     },1000)
     return () => {
       clearInterval(countdown)
@@ -46,17 +47,26 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
     setOtpValue(otp)
   }
 
-  const onSuccess = useCallback((response)=>{
+  const onVerifySuccess = useCallback((response)=>{
     const {data} = response.data
     setToken(data.token)
     setTab("reset")
+  },[])
+
+  const onResendSuccess = useCallback((response)=>{
+    const { data } = response
+    notification.info({
+      message: "Resend Email",
+      description: data.message,
+    })
   },[])
 
   const onError = useCallback((error)=>{
     console.log(error)
   },[])
 
-  const { mutate: verify, isLoading } = useHttpPost({ onSuccess, onError, endpoint: API_ENDPOINT.VERIFY_FORGOT });
+  const { mutate: verify, isLoading: isVerifyLoading } = useHttpPost({ onSuccess: onVerifySuccess, onError, endpoint: API_ENDPOINT.VERIFY_FORGOT });
+  const { mutate: resendMail, isLoading: isResendLoading } = useHttpPost({ onSuccess: onResendSuccess, onError, endpoint: API_ENDPOINT.RESEND_FORGOT_OTP });
 
   const pasteCode = async() => {
     const text = await navigator.clipboard.readText();
@@ -70,6 +80,12 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
     verify(reqData)
   }
 
+  const resendOTP = () => {
+    const reqData: any = {}
+    email ? reqData.email = email : reqData.phoneNumber = phoneNumber
+    resendMail(reqData)
+  }
+
   return (
     <>
       <Typography level="B2">
@@ -77,7 +93,7 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
       </Typography>
       <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
       <Button
-        disabled={ isLoading || hasFieldError}
+        disabled={ isVerifyLoading || hasFieldError}
         type="primary"
         onClick={onVerify}
       >
@@ -85,8 +101,8 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
       </Button>
       <div className="botton-box">
         <div className="resend-box">
-          {`00:${timer}`}
-          <span className={`${resend? 'active' : null}`}>{t("forgot.resend")}</span>
+          {`00:${timer.toString().padStart(2,'0')}`}
+          <span onClick={resendOTP} className={`${resend? 'active' : null}`}>{t("forgot.resend")}</span>
         </div>
         <div className="paste-btn" onClick={()=>pasteCode()}>
           {t("forgot.paste")}

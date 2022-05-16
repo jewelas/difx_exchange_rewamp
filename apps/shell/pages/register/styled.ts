@@ -25,6 +25,11 @@ export const FormStyled = styled.div`
     .icon {
       margin-top: 23px;
       margin-left: 10px;
+      .allPath{
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
   .term-group {
@@ -71,6 +76,11 @@ export const FormStyled = styled.div`
       color: ${({ theme }) => theme.fontColor.secondary} !important;
       svg path {
         fill: ${({ theme }) => theme.fontColor.secondary} !important;
+      }
+      .allPath{
+        justify-content: center;
+        align-items: center;
+        display: flex;
       }
       &.active {
         svg path {

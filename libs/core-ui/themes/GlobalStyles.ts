@@ -440,6 +440,11 @@ const GlobalStyles = createGlobalStyle`
     .ant-notification-notice{
       margin-top: 62px;
     }
+    .ant-notification-notice-error{
+      border: 1px solid ${({ theme }) => theme.color.danger} !important;
+      background: ${({ theme }) => theme.color.dangerDisabled} !important;
+      box-shadow: none !important;
+    }
 
 
     /* Skeletion loading */

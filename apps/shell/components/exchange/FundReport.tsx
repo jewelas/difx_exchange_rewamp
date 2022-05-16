@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT } from "@difx/constants";
 import { Typography, Loading } from "@difx/core-ui";
 import isEmpty from "lodash/isEmpty";
-import { Balance, useAuth, useHttpGetByEvent } from "@difx/shared";
+import { useAuth, useHttpGetByEvent } from "@difx/shared";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from 'react';
@@ -11,6 +12,7 @@ import { useEffect, useState } from 'react';
 export function FundReport() {
 
   const [tableData, setTableData] = useState<any>([]);
+  const { isLoggedIn } = useAuth();
 
   const getDataSuccess = (response: AxiosResponse) => {
     const { data } = response;
@@ -26,8 +28,8 @@ export function FundReport() {
   const { mutate: getData, isLoading: isDataLoading } = useHttpGetByEvent<any, any>({ onSuccess: getDataSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
   useEffect(() => {
-    getData(null);
-  }, []);
+    if (isLoggedIn) getData(null);
+  }, [isLoggedIn]);
 
   const columns = [
     {

@@ -1,24 +1,30 @@
-import React, { useEffect } from "react";
-import { Row, Space, Avatar, Typography, Col, Button, Anchor } from "antd";
+import React, { useEffect, useState } from "react";
+import { Row, Space, Avatar, Typography, Col, Button, Anchor, Switch } from "antd";
 import Text from "antd/lib/typography/Text";
 import { Icon } from "@difx/core-ui";
-import { CoinDrawerInfo } from "./styled";
+import { CoinDrawerInfo } from "../../pages/market/styled";
+import { Market, useHttpGet, useHttpGetByEvent, useMarketPair } from "@difx/shared";
+import { QUERY_KEY, API_ENDPOINT, ASSETS_URL } from '@difx/constants';
 // import { IconButton } from "@difx/core-ui";
 
 const { Title, Paragraph } = Typography;
 
-export function MarketDrawer() {
-
-    // useEffect(() => {
-    //     console.log(pair)
-    // }, [pair])
+export function MarketDrawer({coin}:{coin:string}) {
+   const {marketPair} = useMarketPair()
+   const [ellipsis, setEllipsis] = useState(true);
+    const { data: coinInfo, isLoading } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS_INFO(marketPair), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS(marketPair), null);
+    if(isLoading){
+        return(
+        <>
+        loading
+        </>)
+    }
   return (
     <>
         <Row>
             <Space>
-                <Avatar size={41} icon={<Icon.CoinPlaceholder width={34} height={34} />} src="https://joeschmoe.io/api/v1/random"/>
-                <Title level={5} style={{marginBottom:0}}>BTC</Title>
-                <Text type="secondary">Bitcoin</Text>
+                <Avatar size={41} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${coinInfo.coin.toLowerCase()}.png`}/>
+                <Title level={5} style={{marginBottom:0}}>{coinInfo.coin}</Title>
             </Space>
         </Row>
         <CoinDrawerInfo>
@@ -27,54 +33,41 @@ export function MarketDrawer() {
                     <Text type="secondary">Market Cap</Text>
                 </Col>
                 <Col>
-                    <Text strong>$767.27B</Text>
+                    <Text strong>${coinInfo.coin}</Text>
                 </Col>
-            </Row>
-            <Row align="middle" justify="space-between">
-                <Col>
-                    <Text type="secondary">Favoriting rate</Text>
-                </Col>
-                <Text strong>72.18%</Text>
             </Row>
             <Row align="middle" justify="space-between">
                 <Col>
                     <Text type="secondary">All - time high</Text>
                 </Col>
-                <Text strong>$69,0445 (11-10-2021)</Text>
+                <Text strong>${coinInfo.high}</Text>
             </Row>
             <Row align="middle" justify="space-between">
                 <Col>
                     <Text type="secondary">ALL - time low</Text>
                 </Col>
-                <Text strong>$67.81 (07-062013)</Text>
+                <Text strong>${coinInfo.low}</Text>
             </Row>
             <Row align="middle" justify="space-between">
                 <Col>
                     <Text type="secondary">Launch date</Text>
                 </Col>
-                <Text strong>10-30-2008</Text>
+                <Text strong>{coinInfo.launch_date}</Text>
             </Row>
             <Row align="middle" justify="space-between">
                 <Col>
                     <Text type="secondary">Blockchain</Text>
                 </Col>
-                <Text strong>BTC</Text>
+                <Text strong>{coinInfo.chain}</Text>
             </Row>
         </CoinDrawerInfo>
         <Title level={5}>About BTC</Title>
-        <Paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit
-            adipng. Lorem ipsum dolor sit amet, consectetur adipiscing elitadipng. 
+        <Paragraph ellipsis={ellipsis ? { rows: 2, expandable: true, symbol: 'View more' } : false} type="secondary">
+            {coinInfo.about}
         </Paragraph>
-        <Button type="link" className="anchor-link">
-          View More
-        </Button>
         <Title level={5} style={{marginTop:10}}>Learn more</Title>
         <Space>
             <Col>
-                {/* <IconButton type="link">
-                    <Icon.CardViewIcon /> View asasas
-                </IconButton> */}
                 <Button type="link" className="anchor-link">
                     <Icon.CardViewIcon /> Offical website
                 </Button>
@@ -88,10 +81,10 @@ export function MarketDrawer() {
         <Title level={5} style={{marginTop:10}}>Social media</Title>
         <Space>
             <Col>
-                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src="https://joeschmoe.io/api/v1/random"/>
+                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/facebook.svg"}/>
             </Col>
             <Col>
-                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src="https://joeschmoe.io/api/v1/random"/>
+                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/twitter.svg"}/>
             </Col>
         </Space>
         <Button type="primary" block style={{marginTop:30}}>

@@ -11,6 +11,8 @@ export * from "./hook/useRecaptcha";
 export * from "./hook/useRTL";
 export * from "./hook/useFingerprint";
 export * from "./hook/useResize";
+export * from "./hook/useMarketPair";
+export * from "./hook/useMarketModal";
 
 export * from "./type/Base";
 export * from "./type/User";

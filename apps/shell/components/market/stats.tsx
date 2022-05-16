@@ -1,25 +1,14 @@
 import React, { useState } from "react";
-import { Button, Col, Row, Space, Tabs } from "antd";
+import { Button, Col, Row, Space, Switch, Tabs } from "antd";
 import { Icon } from "@difx/core-ui";
-import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, FavoriteFilter } from "./styled";
+import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, FavoriteFilter } from "../../pages/market/styled";
 import GridView from "./GridView";
 import ListView from "./ListView";
-import { Market } from '@difx/shared';
 
 export function Stats({spotList, futuresList, categoriesList, favorites}) {
     const [tab, setTab] = useState('favorites');
     const [cardVisible, setCardVisible] = useState(false);
-    const [listVisible, setListVisible] = useState(true);
     const { TabPane } = Tabs;
-
-  const showCardLayout = () => {
-      setCardVisible(true);
-      setListVisible(false);
-  };
-  const showListLayout = () => {
-    setListVisible(true);
-    setCardVisible(false);
-  };
   return (
     <MarketWrapper>
         <MarketTabsWrapper>
@@ -35,14 +24,12 @@ export function Stats({spotList, futuresList, categoriesList, favorites}) {
                 </Col>
                 <Col>
                     <MarketGridLayout>
-                        <Row>
-                            <Col style={{marginRight:5}}>
-                                <Button onClick={showListLayout}><Icon.ListViewIcon /></Button>
-                            </Col>
-                            <Col>
-                            <Button onClick={showCardLayout}><Icon.CardViewIcon /></Button>
-                            </Col>
-                        </Row>
+                    <Switch
+                    checked={cardVisible}
+                    onChange={() => {
+                      setCardVisible(!cardVisible);
+                    }}
+                  /> Quick buy
                     </MarketGridLayout>
                 </Col>
             </Row>
@@ -52,39 +39,44 @@ export function Stats({spotList, futuresList, categoriesList, favorites}) {
                 {tab === 'favorites' &&
                 <>
                   <FavoriteFilter>
-                    {/* <Space>
-                      <Button className="active">
+                    <Space>
+                      <Button className="active" onClick={() => spotList}>
                         Spot
                       </Button>
-                      <Button>
+                      <Button onClick={() => futuresList}>
                         Futures
                       </Button>
-                    </Space> */}
+                    </Space>
                   </FavoriteFilter>
-                  { listVisible ? <ListView data={favorites} /> : null }
-                  { cardVisible ? <GridView data={favorites} /> : null }
+                  { cardVisible ? <GridView data={favorites} /> : <ListView data={favorites} categoriesList={categoriesList} />}
                 </>
                 }
                 {tab === 'spot' && 
                   <>
                   <FavoriteFilter>
-                    {/* <Space>
-                      <Button className="active">
-                        Spot
+                    <Space>
+                    <Button className="active">
+                        All
+                    </Button>
+                    {
+                      !categoriesList
+                        ?
+                        "Loading..."
+                        :
+                        categoriesList.map(item =>
+                      <Button key={item}>
+                        {item}
                       </Button>
-                      <Button>
-                        Futures
-                      </Button>
-                    </Space> */}
+                      )
+                    }
+                    </Space>
                   </FavoriteFilter>
-                  { listVisible ? <ListView data={spotList} /> : null }
-                  { cardVisible ? <GridView data={spotList} /> : null }
+                  { cardVisible ? <GridView data={spotList} /> : <ListView data={spotList} categoriesList={categoriesList} />}
                 </>
                 }
                 {tab === 'futures' && 
                   <>
-                  { listVisible ? <ListView data={futuresList} /> : null }
-                  { cardVisible ? <GridView data={futuresList} /> : null }
+                  { cardVisible ? <GridView data={futuresList} /> : <ListView data={futuresList} categoriesList={categoriesList} />}
                 </>
                 }
             </div>

@@ -53,6 +53,10 @@ function onErrorHandle(error: AxiosError, refreshToken: () => void, refreshAnony
  * @returns 
  */
 export function useHttpGet<Request, Response>(queryKey: string, endpoint: string, options: {}, request?: Request) {
+
+    const { refreshToken, logOut } = useAuth();
+    const { refreshAnonymousToken } = useGuestAuth();
+
     const defaultOption = {
         refetchOnMount: false,
         refetchOnWindowFocus: false
@@ -74,15 +78,8 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
                 if (data) {
                     return data;
                 }
-            } catch (err: any) {
-                const { response } = err;
-                const { statusCode } = response?.data;
-                // if (statusCode === 403) {
-                //     localStorage?.removeItem("currentUser")
-                //     localStorage?.removeItem("sessionToken")
-                //     localStorage?.removeItem("refreshToken")
-                //     localStorage?.removeItem("permissions");
-                // }
+            } catch (error: any) {
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
             }
         },
         mergeOptions

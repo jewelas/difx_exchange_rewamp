@@ -16,7 +16,6 @@ export function axiosAuthorization(config : AxiosRequestConfig) {
   config.headers["x-api-key"]=  "DIFXExchange";
   // @ts-ignore
   config.headers["Device"]=  "web";
-  debugger
   return config;
 }
 

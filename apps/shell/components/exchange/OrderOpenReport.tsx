@@ -205,7 +205,7 @@ export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
 
   return (
     <Table
-      scroll={{ x: "max-content", y: 260 }}
+      scroll={{ x: "max-content", y: 197 }}
       showSorterTooltip={false}
       pagination={false}
       columns={columns}

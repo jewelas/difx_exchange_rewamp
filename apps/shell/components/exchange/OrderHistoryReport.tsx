@@ -135,7 +135,7 @@ export function OrderHistoryReport({pair}:{pair:string}) {
   return (
     <Table
       showSorterTooltip={false}
-      scroll={{ x: "max-content", y: 260 }}
+      scroll={{ x: "max-content", y: 197 }}
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}

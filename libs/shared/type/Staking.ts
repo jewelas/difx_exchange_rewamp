@@ -24,7 +24,7 @@ export interface StakingRequest extends BaseRequest {
   st_conf_detail_id: number;
   amount:number;
   duration:number;
-  type: "locked";
+  type: "locked" | "flexible";
   apy: number;
 }
 

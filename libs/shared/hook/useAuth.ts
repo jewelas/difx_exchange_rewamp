@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { AxiosResponse } from "axios";
+import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { useAtom } from "jotai";
 import { notification } from 'antd';
@@ -66,6 +66,7 @@ export function useAuth() {
     }
     
     //use axios instance instead of useHttpPost because otherwise it will cause a loop of hooks
+  
     instance.interceptors.request.use(axiosAuthorization)
 
     try{

@@ -77,12 +77,12 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
             } catch (err: any) {
                 const { response } = err;
                 const { statusCode } = response?.data;
-                if (statusCode === 403) {
-                    localStorage?.removeItem("currentUser")
-                    localStorage?.removeItem("sessionToken")
-                    localStorage?.removeItem("refreshToken")
-                    localStorage?.removeItem("permissions");
-                }
+                // if (statusCode === 403) {
+                //     localStorage?.removeItem("currentUser")
+                //     localStorage?.removeItem("sessionToken")
+                //     localStorage?.removeItem("refreshToken")
+                //     localStorage?.removeItem("permissions");
+                // }
             }
         },
         mergeOptions

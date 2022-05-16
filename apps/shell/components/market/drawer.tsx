@@ -71,27 +71,27 @@ export function MarketDrawer({coin}:{coin:string}) {
         <Title level={5} style={{marginTop:10}}>Learn more</Title>
         <Space>
             <Col>
-                <Link href={"/"}>
+                <a href={coinInfo.website} target="_blank" rel="noreferrer">
                     <Button type="link" className="anchor-link">
                         <Icon.CardViewIcon /> Offical website
                     </Button>
-                </Link>
+                </a>
             </Col>
             <Col>
-                <Link href={"/"}>
+                <a href={coinInfo.github} target="_blank" rel="noreferrer">
                     <Button type="link" className="anchor-link">
                         <Icon.CardViewIcon /> GitHub
                     </Button>
-                </Link>
+                </a>
             </Col>
         </Space>
         <Title level={5} style={{marginTop:10}}>Social media</Title>
         <Space>
             <Col>
-                <a href="https://www.facebook.com/difxexchange" target="_blank" rel="noreferrer"><Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/facebook.svg"}/></a>
+                <a href={coinInfo.fb_link} target="_blank" rel="noreferrer"><Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/facebook.svg"}/></a>
             </Col>
             <Col>
-            <a href="https://twitter.com/difx_io?lang=en" target="_blank" rel="noreferrer"><Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/twitter.svg"}/></a>
+            <a href={coinInfo.twitter_link} target="_blank" rel="noreferrer"><Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/twitter.svg"}/></a>
             </Col>
         </Space>
         <Button type="primary" block style={{marginTop:30}}>

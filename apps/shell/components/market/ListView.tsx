@@ -79,9 +79,10 @@ export function ListView({data, categoriesList}) {
           <Trend
             smooth
             data={item.pricing}
-            strokeWidth={3}
+            strokeWidth={4}
             autoDraw
             autoDrawDuration={3000}
+            strokeLinecap={'round'}
             gradient={[
               changed >= 0
                 ? "#21C198"

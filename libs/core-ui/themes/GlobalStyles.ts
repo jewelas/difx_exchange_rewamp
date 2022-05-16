@@ -446,11 +446,9 @@ const GlobalStyles = createGlobalStyle`
     .ant-notification-notice{
       margin-top: 62px;
     }
-<<<<<<< HEAD
     .successTag{background:${({ theme }) => theme.successColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px;}
     .errorTag{background:${({ theme }) => theme.errorColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px}
     .search-input .ant-input-affix-wrapper, .search-input .ant-input-affix-wrapper input{background:${({ theme }) => theme.background.white} !important}
-=======
     .ant-notification-notice-error{
       border: 1px solid ${({ theme }) => theme.color.danger} !important;
       background: ${({ theme }) => theme.color.dangerDisabled} !important;
@@ -470,7 +468,6 @@ const GlobalStyles = createGlobalStyle`
       }
     }
 
->>>>>>> 7f1c9debc21f82a3684598122ca4c438c7e58bd7
 `;
 
 export { GlobalStyles };

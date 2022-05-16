@@ -364,6 +364,18 @@ const GlobalStyles = createGlobalStyle`
       border: none !important;
     }
 
+    .ant-menu-item:active{
+      background: transparent !important;
+    }
+    .ant-menu-item:focus-visible, .ant-menu-submenu-title:focus-visible{
+      box-shadow: unset !important;
+    }
+    .ant-menu-title-content{
+      svg:hover{
+        opacity: 0.8;
+      }
+    }
+
     .ant-typography.ant-typography-success {
       color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
     }

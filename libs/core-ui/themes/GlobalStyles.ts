@@ -62,7 +62,6 @@ const GlobalStyles = createGlobalStyle`
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.medium} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary};
       box-shadow: none !important;
 
       &.success{
@@ -86,6 +85,10 @@ const GlobalStyles = createGlobalStyle`
             opacity: 0.9;
           }
         }
+      }
+      &.ant-btn-default{
+        border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.link} !important;
       }
     }
 
@@ -130,6 +133,9 @@ const GlobalStyles = createGlobalStyle`
       &.anchor-link{padding:0px;height:auto !important;display: flex;
     align-items: center;
     gap: 10px;}
+    &.anchor-link:hover{
+      border: transparent !important;
+    }
     }
 
     .ant-btn-lg{
@@ -432,13 +438,14 @@ const GlobalStyles = createGlobalStyle`
       }
 
     .ant-layout-header{
-      z-index: 9999;
+      z-index: 9;
     }
     .ant-notification-notice{
       margin-top: 62px;
     }
-
-
+    .successTag{background:${({ theme }) => theme.successColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px;}
+    .errorTag{background:${({ theme }) => theme.errorColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px}
+    .search-input .ant-input-affix-wrapper, .search-input .ant-input-affix-wrapper input{background:${({ theme }) => theme.background.white} !important}
 `;
 
 export { GlobalStyles };

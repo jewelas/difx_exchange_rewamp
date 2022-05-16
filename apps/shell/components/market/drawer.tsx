@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Space, Avatar, Typography, Col, Button, Anchor } from "antd";
+import { Row, Space, Avatar, Typography, Col, Button, Anchor, Switch } from "antd";
 import Text from "antd/lib/typography/Text";
 import { Icon } from "@difx/core-ui";
 import { CoinDrawerInfo } from "../../pages/market/styled";
@@ -11,12 +11,8 @@ const { Title, Paragraph } = Typography;
 
 export function MarketDrawer({coin}:{coin:string}) {
    const {marketPair} = useMarketPair()
+   const [ellipsis, setEllipsis] = useState(true);
     const { data: coinInfo, isLoading } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS_INFO(marketPair), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS(marketPair), null);
-    // const [coinData, setCoinData] = useState([])
-    // useEffect(() => {
-    //     setCoinData(coinInfo.data)
-    // }, [coinInfo])
-    console.log("detail", coinInfo)
     if(isLoading){
         return(
         <>
@@ -29,7 +25,6 @@ export function MarketDrawer({coin}:{coin:string}) {
             <Space>
                 <Avatar size={41} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${coinInfo.coin.toLowerCase()}.png`}/>
                 <Title level={5} style={{marginBottom:0}}>{coinInfo.coin}</Title>
-                {/* <Text type="secondary">Bitcoin</Text> */}
             </Space>
         </Row>
         <CoinDrawerInfo>
@@ -67,18 +62,12 @@ export function MarketDrawer({coin}:{coin:string}) {
             </Row>
         </CoinDrawerInfo>
         <Title level={5}>About BTC</Title>
-        <Paragraph>
+        <Paragraph ellipsis={ellipsis ? { rows: 2, expandable: true, symbol: 'View more' } : false} type="secondary">
             {coinInfo.about}
         </Paragraph>
-        <Button type="link" className="anchor-link">
-          View More
-        </Button>
         <Title level={5} style={{marginTop:10}}>Learn more</Title>
         <Space>
             <Col>
-                {/* <IconButton type="link">
-                    <Icon.CardViewIcon /> View asasas
-                </IconButton> */}
                 <Button type="link" className="anchor-link">
                     <Icon.CardViewIcon /> Offical website
                 </Button>
@@ -92,10 +81,10 @@ export function MarketDrawer({coin}:{coin:string}) {
         <Title level={5} style={{marginTop:10}}>Social media</Title>
         <Space>
             <Col>
-                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src="https://joeschmoe.io/api/v1/random"/>
+                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/facebook.svg"}/>
             </Col>
             <Col>
-                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src="https://joeschmoe.io/api/v1/random"/>
+                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/twitter.svg"}/>
             </Col>
         </Space>
         <Button type="primary" block style={{marginTop:30}}>

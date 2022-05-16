@@ -3,9 +3,7 @@ import { Avatar, Card, Col, Row, Space } from "antd";
 import Text from "antd/lib/typography/Text";
 import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
-import { Market } from '@difx/shared';
 import { ASSETS_URL } from "@difx/constants";
-import Chart from 'react-apexcharts'
 
 const { CoinPlaceholder } = Icon;
 

@@ -1,27 +1,30 @@
 import { SearchInput } from "@difx/core-ui";
-import { Button, Col, Drawer, Input, Modal, Row } from "antd";
-import React, { useEffect, useMemo, useState } from "react";
+import { Col, Drawer, Input, Modal, Row } from "antd";
+import React, { useEffect, useState } from "react";
 import AppLayout from "../index.page";
 import { PageStyled, MarketContentStyled, MarketCard } from "./styled";
 import t from "@difx/locale";
 import TopMarket from "../../components/market/TopMarket";
 import Stats from "../../components/market/stats";
 import MarketDrawer from "../../components/market/drawer";
-import { useAtom } from "jotai";
-import { marketPairAtom, Market, useHttpGet, useHttpPost, useMarketPair, useMarketModal } from "@difx/shared";
+import { useHttpGet, useMarketPair, useMarketModal } from "@difx/shared";
 import { QUERY_KEY, API_ENDPOINT } from '@difx/constants';
 import MarketModal from "../../components/market/modal";
+import { SearchOutlined } from '@ant-design/icons';
 
 export function MarketPage() {
   const { data: marketData } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS, API_ENDPOINT.GET_MARKET_PAIRS, null);
-  const [spotList, setSpotList] = useState([])
-  const [futuresList, setFuturesList] = useState([])
+
+  // const { mutate: pair, isLoading } = useHttpPost<null, Market>({ onSuccess, endpoint: API_ENDPOINT.GET_USER_FAVORITES});
+  // const [spotList, setSpotList] = useState([])
+  // const [futuresList, setFuturesList] = useState([])
   const [categoriesList, setCategoriesList] = useState([])
   const [topGainer, setTopGainer] = useState([])
   const [topLooser, setTopLooser] = useState([])
   const [topVolume, setTopVolume] = useState([])
 
-  // Favorites
+  const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList, favoriteList, setFavoriteList} = useMarketPair();
+  const {modalVisible, setModalVisible} = useMarketModal();
 
   const [favorites, setFavorites] = useState([])
 
@@ -55,33 +58,37 @@ export function MarketPage() {
   // const onSearch = (e) => {
   //     const value = e.target.value;
   //     if (value) {
-  //       const filteredData = spotList.filter(e => e.currency1.includes(value));
+  //       const filteredData = spotList.filter(e => e.coin.includes(value));
+  //       console.log(filteredData)
   //       setSpotList(filteredData);
   //     } else {
-  //       setSpotList(spotList)
+  //       setSpotList(marketData.spot)
   //     }
   //   }
-  const {drawerVisible, setDrawerVisible} = useMarketPair();
-  const {modalVisible, setModalVisible} = useMarketModal();
 
-  const onClose = () => {
+  const onCloseDrawer = () => {
     setDrawerVisible(false)
   };
   const closeModal = () => {
     setModalVisible(false);
   };
 
+  // const onSearch = (e) => {
+  //   setSearchValue(e.target.value);
+  // }
+
   return (
     <AppLayout>
       <PageStyled>
-        <MarketContentStyled style={{ padding: "0 50px" }}>
+        <MarketContentStyled style={{ padding: "0 50px", marginTop:"20px" }}>
             <Row align="middle">
-                <Col span={12}>
+                <Col span={18}>
                     <div className="title">{t("market.market")}</div>
                 </Col>
-                <Col span={12}>
-                    {/* <SearchInput onSearch={onSearch} /> */}
-                    {/* <Input onChange={onSearch} placeholder="Search" /> */}
+                <Col span={6}>
+                <div className="input-group search-input">
+                  <Input placeholder="Search" prefix={<SearchOutlined />} />
+                </div>
                 </Col>
             </Row>
             <MarketCard>
@@ -89,16 +96,10 @@ export function MarketPage() {
             </MarketCard>
             <Stats spotList={spotList} futuresList={futuresList} categoriesList={categoriesList} favorites={favorites} />
         </MarketContentStyled>
-        {/* <Button onClick={showDrawer}>
-        Info
-      </Button> */}
-      {/* <Button type="primary" onClick={showModal}>
-        Trade
-      </Button> */}
         <Drawer
           title="Overview"
           placement="left"
-          onClose={onClose}
+          onClose={onCloseDrawer}
           visible={drawerVisible}
         >
           <MarketDrawer />

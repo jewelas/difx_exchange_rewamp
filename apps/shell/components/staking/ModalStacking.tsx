@@ -114,7 +114,7 @@ export function ModalStacking({ onCancel, onSubmit : onSubmitParam, title, visib
         <div className='amount'>
           <div className="am-title">
             <div className="am-left">Lock amount</div>
-            <div className="am-right">Avaible amount {getPriceFormatted(balance.amount, 2)} {balance.currency}</div>
+            <div className="am-right">Avaible amount {balance ? getPriceFormatted(balance.amount, 2) : "0.00"} {balance && balance.currency}</div>
           </div>
           <Form.Item
             name='amount'>
@@ -167,7 +167,7 @@ export function ModalStacking({ onCancel, onSubmit : onSubmitParam, title, visib
         </div>
 
         <div className="staking-now">
-          <Button htmlType="submit" disabled={!isAgreeTerm || hasErrorsField || isLoading} type="primary">Stake Now</Button>
+          <Button htmlType="submit" disabled={!balance || !isAgreeTerm || hasErrorsField || isLoading} type="primary">Stake Now</Button>
         </div>
       </Form>
 

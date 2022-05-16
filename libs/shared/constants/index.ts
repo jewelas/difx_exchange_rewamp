@@ -91,13 +91,9 @@ export const API_ENDPOINT = {
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
   GET_MARKET_PAIRS: '/api/v1/market/pairs',
-<<<<<<< HEAD
   GET_SELECTED_MARKET_PAIRS: (coin: string) => `/api/v1/market/pair-detail?coin=${coin}`,
   GET_STAKING_LIST: '/api/v1/staking/list',
   ADD_FAVORITES: '/api/v1/user/favorite-pair',
   REMOVE_FAVORITES: '/api/v1/user/unfavorite-pair',
-=======
-  GET_STAKING_LIST: '/api/v1/staking/list',
   CREATE_STAKING: '/api/v1/staking/create',
->>>>>>> 7f1c9debc21f82a3684598122ca4c438c7e58bd7
 }

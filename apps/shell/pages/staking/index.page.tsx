@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { SearchOutlined } from '@ant-design/icons';
 import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
 import { Icon, Loading, NoData, Typography } from '@difx/core-ui';
-import { Staking, Balance, useHttpGet } from '@difx/shared';
+import { Balance, Staking, useHttpGet, useSocketProps, useSocketByEvent, SocketEvent } from '@difx/shared';
 import { Button, Checkbox, Col, Input, Row } from 'antd';
 import isEmpty from 'lodash/isEmpty';
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Card from '../../components/staking/Card';
 import ModalStacking from "../../components/staking/ModalStacking";
@@ -19,15 +19,40 @@ export interface StakingPageProps {
 export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
   const { data: stakingData, isLoading } = useHttpGet<null, Array<Staking>>(QUERY_KEY.STAKING, API_ENDPOINT.GET_STAKING_LIST, null);
   const { data: balanceData, isLoading: isLoadingBalance } = useHttpGet<null, Array<Balance>>(QUERY_KEY.BALANCE, API_ENDPOINT.GET_BALANCE, null);
+
   const [stakingList, setStakingList] = useState<Array<Staking>>([]);
   const [currentStaking, setCurrentStaking] = useState(null);
   const [detailIndex, setDetailIndex] = useState(0);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [balances, setBalances] = useState<Array<Balance>>(null);
 
+
+  const getBalanceSocketSuccess = (balanceSocketData: any) => {
+    console.log(balanceSocketData, 'aaaaa')
+    if (balanceSocketData) {
+      const index = balances.findIndex(e => e.currency === balanceSocketData.currency);
+      if (index !== -1) {
+        balances[index].amount += balanceSocketData.change;
+        setBalances(balances);
+      }
+    }
+  }
+  const param: useSocketProps = {
+    event: SocketEvent.user_balances,
+    onSuccess: getBalanceSocketSuccess
+  };
+  const { send } = useSocketByEvent(param);
 
   useEffect(() => {
     setStakingList(stakingData)
   }, [stakingData]);
+
+
+  useEffect(() => {
+    if (balanceData) {
+      setBalances(balanceData);
+    }
+  }, [balanceData]);
 
   const onSearch = (e) => {
     const value = e.target.value;
@@ -175,12 +200,15 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
           }
         </Row>
         <ModalStacking
-          balance={(balanceData && currentStaking) ? balanceData.find(bal => bal.currency === currentStaking.coin) : null}
+          balance={(balances && currentStaking) ? balances.find(bal => bal.currency === currentStaking.coin) : null}
           data={currentStaking}
-          atDetailIndex={detailIndex}
+          configIndex={detailIndex}
+          setConfigIndex={setDetailIndex}
           title='Locking Stacking'
           visible={isShowModal}
-          onCancel={() => { setIsShowModal(false) }} />
+          onCancel={() => { setIsShowModal(false) }} 
+          onSubmit={()=>{send()}}
+          />
       </PageStyled>
     </AppLayout>
   );

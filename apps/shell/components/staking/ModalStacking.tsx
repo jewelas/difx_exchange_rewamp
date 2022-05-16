@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import clsx from 'clsx';
 import isEmpty from 'lodash/isEmpty';
 import { Typography, Timeline } from '@difx/core-ui';
+import { AxiosResponse } from "axios";
+import { showNotification } from "./../../utils/pageUtils";
 import { Button, Input, Checkbox, Form } from 'antd';
 import { ModalStyled } from './styled';
-import { Staking, Balance, StakingRequest } from "@difx/shared";
+import { Staking, Balance, StakingRequest, StakingResponse, useHttpPost } from "@difx/shared";
+import { API_ENDPOINT } from "@difx/constants";
 import { getCurrentDateTimeByDateString, getPriceFormatted } from "@difx/utils";
 
 /* eslint-disable-next-line */
@@ -13,24 +16,53 @@ export interface ModalStackingProps {
   title: string;
   visible: boolean;
   data?: Staking;
-  atDetailIndex?: number;
+  configIndex: number;
+  setConfigIndex: (configIndex:number)=>void;
   balance: Balance;
   onCancel: () => void;
+  onSubmit:()=>void;
 }
 
-export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 0, balance }: ModalStackingProps) {
+export function ModalStacking({ onCancel, onSubmit : onSubmitParam, title, visible, data, configIndex, setConfigIndex, balance }: ModalStackingProps) {
 
-  const [configIndex, setConfigIndex] = useState(0);
   const [isAgreeTerm, setIsAgreeTerm] = useState(false);
+  const [hasErrorsField, setHasErrorField] = useState(true);
 
   const [form] = Form.useForm();
 
+  const placeOrderSuccess = (response: AxiosResponse<StakingResponse>) => {
+    const { data } = response;
+    form.setFieldsValue({'amount':''});
+    setHasErrorField(true);
+    onCancel();
+    showNotification('success', 'Success', `Order created successfully`);
+
+  }
+  const { mutate: placeOrder, isLoading } = useHttpPost<StakingRequest, StakingResponse>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.CREATE_STAKING });
+
   const onSubmit = (formData: StakingRequest) => {
-    // onPlaceOrder(formData, type, side);
+    const detail = data.st_conf_detail[configIndex];
+    const request = {
+      "st_conf_id": detail.st_config_id,
+      "st_conf_detail_id": detail.id,
+      "amount": formData.amount,
+      "duration": detail.period,
+      "type": "locked",
+      "apy": detail.apy
+    }
+    placeOrder(request);
+    onSubmitParam();
   };
 
   const onFormChange = (changeField: any) => {
-    // TODO
+    const fieldsValue = form.getFieldsValue();
+    for (const [, value] of Object.entries(fieldsValue)) {
+      if (!value) {
+        setHasErrorField(true);
+        return
+      }
+    }
+    setHasErrorField(false);
   };
 
   if (!data || isEmpty(data.st_conf_detail)) return null;
@@ -65,15 +97,15 @@ export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 
             <Typography fontSize={12} fontWeight={400} lineHeight={14.4} color="secondary">Estimated Interested Earned</Typography>
           </div>
           <div className='es-content'>
-            <Typography fontSize={41} fontWeight={400} lineHeight={49.2}>{data.st_conf_detail[atDetailIndex].apy}%</Typography>
+            <Typography fontSize={41} fontWeight={400} lineHeight={49.2}>{data.st_conf_detail[configIndex].apy}%</Typography>
           </div>
 
           <Timeline values={
             [
               <span key={`locking-start-time_${data.id}`}>Locking start time</span>,
-              <div key={`start-time_${data.id}`}>{getCurrentDateTimeByDateString(data.st_conf_detail[atDetailIndex].start_date)}</div>,
-              <div key={`end-time_${data.st_conf_detail[atDetailIndex].id}`}>
-                {getCurrentDateTimeByDateString(data.st_conf_detail[atDetailIndex].end_date)}
+              <div key={`start-time_${data.id}`}>{getCurrentDateTimeByDateString(data.st_conf_detail[configIndex].start_date)}</div>,
+              <div key={`end-time_${data.st_conf_detail[configIndex].id}`}>
+                {getCurrentDateTimeByDateString(data.st_conf_detail[configIndex].end_date)}
               </div>
             ]
           } />
@@ -85,7 +117,7 @@ export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 
             <div className="am-right">Avaible amount {getPriceFormatted(balance.amount, 2)} {balance.currency}</div>
           </div>
           <Form.Item
-            name='staking_amount'>
+            name='amount'>
             <Input placeholder="Please enter the amount" type="text" onInput={onReplaceComma} onWheel={(e: any) => { e.target.blur() }} suffix={SuffixAmountInput} />
           </Form.Item>
         </div>
@@ -109,7 +141,7 @@ export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 
                 Minimum
               </div>
               <div className="locked-value">
-                {data.st_conf_detail[atDetailIndex].min_amount} {data.coin}
+                {data.st_conf_detail[configIndex].min_amount} {data.coin}
               </div>
             </div>
             <div className="locked-right">
@@ -117,7 +149,7 @@ export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 
                 Maximum
               </div>
               <div className="locked-value">
-                {data.st_conf_detail[atDetailIndex].max_amount} {data.coin}
+                {data.st_conf_detail[configIndex].max_amount} {data.coin}
               </div>
             </div>
           </div>
@@ -135,7 +167,7 @@ export function ModalStacking({ onCancel, title, visible, data, atDetailIndex = 
         </div>
 
         <div className="staking-now">
-          <Button disabled={!isAgreeTerm} type="primary">Stake Now</Button>
+          <Button htmlType="submit" disabled={!isAgreeTerm || hasErrorsField || isLoading} type="primary">Stake Now</Button>
         </div>
       </Form>
 

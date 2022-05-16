@@ -57,7 +57,7 @@ export function useSocket({ leavePair, event, pair,
       socket.off(SocketEvent[event])
     }
 
-  }, [pair, event]);
+  }, [leavePair, pair, event]);
 
   return state;
 }

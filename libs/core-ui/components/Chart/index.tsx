@@ -62,7 +62,7 @@ function Chart({
   const chartRef = useRef<HTMLDivElement>(null);
   // const [candleStyle, setCandleStyle] = useState('candle_solid');
   // const [time, setTime] = useState('5m');
-  const [mainIndex, setMainIndex] = useState<string | null>(null);
+  // const [mainIndex, setMainIndex] = useState<string | null>(null);
   const [subsIndex, setSubsIndex] = useState<Array<{ paneId: string, indicator: string }>>([]);
   const [lineChart, setLineChart] = useState<LineChart>();
   const [chartHistory, setChartHistory] = useState<Array<ChartDataType>>([]);
@@ -140,10 +140,8 @@ function Chart({
   useEffect(() => {
     if (lineChart && currentChartType) {
       if(mainIndicator === ''){
-        setMainIndex('')
         lineChart?.removeTechnicalIndicator("candle_pane")
       }else{
-        setMainIndex(mainIndicator)
         lineChart?.createTechnicalIndicator(mainIndicator, false, { id: 'candle_pane' });
       }
     }
@@ -152,10 +150,8 @@ function Chart({
   useEffect(() => {
     if (lineChart) {
       if(mainIndicator === ''){
-        setMainIndex('')
         lineChart?.removeTechnicalIndicator("candle_pane")
       }else{
-        setMainIndex(mainIndicator)
         lineChart?.createTechnicalIndicator(mainIndicator, false, { id: 'candle_pane' });
       }
     }

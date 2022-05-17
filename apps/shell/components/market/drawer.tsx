@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Row, Space, Avatar, Typography, Col, Button, Anchor, Switch } from "antd";
-import Text from "antd/lib/typography/Text";
+import { API_ENDPOINT, ASSETS_URL, QUERY_KEY } from '@difx/constants';
 import { Icon } from "@difx/core-ui";
+import { useHttpGet, useMarketPair } from "@difx/shared";
+import { Avatar, Button, Col, Row, Space, Typography } from "antd";
+import Text from "antd/lib/typography/Text";
+import React, { useState } from "react";
 import { CoinDrawerInfo } from "../../pages/market/styled";
-import { Market, useHttpGet, useHttpGetByEvent, useMarketPair } from "@difx/shared";
-import { QUERY_KEY, API_ENDPOINT, ASSETS_URL } from '@difx/constants';
 // import { IconButton } from "@difx/core-ui";
 
 const { Title, Paragraph } = Typography;
 
-export function MarketDrawer({coin}:{coin:string}) {
+export function MarketDrawer() {
    const {marketPair} = useMarketPair()
    const [ellipsis, setEllipsis] = useState(true);
     const { data: coinInfo, isLoading } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS_INFO(marketPair), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS(marketPair), null);
@@ -52,7 +52,9 @@ export function MarketDrawer({coin}:{coin:string}) {
                 <Col>
                     <Text type="secondary">Launch date</Text>
                 </Col>
-                <Text strong>{coinInfo.launch_date}</Text>
+                <Text strong>
+                    {coinInfo.launch_date}
+                </Text>
             </Row>
             <Row align="middle" justify="space-between">
                 <Col>
@@ -68,23 +70,27 @@ export function MarketDrawer({coin}:{coin:string}) {
         <Title level={5} style={{marginTop:10}}>Learn more</Title>
         <Space>
             <Col>
-                <Button type="link" className="anchor-link">
-                    <Icon.CardViewIcon /> Offical website
-                </Button>
+                <a href={coinInfo.website} target="_blank" rel="noreferrer">
+                    <Button type="link" className="anchor-link">
+                        <Icon.CardViewIcon /> Offical website
+                    </Button>
+                </a>
             </Col>
             <Col>
-                <Button type="link" className="anchor-link">
-                    <Icon.CardViewIcon /> GitHub
-                </Button>
+                <a href={coinInfo.github} target="_blank" rel="noreferrer">
+                    <Button type="link" className="anchor-link">
+                        <Icon.CardViewIcon /> GitHub
+                    </Button>
+                </a>
             </Col>
         </Space>
         <Title level={5} style={{marginTop:10}}>Social media</Title>
         <Space>
             <Col>
-                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/facebook.svg"}/>
+                <a href={coinInfo.fb_link} target="_blank" rel="noreferrer"><Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/facebook.svg"}/></a>
             </Col>
             <Col>
-                <Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/twitter.svg"}/>
+            <a href={coinInfo.twitter_link} target="_blank" rel="noreferrer"><Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/twitter.svg"}/></a>
             </Col>
         </Space>
         <Button type="primary" block style={{marginTop:30}}>

@@ -3,18 +3,35 @@ import { Avatar, Button, Card, Col, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "../../pages/market/styled";
 import { Icon } from "@difx/core-ui";
-import { ASSETS_URL } from "@difx/constants";
-import { useMarketModal } from "@difx/shared";
+import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
+import { useHttpDelete, useHttpPost, useMarketModal } from "@difx/shared";
 import Trend from "react-trend";
 
 
 export function GridView({data}) {
     const {setMarketPair, modalVisible, setModalVisible} = useMarketModal()
+
+    const onSuccess = (response) => {
+        console.log(response)
+    }
+
+    const { mutate: addFavorite } = useHttpPost<null, any>({ onSuccess, endpoint: API_ENDPOINT.ADD_FAVORITES})
+    const { mutate: removeFavorite } = useHttpDelete<null, any>({ onSuccess, endpoint: API_ENDPOINT.REMOVE_FAVORITES})
+
+    const onfavorite = (item) => {
+        const requestData = {
+          symbol: item.symbol
+        }
+        if(item.favorite){
+          removeFavorite(requestData)
+        } else {
+          addFavorite(requestData)
+        }
+    }
     
   return (
     <GridWrapper>
         <Row gutter={[16, 16]}>
-            
            {
              !data
                ?
@@ -23,7 +40,7 @@ export function GridView({data}) {
                data.map(item =>
                 <Col span={6} key={item.symbol}>
                     <Card>
-                        <CardStar><Icon.FavoriteIcon fill={item.favorite ? "#FFC107" : "#56595C"} variant="medium" /></CardStar>
+                        <CardStar onClick={() => onfavorite(item)} className="cursor-pointer"><Icon.FavoriteIcon fill={item.favorite ? "#FFC107" : "#56595C"} variant="medium" /></CardStar>
                         <Row justify="space-between" align="middle">
                             <Col span={14}>
                             <CoinText>

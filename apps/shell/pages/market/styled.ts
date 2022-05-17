@@ -87,6 +87,25 @@ const FavoriteFilter = styled.div`
     }
 }
 `
+const MarketPopup = styled.div`
+    .quality{
+        label {
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 18px;
+        color: ${({theme}) => theme.fontColor.primary};
+        }
+    }
+    .graylabel{
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 14.4px;
+        color: ${({theme}) => theme.fontColor.secondary};
+    }
+`
+const Quantity = styled.div`
+    
+`
 
 // Grid Card Design
 const GridWrapper = styled.div`
@@ -128,4 +147,4 @@ const CoinDrawerInfo = styled.div`
     }
 `
 
-export {FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}
+export {MarketPopup, FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}

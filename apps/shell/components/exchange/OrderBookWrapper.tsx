@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { Loading, OrderBook } from "@difx/core-ui";
 import { getAveragePrice, getTrendPrice } from "@difx/utils";
+import { AxiosResponse } from "axios";
 import {
   PairType,
   SocketEvent, useHttpGet,
@@ -8,10 +10,12 @@ import {
   useSocket,
   useSocketProps,
   BaseRequest,
-  Order
+  Order,
+  useHttpGetByEvent,
+  useAuth
 } from "@difx/shared";
 import sortBy from "lodash/sortBy";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 // import { useRouter } from "next/router";
 
 /* eslint-disable-next-line */
@@ -22,7 +26,29 @@ export interface OrderBookWrapperProps {
 export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
-  const { data: openOrderData } = useHttpGet<BaseRequest, {result:Order[]}>(QUERY_KEY.OPEN_ORDERS, API_ENDPOINT.GET_ORDER_OPEN(), null);
+
+  const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
+    const { data } = response;
+    if (data && data.result) {
+      for (const order of data.result) {
+        if (!openOrderData.find(e => e.id === order.id)) {
+          openOrderData.push(order);
+          setOpenOrderData([...openOrderData]);
+        }
+      }
+    } else {
+      setOpenOrderData([]);
+    }
+  }
+
+  const { mutate: getOpenOrders } = useHttpGetByEvent<BaseRequest, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
+  // const { data: openOrderData } = useHttpGetByEvent<BaseRequest, {result:Order[]}>(QUERY_KEY.OPEN_ORDERS, API_ENDPOINT.GET_ORDER_OPEN(), null);
+  const [openOrderData, setOpenOrderData] = useState<Order[]>();
+
+  const { isLoggedIn } = useAuth();
+  useEffect(() => {
+    if (isLoggedIn) getOpenOrders(null);
+  }, [isLoggedIn]);
 
   let pairInfo = null;
   if (pairsData) {
@@ -41,7 +67,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
   const openOrderSocketData = useSocket({ event: SocketEvent.user_orders });
 
   let openOrder = [];
-  if (openOrderData && openOrderData.result) openOrder = openOrder.concat(openOrderData.result.map(e => {
+  if (openOrderData && openOrderData) openOrder = openOrder.concat(openOrderData.map(e => {
     if (e) return { id: e.id, side: e.s === 0 ? 'bid' : 'ask', price: e.p }
   }));
   if (openOrderSocketData) {

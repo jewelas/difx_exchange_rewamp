@@ -91,6 +91,7 @@ export function VerifyIpForm({ userEmail }) {
 
   const onSubmit = async (formData: VerifyIpRequest) => {
     formData.email = userEmail;
+    formData.code = otpValue;
     verifyIP(formData);
   };
 

@@ -73,18 +73,16 @@ export default function ChartHead({
 
 
   const handleSubIndicators = (indicator) => {
-    if(subIndicator.length <= 3){
-      if(subIndicator.includes(indicator)){
+      if (subIndicator.includes(indicator)) {
         const newVal = subIndicator.filter(item => item != indicator)
         setSubIndicator(newVal);
-      }else{
-        setSubIndicator(prev => [...prev,indicator])
+      } else if(subIndicator.length<3) {
+        setSubIndicator(prev => [...prev, indicator])
       }
-    } 
   }
 
   const handleFullscreen = () => {
-    if(document.fullscreenElement){
+    if (document.fullscreenElement) {
       document.exitFullscreen()
     }
     setFullscreen(!fullscreen)
@@ -95,14 +93,14 @@ export default function ChartHead({
       <div className="timeframes">
         {
           TIME_FRAMES.map((time_resolution) =>
-           <>
-            <span 
-              onClick={()=>setCurrentResolution(time_resolution)}
-              className={currentResolution === time_resolution ? 'active' : null}
-            >
-              {time_resolution}  
-            </span>
-           </>
+            <>
+              <span
+                onClick={() => setCurrentResolution(time_resolution)}
+                className={currentResolution === time_resolution ? 'active' : null}
+              >
+                {time_resolution}
+              </span>
+            </>
           )
         }
       </div>
@@ -112,20 +110,20 @@ export default function ChartHead({
             <Icon.CandleSolidIcon useDarkMode useDarkModeFor='svg' />
           </button>
           <div className="types-dropdown">
-          {
-            CANDLE_TYPES.map((candle, index) => 
-              <>
-                    <button
-                      onClick={() => setCurrentChartType(candle.type)}
-                      className={currentChartType === candle.type ? 'active' : null}
-                      key={`${candle.type}_${index}`}
-                    >
-                        {candle.icon}
-                        <span>{candle.label}</span>
-                    </button>
-              </>
-            )
-          }
+            {
+              CANDLE_TYPES.map((candle, index) =>
+                <>
+                  <button
+                    onClick={() => setCurrentChartType(candle.type)}
+                    className={currentChartType === candle.type ? 'active' : null}
+                    key={`${candle.type}_${index}`}
+                  >
+                    {candle.icon}
+                    <span>{candle.label}</span>
+                  </button>
+                </>
+              )
+            }
           </div>
 
         </div>
@@ -138,7 +136,7 @@ export default function ChartHead({
               <span>Main Index</span>
               <div className="indicator-button-group">
                 {
-                  MAINS_INDEX.map((indicator, index) => 
+                  MAINS_INDEX.map((indicator, index) =>
                     <button
                       onClick={() => setMainIndicator(prev => prev === indicator ? '' : indicator)}
                       className={`indicator-button ${mainIndicator === indicator ? 'active' : null}`}
@@ -154,7 +152,7 @@ export default function ChartHead({
               <span>Sub Index</span>
               <div className="indicator-button-group">
                 {
-                  SUBS_INDEX.map((indicator) => 
+                  SUBS_INDEX.map((indicator) =>
                     <button
                       onClick={() => handleSubIndicators(indicator)}
                       className={clsx("indicator-button", subIndicator && subIndicator.includes(indicator) && 'active')}

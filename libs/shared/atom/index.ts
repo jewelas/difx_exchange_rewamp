@@ -26,3 +26,9 @@ export const localStorageAtom = atom<{[key: string]: string}>({}) as PrimitiveAt
 
 export const priceSelectedAtom = atom<number>(0);
 export const marketPairAtom = atom<string | null>(null)
+export const marketDrawerAtom = atom<string | null>(null)
+export const marketModalAtom = atom<string | null>(null)
+
+export const marketSpotListAtom = atom<object[] | null>(null)
+export const marketFuturesListAtom = atom<object[] | null>(null)
+export const marketFavoritesListAtom = atom<object[] | null>(null)

@@ -3,14 +3,31 @@ import { Avatar, Card, Col, Row, Space } from "antd";
 import Text from "antd/lib/typography/Text";
 import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
-import { Market } from '@difx/shared';
 import { ASSETS_URL } from "@difx/constants";
-
 
 const { CoinPlaceholder } = Icon;
 
 export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}) {
+
+    // const asasas = {
+    //     options: {
+    //       chart: {
+    //         id: 'apexchart-example'
+    //       },
+    //       xaxis: {
+    //         categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+    //       }
+    //     },
+    //     series: [{
+    //       name: 'series-1',
+    //       data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+    //     }]
+    //   }
   return (
+      <>
+      <Row>
+        {/* <Chart options={asasas.options} series={asasas.series} type="bar" width={500} height={320} /> */}
+      </Row>
     <Row gutter={16}>
         <Col span={6}>
             <Card title={t("market.top_gainer")} bordered={false}>
@@ -117,6 +134,7 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             </Card>
         </Col>
     </Row>
+    </>
   );
 }
 

@@ -54,9 +54,6 @@ function onErrorHandle(error: AxiosError, refreshToken: () => void, refreshAnony
  */
 export function useHttpGet<Request, Response>(queryKey: string, endpoint: string, options: {}, request?: Request) {
 
-    const { refreshToken, logOut } = useAuth();
-    const { refreshAnonymousToken } = useGuestAuth();
-
     const defaultOption = {
         refetchOnMount: false,
         refetchOnWindowFocus: false
@@ -79,10 +76,11 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
                     return data;
                 }
             } catch (error: any) {
+                const { refreshToken, logOut } = useAuth();
+                const { refreshAnonymousToken } = useGuestAuth();
                 onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
             }
         },
-        mergeOptions
     );
     return query;
 }
@@ -137,6 +135,30 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
             },
             onError: (error: AxiosError) => {
                 onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
+                onError && onError(error as AxiosError);
+            },
+        }
+    );
+    return mutation;
+}
+
+export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
+
+    instance.interceptors.request.use(axiosAuthorization)
+
+    const mutation = useMutation(
+        (request: any) => {
+            return instance.delete<Request, AxiosResponse<Response>>(
+                request.endpoint || endpoint,
+                // {params:request}
+                request
+            );
+        },
+        {
+            onSuccess: (response: AxiosResponse<Response>) => {
+                onSuccess && onSuccess(response);
+            },
+            onError: (error: AxiosError) => {
                 onError && onError(error as AxiosError);
             },
         }

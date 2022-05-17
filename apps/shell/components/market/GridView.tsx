@@ -1,12 +1,16 @@
 import React from "react";
 import { Avatar, Button, Card, Col, Row } from "antd";
 import Text from "antd/lib/typography/Text";
-import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "./styled";
+import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "../../pages/market/styled";
 import { Icon } from "@difx/core-ui";
 import { ASSETS_URL } from "@difx/constants";
+import { useMarketModal } from "@difx/shared";
+import Trend from "react-trend";
 
 
 export function GridView({data}) {
+    const {setMarketPair, modalVisible, setModalVisible} = useMarketModal()
+    
   return (
     <GridWrapper>
         <Row gutter={[16, 16]}>
@@ -14,21 +18,32 @@ export function GridView({data}) {
            {
              !data
                ?
-               "asas"
+               "Loading..."
                :
                data.map(item =>
                 <Col span={6} key={item.symbol}>
                     <Card>
                         <CardStar><Icon.FavoriteIcon fill={item.favorite ? "#FFC107" : "#56595C"} variant="medium" /></CardStar>
                         <Row justify="space-between" align="middle">
-                            <Col>
+                            <Col span={14}>
                             <CoinText>
                                 <Avatar size={54} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
                                 <Text>{item.currency1}<Text type="secondary"> / {item.currency2}</Text></Text>
                             </CoinText>
                             </Col>
-                            <Col>
-                                Chart
+                            <Col span={10}>
+                            <Trend
+                                smooth
+                                data={item.pricing}
+                                strokeWidth={3}
+                                autoDraw
+                                autoDrawDuration={3000}
+                                gradient={[
+                                    (item.last / item.open) * 100 - 100 >= 0
+                                    ? "#21C198"
+                                    : "#ff0000",
+                                ]}
+                            />
                             </Col>
                         </Row>
                         <CoinPriceInfo>
@@ -43,20 +58,23 @@ export function GridView({data}) {
                                     <Text type="secondary">
                                     24h Change
                                     </Text>
-                                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change.toFixed(3)}%</Text>
+                                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change.toFixed(2)}%</Text>
                                 </Col>
                                 <Col span={8}>
                                     <Text type="secondary">
                                     24h Volume
                                     </Text>
-                                    <Text>{item.volume.toFixed(2)} <span className="text-muted">{item.currency1}</span></Text>
+                                    <Text>{item.volume.toFixed(1)}</Text>
                                 </Col>
                             </Row>
                         </CoinPriceInfo>
                         <MarketCardBtns>
                             <Row gutter={20}>
                                 <Col span={12}>
-                                    <Button type="primary" className="success">Buy</Button>
+                                    <Button type="primary" className="success" onClick={() => {
+          setMarketPair(item.currency1)
+          setModalVisible(!modalVisible)
+        }}>Buy</Button>
                                 </Col>
                                 <Col span={12}>
                                     <Button type="primary" className="danger">Sell</Button>

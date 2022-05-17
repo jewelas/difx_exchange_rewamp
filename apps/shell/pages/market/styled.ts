@@ -90,7 +90,8 @@ const FavoriteFilter = styled.div`
 
 // Grid Card Design
 const GridWrapper = styled.div`
-    .ant-card-body{padding: 15px;}
+    margin-top: 15px;
+    .ant-card-body{padding: 20px;}
 `
 const CoinText = styled.div`
     &>.ant-typography{

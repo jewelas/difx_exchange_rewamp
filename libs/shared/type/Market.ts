@@ -20,4 +20,7 @@ export interface Market {
   tags: string[];
   tfee: number;
   volume: number;
+  favorite: boolean;
+  isNew: boolean;
+  change: number
   }

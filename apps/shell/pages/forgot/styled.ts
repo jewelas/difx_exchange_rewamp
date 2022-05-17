@@ -123,11 +123,13 @@ export const PageStyled = styled.div`
       }
       .resend-box{
         color: ${({ theme }) => theme.fontColor.muted};
-        span{
-          margin-left: 5px;
+        button{
+          border: none !important;
+          background: transparent !important;
           cursor: pointer;
-          &.active{
-            color: ${({ theme }) => theme.fontColor.link}
+          color: ${({ theme }) => theme.fontColor.link} !important;
+          :disabled{
+            color: ${({ theme }) => theme.fontColor.muted} !important;
           }
         }
       }

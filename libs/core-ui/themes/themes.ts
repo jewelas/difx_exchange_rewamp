@@ -246,7 +246,7 @@ export const dark: ThemeInterface = {
     star: "#FFC107"
   },
   fontColor: {
-    primary: "#454552",
+    primary: "#FFFFFF",
     secondary: "#9AA5B4",
     button: "#FFFFFF",
     muted: "#A1A1A1",

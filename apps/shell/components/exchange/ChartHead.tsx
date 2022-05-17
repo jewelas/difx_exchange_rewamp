@@ -1,6 +1,7 @@
 import { ChartHeadStyled } from "./styled"
 import { Icon } from "@difx/core-ui";
 import { useEffect } from "react";
+import clsx from "clsx";
 
 const TIME_FRAMES = ['5m', '15m', '30m', '1h', '1d'];
 const MAINS_INDEX = ['MA', 'EMA', 'BOLL', 'SAR'];
@@ -70,14 +71,15 @@ export default function ChartHead({
   setFullscreen,
 }) {
 
+
   const handleSubIndicators = (indicator) => {
-    if(subIndicator.length < 3){
+    if(subIndicator.length <= 3){
       if(subIndicator.includes(indicator)){
-        const subIndicatorClone = [...subIndicator]
-        const newVal = subIndicatorClone.filter(item => item != indicator)
-        setSubIndicator(newVal)
+        const newVal = subIndicator.filter(item => item != indicator)
+        setSubIndicator(newVal);
+      }else{
+        setSubIndicator(prev => [...prev,indicator])
       }
-      setSubIndicator(prev => [...prev,indicator])
     } 
   }
 
@@ -116,7 +118,7 @@ export default function ChartHead({
                     <button
                       onClick={() => setCurrentChartType(candle.type)}
                       className={currentChartType === candle.type ? 'active' : null}
-                      key={index}
+                      key={`${candle.type}_${index}`}
                     >
                         {candle.icon}
                         <span>{candle.label}</span>
@@ -140,7 +142,7 @@ export default function ChartHead({
                     <button
                       onClick={() => setMainIndicator(prev => prev === indicator ? '' : indicator)}
                       className={`indicator-button ${mainIndicator === indicator ? 'active' : null}`}
-                      key={index}
+                      key={`main_${indicator}_${index}`}
                     >
                       {indicator}
                     </button>
@@ -155,8 +157,8 @@ export default function ChartHead({
                   SUBS_INDEX.map((indicator) => 
                     <button
                       onClick={() => handleSubIndicators(indicator)}
-                      className="indicator-button"
-                      key={indicator}
+                      className={clsx("indicator-button", subIndicator && subIndicator.includes(indicator) && 'active')}
+                      key={`sub_${indicator}`}
                     >
                       {indicator}
                     </button>

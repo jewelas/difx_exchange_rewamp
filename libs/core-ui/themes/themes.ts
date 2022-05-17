@@ -170,7 +170,7 @@ export const light: ThemeInterface = {
     large: "16px",
     medium: "14px",
     small: "12px",
-    xsmall: "13px",
+    xsmall: "10px",
   },
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",
@@ -270,7 +270,7 @@ export const dark: ThemeInterface = {
     large: "16px",
     medium: "14px",
     small: "12px",
-    xsmall: "13px",
+    xsmall: "10px",
   },
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",

@@ -62,6 +62,9 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
         ...options
     }
 
+    const { refreshToken, logOut } = useAuth();
+    const { refreshAnonymousToken } = useGuestAuth();
+
     instance.interceptors.request.use(axiosAuthorization);
 
     const query = useQuery<Response, AxiosError>(
@@ -75,8 +78,6 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
                     return data;
                 }
             } catch (error: any) {
-                const { refreshToken, logOut } = useAuth();
-                const { refreshAnonymousToken } = useGuestAuth();
                 onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
             }
         },

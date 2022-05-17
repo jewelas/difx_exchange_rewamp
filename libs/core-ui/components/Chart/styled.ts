@@ -3,7 +3,8 @@ import { dark, light, ThemeInterface } from "./../../themes";
 
 export const MainStyled = styled.div`
   padding-top:10px;
-  height:500px;
+  height: 100%;
+  min-height:470px;
   background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
   display:flex;
   width:100%;
@@ -44,11 +45,10 @@ export const MainStyled = styled.div`
     box-shadow: unset !important;
     display: flex;
     flex-direction: column;
-    margin:-14px 0 10px -14px;
+    margin:-14px 0 10px 0px;
     border-radius: 2px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .3);
     height: calc(100% - 100px);
-    padding: 16px 6px 16px 16px;
     background-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary};
     .chart-styles-group{
       .item{

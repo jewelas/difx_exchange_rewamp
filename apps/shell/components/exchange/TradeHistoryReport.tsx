@@ -10,9 +10,9 @@ import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from 'react';
 
-export function TradeHistoryReport({pair, isSelectedPairOnly}:{pair:string, isSelectedPairOnly?: boolean}) {
+export function TradeHistoryReport({ pair, isSelectedPairOnly }: { pair: string, isSelectedPairOnly?: boolean }) {
 
-  // const { token } = useAuth();
+  const { isLoggedIn } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
@@ -31,12 +31,14 @@ export function TradeHistoryReport({pair, isSelectedPairOnly}:{pair:string, isSe
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES() });
 
   useEffect(() => {
-    if (isSelectedPairOnly && pair) {
-      getOrderBooks({ endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
-    } else {
-      getOrderBooks(null);
+    if (isLoggedIn) {
+      if (isSelectedPairOnly && pair) {
+        getOrderBooks({ endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
+      } else {
+        getOrderBooks(null);
+      }
     }
-  }, [isSelectedPairOnly]);
+  }, [isLoggedIn, isSelectedPairOnly]);
 
   const columns = [
     {

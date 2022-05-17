@@ -50,17 +50,21 @@ export function SettingPopover(props: SettingPopoverProps) {
         <Typography level='B3'>Rise/Fall Settings</Typography>
       </div>
       <div className="content">
-        <Button className='candle first' ghost>
-          <div className='name'>
-            <Typography level='B3'>Green - Up</Typography>
+        <Button ghost>
+          <div className='candle first'>
+            <div className='name'>
+              <Typography level='B3'>Green - Up</Typography>
+            </div>
+            <CandleGreenUp />
           </div>
-          <CandleGreenUp />
         </Button>
-        <Button className='candle last' ghost>
-          <div className='name'>
-            <Typography level='B3'>Red - Up</Typography>
+        <Button ghost>
+          <div className='candle last'>
+            <div className='name'>
+              <Typography level='B3'>Red - Up</Typography>
+            </div>
+            <CandleRedUp />
           </div>
-          <CandleRedUp />
         </Button>
       </div>
 

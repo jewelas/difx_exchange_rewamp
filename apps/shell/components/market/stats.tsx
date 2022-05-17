@@ -44,6 +44,7 @@ export function Stats({spotList, futuresList, categoriesList, favorites}) {
                         Spot
                       </Button>
                       <Button onClick={() => futuresList}>
+                        
                         Futures
                       </Button>
                     </Space>

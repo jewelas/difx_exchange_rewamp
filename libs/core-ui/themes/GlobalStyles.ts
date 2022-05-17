@@ -78,12 +78,38 @@ const GlobalStyles = createGlobalStyle`
           }
         }
       }
+      &.successOutline{
+        background: transparent !important;
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+        border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+        &:hover, &:focus, &:active{
+          background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+          border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+          color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
+          &:not([disabled]){
+            opacity: 0.9;
+          }
+        }
+      }
       &.danger{
         background: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
         border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
         &:hover, &:focus, &:active{
           background: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
           border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+          &:not([disabled]){
+            opacity: 0.9;
+          }
+        }
+      }
+      &.dangerOutline{
+        background: transparent !important;
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+        border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+        &:hover, &:focus, &:active{
+          background: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+          border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+          color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
           &:not([disabled]){
             opacity: 0.9;
           }

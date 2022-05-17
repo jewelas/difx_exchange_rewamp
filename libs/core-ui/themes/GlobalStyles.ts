@@ -122,7 +122,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-btn.ant-btn-background-ghost:not(.ant-btn-primary){
-      border: unset;
+      border: unset !important;
       margin: unset !important;
       &:hover{
         svg{

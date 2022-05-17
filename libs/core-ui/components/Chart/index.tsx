@@ -44,6 +44,8 @@ export interface ChartProps {
   subIndicator: string[]
   fullscreen: boolean
   setFullscreen: any
+  setSubIndicatorSelected: any
+  subIndicatorSelected: any
 }
 
 function Chart({ 
@@ -54,6 +56,8 @@ function Chart({
   subIndicator,
   fullscreen,
   setFullscreen,
+  setSubIndicatorSelected,
+  subIndicatorSelected
 }: ChartProps) {
 
   const { theme } = useTheme();
@@ -63,7 +67,8 @@ function Chart({
   // const [candleStyle, setCandleStyle] = useState('candle_solid');
   // const [time, setTime] = useState('5m');
   // const [mainIndex, setMainIndex] = useState<string | null>(null);
-  const [subsIndex, setSubsIndex] = useState<Array<{ paneId: string, indicator: string }>>([]);
+  // const [subsIndex, setSubsIndex] = useState<Array<{ paneId: string, indicator: string }>>([]);
+  const [subsIndex, setSubsIndex] = useState<any>();
   const [lineChart, setLineChart] = useState<LineChart>();
   const [chartHistory, setChartHistory] = useState<Array<ChartDataType>>([]);
 
@@ -85,7 +90,6 @@ function Chart({
 
   const getChartHistorySuccess = (response: AxiosResponse) => {
     const { data: resData } = response
-    console.log(resData)
     if (resData) setChartHistory(resData);
   }
 
@@ -122,7 +126,7 @@ function Chart({
   useEffect(() => {
     if (lineChart && chartHistory) {
       if (chartCurrent && !chartHistory.find(e => e.timestamp === chartCurrent.timestamp)) {
-        lineChart.updateData(chartCurrent[0])
+        lineChart.updateData(chartCurrent)
       }
     }
   }, [chartHistory, chartCurrent, lineChart]);
@@ -157,11 +161,31 @@ function Chart({
     }
   }, [mainIndicator, lineChart]);
 
-  useEffect(() => {
-    if (lineChart) {
-      console.log(subIndicator)
+  useEffect(()=>{
+    if(subIndicatorSelected){
+      if(subsIndex){
+        if(subsIndex[`${subIndicatorSelected}`]){
+          lineChart?.removeTechnicalIndicator(subsIndex[`${subIndicatorSelected}`], subIndicatorSelected)
+          delete subsIndex[`${subIndicatorSelected}`]
+          setSubsIndex(subsIndex)
+        }else{
+          if(Object.keys(subsIndex).length < 3){
+            const paneId = lineChart?.createTechnicalIndicator(subIndicatorSelected, false);
+            lineChart?.createTechnicalIndicator(subIndicatorSelected, false, { id: paneId as string })
+            subsIndex[`${subIndicatorSelected}`] = paneId
+            setSubsIndex(subsIndex)
+          }
+        }
+      }else{
+        const paneId = lineChart?.createTechnicalIndicator(subIndicatorSelected, false);
+        lineChart?.createTechnicalIndicator(subIndicatorSelected, false, { id: paneId as string })
+        const paneObject: any = {}
+        paneObject[`${subIndicatorSelected}`] = paneId
+        setSubsIndex(paneObject)
+      }
+      setSubIndicatorSelected(null)
     }
-  }, [subIndicator,  lineChart]);
+  },[subIndicatorSelected, lineChart])
 
   useEffect(() => {
     if(fullscreen){

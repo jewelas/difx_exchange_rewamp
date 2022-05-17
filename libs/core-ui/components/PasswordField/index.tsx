@@ -7,6 +7,10 @@ import CheckCircleIcon from "../Icon/CheckCircleIcon";
 import CloseCircleIcon from "../Icon/CloseCircleIcon";
 import t from "./../../../locale";
 import { FieldStyled } from "./styled";
+import {
+  EyeFilled,
+  EyeInvisibleFilled
+} from '@ant-design/icons';
 export interface PasswordFieldProps {
   rules?: [any];
   onChange: (isValidate: boolean, value: string) => void;
@@ -117,6 +121,7 @@ const PasswordField = (props: PasswordFieldProps) => {
           onChange={onChangePass}
           autoComplete="new-password"
           placeholder={props.placeholder || "Password"}
+          iconRender={(visible) => (visible ? <EyeFilled/> : <EyeInvisibleFilled/>)}
         />
       </Popover>
     </FieldStyled>

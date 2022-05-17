@@ -67,12 +67,14 @@ export default function ChartHead({
   setMainIndicator,
   subIndicator,
   setSubIndicator,
+  setSubIndicatorSelected,
   fullscreen,
   setFullscreen,
 }) {
 
 
   const handleSubIndicators = (indicator) => {
+      setSubIndicatorSelected(indicator)
       if (subIndicator.includes(indicator)) {
         const newVal = subIndicator.filter(item => item != indicator)
         setSubIndicator(newVal);

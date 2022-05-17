@@ -18,6 +18,7 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
   const [currentResolution, setCurrentResolution] = useState('5m')
   const [currentChartType, setCurrentChartType] = useState('candle_solid')
   const [mainIndicator, setMainIndicator] = useState('MA')
+  const [subIndicatorSelected, setSubIndicatorSelected] = useState(null)
   const [subIndicator, setSubIndicator] = useState([])
   // const [subI, setSubI] = useState([])
   const [fullscreen, setFullscreen] = useState(false)
@@ -49,6 +50,7 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
               setMainIndicator={setMainIndicator}
               subIndicator={subIndicator}
               setSubIndicator={setSubIndicator}
+              setSubIndicatorSelected={setSubIndicatorSelected}
               fullscreen={fullscreen}
               setFullscreen={setFullscreen}
             />
@@ -59,6 +61,8 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
               mainIndicator={mainIndicator}
               subIndicator={subIndicator}
               fullscreen={fullscreen}
+              setSubIndicatorSelected={setSubIndicatorSelected}
+              subIndicatorSelected={subIndicatorSelected}
               setFullscreen={setFullscreen}
             />
           </div>

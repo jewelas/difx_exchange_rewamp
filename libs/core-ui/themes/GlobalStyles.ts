@@ -438,6 +438,11 @@ const GlobalStyles = createGlobalStyle`
         }
       }
 
+      .ant-popover.ant-popover-placement-bottomRight{
+        .ant-popover-arrow{
+          display:none;
+        }
+      }
       .ant-popover.ant-popover-placement-bottom{
         .ant-popover-content{
           margin-top: -10px;

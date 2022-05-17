@@ -1,10 +1,11 @@
-import { Button, Col, Drawer, Menu, Row } from "antd";
+import { Button, Col, Drawer, Menu, Row, Popover } from "antd";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Icon } from "../Icon";
 import t from "./../../../locale";
 import { useAuth, useTheme, useRTL } from "./../../../shared";
+import SettingPopover from "./SettingPopover";
 import {
   StyledButtonGroup,
   StyledHeader,
@@ -234,11 +235,13 @@ export function Header(props: HeaderProps) {
                 <Menu.Item className="right-nav" key="setting">
                   <StyledButtonGroup>
                     <StyledLine />
+                    <Popover content={<SettingPopover/>} trigger="click" placement="bottomRight">
                     <Button
                       icon={<SettingIcon useDarkMode />}
                       size={"small"}
                       type="text"
                     />
+                    </Popover>
                   </StyledButtonGroup>
                 </Menu.Item>
               )}

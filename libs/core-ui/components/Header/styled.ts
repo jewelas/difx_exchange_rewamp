@@ -1,6 +1,48 @@
 import { Layout } from "antd";
 import styled from "styled-components";
 
+export const StyledSettingPopover = styled.div`
+  width: 272px !important;
+  height: 316px;
+  .head{
+    margin-top:20px;
+  }
+  .content{
+    display: flex;
+    justify-content:space-between;
+    margin-top:10px;
+    .layout{
+      .svg{
+        border: ${({ theme }) => theme.border.secondary} !important;
+        padding:2px;
+      }
+      .name{
+        text-align: center;
+      }
+    }
+    .candle-color{
+      margin-right: 5px !important;
+    }
+    .candle{
+      background: ${({ theme }) => theme.background.secondary} !important;
+      display:flex;
+      padding:10px 20px !important;
+      flex-grow: 1;
+      border-radius: 3px;
+      border: ${({ theme }) => theme.border.secondary} !important;
+      &.first{
+        margin-right:10px !important;
+      }
+      &.last{
+        margin-left:10px !important;
+      }
+      .name{
+        margin-right:10px;
+      }
+    }
+  }
+`;
+
 export const StyledButtonGroup = styled.div`
   display: flex;
   height: 100%;

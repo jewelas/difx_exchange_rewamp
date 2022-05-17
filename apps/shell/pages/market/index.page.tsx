@@ -1,16 +1,15 @@
-import { SearchInput } from "@difx/core-ui";
+import { SearchOutlined } from '@ant-design/icons';
+import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
+import t from "@difx/locale";
+import { useHttpGet, useMarketModal, useMarketPair } from "@difx/shared";
 import { Col, Drawer, Input, Modal, Row } from "antd";
 import React, { useEffect, useState } from "react";
-import AppLayout from "../index.page";
-import { PageStyled, MarketContentStyled, MarketCard } from "./styled";
-import t from "@difx/locale";
-import TopMarket from "../../components/market/TopMarket";
-import Stats from "../../components/market/stats";
 import MarketDrawer from "../../components/market/drawer";
-import { useHttpGet, useMarketPair, useMarketModal } from "@difx/shared";
-import { QUERY_KEY, API_ENDPOINT } from '@difx/constants';
 import MarketModal from "../../components/market/modal";
-import { SearchOutlined } from '@ant-design/icons';
+import Stats from "../../components/market/stats";
+import TopMarket from "../../components/market/TopMarket";
+import AppLayout from "../index.page";
+import { MarketCard, MarketContentStyled, PageStyled } from "./styled";
 
 export function MarketPage() {
   const { data: marketData } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS, API_ENDPOINT.GET_MARKET_PAIRS, null);
@@ -38,16 +37,16 @@ export function MarketPage() {
 
   useEffect(() => {
     if(spotList){
-      const getTopGainer = [...spotList].sort((a,b) => {
+      const getTopGainer = [...spotList].sort((a:any,b:any) => {
           return a.change < b.change ? 1 : -1
       })
-      const getTopLooser = [...spotList].sort((a,b) => {
+      const getTopLooser = [...spotList].sort((a:any,b:any) => {
         return a.change > b.change ? 1 : -1
       })
-      const getTopVolume = [...spotList].sort((a,b) => {
+      const getTopVolume = [...spotList].sort((a:any,b:any) => {
         return a.volume < b.volume ? 1 : -1
       })
-      const filteredFavorites = spotList.filter(spotList => spotList.favorite === true)
+      const filteredFavorites = spotList.filter((spotList:any) => spotList.favorite === true)
       setFavorites(filteredFavorites)
       setTopGainer(getTopGainer)
       setTopLooser(getTopLooser)

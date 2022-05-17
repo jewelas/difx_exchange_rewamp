@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Row, Space, Avatar, Typography, Col, Button, Anchor, Switch } from "antd";
-import Text from "antd/lib/typography/Text";
+import { API_ENDPOINT, ASSETS_URL, QUERY_KEY } from '@difx/constants';
 import { Icon } from "@difx/core-ui";
+import { useHttpGet, useMarketPair } from "@difx/shared";
+import { Avatar, Button, Col, Row, Space, Typography } from "antd";
+import Text from "antd/lib/typography/Text";
+import React, { useState } from "react";
 import { CoinDrawerInfo } from "../../pages/market/styled";
-import { Market, useHttpGet, useHttpGetByEvent, useMarketPair } from "@difx/shared";
-import { QUERY_KEY, API_ENDPOINT, ASSETS_URL } from '@difx/constants';
-import Link from "next/link";
 // import { IconButton } from "@difx/core-ui";
 
 const { Title, Paragraph } = Typography;
 
-export function MarketDrawer({coin}:{coin:string}) {
+export function MarketDrawer() {
    const {marketPair} = useMarketPair()
    const [ellipsis, setEllipsis] = useState(true);
     const { data: coinInfo, isLoading } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS_INFO(marketPair), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS(marketPair), null);

@@ -53,6 +53,7 @@ function onErrorHandle(error: AxiosError, refreshToken: () => void, refreshAnony
  * @returns 
  */
 export function useHttpGet<Request, Response>(queryKey: string, endpoint: string, options: {}, request?: Request) {
+
     const defaultOption = {
         refetchOnMount: false,
         refetchOnWindowFocus: false

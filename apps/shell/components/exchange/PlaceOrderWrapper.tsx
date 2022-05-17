@@ -3,7 +3,7 @@
 
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { Loading, OrderForm, OrderSideType, OrderType } from "@difx/core-ui";
-import { useSocketProps, useSocket, SocketEvent,  Balance, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, useAuth, useHttpGet, useHttpGetByEvent, useHttpPost } from "@difx/shared";
+import { useSocketProps, useSocket, SocketEvent, Balance, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, useAuth, useHttpGet, useHttpGetByEvent, useHttpPost } from "@difx/shared";
 import { Tabs } from "antd";
 import { AxiosResponse } from "axios";
 import { useAtom } from "jotai";
@@ -28,8 +28,8 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
 
   useEffect(() => {
     if (balanceData) {
-      const index = balances.findIndex(e=>e.currency === balanceData.currency);
-      if(index!==-1){
+      const index = balances.findIndex(e => e.currency === balanceData.currency);
+      if (index !== -1) {
         balances[index].amount += balanceData.change;
         setBalances(balances);
       }
@@ -56,11 +56,11 @@ export function PlaceOrderWrapper({ pair }: { pair: string }) {
     showNotification('success', 'Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
   }
 
-  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT});
+  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
 
   useEffect(() => {
-    getBalances(null)
-  }, []);
+    if (isLoggedIn) getBalances(null)
+  }, [isLoggedIn]);
 
   const { TabPane } = Tabs;
 

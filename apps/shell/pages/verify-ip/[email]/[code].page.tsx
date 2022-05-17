@@ -30,7 +30,7 @@ export function VerifyIpPage() {
     if (email && code) {
       const request: VerifyIpRequest = {
         email: email.toString(),
-        activationCode: code.toString(),
+        code: code.toString(),
       };
 
       verifyIp(request);

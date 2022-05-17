@@ -73,7 +73,8 @@ export default function ChartHead({
   const handleSubIndicators = (indicator) => {
     if(subIndicator.length < 3){
       if(subIndicator.includes(indicator)){
-        const newVal = subIndicator.filter(item => item != indicator)
+        const subIndicatorClone = [...subIndicator]
+        const newVal = subIndicatorClone.filter(item => item != indicator)
         setSubIndicator(newVal)
       }
       setSubIndicator(prev => [...prev,indicator])

@@ -19,7 +19,7 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
   const [currentChartType, setCurrentChartType] = useState('candle_solid')
   const [mainIndicator, setMainIndicator] = useState('MA')
   const [subIndicator, setSubIndicator] = useState([])
-  const [subI, setSubI] = useState([])
+  // const [subI, setSubI] = useState([])
   const [fullscreen, setFullscreen] = useState(false)
 
   const KlineRef = useRef<HTMLDivElement>(null);
@@ -47,8 +47,8 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
               setCurrentChartType={setCurrentChartType}
               mainIndicator={mainIndicator}
               setMainIndicator={setMainIndicator}
-              subIndicator={subI}
-              setSubIndicator={setSubI}
+              subIndicator={subIndicator}
+              setSubIndicator={setSubIndicator}
               fullscreen={fullscreen}
               setFullscreen={setFullscreen}
             />
@@ -57,7 +57,7 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
               currentResolution={currentResolution}
               currentChartType={currentChartType}
               mainIndicator={mainIndicator}
-              subIndicator={subI}
+              subIndicator={subIndicator}
               fullscreen={fullscreen}
               setFullscreen={setFullscreen}
             />

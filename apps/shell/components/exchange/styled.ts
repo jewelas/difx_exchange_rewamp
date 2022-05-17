@@ -178,7 +178,9 @@ export const ChartHeadStyled = styled.div`
 
     span{
       cursor: pointer;
+      opacity: 0.8;
       &.active{
+        opacity: 1 !important;
         color: ${({theme}) => theme.color.primary};
       }
     }

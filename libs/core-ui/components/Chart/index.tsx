@@ -85,6 +85,7 @@ function Chart({
 
   const getChartHistorySuccess = (response: AxiosResponse) => {
     const { data: resData } = response
+    console.log(resData)
     if (resData) setChartHistory(resData);
   }
 

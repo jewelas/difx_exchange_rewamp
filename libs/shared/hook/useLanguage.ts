@@ -13,15 +13,6 @@ export function useLanguage() {
     const cachedLanguage =  JSON.parse(localStorage?.getItem('lang') || "null")
     if(currentLanguage){
       setCurrentLanguage(cachedLanguage)
-    }else{
-      const defaultLang: Language = {
-        default: true,
-        lang: "English",
-        rtl: false,
-        slug: "en"
-      }
-      localStorage.setItem('lang', JSON.stringify(defaultLang))
-      setCurrentLanguage(defaultLang)
     }
   },[])
 
@@ -29,6 +20,10 @@ export function useLanguage() {
     if(resData){
       setAvailableLanguages(resData)
       setIsAvailable(true)
+
+      const defaultLang = resData.find( item => item.default === true )
+      localStorage.setItem('lang', JSON.stringify(defaultLang))
+      setCurrentLanguage(defaultLang)
     }
   },[resData])
 

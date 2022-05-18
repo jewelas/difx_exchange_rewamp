@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import {Language} from "./../type/Language"
 import { API_ENDPOINT, QUERY_KEY } from "../constants"
 
-
 export function useLanguage() {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.AVAILABLE_LANGUAGES, API_ENDPOINT.GET_AVAILABLE_LANGUAGES, {});
   const [ availableLanguages, setAvailableLanguages ] = useState<Language[] | null>(null)

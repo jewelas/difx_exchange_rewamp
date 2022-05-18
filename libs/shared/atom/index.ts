@@ -25,7 +25,7 @@ export const RTLAtom = atom<boolean>(false);
 export const localStorageAtom = atom<{[key: string]: string}>({}) as PrimitiveAtom<{[key: string]: string}>;
 
 export const priceSelectedAtom = atom<number>(0);
-export const marketPairAtom = atom<string | null>(null) as PrimitiveAtom<string | null>;
+export const marketPairAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
 export const marketDrawerAtom = atom<boolean | null>(null) as PrimitiveAtom<boolean | null>;
 export const marketModalAtom = atom<boolean | null>(null) as PrimitiveAtom<boolean | null>;
 

@@ -121,7 +121,7 @@ export function MarketPage() {
           onClose={onCloseDrawer}
           visible={drawerVisible}
         >
-          <MarketDrawer spotList={spotList} />
+          <MarketDrawer />
         </Drawer>
         <Modal title="&nbsp;" visible={modalVisible} footer={null} onCancel={closeModal}>
             <MarketModal />

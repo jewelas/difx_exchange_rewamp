@@ -4,15 +4,25 @@ import Text from "antd/lib/typography/Text";
 import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "../../pages/market/styled";
 import { Icon } from "@difx/core-ui";
 import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
-import { useHttpDelete, useHttpPost, useMarketModal } from "@difx/shared";
+import { useHttpDelete, useHttpPost, useMarketModal, useMarketPair } from "@difx/shared";
 import Trend from "react-trend";
 
 
-export function GridView({data}) {
+export function GridView({data, datatype}) {
     const {setMarketPair, modalVisible, setModalVisible} = useMarketModal()
+    const {
+        setSpotFavorites,
+        spotFavorites,
+        setSpotList,
+        setFuturesList,
+        futuresList,
+        spotList,
+        futureFavorites,
+        setFutureFavorites 
+      } = useMarketPair()
 
     const onSuccess = (response) => {
-        console.log(response)
+        return null
     }
 
     const { mutate: addFavorite } = useHttpPost<null, any>({ onSuccess, endpoint: API_ENDPOINT.ADD_FAVORITES})
@@ -20,14 +30,61 @@ export function GridView({data}) {
 
     const onfavorite = (item) => {
         const requestData = {
-          symbol: item.symbol
+          symbol: item.symbol,
+          type: datatype
         }
-        if(item.favorite){
+        
+        if (item.favorite) {
+          if(datatype === "spot"){
+            const newSpotFavoriteList = spotFavorites.filter(spotfavitem => spotfavitem.symbol != item.symbol)
+            const newSpotList = spotList.map(spotitem => {
+              if(spotitem.symbol === item.symbol){
+                spotitem.favorite = false
+              }
+              return spotitem
+            })
+          setSpotFavorites(newSpotFavoriteList)
+          setSpotList(newSpotList)
           removeFavorite(requestData)
+          } else {
+            const newFutureFavoriteList = futureFavorites.filter(futurefavitem => futurefavitem.symbol != item.symbol)
+            const newFutureList = futuresList.map(futureitem => {
+              if(futureitem.symbol === item.symbol){
+                futureitem.favorite = false
+              }
+              return futureitem
+            })
+          setFutureFavorites(newFutureFavoriteList)
+          setFuturesList(newFutureList)
+          removeFavorite(requestData)
+          }
         } else {
-          addFavorite(requestData)
+          if(datatype === "spot"){
+            const spotFavitem = spotList.find(spotfavitem => spotfavitem.symbol === item.symbol)
+            const newSpotList = spotList.map(spotitem => {
+              if(item.symbol === spotitem.symbol){
+                spotitem.favorite = true
+              }
+              return spotitem
+            })
+            setSpotFavorites(prev => [...prev, spotFavitem])
+            setSpotList(newSpotList)
+            addFavorite(requestData)
+          } else {
+            const futureFavitem = futuresList.find(futurefavitem => futurefavitem.symbol === item.symbol)
+            const newFutureList = futuresList.map(futureitem => {
+              if(item.symbol === futureitem.symbol){
+                futureitem.favorite = true
+              }
+              return futureitem
+            })
+            setFutureFavorites(prev => [...prev, futureFavitem])
+            setFuturesList(newFutureList)
+            addFavorite(requestData)
+          }
         }
-    }
+    
+      }
     
   return (
     <GridWrapper>

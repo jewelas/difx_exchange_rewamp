@@ -12,11 +12,11 @@ import { CoinDrawerInfo, DrawerWrapper } from "../../pages/market/styled";
 
 const { Title, Paragraph } = Typography;
 
-export function MarketDrawer(spotList) {
+export function MarketDrawer() {
    const router = useRouter();
    const {marketPair} = useMarketPair()
    const [ellipsis, setEllipsis] = useState(true);
-    const { data: coinInfo, isLoading, isError } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS_INFO(marketPair), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS(marketPair), null);
+    const { data: coinInfo, isLoading, isError } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS_INFO(marketPair.currency), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS(marketPair.currency), null);
     if(isLoading){
     return <> loading.. </>
     }
@@ -96,7 +96,7 @@ export function MarketDrawer(spotList) {
                 <a href={coinInfo.twitter_link} target="_blank" rel="noreferrer"><Avatar size={35} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={"/imgs/twitter.svg"}/></a>
                 </Col>
             </Space>
-            <Button type="primary" block style={{marginTop:30}} onClick={() => {router.push(`/exchange/${coinInfo.coin}USDT`)}}>
+            <Button type="primary" block style={{marginTop:30}} onClick={() => {router.push(`/exchange/${marketPair.symbol}`)}}>
                 Trade
             </Button>
         </DrawerWrapper>

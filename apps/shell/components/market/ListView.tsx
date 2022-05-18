@@ -163,7 +163,7 @@ export function ListView({ data, datatype, categoriesList }) {
       render: (text: string, item: any) => (
         <Space size="middle">
           <Button onClick={() => {
-            setMarketPair(item.currency1)
+            setMarketPair({currency: item.currency1,symbol: item.symbol })
             setDrawerVisible(!drawerVisible)
           }}>
             {t("common.info")}

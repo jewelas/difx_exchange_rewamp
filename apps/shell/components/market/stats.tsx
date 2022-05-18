@@ -58,12 +58,12 @@ export function Stats({spotList, futuresList, categoriesList, spotFavorites, fut
                   </FavoriteFilter>
                   {favoriteTab === 'spot' && 
                   <>
-                    { cardVisible ? <GridView data={spotFavorites} /> : <ListView datatype="spot" data={spotFavorites} categoriesList={categoriesList} />}
+                    { cardVisible ? <GridView datatype="spot" data={spotFavorites} /> : <ListView datatype="spot" data={spotFavorites} categoriesList={categoriesList} />}
                   </>
                   }
                   {favoriteTab === 'future' && 
                   <>
-                    { cardVisible ? <GridView  data={futureFavorites} /> : <ListView datatype="future" data={futureFavorites} categoriesList={categoriesList} />}
+                    { cardVisible ? <GridView  datatype="future" data={futureFavorites} /> : <ListView datatype="future" data={futureFavorites} categoriesList={categoriesList} />}
                   </>
                   }
                 </>
@@ -80,20 +80,20 @@ export function Stats({spotList, futuresList, categoriesList, spotFavorites, fut
                   </SpotFilter>
                   {spotCategories === 'all' && 
                   <>
-                    { cardVisible ? <GridView data={spotList} /> : <ListView datatype="spot" data={spotList} categoriesList={categoriesList} />}
+                    { cardVisible ? <GridView datatype="spot" data={spotList} /> : <ListView datatype="spot" data={spotList} categoriesList={categoriesList} />}
                   </>
                   }
                   { 
                   spotCategories !== 'all' &&
                   <> 
-                    {cardVisible ? <GridView data={filterPairsByCategory} /> : <ListView datatype="spot" data={filterPairsByCategory} categoriesList={categoriesList} />}
+                    {cardVisible ? <GridView datatype="spot" data={filterPairsByCategory} /> : <ListView datatype="spot" data={filterPairsByCategory} categoriesList={categoriesList} />}
                   </>
                   }
                 </>
                 }
                 {tab === 'futures' && 
                   <>
-                  { cardVisible ? <GridView data={futuresList} /> : <ListView datatype="future" data={futuresList} categoriesList={categoriesList} />}
+                  { cardVisible ? <GridView datatype="future" data={futuresList} /> : <ListView datatype="future" data={futuresList} categoriesList={categoriesList} />}
                 </>
                 }
             </div>

@@ -2,7 +2,6 @@ import { PairTable } from "@difx/core-ui";
 import { PairType, useHttpGet } from "@difx/shared";
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { ListPairsContentStyled, MarketContentStyled, PageStyled } from './styled';
-import { useEffect } from "react";
 /* eslint-disable-next-line */
 export interface HomePageProps {}
 

@@ -18,7 +18,7 @@ export const PageStyled = styled.div`
     color: ${({ theme }) => theme.fontColor.primary};
   }
 
-  .ant-btn-background-ghost{
+  .ant-btn.ant-btn-default.ant-btn-background-ghost{
     border: none !important;
   }
 `;

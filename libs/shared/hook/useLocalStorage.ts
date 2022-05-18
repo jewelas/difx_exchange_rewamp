@@ -9,7 +9,10 @@ export function useLocalStorage(key: string, defaultValue?: any) {
 
     useEffect(() => {
         let currentItem = localStorage?.getItem(key);
-        if (currentItem && currentItem != value[key]) setValue({ ...value, [key]: currentItem });
+        if (currentItem && currentItem != value[key]){
+            value[key] = currentItem;
+            setValue(value);
+        }
     }, []);
 
     useEffect(() => {

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import isEmpty from "lodash/isEmpty";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { useLocalStorage } from "@difx/shared";
 import { STORE_KEY } from "@difx/constants";
@@ -29,16 +30,34 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
   const router = useRouter();
   const { pair } = router.query;
 
-  const layouts = getLayoutType(isStaticWidgets);
+  const initLayouts = getLayoutType('default', isStaticWidgets);
+  const [layouts, setLayouts] = useState(initLayouts);
+  const [layoutType, setLayoutType] = useState(null);
+
+  const { value: exchangeStyles, setValue: setExchangeStyles } = useLocalStorage(STORE_KEY.EXCHANGE_STYLE, {});
+  useEffect(() => {
+    if (!isEmpty(exchangeStyles)) {
+      const { layout } = JSON.parse(exchangeStyles);
+      setLayoutType(layout);
+      if (layout === 'default') setLayouts(initLayouts);
+      else if (layout === 'compact') setLayouts(getLayoutType('compact', isStaticWidgets));
+      else if (layout === 'pro') setLayouts(getLayoutType('pro', isStaticWidgets));
+    }
+  }, [exchangeStyles]);
+
+  console.log(layoutType,'layoutType');
+  console.log(layouts, 'layoutss')
 
   const handleGridResize = (widgets) => {
     // TODO
   };
 
   const { setValue: setLastPair } = useLocalStorage(STORE_KEY.LAST_PAIR, null);
-  useEffect(()=>{
-    if(pair) setLastPair(pair)
-  },[pair]);
+  useEffect(() => {
+    if (pair) setLastPair(pair)
+  }, [pair]);
+
+  console.log(exchangeStyles);
 
   return (
     <AppLayout>
@@ -61,14 +80,18 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           <div key="chart" className="base">
             {pair && <ChartWrapper pair={pair as string} />}
           </div>
-          <div key="pair-search" className="base">
-            <ListPairWrapper />
-          </div>
+          {
+            (!layoutType || layoutType === 'default')
+            &&
+            <div key="pair-search" className="base">
+              <ListPairWrapper />
+            </div>
+          }
           <div key="trade-info" className="base">
             {pair && <TradeInfoWrapper pair={pair as string} />}
           </div>
           <div key="place-order" className="base">
-            {pair && <PlaceOrderWrapper pair={pair as string} />}
+            {pair && <PlaceOrderWrapper pair={pair as string} layout={layoutType as string}  />}
           </div>
           <div key="report" className="base">
             {pair && <OrderReportsWrapper pair={pair as string} />}

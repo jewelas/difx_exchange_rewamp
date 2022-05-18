@@ -13,6 +13,7 @@ export * from "./hook/useFingerprint";
 export * from "./hook/useResize";
 export * from "./hook/useMarketPair";
 export * from "./hook/useMarketModal";
+export * from "./hook/useCurrency";
 
 export * from "./type/Base";
 export * from "./type/User";
@@ -33,6 +34,7 @@ export * from "./type/PlaceOrder";
 export * from "./type/Order";
 export * from "./type/market";
 export * from "./type/Staking";
+export * from "./type/Currency";
 
 export * from "./atom";
 

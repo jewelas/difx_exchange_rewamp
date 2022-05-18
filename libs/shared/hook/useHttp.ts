@@ -82,6 +82,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
                 onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
             }
         },
+        mergeOptions
     );
     return query;
 }

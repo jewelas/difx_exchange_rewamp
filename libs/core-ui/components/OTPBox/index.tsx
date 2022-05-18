@@ -13,7 +13,7 @@ export function OTPBox({value, numInputs, handleChange} : OTPBoxInterface) {
   return(
     <Wrapper>
       <OtpInput
-        value={value}
+        value={value.substring(0,6)}
         onChange={handleChange}
         numInputs={numInputs}
         containerStyle="otpContainer"

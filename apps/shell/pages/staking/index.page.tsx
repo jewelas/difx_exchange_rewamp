@@ -2,7 +2,9 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
 import { Icon, Loading, NoData, Typography } from '@difx/core-ui';
-import { Balance, Staking, useHttpGet, useSocketProps, useSocketByEvent, SocketEvent } from '@difx/shared';
+import { useRouter } from "next/router";
+import { AxiosResponse } from "axios";
+import { Balance, Staking, useAuth, useHttpGet, useHttpGetByEvent, useSocketProps, useSocketByEvent, SocketEvent } from '@difx/shared';
 import { Button, Checkbox, Col, Input, Row } from 'antd';
 import isEmpty from 'lodash/isEmpty';
 import React, { useEffect, useState } from "react";
@@ -13,12 +15,20 @@ import { PageStyled } from "./styled";
 
 /* eslint-disable-next-line */
 export interface StakingPageProps {
-  isStaticWidgets?: boolean;
 }
 
-export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
+export function StakingPage(props: StakingPageProps) {
+
+  const router = useRouter();
+
+  const getBalancesSuccess = (response: AxiosResponse<Array<Balance>>) => {
+    if (response.data) {
+      setBalances(response.data);
+    }
+  }
+
   const { data: stakingData, isLoading } = useHttpGet<null, Array<Staking>>(QUERY_KEY.STAKING, API_ENDPOINT.GET_STAKING_LIST, null);
-  const { data: balanceData, isLoading: isLoadingBalance } = useHttpGet<null, Array<Balance>>(QUERY_KEY.BALANCE, API_ENDPOINT.GET_BALANCE, null);
+  const { mutate: getBalances } = useHttpGetByEvent<any, Array<Balance>>({ onSuccess: getBalancesSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
   const [stakingList, setStakingList] = useState<Array<Staking>>([]);
   const [currentStaking, setCurrentStaking] = useState(null);
@@ -26,9 +36,13 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [balances, setBalances] = useState<Array<Balance>>(null);
 
+  const { isLoggedIn } = useAuth();
+
+  useEffect(() => {
+    if (isLoggedIn) getBalances(null);
+  }, [isLoggedIn]);
 
   const getBalanceSocketSuccess = (balanceSocketData: any) => {
-    console.log(balanceSocketData, 'aaaaa')
     if (balanceSocketData) {
       const index = balances.findIndex(e => e.currency === balanceSocketData.currency);
       if (index !== -1) {
@@ -46,13 +60,6 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
   useEffect(() => {
     setStakingList(stakingData)
   }, [stakingData]);
-
-
-  useEffect(() => {
-    if (balanceData) {
-      setBalances(balanceData);
-    }
-  }, [balanceData]);
 
   const onSearch = (e) => {
     const value = e.target.value;
@@ -133,7 +140,7 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
                     </div>
                   </div>
                   <div className="bottom">
-                    <Button className="l" type="primary" ghost>Order History</Button>
+                    <Button onClick={()=>{router.push('/staking-history')}} className="l" type="primary" ghost>Order History</Button>
                     <Button className="r" type="primary">Earning</Button>
                   </div>
                 </div>

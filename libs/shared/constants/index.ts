@@ -40,6 +40,8 @@ export const QUERY_KEY = {
   OPEN_ORDERS: 'open_orders',
   MARKET_PAIRS: 'market_pairs',
   MARKET_PAIRS_INFO: (coin: string) => `market_pairs_info_${coin}`,
+  CURRENCY_PAIRS: 'currency_pair',
+  AVAILABLE_LANGUAGES: 'available_languages'
 }
 
 export const ASSETS_URL = "https://media.difx.com/"
@@ -51,11 +53,14 @@ export const REFETCH = {
 
 export const STORE_KEY = {
   FAVORITE_PAIRS: 'favoritePairs',
-  LAST_PAIR: 'lastPair'
+  LAST_PAIR: 'lastPair',
+  EXCHANGE_STYLE: 'exchangeStyle'
 }
 
 export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
+  GET_CURRENCY_PAIRS: '/api/v1/public/fiat-currency',
+  GET_AVAILABLE_LANGUAGES: '/api/v1/public/lang',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',
   GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
@@ -84,9 +89,9 @@ export const API_ENDPOINT = {
   REFRESH_TOKEN: '/api/v1/auth/refresh',
   GET_ORDER_OPEN: (symbol?: string) => `/api/v1/user/open-orders${symbol ? `?symbol=${symbol}` : ''}`,
   GET_ORDER_STOP_LIMIT: (symbol?: string) => `/api/v1/user/sl-orders${symbol ? `?symbol=${symbol}` : ''}`,
-  PLACE_ORDER_LIMIT: '/api/v1/order/make-limit',
-  PLACE_ORDER_MARKET: '/api/v1/order/make-market',
-  PLACE_ORDER_STOP: '/api/v1/order/make-stop',
+  PLACE_ORDER_LIMIT: '/api/v1/order/limit-order',
+  PLACE_ORDER_MARKET: '/api/v1/order/market-order',
+  PLACE_ORDER_STOP: '/api/v1/order/sl-order',
   CANCEL_BID_ORDER: '/api/v1/order/cancel-bid',
   CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',

@@ -252,7 +252,7 @@ export const dark: ThemeInterface = {
     star: "#FFC107"
   },
   fontColor: {
-    primary: "#454552",
+    primary: "#FFFFFF",
     secondary: "#9AA5B4",
     button: "#FFFFFF",
     muted: "#A1A1A1",
@@ -305,55 +305,3 @@ export const dark: ThemeInterface = {
   otpBoxSize: "58px",
   transition: "all 0.2s ease-in-out",
 };
-
-//--------------------- OLD THEME --------------------------------------
-
-// import { Theme } from "antd/lib/config-provider/context";
-
-// export interface ThemeInterface extends Theme {
-//   currentTheme?: "light" | "dark";
-//   borderColor?: string;
-//   borderColorLighter?: string;
-//   background.primary?: string;
-//   background.secondary?: string;
-//   inputBorderColor?: string;
-//   inputbackground.primary?: string;
-//   fontColor.primary?: string;
-//   textHoverColor?: string;
-//   logoFillColor?: string;
-//   titleColor?: string;
-// }
-
-// /*
-//    Note: Overriding fields value inside Theme interface (e.g: primaryColor, infoColor,...) it will affect on the whole antd component
-//  */
-
-// export const light: ThemeInterface = {
-//   currentTheme: "light",
-//   background.primary: "#F7F7F8",
-//   background.secondary: "#FFF",
-//   borderColor: "#eee",
-//   borderColorLighter: "#eee",
-//   inputBorderColor: "#d9d9d9",
-//   inputbackground.primary: "#fff",
-//   fontColor.primary: "#000",
-//   textHoverColor: "#000",
-//   logoFillColor: "#3d7eff",
-//   titleColor: "#3d7eff",
-//   primaryColor: "#1890F8",
-// };
-
-// export const dark: ThemeInterface = {
-//   currentTheme: "dark",
-//   background.primary: "#161f30",
-//   background.secondary: "#0d1421",
-//   borderColor: "#000",
-//   borderColorLighter: "#191E27",
-//   inputBorderColor: "#161f30",
-//   inputbackground.primary: "#161f30",
-//   fontColor.primary: "#fff",
-//   textHoverColor: "#1890ff",
-//   logoFillColor: "#fff",
-//   titleColor: "#fff",
-//   primaryColor: "#1890F8",
-// };

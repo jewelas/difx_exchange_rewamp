@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Icon, Loading, Switch } from "@difx/core-ui";
+import { useAuth } from "@difx/shared";
 import { Button, Switch as AntdSwitch, Tabs } from "antd";
 import { useState } from 'react';
 import FundReport from "./FundReport";
@@ -15,6 +16,7 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
   const [tab, setTab] = useState('open-order');
   const [isSelectedPairOnly, setIsSelectedPairOnly] = useState(false);
   const [orderType, setOrderType] = useState('limit');
+  const { isLoggedIn } = useAuth();
 
   if (!pair) return <Loading />;
 
@@ -48,6 +50,7 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
           <div className="bar-group">
             <div className="bar-left">
               <Switch
+                disabled={!isLoggedIn}
                 tabs={[{ value: "limit", label: "Limit Order" }, { value: "stop-limit", label: "Stop Limit" }]}
                 onChange={(tab) => { setOrderType(tab) }}
               />
@@ -56,7 +59,7 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
               tab === 'open-order'
               &&
               <div className="bar-right">
-                <Button ghost>
+                <Button disabled={!isLoggedIn} ghost>
                   <Icon.CancelOrderIcon useDarkMode />
                   <span>Cancel all</span>
                 </Button>

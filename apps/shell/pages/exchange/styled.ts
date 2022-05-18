@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const PageStyled = styled.div`
   background: ${({ theme }) => theme.background.space};
   margin-top: -5px;
-  padding: 0 100px;
+  /* padding: 0 10px; */
 
   .react-grid-item {
     overflow: hidden;
@@ -16,5 +16,9 @@ export const PageStyled = styled.div`
   .base {
     background: ${({ theme }) => theme.background.secondary};
     color: ${({ theme }) => theme.fontColor.primary};
+  }
+
+  .ant-btn.ant-btn-default.ant-btn-background-ghost{
+    border: none !important;
   }
 `;

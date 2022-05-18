@@ -129,7 +129,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-btn.ant-btn-background-ghost:not(.ant-btn-primary){
-      border: unset;
+      border: unset !important;
       margin: unset !important;
       &:hover{
         svg{
@@ -403,6 +403,18 @@ const GlobalStyles = createGlobalStyle`
       border: none !important;
     }
 
+    .ant-menu-item:active{
+      background: transparent !important;
+    }
+    .ant-menu-item:focus-visible, .ant-menu-submenu-title:focus-visible{
+      box-shadow: unset !important;
+    }
+    .ant-menu-title-content{
+      svg:hover{
+        opacity: 0.8;
+      }
+    }
+
     .ant-typography.ant-typography-success {
       color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
     }
@@ -433,6 +445,11 @@ const GlobalStyles = createGlobalStyle`
         }
       }
 
+      .ant-popover.ant-popover-placement-bottomRight{
+        .ant-popover-arrow{
+          display:none;
+        }
+      }
       .ant-popover.ant-popover-placement-bottom{
         .ant-popover-content{
           margin-top: -10px;

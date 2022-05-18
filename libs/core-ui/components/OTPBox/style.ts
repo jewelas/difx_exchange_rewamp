@@ -6,6 +6,7 @@ const Wrapper = styled.div`
     display: flex;
     gap: 10px;
     justify-content: space-between;
+    width: 100%;
   }
 
   .otpbox{

@@ -27,7 +27,7 @@ export function SettingPopover(props: SettingPopoverProps) {
   const [layoutType, setLayoutType] = useState<string | 'default' | 'compact' | 'pro'>('default');
   const [candleType, setCandleType] = useState<string | 'greenUp' | 'redUp'>('greenUp');
 
-  const {value:exchangeStyles, setValue: setExchangeStyles } = useLocalStorage(STORE_KEY.EXCHANGE_STYLE, {});
+  const { value: exchangeStyles, setValue: setExchangeStyles } = useLocalStorage(STORE_KEY.EXCHANGE_STYLE, null);
   useEffect(() => {
     if (!isEmpty(exchangeStyles)) {
       const { layout } = JSON.parse(exchangeStyles);
@@ -38,14 +38,14 @@ export function SettingPopover(props: SettingPopoverProps) {
 
   const onChangeLayoutType = (type: string) => {
     setLayoutType(type as string);
-    const exchangeStylesJSON  = JSON.parse(exchangeStyles);
+    const exchangeStylesJSON = exchangeStyles ? JSON.parse(exchangeStyles) : {};
     exchangeStylesJSON.layout = type;
     setExchangeStyles(exchangeStylesJSON);
   }
 
   const onChangeCandleType = (type: string) => {
     setCandleType(type as string);
-    const exchangeStylesJSON  = JSON.parse(exchangeStyles);
+    const exchangeStylesJSON = exchangeStyles ? JSON.parse(exchangeStyles) : {};
     exchangeStylesJSON.candle = type;
     setExchangeStyles(exchangeStylesJSON);
   }

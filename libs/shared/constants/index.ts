@@ -53,7 +53,8 @@ export const REFETCH = {
 
 export const STORE_KEY = {
   FAVORITE_PAIRS: 'favoritePairs',
-  LAST_PAIR: 'lastPair'
+  LAST_PAIR: 'lastPair',
+  EXCHANGE_STYLE: 'exchangeStyle'
 }
 
 export const API_ENDPOINT = {

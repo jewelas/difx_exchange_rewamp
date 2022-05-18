@@ -30,6 +30,30 @@ export const ComponentStyled = styled.div`
     border-bottom: ${({ theme }) => theme.border};
     padding-bottom: 10px;
   }
+  .com-priceinfo{
+    .left {
+      .B1 {
+        font-weight: 600;
+        &.bid {
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success};
+        }
+        &.ask {
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger};
+        }
+      }
+    }
+    .center-group{
+      display: flex;
+      justify-content: space-between;
+      padding: 0 16px;
+      margin-bottom: 10px;
+    }
+    .btn-change-total{
+      position: absolute;
+      right: 51px;
+      margin-top: 7px !important;
+    }
+  }
   .com-head {
     display: flex;
     justify-content: space-between;
@@ -59,8 +83,24 @@ export const ComponentStyled = styled.div`
   }
 
   .com-table-content {
-    /* padding: 10px 15px 10px 20px; */
     color: ${({ theme }) => theme.fontColor.primary};
+    .head.compact{
+      width: 100%;
+      display:flex;
+      .left, .right{
+        display: flex;
+        flex-grow: 1;
+        width:100%;
+        padding:0 15px 0 20px;
+        .t1{
+          flex-grow: 1;
+        }
+        .t2{
+          flex-grow: 1;
+          text-align: right;
+        }
+      }
+    }
     .table-head {
       padding: 10px 15px 10px 20px;
       display: flex;
@@ -80,6 +120,38 @@ export const ComponentStyled = styled.div`
     .table-body {
       margin-top: 10px;
       overflow: hidden;
+      .compact{
+        display:flex;
+        .left,.right{
+          flex-grow: 1;
+        }
+      }
+      .compact{
+        .table-row:hover{
+          background: unset !important;
+        }
+        .ant-typography {
+          &.amount{
+            width: unset !important;
+          }
+        }
+        .ask{
+          .price{
+            justify-content: flex-end !important;
+          }
+          .total{
+            justify-content: flex-start !important;
+          }
+        }
+        .bid{
+          .total{
+            justify-content: flex-end !important;
+          }
+          .price{
+            justify-content: flex-start !important;
+          }
+        }
+      }
       .table-row {
         display: flex;
         justify-content: space-between;

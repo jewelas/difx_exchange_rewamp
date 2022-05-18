@@ -13,9 +13,11 @@ import { Typography } from "../Typography";
 import { OrderData, CurrentPrice } from "./OrderBookBody";
 import { ComponentStyled } from "./styled";
 import { PairType, priceSelectedAtom } from "./../../../shared";
+import { OrderBookHead } from "./OrderBookHead";
 
 /* eslint-disable-next-line */
 export type SortType = "all" | "bid" | "ask";
+export type LayoutType = "default" | "compact" | "pro";
 export interface OrderBookProps {
   pairInfo: PairType;
   bids?: Array<Array<number>>;
@@ -24,6 +26,7 @@ export interface OrderBookProps {
   currentPrice: number;
   networkStatus?: NetworkStatusType;
   priceOpenOrders?: Array<any>;
+  layout?: LayoutType;
 }
 
 export function OrderBook({
@@ -33,7 +36,8 @@ export function OrderBook({
   bids,
   asks,
   networkStatus,
-  priceOpenOrders
+  priceOpenOrders,
+  layout = 'default'
 }: OrderBookProps) {
   const { Option } = Select;
   const [sortType, setSortType] = useState<SortType>("all");
@@ -64,8 +68,10 @@ export function OrderBook({
     }
   }
 
-  const BidComponent = ({ maxRow = 12 }: { maxRow?: number }) => (
+  const BidComponent = ({ layout = 'default', maxRow = (layout === 'compact' ? 17 : 12), hideColumns }: { layout?: string, maxRow?: number, hideColumns?: string[] }) => (
     <OrderData
+      layout={layout}
+      hideColumns={hideColumns}
       type="bid"
       data={bids}
       numberFormat={numberFormat}
@@ -76,8 +82,10 @@ export function OrderBook({
     />
   )
 
-  const AskComponent = ({ maxRow = 12 }: { maxRow?: number }) => (
+  const AskComponent = ({ layout = 'default', maxRow = (layout === 'compact' ? 17 : 12), hideColumns = [] }: { layout?: string; maxRow?: number, hideColumns?: string[] }) => (
     <OrderData
+      layout={layout}
+      hideColumns={hideColumns}
       type="ask"
       data={asks}
       numberFormat={numberFormat}
@@ -98,56 +106,84 @@ export function OrderBook({
 
   const renderTableBody = (type: SortType) => {
     if (!asks || !bids) return null;
-    if (type === "all")
+
+    if (layout === 'compact') {
       return (
-        <>
-          <AskComponent />
-          <CurrentPriceComponent />
-          <BidComponent />
-        </>
-      );
-    else if (type === "ask")
-      return (
-        <AskComponent maxRow={24} />
-      );
-    else if (type === "bid")
-      return (
-        <BidComponent maxRow={24} />
-      );
+        <div className={layout}>
+          <div className="left">
+            <AskComponent layout={layout} hideColumns={['amount']} />
+          </div>
+          <div className="right">
+            <BidComponent layout={layout} hideColumns={['amount']} />
+          </div>
+        </div>
+      )
+    } else {
+      if (type === "all")
+        return (
+          <>
+            <AskComponent />
+            <CurrentPriceComponent />
+            <BidComponent />
+          </>
+        );
+      else if (type === "ask")
+        return (
+          <AskComponent maxRow={24} />
+        );
+      else if (type === "bid")
+        return (
+          <BidComponent maxRow={24} />
+        );
+    }
     return null;
   };
 
   return (
     <ComponentStyled>
-      <div className="com-title">
-        <Typography level="text">Order Book</Typography>
-      </div>
+      {
+        layout !== 'compact' &&
+        <div className="com-title">
+          <Typography level="text">Order Book</Typography>
+        </div>
+      }
+
       <div className="com-head">
         <div className="left">
-          <div
-            onClick={() => {
-              setSortType("all");
-            }}
-            className={clsx(sortType === "all" && "active")}
-          >
-            <OrderBuySellIcon useDarkMode />
-          </div>
-          <div
-            onClick={() => {
-              setSortType("bid");
-            }}
-            className={clsx(sortType === "bid" && "active")}
-          >
-            <OrderBuyIcon useDarkMode />
-          </div>
-          <div
-            onClick={() => {
-              setSortType("ask");
-            }}
-            className={clsx(sortType === "ask" && "active")}
-          >
-            <OrderSellIcon useDarkMode />
-          </div>
+          {
+            layout !== 'compact' ?
+              <>
+                <div
+                  onClick={() => {
+                    setSortType("all");
+                  }}
+                  className={clsx(sortType === "all" && "active")}
+                >
+                  <OrderBuySellIcon useDarkMode />
+                </div>
+                <div
+                  onClick={() => {
+                    setSortType("bid");
+                  }}
+                  className={clsx(sortType === "bid" && "active")}
+                >
+                  <OrderBuyIcon useDarkMode />
+                </div>
+                <div
+                  onClick={() => {
+                    setSortType("ask");
+                  }}
+                  className={clsx(sortType === "ask" && "active")}
+                >
+                  <OrderSellIcon useDarkMode />
+                </div>
+              </>
+              :
+              <div style={{ marginLeft: -33 }}>
+                <Typography level="text">Order Book</Typography>
+              </div>
+          }
+
         </div>
         <div className="right">
           <Select
@@ -164,27 +200,31 @@ export function OrderBook({
           </Select>
         </div>
       </div>
-      <div className="com-table-content">
-        <div className="table-head">
-          <div>
-            <Typography level="text">{`Price(${pairInfo.currency2})`}</Typography>
-          </div>
-          <div>
-            <Typography level="text">{`Quantity(${pairInfo.currency1})`}</Typography>
-          </div>
-          <div className="col-total">
-            <div style={{marginTop:'-19px !important'}}>
-            <Button onClick={() => { setTotalType(totalType === 'sum' ? 'total' : 'sum') }} ghost><SwitchIcon useDarkMode /></Button>
-            </div>
-            <div>
-              <Typography level="text">{totalType === 'sum' ? `Sum` : `Total`}</Typography>
-              <div>
-                <Typography level="text">{totalType === 'sum' ? `(${pairInfo.currency1})` : `(${pairInfo.currency2})`}</Typography>
-              </div>
-            </div>
 
-          </div>
+      {
+        layout === 'compact' &&
+        <div className="com-priceinfo">
+          <Button className="btn-change-total" onClick={() => { setTotalType(totalType === 'sum' ? 'total' : 'sum') }} ghost><SwitchIcon useDarkMode /></Button>
+          <CurrentPriceComponent />
         </div>
+      }
+
+      <div className="com-table-content">
+        {layout !== 'compact'
+          ?
+          <OrderBookHead pairInfo={pairInfo} layout={layout} totalType={totalType} setTotalType={setTotalType} />
+          :
+          <div className={clsx('head', layout)}>
+            <div className="left">
+              <div className="t1">Amount</div>
+              <div className="t2">Price</div>
+            </div>
+            <div className="right">
+              <div className="t1">Price</div>
+              <div className="t2">Amount</div>
+            </div>
+          </div>
+        }
         <div className="table-body">
           {renderTableBody(sortType)}
         </div>

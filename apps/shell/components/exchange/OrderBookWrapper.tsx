@@ -1,29 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
-import { Loading, OrderBook } from "@difx/core-ui";
+import { LayoutType, Loading, OrderBook } from "@difx/core-ui";
+import {
+  BaseRequest,
+  Order, SocketEvent, useAuth, useHttpGet, useHttpGetByEvent, useNetwork,
+  useSocket,
+  useSocketProps
+} from "@difx/shared";
 import { getAveragePrice, getTrendPrice } from "@difx/utils";
 import { AxiosResponse } from "axios";
-import {
-  PairType,
-  SocketEvent, useHttpGet,
-  useNetwork,
-  useSocket,
-  useSocketProps,
-  BaseRequest,
-  Order,
-  useHttpGetByEvent,
-  useAuth
-} from "@difx/shared";
 import sortBy from "lodash/sortBy";
-import { useMemo, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 // import { useRouter } from "next/router";
 
 /* eslint-disable-next-line */
 export interface OrderBookWrapperProps {
   pair: string;
+  layout: string;
 }
 
-export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
+export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
@@ -132,6 +128,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
 
   return (
     <OrderBook
+      layout={layout as LayoutType}
       pairInfo={pairInfo}
       networkStatus={online ? effectiveType : "off"}
       priceTrend={priceTrend}

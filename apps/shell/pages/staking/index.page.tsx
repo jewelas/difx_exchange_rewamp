@@ -2,6 +2,7 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
 import { Icon, Loading, NoData, Typography } from '@difx/core-ui';
+import { useRouter } from "next/router";
 import { AxiosResponse } from "axios";
 import { Balance, Staking, useAuth, useHttpGet, useHttpGetByEvent, useSocketProps, useSocketByEvent, SocketEvent } from '@difx/shared';
 import { Button, Checkbox, Col, Input, Row } from 'antd';
@@ -14,10 +15,11 @@ import { PageStyled } from "./styled";
 
 /* eslint-disable-next-line */
 export interface StakingPageProps {
-  isStaticWidgets?: boolean;
 }
 
-export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
+export function StakingPage(props: StakingPageProps) {
+
+  const router = useRouter();
 
   const getBalancesSuccess = (response: AxiosResponse<Array<Balance>>) => {
     if (response.data) {
@@ -138,7 +140,7 @@ export function StakingPage({ isStaticWidgets = false }: StakingPageProps) {
                     </div>
                   </div>
                   <div className="bottom">
-                    <Button className="l" type="primary" ghost>Order History</Button>
+                    <Button onClick={()=>{router.push('/staking-history')}} className="l" type="primary" ghost>Order History</Button>
                     <Button className="r" type="primary">Earning</Button>
                   </div>
                 </div>

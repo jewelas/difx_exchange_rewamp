@@ -9,7 +9,10 @@ const resources = {
 
 let lang = "en";
 if (typeof window !== "undefined") {
-  lang = window.localStorage.getItem("lang") || "en";
+  const cachedLang = JSON.parse(window.localStorage.getItem('lang') || "null")
+  if(cachedLang){
+    lang = cachedLang.slug
+  }
 }
 
 i18n.use(initReactI18next).init({

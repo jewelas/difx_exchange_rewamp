@@ -13,16 +13,6 @@ export function useCurrency() {
     const cachedCurrency =  JSON.parse(localStorage?.getItem('currency') || "null")
     if(cachedCurrency){
       setCurrentCurrency(cachedCurrency)
-    }else{
-      const defaultCurrency: Currency = {
-        default: true,
-        id: 1,
-        name: "USD",
-        symbol: "$",
-        usd_rate: 0.99
-      }
-      localStorage.setItem('currency', JSON.stringify(defaultCurrency))
-      setCurrentCurrency(defaultCurrency)
     }
   },[])
 
@@ -30,6 +20,10 @@ export function useCurrency() {
     if(data){
       setCurrencyPairs(data.currencies)
       setIsAvailable(true)
+
+      const defaultCurrency = data.currencies.find( item => item.default === true )
+      localStorage.setItem('currency', JSON.stringify(defaultCurrency))
+      setCurrentCurrency(defaultCurrency)
     }
   },[data])
 

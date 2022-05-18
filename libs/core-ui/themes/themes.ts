@@ -92,6 +92,9 @@ export interface ThemeInterface extends Theme {
     base: string,
     highLight: string
   },
+  table: {
+    head: string
+  },
   inputFieldHeight: string,
   otpBoxSize: string,
   transition: string;
@@ -192,6 +195,9 @@ export const light: ThemeInterface = {
     medium: "42px",
     small: "32px",
   },
+  table: {
+    head: "#FAFAFA"
+  },
   inputFieldHeight: "48px",
   otpBoxSize: "63px",
   transition: "all 0.2s ease-in-out",
@@ -206,7 +212,7 @@ export const dark: ThemeInterface = {
 
   color: {
     primary: "#3D7EFF",
-    primaryLight: "#E0EFFF",
+    primaryLight: "#161F30",
     secondary: "#FAAD14",
     success: "#21C198",
     danger: "#DB5354",
@@ -291,6 +297,9 @@ export const dark: ThemeInterface = {
     large: "48px",
     medium: "42px",
     small: "38px",
+  },
+  table: {
+    head: "#161F30"
   },
   inputFieldHeight: "48px",
   otpBoxSize: "58px",

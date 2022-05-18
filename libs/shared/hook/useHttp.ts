@@ -63,20 +63,22 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
     }
 
     instance.interceptors.request.use(axiosAuthorization);
-
+    
     const query = useQuery<Response, AxiosError>(
         queryKey,
         async () => {
+            
             try {
                 const res = await instance.get<null, AxiosResponse>(endpoint, request);
                 const data = res.data.data;
-
+                
                 if (data) {
                     return data;
                 }
             } catch (error: any) {
                 const { refreshToken, logOut } = useAuth();
                 const { refreshAnonymousToken } = useGuestAuth();
+                
                 onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
             }
         },
@@ -149,8 +151,7 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
         (request: any) => {
             return instance.delete<Request, AxiosResponse<Response>>(
                 request.endpoint || endpoint,
-                // {params:request}
-                request
+                { data: request }
             );
         },
         {

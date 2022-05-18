@@ -11,48 +11,74 @@ import React from "react";
 import Trend from "react-trend";
 
 
-export function ListView({ data, categoriesList }) {
-  const router = useRouter();
-  const { setMarketPair, drawerVisible, setDrawerVisible } = useMarketPair()
+export function ListView({ data, datatype, categoriesList }) {
+  const { setMarketPair, drawerVisible, setDrawerVisible, setSpotFavorites, spotFavorites, setSpotList, spotList, futureFavorites, setFutureFavorites } = useMarketPair()
 
   const onSuccess = (response) => {
-    console.log(response)
-  }
 
+  }
+  
+  const router = useRouter();
   const { mutate: addFavorite } = useHttpPost<null, any>({ onSuccess, endpoint: API_ENDPOINT.ADD_FAVORITES })
   const { mutate: removeFavorite } = useHttpDelete<null, any>({ onSuccess, endpoint: API_ENDPOINT.REMOVE_FAVORITES })
+
 
   const onfavorite = (item) => {
     const requestData = {
       symbol: item.symbol
     }
+    
     if (item.favorite) {
+      const newSpotFavoriteList = spotFavorites.filter(spotfavitem => spotfavitem.symbol != item.symbol)
+      const newSpotList = spotList.map(spotitem => {
+        if(spotitem.symbol === item.symbol){
+          spotitem.favorite = false
+        }
+        return spotitem
+      })
+      setSpotFavorites(newSpotFavoriteList)
+      setSpotList(newSpotList)
       removeFavorite(requestData)
+      
     } else {
+      const spotFavitem = spotList.find(spotfavitem => spotfavitem.symbol === item.symbol)
+      const newSpotList = spotList.map(spotitem => {
+        if(item.symbol === spotitem.symbol){
+          spotitem.favorite = true
+        }
+        return spotitem
+      })
+      setSpotFavorites(prev => [...prev, spotFavitem])
+      setSpotList(newSpotList)
       addFavorite(requestData)
+      // setFavoriteList(prev => [...prev, item])
     }
 
   }
   const columns = [
     {
       title: "Coin", key: "symbol",
+      sorter: {
+        compare: (a, b) => a.symbol.localeCompare(b.symbol)
+      },
       render: (item: any) => {
         return (
           <Space>
             <div onClick={() => onfavorite(item)} className="cursor-pointer">
-              <Icon.FavoriteIcon fill={item.favorite ? "#FFC107" : "#56595C"} variant="medium" />
+              <Icon.FavoriteIcon fill={item.favorite ? "#FFC107" : "#56595C"} variant="medium" width={14} height={14} />
             </div>
-            <Avatar size={34} icon={<Icon.CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`} /> <span>{item.currency1} <Text type="secondary">/ {item.currency2}</Text></span></Space>
+            <Avatar shape="square" size={28} icon={<Icon.CoinPlaceholder width={28} height={28} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`} /> <span>{item.currency1} <Text type="secondary">/ {item.currency2}</Text></span></Space>
         );
       }
     },
     {
       title: "Last Price", key: "last",
+      sorter: (a, b) => a.last - b.last,
       render: (item: any) => {
         return (
           <>
             <Space size={12} direction="vertical">
-              <Text>{item.last}</Text>
+              {item.last}
               <Text type="secondary">≈ {item.last.toFixed(2)}</Text>
             </Space>
           </>
@@ -62,15 +88,16 @@ export function ListView({ data, categoriesList }) {
     {
       title: "24h Change",
       key: "open",
+      sorter: (a, b) => a.open - b.last,
       render: (item: any) => {
         return (
           <span className={item.change >= 0 ? "successTag" : "errorTag"}>
-            {item.change.toFixed(2)}%
+            {item.change > 0 ? '+' : ''}{item.change.toFixed(2)}%
           </span>
         )
       }
     },
-    { title: "24h Volume", dataIndex: "volume", key: "volume" },
+    { title: "24h Volume", dataIndex: "volume", key: "volume", sorter: (a, b) => a.volume - b.volume },
     {
       title: "Chart",
       key: "pricing",
@@ -95,7 +122,7 @@ export function ListView({ data, categoriesList }) {
       },
     },
     {
-      title: "Action", key: "action",
+      title: "Action", key: "action", align: "right",
       render: (text: string, item: any) => (
         <Space size="middle">
           <Button onClick={() => {
@@ -104,17 +131,19 @@ export function ListView({ data, categoriesList }) {
           }}>
             {t("common.info")}
           </Button>
-          <Link href="/exchange">
+          
             <Button
               type="primary"
+              onClick={() => {router.push(`/exchange/${item.symbol}`)}}
             >
               {t("header.trade")}
             </Button>
-          </Link>
         </Space>
       )
     },
   ];
+
+
   return (
     <>
       <Table

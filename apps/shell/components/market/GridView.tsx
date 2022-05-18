@@ -38,13 +38,13 @@ export function GridView({data}) {
                "Loading..."
                :
                data.map(item =>
-                <Col span={6} key={item.symbol}>
+                <Col xs={24} xl={6} sm={12} key={item.symbol}>
                     <Card>
                         <CardStar onClick={() => onfavorite(item)} className="cursor-pointer"><Icon.FavoriteIcon fill={item.favorite ? "#FFC107" : "#56595C"} variant="medium" /></CardStar>
                         <Row justify="space-between" align="middle">
                             <Col span={14}>
                             <CoinText>
-                                <Avatar size={54} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
+                                <Avatar shape="square" size={42} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
                                 <Text>{item.currency1}<Text type="secondary"> / {item.currency2}</Text></Text>
                             </CoinText>
                             </Col>
@@ -75,7 +75,7 @@ export function GridView({data}) {
                                     <Text type="secondary">
                                     24h Change
                                     </Text>
-                                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change.toFixed(2)}%</Text>
+                                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change > 0 ? '+' : ''}{item.change.toFixed(2)}%</Text>
                                 </Col>
                                 <Col span={8}>
                                     <Text type="secondary">

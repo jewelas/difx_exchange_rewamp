@@ -231,7 +231,7 @@ export function Header(props: HeaderProps) {
                 </StyledButtonGroup>
               </Menu.Item>
 
-              {isLoggedIn && (
+              {router && router.pathname === '/exchange/[pair]' && (
                 <Menu.Item className="right-nav" key="setting">
                   <StyledButtonGroup>
                     <StyledLine />

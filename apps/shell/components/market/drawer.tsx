@@ -13,6 +13,7 @@ import { CoinDrawerInfo, DrawerWrapper } from "../../pages/market/styled";
 const { Title, Paragraph } = Typography;
 
 export function MarketDrawer(spotList) {
+   const router = useRouter();
    const {marketPair} = useMarketPair()
    const [ellipsis, setEllipsis] = useState(true);
     const { data: coinInfo, isLoading, isError } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS_INFO(marketPair), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS(marketPair), null);
@@ -22,7 +23,6 @@ export function MarketDrawer(spotList) {
     if(!coinInfo){
         return <> No Coin Data Found </>
     }
-    const router = useRouter();
   return (
     <>
         <DrawerWrapper>

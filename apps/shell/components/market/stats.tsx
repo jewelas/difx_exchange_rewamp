@@ -51,7 +51,7 @@ export function Stats({spotList, futuresList, categoriesList, spotFavorites, fut
                 {tab === 'favorites' &&
                 <>
                   <FavoriteFilter>
-                    <Tabs defaultActiveKey="spot" onChange={(e) => { setFavoriteTab(e) }}>
+                    <Tabs onChange={(e) => { setFavoriteTab(e) }}>
                       <TabPane tab="Spot" key="spot" />
                       <TabPane tab="Future" key="future" />
                     </Tabs>

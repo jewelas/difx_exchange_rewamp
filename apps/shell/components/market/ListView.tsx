@@ -12,10 +12,22 @@ import Trend from "react-trend";
 
 
 export function ListView({ data, datatype, categoriesList }) {
-  const { setMarketPair, drawerVisible, setDrawerVisible, setSpotFavorites, spotFavorites, setSpotList, spotList, futureFavorites, setFutureFavorites } = useMarketPair()
+  const { 
+    setMarketPair,
+    drawerVisible,
+    setDrawerVisible,
+    setSpotFavorites,
+    spotFavorites,
+    setSpotList,
+    setFuturesList,
+    futuresList,
+    spotList,
+    futureFavorites,
+    setFutureFavorites 
+  } = useMarketPair()
 
   const onSuccess = (response) => {
-
+    return null
   }
   
   const router = useRouter();
@@ -25,33 +37,58 @@ export function ListView({ data, datatype, categoriesList }) {
 
   const onfavorite = (item) => {
     const requestData = {
-      symbol: item.symbol
+      symbol: item.symbol,
+      type: datatype
     }
     
     if (item.favorite) {
-      const newSpotFavoriteList = spotFavorites.filter(spotfavitem => spotfavitem.symbol != item.symbol)
-      const newSpotList = spotList.map(spotitem => {
-        if(spotitem.symbol === item.symbol){
-          spotitem.favorite = false
-        }
-        return spotitem
-      })
+      if(datatype === "spot"){
+        const newSpotFavoriteList = spotFavorites.filter(spotfavitem => spotfavitem.symbol != item.symbol)
+        const newSpotList = spotList.map(spotitem => {
+          if(spotitem.symbol === item.symbol){
+            spotitem.favorite = false
+          }
+          return spotitem
+        })
       setSpotFavorites(newSpotFavoriteList)
       setSpotList(newSpotList)
       removeFavorite(requestData)
-      
+      } else {
+        const newFutureFavoriteList = futureFavorites.filter(futurefavitem => futurefavitem.symbol != item.symbol)
+        const newFutureList = futuresList.map(futureitem => {
+          if(futureitem.symbol === item.symbol){
+            futureitem.favorite = false
+          }
+          return futureitem
+        })
+      setFutureFavorites(newFutureFavoriteList)
+      setFuturesList(newFutureList)
+      removeFavorite(requestData)
+      }
     } else {
-      const spotFavitem = spotList.find(spotfavitem => spotfavitem.symbol === item.symbol)
-      const newSpotList = spotList.map(spotitem => {
-        if(item.symbol === spotitem.symbol){
-          spotitem.favorite = true
-        }
-        return spotitem
-      })
-      setSpotFavorites(prev => [...prev, spotFavitem])
-      setSpotList(newSpotList)
-      addFavorite(requestData)
-      // setFavoriteList(prev => [...prev, item])
+      if(datatype === "spot"){
+        const spotFavitem = spotList.find(spotfavitem => spotfavitem.symbol === item.symbol)
+        const newSpotList = spotList.map(spotitem => {
+          if(item.symbol === spotitem.symbol){
+            spotitem.favorite = true
+          }
+          return spotitem
+        })
+        setSpotFavorites(prev => [...prev, spotFavitem])
+        setSpotList(newSpotList)
+        addFavorite(requestData)
+      } else {
+        const futureFavitem = futuresList.find(futurefavitem => futurefavitem.symbol === item.symbol)
+        const newFutureList = futuresList.map(futureitem => {
+          if(item.symbol === futureitem.symbol){
+            futureitem.favorite = true
+          }
+          return futureitem
+        })
+        setFutureFavorites(prev => [...prev, futureFavitem])
+        setFuturesList(newFutureList)
+        addFavorite(requestData)
+      }
     }
 
   }

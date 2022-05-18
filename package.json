@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve shell",
-    "build": "nx build shell --prod",
+    "build": "nx build shell --prod --skip-nx-cache",
     "test": "nx run-many --target=test --all",
     "test:e2e": "nx e2e shell-e2e",
     "storybook": "nx storybook core-ui",

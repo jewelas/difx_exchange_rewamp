@@ -131,31 +131,35 @@ export function LoginForm(props: LoginFormProps) {
 
   const { mutate: signIn } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
 
-  const onSubmit = async (event) => {
-    console.log(event)
-    // setIsLoading(true)
-    // const captcha: string | CaptchaType = await getCaptcha()
+  const onSubmit = async (formData: SignInRequest) => {
+    setIsLoading(true)
+    const captcha: string | CaptchaType = await getCaptcha()
 
-    // /* eslint-disable */
-    // formData.captcha = captcha,
-    //   formData.captcha_type = config.captcha,
-    //   formData.device_token = "sdasdasd",
-    //   formData.device = "web";
-    // /* eslint-enable */
+    /* eslint-disable */
+    formData.captcha = captcha,
+      formData.captcha_type = config.captcha,
+      formData.device_token = "sdasdasd",
+      formData.device = "web";
+    /* eslint-enable */
 
-    // if (type === "phone") {
-    //   formData.email = "";
-    //   formData.phonenumber = (
-    //     formData.dial_code + formData.phonenumber
-    //   ).replace("+", "");
-    // }
+    if (type === "phone") {
+      formData.email = "";
+      formData.phonenumber = (
+        formData.dial_code + formData.phonenumber
+      ).replace("+", "");
+    }
 
-    // signIn(formData);
+    signIn(formData);
   };
 
   const onChangeLoginType = (type: "email" | "phone") => {
     setType(type);
   };
+
+  const onToggleSubAccount = (e) => {
+    e.preventDefault()
+    setIsSubAccount(!isSubAccount) 
+  }
 
   return (
     <Form
@@ -286,7 +290,7 @@ export function LoginForm(props: LoginFormProps) {
           <div className="left">
             <button 
               className="sub-account-link"
-              onClick={()=>setIsSubAccount(!isSubAccount) }
+              onClick={onToggleSubAccount}
             >
               {
                 !isSubAccount ? 

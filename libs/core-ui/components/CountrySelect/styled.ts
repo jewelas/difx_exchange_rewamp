@@ -5,7 +5,7 @@ export const SelectStyled = styled(Select)`
   &.large {
     .ant-select-selection-placeholder {
       padding-top: 8px !important;
-      font-size: 20px;
+      font-size: 14px !important;
       font-weight: 500;
       line-height: 28px !important;
     }
@@ -14,7 +14,7 @@ export const SelectStyled = styled(Select)`
       .ant-select-selection-search {
         input {
           /* height: 48px !important; */
-          font-size: 20px;
+          font-size: 14px !important;
           padding-left: 48px;
         }
       }
@@ -69,7 +69,7 @@ export const OptionGroupStyled = styled.div`
       }
     }
     .val {
-      font-size: 20px;
+      font-size: 14px;
       font-weight: 500;
       line-height: 28px;
       padding-top: 9px;

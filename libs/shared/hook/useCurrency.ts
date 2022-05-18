@@ -4,7 +4,7 @@ import { API_ENDPOINT, QUERY_KEY } from "../constants"
 
 
 export function useCurrency() {
-  const { data } = useHttpGet<null, any>(QUERY_KEY.CURRENCY_PAIRS, API_ENDPOINT.GET_CURRENCY_PAIRS, null);
+  const { data } = useHttpGet<null, any>(QUERY_KEY.CURRENCY_PAIRS, API_ENDPOINT.GET_CURRENCY_PAIRS, {});
   const [ currencyPairs, setCurrencyPairs ] = useState<Currency[] | null>(null)
   const [ currentCurrency, setCurrentCurrency ] = useState<Currency | null>(null)
   const [ isAvailable, setIsAvailable ] = useState<boolean>(false)
@@ -21,17 +21,17 @@ export function useCurrency() {
       setCurrencyPairs(data.currencies)
       setIsAvailable(true)
 
-      const defaultCurrency = data.currencies.find( item => item.default === true )
+      const defaultCurrency = data.currencies.find( (item: Currency)=> item.default === true )
       localStorage.setItem('currency', JSON.stringify(defaultCurrency))
       setCurrentCurrency(defaultCurrency)
     }
   },[data])
 
-  const setCurrency = (currency) => {
+  const setCurrency = (currency: string) => {
     if(!currencyPairs) return
     try{
       const selectedPair = currencyPairs.find( pair => pair.name === currency)
-      if(selectedPair != currentCurrency){
+      if(selectedPair && selectedPair != currentCurrency){
         localStorage.setItem('currency', JSON.stringify(selectedPair))  
         setCurrentCurrency(selectedPair)
       }

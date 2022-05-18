@@ -40,6 +40,8 @@ export const QUERY_KEY = {
   OPEN_ORDERS: 'open_orders',
   MARKET_PAIRS: 'market_pairs',
   MARKET_PAIRS_INFO: (coin: string) => `market_pairs_info_${coin}`,
+  CURRENCY_PAIRS: 'currency_pair',
+  AVAILABLE_LANGUAGES: 'available_languages'
 }
 
 export const ASSETS_URL = "https://media.difx.com/"
@@ -57,6 +59,8 @@ export const STORE_KEY = {
 
 export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
+  GET_CURRENCY_PAIRS: '/api/v1/public/fiat-currency',
+  GET_AVAILABLE_LANGUAGES: '/api/v1/public/lang',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',
   GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,

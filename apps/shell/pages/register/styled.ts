@@ -177,19 +177,6 @@ export const EmailVerifyContainer = styled.div`
     color: ${({theme}) => theme.fontColor.muted} !important;
   }
 
-  .otpContainer{
-    justify-content: space-between;
-  }
-
-  .otpbox{
-    width: ${({theme}) => theme.otpBoxSize} !important;
-    height: ${({theme}) => theme.otpBoxSize} !important;
-    border: none;
-    background: ${({theme}) => theme.background.primary} !important;
-    border: 2px;
-    font-size: ${({theme}) => theme.typography.xlarge};
-  }
-
   .ant-btn{
     margin-top: 20px;
     width: 100%;
@@ -202,11 +189,13 @@ export const EmailVerifyContainer = styled.div`
   }
   .resend-box{
     color: ${({ theme }) => theme.fontColor.muted};
-    span{
-      margin-left: 5px;
+    button{
+      border: none !important;
+      background: transparent !important;
       cursor: pointer;
-      &.active{
-        color: ${({ theme }) => theme.fontColor.link}
+      color: ${({ theme }) => theme.fontColor.link} !important;
+      :disabled{
+        color: ${({ theme }) => theme.fontColor.muted} !important;
       }
     }
   }

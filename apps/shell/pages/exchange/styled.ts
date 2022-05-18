@@ -17,4 +17,8 @@ export const PageStyled = styled.div`
     background: ${({ theme }) => theme.background.secondary};
     color: ${({ theme }) => theme.fontColor.primary};
   }
+
+  .ant-btn.ant-btn-default.ant-btn-background-ghost{
+    border: none !important;
+  }
 `;

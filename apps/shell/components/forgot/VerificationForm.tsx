@@ -25,18 +25,20 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
 
 
   useEffect(()=>{
-    const countdown = setInterval(()=>{
-      setTimer((prevState)=>{
-        if(prevState > 0) return prevState-1
-        setResend(true)
+    if(!resend){
+      const countdown = setInterval(()=>{
+        setTimer((prevState)=>{
+          if(prevState > 0) return prevState-1
+          setResend(true)
+          clearInterval(countdown)
+          return prevState
+        })
+      },1000)
+      return () => {
         clearInterval(countdown)
-        return prevState
-      })
-    },1000)
-    return () => {
-      clearInterval(countdown)
+      }
     }
-  },[])
+  },[resend])
 
   useEffect(()=>{
     otpValue.length === 6 ? setHasFieldError(false) : setHasFieldError(true)
@@ -59,6 +61,7 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
       message: "Resend Email",
       description: data.message,
     })
+    setResend(false)
   },[])
 
   const onError = useCallback((error)=>{
@@ -83,6 +86,7 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
   const resendOTP = () => {
     const reqData: any = {}
     email ? reqData.email = email : reqData.phoneNumber = phoneNumber
+    setTimer(30)
     resendMail(reqData)
   }
 
@@ -102,7 +106,7 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
       <div className="botton-box">
         <div className="resend-box">
           {`00:${timer.toString().padStart(2,'0')}`}
-          <span onClick={resendOTP} className={`${resend? 'active' : null}`}>{t("forgot.resend")}</span>
+          <button onClick={resendOTP} disabled={!resend} className={`${resend? 'active' : null}`}>{t("forgot.resend")}</button>
         </div>
         <div className="paste-btn" onClick={()=>pasteCode()}>
           {t("forgot.paste")}

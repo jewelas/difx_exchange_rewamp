@@ -72,7 +72,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           onResizeStop={handleGridResize}
         >
           <div key="order-book" className="base">
-            {pair && <OrderBookWrapper pair={pair as string} />}
+            {pair && <OrderBookWrapper pair={pair as string} layout={layoutType as string} />}
           </div>
           <div key="pair-info" className="base">
             {pair && <PairMetaDataWrapper pair={pair as string} />}

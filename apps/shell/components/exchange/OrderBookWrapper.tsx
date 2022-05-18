@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
-import { Loading, OrderBook } from "@difx/core-ui";
+import { LayoutType, Loading, OrderBook } from "@difx/core-ui";
 import { getAveragePrice, getTrendPrice } from "@difx/utils";
 import { AxiosResponse } from "axios";
 import {
@@ -21,9 +21,10 @@ import { useMemo, useEffect, useState } from "react";
 /* eslint-disable-next-line */
 export interface OrderBookWrapperProps {
   pair: string;
+  layout: string;
 }
 
-export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
+export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
@@ -132,6 +133,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
 
   return (
     <OrderBook
+      layout={layout as LayoutType}
       pairInfo={pairInfo}
       networkStatus={online ? effectiveType : "off"}
       priceTrend={priceTrend}

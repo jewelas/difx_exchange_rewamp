@@ -45,20 +45,20 @@ export function getLayoutType(type:  'default' | 'compact' | 'pro', isStatic?: b
       i: "pair-info",
       x: 0,
       y: 0,
-      w: 12,
+      w: 11,
       h: 1,
       minH: 1,
       maxH: 1,
       static: isStaticWidgets,
     },
-    { i: "chart", x: 0, y: 1, w: 12, h: 7, static: isStaticWidgets },
+    { i: "chart", x: 0, y: 1, w: 11, h: 7, static: isStaticWidgets },
 
     // Col 2
     {
       i: "order-book",
-      x: 12,
+      x: 11,
       y: 0,
-      w: 6,
+      w: 7,
       h: 8,
       minH: 8,
       static: isStaticWidgets,
@@ -67,9 +67,6 @@ export function getLayoutType(type:  'default' | 'compact' | 'pro', isStatic?: b
     // Col 3
     { i: "place-order", x: 18, y: 0, w: 6, h: 8, static: isStaticWidgets },
 
-
-    // { i: "pair-search", x: 18, y: 0, w: 6, h: 6, static: isStaticWidgets },
-    // { i: "trade-info", x: 18, y: 6, w: 6, h: 7, static: isStaticWidgets },
 
     // Row 2 - Col 1
     { i: "report", x: 0, y: 8, w: 18, h: 7, static: isStaticWidgets },

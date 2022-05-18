@@ -80,6 +80,22 @@ export const ComponentStyled = styled.div`
     .table-body {
       margin-top: 10px;
       overflow: hidden;
+      .compact{
+        display:flex;
+        .left,.right{
+          flex-grow: 1;
+        }
+      }
+      .compact{
+        .table-row:hover{
+          background: unset !important;
+        }
+        .ant-typography {
+          &.amount{
+            width: unset !important;
+          }
+        }
+      }
       .table-row {
         display: flex;
         justify-content: space-between;

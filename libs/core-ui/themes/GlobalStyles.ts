@@ -122,7 +122,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-btn.ant-btn-background-ghost:not(.ant-btn-primary){
-      border: unset;
+      border: unset !important;
       margin: unset !important;
       &:hover{
         svg{
@@ -438,6 +438,11 @@ const GlobalStyles = createGlobalStyle`
         }
       }
 
+      .ant-popover.ant-popover-placement-bottomRight{
+        .ant-popover-arrow{
+          display:none;
+        }
+      }
       .ant-popover.ant-popover-placement-bottom{
         .ant-popover-content{
           margin-top: -10px;

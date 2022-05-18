@@ -43,7 +43,7 @@ export function OrderBookWrapper({ pair }: OrderBookWrapperProps) {
 
   const { mutate: getOpenOrders } = useHttpGetByEvent<BaseRequest, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
   // const { data: openOrderData } = useHttpGetByEvent<BaseRequest, {result:Order[]}>(QUERY_KEY.OPEN_ORDERS, API_ENDPOINT.GET_ORDER_OPEN(), null);
-  const [openOrderData, setOpenOrderData] = useState<Order[]>();
+  const [openOrderData, setOpenOrderData] = useState<Order[]>([]);
 
   const { isLoggedIn } = useAuth();
   useEffect(() => {

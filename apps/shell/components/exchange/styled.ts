@@ -155,6 +155,24 @@ export const ChartWraperStyled = styled.div`
 
 export const PlaceOrderWraperStyled = styled.div`
     padding: 10px;
+    .asset-group{
+        .asset-title{
+          margin-top:20px;
+          margin-left:5px;
+          margin-bottom:10px
+        }
+        .asset-content{
+          display:flex;
+          justify-content: space-between;
+          .ant-btn{
+            margin: 0 5px;
+            flex-grow: 1;
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important; 
+            border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important; 
+            color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; 
+          }
+        }
+      }
     .content{
       .tab-ordetype-group{
         &.compact{
@@ -172,6 +190,26 @@ export const PlaceOrderWraperStyled = styled.div`
         }
       }
       .side-group{
+        .ant-btn{
+            flex-grow: 1;
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important; 
+            border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important; 
+            color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; 
+            &.first{
+              margin-right: 10px;
+            }
+            &.last{
+              margin-left: 10px;
+            }
+            &.bid.active{
+              border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
+            }
+            &.ask.active{
+              border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+            }
+          }
         .side-title{
           margin-bottom: 10px;
         }

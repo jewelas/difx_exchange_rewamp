@@ -34,7 +34,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
   const [layouts, setLayouts] = useState(initLayouts);
   const [layoutType, setLayoutType] = useState(null);
 
-  const { value: exchangeStyles, setValue: setExchangeStyles } = useLocalStorage(STORE_KEY.EXCHANGE_STYLE, {});
+  const { value: exchangeStyles } = useLocalStorage(STORE_KEY.EXCHANGE_STYLE, {});
   useEffect(() => {
     if (!isEmpty(exchangeStyles)) {
       const { layout } = JSON.parse(exchangeStyles);
@@ -45,9 +45,6 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
     }
   }, [exchangeStyles]);
 
-  console.log(layoutType,'layoutType');
-  console.log(layouts, 'layoutss')
-
   const handleGridResize = (widgets) => {
     // TODO
   };
@@ -56,8 +53,6 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
   useEffect(() => {
     if (pair) setLastPair(pair)
   }, [pair]);
-
-  console.log(exchangeStyles);
 
   return (
     <AppLayout>
@@ -81,7 +76,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
             {pair && <ChartWrapper pair={pair as string} />}
           </div>
           {
-            (!layoutType || layoutType === 'default')
+            (!layoutType || ['default', 'pro'].includes(layoutType))
             &&
             <div key="pair-search" className="base">
               <ListPairWrapper />

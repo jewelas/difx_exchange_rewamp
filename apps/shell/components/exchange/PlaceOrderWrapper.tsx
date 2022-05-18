@@ -138,6 +138,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
           side === 'bid' &&
           <div className="bid">
             <OrderForm
+              canDeposit={false}
               isLoading={isLoading}
               onPlaceOrder={onSubmitOrder}
               priceSelected={priceSelected}
@@ -154,6 +155,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
           side === 'ask' &&
           <div className="ask">
             <OrderForm
+              canDeposit={false}
               isLoading={isLoading}
               onPlaceOrder={onSubmitOrder}
               priceSelected={priceSelected}
@@ -224,6 +226,20 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
         </div>
         {PlaceOrder(tab as OrderType)}
       </div>
+      {
+        layout === 'compact'
+        &&
+        <div className="asset-group">
+          <div className="asset-title">
+            <Typography level="B1">Assets</Typography>
+          </div>
+          <div className="asset-content">
+            <Button>Deposit</Button>
+            <Button>Withdraw</Button>
+            <Button>Transfer</Button>
+          </div>
+        </div>
+      }
     </PlaceOrderWraperStyled>
   );
 }

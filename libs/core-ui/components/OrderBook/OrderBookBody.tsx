@@ -41,7 +41,7 @@ function renderData(
   if (!data) return [];
   for (let i = 0; i < max_row; i++) {
     const row = data[i];
-    if(!row) break;
+    if (!row) break;
     const barStyle: any = {};
     barStyle.width = `${row[2].toString()}%`;
     if (layout === 'compact') {
@@ -55,6 +55,36 @@ function renderData(
       }
     }
 
+    const Price = () => (
+      !hideColumns.includes('price') ?
+        <Typography level="B3" className="price">
+          {formatNumber(row[0], numberFormat)}
+        </Typography>
+        : <></>
+    )
+
+    const Amount = () => (
+      !hideColumns.includes('amount') ?
+        <Typography level="B3" className="amount">
+          {formatNumber(row[1], numberFormat)}
+        </Typography>
+        : <></>
+    )
+
+    const Total = () => (
+      !hideColumns.includes('total') ?
+        <Typography level="B3" className="total">
+          {
+            totalType === 'total'
+              ?
+              formatNumber(row[0] * row[1], numberFormat)
+              :
+              formatNumber(row[3], numberFormat)
+          }
+        </Typography>
+        : <></>
+    )
+
     if (row) {
       result.push(
         <div onClick={() => { onPriceSelected && onPriceSelected(row[0]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
@@ -65,24 +95,28 @@ function renderData(
               <DotIcon fill={type === 'ask' ? '#DB5354' : '#21C198'} />
             </div>
           }
+
           {
-            !hideColumns.includes('price') &&
-            <Typography level="B3" className="price">
-              {formatNumber(row[0], numberFormat)}
-            </Typography>
-          }
-          <Typography level="B3" className="amount">
-            {formatNumber(row[1], numberFormat)}
-          </Typography>
-          <Typography level="B3" className="total">
-            {
-              totalType === 'total'
-                ?
-                formatNumber(row[0] * row[1], numberFormat)
+            layout !== 'compact' ?
+              <>
+                <Price />
+                <Amount />
+                <Total />
+              </>
+              :
+              type === 'bid' ?
+                <>
+                  <Price />
+                  <Amount />
+                  <Total />
+                </>
                 :
-                formatNumber(row[3], numberFormat)
-            }
-          </Typography>
+                <>
+                  <Total />
+                  <Amount />
+                  <Price />
+                </>
+          }
         </div>
       );
     }

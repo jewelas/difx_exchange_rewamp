@@ -1,21 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { LayoutType, Loading, OrderBook } from "@difx/core-ui";
+import {
+  BaseRequest,
+  Order, SocketEvent, useAuth, useHttpGet, useHttpGetByEvent, useNetwork,
+  useSocket,
+  useSocketProps
+} from "@difx/shared";
 import { getAveragePrice, getTrendPrice } from "@difx/utils";
 import { AxiosResponse } from "axios";
-import {
-  PairType,
-  SocketEvent, useHttpGet,
-  useNetwork,
-  useSocket,
-  useSocketProps,
-  BaseRequest,
-  Order,
-  useHttpGetByEvent,
-  useAuth
-} from "@difx/shared";
 import sortBy from "lodash/sortBy";
-import { useMemo, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 // import { useRouter } from "next/router";
 
 /* eslint-disable-next-line */

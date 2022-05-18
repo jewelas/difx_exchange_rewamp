@@ -12,9 +12,14 @@ export const StyledSettingPopover = styled.div`
     justify-content:space-between;
     margin-top:10px;
     .layout{
-      .svg{
+      svg{
         border: ${({ theme }) => theme.border.secondary} !important;
         padding:2px;
+      }
+      &.active{
+        svg{
+          border: solid 2px  ${({ theme }) => theme.color.primary} !important;
+        }
       }
       .name{
         text-align: center;
@@ -30,6 +35,9 @@ export const StyledSettingPopover = styled.div`
       flex-grow: 1;
       border-radius: 3px;
       border: ${({ theme }) => theme.border.secondary} !important;
+      &.active{
+          border: solid 2px  ${({ theme }) => theme.color.primary} !important;
+      }
       &.first{
         margin-right:10px !important;
       }

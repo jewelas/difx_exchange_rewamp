@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button } from 'antd';
 import { useAtom } from 'jotai';
 import { themeAtom } from './../../../shared';
@@ -10,6 +11,7 @@ import CandleRedUp from './svg/CandleRedUp';
 import LayoutCompact from './svg/LayoutCompact';
 import LayoutDefault from './svg/LayoutDefault';
 import LayoutPro from './svg/LayoutPro';
+import clsx from 'clsx';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SettingPopoverProps {
@@ -19,6 +21,8 @@ export interface SettingPopoverProps {
 export function SettingPopover(props: SettingPopoverProps) {
 
   const [theme] = useAtom(themeAtom);
+  const [layoutType, setLayoutType] = useState<'default' | 'compact' | 'pro'>('default');
+  const [candleType, setCandleType] = useState<'greenUp' | 'redUp'>('greenUp');
 
   return (
     <StyledSettingPopover>
@@ -26,19 +30,19 @@ export function SettingPopover(props: SettingPopoverProps) {
         <Typography level='B3'>Layout Settings</Typography>
       </div>
       <div className='content'>
-        <Button ghost className='layout'>
+        <Button onClick={() => { setLayoutType('default') }} ghost className={clsx('layout', layoutType === 'default' && 'active')}>
           <LayoutDefault theme={theme} />
           <div className='name'>
             <Typography level='B3' fontWeight={600}>Default</Typography>
           </div>
         </Button>
-        <Button ghost className='layout'>
+        <Button onClick={() => { setLayoutType('compact') }} ghost className={clsx('layout', layoutType === 'compact' && 'active')}>
           <LayoutCompact theme={theme} />
           <div className='name'>
             <Typography level='B3'>Compact</Typography>
           </div>
         </Button>
-        <Button ghost className='layout'>
+        <Button onClick={() => { setLayoutType('pro') }} ghost className={clsx('layout', layoutType === 'pro' && 'active')}>
           <LayoutPro theme={theme} />
           <div className='name'>
             <Typography level='B3'>Pro</Typography>
@@ -50,16 +54,16 @@ export function SettingPopover(props: SettingPopoverProps) {
         <Typography level='B3'>Rise/Fall Settings</Typography>
       </div>
       <div className="content">
-        <Button ghost>
-          <div className='candle first'>
+        <Button onClick={() => { setCandleType('greenUp') }} ghost>
+          <div className={clsx('candle', 'first', candleType === 'greenUp' && 'active')}>
             <div className='name'>
               <Typography level='B3'>Green - Up</Typography>
             </div>
             <CandleGreenUp />
           </div>
         </Button>
-        <Button ghost>
-          <div className='candle last'>
+        <Button onClick={() => { setCandleType('redUp') }} ghost>
+          <div className={clsx('candle', 'last', candleType === 'redUp' && 'active')}>
             <div className='name'>
               <Typography level='B3'>Red - Up</Typography>
             </div>

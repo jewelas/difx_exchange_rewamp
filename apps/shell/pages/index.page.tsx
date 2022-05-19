@@ -1,4 +1,5 @@
 import { dark, GlobalStyles, light } from "@difx/core-ui/themes";
+import { Loading } from "@difx/core-ui";
 import { useAuth, useGuestAuth, useTheme, useLanguage, useCurrency } from "@difx/shared";
 import { ThemeProvider } from "styled-components";
 import BaseLayout from "../layouts/BaseLayout";

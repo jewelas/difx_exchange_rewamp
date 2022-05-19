@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Spin } from "antd";
+import { Spin, Button } from "antd";
 import clsx from "clsx";
 import { formatNumber } from "./../../utils/formatter";
 import DotIcon from "./../Icon/DotIcon";
@@ -124,7 +124,7 @@ function renderData(
   return result;
 }
 
-export function CurrentPrice({ currentPrice, priceTrend, networkStatus }: OrderBookBodyProps) {
+export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout }: OrderBookBodyProps) {
   if (!currentPrice) {
     return <Spin className="loading" indicator={<Loading />} />;
   }
@@ -136,7 +136,14 @@ export function CurrentPrice({ currentPrice, priceTrend, networkStatus }: OrderB
         </Typography>
       </div>
       <div className="right">
-        <WifiIcon variant={networkStatus || "fast"} />
+        <div style={{ display: 'flex' }}>
+          <WifiIcon variant={networkStatus || "fast"} />
+          {
+            layout !== 'compact' &&
+            <Button ghost>More</Button>
+          }
+
+        </div>
       </div>
     </div>
   );

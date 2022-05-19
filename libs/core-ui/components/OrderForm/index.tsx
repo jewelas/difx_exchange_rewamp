@@ -51,7 +51,7 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
   }, [priceSelected]);
 
   useEffect(() => {
-    if (pairInfo) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
+    if (pairInfo && !priceSelected) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
   }, [pairInfo]);
 
   useEffect(() => {

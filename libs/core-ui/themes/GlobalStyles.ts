@@ -41,12 +41,19 @@ const GlobalStyles = createGlobalStyle`
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
+    .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
     tr{
       padding:0 30px
     }
-    .ant-table .ant-table-thead th{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;padding:15px 0;font-weight:500;font-size:16px}
+    .ant-table .ant-table-thead th{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;padding:15px 0;font-weight:500;font-size:16px;background:${({ theme }: { theme: ThemeInterface }) => theme.table.head} !important}
+    .ant-table .ant-table-thead th:first-child{
+      padding-left: 20px;
+    }
+    .ant-table .ant-table-thead th:last-child{
+      padding-right: 20px;
+    }
     .ant-table-measure-row td{border-bottom:none !important}
     .ant-tag {
         font-size: 14px;
@@ -161,7 +168,7 @@ const GlobalStyles = createGlobalStyle`
     .ant-btn-link{
       &.anchor-link{padding:0px;height:auto !important;display: flex;
     align-items: center;
-    gap: 10px;}
+    gap: 10px;border:none !important}
     &.anchor-link:hover{
       border: transparent !important;
     }
@@ -494,7 +501,7 @@ const GlobalStyles = createGlobalStyle`
     }
     .successTag{background:${({ theme }) => theme.successColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px;}
     .errorTag{background:${({ theme }) => theme.errorColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px}
-    .search-input .ant-input-affix-wrapper, .search-input .ant-input-affix-wrapper input{background:${({ theme }) => theme.background.white} !important}
+    .search-input .ant-input-affix-wrapper, .search-input .ant-input-affix-wrapper input{background:${({ theme }) => theme.background.secondary} !important}
     .ant-notification-notice-error{
       border: 1px solid ${({ theme }) => theme.color.danger} !important;
       background: ${({ theme }) => theme.color.dangerDisabled} !important;
@@ -513,6 +520,9 @@ const GlobalStyles = createGlobalStyle`
         ) !important
       }
     }
+    .ant-drawer-body,.ant-drawer-header{background: ${({ theme }) => theme.background.secondary} !important;}
+    .ant-drawer-title{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;}
+    .cursor-pointer{cursor: pointer;}
 
     //MISC SETTINGS
 

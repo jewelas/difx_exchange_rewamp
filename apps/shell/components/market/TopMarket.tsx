@@ -4,80 +4,64 @@ import Text from "antd/lib/typography/Text";
 import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
 import { ASSETS_URL } from "@difx/constants";
+import { useRouter } from "next/router";
 
 const { CoinPlaceholder } = Icon;
 
 export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}) {
-
-    // const asasas = {
-    //     options: {
-    //       chart: {
-    //         id: 'apexchart-example'
-    //       },
-    //       xaxis: {
-    //         categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-    //       }
-    //     },
-    //     series: [{
-    //       name: 'series-1',
-    //       data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
-    //     }]
-    //   }
+    const router = useRouter();
   return (
       <>
-      <Row>
-        {/* <Chart options={asasas.options} series={asasas.series} type="bar" width={500} height={320} /> */}
-      </Row>
-    <Row gutter={16}>
-        <Col span={6}>
+    <Row gutter={[16, 16]}>
+        <Col xs={24} xl={6} sm={12}>
             <Card title={t("market.top_gainer")} bordered={false}>
             {
-            !getTopGainer
+            getTopGainer == 0
             ?
-            "Loading..."
+            "No Top Gainer Coins Available"
             :
             getTopGainer.slice(0, 3).map(item =>
-                item.change > 0 ? 
-                <Row justify="space-between" align="middle" key={item.symbol}>
-                    <Col>
-                        <Space>
-                            <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
-                            <Text>{item.currency1}</Text>
-                        </Space>
-                    </Col>
-                    <Col>
-                        <Text type="success">${item.last.toFixed(3)}</Text>
-                    </Col>
-                    <Col>
-                    <Text type="success">{item.change.toFixed(3)}</Text>
-                    </Col>
-                </Row>
+                item.change > 0 ?
+                    <Row justify="space-between" align="middle" key={item.symbol} onClick={() => {router.push(`/exchange/${item.symbol}`)}} className="cursor-pointer">
+                        <Col className="coin-width">
+                            <Space>
+                                <Avatar shape="square" size={26} icon={<CoinPlaceholder width={26} height={26} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
+                                <Text style={{marginLeft:0}}>{item.currency1}</Text>
+                            </Space>
+                        </Col>
+                        <Col className="price-width">
+                            <Text type="success">{item.last.toFixed(3)}</Text>
+                        </Col>
+                        <Col className="rate-width">
+                        <Text type="success">+{item.change.toFixed(2)}%</Text>
+                        </Col>
+                    </Row>
                 : null
                 )
             }
             </Card>
         </Col>
-        <Col span={6}>
+        <Col xs={24} xl={6} sm={12}>
             <Card title={t("market.top_looser")} bordered={false}>
             {
-            !getTopLooser
+            getTopLooser == 0
             ?
-            "Loading..."
+            "No Top Looser Coins Available"
             :
             getTopLooser.slice(0, 3).map(item =>
                 item.change < 0 ? 
-                <Row justify="space-between" align="middle" key={item.symbol}>
-                    <Col>
+                <Row justify="space-between" align="middle" key={item.symbol} onClick={() => {router.push(`/exchange/${item.symbol}`)}} className="cursor-pointer">
+                    <Col className="coin-width">
                         <Space>
-                            <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
-                            <Text>{item.currency1}</Text>
+                            <Avatar shape="square" size={26} icon={<CoinPlaceholder width={26} height={26} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
+                            <Text style={{marginLeft:0}}>{item.currency1}</Text>
                         </Space>
                     </Col>
-                    <Col>
-                        <Text type="danger">${item.last.toFixed(3)}</Text>
+                    <Col className="price-width">
+                        <Text type="danger">{item.last.toFixed(3)}</Text>
                     </Col>
-                    <Col>
-                    <Text type="danger">{item.change.toFixed(3)}</Text>
+                    <Col className="rate-width">
+                    <Text type="danger">{item.change.toFixed(2)}%</Text>
                     </Col>
                 </Row>
                 : null
@@ -85,52 +69,52 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
             }
             </Card>
         </Col>
-        <Col span={6}>
+        <Col xs={24} xl={6} sm={12}>
             <Card title={t("market.top_volume")} bordered={false}>
             {
-            !getTopVolume
+            getTopVolume == 0 
             ?
-            "Loading..."
+            "No Top Volume Coins Available"
             :
             getTopVolume.slice(0, 3).map(item =>
-                <Row justify="space-between" align="middle" key={item.symbol}>
-                    <Col>
+                <Row justify="space-between" align="middle" key={item.symbol} onClick={() => {router.push(`/exchange/${item.symbol}`)}} className="cursor-pointer">
+                    <Col className="coin-width">
                         <Space>
-                            <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
-                            <Text>{item.currency1}</Text>
+                            <Avatar shape="square" size={26} icon={<CoinPlaceholder width={26} height={26} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
+                            <Text style={{marginLeft:0}}>{item.currency1}</Text>
                         </Space>
                     </Col>
-                    <Col>
-                        <Text type={item.change > 0 ? "success" : "danger"}>${item.last.toFixed(3)}</Text>
+                    <Col className="price-width">
+                        <Text type={item.change > 0 ? "success" : "danger"}>{item.last.toFixed(3)}</Text>
                     </Col>
-                    <Col>
-                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change.toFixed(3)}</Text>
+                    <Col className="rate-width">
+                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change > 0 ? '+' : ''}{item.change.toFixed(2)}%</Text>
                     </Col>
                 </Row>
                 )
             }
             </Card>
         </Col>
-        <Col span={6}>
+        <Col xs={24} xl={6} sm={12}>
             <Card title={t("market.futures")} bordered={false}>
             {
             !getFutures
             ?
-            "Loading..."
+            "No Top Future Coins Available"
             :
             getFutures.slice(0, 3).map(item =>
                 <Row justify="space-between" align="middle" key={item.symbol}>
-                    <Col>
+                    <Col className="coin-width">
                         <Space>
-                            <Avatar size={34} icon={<CoinPlaceholder width={34} height={34} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
-                            <Text>{item.currency1}</Text>
+                            <Avatar shape="square" size={26} icon={<CoinPlaceholder width={26} height={26} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`}/>
+                            <Text style={{marginLeft:0}}>{item.currency1}</Text>
                         </Space>
                     </Col>
-                    <Col>
-                        <Text type={item.change > 0 ? "success" : "danger"}>${item.last.toFixed(3)}</Text>
+                    <Col className="price-width">
+                        <Text type={item.change > 0 ? "success" : "danger"}>{item.last.toFixed(3)}</Text>
                     </Col>
-                    <Col>
-                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change.toFixed(3)}</Text>
+                    <Col className="rate-width">
+                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change > 0 ? '+' : ''}{item.change.toFixed(2)}%</Text>
                     </Col>
                 </Row>
                 )

@@ -77,7 +77,9 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
     }
 
     if (type === 'limit') {
-      placeOrder(data);
+      const request = {...data};
+      delete request["total"];
+      placeOrder(request);
     } else if (type === 'market') {
       data.price = pairInfo.last;
       data.amount = data.total;

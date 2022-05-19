@@ -24,10 +24,11 @@ export const RTLAtom = atom<boolean>(false);
 export const localStorageAtom = atom<{[key: string]: any}>({}) as PrimitiveAtom<{[key: string]: any}>;
 
 export const priceSelectedAtom = atom<number>(0);
-export const marketPairAtom = atom<string | null>(null) as PrimitiveAtom<string | null>;
+export const marketPairAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
 export const marketDrawerAtom = atom<boolean | null>(null) as PrimitiveAtom<boolean | null>;
 export const marketModalAtom = atom<boolean | null>(null) as PrimitiveAtom<boolean | null>;
 
-export const marketSpotListAtom = atom<object[] | null>(null) as PrimitiveAtom<object[] | null>;
-export const marketFuturesListAtom = atom<object[] | null>(null) as PrimitiveAtom<object[] | null>;
-export const marketFavoritesListAtom = atom<object[] | null>(null) as PrimitiveAtom<object[] | null>;
+export const marketSpotListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
+export const marketFuturesListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
+export const marketSpotFavoritesListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
+export const marketFutureFavoritesListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;

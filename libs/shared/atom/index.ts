@@ -2,6 +2,7 @@ import { atom, PrimitiveAtom } from "jotai";
 import { User, Permissions, Config } from "..";
 
 export const themeAtom = atom<string>("light");
+export const anonymousTokenAtom = atom<string>("");
 
 export const currentUserAtom = atom<User | undefined>(
   undefined
@@ -16,8 +17,6 @@ export const permissionsAtom = atom<Permissions | undefined>(
 export const configAtom = atom<Config | undefined>(
   undefined
 ) as PrimitiveAtom<Config | undefined>;
-
-export const sessionToken = atom<string | null>(null) as PrimitiveAtom<string | null>;
 
 export const RTLAtom = atom<boolean>(false);
 

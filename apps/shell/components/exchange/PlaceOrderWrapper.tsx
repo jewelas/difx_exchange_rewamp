@@ -83,8 +83,8 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
     } else if (type === 'market') {
       const request: PlaceOrderRequest = {...data};
       delete request["total"];
+      delete request["price"];
       request.endpoint = API_ENDPOINT.PLACE_ORDER_MARKET;
-      request.price = pairInfo.last;
       request.amount = data.total;
       placeOrder(request);
     } else if (type === 'stop-limit') {

@@ -22,6 +22,7 @@ export function OrderReportsWrapper({ pair, layout = 'default'}: { pair: string,
 
   useEffect(()=>{
     if(layout==='compact') setReportHeight(350);
+    else setReportHeight(197)
   },[layout]);
 
   if (!pair) return <Loading />;

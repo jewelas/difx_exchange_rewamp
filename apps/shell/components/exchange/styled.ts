@@ -373,7 +373,90 @@ export const ChartHeadStyled = styled.div`
 
 export const PlaceOrderWraperStyled = styled.div`
     padding: 10px;
+    .asset-group{
+        .asset-title{
+          margin-top:20px;
+          margin-left:5px;
+          margin-bottom:10px
+        }
+        .asset-content{
+          display:flex;
+          justify-content: space-between;
+          .ant-btn{
+            margin: 0 5px;
+            flex-grow: 1;
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important; 
+            border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important; 
+            color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; 
+          }
+        }
+      }
     .content{
+      .tab-ordetype-group{
+        &.compact{
+          .ant-tabs-nav{
+            width: 100%;
+          }
+          .ant-tabs-nav-wrap{
+            width: 100% !important;
+            .ant-tabs-nav-list{
+              width: 100% !important;
+              display: flex;
+              justify-content: space-around;
+            }
+          }
+        }
+      }
+      .side-group{
+        .ant-btn{
+            flex-grow: 1;
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important; 
+            border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important; 
+            color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; 
+            &.first{
+              margin-right: 10px;
+            }
+            &.last{
+              margin-left: 10px;
+            }
+            &.bid.active{
+              border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
+            }
+            &.ask.active{
+              border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+            }
+          }
+        .side-title{
+          margin-bottom: 10px;
+        }
+        .side-content{
+          display: flex;
+          justify-content: space-between;
+          margin-bottom:10px;
+          .ant-btn{
+            flex-grow: 1;
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important; 
+            border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important; 
+            color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; 
+            &.first{
+              margin-right: 10px;
+            }
+            &.last{
+              margin-left: 10px;
+            }
+            &.bid.active{
+              border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
+            }
+            &.ask.active{
+              border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+              color: ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+            }
+          }
+        }
+      }
       .place-order-group{
         display: flex;
         .bid{
@@ -436,17 +519,6 @@ export const OrderReportsWraperStyled = styled.div`
       }
       .report-group{
         height: 100%;
-      }
-      .place-order-group{
-        display: flex;
-        .bid{
-          margin-right: 10px;
-          flex-grow: 1;
-        }
-        .ask{
-          margin-left: 10px;
-          flex-grow: 1;
-        }
       }
       .cell{
         svg{

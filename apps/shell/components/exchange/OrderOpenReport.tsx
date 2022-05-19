@@ -3,7 +3,7 @@
 
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, SocketEvent, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
+import { BaseResponse, Order, SocketEvent, useAuth, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -13,8 +13,9 @@ import { useEffect, useState } from 'react';
 interface Props {
   isSelectedPairOnly?: boolean;
   pair?: string;
+  height?: number;
 }
-export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
+export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false }: Props) {
 
   // const { token } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
@@ -26,7 +27,7 @@ export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
   };
   const userOrdersData = useSocket(param);
 
-  const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
     if (data && data.result) {
       for (const order of data.result) {
@@ -64,16 +65,19 @@ export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
     }
   }
 
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
   const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_BID_ORDER }); // TODO: handle headers in interceptor in useHttp
 
+  const { isLoggedIn } = useAuth();
   useEffect(() => {
-    if (isSelectedPairOnly && pair) {
-      getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_OPEN(pair) });
-    } else {
-      getOrderBooks(null);
+    if (isLoggedIn) {
+      if (isSelectedPairOnly && pair) {
+        getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_OPEN(pair) });
+      } else {
+        getOrderBooks(null);
+      }
     }
-  }, [isSelectedPairOnly]);
+  }, [isSelectedPairOnly, isLoggedIn]);
 
   const columns = [
     {
@@ -202,7 +206,7 @@ export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
 
   return (
     <Table
-      scroll={{ x: "max-content", y: 260 }}
+      scroll={{ x: "max-content", y: height }}
       showSorterTooltip={false}
       pagination={false}
       columns={columns}

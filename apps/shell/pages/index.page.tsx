@@ -1,5 +1,5 @@
 import { dark, GlobalStyles, light } from "@difx/core-ui/themes";
-import { useAuth, useGuestAuth, useTheme } from "@difx/shared";
+import { useAuth, useGuestAuth, useTheme, useLanguage, useCurrency } from "@difx/shared";
 import { ThemeProvider } from "styled-components";
 import BaseLayout from "../layouts/BaseLayout";
 import PrivateLayout from "../layouts/PrivateLayout";
@@ -16,6 +16,8 @@ export function AppLayout({ children = <HomeComponent/>}: AppLayoutProps) {
   const { theme } = useTheme();
   
   useGuestAuth()
+  useLanguage()
+  useCurrency()
   
   const LayoutDispatcher = isLoggedIn ? PrivateLayout : GuestLayout
 

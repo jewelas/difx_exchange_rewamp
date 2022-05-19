@@ -92,6 +92,9 @@ export interface ThemeInterface extends Theme {
     base: string,
     highLight: string
   },
+  table: {
+    head: string
+  },
   inputFieldHeight: string,
   otpBoxSize: string,
   transition: string;
@@ -192,6 +195,9 @@ export const light: ThemeInterface = {
     medium: "42px",
     small: "32px",
   },
+  table: {
+    head: "#FAFAFA"
+  },
   inputFieldHeight: "48px",
   otpBoxSize: "63px",
   transition: "all 0.2s ease-in-out",
@@ -206,7 +212,7 @@ export const dark: ThemeInterface = {
 
   color: {
     primary: "#3D7EFF",
-    primaryLight: "#E0EFFF",
+    primaryLight: "#161F30",
     secondary: "#FAAD14",
     success: "#21C198",
     danger: "#DB5354",
@@ -292,59 +298,10 @@ export const dark: ThemeInterface = {
     medium: "42px",
     small: "38px",
   },
+  table: {
+    head: "#161F30"
+  },
   inputFieldHeight: "48px",
   otpBoxSize: "58px",
   transition: "all 0.2s ease-in-out",
 };
-
-//--------------------- OLD THEME --------------------------------------
-
-// import { Theme } from "antd/lib/config-provider/context";
-
-// export interface ThemeInterface extends Theme {
-//   currentTheme?: "light" | "dark";
-//   borderColor?: string;
-//   borderColorLighter?: string;
-//   background.primary?: string;
-//   background.secondary?: string;
-//   inputBorderColor?: string;
-//   inputbackground.primary?: string;
-//   fontColor.primary?: string;
-//   textHoverColor?: string;
-//   logoFillColor?: string;
-//   titleColor?: string;
-// }
-
-// /*
-//    Note: Overriding fields value inside Theme interface (e.g: primaryColor, infoColor,...) it will affect on the whole antd component
-//  */
-
-// export const light: ThemeInterface = {
-//   currentTheme: "light",
-//   background.primary: "#F7F7F8",
-//   background.secondary: "#FFF",
-//   borderColor: "#eee",
-//   borderColorLighter: "#eee",
-//   inputBorderColor: "#d9d9d9",
-//   inputbackground.primary: "#fff",
-//   fontColor.primary: "#000",
-//   textHoverColor: "#000",
-//   logoFillColor: "#3d7eff",
-//   titleColor: "#3d7eff",
-//   primaryColor: "#1890F8",
-// };
-
-// export const dark: ThemeInterface = {
-//   currentTheme: "dark",
-//   background.primary: "#161f30",
-//   background.secondary: "#0d1421",
-//   borderColor: "#000",
-//   borderColorLighter: "#191E27",
-//   inputBorderColor: "#161f30",
-//   inputbackground.primary: "#161f30",
-//   fontColor.primary: "#fff",
-//   textHoverColor: "#1890ff",
-//   logoFillColor: "#fff",
-//   titleColor: "#fff",
-//   primaryColor: "#1890F8",
-// };

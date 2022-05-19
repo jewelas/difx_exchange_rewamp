@@ -41,12 +41,19 @@ const GlobalStyles = createGlobalStyle`
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
+    .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
     tr{
       padding:0 30px
     }
-    .ant-table .ant-table-thead th{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;padding:15px 0;font-weight:500;font-size:16px}
+    .ant-table .ant-table-thead th{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;padding:15px 0;font-weight:500;font-size:16px;background:${({ theme }: { theme: ThemeInterface }) => theme.table.head} !important}
+    .ant-table .ant-table-thead th:first-child{
+      padding-left: 20px;
+    }
+    .ant-table .ant-table-thead th:last-child{
+      padding-right: 20px;
+    }
     .ant-table-measure-row td{border-bottom:none !important}
     .ant-tag {
         font-size: 14px;
@@ -65,7 +72,6 @@ const GlobalStyles = createGlobalStyle`
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.medium} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary};
       box-shadow: none !important;
 
       &.success{
@@ -74,6 +80,19 @@ const GlobalStyles = createGlobalStyle`
         &:hover, &:focus, &:active{
           background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
           border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+          &:not([disabled]){
+            opacity: 0.9;
+          }
+        }
+      }
+      &.successOutline{
+        background: transparent !important;
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+        border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+        &:hover, &:focus, &:active{
+          background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+          border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+          color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
           &:not([disabled]){
             opacity: 0.9;
           }
@@ -90,10 +109,27 @@ const GlobalStyles = createGlobalStyle`
           }
         }
       }
+      &.dangerOutline{
+        background: transparent !important;
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+        border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+        &:hover, &:focus, &:active{
+          background: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+          border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+          color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
+          &:not([disabled]){
+            opacity: 0.9;
+          }
+        }
+      }
+      &.ant-btn-default{
+        border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.link} !important;
+      }
     }
 
     .ant-btn.ant-btn-background-ghost:not(.ant-btn-primary){
-      border: unset;
+      border: unset !important;
       margin: unset !important;
       &:hover{
         svg{
@@ -132,7 +168,10 @@ const GlobalStyles = createGlobalStyle`
     .ant-btn-link{
       &.anchor-link{padding:0px;height:auto !important;display: flex;
     align-items: center;
-    gap: 10px;}
+    gap: 10px;border:none !important}
+    &.anchor-link:hover{
+      border: transparent !important;
+    }
     }
 
     .ant-btn-lg{
@@ -368,6 +407,18 @@ const GlobalStyles = createGlobalStyle`
       border: none !important;
     }
 
+    .ant-menu-item:active{
+      background: transparent !important;
+    }
+    .ant-menu-item:focus-visible, .ant-menu-submenu-title:focus-visible{
+      box-shadow: unset !important;
+    }
+    .ant-menu-title-content{
+      svg:hover{
+        opacity: 0.8;
+      }
+    }
+
     .ant-typography.ant-typography-success {
       color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
     }
@@ -398,6 +449,11 @@ const GlobalStyles = createGlobalStyle`
         }
       }
 
+      .ant-popover.ant-popover-placement-bottomRight{
+        .ant-popover-arrow{
+          display:none;
+        }
+      }
       .ant-popover.ant-popover-placement-bottom{
         .ant-popover-content{
           margin-top: -10px;
@@ -439,11 +495,14 @@ const GlobalStyles = createGlobalStyle`
       }
 
     .ant-layout-header{
-      z-index: 9999;
+      z-index: 9;
     }
     .ant-notification-notice{
       margin-top: 62px;
     }
+    .successTag{background:${({ theme }) => theme.successColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px;}
+    .errorTag{background:${({ theme }) => theme.errorColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px}
+    .search-input .ant-input-affix-wrapper, .search-input .ant-input-affix-wrapper input{background:${({ theme }) => theme.background.secondary} !important}
     .ant-notification-notice-error{
       border: 1px solid ${({ theme }) => theme.color.danger} !important;
       background: ${({ theme }) => theme.color.dangerDisabled} !important;
@@ -462,6 +521,9 @@ const GlobalStyles = createGlobalStyle`
         ) !important
       }
     }
+    .ant-drawer-body,.ant-drawer-header{background: ${({ theme }) => theme.background.secondary} !important;}
+    .ant-drawer-title{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;}
+    .cursor-pointer{cursor: pointer;}
 
 `;
 

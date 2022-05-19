@@ -25,10 +25,11 @@ export interface OrderFormProps {
   priceSelected?: number,
   pairInfo?: PairType,
   onPlaceOrder: (formData: PlaceOrderRequest, type: OrderType, side: OrderSideType) => void,
-  isLoading?: boolean
+  isLoading?: boolean,
+  canDeposit?: boolean
 }
 
-export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
+export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: '0%',
@@ -50,7 +51,7 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
   }, [priceSelected]);
 
   useEffect(() => {
-    if (pairInfo) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
+    if (pairInfo && !priceSelected) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
   }, [pairInfo]);
 
   useEffect(() => {
@@ -176,9 +177,12 @@ export function OrderForm({ isLoading = true, onPlaceOrder, priceSelected, side 
           <div className="value">
             {`Balance: ${getPriceFormatted(balance?.amount || 0, 2)} ${side === 'bid' ? quoteCurrency : baseCurrency}`}
           </div>
-          <Button ghost className={clsx("deposit", `_${side}`)}>
-            <DepositIcon useDarkMode />
-          </Button>
+          {
+            canDeposit &&
+            <Button ghost className={clsx("deposit", `_${side}`)}>
+              <DepositIcon useDarkMode />
+            </Button>
+          }
         </div>
         <div className="content">
 

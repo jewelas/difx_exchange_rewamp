@@ -1,27 +1,32 @@
-import { SearchInput } from "@difx/core-ui";
-import { Button, Col, Drawer, Input, Modal, Row } from "antd";
-import React, { useEffect, useMemo, useState } from "react";
-import AppLayout from "../index.page";
-import { PageStyled, MarketContentStyled, MarketCard } from "./styled";
+import { SearchOutlined } from '@ant-design/icons';
+import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
 import t from "@difx/locale";
-import TopMarket from "./TopMarket";
-import Stats from "./stats";
-import MarketDrawer from "./drawer";
-import { useAtom } from "jotai";
-import { marketPairAtom, Market, useHttpGet } from "@difx/shared";
-import { QUERY_KEY, API_ENDPOINT } from '@difx/constants';
-import MarketModal from "./modal";
+import { useHttpGet, useMarketModal, useMarketPair } from "@difx/shared";
+import { Col, Drawer, Input, Modal, Row } from "antd";
+import React, { useEffect, useState } from "react";
+import MarketDrawer from "../../components/market/drawer";
+import MarketModal from "../../components/market/modal";
+import Stats from "../../components/market/stats";
+import TopMarket from "../../components/market/TopMarket";
+import AppLayout from "../index.page";
+import { MarketCard, MarketContentStyled, PageStyled } from "./styled";
 
 export function MarketPage() {
   const { data: marketData } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS, API_ENDPOINT.GET_MARKET_PAIRS, null);
-  const [spotList, setSpotList] = useState([])
-  const [futuresList, setFuturesList] = useState([])
+
+  // const { mutate: pair, isLoading } = useHttpPost<null, Market>({ onSuccess, endpoint: API_ENDPOINT.GET_USER_FAVORITES});
+  // const [spotList, setSpotList] = useState([])
+  // const [futuresList, setFuturesList] = useState([])
   const [categoriesList, setCategoriesList] = useState([])
   const [topGainer, setTopGainer] = useState([])
   const [topLooser, setTopLooser] = useState([])
   const [topVolume, setTopVolume] = useState([])
 
-  const [favorites, setFavorites] = useState([])
+  const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList, spotFavorites, setSpotFavorites,futureFavorites, setFutureFavorites} = useMarketPair();
+  const {modalVisible, setModalVisible} = useMarketModal();
+
+  // const [spotFavorites, setSpotFavorites] = useState([])
+  // const [futureFavorites, setFutureFavorites] = useState([])
 
   useEffect(() => {
     if(marketData){
@@ -32,18 +37,25 @@ export function MarketPage() {
   }, [marketData]);
 
   useEffect(() => {
+    if(futuresList){
+      const favoritesFutures = futuresList.filter((futuresList:any) => futuresList.favorite === true)
+      setFutureFavorites(favoritesFutures)
+    }
+  }, [futuresList]);
+
+  useEffect(() => {
     if(spotList){
-      const getTopGainer = [...spotList].sort((a,b) => {
+      const getTopGainer = [...spotList].sort((a:any,b:any) => {
           return a.change < b.change ? 1 : -1
       })
-      const getTopLooser = [...spotList].sort((a,b) => {
+      const getTopLooser = [...spotList].sort((a:any,b:any) => {
         return a.change > b.change ? 1 : -1
       })
-      const getTopVolume = [...spotList].sort((a,b) => {
+      const getTopVolume = [...spotList].sort((a:any,b:any) => {
         return a.volume < b.volume ? 1 : -1
       })
-      const filteredFavorites = spotList.filter(spotList => spotList.favorite === true)
-      setFavorites(filteredFavorites)
+      const favoritesSpot = spotList.filter((spotList:any) => spotList.favorite === true)
+      setSpotFavorites(favoritesSpot)
       setTopGainer(getTopGainer)
       setTopLooser(getTopLooser)
       setTopVolume(getTopVolume)
@@ -53,57 +65,65 @@ export function MarketPage() {
   // const onSearch = (e) => {
   //     const value = e.target.value;
   //     if (value) {
-  //       const filteredData = spotList.filter(e => e.currency1.includes(value));
+  //       const filteredData = spotList.filter(e => e.coin.includes(value));
+  //       console.log(filteredData)
   //       setSpotList(filteredData);
   //     } else {
-  //       setSpotList(spotList)
+  //       setSpotList(marketData.spot)
   //     }
   //   }
-  const [visible, setVisible] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const showDrawer = () => {
-      setVisible(true);
+
+  const onCloseDrawer = () => {
+    setDrawerVisible(false)
   };
-  const onClose = () => {
-      setVisible(false)
+  const closeModal = () => {
+    setModalVisible(false);
   };
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+
+  const onSearch = (e) => {
+    const value = e.target.value;
+    if (value && spotList) {
+      const filteredSpotData = spotList.filter(e => e.currency1.toLowerCase().includes(value));
+      setSpotList(filteredSpotData);
+    } else{
+      setSpotList(marketData.spot)
+    }
+    if(value && futuresList) {
+      const filteredFutureData = futuresList.filter(e => e.currency1.toLowerCase().includes(value));
+      setFuturesList(filteredFutureData)
+    } else{
+      setFuturesList(marketData.futures)
+    }
+  }
 
   return (
     <AppLayout>
       <PageStyled>
-        <MarketContentStyled style={{ padding: "0 50px" }}>
+        <MarketContentStyled style={{ padding: "0 50px", marginTop:"20px" }}>
             <Row align="middle">
-                <Col span={12}>
+                <Col xl={18} xs={12}>
                     <div className="title">{t("market.market")}</div>
                 </Col>
-                <Col span={12}>
-                    {/* <SearchInput onSearch={onSearch} /> */}
-                    {/* <Input onChange={onSearch} placeholder="Search" /> */}
+                <Col xl={6} xs={12}>
+                <div className="input-group search-input">
+                  <Input onChange={onSearch} placeholder="Search" prefix={<SearchOutlined />} />
+                </div>
                 </Col>
             </Row>
             <MarketCard>
               <TopMarket  getTopGainer={topGainer} getTopLooser={topLooser} getTopVolume={topVolume} getFutures={futuresList} />
             </MarketCard>
-            <Stats spotList={spotList} futuresList={futuresList} categoriesList={categoriesList} favorites={favorites} />
+            <Stats spotList={spotList} futuresList={futuresList} categoriesList={categoriesList} spotFavorites={spotFavorites} futureFavorites={futureFavorites} />
         </MarketContentStyled>
-        {/* <Button onClick={showDrawer}>
-        Info
-      </Button>
-      <Button type="primary" onClick={showModal}>
-        Trade
-      </Button> */}
         <Drawer
           title="Overview"
           placement="left"
-          onClose={onClose}
-          visible={visible}
+          onClose={onCloseDrawer}
+          visible={drawerVisible}
         >
           <MarketDrawer />
         </Drawer>
-        <Modal title="&nbsp;" visible={isModalVisible} footer={null}>
+        <Modal title="&nbsp;" visible={modalVisible} footer={null} onCancel={closeModal}>
             <MarketModal />
         </Modal>
       </PageStyled>

@@ -8,10 +8,6 @@ const resources = {
 };
 
 let lang = "en";
-if (typeof window !== "undefined") {
-  lang = window.localStorage.getItem("lang") || "en";
-}
-
 i18n.use(initReactI18next).init({
   resources,
   lng: lang,

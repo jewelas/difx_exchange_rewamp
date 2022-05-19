@@ -17,6 +17,9 @@ const MarketContentStyled = styled(Layout.Content)`
 `;
 const MarketCard = styled.div`
     margin-top: 20px;
+    .ant-card{
+        background:${({theme}) => theme.background.secondary} ;
+    }
     .ant-card-head{
         border-bottom: none;
         .ant-card-head-title{
@@ -25,17 +28,28 @@ const MarketCard = styled.div`
     }
     .ant-card-body {
         padding: 0 20px 16px;
-        height: 150px;
+        height: 126px;
     &>div{
         margin: 8px 0;
         .ant-typography{
             margin-left: 5px;
+            color: ${({theme}) => theme.fontColor.primary};
         }
     }
     }
+    .price-width{
+        width: 80px;
+    }
+    .rate-width{
+        width: 65px;
+        text-align: right;
+    }
+    .coin-width{
+        width: 80px;
+    }
 `;
 const MarketTabsWrapper = styled.div`
-    background: ${({theme}) => theme.background.white};
+    background: ${({theme}) => theme.background.secondary};
     margin-bottom: 3px;
     border-radius: 2px;
     padding: 0px 30px;
@@ -53,7 +67,7 @@ const MarketWrapper = styled.div`
     margin-top: 15px;
 `
 const MarketContentWrapper = styled.div`
-    background: ${({theme}) => theme.background.white};
+    background: ${({theme}) => theme.background.secondary};
     border-radius: 2px;
     padding: 20px 30px;
 `
@@ -69,28 +83,61 @@ const TableLastPrice = styled.div`
     }
 `
 const FavoriteFilter = styled.div`
-.ant-btn {
+.ant-tabs .ant-tabs-tab {
     border: none;
     border-radius: ${({theme}) => theme.borderRadius.regular};
-    span{
-        color: ${({theme}) => theme.fontColor.secondary};
-    }
+    padding:11px 20px;
+    color: ${({theme}) => theme.fontColor.secondary};
+    font-size: 14px;
 }
-.ant-btn.active {
+.ant-tabs-tab.ant-tabs-tab-active {
     background: ${({theme}) => theme.color.primaryLight} !important;
     border: none;
     border-radius: ${({theme}) => theme.borderRadius.regular};
-    span{
-        color: ${({theme}) => theme.color.primary};
-        font-weight: ${({theme}) => theme.fontWeight.semiBold};
-        
-    }
+    color: ${({theme}) => theme.color.primary};
+    font-weight: ${({theme}) => theme.fontWeight.medium};
 }
+.ant-tabs .ant-tabs-ink-bar{
+    background: transparent;
+}
+`
+const SpotFilter = styled.div`
+margin-bottom: 16px;
+    .ant-btn.ant-btn-default{
+        border:1px solid transparent !important;
+        color: ${({theme}) => theme.fontColor.secondary} !important;
+        margin-right: 10px;
+    }
+    .ant-btn.ant-btn-default.active{
+        color: ${({theme}) => theme.color.primary} !important;
+        border:1px solid ${({theme}) => theme.color.primary} !important;
+    }
+`
+const MarketPopup = styled.div`
+    .quality{
+        label {
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 18px;
+        color: ${({theme}) => theme.fontColor.primary};
+        }
+    }
+    .graylabel{
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 14.4px;
+        color: ${({theme}) => theme.fontColor.secondary};
+    }
+`
+const Quantity = styled.div`
+    
 `
 
 // Grid Card Design
 const GridWrapper = styled.div`
-    .ant-card-body{padding: 15px;}
+    .ant-card{background:${({theme}) => theme.background.primary};}
+    margin-top: 15px;
+    .ant-card-body{padding: 20px;}
 `
 const CoinText = styled.div`
     &>.ant-typography{
@@ -125,6 +172,12 @@ const CoinDrawerInfo = styled.div`
     &>.ant-row{
     margin: 10px 0;
     }
+    .ant-typography h1{
+        font-size: 16px;
+    }
+`
+const DrawerWrapper = styled.div`
+    .coin-about h1{font-size: 16px;}
 `
 
-export {FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}
+export {DrawerWrapper,SpotFilter, MarketPopup, FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}

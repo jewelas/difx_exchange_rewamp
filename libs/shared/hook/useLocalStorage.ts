@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useUpdateAtom, useAtomValue } from "jotai/utils";
+import { useAtomValue, useUpdateAtom } from "jotai/utils";
+import { useEffect } from "react";
 import { localStorageAtom } from "../atom/index";
 
 export function useLocalStorage(key: string, defaultValue?: any) {
@@ -7,26 +7,32 @@ export function useLocalStorage(key: string, defaultValue?: any) {
     const value = useAtomValue(localStorageAtom);
     const setValue = useUpdateAtom(localStorageAtom);
 
-    useEffect(() => {
-        let currentItem = localStorage?.getItem(key);
-        if (currentItem && currentItem != value[key]) setValue({ ...value, [key]: currentItem });
-    }, []);
+    const isParseable = (value: string) => {
+        if (!value) return false;
+        if (
+            typeof value === 'string' &&
+            (
+                (value.includes('{') && value.includes('}')) ||
+                (value.includes('[') && value.includes(']'))
+            )
+        ) return true;
+        else return false;
+    }
 
     useEffect(() => {
-        if (value[key]) localStorage.setItem(key, value[key]);
-    }, [value[key]]);
+        const currentItem = localStorage?.getItem(key);
+        if (currentItem) {
+            const parsed = isParseable(currentItem) ? JSON.parse(currentItem) : currentItem;
+            value[key] = parsed;
+            setValue(value);
+        }
+    }, []);
 
     const onSetValue = (newValue: any) => {
         const sNewValue = ["number", "string"].includes(typeof newValue) ? newValue : JSON.stringify(newValue)
         localStorage.setItem(key, sNewValue);
-        setValue({ ...value, [key]: sNewValue });
+        setValue({ ...value, [key]: newValue });
     }
 
-    let jsonValue = null;
-    if (value[key]) {
-        if (["number", "string"].includes(typeof value[key])) jsonValue = value[key];
-        else jsonValue = JSON.parse(value[key])
-    } else jsonValue = defaultValue || null;
-    
-    return { value: jsonValue, setValue: onSetValue };
+    return { value: value[key] || defaultValue, setValue: onSetValue };
 }

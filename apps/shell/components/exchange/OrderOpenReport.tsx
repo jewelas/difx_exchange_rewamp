@@ -29,7 +29,7 @@ export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false 
 
   const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
-    if (data && data.result) {
+    if (data && !isEmpty(data.result)) {
       for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);

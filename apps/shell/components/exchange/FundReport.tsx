@@ -9,7 +9,7 @@ import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from 'react';
 
-export function FundReport() {
+export function FundReport({height=200}:{height?:number}) {
 
   const [tableData, setTableData] = useState<any>([]);
   const { isLoggedIn } = useAuth();
@@ -68,7 +68,7 @@ export function FundReport() {
 
   return (
     <Table
-      scroll={{ x: "max-content", y: 250 }}
+      scroll={{ x: "max-content", y: height+50 }}
       showSorterTooltip={false}
       pagination={false}
       columns={columns}

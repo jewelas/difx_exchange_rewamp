@@ -2,6 +2,7 @@ import { atom, PrimitiveAtom } from "jotai";
 import { User, Permissions, Config } from "..";
 
 export const themeAtom = atom<string>("light");
+export const anonymousTokenAtom = atom<string>("");
 
 export const currentUserAtom = atom<User | undefined>(
   undefined
@@ -17,12 +18,10 @@ export const configAtom = atom<Config | undefined>(
   undefined
 ) as PrimitiveAtom<Config | undefined>;
 
-export const sessionToken = atom<string | null>(null) as PrimitiveAtom<string | null>;
-
 export const RTLAtom = atom<boolean>(false);
 
 // Sync data between localStorage and global state
-export const localStorageAtom = atom<{[key: string]: string}>({}) as PrimitiveAtom<{[key: string]: string}>;
+export const localStorageAtom = atom<{[key: string]: any}>({}) as PrimitiveAtom<{[key: string]: any}>;
 
 export const priceSelectedAtom = atom<number>(0);
 export const marketPairAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;

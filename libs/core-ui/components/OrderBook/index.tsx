@@ -216,12 +216,12 @@ export function OrderBook({
           :
           <div className={clsx('head', layout)}>
             <div className="left">
-              <div className="t1">Amount</div>
+              <div className="t1">{totalType==='sum'?'Sum':'Total'}</div>
               <div className="t2">Price</div>
             </div>
             <div className="right">
               <div className="t1">Price</div>
-              <div className="t2">Amount</div>
+              <div className="t2">{totalType==='sum'?'Sum':'Total'}</div>
             </div>
           </div>
         }

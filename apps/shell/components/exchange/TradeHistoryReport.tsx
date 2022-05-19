@@ -10,7 +10,7 @@ import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from 'react';
 
-export function TradeHistoryReport({ pair, isSelectedPairOnly }: { pair: string, isSelectedPairOnly?: boolean }) {
+export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {height?: number; pair: string, isSelectedPairOnly?: boolean }) {
 
   const { isLoggedIn } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
@@ -142,7 +142,7 @@ export function TradeHistoryReport({ pair, isSelectedPairOnly }: { pair: string,
   return (
     <Table
       showSorterTooltip={false}
-      scroll={{ x: "max-content", y: 260 }}
+      scroll={{ x: "max-content", y: height+30 }}
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}

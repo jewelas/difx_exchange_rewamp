@@ -5,17 +5,19 @@ import { useAtom } from "jotai";
 import {
   isLoggedInAtom,
   permissionsAtom,
+  anonymousTokenAtom,
   configAtom
 } from "../atom/index";
 import { API_ENDPOINT } from "..";
 import { useFingerprint } from "..";
 
+useGuestAuth.isFetchingToken = false;
 export function useGuestAuth() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [permissions, setPermissions] = useAtom(permissionsAtom);
+  const [, setAnonymousToken] = useAtom(anonymousTokenAtom);
   const [config, setConfig] = useAtom(configAtom);
   const { getFingerprint } = useFingerprint() 
-
 
   useEffect(() => {
     if(!isLoggedIn){
@@ -27,13 +29,18 @@ export function useGuestAuth() {
           let config = JSON.parse(localStorage?.getItem("config")  || "null")
           setPermissions(permissions)
           setConfig(config)
+          setAnonymousToken(anonymousToken);
         }
         return
       }
 
-      console.log
-  
-      refreshAnonymousToken()
+      setTimeout(async ()=>{
+        if(!useGuestAuth.isFetchingToken){
+          useGuestAuth.isFetchingToken = true;
+          await refreshAnonymousToken();
+          useGuestAuth.isFetchingToken = false;
+        }
+      },500);
     }
   }, [isLoggedIn]);
 
@@ -68,7 +75,8 @@ export function useGuestAuth() {
       localStorage?.setItem("permissions", JSON.stringify(permission))
       localStorage?.setItem("config", JSON.stringify(config))
       setPermissions(permission)
-      setConfig(config)
+      setConfig(config);
+      setAnonymousToken(anonymousToken);
     }catch(err){
       console.log(err)
     }

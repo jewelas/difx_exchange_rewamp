@@ -8,7 +8,6 @@ import {
   API_ENDPOINT
  } from '@difx/shared';
 import { socket } from "@difx/shared";
-import {Loading} from '@difx/core-ui';
 import { useRouter } from 'next/router';
 import { notification } from 'antd';
 import t from "@difx/locale";
@@ -68,13 +67,11 @@ export default function QRContainer() {
           <img src={"/imgs/qr-banner.png"} />
         </div>
         <div>
-        <Loading style={{width:180, height:180}} isLoading={true} type='component'>
-            <QRCodeSVG
-              value={qrToken}
-              size={180}
-              includeMargin={true}
-            />
-          </Loading>
+          <QRCodeSVG
+          value={qrToken}
+          size={180}
+          includeMargin={true}
+          />
         </div>
       </div>
       <div className='bottom-box'>

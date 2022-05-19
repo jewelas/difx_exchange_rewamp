@@ -89,7 +89,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
             {pair && <PlaceOrderWrapper pair={pair as string} layout={layoutType as string}  />}
           </div>
           <div key="report" className="base">
-            {pair && <OrderReportsWrapper pair={pair as string} />}
+            {pair && <OrderReportsWrapper pair={pair as string} layout={layoutType as string} />}
           </div>
         </ResponsiveGridLayout>
       </PageStyled>

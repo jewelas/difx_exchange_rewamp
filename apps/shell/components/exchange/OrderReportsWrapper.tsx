@@ -3,7 +3,7 @@
 import { Icon, Loading, Switch } from "@difx/core-ui";
 import { useAuth } from "@difx/shared";
 import { Button, Switch as AntdSwitch, Tabs } from "antd";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FundReport from "./FundReport";
 import OrderHistoryReport from "./OrderHistoryReport";
 import OrderOpenReport from "./OrderOpenReport";
@@ -11,12 +11,18 @@ import OrderStopLimitReport from "./OrderStopLimitReport";
 import { OrderReportsWraperStyled } from "./styled";
 import TradeHistoryReport from "./TradeHistoryReport";
 
-export function OrderReportsWrapper({ pair }: { pair: string }) {
+export function OrderReportsWrapper({ pair, layout = 'default'}: { pair: string, layout?: string }) {
 
   const [tab, setTab] = useState('open-order');
   const [isSelectedPairOnly, setIsSelectedPairOnly] = useState(false);
   const [orderType, setOrderType] = useState('limit');
   const { isLoggedIn } = useAuth();
+
+  const [reportHeight, setReportHeight] = useState(197);
+
+  useEffect(()=>{
+    if(layout==='compact') setReportHeight(350);
+  },[layout]);
 
   if (!pair) return <Loading />;
 
@@ -71,13 +77,13 @@ export function OrderReportsWrapper({ pair }: { pair: string }) {
         <div className="report-group">
           {tab === 'open-order' &&
             (
-              orderType === 'limit' ? <OrderOpenReport isSelectedPairOnly={isSelectedPairOnly} pair={pair} /> :
-                orderType === 'stop-limit' ? <OrderStopLimitReport isSelectedPairOnly={isSelectedPairOnly} pair={pair} /> : null
+              orderType === 'limit' ? <OrderOpenReport height={reportHeight} isSelectedPairOnly={isSelectedPairOnly} pair={pair} /> :
+                orderType === 'stop-limit' ? <OrderStopLimitReport height={reportHeight} isSelectedPairOnly={isSelectedPairOnly} pair={pair} /> : null
             )
           }
-          {tab === 'trade-history' && <TradeHistoryReport isSelectedPairOnly={isSelectedPairOnly} pair={pair} />}
-          {tab === 'order-history' && <OrderHistoryReport pair={pair} />}
-          {tab === 'funds' && <FundReport />}
+          {tab === 'trade-history' && <TradeHistoryReport height={reportHeight} isSelectedPairOnly={isSelectedPairOnly} pair={pair} />}
+          {tab === 'order-history' && <OrderHistoryReport height={reportHeight} pair={pair} />}
+          {tab === 'funds' && <FundReport height={reportHeight} />}
         </div>
       </div>
     </OrderReportsWraperStyled>

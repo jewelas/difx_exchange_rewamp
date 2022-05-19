@@ -4,7 +4,7 @@ import {
   VerifyIpResponse,
   useHttpPost
 } from "@difx/shared";
-import { OTPBox } from "@difx/core-ui";
+import { OTPBox, Icon } from "@difx/core-ui";
 import { Button, Form, notification } from "antd";
 import { FormInstance } from "antd/es/form";
 import { AxiosError, AxiosResponse } from "axios";
@@ -128,6 +128,7 @@ export function VerifyIpForm({ userEmail }) {
           </div>
           <div className="paste-btn" onClick={()=>pasteCode()}>
             {t("forgot.paste")}
+            <Icon.PasteIcon fill={`${({theme}) => theme.color.primary}`}/>
           </div>
         </div>
         <Button

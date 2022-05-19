@@ -33,6 +33,9 @@ export const PageStyled = styled.div`
         justify-content: space-between;
         margin-top: 10px;
         margin-bottom: 10px;
+        a{
+          color: ${({ theme }) => theme.fontColor.muted} !important;
+        }
         .left {
           display: flex;
           .tab {
@@ -66,6 +69,9 @@ export const PageStyled = styled.div`
           .B2 {
             font-weight: 500 !important;
             line-height: 17px !important;
+          }
+          a{
+            text-decoration: underline;
           }
         }
       }
@@ -134,6 +140,11 @@ export const PageStyled = styled.div`
         }
       }
       .paste-btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        gap: 5px;
         color: ${({ theme }) => theme.fontColor.link};
         cursor: pointer;
       }

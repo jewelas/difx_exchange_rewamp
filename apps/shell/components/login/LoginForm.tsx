@@ -147,10 +147,11 @@ export function LoginForm(props: LoginFormProps) {
     /* eslint-enable */
 
     if (type === "phone") {
-      formData.email = "";
       formData.phonenumber = (
         formData.dial_code + formData.phonenumber
       ).replace("+", "");
+      delete formData.email 
+      delete formData.dial_code
     }
 
     signIn(formData);

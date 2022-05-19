@@ -8,7 +8,7 @@ import { Button, notification } from "antd";
 import { useHttpPost, useAuth } from '@difx/shared'
 import { API_ENDPOINT } from "@difx/constants";
 import { useRouter } from "next/router";
-import { OTPBox } from "@difx/core-ui"
+import { OTPBox, Icon } from "@difx/core-ui"
 
 export default function VerifyOTP({userEmail, verificationToken, userPhoneNumber}) {
   const [otpValue,setOtpValue] = useState('')
@@ -97,6 +97,7 @@ export default function VerifyOTP({userEmail, verificationToken, userPhoneNumber
           </div>
           <div className="paste-btn" onClick={()=>pasteCode()}>
             {t("forgot.paste")}
+            <Icon.PasteIcon fill={`${({theme}) => theme.color.primary}`}/>
           </div>
         </div>
         <Button

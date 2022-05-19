@@ -218,6 +218,11 @@ export const EmailVerifyContainer = styled.div`
     }
   }
   .paste-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
     color: ${({ theme }) => theme.fontColor.link};
     cursor: pointer;
   }

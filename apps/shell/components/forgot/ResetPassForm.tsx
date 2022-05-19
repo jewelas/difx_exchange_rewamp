@@ -98,7 +98,7 @@ export function ResetPassForm({ email, token ,phoneNumber }: ResetPassFormProps)
           className="sign-in-btn"
           type="primary"
         >
-          {t("signin.login")}
+          {t("common.submit")}
         </Button>
       </div>
     </Form>

@@ -162,6 +162,11 @@ const PageStyled = styled.div`
         border: 1px solid ${({ theme }) => theme.color.primary} ;
         color:${({ theme }) => theme.color.primary} !important;
       }
+      .bottom-box span{
+        &:nth-child(2){
+          font-weight:${({ theme }) => theme.fontWeight.bold} !important;
+        }
+      }
       .ant-input-password-icon{
         svg{
           width: 18px;

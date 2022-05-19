@@ -75,7 +75,7 @@ export function ModalStacking({ onCancel, onSubmit : onSubmitParam, title, visib
     <div className="suffix-amount">
       <div style={{ opacity: 0.75 }}>{data.coin}</div>
       <div className="line" />
-      <Button onClick={() => { form.setFieldsValue({ 'staking_amount': Math.floor(balance.amount * 100) / 100 }) }} ghost>MAX</Button>
+      <Button onClick={() => { form.setFieldsValue({ 'amount': Math.floor(balance.amount * 100) / 100 }) }} ghost>MAX</Button>
     </div>
   )
 

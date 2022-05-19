@@ -195,36 +195,24 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
             </Form.Item>
           }
 
-          {
-            type === 'market'
-              ?
-              <Form.Item
-                name={`${side}.marketPrice`}>
-                <Input disabled={type === 'market'} onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Market Price"} suffix={quoteCurrency} />
-              </Form.Item>
-              :
-              <Form.Item
-                name={`${side}.price`}>
-                <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Price"} suffix={quoteCurrency} />
-              </Form.Item>
-          }
+          <Form.Item
+            name={`${side}.price`}>
+            <Input disabled={type === 'market'} onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Price"} suffix={quoteCurrency} />
+          </Form.Item>
 
-          {
-            ['limit', 'stop-limit'].includes(type)
-            &&
-            <Form.Item
-              name={`${side}.amount`}>
-              <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Amount" suffix={baseCurrency} />
-            </Form.Item>
-          }
+          <Form.Item
+            name={`${side}.amount`}>
+            <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Amount" suffix={baseCurrency} />
+          </Form.Item>
+
+          <div className={clsx("slider-group", side)}>
+            <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />
+          </div>
 
           <Form.Item
             name={`${side}.total`}>
             <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Total" suffix={quoteCurrency} />
           </Form.Item>
-          <div className={clsx("slider-group", side)}>
-            <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />
-          </div>
           <Button
             onClick={() => { !isLoggedIn && router.push('/login') }}
             disabled={isDisabled || isLoading}

@@ -9,27 +9,15 @@ interface LoadingProps {
   type?: 'icon' | 'skeleton' | 'component',
   row?: number;
   column?: number;
+  isLoading?: boolean;
   flexGrowForColumns?: number[];
   style?: CSSProperties;
   className?: string;
   hideColumns?: number[];
 }
-export function Loading({ type = 'component', row = 1, column = 1, flexGrowForColumns = [], hideColumns = [], style, className }: LoadingProps) {
+export function Loading({ children, isLoading = false, type = 'component', row = 1, column = 1, flexGrowForColumns = [], hideColumns = [], style, className }: React.PropsWithChildren<LoadingProps>) {
 
-  if (type === 'icon') {
-    return (
-      <Spin
-        style={{ display: "flex", marginTop: 20, justifyContent: "center", position: "absolute", width: "100%" }}
-        indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-      />
-    )
-  }else if(type==='component'){
-    return (
-      <Skeleton height='100%' />
-    )
-  }
-
-  const renderLoading = () => {
+  const renderSkeleton = () => {
     const cols = [];
     for (let i = 0; i < column; i++) {
       cols.push(
@@ -56,9 +44,33 @@ export function Loading({ type = 'component', row = 1, column = 1, flexGrowForCo
     return result;
   }
 
+  const renderComponent = () => {
+    if (children) {
+      if (isLoading) return <Skeleton />
+      else {
+        return (children)
+      }
+    } else return <Skeleton />
+  }
+
+  if (type === 'icon') {
+    return (
+      <Spin
+        style={{ display: "flex", marginTop: 20, justifyContent: "center", position: "absolute", width: "100%" }}
+        indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+      />
+    )
+  } else if (type === 'component') {
+    return (
+      <MainStyled style={style} className={className}>
+        {renderComponent()}
+      </MainStyled>
+    )
+  }
+
   return (
     <MainStyled style={style} className={className}>
-      {renderLoading()}
+      {renderSkeleton()}
     </MainStyled>
   )
 

@@ -41,7 +41,7 @@ const GlobalStyles = createGlobalStyle`
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
-    .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;}
+    .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
     tr{

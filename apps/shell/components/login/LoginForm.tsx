@@ -25,6 +25,10 @@ import { ExtraAuth } from "@difx/shared";
 import { useAtom } from "jotai";
 import { useRecaptcha } from "@difx/shared";
 import Link from "next/link";
+import {
+  EyeFilled,
+  EyeInvisibleFilled
+} from '@ant-design/icons';
 
 /* eslint-disable-next-line */
 export interface LoginFormProps { }
@@ -275,7 +279,10 @@ export function LoginForm(props: LoginFormProps) {
               message: t("error.inpit_pass"),
             },
           ]}>
-          <Input.Password placeholder={t("signin.password")} />
+          <Input.Password
+           placeholder={t("signin.password")}
+           iconRender={(visible) => (visible ? <EyeFilled/> : <EyeInvisibleFilled/>)}
+          />
         </Form.Item>
         <Button
           disabled={isLoading || hasFieldError || (type === 'phone' && !dialCode)}

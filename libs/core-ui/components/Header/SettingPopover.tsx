@@ -1,7 +1,10 @@
-import { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react';
 import { Button } from 'antd';
 import { useAtom } from 'jotai';
-import { themeAtom } from './../../../shared';
+import isEmpty from "lodash/isEmpty";
+import { themeAtom, useLocalStorage } from './../../../shared';
+import { STORE_KEY } from './../../../shared/constants';
 import { Typography } from './../Typography';
 import { StyledSettingPopover } from './styled';
 import CandleGreen from './svg/CandleGreen';
@@ -21,8 +24,31 @@ export interface SettingPopoverProps {
 export function SettingPopover(props: SettingPopoverProps) {
 
   const [theme] = useAtom(themeAtom);
-  const [layoutType, setLayoutType] = useState<'default' | 'compact' | 'pro'>('default');
-  const [candleType, setCandleType] = useState<'greenUp' | 'redUp'>('greenUp');
+  const [layoutType, setLayoutType] = useState<string | 'default' | 'compact' | 'pro'>('default');
+  const [candleType, setCandleType] = useState<string | 'greenUp' | 'redUp'>('greenUp');
+
+  const { value: exchangeStyles, setValue: setExchangeStyles } = useLocalStorage(STORE_KEY.EXCHANGE_STYLE, null);
+  useEffect(() => {
+    if (!isEmpty(exchangeStyles)) {
+      const { layout } = JSON.parse(exchangeStyles);
+      setLayoutType(layout);
+    }
+  }, []);
+
+
+  const onChangeLayoutType = (type: string) => {
+    setLayoutType(type as string);
+    const exchangeStylesJSON = exchangeStyles ? JSON.parse(exchangeStyles) : {};
+    exchangeStylesJSON.layout = type;
+    setExchangeStyles(exchangeStylesJSON);
+  }
+
+  const onChangeCandleType = (type: string) => {
+    setCandleType(type as string);
+    const exchangeStylesJSON = exchangeStyles ? JSON.parse(exchangeStyles) : {};
+    exchangeStylesJSON.candle = type;
+    setExchangeStyles(exchangeStylesJSON);
+  }
 
   return (
     <StyledSettingPopover>
@@ -30,19 +56,19 @@ export function SettingPopover(props: SettingPopoverProps) {
         <Typography level='B3'>Layout Settings</Typography>
       </div>
       <div className='content'>
-        <Button onClick={() => { setLayoutType('default') }} ghost className={clsx('layout', layoutType === 'default' && 'active')}>
+        <Button onClick={() => { onChangeLayoutType('default') }} ghost className={clsx('layout', layoutType === 'default' && 'active')}>
           <LayoutDefault theme={theme} />
           <div className='name'>
             <Typography level='B3' fontWeight={600}>Default</Typography>
           </div>
         </Button>
-        <Button onClick={() => { setLayoutType('compact') }} ghost className={clsx('layout', layoutType === 'compact' && 'active')}>
+        <Button onClick={() => { onChangeLayoutType('compact') }} ghost className={clsx('layout', layoutType === 'compact' && 'active')}>
           <LayoutCompact theme={theme} />
           <div className='name'>
             <Typography level='B3'>Compact</Typography>
           </div>
         </Button>
-        <Button onClick={() => { setLayoutType('pro') }} ghost className={clsx('layout', layoutType === 'pro' && 'active')}>
+        <Button onClick={() => { onChangeLayoutType('pro') }} ghost className={clsx('layout', layoutType === 'pro' && 'active')}>
           <LayoutPro theme={theme} />
           <div className='name'>
             <Typography level='B3'>Pro</Typography>
@@ -54,7 +80,7 @@ export function SettingPopover(props: SettingPopoverProps) {
         <Typography level='B3'>Rise/Fall Settings</Typography>
       </div>
       <div className="content">
-        <Button onClick={() => { setCandleType('greenUp') }} ghost>
+        <Button onClick={() => { onChangeCandleType('greenUp') }} ghost>
           <div className={clsx('candle', 'first', candleType === 'greenUp' && 'active')}>
             <div className='name'>
               <Typography level='B3'>Green - Up</Typography>
@@ -62,7 +88,7 @@ export function SettingPopover(props: SettingPopoverProps) {
             <CandleGreenUp />
           </div>
         </Button>
-        <Button onClick={() => { setCandleType('redUp') }} ghost>
+        <Button onClick={() => { onChangeCandleType('redUp') }} ghost>
           <div className={clsx('candle', 'last', candleType === 'redUp' && 'active')}>
             <div className='name'>
               <Typography level='B3'>Red - Up</Typography>

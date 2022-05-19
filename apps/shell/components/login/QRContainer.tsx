@@ -11,6 +11,7 @@ import { socket } from "@difx/shared";
 import { useRouter } from 'next/router';
 import { notification } from 'antd';
 import t from "@difx/locale";
+import { Loading } from "@difx/core-ui"
 
 export default function QRContainer() {
   const [ qrToken, setQRToken ] = useState()
@@ -44,7 +45,7 @@ export default function QRContainer() {
     console.log(error)
   },[])
 
-  const { mutate: getQr } = useHttpPost({onSuccess, onError, endpoint:API_ENDPOINT.GET_LOGIN_QR});
+  const { mutate: getQr, isLoading } = useHttpPost({onSuccess, onError, endpoint:API_ENDPOINT.GET_LOGIN_QR});
 
   const getNewQr = async() => {
     const fingerprint = await getFingerprint()

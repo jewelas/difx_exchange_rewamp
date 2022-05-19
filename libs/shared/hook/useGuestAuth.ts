@@ -30,9 +30,6 @@ export function useGuestAuth() {
         }
         return
       }
-
-      console.log
-  
       refreshAnonymousToken()
     }
   }, [isLoggedIn]);

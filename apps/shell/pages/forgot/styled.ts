@@ -117,7 +117,7 @@ export const PageStyled = styled.div`
         }
       }
       .botton-box{
-        margin-top: 10px;
+        margin: 10px 0px;
         display: flex;
         justify-content: space-between;
       }

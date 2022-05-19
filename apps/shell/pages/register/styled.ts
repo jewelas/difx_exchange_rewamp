@@ -15,7 +15,7 @@ export const FormStyled = styled.div`
   .country-select-group {
     margin-top: 10px;
     .ant-select {
-      width: 50% !important;
+      width: auto !important;
     }
   }
   .referral-group {
@@ -72,7 +72,7 @@ export const FormStyled = styled.div`
       height: 74px !important;
       width: 87px;
       border-radius: 2px;
-      border-color: ${({ theme }) => theme.fontColor.secondary} !important;
+      border: none !important;
       color: ${({ theme }) => theme.fontColor.secondary} !important;
       svg path {
         fill: ${({ theme }) => theme.fontColor.secondary} !important;
@@ -87,24 +87,16 @@ export const FormStyled = styled.div`
           fill: #FFFFFF !important;
         }
       }
-      &:hover {
-        /* transition: unset !important;
-        color: ${({ theme }) => theme.color.primary} !important;
-        border-color: ${({ theme }) => theme.color.primary} !important; */
-        /* svg path {
-          fill: ${({ theme }) => theme.color.primary} !important;
-        } */
-      }
     }
   }
   .with-icon{
     background: ${({theme}) => theme.background.primary} !important;
-    border: none
+    border: none !important
   }
   .with-icon.active{
     background: ${({theme}) => theme.color.primary} !important;
     color: #fff !important;
-    border: none
+    border: none !important
   }
 `;
 
@@ -132,6 +124,10 @@ export const PageStyled = styled.div`
     .cover-group {
       margin-top: 30px;
       text-align: center;
+      svg{
+        width: 70%;
+        height: 60vh;
+      }
     }
   }
 
@@ -156,6 +152,28 @@ export const PageStyled = styled.div`
     align-items: center !important;
     display: flex !important;
   }
+
+  .ant-input-password-icon{
+    svg{
+      width: 18px;
+      height: 18px;
+      path{
+        fill: ${({ theme }) => theme.fontColor.muted} !important;;
+      }
+    }
+  }
+  .ant-tabs-tab{
+    font-size: ${({ theme }) => theme.typography.large} !important;
+    border: none !important;
+    padding: 0px;
+  }
+  .ant-tabs-tab:nth-child(1){
+    border-right: 1px solid ${({ theme }) => theme.fontColor.muted} !important;
+    padding-right: 20px !important;
+  }
+  .ant-tabs .ant-tabs-ink-bar{
+    background: none !important;
+  }
 `;
 
 export const EmailVerifyContainer = styled.div`
@@ -178,12 +196,12 @@ export const EmailVerifyContainer = styled.div`
   }
 
   .ant-btn{
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
   }
 
   .botton-box{
-    margin-top: 10px;
+    margin: 10px 0px;
     display: flex;
     justify-content: space-between;
   }

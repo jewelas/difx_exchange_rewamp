@@ -6,7 +6,7 @@ import { ListPairsContentStyled, MarketContentStyled, PageStyled } from './style
 export interface HomePageProps {}
 
 export function HomePage(props: HomePageProps) {
-  const { data , isLoading } = useHttpGet<null,any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
+  const { data , isLoading } = useHttpGet<null,any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
   return (
       <PageStyled> 

@@ -13,7 +13,7 @@ export const SelectStyled = styled(Select)`
       /* height: 48px !important; */
       .ant-select-selection-search {
         input {
-          /* height: 48px !important; */
+          height: 100% !important;
           font-size: 14px !important;
           padding-left: 48px;
         }
@@ -32,7 +32,7 @@ export const SelectStyled = styled(Select)`
       height: 38px !important;
       .ant-select-selection-search {
         input {
-          height: 38px !important;
+          height: 100% !important;
           font-size: 14px;
           padding-left: 48px;
         }
@@ -54,6 +54,9 @@ export const SelectStyled = styled(Select)`
     }
     .val{
       padding-top: 0px !important;
+    }
+    .ant-select-arrow{
+      top: 20px;
     }
   }
 `;
@@ -90,4 +93,5 @@ export const OptionGroupStyled = styled.div`
       padding-top: 9px;
     }
   }
+  
 `;

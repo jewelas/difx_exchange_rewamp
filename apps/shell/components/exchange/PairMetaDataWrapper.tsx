@@ -22,7 +22,7 @@ export interface PairMetaDataWrapperProps {
 }
 
 export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
-  const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchInterval: 10000 });
+  const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
 
   let pairInfo = null;

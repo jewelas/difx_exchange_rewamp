@@ -80,24 +80,24 @@ const PageStyled = styled.div`
     }
   }
   .botton-box{
-        margin-top: 10px;
-        display: flex;
-        justify-content: space-between;
+    margin: 10px 0px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .resend-box{
+    color: ${({ theme }) => theme.fontColor.muted};
+    span{
+      margin-left: 5px;
+      cursor: pointer;
+      &.active{
+        color: ${({ theme }) => theme.fontColor.link}
       }
-      .resend-box{
-        color: ${({ theme }) => theme.fontColor.muted};
-        span{
-          margin-left: 5px;
-          cursor: pointer;
-          &.active{
-            color: ${({ theme }) => theme.fontColor.link}
-          }
-        }
-      }
-      .paste-btn{
-        color: ${({ theme }) => theme.fontColor.link};
-        cursor: pointer;
-      }
+    }
+  }
+  .paste-btn{
+    color: ${({ theme }) => theme.fontColor.link};
+    cursor: pointer;
+  }
 `;
 
 export default PageStyled;

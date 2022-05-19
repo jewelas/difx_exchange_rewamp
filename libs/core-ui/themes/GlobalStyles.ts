@@ -345,6 +345,9 @@ const GlobalStyles = createGlobalStyle`
       }
     }
 
+    .ant-switch{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.muted} !important;
+    }
     .ant-switch-checked{
       background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
     }
@@ -509,6 +512,20 @@ const GlobalStyles = createGlobalStyle`
           ${({ theme }) => theme.loadingSkeleton.base}
         ) !important
       }
+    }
+
+    //MISC SETTINGS
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
     }
 
 `;

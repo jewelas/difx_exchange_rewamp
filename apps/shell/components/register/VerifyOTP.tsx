@@ -90,6 +90,15 @@ export default function VerifyOTP({userEmail, verificationToken, userPhoneNumber
         <Typography level={"H2"}>{t("register.verifyHeader")}</Typography>
         <p>{t("register.verifyEmailMessage")}{userEmail ? userEmail : userPhoneNumber}</p>
         <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
+        <div className="botton-box">
+          <div className="resend-box">
+            {`00:${timer.toString().padStart(2,'0')}`}
+            <button onClick={resendOTP} disabled={!resend}>{t("forgot.resend")}</button>
+          </div>
+          <div className="paste-btn" onClick={()=>pasteCode()}>
+            {t("forgot.paste")}
+          </div>
+        </div>
         <Button
           disabled={hasFieldError}
           type="primary"
@@ -97,15 +106,6 @@ export default function VerifyOTP({userEmail, verificationToken, userPhoneNumber
         >
           {t("register.verifyEmailButton")}
         </Button>
-        <div className="botton-box">
-        <div className="resend-box">
-          {`00:${timer.toString().padStart(2,'0')}`}
-          <button onClick={resendOTP} disabled={!resend}>{t("forgot.resend")}</button>
-        </div>
-        <div className="paste-btn" onClick={()=>pasteCode()}>
-          {t("forgot.paste")}
-        </div>
-      </div>
       </div>
     </EmailVerifyContainer>
   )

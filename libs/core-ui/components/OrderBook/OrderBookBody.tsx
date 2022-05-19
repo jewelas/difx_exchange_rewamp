@@ -17,6 +17,8 @@ export interface OrderBookBodyProps {
   onPriceSelected?: (price: number) => void;
   priceOpenOrders?: Array<any>;
   totalType?: 'total' | 'sum';
+  hideColumns?: string[];
+  layout?: string;
 
   maxRowData?: number;
   type?: 'bid' | 'ask';
@@ -30,38 +32,91 @@ function renderData(
   data: Array<Array<number>> | undefined,
   numberFormat: string,
   onPriceSelected: (price: number) => void,
-  priceOpenOrders: Array<number>
+  priceOpenOrders: Array<number>,
+  hideColumns: string[],
+  layout = 'default'
 ) {
   const result = [];
 
   if (!data) return [];
   for (let i = 0; i < max_row; i++) {
     const row = data[i];
-    if (row) {
-      result.push(
-        <div onClick={() => { onPriceSelected && onPriceSelected(row[0]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
-          <BarStyled className={type} style={{width: `${row[2].toString()}%` }} />
+    if (!row) break;
+    const barStyle: any = {};
+    barStyle.width = `${row[2].toString()}%`;
+    if (layout === 'compact') {
+      barStyle.width = `${(row[2] / 2).toString()}%`;
+      if (type === 'ask') {
+        barStyle.right = '1px';
+        barStyle.marginRight = '50%';
+      } else if (type === 'bid') {
+        barStyle.left = '1px'
+        barStyle.marginLeft = '50%';
+      }
+    }
+
+    const Price = () => (
+      !hideColumns.includes('price') ?
+        <Typography level="B3" className="price">
+          {formatNumber(row[0], numberFormat)}
+        </Typography>
+        : <></>
+    )
+
+    const Amount = () => (
+      !hideColumns.includes('amount') ?
+        <Typography level="B3" className="amount">
+          {formatNumber(row[1], numberFormat)}
+        </Typography>
+        : <></>
+    )
+
+    const Total = () => (
+      !hideColumns.includes('total') ?
+        <Typography level="B3" className="total">
           {
-            priceOpenOrders.find((e:any)=>e.side === type && e.price === row[0]) &&
-            <div className={clsx("dot", type)}>
-              <DotIcon fill={type === 'ask' ? '#DB5354' : '#21C198'} />
-            </div>
-          }
-          <Typography level="B3" className="price">
-            {formatNumber(row[0], numberFormat)}
-          </Typography>
-          <Typography level="B3" className="amount">
-            {formatNumber(row[1], numberFormat)}
-          </Typography>
-          <Typography level="B3" className="total">
-            {
-              totalType === 'total'
+            totalType === 'total'
               ?
               formatNumber(row[0] * row[1], numberFormat)
               :
               formatNumber(row[3], numberFormat)
-            }
-          </Typography>
+          }
+        </Typography>
+        : <></>
+    )
+
+    if (row) {
+      result.push(
+        <div onClick={() => { onPriceSelected && onPriceSelected(row[0]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
+          <BarStyled className={type} style={barStyle} />
+          {
+            priceOpenOrders.find((e: any) => e.side === type && e.price === row[0]) &&
+            <div className={clsx("dot", type)}>
+              <DotIcon fill={type === 'ask' ? '#DB5354' : '#21C198'} />
+            </div>
+          }
+
+          {
+            layout !== 'compact' ?
+              <>
+                <Price />
+                <Amount />
+                <Total />
+              </>
+              :
+              type === 'bid' ?
+                <>
+                  <Price />
+                  <Amount />
+                  <Total />
+                </>
+                :
+                <>
+                  <Total />
+                  <Amount />
+                  <Price />
+                </>
+          }
         </div>
       );
     }
@@ -95,17 +150,19 @@ export function OrderData({
   onPriceSelected,
   priceOpenOrders,
   maxRowData = 12,
-  totalType = 'total'
+  totalType = 'total',
+  hideColumns = [],
+  layout = 'default'
 }: OrderBookBodyProps) {
 
   if (!data) {
     return <Spin className="loading" indicator={<Loading />} />;
   }
 
-  if(!type || !onPriceSelected) return null;
+  if (!type || !onPriceSelected) return null;
   return (
     <div className={type}>
-      {renderData(totalType, maxRowData, type, data, numberFormat, onPriceSelected, priceOpenOrders || [])}
+      {renderData(totalType, maxRowData, type, data, numberFormat, onPriceSelected, priceOpenOrders || [], hideColumns, layout)}
     </div>
   );
 }

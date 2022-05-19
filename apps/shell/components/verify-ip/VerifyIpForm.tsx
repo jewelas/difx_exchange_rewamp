@@ -121,6 +121,15 @@ export function VerifyIpForm({ userEmail }) {
     >
       <div className="content">
         <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
+        <div className="botton-box">
+          <div className="resend-box">
+            {`00:${timer.toString().padStart(2,'0')}`}
+            <span onClick={resendOTP} className={`${resend? 'active' : null}`}>{t("forgot.resend")}</span>
+          </div>
+          <div className="paste-btn" onClick={()=>pasteCode()}>
+            {t("forgot.paste")}
+          </div>
+        </div>
         <Button
           htmlType="submit"
           disabled={isLoading || hasFieldError}
@@ -129,15 +138,6 @@ export function VerifyIpForm({ userEmail }) {
         >
           {t("common.verify")}
         </Button>
-      </div>
-      <div className="botton-box">
-        <div className="resend-box">
-          {`00:${timer.toString().padStart(2,'0')}`}
-          <span onClick={resendOTP} className={`${resend? 'active' : null}`}>{t("forgot.resend")}</span>
-        </div>
-        <div className="paste-btn" onClick={()=>pasteCode()}>
-          {t("forgot.paste")}
-        </div>
       </div>
     </Form>
   );

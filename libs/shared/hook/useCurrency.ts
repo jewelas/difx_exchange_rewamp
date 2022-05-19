@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useHttpGet, Currency } from ".."
+import { useHttpGet } from "..";
+import { Currency } from './../type/Currency'
 import { API_ENDPOINT, QUERY_KEY } from "../constants"
 
 
@@ -9,15 +10,15 @@ export function useCurrency() {
   const [ currentCurrency, setCurrentCurrency ] = useState<Currency | null>(null)
   const [ isAvailable, setIsAvailable ] = useState<boolean>(false)
 
-  useEffect(()=>{
-    const cachedCurrency =  JSON.parse(localStorage?.getItem('currency') || "null")
-    if(cachedCurrency){
+  useEffect(() => {
+    const cachedCurrency = JSON.parse(localStorage?.getItem('currency') || "null")
+    if (cachedCurrency) {
       setCurrentCurrency(cachedCurrency)
     }
-  },[])
+  }, [])
 
-  useEffect(()=>{
-    if(data){
+  useEffect(() => {
+    if (data) {
       setCurrencyPairs(data.currencies)
       setIsAvailable(true)
 
@@ -25,7 +26,7 @@ export function useCurrency() {
       localStorage.setItem('currency', JSON.stringify(defaultCurrency))
       setCurrentCurrency(defaultCurrency)
     }
-  },[data])
+  }, [data])
 
   const setCurrency = (currency: string) => {
     if(!currencyPairs) return
@@ -35,7 +36,7 @@ export function useCurrency() {
         localStorage.setItem('currency', JSON.stringify(selectedPair))  
         setCurrentCurrency(selectedPair)
       }
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   }

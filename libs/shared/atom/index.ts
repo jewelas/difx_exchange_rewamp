@@ -22,7 +22,7 @@ export const sessionToken = atom<string | null>(null) as PrimitiveAtom<string | 
 export const RTLAtom = atom<boolean>(false);
 
 // Sync data between localStorage and global state
-export const localStorageAtom = atom<{[key: string]: string}>({}) as PrimitiveAtom<{[key: string]: string}>;
+export const localStorageAtom = atom<{[key: string]: any}>({}) as PrimitiveAtom<{[key: string]: any}>;
 
 export const priceSelectedAtom = atom<number>(0);
 export const marketPairAtom = atom<string | null>(null) as PrimitiveAtom<string | null>;

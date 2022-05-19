@@ -37,13 +37,13 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
   const { value: exchangeStyles } = useLocalStorage(STORE_KEY.EXCHANGE_STYLE, {});
   useEffect(() => {
     if (!isEmpty(exchangeStyles)) {
-      const { layout } = JSON.parse(exchangeStyles);
+      const { layout } = exchangeStyles;
       setLayoutType(layout);
       if (layout === 'default') setLayouts(initLayouts);
       else if (layout === 'compact') setLayouts(getLayoutType('compact', isStaticWidgets));
       else if (layout === 'pro') setLayouts(getLayoutType('pro', isStaticWidgets));
     }
-  }, [exchangeStyles]);
+  }, [exchangeStyles.layout]);
 
   const handleGridResize = (widgets) => {
     // TODO

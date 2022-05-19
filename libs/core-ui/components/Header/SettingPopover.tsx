@@ -30,7 +30,7 @@ export function SettingPopover(props: SettingPopoverProps) {
   const { value: exchangeStyles, setValue: setExchangeStyles } = useLocalStorage(STORE_KEY.EXCHANGE_STYLE, null);
   useEffect(() => {
     if (!isEmpty(exchangeStyles)) {
-      const { layout } = JSON.parse(exchangeStyles);
+      const { layout } =  exchangeStyles || {};
       setLayoutType(layout);
     }
   }, []);
@@ -38,14 +38,14 @@ export function SettingPopover(props: SettingPopoverProps) {
 
   const onChangeLayoutType = (type: string) => {
     setLayoutType(type as string);
-    const exchangeStylesJSON = exchangeStyles ? JSON.parse(exchangeStyles) : {};
+    const exchangeStylesJSON = exchangeStyles || {};
     exchangeStylesJSON.layout = type;
     setExchangeStyles(exchangeStylesJSON);
   }
 
   const onChangeCandleType = (type: string) => {
     setCandleType(type as string);
-    const exchangeStylesJSON = exchangeStyles ? JSON.parse(exchangeStyles) : {};
+    const exchangeStylesJSON = exchangeStyles || {};
     exchangeStylesJSON.candle = type;
     setExchangeStyles(exchangeStylesJSON);
   }

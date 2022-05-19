@@ -159,7 +159,7 @@ export function ListView({ data, datatype, categoriesList }) {
       },
     },
     {
-      title: "Action", key: "action", align: "right",
+      title: "Action", key: "action", align: "right" as const,
       render: (text: string, item: any) => (
         <Space size="middle">
           <Button onClick={() => {

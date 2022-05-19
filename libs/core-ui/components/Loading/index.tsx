@@ -45,12 +45,17 @@ export function Loading({ children, isLoading = false, type = 'component', row =
   }
 
   const renderComponent = () => {
+    const Comp = () => (
+      <MainStyled style={style} className={className}>
+        <Skeleton />
+      </MainStyled>
+    )
     if (children) {
-      if (isLoading) return <Skeleton />
+      if (isLoading) return <Comp />
       else {
         return (children)
       }
-    } else return <Skeleton />
+    } else return <Comp />
   }
 
   if (type === 'icon') {
@@ -61,11 +66,7 @@ export function Loading({ children, isLoading = false, type = 'component', row =
       />
     )
   } else if (type === 'component') {
-    return (
-      <MainStyled style={style} className={className}>
-        {renderComponent()}
-      </MainStyled>
-    )
+    return <>{renderComponent()}</>
   }
 
   return (

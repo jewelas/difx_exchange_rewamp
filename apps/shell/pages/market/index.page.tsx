@@ -22,10 +22,11 @@ export function MarketPage() {
   const [topLooser, setTopLooser] = useState([])
   const [topVolume, setTopVolume] = useState([])
 
-  const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList, favoriteList, setFavoriteList} = useMarketPair();
+  const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList, spotFavorites, setSpotFavorites,futureFavorites, setFutureFavorites} = useMarketPair();
   const {modalVisible, setModalVisible} = useMarketModal();
 
-  const [favorites, setFavorites] = useState([])
+  // const [spotFavorites, setSpotFavorites] = useState([])
+  // const [futureFavorites, setFutureFavorites] = useState([])
 
   useEffect(() => {
     if(marketData){
@@ -34,6 +35,13 @@ export function MarketPage() {
       setCategoriesList(marketData.categories)
     }
   }, [marketData]);
+
+  useEffect(() => {
+    if(futuresList){
+      const favoritesFutures = futuresList.filter((futuresList:any) => futuresList.favorite === true)
+      setFutureFavorites(favoritesFutures)
+    }
+  }, [futuresList]);
 
   useEffect(() => {
     if(spotList){
@@ -46,8 +54,8 @@ export function MarketPage() {
       const getTopVolume = [...spotList].sort((a:any,b:any) => {
         return a.volume < b.volume ? 1 : -1
       })
-      const filteredFavorites = spotList.filter((spotList:any) => spotList.favorite === true)
-      setFavorites(filteredFavorites)
+      const favoritesSpot = spotList.filter((spotList:any) => spotList.favorite === true)
+      setSpotFavorites(favoritesSpot)
       setTopGainer(getTopGainer)
       setTopLooser(getTopLooser)
       setTopVolume(getTopVolume)
@@ -72,28 +80,40 @@ export function MarketPage() {
     setModalVisible(false);
   };
 
-  // const onSearch = (e) => {
-  //   setSearchValue(e.target.value);
-  // }
+  const onSearch = (e) => {
+    const value = e.target.value;
+    if (value && spotList) {
+      const filteredSpotData = spotList.filter(e => e.currency1.toLowerCase().includes(value));
+      setSpotList(filteredSpotData);
+    } else{
+      setSpotList(marketData.spot)
+    }
+    if(value && futuresList) {
+      const filteredFutureData = futuresList.filter(e => e.currency1.toLowerCase().includes(value));
+      setFuturesList(filteredFutureData)
+    } else{
+      setFuturesList(marketData.futures)
+    }
+  }
 
   return (
     <AppLayout>
       <PageStyled>
         <MarketContentStyled style={{ padding: "0 50px", marginTop:"20px" }}>
             <Row align="middle">
-                <Col span={18}>
+                <Col xl={18} xs={12}>
                     <div className="title">{t("market.market")}</div>
                 </Col>
-                <Col span={6}>
+                <Col xl={6} xs={12}>
                 <div className="input-group search-input">
-                  <Input placeholder="Search" prefix={<SearchOutlined />} />
+                  <Input onChange={onSearch} placeholder="Search" prefix={<SearchOutlined />} />
                 </div>
                 </Col>
             </Row>
             <MarketCard>
               <TopMarket  getTopGainer={topGainer} getTopLooser={topLooser} getTopVolume={topVolume} getFutures={futuresList} />
             </MarketCard>
-            <Stats spotList={spotList} futuresList={futuresList} categoriesList={categoriesList} favorites={favorites} />
+            <Stats spotList={spotList} futuresList={futuresList} categoriesList={categoriesList} spotFavorites={spotFavorites} futureFavorites={futureFavorites} />
         </MarketContentStyled>
         <Drawer
           title="Overview"

@@ -29,6 +29,7 @@ export function useGuestAuth() {
           let config = JSON.parse(localStorage?.getItem("config")  || "null")
           setPermissions(permissions)
           setConfig(config)
+          setAnonymousToken(anonymousToken);
         }
         return
       }

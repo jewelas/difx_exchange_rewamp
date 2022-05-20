@@ -16,7 +16,7 @@ export function LoginPage(props: LoginPageProps) {
   return (
     <AppLayout>
       <PageStyled>
-        <Row className="row-group">
+        <Row className="row-group box-container">
           <Col className="col-group" xs={24} sm={20} md={16} lg={14} xl={10}>
             <Typography level="H4">{t("signin.login_in_difx")}</Typography>
             <Typography className="subtext" level="B2">{t("signin.check_correct_url")}</Typography>

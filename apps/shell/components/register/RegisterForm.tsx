@@ -208,7 +208,7 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
                       <Form.Item name="dial_code" rules={[]}>
                         <CountrySelect
                           value={dialCode}
-                          width={150}
+                          width={124}
                           type="dial_code"
                           onChange={onChangeDialCode}
                           size="large"

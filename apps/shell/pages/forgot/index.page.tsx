@@ -48,7 +48,7 @@ export function ForgotPage(props: ForgotPageProps) {
                   <Link href="/register">{t("common.register")}</Link>
                 </Typography>
               </div>
-              <div className="right.forgot-pass">
+              <div className="right">
                 <Typography level="B1">
                   <Link href="/login">{t("common.have_acc")}</Link>
                 </Typography>

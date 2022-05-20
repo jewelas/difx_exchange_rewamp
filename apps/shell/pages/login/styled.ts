@@ -3,8 +3,9 @@ import styled from "styled-components";
 
 const PageStyled = styled.div`
   height: calc(100vh - 70px);
+  background: ${({ theme }) => theme.background.secondary};
   .ant-row.row-group {
-    background: ${({ theme }) => theme.background.primary};
+    background: ${({ theme }) => theme.background.secondary};
     .ant-col.col-group {
       width: 100%;
       max-width: 550px;
@@ -12,8 +13,9 @@ const PageStyled = styled.div`
       margin: 0 auto;
       margin-top: 70px;
       margin-bottom: 70px;
-      background: ${({ theme }) => theme.background.secondary};
+      background: ${({ theme }) => theme.background.primary};
       border-radius: 15px;
+      
       .H4,
       .B2 {
         display: flex;
@@ -29,15 +31,11 @@ const PageStyled = styled.div`
         cursor: pointer;
         background: ${({ theme }) => theme.background.secondary};
         color: ${({ theme }) => theme.fontColor.primary};
-        border: 0.5px solid
-          ${({ theme }) =>
-            theme.currentTheme === "light"
-              ? "#E1DDDD"
-              : theme.background.primary};
+        border: ${({ theme }) => theme.border.secondary};
         box-sizing: border-box;
         border-radius: 13.5px;
-        padding: 2px 0px;
-        width: 112px;
+        padding: 2px 2px;
+        width: 130px;
         margin: 0 auto;
         margin-top: 13px;
         margin-bottom: 20px;
@@ -117,7 +115,7 @@ const PageStyled = styled.div`
         margin-bottom: 40px;
         color: #9aa5b4;
         div {
-          background: ${({ theme }) => theme.background.secondary};
+          background: ${({ theme }) => theme.background.primary};
           width: 36px;
           text-align: center;
           position: absolute;
@@ -153,8 +151,8 @@ const PageStyled = styled.div`
         color: ${({ theme }) => theme.fontColor.muted} !important;
       }
       .subtext{
-        margin-top: 10px;
         color: ${({ theme }) => theme.fontColor.primary} ;
+        font-weight: ${({ theme }) => theme.fontWeight.medium} ;
       }
       .sign-in-qrcode{
         border: 1px solid ${({ theme }) => theme.color.primary} ;
@@ -163,6 +161,52 @@ const PageStyled = styled.div`
       .sign-in-account{
         border: 1px solid ${({ theme }) => theme.color.primary} ;
         color:${({ theme }) => theme.color.primary} !important;
+      }
+      .bottom-box span{
+        &:nth-child(2){
+          font-weight:${({ theme }) => theme.fontWeight.bold} !important;
+        }
+      }
+      .ant-input-password-icon{
+        svg{
+          width: 18px;
+          height: 18px;
+          path{
+            fill: ${({ theme }) => theme.fontColor.muted} !important;
+          }
+        }
+      }
+      .ant-input{
+        background: ${({ theme }: { theme }) => theme.background.secondary} !important;
+        border-radius: ${({ theme }: { theme }) => theme.borderRadius.regular} !important;
+      }
+      .ant-input-affix-wrapper,
+      .ant-input-affix-wrapper-borderless, 
+      .ant-input-affix-wrapper-borderless:hover,
+      .ant-input-affix-wrapper-borderless:focus, 
+      .ant-input-affix-wrapper-borderless-focused, 
+      .ant-input-affix-wrapper-borderless-disabled, 
+      .ant-input-affix-wrapper-borderless[disabled]{
+        height: ${({ theme }: { theme }) => theme.inputFieldHeight} !important;
+        background: ${({ theme }: { theme }) => theme.background.secondary} !important;
+        border-radius: ${({ theme }: { theme }) => theme.borderRadius.regular} !important;
+        border: ${({ theme }: { theme }) => theme.border.secondary} !important;
+        &:focus{
+          box-shadow: none !important;
+        }
+      }
+      .sign-in-btn{
+        &:disabled{
+          border: ${({ theme }: { theme }) => theme.border.secondary} !important;
+          background: ${({ theme }: { theme }) => theme.color.disabled} !important;
+        }
+      }
+      .ant-select-selector{
+        height: ${({ theme }: { theme }) => theme.inputFieldHeight} !important;
+        background: ${({ theme }: { theme }) => theme.background.secondary} !important;
+        border-radius: ${({ theme }: { theme }) => theme.borderRadius.regular} !important;
+        border: ${({ theme }: { theme }) => theme.border.secondary} !important;
+        color: ${({ theme }: { theme }) => theme.fontColor.primary} !important;
       }
     }
   }

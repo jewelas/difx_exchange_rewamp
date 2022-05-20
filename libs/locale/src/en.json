@@ -50,7 +50,7 @@
     "corporate": "Corporate",
     "login": "Login",
     "login_qr": "Login with QR Code",
-    "qr_login_step": "On the homepage of the APP click 'Scan' in the upper right-hand corner to log-in",
+    "qr_login_step": "Click the Scan tab on the top right corner to login",
     "login_account": "Login with Account",
     "new_account": "New account?",
     "login_in_difx": "LogIn",

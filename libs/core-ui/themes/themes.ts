@@ -124,8 +124,8 @@ export const light: ThemeInterface = {
     primaryDisabled: "#E8F3FE",
     successDisabled: "#E8F8F2",
     dangerDisabled: "#FFF3F3",
-    disabled: "#f5f5f5",
-    selected: "var(--ant-primary-1)",
+    disabled: "#FCFCFC",
+    selected: "#DAE5F5",
     InputPlaceholder: "#8C8C8C",
     rowHover: "rgba(0,0,0,0.1)"
   },
@@ -137,7 +137,7 @@ export const light: ThemeInterface = {
     line: "rgba(0,0,0,0.1)"
   },
   loadingSkeleton:{
-    base: "#ebebeb",
+    base: "#e6ecf5",
     highLight: "#f5f5f5"
   },
   background: {

@@ -30,7 +30,7 @@ export function ChartWrapper({ pair }: { pair: string }) {
 
   return (
     <ChartWraperStyled>
-      <div className="head">
+      {/* <div className="head">
 
         <Tabs defaultActiveKey="1" onChange={(e) => { setTab(e) }}>
           <TabPane tab="Basic" key="basic" />
@@ -53,7 +53,7 @@ export function ChartWrapper({ pair }: { pair: string }) {
             Todo... Waiting for backend complete
           </div>
         }
-      </div>
+      </div> */}
     </ChartWraperStyled>
   );
 }

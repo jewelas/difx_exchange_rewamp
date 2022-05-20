@@ -24,7 +24,7 @@ export function useLanguage() {
       setAvailableLanguages(resData)
       setIsAvailable(true)
 
-      const defaultLang = resData.find( (item:any) => item.default === true )
+      const defaultLang = resData.find( (item: Language) => item.default === true )
       localStorage.setItem('lang', JSON.stringify(defaultLang))
       setCurrentLanguage(defaultLang)
     }

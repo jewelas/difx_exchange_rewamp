@@ -101,6 +101,7 @@ export function OrderBook({
       networkStatus={networkStatus}
       priceTrend={priceTrend}
       currentPrice={currentPrice}
+      layout = {layout}
     />
   )
 
@@ -186,6 +187,7 @@ export function OrderBook({
 
         </div>
         <div className="right">
+          <Button ghost>More</Button>
           <Select
             defaultValue="0.01"
             style={{ width: 120 }}

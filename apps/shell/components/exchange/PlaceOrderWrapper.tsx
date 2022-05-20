@@ -52,12 +52,12 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
 
   const { mutate: getBalances } = useHttpGetByEvent<any, Array<Balance>>({ onSuccess: getBalancesSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
-  const placeOrderSuccess = (response: AxiosResponse<PlaceOrderResponse>) => {
-    const { data } = response;
+  const placeOrderSuccess = (response: AxiosResponse<{data: PlaceOrderResponse}>) => {
+    const { data } = response.data;
     showNotification('success', 'Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
   }
 
-  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, PlaceOrderResponse>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
+  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, {data: PlaceOrderResponse}>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
 
   useEffect(() => {
     if (isLoggedIn) getBalances(null)
@@ -81,11 +81,17 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
       delete request["total"];
       placeOrder(request);
     } else if (type === 'market') {
-      data.price = pairInfo.last;
-      data.amount = data.total;
-      placeOrder({ ...data, endpoint: API_ENDPOINT.PLACE_ORDER_MARKET });
+      const request: PlaceOrderRequest = {...data};
+      delete request["total"];
+      delete request["price"];
+      request.endpoint = API_ENDPOINT.PLACE_ORDER_MARKET;
+      request.amount = data.total;
+      placeOrder(request);
     } else if (type === 'stop-limit') {
-      placeOrder({ ...data, endpoint: API_ENDPOINT.PLACE_ORDER_STOP });
+      const request:PlaceOrderRequest = {...data};
+      request.endpoint = API_ENDPOINT.PLACE_ORDER_STOP;
+      delete request["total"];
+      placeOrder(request);
     }
 
   }

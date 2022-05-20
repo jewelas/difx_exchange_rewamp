@@ -73,7 +73,7 @@ export const API_ENDPOINT = {
     const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view-current?symbol=${symbol}&resolution=${resolution}`
   },
-  GET_BALANCE: '/api/v1/user/balance',
+  GET_BALANCE: '/api/v1/user/spot-balance',
   SIGNIN: '/api/v1/auth/login',
   GET_LOGIN_QR: '/api/v1/auth/qr',
   SIGNUP_VERIFICATION: '/api/v1/auth/pre-check',

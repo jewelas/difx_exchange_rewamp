@@ -41,7 +41,8 @@ export const QUERY_KEY = {
   MARKET_PAIRS: 'market_pairs',
   MARKET_PAIRS_INFO: (coin: string) => `market_pairs_info_${coin}`,
   CURRENCY_PAIRS: 'currency_pair',
-  AVAILABLE_LANGUAGES: 'available_languages'
+  AVAILABLE_LANGUAGES: 'available_languages',
+  CURRENCIES: 'currencies'
 }
 
 export const ASSETS_URL = "https://media.difx.com/"
@@ -101,4 +102,5 @@ export const API_ENDPOINT = {
   ADD_FAVORITES: '/api/v1/user/favorite-pair',
   REMOVE_FAVORITES: '/api/v1/user/unfavorite-pair',
   CREATE_STAKING: '/api/v1/staking/create',
+  GET_CURRENCIES: '/api/v1/market/coins',
 }

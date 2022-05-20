@@ -5,7 +5,6 @@ import t from "@difx/locale";
 import { useHttpDelete, useHttpPost, useMarketPair } from "@difx/shared";
 import { Avatar, Button, Space, Table } from "antd";
 import Text from "antd/lib/typography/Text";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import Trend from "react-trend";

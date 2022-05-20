@@ -351,6 +351,10 @@ const GlobalStyles = createGlobalStyle`
         fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       }
     }
+    
+    .ant-switch{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.muted} !important;
+    }
 
     .ant-switch-checked{
       background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;

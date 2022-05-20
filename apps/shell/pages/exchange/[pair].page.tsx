@@ -10,6 +10,7 @@ import ListPairWrapper from "../../components/exchange/ListPairWrapper";
 import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
 import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
 import ChartWrapper from "../../components/exchange/ChartWrapper";
+import ChartContainer from "../../components/exchange/ChartContainer"
 import TradeInfoWrapper from "../../components/exchange/TradeInfoWrapper";
 import PlaceOrderWrapper from "../../components/exchange/PlaceOrderWrapper";
 import OrderReportsWrapper from "../../components/exchange/OrderReportsWrapper";
@@ -73,7 +74,8 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
             {pair && <PairMetaDataWrapper pair={pair as string} />}
           </div>
           <div key="chart" className="base">
-            {pair && <ChartWrapper pair={pair as string} />}
+            {/* {pair && <ChartWrapper pair={pair as string} />} */}
+            {pair && <ChartContainer pair={pair as string} />}
           </div>
           {
             (!layoutType || ['default', 'pro'].includes(layoutType))

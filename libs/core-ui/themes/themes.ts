@@ -152,7 +152,7 @@ export const light: ThemeInterface = {
     primary: "#454552",
     secondary: "#9AA5B4",
     button: "#FFFFFF",
-    muted: "#A1A1A1",
+    muted: "#9AA5B4",
     link: "#3D7EFF",
     invert: "#161F30"
   },
@@ -173,7 +173,7 @@ export const light: ThemeInterface = {
     large: "16px",
     medium: "14px",
     small: "12px",
-    xsmall: "13px",
+    xsmall: "10px",
   },
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",
@@ -255,7 +255,7 @@ export const dark: ThemeInterface = {
     primary: "#FFFFFF",
     secondary: "#9AA5B4",
     button: "#FFFFFF",
-    muted: "#A1A1A1",
+    muted: "#9AA5B4",
     link: "#3D7EFF",
     invert: "#FFFFFF"
   },
@@ -276,7 +276,7 @@ export const dark: ThemeInterface = {
     large: "16px",
     medium: "14px",
     small: "12px",
-    xsmall: "13px",
+    xsmall: "10px",
   },
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",

@@ -3,8 +3,9 @@ import { useQuery, useMutation } from "react-query";
 import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { notification } from 'antd';
 import { useAuth, useGuestAuth } from '..'
+import { useEffect } from "react";
 
-function onErrorHandle(error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, logOut: () => void) {
+function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, logOut: () => void) {
     const { response } = error;
     const { statusCode } = response?.data;
 
@@ -67,11 +68,23 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
     }
 
     instance.interceptors.request.use(axiosAuthorization);
+
+    instance.interceptors.response.use((response) => {
+        return response
+    }, (error) => {
+        const { response } = error;
+        const { statusCode } = response?.data;
+        if(statusCode === 404){
+            refreshAnonymousToken()
+            return instance.request(error.config)
+        }else{
+            return Promise.reject(error)
+        }
+    })
     
     const query = useQuery<Response, AxiosError>(
         queryKey,
         async () => {
-            
             try {
                 const res = await instance.get<null, AxiosResponse>(endpoint, request);
                 const data = res.data.data;

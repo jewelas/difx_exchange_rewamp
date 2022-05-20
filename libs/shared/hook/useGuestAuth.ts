@@ -48,6 +48,7 @@ export function useGuestAuth() {
   }, [isLoggedIn]);
 
   const refreshAnonymousToken = async() => {
+    console.log("refreshAnonymousToken")
     const deviceFingerprint = await getFingerprint()
     const reqData = {
       identifier: deviceFingerprint,

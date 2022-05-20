@@ -123,6 +123,8 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
     }
   }
 
+  // eslint-disable-next-line
+  // @ts-ignore
   const getButtonSubmitLabel = () => {
     if (!isLoggedIn) return 'Log in or Sign up';
     if (side === 'ask') return 'Sell';

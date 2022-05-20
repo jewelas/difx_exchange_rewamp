@@ -31,8 +31,8 @@ export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
   }
 
   const param: useSocketProps = {
-    pair: pairInfo && pairInfo.symbol,
-    leavePair: PairMetaDataWrapper.previousPair,
+    join: pairInfo && pairInfo.symbol,
+    leave: PairMetaDataWrapper.previousPair,
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);

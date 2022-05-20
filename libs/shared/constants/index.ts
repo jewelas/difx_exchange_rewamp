@@ -22,12 +22,20 @@ export const REFRESH_TOKEN = {
   EXPIRY_TIME: 300000,
 };
 
+export const ANONYMOUS_TOKEN_EXPIRY = 162000000
+
 export const THEME = {
   LIGHT: "light",
   DARK: "dark",
 };
 
 export const DEFAULT_PAIR = "DIFXUSDT";
+
+export const PAIRS = {
+  INITIALPAIR: 'BTCUSDT',
+  CURRENCY1: 'KOKO',
+  CURRENCY2: 'USDT'
+}
 
 export const QUERY_KEY = {
   COUNTRIES: 'countries',
@@ -68,13 +76,13 @@ export const API_ENDPOINT = {
   GET_MY_TRADES: (symbol?: string) => `/api/v1/user/trade-history${symbol ? `?symbol=${symbol}` : ''}`,
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
-    return `api/v1/chart/normal-view?symbol=ETCUSDT&resolution=${resolution || '5m'}&from=${from}&to=${to}`
+    return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
   },
   GET_CHART_CURRENT: (symbol: string, resolution: string = '5m') => {
     const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view-current?symbol=${symbol}&resolution=${resolution}`
   },
-  GET_BALANCE: '/api/v1/user/balance',
+  GET_BALANCE: '/api/v1/user/spot-balance',
   SIGNIN: '/api/v1/auth/login',
   GET_LOGIN_QR: '/api/v1/auth/qr',
   SIGNUP_VERIFICATION: '/api/v1/auth/pre-check',

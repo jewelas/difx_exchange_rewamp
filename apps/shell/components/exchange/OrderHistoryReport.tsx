@@ -10,7 +10,7 @@ import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from 'react';
 
-export function OrderHistoryReport({pair}:{pair:string}) {
+export function OrderHistoryReport({ height = 200, pair }: { height?: number; pair: string }) {
 
   const { isLoggedIn } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
@@ -31,7 +31,7 @@ export function OrderHistoryReport({pair}:{pair:string}) {
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
 
   useEffect(() => {
-    if(isLoggedIn){
+    if (isLoggedIn) {
       getOrderBooks(null);
     }
   }, [isLoggedIn]);
@@ -138,7 +138,7 @@ export function OrderHistoryReport({pair}:{pair:string}) {
   return (
     <Table
       showSorterTooltip={false}
-      scroll={{ x: "max-content", y: 197 }}
+      scroll={{ x: "max-content", y: height }}
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}

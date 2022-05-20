@@ -5,17 +5,22 @@ import { useAtom } from "jotai";
 import {
   isLoggedInAtom,
   permissionsAtom,
+  anonymousTokenAtom,
   configAtom
 } from "../atom/index";
-import { API_ENDPOINT } from "..";
-import { useFingerprint } from "..";
+import { API_ENDPOINT, ANONYMOUS_TOKEN_EXPIRY } from "..";
+import { useFingerprint, useLocalStorage } from "..";
+
+useGuestAuth.isFetchingToken = false;
 
 export function useGuestAuth() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [permissions, setPermissions] = useAtom(permissionsAtom);
+  const [, setAnonymousToken] = useAtom(anonymousTokenAtom);
   const [config, setConfig] = useAtom(configAtom);
   const { getFingerprint } = useFingerprint() 
 
+  const {value: anonymousTokenExpiry, setValue: setAnonymousTokenExpiry} = useLocalStorage("anonymousTokenExpiry")
 
   useEffect(() => {
     if(!isLoggedIn){
@@ -27,13 +32,18 @@ export function useGuestAuth() {
           let config = JSON.parse(localStorage?.getItem("config")  || "null")
           setPermissions(permissions)
           setConfig(config)
+          setAnonymousToken(anonymousToken)
         }
         return
       }
 
-      console.log
-  
-      refreshAnonymousToken()
+      setTimeout(async ()=>{
+        if(!useGuestAuth.isFetchingToken){
+          useGuestAuth.isFetchingToken = true;
+          await refreshAnonymousToken();
+          useGuestAuth.isFetchingToken = false;
+        }
+      },500);
     }
   }, [isLoggedIn]);
 
@@ -64,11 +74,14 @@ export function useGuestAuth() {
       const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.GET_ANONYMOUS_TOKEN,reqData)
       const { data } = response.data
       let { anonymousToken, config, permission } = data
+      const tokenExpiry = Date.now() + ANONYMOUS_TOKEN_EXPIRY
       localStorage?.setItem("anonymousToken", anonymousToken)
       localStorage?.setItem("permissions", JSON.stringify(permission))
       localStorage?.setItem("config", JSON.stringify(config))
+      setAnonymousTokenExpiry(tokenExpiry)
       setPermissions(permission)
-      setConfig(config)
+      setConfig(config);
+      setAnonymousToken(anonymousToken);
     }catch(err){
       console.log(err)
     }

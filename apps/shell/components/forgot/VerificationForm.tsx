@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react"
-import { OTPBox } from "@difx/core-ui"
+import { OTPBox, Icon } from "@difx/core-ui"
 import { Typography } from "@difx/core-ui";
 import t from "@difx/locale";
 import { Button, notification } from "antd";
@@ -96,13 +96,6 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
         {t("forgot.verify_message")}{email? email : phoneNumber}
       </Typography>
       <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
-      <Button
-        disabled={ isVerifyLoading || hasFieldError}
-        type="primary"
-        onClick={onVerify}
-      >
-        {t("forgot.verify_btn")}
-      </Button>
       <div className="botton-box">
         <div className="resend-box">
           {`00:${timer.toString().padStart(2,'0')}`}
@@ -110,8 +103,16 @@ export default function VerificationForm({setTab, email, phoneNumber, setToken}:
         </div>
         <div className="paste-btn" onClick={()=>pasteCode()}>
           {t("forgot.paste")}
+          <Icon.PasteIcon fill={`${({theme}) => theme.color.primary}`}/>
         </div>
       </div>
+      <Button
+        disabled={ isVerifyLoading || hasFieldError}
+        type="primary"
+        onClick={onVerify}
+      >
+        {t("forgot.verify_btn")}
+      </Button>
     </>
   )
 }

@@ -8,7 +8,7 @@ import {
   useHttpPost,
   useRecaptcha,
   CaptchaType,
-  configAtom
+  configAtom, useCurrency
 } from "@difx/shared";
 import { Button, Form, Input, notification } from "antd";
 import { AxiosError, AxiosResponse } from "axios";

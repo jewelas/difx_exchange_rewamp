@@ -41,7 +41,7 @@ const GlobalStyles = createGlobalStyle`
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
-    .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;}
+    .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
     tr{
@@ -351,7 +351,14 @@ const GlobalStyles = createGlobalStyle`
         fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       }
     }
+    
+    .ant-switch{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.muted} !important;
+    }
 
+    .ant-switch{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.muted} !important;
+    }
     .ant-switch-checked{
       background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
     }
@@ -493,18 +500,23 @@ const GlobalStyles = createGlobalStyle`
     .ant-layout-header{
       z-index: 9;
     }
+    
     .ant-notification-notice{
-      margin-top: 62px;
-    }
-    .successTag{background:${({ theme }) => theme.successColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px;}
-    .errorTag{background:${({ theme }) => theme.errorColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px}
-    .search-input .ant-input-affix-wrapper, .search-input .ant-input-affix-wrapper input{background:${({ theme }) => theme.background.secondary} !important}
-    .ant-notification-notice-error{
-      border: 1px solid ${({ theme }) => theme.color.danger} !important;
-      background: ${({ theme }) => theme.color.dangerDisabled} !important;
-      box-shadow: none !important;
+      color: ${({ theme }) => theme.fontColor.primary} !important;
+      background: ${({ theme }) => theme.background.primary} !important;
     }
 
+    .ant-notification-notice-message{
+      color: ${({ theme }) => theme.fontColor.primary} !important;
+    }
+
+    .ant-notification-notice-icon{
+      top: 28px;
+    }
+
+    .ant-notification-notice-close{
+      top: 34px !important;
+    }
 
     /* Skeletion loading */
     .react-loading-skeleton{
@@ -520,6 +532,20 @@ const GlobalStyles = createGlobalStyle`
     .ant-drawer-body,.ant-drawer-header{background: ${({ theme }) => theme.background.secondary} !important;}
     .ant-drawer-title{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;}
     .cursor-pointer{cursor: pointer;}
+
+    //MISC SETTINGS
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
 
 `;
 

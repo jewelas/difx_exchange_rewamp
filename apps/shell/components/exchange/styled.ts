@@ -153,6 +153,224 @@ export const ChartWraperStyled = styled.div`
     }
 `;
 
+export const ChartContainerStyled = styled.div`
+  height: 100%;
+  padding: 10px;
+
+  .ant-tabs-nav{
+    margin-bottom: 10px !important;
+  }
+`
+export const ChartHeadStyled = styled.div`
+  background-color: ${({theme}) => theme.background.secondary};
+  height: 32px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: ${({theme}) => theme.fontColor.primary};
+  font-size: ${({theme}) => theme.typography.small};
+  font-weight: ${({theme}) => theme.fontWeight.regular};
+
+  .timeframes{
+    display: flex;
+    gap: 10px;
+    margin-left: 5px;
+
+    span{
+      cursor: pointer;
+      opacity: 0.8;
+      &.active{
+        opacity: 1 !important;
+        color: ${({theme}) => theme.color.primary};
+      }
+    }
+  }
+
+  .right-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
+    gap: 2px;
+  }
+
+  .candle-types{
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    color: ${({theme}) => theme.fontColor.primary};
+
+    .chart-type-icon{
+      background: transparent;
+      opacity: 0.5;
+      border: none;
+      cursor: pointer;
+    }
+
+    .types-dropdown{
+      display: none;
+      width: 115px;
+      position: absolute;
+      background-color: ${({theme}) => theme.background.primary};
+      opacity: 1;
+      top: 24px;
+      right: 0px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 5px;
+      border-radius: 5px;
+      z-index: 100;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 3px 3px 20px rgba(68, 68, 68, 0.2);
+      button{
+        border: none;
+        width: 100%;
+        background: transparent;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        span{
+          flex-grow: 1;
+          display: flex;
+          justify-content: flex-start;
+          margin-left: 2px;
+        }
+
+        &.active{
+          span{
+            color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+          }
+          svg{
+            path{
+              fill: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+            }
+          }
+        }
+      }
+    }
+
+    &:hover{
+      .types-dropdown{
+        display: flex;
+      }
+    }
+
+  }
+  
+  .indicators{
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+
+    .indicator-icon{
+      border: none;
+      background: transparent;
+      opacity: 0.5;
+      font-size: 11px;
+      cursor: pointer;
+      margin: 2px;
+      transition: all 0.2s ease-in-out;
+      padding: 0px 2px;
+      border-radius: 2px;
+    }
+
+    .indicator-dropdown{
+      display: none;
+      position: absolute;
+      background-color: ${({theme}) => theme.background.primary};
+      opacity: 1;
+      top: 24px;
+      right: 0px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 5px;
+      border-radius: 5px;
+      z-index: 100;
+      transition: all 0.2s ease-in-out;
+      gap: 10px;
+      box-shadow: 3px 3px 20px rgba(68, 68, 68, 0.2);
+
+      .indicator-index{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        span{
+          font-weight: 600;
+        }
+      }
+
+      .indicator-button-group{
+        width: 186px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      button{
+        width: 42px;
+        border: 1px solid ${({theme}) => theme.fontColor.primary};
+        background: transparent;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        color:  ${({theme}) => theme.fontColor.primary};
+        font-weight: 600;
+        gap: 5px;
+        opacity: 0.5;
+        font-size: 11px;
+        cursor: pointer;
+        margin: 2px;
+        transition: all 0.2s ease-in-out;
+        padding: 0px 2px;
+        border-radius: 2px;
+
+        &.active{
+          border: 1px solid ${({theme}) => theme.color.primary} ;
+          background: ${({theme}) => theme.color.primary};
+          color: ${({theme}) => theme.fontColor.button};
+          opacity: 1;
+        }
+      }
+    }
+
+    &:hover{
+      .indicator-dropdown{
+        display: flex;
+      }
+    }
+  }
+
+  .fullscreen{
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  
+
+`
+
+
 export const PlaceOrderWraperStyled = styled.div`
     padding: 10px;
     .asset-group{

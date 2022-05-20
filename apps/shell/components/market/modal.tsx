@@ -5,7 +5,7 @@ import { useHttpGet, useMarketPair } from "@difx/shared";
 import { API_ENDPOINT, ASSETS_URL, QUERY_KEY } from '@difx/constants';
 
 const { Option } = Select;
-export function MarketModal(currency) {
+export function MarketModal() {
     const { data: currencyData } = useHttpGet<null, any>(QUERY_KEY.CURRENCIES, API_ENDPOINT.GET_CURRENCIES, {});
     const {marketPair, setMarketPair} = useMarketPair()
 

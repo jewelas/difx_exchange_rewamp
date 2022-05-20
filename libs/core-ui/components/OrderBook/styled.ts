@@ -79,6 +79,13 @@ export const ComponentStyled = styled.div`
       .ant-select {
         margin-top: -6px;
       }
+      .ant-btn{
+        font-size: 12px;
+        line-height: 20px;
+        font-weight: 500;
+        margin-right:10px !important;
+        color: ${({ theme }:{theme:ThemeInterface}) => theme.fontColor.primary} !important;
+      }
     }
   }
 
@@ -211,6 +218,14 @@ export const ComponentStyled = styled.div`
           }
         }
         .right {
+          .ant-btn{
+            font-size: 12px;
+            line-height: 20px;
+            font-weight: 500;
+            margin-left: 10px !important;
+            margin-right:-5px !important;
+            color: ${({ theme }:{theme:ThemeInterface}) => theme.fontColor.primary} !important;
+          }
         }
       }
       .ask {

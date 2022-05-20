@@ -16,4 +16,5 @@ export * from "./OTPBox";
 export * from "./ValueField";
 export * from "./Timeline";
 export * from "./Switch";
-export * from "./CoinSelect";
+// export * from "./CoinSelect";
+export * from "./Notification";

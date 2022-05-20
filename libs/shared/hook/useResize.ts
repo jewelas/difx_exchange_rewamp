@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { useUpdateAtom, useAtomValue} from "jotai/utils";
-import { currentUserAtom, isLoggedInAtom, sessionToken } from "../atom/index";
+import { currentUserAtom, isLoggedInAtom } from "../atom/index";
 import { User } from "..";
 
 export function useResize() {

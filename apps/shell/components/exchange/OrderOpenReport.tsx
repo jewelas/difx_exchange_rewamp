@@ -13,8 +13,9 @@ import { useEffect, useState } from 'react';
 interface Props {
   isSelectedPairOnly?: boolean;
   pair?: string;
+  height?: number;
 }
-export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
+export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false }: Props) {
 
   // const { token } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
@@ -28,7 +29,7 @@ export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
 
   const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
-    if (data && data.result) {
+    if (data && !isEmpty(data.result)) {
       for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
@@ -205,7 +206,7 @@ export function OrderOpenReport({ pair, isSelectedPairOnly = false }: Props) {
 
   return (
     <Table
-      scroll={{ x: "max-content", y: 197 }}
+      scroll={{ x: "max-content", y: height }}
       showSorterTooltip={false}
       pagination={false}
       columns={columns}

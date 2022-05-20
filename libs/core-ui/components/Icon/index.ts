@@ -66,6 +66,11 @@ import CoinIcon from "./CoinIcon";
 import HeadTagIcon from "./HeadTagIcon";
 import NoDataIcon from "./NoDataIcon";
 import CancelOrderIcon from "./CancelOrderIcon";
+import PasteIcon from "./PasteIcon";
+import SuccessIcon from "./SuccessIcon";
+import InfoIcon from "./InfoIcon";
+import ErrorIcon from "./ErrorIcon";
+import WarningIcon from "./WarningIcon";
 export interface IconProps {
   width?: number;
   height?: number;
@@ -146,7 +151,12 @@ const Icon = {
   CoinIcon,
   HeadTagIcon,
   NoDataIcon,
-  CancelOrderIcon
+  CancelOrderIcon,
+  PasteIcon,
+  SuccessIcon,
+  InfoIcon,
+  ErrorIcon,
+  WarningIcon
 };
 
 export { Icon };

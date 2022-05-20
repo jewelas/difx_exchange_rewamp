@@ -25,6 +25,10 @@ import { ExtraAuth } from "@difx/shared";
 import { useAtom } from "jotai";
 import { useRecaptcha } from "@difx/shared";
 import Link from "next/link";
+import {
+  EyeFilled,
+  EyeInvisibleFilled
+} from '@ant-design/icons';
 
 /* eslint-disable-next-line */
 export interface LoginFormProps { }
@@ -143,10 +147,11 @@ export function LoginForm(props: LoginFormProps) {
     /* eslint-enable */
 
     if (type === "phone") {
-      formData.email = "";
       formData.phonenumber = (
         formData.dial_code + formData.phonenumber
       ).replace("+", "");
+      delete formData.email 
+      delete formData.dial_code
     }
 
     signIn(formData);
@@ -155,6 +160,11 @@ export function LoginForm(props: LoginFormProps) {
   const onChangeLoginType = (type: "email" | "phone") => {
     setType(type);
   };
+
+  const onToggleSubAccount = (e) => {
+    e.preventDefault()
+    setIsSubAccount(!isSubAccount) 
+  }
 
   return (
     <Form
@@ -270,7 +280,10 @@ export function LoginForm(props: LoginFormProps) {
               message: t("error.inpit_pass"),
             },
           ]}>
-          <Input.Password placeholder={t("signin.password")} />
+          <Input.Password
+           placeholder={t("signin.password")}
+           iconRender={(visible) => (visible ? <EyeFilled/> : <EyeInvisibleFilled/>)}
+          />
         </Form.Item>
         <Button
           disabled={isLoading || hasFieldError || (type === 'phone' && !dialCode)}
@@ -285,7 +298,7 @@ export function LoginForm(props: LoginFormProps) {
           <div className="left">
             <button 
               className="sub-account-link"
-              onClick={()=>setIsSubAccount(!isSubAccount) }
+              onClick={onToggleSubAccount}
             >
               {
                 !isSubAccount ? 

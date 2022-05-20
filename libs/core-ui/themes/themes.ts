@@ -124,8 +124,8 @@ export const light: ThemeInterface = {
     primaryDisabled: "#E8F3FE",
     successDisabled: "#E8F8F2",
     dangerDisabled: "#FFF3F3",
-    disabled: "#f5f5f5",
-    selected: "var(--ant-primary-1)",
+    disabled: "#FCFCFC",
+    selected: "#DAE5F5",
     InputPlaceholder: "#8C8C8C",
     rowHover: "rgba(0,0,0,0.1)"
   },
@@ -137,7 +137,7 @@ export const light: ThemeInterface = {
     line: "rgba(0,0,0,0.1)"
   },
   loadingSkeleton:{
-    base: "#ebebeb",
+    base: "#e6ecf5",
     highLight: "#f5f5f5"
   },
   background: {
@@ -152,7 +152,7 @@ export const light: ThemeInterface = {
     primary: "#454552",
     secondary: "#9AA5B4",
     button: "#FFFFFF",
-    muted: "#A1A1A1",
+    muted: "#9AA5B4",
     link: "#3D7EFF",
     invert: "#161F30"
   },
@@ -173,7 +173,7 @@ export const light: ThemeInterface = {
     large: "16px",
     medium: "14px",
     small: "12px",
-    xsmall: "13px",
+    xsmall: "10px",
   },
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",
@@ -255,7 +255,7 @@ export const dark: ThemeInterface = {
     primary: "#FFFFFF",
     secondary: "#9AA5B4",
     button: "#FFFFFF",
-    muted: "#A1A1A1",
+    muted: "#9AA5B4",
     link: "#3D7EFF",
     invert: "#FFFFFF"
   },
@@ -276,7 +276,7 @@ export const dark: ThemeInterface = {
     large: "16px",
     medium: "14px",
     small: "12px",
-    xsmall: "13px",
+    xsmall: "10px",
   },
   shadow: {
     light: "0 3px 10px rgb(0,0,0,0.05)",

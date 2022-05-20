@@ -1,8 +1,9 @@
 import { Header } from "@difx/core-ui";
+import { anonymousTokenAtom, useRTL } from "@difx/shared";
 import { Layout } from "antd";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { useRTL } from "@difx/shared";
 
 const LayoutStyled = styled(Layout)`
   background: ${({ theme }) => theme.background.body} !important;
@@ -22,7 +23,10 @@ export interface BaseLayoutProps {
 
 export default function BaseLayout({ children }: BaseLayoutProps) {
   const router = useRouter();
-  const { RTLDirection } = useRTL() 
+  const { RTLDirection } = useRTL();
+  const [anonymousToken] = useAtom(anonymousTokenAtom);
+
+  if(!anonymousToken) return null;
 
   return (
       <LayoutStyled >

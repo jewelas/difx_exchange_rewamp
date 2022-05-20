@@ -1,10 +1,10 @@
 import { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { useQuery, useMutation } from "react-query";
 import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
-import { notification } from 'antd';
 import { useAuth, useGuestAuth } from '..'
+import { showError, showInfo, showWarning } from "../../core-ui/components"
 
-function onErrorHandle(error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, logOut: () => void) {
+function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, logOut: () => void) {
     const { response } = error;
     const { statusCode } = response?.data;
 
@@ -16,30 +16,21 @@ function onErrorHandle(error: AxiosError, refreshToken: () => void, refreshAnony
         case 403:
             logOut();
             break;
+        // case 404:
+        //     refreshAnonymousToken()
+        //     break;
         case 406:
             refreshAnonymousToken()
-            notification.info({
-                message: "Oops",
-                description: "Something went wrong, try again",
-            });
+            showWarning("Oops", "Something went wrong, try again")
             break
         case 410:
-            notification.info({
-                message: "Verify IP",
-                description: response?.data.message,
-            });
+            showInfo("Verify IP", response?.data.message)
             break
         case 411:
-            notification.info({
-                message: "Verify 2FA Code",
-                description: response?.data.message,
-            });
+            showInfo("Verify 2FA Code", response?.data.message)
             break
         default:
-            notification.error({
-                message: "Oops",
-                description: response?.data.message,
-            });
+            showError("Oops", response?.data.message)
             break
     }
 }
@@ -67,11 +58,23 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
     }
 
     instance.interceptors.request.use(axiosAuthorization);
+
+    instance.interceptors.response.use((response) => {
+        return response
+    }, (error) => {
+        const { response } = error;
+        const { statusCode } = response?.data;
+        if(statusCode === 404){
+            refreshAnonymousToken()
+            return instance.request(error.config)
+        }else{
+            return Promise.reject(error)
+        }
+    })
     
     const query = useQuery<Response, AxiosError>(
         queryKey,
         async () => {
-            
             try {
                 const res = await instance.get<null, AxiosResponse>(endpoint, request);
                 const data = res.data.data;
@@ -80,7 +83,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
                     return data;
                 }
             } catch (error: any) {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut );
             }
         },
         mergeOptions
@@ -100,6 +103,19 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
     const { refreshAnonymousToken } = useGuestAuth();
 
     instance.interceptors.request.use(axiosAuthorization)
+
+    instance.interceptors.response.use((response) => {
+        return response
+    }, (error) => {
+        const { response } = error;
+        const { statusCode } = response?.data;
+        if(statusCode === 404){
+            refreshAnonymousToken()
+            return instance.request(error.config)
+        }else{
+            return Promise.reject(error)
+        }
+    })
 
     const mutation = useMutation(
         (request: any) => {
@@ -125,6 +141,19 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
 
     instance.interceptors.request.use(axiosAuthorization)
 
+    instance.interceptors.response.use((response) => {
+        return response
+    }, (error) => {
+        const { response } = error;
+        const { statusCode } = response?.data;
+        if(statusCode === 404){
+            refreshAnonymousToken()
+            return instance.request(error.config)
+        }else{
+            return Promise.reject(error)
+        }
+    })
+
     const mutation = useMutation(
         (request: any) => {
             return instance.post<Request, AxiosResponse<Response>>(
@@ -147,7 +176,23 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
 
 export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
+    const { refreshToken, logOut } = useAuth()
+    const { refreshAnonymousToken } = useGuestAuth()
+
     instance.interceptors.request.use(axiosAuthorization)
+
+    instance.interceptors.response.use((response) => {
+        return response
+    }, (error) => {
+        const { response } = error;
+        const { statusCode } = response?.data;
+        if(statusCode === 404){
+            refreshAnonymousToken()
+            return instance.request(error.config)
+        }else{
+            return Promise.reject(error)
+        }
+    })
 
     const mutation = useMutation(
         (request: any) => {
@@ -161,6 +206,7 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
                 onError && onError(error as AxiosError);
             },
         }

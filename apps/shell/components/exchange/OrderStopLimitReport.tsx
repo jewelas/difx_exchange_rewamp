@@ -12,8 +12,9 @@ import { useEffect, useState } from 'react';
 interface Props {
   isSelectedPairOnly?: boolean;
   pair?: string;
+  height?: number;
 }
-export function OrderStopLimitReport({ pair, isSelectedPairOnly = false }: Props) {
+export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = false }: Props) {
 
   // const { token } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
@@ -40,9 +41,9 @@ export function OrderStopLimitReport({ pair, isSelectedPairOnly = false }: Props
     }
   }, [userOrdersData]);
 
-  const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
-    if (data && data.result) {
+    if (data && !isEmpty(data.result)) {
       for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
@@ -61,7 +62,7 @@ export function OrderStopLimitReport({ pair, isSelectedPairOnly = false }: Props
     }
   }
 
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT() });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT() });
   const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_STOP_LIMIT_ORDER }); // TODO: handle headers in interceptor in useHttp
 
 
@@ -209,7 +210,7 @@ export function OrderStopLimitReport({ pair, isSelectedPairOnly = false }: Props
 
   return (
     <Table
-      scroll={{ x: "max-content", y: 197 }}
+      scroll={{ x: "max-content", y: height }}
       showSorterTooltip={false}
       pagination={false}
       columns={columns}

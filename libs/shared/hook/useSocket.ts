@@ -3,6 +3,7 @@ import { socket } from "./../api/index";
 
 export enum SocketEvent {
   orderbook_limited,
+  prices,
   trades,
   user_orders,
   user_stoplimits,

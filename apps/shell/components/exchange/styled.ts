@@ -6,6 +6,9 @@ export const PairMetadataStyled = styled.div`
     height: 100%;
     padding: 0 10px;
     justify-content: space-between;
+    .show-more-pair{
+      margin-top:3px !important;
+    }
     .left {
       margin-top: 22px;
       display: flex;

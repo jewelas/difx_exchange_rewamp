@@ -1,27 +1,32 @@
-import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/constants";
+import { API_ENDPOINT, EXCHANGE_LAYOUT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
-  PairType,
   SocketEvent,
   useHttpGet, useLocalStorage, useSocket,
   useSocketProps
 } from "@difx/shared";
+import {
+  DownOutlined
+} from '@ant-design/icons';
 import {
   getAveragePrice,
   getPriceFormatted,
   getPricePercentChange,
   getTrendPrice
 } from "@difx/utils";
+import { Popover } from "antd";
 import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
 import { PairMetadataStyled } from "./styled";
+import ListPairWrapper from "./ListPairWrapper";
 
 /* eslint-disable-next-line */
 export interface PairMetaDataWrapperProps {
   pair: string;
+  layout: EXCHANGE_LAYOUT
 }
 
-export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
+export function PairMetaDataWrapper({ pair, layout }: PairMetaDataWrapperProps) {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
 
@@ -91,7 +96,7 @@ export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
       }
     }, [data, pairInfo]);
 
-  if (!pairInfo) return  <Loading type='component' />
+  if (!pairInfo) return <Loading type='component' />
 
   const pairString = `${pairInfo.currency1}/${pairInfo.currency2}`
 
@@ -106,6 +111,16 @@ export function PairMetaDataWrapper({ pair }: PairMetaDataWrapperProps) {
         >
           <Icon.FavoriteIcon useDarkMode />
         </div>
+        {
+          layout === 'compact'
+          &&
+          <Popover placement="bottom" content={<ListPairWrapper layout={layout as EXCHANGE_LAYOUT} />} trigger="hover">
+            <div className="show-more-pair">
+              <DownOutlined />
+            </div>
+          </Popover>
+        }
+
       </div>
       <div className="center">
         <div className="price">

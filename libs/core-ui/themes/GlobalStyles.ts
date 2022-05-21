@@ -452,7 +452,7 @@ const GlobalStyles = createGlobalStyle`
         }
       }
 
-      .ant-popover.ant-popover-placement-bottomRight{
+      .ant-popover.ant-popover-placement-bottomRight, .ant-popover.ant-popover-placement-bottom{
         .ant-popover-arrow{
           display:none;
         }

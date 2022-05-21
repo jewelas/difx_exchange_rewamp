@@ -1,19 +1,13 @@
 import { PairTable } from "@difx/core-ui";
-import { PairType, useHttpGet, useBalance } from "@difx/shared";
+import { PairType, useHttpGet } from "@difx/shared";
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { ListPairsContentStyled, MarketContentStyled, PageStyled } from './styled';
-import { useEffect } from "react";
+
 /* eslint-disable-next-line */
 export interface HomePageProps {}
 
 export function HomePage(props: HomePageProps) {
   const { data , isLoading } = useHttpGet<null,any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
-
-  const {userBalance} = useBalance()
-
-  useEffect(()=>{
-    console.log(userBalance)
-  },[userBalance])
 
   return (
       <PageStyled> 

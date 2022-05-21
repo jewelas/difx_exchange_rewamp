@@ -6,28 +6,11 @@ import { Chart as LineChart, dispose, init } from 'klinecharts';
 import { useEffect, useRef, useState } from 'react';
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from '../../../shared/constants';
-import { useTheme, useHttpGetByEvent, useHttpGet } from './../../../shared';
+import { useTheme, useHttpGetByEvent, useHttpGet, useSocket, useSocketProps, SocketEvent, ChartData } from './../../../shared';
 import { rect, circle } from './shapeDefinition';
-import { Icon } from './../Icon';
 import { ChartStyled, GridStyled, IndicatorStyled, MainStyled } from './styled';
 import BackgroundIcon from './BackgroundIcon';
 
-// const SHAPE_TYPES = [
-//   { key: 'horizontalRayLine', icon: <Icon.ChartIndHLine1Icon useDarkMode /> },
-//   { key: 'horizontalSegment', icon: <Icon.ChartIndHLine2Icon useDarkMode /> },
-//   { key: 'horizontalStraightLine', icon: <Icon.ChartIndHLine3Icon useDarkMode /> },
-//   { key: 'verticalRayLine', icon: <Icon.ChartIndVLine1Icon useDarkMode /> },
-//   { key: 'verticalSegment', icon: <Icon.ChartIndVLine2Icon useDarkMode /> },
-//   { key: 'verticalStraightLine', icon: <Icon.ChartIndVLine3Icon useDarkMode /> },
-//   { key: 'rayLine', icon: <Icon.ChartIndSlash1Icon useDarkMode /> },
-//   { key: 'segment', icon: <Icon.ChartIndSlash2Icon useDarkMode /> },
-//   { key: 'horizontalSegment', icon: <Icon.ChartIndSlash3Icon useDarkMode /> },
-//   { key: 'priceLine', icon: <Icon.ChartIndPriceLineIcon useDarkMode /> },
-//   { key: 'priceChannelLine', icon: <Icon.ChartInd2SlashIcon useDarkMode /> },
-//   { key: 'parallelStraightLine', icon: <Icon.ChartInd3SlashIcon useDarkMode /> },
-//   { key: 'fibonacciLine', icon: <Icon.ChartIndFibIcon useDarkMode /> },
-//   { key: 'clear', icon: <Icon.TrashIcon className='trash-icon' useDarkMode /> },
-// ]
 
 export interface ChartDataType {
   close: number;
@@ -64,16 +47,11 @@ function Chart({
   const mainGroupRef = useRef<HTMLDivElement>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HTMLDivElement>(null);
-  // const [candleStyle, setCandleStyle] = useState('candle_solid');
-  // const [time, setTime] = useState('5m');
-  // const [mainIndex, setMainIndex] = useState<string | null>(null);
-  // const [subsIndex, setSubsIndex] = useState<Array<{ paneId: string, indicator: string }>>([]);
+  const previousPairRef = useRef()
   const [subsIndex, setSubsIndex] = useState<any>();
   const [lineChart, setLineChart] = useState<LineChart>();
   const [chartHistory, setChartHistory] = useState<Array<ChartDataType>>([]);
-
-  // const [isShowSubIndicators, setIsShowSubIndicators] = useState(false);
-  // const [isShowMainIndicators, setIsShowMainIndicators] = useState(false);
+  const [currentChartData, setCurrentChartData] = useState<ChartData>();
 
   useEffect(() => {
     const kLineChart = init('k-line-chart', GridStyled(theme));
@@ -87,6 +65,28 @@ function Chart({
 
   }, []);
 
+  const param: useSocketProps = {
+    pair: pair,
+    leavePair: previousPairRef.current,
+    event: SocketEvent.graph_data,
+  };
+
+  const data = useSocket(param);
+
+  useEffect(()=>{
+    if(data){
+      const dataStructure: ChartData = {
+        timestamp: data[0],
+        open: data[1],
+        close: data[2],
+        high: data[3],
+        low: data[4],
+        volume: data[5],
+      }
+      setCurrentChartData(dataStructure)
+    }
+  },[data])
+
 
   const getChartHistorySuccess = (response: AxiosResponse) => {
     const { data: resData } = response
@@ -98,11 +98,11 @@ function Chart({
     endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution)
   });
 
-  const { data: chartCurrent } = useHttpGet<null, any>(
-    QUERY_KEY.CHART_CURRENT, 
-    `${API_ENDPOINT.GET_CHART_CURRENT(pair, currentResolution)}`,
-    { refetchInterval: REFETCH._3SECS }
-  );
+  // const { data: chartCurrent } = useHttpGet<null, any>(
+  //   QUERY_KEY.CHART_CURRENT, 
+  //   `${API_ENDPOINT.GET_CHART_CURRENT(pair, currentResolution)}`,
+  //   { refetchInterval: REFETCH._3SECS }
+  // );
 
   useEffect(() => {
     if (lineChart) {
@@ -122,14 +122,15 @@ function Chart({
     }
   }, [lineChart, chartHistory]);
 
-
   useEffect(() => {
-    if (lineChart && chartHistory) {
-      if (chartCurrent && !chartHistory.find(e => e.timestamp === chartCurrent.timestamp)) {
-        lineChart.updateData(chartCurrent)
+    if (lineChart && chartHistory && currentChartData) {
+      if (currentChartData && !chartHistory.find(e => e.timestamp === currentChartData.timestamp)) {
+        const prevdata = lineChart.getDataList()
+        prevdata.push(currentChartData)
+        lineChart.applyNewData(prevdata)
       }
     }
-  }, [chartHistory, chartCurrent, lineChart]);
+  }, [chartHistory, currentChartData, lineChart]);
 
   useEffect(() => {
     if (lineChart && currentChartType) {
@@ -220,28 +221,6 @@ function Chart({
     lineChart?.resize();
   }
 
-  // const onChangeSubsIndex = (t: string | null) => {
-
-  //   // Remove
-  //   const sub = subsIndex.find(e => e.indicator === t);
-  //   if (sub) {
-  //     lineChart?.removeTechnicalIndicator(sub.paneId, sub.indicator);
-
-  //     const newSubs = subsIndex.filter(e => e.indicator !== t);
-  //     setSubsIndex(newSubs);
-
-  //     // Add
-  //   } else {
-
-  //     const paneId = lineChart?.createTechnicalIndicator(t as string, false);
-  //     lineChart?.createTechnicalIndicator(t as string, false, { id: paneId as string })
-
-  //     const newSubs = [...subsIndex];
-  //     newSubs.push({ paneId: paneId as string, indicator: t as string });
-  //     setSubsIndex(newSubs);
-  //   }
-  // }
-
   return (
     <MainStyled ref={mainGroupRef}>
       <div className='background'>
@@ -256,5 +235,6 @@ function Chart({
     </MainStyled>
   )
 }
+
 
 export { Chart };

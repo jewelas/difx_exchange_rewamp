@@ -15,7 +15,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
 
   const [tab, setTab] = useState('limit');
   const [side, setSide] = useState<'bid' | 'ask'>('bid');
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const [balances, setBalances] = useState<Array<Balance>>([]);
 
   const [priceSelected,] = useAtom(priceSelectedAtom);
@@ -24,6 +24,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
 
   const param: useSocketProps = {
     event: SocketEvent.user_balances,
+    join: user ? user.id: null
   };
   const balanceData = useSocket(param);
 

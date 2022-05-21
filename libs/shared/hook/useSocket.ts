@@ -12,8 +12,8 @@ export enum SocketEvent {
 }
 export interface useSocketProps {
   event: SocketEvent;
-  leave?: string;
-  join?: string;
+  leave?: string | number;
+  join?: string | number;
 
   onSuccess?: (data: any) => void;
 }

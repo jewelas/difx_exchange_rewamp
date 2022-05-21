@@ -7,9 +7,11 @@ import { useEffect, useRef, useState } from 'react';
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from '../../../shared/constants';
 import { useTheme, useHttpGetByEvent, useAPI, useSocket, useSocketProps, SocketEvent, ChartData } from './../../../shared';
+import { layoutTypeAtom } from "../../../shared/atom"
 import { rect, circle } from './shapeDefinition';
 import { ChartStyled, GridStyled, IndicatorStyled, MainStyled } from './styled';
 import BackgroundIcon from './BackgroundIcon';
+import { useAtomValue } from 'jotai';
 
 
 export interface ChartDataType {
@@ -54,6 +56,7 @@ function Chart({
   const [currentChartData, setCurrentChartData] = useState<ChartData>();
   const [dataLoadedTillTimestamp, setDataLoadedTillTimestamp] = useState<number | null>(null)
   const [loadMore, setLoadMore] = useState<boolean>(true)
+  const layoutType = useAtomValue(layoutTypeAtom)
 
   const {API} = useAPI()
 
@@ -153,6 +156,17 @@ function Chart({
         low: data[4],
         volume: data[5],
       }
+      if(lineChart){
+        console.log(dataStructure)
+        console.log(lineChart)
+        const prevdata = lineChart.getDataList()
+        prevdata.pop()
+        prevdata.push(dataStructure)
+        lineChart.applyNewData(prevdata)
+        // setTimeout(()=>{
+        //   // lineChart.updateData(dataStructure)
+        // },500)
+      }
       setCurrentChartData(dataStructure)
     }
   },[data])
@@ -196,15 +210,15 @@ function Chart({
     }
   }, [lineChart, chartHistory]);
 
-  useEffect(() => {
-    if (lineChart && chartHistory && currentChartData) {
-      if (currentChartData && !chartHistory.find(e => e.timestamp === currentChartData.timestamp)) {
-        const prevdata = lineChart.getDataList()
-        prevdata.push(currentChartData)
-        lineChart.applyNewData(prevdata)
-      }
-    }
-  }, [chartHistory, currentChartData, lineChart]);
+  // useEffect(() => {
+  //   if (lineChart && chartHistory && currentChartData) {
+  //     if (currentChartData && !chartHistory.find(e => e.timestamp === currentChartData.timestamp)) {
+  //       const prevdata = lineChart.getDataList()
+  //       prevdata.push(currentChartData)
+  //       lineChart.applyNewData(prevdata)
+  //     }
+  //   }
+  // }, [chartHistory, currentChartData, lineChart]);
 
   useEffect(() => {
     if (lineChart && currentChartType) {
@@ -235,6 +249,16 @@ function Chart({
       }
     }
   }, [mainIndicator, lineChart]);
+
+  useEffect(() => {
+    if(lineChart){
+      setTimeout(()=>{
+        if (chartContainerRef.current) chartContainerRef.current.style.height = '100%';
+        if (chartRef.current) chartRef.current.style.height = '100%';
+        lineChart.resize()
+      },500)
+    }
+  },[lineChart, layoutType])
 
   useEffect(()=>{
     if(subIndicatorSelected){
@@ -290,8 +314,8 @@ function Chart({
 
 
   const onExitFullScreen = () => {
-    if (chartContainerRef.current) chartContainerRef.current.style.height = '360px';
-    if (chartRef.current) chartRef.current.style.height = '360px';
+    if (chartContainerRef.current) chartContainerRef.current.style.height = '100%';
+    if (chartRef.current) chartRef.current.style.height = '100%';
     lineChart?.resize();
   }
 

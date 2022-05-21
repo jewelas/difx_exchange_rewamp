@@ -34,3 +34,7 @@ export const marketSpotFavoritesListAtom = atom<any | null>(null) as PrimitiveAt
 export const marketFutureFavoritesListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
 
 export const userBalanceAtom = atom<Balance[]>([]);
+
+export const layoutTypeAtom = atom<string | 'default' | 'compact' | 'pro'>('default');
+
+export const candleTypeAtom = atom<string | 'greenUp' | 'redUp'>('greenUp');

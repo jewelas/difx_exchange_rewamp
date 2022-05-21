@@ -156,9 +156,9 @@ export const ChartWraperStyled = styled.div`
 export const ChartContainerStyled = styled.div`
   height: 100%;
   padding: 10px;
-
-  .ant-tabs-nav{
-    margin-bottom: 10px !important;
+  
+  .container{
+    height: 100%;
   }
 `
 export const ChartHeadStyled = styled.div`

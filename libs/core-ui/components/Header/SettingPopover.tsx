@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Button } from 'antd';
 import { useAtom } from 'jotai';
 import isEmpty from "lodash/isEmpty";
-import { themeAtom, useLocalStorage } from './../../../shared';
+import { themeAtom, layoutTypeAtom, candleTypeAtom, useLocalStorage } from './../../../shared';
 import { STORE_KEY } from './../../../shared/constants';
 import { Typography } from './../Typography';
 import { StyledSettingPopover } from './styled';
@@ -24,8 +24,8 @@ export interface SettingPopoverProps {
 export function SettingPopover(props: SettingPopoverProps) {
 
   const [theme] = useAtom(themeAtom);
-  const [layoutType, setLayoutType] = useState<string | 'default' | 'compact' | 'pro'>('default');
-  const [candleType, setCandleType] = useState<string | 'greenUp' | 'redUp'>('greenUp');
+  const [layoutType, setLayoutType] = useAtom(layoutTypeAtom);
+  const [candleType, setCandleType] = useAtom(candleTypeAtom);
 
   const { value: exchangeStyles, setValue: setExchangeStyles } = useLocalStorage(STORE_KEY.EXCHANGE_STYLE, null);
   useEffect(() => {

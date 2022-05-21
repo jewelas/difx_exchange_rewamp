@@ -6,7 +6,7 @@ import { Chart as LineChart, dispose, init } from 'klinecharts';
 import { useEffect, useRef, useState } from 'react';
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from '../../../shared/constants';
-import { useTheme, useHttpGetByEvent, useHttpGet, useSocket, useSocketProps, SocketEvent, ChartData } from './../../../shared';
+import { useTheme, useHttpGetByEvent, useAPI, useSocket, useSocketProps, SocketEvent, ChartData } from './../../../shared';
 import { rect, circle } from './shapeDefinition';
 import { ChartStyled, GridStyled, IndicatorStyled, MainStyled } from './styled';
 import BackgroundIcon from './BackgroundIcon';
@@ -52,18 +52,88 @@ function Chart({
   const [lineChart, setLineChart] = useState<LineChart>();
   const [chartHistory, setChartHistory] = useState<Array<ChartDataType>>([]);
   const [currentChartData, setCurrentChartData] = useState<ChartData>();
+  const [dataLoadedTillTimestamp, setDataLoadedTillTimestamp] = useState<number | null>(null)
+  const [loadMore, setLoadMore] = useState<boolean>(true)
+
+  const {API} = useAPI()
+
+  const calcFormTimestamp = (type: string, to: number) => {
+    // 1hr in milliseconds
+    const milliseconds = 3600000
+  
+    switch (type) {
+      case '5m': 
+        return (((to * 1000) - (30 * milliseconds)) / 1000)
+      case '15m': 
+        return (((to * 1000) - (90 * milliseconds)) / 1000)
+      case '30m': 
+        return (((to * 1000) - (180 * milliseconds)) / 1000)
+      case '1h': 
+        return (((to * 1000) - (360 * milliseconds)) / 1000)
+      case '1d': 
+        return (((to * 1000) - (8640 * milliseconds)) / 1000)
+      default:
+        return ((to * 1000) / 1000)
+    }
+  }
+
+  const getHistoryData = (from: number, to: number) => {
+    // eslint-disable-next-line
+    return new Promise(async(resolve, reject) => {
+      try{
+        const response = await API.get(API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution, from, to))
+        const { data } = response.data
+        resolve (data)
+      }catch(err){ 
+        reject(err)
+      }
+    })
+  }
+
+  const setInitialData = async(chart: any, from: number, to: number) => {
+    const data = await getHistoryData(from, to)
+    setDataLoadedTillTimestamp(from)
+    chart.applyNewData(data)
+  }
+
+  const loadMoreData = async(chart: any, lastTimestamp: number) => {
+    const to = lastTimestamp / 1000
+    if(to){
+      const from = calcFormTimestamp(currentResolution,to)
+      const data: any = await getHistoryData(from, to)
+      if(data && data.length > 0){
+        chart.applyMoreData(data)
+      }else{
+        setLoadMore(false)
+      }
+    }
+  }
 
   useEffect(() => {
     const kLineChart = init('k-line-chart', GridStyled(theme));
     if (kLineChart) {
       kLineChart.addShapeTemplate([rect as any, circle as any]);
+      kLineChart.loadMore((lastTimestamp) => {
+          if(typeof(lastTimestamp) === "number"){
+            if(loadMore){
+              loadMoreData(kLineChart, lastTimestamp)
+            }
+          }
+      })
       setLineChart(kLineChart);
     }
     return () => {
       dispose('k-line-chart')
     }
-
   }, []);
+  
+  useEffect(() => {
+    if(lineChart){
+      const to = Math.floor(new Date().getTime() / 1000);
+      const from = calcFormTimestamp(currentResolution,to)
+      setInitialData(lineChart, from, to)
+    }
+  },[lineChart, pair, currentResolution])
 
   const param: useSocketProps = {
     pair: pair,
@@ -88,15 +158,15 @@ function Chart({
   },[data])
 
 
-  const getChartHistorySuccess = (response: AxiosResponse) => {
-    const { data: resData } = response
-    if (resData) setChartHistory(resData);
-  }
+  // const getChartHistorySuccess = (response: AxiosResponse) => {
+  //   const { data: resData } = response
+  //   if (resData) setChartHistory(resData);
+  // }
 
-  const { mutate: getChartHistory } = useHttpGetByEvent<null, any>({ 
-    onSuccess: getChartHistorySuccess,
-    endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution)
-  });
+  // const { mutate: getChartHistory } = useHttpGetByEvent<null, any>({ 
+  //   onSuccess: getChartHistorySuccess,
+  //   endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution)
+  // });
 
   // const { data: chartCurrent } = useHttpGet<null, any>(
   //   QUERY_KEY.CHART_CURRENT, 
@@ -104,11 +174,15 @@ function Chart({
   //   { refetchInterval: REFETCH._3SECS }
   // );
 
-  useEffect(() => {
-    if (lineChart) {
-      getChartHistory(null);
-    }
-  }, [lineChart, currentResolution, pair]);
+  // useEffect(() => {
+  //   if (lineChart) {
+  //     // getChartHistory(null);
+  //     console.log(API)
+  //     async() => {
+  //       const res = await API.get(API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution))
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (lineChart) {

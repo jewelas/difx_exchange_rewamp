@@ -73,8 +73,12 @@ export const API_ENDPOINT = {
   GET_PAIRS: 'api/v1/market/pairs',
   GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
   GET_MY_TRADES: (symbol?: string) => `/api/v1/user/trade-history${symbol ? `?symbol=${symbol}` : ''}`,
-  GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
-    const { from, to } = calcChartDateRange(resolution);
+  // GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
+  //   const { from, to } = calcChartDateRange(resolution);
+  //   return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
+  // },
+  GET_CHART_HISTORY: (symbol: string, resolution: string = '5m', from: number, to: number) => {
+    // const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
   },
   GET_CHART_CURRENT: (symbol: string, resolution: string = '5m') => {

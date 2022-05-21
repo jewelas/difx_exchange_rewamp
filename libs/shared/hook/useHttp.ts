@@ -214,3 +214,15 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
     return mutation;
 }
 
+export function useAPI() {
+
+    instance.interceptors.request.use(axiosAuthorization)
+
+    instance.interceptors.response.use((response) => {
+        return response
+    }, (error) => {
+        return Promise.reject(error)
+    })
+
+    return { API: instance }
+} 

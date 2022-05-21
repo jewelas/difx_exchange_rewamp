@@ -21,14 +21,14 @@ export function useAuth() {
   useEffect(()=>{
     if(!isLoggedIn){
       let currentUser: User = JSON.parse(localStorage?.getItem("currentUser") || "null")
-
+      const sessionToken = localStorage.getItem("sessionToken");
       if(currentUser){
         let permissions: Permissions = JSON.parse(localStorage?.getItem("permissions") || "null")
         const stateUser: any = currentUser
         setUser(stateUser);
         setPermissions(permissions)
         setIsLoggedIn(true);
-        socket.updateAuth(currentUser.token.accessToken);
+        socket.updateAuth(sessionToken || currentUser.token.accessToken);
         delete stateUser?.token
       }
     }

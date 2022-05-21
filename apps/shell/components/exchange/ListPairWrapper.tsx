@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SearchOutlined } from '@ant-design/icons';
 import { useRouter } from "next/router";
@@ -33,6 +34,13 @@ export function ListPairWrapper({ layout = 'default' }: { layout?: EXCHANGE_LAYO
 
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
 
+  const [rowsClassName, setRowsClassName] = useState<{ [key: string]: string }>({});
+  const handleRowClassName = (pair: string, trend: "up" | "down") => {
+    setRowsClassName({ ...rowsClassName, [pair]: `changed ${trend}` });
+    setTimeout(() => {
+      setRowsClassName({ ...rowsClassName, [pair]: `changed ${trend}-clear` });
+    }, 500)
+  }
 
   useEffect(() => {
     if (resData) {
@@ -177,14 +185,15 @@ export function ListPairWrapper({ layout = 'default' }: { layout?: EXCHANGE_LAYO
     if (!allDataPairs) return null;
 
     if (!isEmpty(pricesWSData) && pricesWSData.length === 4) {
-     const index=  allDataPairs.findIndex(e => e.key === pricesWSData[0]);
-     allDataPairs[index].price = pricesWSData[1];
-    const change = ((pricesWSData[1] - allDataPairs[index].open) / allDataPairs[index].open) * 100
-     allDataPairs[index].change = `${change < 0 ? '' : '+'}${change.toFixed(2)}%`
+      const index = allDataPairs.findIndex(e => e.key === pricesWSData[0]);
+      allDataPairs[index].price = pricesWSData[1];
+      const change = ((pricesWSData[1] - allDataPairs[index].open) / allDataPairs[index].open) * 100
+      allDataPairs[index].change = `${change < 0 ? '' : '+'}${change.toFixed(2)}%`;
+      allDataPairs[index].trend = change < 0 ? 'down' : 'up';
+      handleRowClassName(pricesWSData[0], change < 0 ? "down" : "up")
     }
     return allDataPairs;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pricesWSData]);
+  }, [allDataPairs, pricesWSData]);
 
 
   const favoriteDataPairs = useMemo(() => {
@@ -219,6 +228,7 @@ export function ListPairWrapper({ layout = 'default' }: { layout?: EXCHANGE_LAYO
         </div>
         <div className="content">
           <Table
+            rowClassName={(record) => rowsClassName[record.key]}
             showSorterTooltip={false}
             scroll={{ x: "max-content", y: 270 }}
             pagination={false}

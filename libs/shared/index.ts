@@ -37,6 +37,7 @@ export * from "./type/market";
 export * from "./type/Staking";
 export * from "./type/Currency";
 export * from "./type/Language";
+export * from "./type/ChartData";
 
 export * from "./atom";
 

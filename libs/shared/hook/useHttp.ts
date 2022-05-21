@@ -64,7 +64,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
     }, (error) => {
         const { response } = error;
         const { statusCode } = response?.data;
-        if(statusCode === 404){
+        if(statusCode === 407){
             refreshAnonymousToken()
             return instance.request(error.config)
         }else{
@@ -213,3 +213,16 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
     );
     return mutation;
 }
+
+export function useAPI() {
+
+    instance.interceptors.request.use(axiosAuthorization)
+
+    instance.interceptors.response.use((response) => {
+        return response
+    }, (error) => {
+        return Promise.reject(error)
+    })
+
+    return { API: instance }
+} 

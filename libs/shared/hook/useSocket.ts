@@ -9,6 +9,7 @@ export enum SocketEvent {
   user_balances,
   off,
   qr_listen,
+  graph_data
 }
 export interface useSocketProps {
   event: SocketEvent;

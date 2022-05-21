@@ -149,7 +149,7 @@ function Chart({
   useEffect(()=>{
     if(data){
       const dataStructure: ChartData = {
-        timestamp: data[0],
+        timestamp: (data[0] * 1000),
         open: data[1],
         close: data[2],
         high: data[3],
@@ -157,15 +157,7 @@ function Chart({
         volume: data[5],
       }
       if(lineChart){
-        console.log(dataStructure)
-        console.log(lineChart)
-        const prevdata = lineChart.getDataList()
-        prevdata.pop()
-        prevdata.push(dataStructure)
-        lineChart.applyNewData(prevdata)
-        // setTimeout(()=>{
-        //   // lineChart.updateData(dataStructure)
-        // },500)
+        lineChart.updateData(dataStructure)
       }
       setCurrentChartData(dataStructure)
     }

@@ -9,7 +9,7 @@ import { AxiosResponse } from "axios";
 
 export function useBalance() {
   const [isLoggedIn] = useAtom(isLoggedInAtom)
-  const [userBalance, setUserBalance] = useAtom(userBalanceAtom )
+  const [userBalance, setUserBalance] = useAtom(userBalanceAtom)
 
   const onSuccess = (response: AxiosResponse) => {
     const { data } = response

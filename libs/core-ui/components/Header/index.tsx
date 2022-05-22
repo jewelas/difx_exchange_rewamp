@@ -217,7 +217,7 @@ export function Header(props: HeaderProps) {
               <Menu.Item className="right-nav" key="theme">
                 <StyledButtonGroup>
                   <Button
-                    onClick={() => switchTheme()}
+                    onClick={() => {switchTheme()}}
                     icon={
                       theme === "light" ? (
                         <MoonIcon useDarkMode />
@@ -344,7 +344,7 @@ export function Header(props: HeaderProps) {
                       <EarthIcon useDarkMode />
                       <div className="txt">{t("header.english")}</div>
                     </div>
-                    <div onClick={() => switchTheme()} className="menu-item">
+                    <div onClick={() => {switchTheme()}} className="menu-item">
                       {theme === "light" ? (
                         <MoonIcon useDarkMode />
                       ) : (

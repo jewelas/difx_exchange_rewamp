@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const PageStyled = styled.div`
   background: ${({ theme }) => theme.background.space};
-  margin-top: -5px;
+  margin-top: -20px;
   /* padding: 0 10px; */
 
   .react-grid-item {

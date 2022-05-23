@@ -108,5 +108,15 @@
     "top_volume": "Top Volume",
     "new_listing": "New Listing",
     "futures": "Futures"
+  },
+  "wallet": {
+    "overview": "Overview",
+    "spot": "Spot",
+    "futures": "Futures",
+    "earn": "Earn",
+    "transaction_history": "Transaction History",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "help_support": "Help & Support"
   }
 }

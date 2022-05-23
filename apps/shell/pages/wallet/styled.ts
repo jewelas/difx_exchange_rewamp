@@ -1,6 +1,4 @@
-import React from "react";
 import { Layout } from "antd";
-import AppLayout from "../index.page";
 import styled from "styled-components";
 
 const PageStyled = styled.div``;
@@ -19,18 +17,10 @@ const WalletContentStyled = styled(Layout.Content)`
   }
   .widgets {
   }
+
+.site-layout-background {
+  background: #fff;
+}
 `;
 
-export function Wallet() {
-  return (
-    <AppLayout>
-      <PageStyled>
-        <WalletContentStyled style={{ padding: "0 50px" }}>
-          <div className="title">wallet</div>
-        </WalletContentStyled>
-      </PageStyled>
-    </AppLayout>
-  );
-}
-
-export default Wallet;
+export {WalletContentStyled, PageStyled}

@@ -71,6 +71,12 @@ import SuccessIcon from "./SuccessIcon";
 import InfoIcon from "./InfoIcon";
 import ErrorIcon from "./ErrorIcon";
 import WarningIcon from "./WarningIcon";
+import OverviewIcon from "./OverviewIcon";
+import SpotIcon from "./SpotIcon";
+import FutureIcon from "./FutureIcon";
+import HistoryIcon from "./HistoryIcon";
+import SupportIcon from "./SupportIcon";
+import GiftIcon from "./GiftIcon"
 export interface IconProps {
   width?: number;
   height?: number;
@@ -156,7 +162,13 @@ const Icon = {
   SuccessIcon,
   InfoIcon,
   ErrorIcon,
-  WarningIcon
+  WarningIcon,
+  OverviewIcon,
+  SpotIcon,
+  FutureIcon,
+  HistoryIcon,
+  SupportIcon,
+  GiftIcon
 };
 
 export { Icon };

@@ -17,9 +17,6 @@ interface Props {
 }
 export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false }: Props) {
 
-  // const { token } = useAuth();
-  // const headers = { headers: { 'x-access-token': token } }
-
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
   const param: useSocketProps = {

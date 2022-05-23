@@ -61,7 +61,7 @@ export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string
           <TabPane tab="Funds" key="funds" />
         </Tabs>
         {
-          ['open-order', 'order-history'].includes(tab)
+          ['open-order'].includes(tab)
           &&
           <div className="bar-group">
             <div className="bar-left">

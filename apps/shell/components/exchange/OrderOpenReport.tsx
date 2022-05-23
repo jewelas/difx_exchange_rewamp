@@ -3,7 +3,7 @@
 
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, SocketEvent, useAuth, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
+import { BaseResponse, Order, SocketEvent, useAuth, useHttpGetByEvent, useHttpPut, useSocket, useSocketProps } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -15,7 +15,7 @@ interface Props {
   pair?: string;
   height?: number;
 }
-export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false }: Props) {
+export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false }: Props) {
 
   // const { token } = useAuth();
   // const headers = { headers: { 'x-access-token': token } }
@@ -66,7 +66,7 @@ export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false 
   }
 
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
-  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_BID_ORDER }); // TODO: handle headers in interceptor in useHttp
+  const { mutate: cancelOrder, isLoading } = useHttpPut<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_ORDER });
 
   const { isLoggedIn } = useAuth();
   useEffect(() => {
@@ -181,15 +181,7 @@ export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false 
         return (
           <div
             onClick={() => {
-              if (!isLoading) {
-                record.s === 0
-                  // eslint-disable-next-line
-                  // @ts-ignore
-                  ? cancelOrder({ id: record.id }) // Cancel Bid Order
-                  // eslint-disable-next-line
-                  // @ts-ignore
-                  : cancelOrder({ id: record.id, endpoint: API_ENDPOINT.CANCEL_ASK_ORDER }) // Cancel Ask Order
-              }
+              if (!isLoading) { cancelOrder({ side: record.s, trade_id: record.id }) }
             }}
             className="cell">
             <Icon.TrashIcon useDarkMode width={20} height={20} />

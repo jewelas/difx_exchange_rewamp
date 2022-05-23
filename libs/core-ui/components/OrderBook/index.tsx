@@ -187,7 +187,7 @@ export function OrderBook({
 
         </div>
         <div className="right">
-          <Button ghost>More</Button>
+          {layout==='compact' && <Button ghost>More</Button>}
           <Select
             defaultValue="0.01"
             style={{ width: 120 }}

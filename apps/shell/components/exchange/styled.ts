@@ -27,12 +27,21 @@ export const PairMetadataStyled = styled.div`
     }
     .center {
       display: flex;
+      overflow-x: scroll;
+      -ms-overflow-style: none;  /* Internet Explorer 10+ */
+      scrollbar-width: none;  /* Firefox */
+      &::-webkit-scrollbar{
+        display: none;  /* Safari and Chrome */
+      }
+      margin-left: 20px;
+      margin-right: 20px;
       .price {
         display: flex;
         flex-direction: column;
         margin-top: 14px;
         margin-left: 15px;
         margin-right: 15px;
+        white-space: nowrap;
       }
     }
     .right {

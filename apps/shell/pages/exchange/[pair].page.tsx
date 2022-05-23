@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { EXCHANGE_LAYOUT, STORE_KEY } from "@difx/constants";
+import { Loading } from "@difx/core-ui";
 import { useLocalStorage } from "@difx/shared";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
@@ -42,7 +43,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
       if (layout === 'default') setLayouts(initLayouts);
       else if (layout === 'compact') setLayouts(getLayoutType('compact', isStaticWidgets));
       else if (layout === 'pro') setLayouts(getLayoutType('pro', isStaticWidgets));
-    }
+    }else setLayoutType('default')
   }, [exchangeStyles.layout]);
 
   const handleGridResize = (widgets) => {
@@ -53,6 +54,12 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
   useEffect(() => {
     if (pair) setLastPair(pair)
   }, [pair]);
+
+  if(!layoutType) return <AppLayout>
+  <div style={{ left:0, top:0, position: 'absolute', width: '100%', height: '100%' }}>
+    <Loading style={{ padding:'unset', height: '100%' }} />
+  </div>
+</AppLayout>
 
   const GridLayout = layoutType === 'default' ? ResponsiveGridPaddingLRLayout: ResponsiveGridLayout
 

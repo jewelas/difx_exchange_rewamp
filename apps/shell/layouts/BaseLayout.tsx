@@ -1,6 +1,6 @@
 import { Header } from "@difx/core-ui";
 import Head from "next/head";
-import { anonymousTokenAtom, useRTL, pageTitleAtom, useTitle } from "@difx/shared";
+import { anonymousTokenAtom, useRTL, useTitle } from "@difx/shared";
 import { Layout } from "antd";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";

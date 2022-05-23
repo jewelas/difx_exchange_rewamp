@@ -71,6 +71,7 @@ export const STORE_KEY = {
 export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
   GET_CURRENCY_PAIRS: '/api/v1/public/fiat-currency',
+  CANCEL_ALL_ORDERS: '/api/v1/order/cancel-all-order',
   GET_AVAILABLE_LANGUAGES: '/api/v1/public/lang',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',

@@ -39,12 +39,12 @@ export function useAuth() {
     localStorage?.setItem("sessionToken", updatedUser.token.accessToken)
     localStorage?.setItem("refreshToken", updatedUser.token.refreshToken)
     localStorage?.setItem("permissions", JSON.stringify(permission))
+    socket.updateAuth(updatedUser.token.accessToken);
     const stateUser: any = updatedUser
     delete stateUser?.token
     setUser(stateUser);
     setPermissions(permission)
     setIsLoggedIn(true);
-    socket.updateAuth(updatedUser.token.accessToken);
   };
 
   const logOut = () : void => {

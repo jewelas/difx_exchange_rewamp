@@ -29,7 +29,7 @@ export const THEME = {
   DARK: "dark",
 };
 
-export const DEFAULT_PAIR = "DIFXUSDT";
+export const DEFAULT_PAIR = "LTCUSDT";
 
 export const PAIRS = {
   INITIALPAIR: 'BTCUSDT',

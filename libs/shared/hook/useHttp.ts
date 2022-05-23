@@ -15,8 +15,9 @@ function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnon
             break;
         case 403:
             logOut();
+            showError("Login Again", response?.data.message)
             break;
-        // case 404:
+        // case 407:
         //     refreshAnonymousToken()
         //     break;
         case 406:
@@ -88,7 +89,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
         },
         mergeOptions
     );
-    return query;
+    return query
 }
 
 interface EventProps<Response> {
@@ -109,7 +110,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
     }, (error) => {
         const { response } = error;
         const { statusCode } = response?.data;
-        if(statusCode === 404){
+        if(statusCode === 407){
             refreshAnonymousToken()
             return instance.request(error.config)
         }else{
@@ -146,7 +147,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
     }, (error) => {
         const { response } = error;
         const { statusCode } = response?.data;
-        if(statusCode === 404){
+        if(statusCode === 407){
             refreshAnonymousToken()
             return instance.request(error.config)
         }else{
@@ -186,7 +187,7 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
     }, (error) => {
         const { response } = error;
         const { statusCode } = response?.data;
-        if(statusCode === 404){
+        if(statusCode === 407){
             refreshAnonymousToken()
             return instance.request(error.config)
         }else{
@@ -225,4 +226,4 @@ export function useAPI() {
     })
 
     return { API: instance }
-} 
+}

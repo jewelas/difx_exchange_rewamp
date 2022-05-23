@@ -12,20 +12,17 @@ export function ExchangeDefault() {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
   useEffect(() => {
-    if (lastPair) {
-      const { spot } = resData;
-      if (!isEmpty(spot)) {
+    if (resData) {
+      if (lastPair) {
+        const { spot } = resData;
         if (spot.find(e => e.symbol === lastPair)) router.push(`/exchange/${lastPair}`);
         else router.push(`/exchange/${spot[0].symbol}`);
-      }
-
-    } else if (resData) {
-      const { spot } = resData;
-      if (!isEmpty(spot)) router.push(`/exchange/${spot[0].symbol}`);
-      else router.push(`/exchange/${lastPair || DEFAULT_PAIR}`);
-
-    } else router.push(`/exchange/${DEFAULT_PAIR}`);
-
+      } else if (resData) {
+        const { spot } = resData;
+        if (!isEmpty(spot)) router.push(`/exchange/${spot[0].symbol}`);
+        else router.push(`/exchange/${lastPair || DEFAULT_PAIR}`);
+      } else router.push(`/exchange/${DEFAULT_PAIR}`);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resData]);
   return (

@@ -156,9 +156,11 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
 
     const mutation = useMutation(
         (request: any) => {
+            const data ={...request};
+            delete data["endpoint"];
             return instance.post<Request, AxiosResponse<Response>>(
                 (request && request.endpoint) ? request.endpoint : endpoint,
-                request
+                data
             );
         },
         {

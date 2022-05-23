@@ -1,20 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { EXCHANGE_LAYOUT, STORE_KEY } from "@difx/constants";
+import { useLocalStorage } from "@difx/shared";
+import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import isEmpty from "lodash/isEmpty";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import { useLocalStorage } from "@difx/shared";
-import { EXCHANGE_LAYOUT, STORE_KEY } from "@difx/constants";
-import AppLayout from "../index.page";
+import ChartContainer from "../../components/exchange/ChartContainer";
 import ListPairWrapper from "../../components/exchange/ListPairWrapper";
 import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
-import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
-import ChartWrapper from "../../components/exchange/ChartWrapper";
-import ChartContainer from "../../components/exchange/ChartContainer"
-import TradeInfoWrapper from "../../components/exchange/TradeInfoWrapper";
-import PlaceOrderWrapper from "../../components/exchange/PlaceOrderWrapper";
 import OrderReportsWrapper from "../../components/exchange/OrderReportsWrapper";
-import { getLayoutType, breakpoints } from "./LayoutType";
+import PairMetaDataWrapper from "../../components/exchange/PairMetaDataWrapper";
+import PlaceOrderWrapper from "../../components/exchange/PlaceOrderWrapper";
+import TradeInfoWrapper from "../../components/exchange/TradeInfoWrapper";
+import AppLayout from "../index.page";
+import { breakpoints, getLayoutType } from "./LayoutType";
 import { PageStyled } from "./styled";
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
@@ -24,8 +23,8 @@ export interface ExchangePageProps {
   isStaticWidgets?: boolean;
 }
 
+const ResponsiveGridPaddingLRLayout = WidthProvider(Responsive);
 const ResponsiveGridLayout = WidthProvider(Responsive);
-
 export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
 
   const router = useRouter();
@@ -55,10 +54,12 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
     if (pair) setLastPair(pair)
   }, [pair]);
 
+  const GridLayout = layoutType === 'default' ? ResponsiveGridPaddingLRLayout: ResponsiveGridLayout
+
   return (
     <AppLayout>
-      <PageStyled>
-        <ResponsiveGridLayout
+      <PageStyled className={layoutType === 'default' && 'shrink'}>
+        <GridLayout
           margin={[5, 5]}
           rowHeight={70}
           className="layout"
@@ -93,7 +94,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
           <div key="report" className="base">
             {pair && <OrderReportsWrapper pair={pair as string} layout={layoutType as string} />}
           </div>
-        </ResponsiveGridLayout>
+        </GridLayout>
       </PageStyled>
     </AppLayout>
   );

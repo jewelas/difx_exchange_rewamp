@@ -128,9 +128,19 @@ const MarketPopup = styled.div`
         line-height: 14.4px;
         color: ${({theme}) => theme.fontColor.secondary};
     }
+    .coinselect .ant-select-selection-item{
+        display: flex;
+        align-items: center;
+    }
 `
 const Quantity = styled.div`
     
+`
+const OptionGroupStyled = styled.div`
+display: flex;
+.coinvalue{
+    margin-left: 10px;
+}
 `
 
 // Grid Card Design
@@ -180,4 +190,4 @@ const DrawerWrapper = styled.div`
     .coin-about h1{font-size: 16px;}
 `
 
-export {DrawerWrapper,SpotFilter, MarketPopup, FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}
+export {OptionGroupStyled,DrawerWrapper,SpotFilter, MarketPopup, FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}

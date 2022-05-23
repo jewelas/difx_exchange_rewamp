@@ -52,7 +52,9 @@ export const QUERY_KEY = {
   MARKET_PAIRS: 'market_pairs',
   MARKET_PAIRS_INFO: (coin: string) => `market_pairs_info_${coin}`,
   CURRENCY_PAIRS: 'currency_pair',
-  AVAILABLE_LANGUAGES: 'available_languages'
+  AVAILABLE_LANGUAGES: 'available_languages',
+  CURRENCIES: 'currencies',
+  MARKET_CURRENT_PRICE: (coin: string) => `market_current_price_${coin}`
 }
 
 export const ASSETS_URL = "https://media.difx.com/"
@@ -76,8 +78,12 @@ export const API_ENDPOINT = {
   GET_PAIRS: 'api/v1/market/pairs',
   GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
   GET_MY_TRADES: (symbol?: string) => `/api/v1/user/trade-history${symbol ? `?symbol=${symbol}` : ''}`,
-  GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
-    const { from, to } = calcChartDateRange(resolution);
+  // GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
+  //   const { from, to } = calcChartDateRange(resolution);
+  //   return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
+  // },
+  GET_CHART_HISTORY: (symbol: string, resolution: string = '5m', from: number, to: number) => {
+    // const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
   },
   GET_CHART_CURRENT: (symbol: string, resolution: string = '5m') => {
@@ -112,4 +118,7 @@ export const API_ENDPOINT = {
   ADD_FAVORITES: '/api/v1/user/favorite-pair',
   REMOVE_FAVORITES: '/api/v1/user/unfavorite-pair',
   CREATE_STAKING: '/api/v1/staking/create',
+  GET_CURRENCIES: '/api/v1/market/coins',
+  PREVIEW_CURRENCY: '/api/v1/market/preview-currency',
+  GET_MARKET_COIN_PRICE: (coin: any) => `/api/v1/market/coin-price?coin=${coin}`,
 }

@@ -99,7 +99,7 @@ export function MarketPage() {
   return (
     <AppLayout>
       <PageStyled>
-        <MarketContentStyled style={{ padding: "0 50px", marginTop:"20px" }}>
+        <MarketContentStyled>
             <Row align="middle">
                 <Col xl={18} xs={12}>
                     <div className="title">{t("market.market")}</div>
@@ -123,7 +123,7 @@ export function MarketPage() {
         >
           <MarketDrawer />
         </Drawer>
-        <Modal title="&nbsp;" visible={modalVisible} footer={null} onCancel={closeModal}>
+        <Modal title="Convert" visible={modalVisible} footer={null} onCancel={closeModal}>
             <MarketModal />
         </Modal>
       </PageStyled>

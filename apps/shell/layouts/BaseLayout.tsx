@@ -11,8 +11,11 @@ const LayoutStyled = styled(Layout)`
 `;
 
 const ContentStyled = styled.div`
-  /* margin-top: 74px; */
-  background: ${({ theme }) => theme.background.primary};
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-top: 20px;
+  /* background: ${({ theme }) => theme.background.primary}; */
 `;
 
 export interface BaseLayoutProps {

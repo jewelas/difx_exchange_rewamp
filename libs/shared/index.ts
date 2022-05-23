@@ -15,6 +15,7 @@ export * from "./hook/useMarketPair";
 export * from "./hook/useMarketModal";
 export * from "./hook/useCurrency";
 export * from "./hook/useLanguage";
+export * from "./hook/useBalance";
 
 export * from "./type/Base";
 export * from "./type/User";
@@ -37,6 +38,7 @@ export * from "./type/market";
 export * from "./type/Staking";
 export * from "./type/Currency";
 export * from "./type/Language";
+export * from "./type/ChartData";
 
 export * from "./atom";
 

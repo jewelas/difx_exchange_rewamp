@@ -6,28 +6,11 @@ import { Chart as LineChart, dispose, init } from 'klinecharts';
 import { useEffect, useRef, useState } from 'react';
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from '../../../shared/constants';
-import { useTheme, useHttpGetByEvent, useHttpGet } from './../../../shared';
+import { useTheme, useHttpGetByEvent, useAPI, useSocket, useSocketProps, SocketEvent, ChartData } from './../../../shared';
 import { rect, circle } from './shapeDefinition';
-import { Icon } from './../Icon';
 import { ChartStyled, GridStyled, IndicatorStyled, MainStyled } from './styled';
 import BackgroundIcon from './BackgroundIcon';
 
-// const SHAPE_TYPES = [
-//   { key: 'horizontalRayLine', icon: <Icon.ChartIndHLine1Icon useDarkMode /> },
-//   { key: 'horizontalSegment', icon: <Icon.ChartIndHLine2Icon useDarkMode /> },
-//   { key: 'horizontalStraightLine', icon: <Icon.ChartIndHLine3Icon useDarkMode /> },
-//   { key: 'verticalRayLine', icon: <Icon.ChartIndVLine1Icon useDarkMode /> },
-//   { key: 'verticalSegment', icon: <Icon.ChartIndVLine2Icon useDarkMode /> },
-//   { key: 'verticalStraightLine', icon: <Icon.ChartIndVLine3Icon useDarkMode /> },
-//   { key: 'rayLine', icon: <Icon.ChartIndSlash1Icon useDarkMode /> },
-//   { key: 'segment', icon: <Icon.ChartIndSlash2Icon useDarkMode /> },
-//   { key: 'horizontalSegment', icon: <Icon.ChartIndSlash3Icon useDarkMode /> },
-//   { key: 'priceLine', icon: <Icon.ChartIndPriceLineIcon useDarkMode /> },
-//   { key: 'priceChannelLine', icon: <Icon.ChartInd2SlashIcon useDarkMode /> },
-//   { key: 'parallelStraightLine', icon: <Icon.ChartInd3SlashIcon useDarkMode /> },
-//   { key: 'fibonacciLine', icon: <Icon.ChartIndFibIcon useDarkMode /> },
-//   { key: 'clear', icon: <Icon.TrashIcon className='trash-icon' useDarkMode /> },
-// ]
 
 export interface ChartDataType {
   close: number;
@@ -64,51 +47,142 @@ function Chart({
   const mainGroupRef = useRef<HTMLDivElement>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HTMLDivElement>(null);
-  // const [candleStyle, setCandleStyle] = useState('candle_solid');
-  // const [time, setTime] = useState('5m');
-  // const [mainIndex, setMainIndex] = useState<string | null>(null);
-  // const [subsIndex, setSubsIndex] = useState<Array<{ paneId: string, indicator: string }>>([]);
+  const previousPairRef = useRef()
   const [subsIndex, setSubsIndex] = useState<any>();
   const [lineChart, setLineChart] = useState<LineChart>();
   const [chartHistory, setChartHistory] = useState<Array<ChartDataType>>([]);
+  const [currentChartData, setCurrentChartData] = useState<ChartData>();
+  const [dataLoadedTillTimestamp, setDataLoadedTillTimestamp] = useState<number | null>(null)
+  const [loadMore, setLoadMore] = useState<boolean>(true)
 
-  // const [isShowSubIndicators, setIsShowSubIndicators] = useState(false);
-  // const [isShowMainIndicators, setIsShowMainIndicators] = useState(false);
+  const {API} = useAPI()
+
+  const calcFormTimestamp = (type: string, to: number) => {
+    // 1hr in milliseconds
+    const milliseconds = 3600000
+  
+    switch (type) {
+      case '5m': 
+        return (((to * 1000) - (30 * milliseconds)) / 1000)
+      case '15m': 
+        return (((to * 1000) - (90 * milliseconds)) / 1000)
+      case '30m': 
+        return (((to * 1000) - (180 * milliseconds)) / 1000)
+      case '1h': 
+        return (((to * 1000) - (360 * milliseconds)) / 1000)
+      case '1d': 
+        return (((to * 1000) - (8640 * milliseconds)) / 1000)
+      default:
+        return ((to * 1000) / 1000)
+    }
+  }
+
+  const getHistoryData = (from: number, to: number) => {
+    // eslint-disable-next-line
+    return new Promise(async(resolve, reject) => {
+      try{
+        const response = await API.get(API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution, from, to))
+        const { data } = response.data
+        resolve (data)
+      }catch(err){ 
+        reject(err)
+      }
+    })
+  }
+
+  const setInitialData = async(chart: any, from: number, to: number) => {
+    const data = await getHistoryData(from, to)
+    setDataLoadedTillTimestamp(from)
+    chart.applyNewData(data)
+  }
+
+  const loadMoreData = async(chart: any, lastTimestamp: number) => {
+    const to = lastTimestamp / 1000
+    if(to){
+      const from = calcFormTimestamp(currentResolution,to)
+      const data: any = await getHistoryData(from, to)
+      if(data && data.length > 0){
+        chart.applyMoreData(data)
+      }else{
+        setLoadMore(false)
+      }
+    }
+  }
 
   useEffect(() => {
     const kLineChart = init('k-line-chart', GridStyled(theme));
     if (kLineChart) {
       kLineChart.addShapeTemplate([rect as any, circle as any]);
+      kLineChart.loadMore((lastTimestamp) => {
+          if(typeof(lastTimestamp) === "number"){
+            if(loadMore){
+              loadMoreData(kLineChart, lastTimestamp)
+            }
+          }
+      })
       setLineChart(kLineChart);
     }
     return () => {
       dispose('k-line-chart')
     }
-
   }, []);
-
-
-  const getChartHistorySuccess = (response: AxiosResponse) => {
-    const { data: resData } = response
-    if (resData) setChartHistory(resData);
-  }
-
-  const { mutate: getChartHistory } = useHttpGetByEvent<null, any>({ 
-    onSuccess: getChartHistorySuccess,
-    endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution)
-  });
-
-  const { data: chartCurrent } = useHttpGet<null, any>(
-    QUERY_KEY.CHART_CURRENT, 
-    `${API_ENDPOINT.GET_CHART_CURRENT(pair, currentResolution)}`,
-    { refetchInterval: REFETCH._3SECS }
-  );
-
+  
   useEffect(() => {
-    if (lineChart) {
-      getChartHistory(null);
+    if(lineChart){
+      const to = Math.floor(new Date().getTime() / 1000);
+      const from = calcFormTimestamp(currentResolution,to)
+      setInitialData(lineChart, from, to)
     }
-  }, [lineChart, currentResolution, pair]);
+  },[lineChart, pair, currentResolution])
+
+  const param: useSocketProps = {
+    join: pair,
+    leave: previousPairRef.current,
+    event: SocketEvent.graph_data,
+  };
+
+  const data = useSocket(param);
+
+  useEffect(()=>{
+    if(data){
+      const dataStructure: ChartData = {
+        timestamp: data[0],
+        open: data[1],
+        close: data[2],
+        high: data[3],
+        low: data[4],
+        volume: data[5],
+      }
+      setCurrentChartData(dataStructure)
+    }
+  },[data])
+
+
+  // const getChartHistorySuccess = (response: AxiosResponse) => {
+  //   const { data: resData } = response
+  //   if (resData) setChartHistory(resData);
+  // }
+
+  // const { mutate: getChartHistory } = useHttpGetByEvent<null, any>({ 
+  //   onSuccess: getChartHistorySuccess,
+  //   endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution)
+  // });
+
+  // const { data: chartCurrent } = useHttpGet<null, any>(
+  //   QUERY_KEY.CHART_CURRENT, 
+  //   `${API_ENDPOINT.GET_CHART_CURRENT(pair, currentResolution)}`,
+  //   { refetchInterval: REFETCH._3SECS }
+  // );
+
+  // useEffect(() => {
+  //   if (lineChart) {
+  //     // getChartHistory(null);
+  //     console.log(API)
+  //     async() => {
+  //       const res = await API.get(API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution))
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (lineChart) {
@@ -122,14 +196,15 @@ function Chart({
     }
   }, [lineChart, chartHistory]);
 
-
   useEffect(() => {
-    if (lineChart && chartHistory) {
-      if (chartCurrent && !chartHistory.find(e => e.timestamp === chartCurrent.timestamp)) {
-        lineChart.updateData(chartCurrent)
+    if (lineChart && chartHistory && currentChartData) {
+      if (currentChartData && !chartHistory.find(e => e.timestamp === currentChartData.timestamp)) {
+        const prevdata = lineChart.getDataList()
+        prevdata.push(currentChartData)
+        lineChart.applyNewData(prevdata)
       }
     }
-  }, [chartHistory, chartCurrent, lineChart]);
+  }, [chartHistory, currentChartData, lineChart]);
 
   useEffect(() => {
     if (lineChart && currentChartType) {
@@ -220,28 +295,6 @@ function Chart({
     lineChart?.resize();
   }
 
-  // const onChangeSubsIndex = (t: string | null) => {
-
-  //   // Remove
-  //   const sub = subsIndex.find(e => e.indicator === t);
-  //   if (sub) {
-  //     lineChart?.removeTechnicalIndicator(sub.paneId, sub.indicator);
-
-  //     const newSubs = subsIndex.filter(e => e.indicator !== t);
-  //     setSubsIndex(newSubs);
-
-  //     // Add
-  //   } else {
-
-  //     const paneId = lineChart?.createTechnicalIndicator(t as string, false);
-  //     lineChart?.createTechnicalIndicator(t as string, false, { id: paneId as string })
-
-  //     const newSubs = [...subsIndex];
-  //     newSubs.push({ paneId: paneId as string, indicator: t as string });
-  //     setSubsIndex(newSubs);
-  //   }
-  // }
-
   return (
     <MainStyled ref={mainGroupRef}>
       <div className='background'>
@@ -256,5 +309,6 @@ function Chart({
     </MainStyled>
   )
 }
+
 
 export { Chart };

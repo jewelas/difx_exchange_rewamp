@@ -1,5 +1,5 @@
 import { atom, PrimitiveAtom } from "jotai";
-import { User, Permissions, Config } from "..";
+import { User, Permissions, Config, Balance } from "..";
 
 export const themeAtom = atom<string>("light");
 export const pageTitleAtom = atom<string>("DIFX | Cryptocurrency Spot Exchange");
@@ -33,3 +33,5 @@ export const marketSpotListAtom = atom<any | null>(null) as PrimitiveAtom<any | 
 export const marketFuturesListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
 export const marketSpotFavoritesListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
 export const marketFutureFavoritesListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
+
+export const userBalanceAtom = atom<Balance[]>([]);

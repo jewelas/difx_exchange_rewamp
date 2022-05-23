@@ -7,7 +7,7 @@ import ListView from "./ListView";
 import clsx from 'clsx';
 
 export function Stats({spotList, futuresList, categoriesList, spotFavorites, futureFavorites}) {
-    const [tab, setTab] = useState('favorites');
+    const [tab, setTab] = useState('spot');
     const [favoriteTab, setFavoriteTab] = useState('spot');
     const [spotCategories, setSpotCategories] = useState('all');
     const [cardVisible, setCardVisible] = useState(false);
@@ -26,7 +26,7 @@ export function Stats({spotList, futuresList, categoriesList, spotFavorites, fut
             <Row justify="space-between" align="middle">
                 <Col>
                     <div className="content">
-                        <Tabs defaultActiveKey="favorites" onChange={(e) => { setTab(e) }} size="large" tabBarGutter={50}>
+                        <Tabs defaultActiveKey="spot" onChange={(e) => { setTab(e) }} size="large" tabBarGutter={50}>
                             <TabPane tab={<Space className="d-flex"><Icon.FavoriteIcon fill="#FFC107" variant="medium" width={14} height={14} /><div>Favorites</div></Space>} key="favorites" />
                             <TabPane tab="Spot" key="spot" />
                             <TabPane tab="Futures" key="futures" />

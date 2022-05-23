@@ -500,18 +500,23 @@ const GlobalStyles = createGlobalStyle`
     .ant-layout-header{
       z-index: 9;
     }
+    
     .ant-notification-notice{
-      margin-top: 62px;
-    }
-    .successTag{background:${({ theme }) => theme.successColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px;}
-    .errorTag{background:${({ theme }) => theme.errorColor};color:${({ theme }) => theme.fontColor.button};border-radius:${({ theme }) => theme.borderRadius.regular};padding:5px 10px;font-size:13px}
-    .search-input .ant-input-affix-wrapper, .search-input .ant-input-affix-wrapper input{background:${({ theme }) => theme.background.secondary} !important}
-    .ant-notification-notice-error{
-      border: 1px solid ${({ theme }) => theme.color.danger} !important;
-      background: ${({ theme }) => theme.color.dangerDisabled} !important;
-      box-shadow: none !important;
+      color: ${({ theme }) => theme.fontColor.primary} !important;
+      background: ${({ theme }) => theme.background.primary} !important;
     }
 
+    .ant-notification-notice-message{
+      color: ${({ theme }) => theme.fontColor.primary} !important;
+    }
+
+    .ant-notification-notice-icon{
+      top: 28px;
+    }
+
+    .ant-notification-notice-close{
+      top: 34px !important;
+    }
 
     /* Skeletion loading */
     .react-loading-skeleton{

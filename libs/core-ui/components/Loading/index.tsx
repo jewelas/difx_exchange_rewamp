@@ -46,7 +46,7 @@ export function Loading({ children, isLoading = false, type = 'component', row =
 
   const renderComponent = () => {
     const Comp = () => (
-      <MainStyled style={style} className={className}>
+      <MainStyled style={style?style:{height:'100%', padding:'unset'}} className={className}>
         <Skeleton />
       </MainStyled>
     )

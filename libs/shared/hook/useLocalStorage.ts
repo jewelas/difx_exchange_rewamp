@@ -2,6 +2,13 @@ import { useAtomValue, useUpdateAtom } from "jotai/utils";
 import { useEffect } from "react";
 import { localStorageAtom } from "../atom/index";
 
+/**
+ *  This Hook will sync data between LocalStorage and Atom
+ * @param key : localStorage key
+ * @param defaultValue
+ * @returns
+ */
+useLocalStorage.init = false;
 export function useLocalStorage(key: string, defaultValue?: any) {
 
     const value = useAtomValue(localStorageAtom);
@@ -20,6 +27,8 @@ export function useLocalStorage(key: string, defaultValue?: any) {
     }
 
     useEffect(() => {
+        if(useLocalStorage.init) return;
+        useLocalStorage.init = true;
         const currentItem = localStorage?.getItem(key);
         if (currentItem) {
             const parsed = isParseable(currentItem) ? JSON.parse(currentItem) : currentItem;

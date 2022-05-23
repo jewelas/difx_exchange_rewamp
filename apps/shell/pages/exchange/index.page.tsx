@@ -12,7 +12,6 @@ export function ExchangeDefault() {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
   useEffect(() => {
-
     if (lastPair) {
       const { spot } = resData;
       if (!isEmpty(spot)) {

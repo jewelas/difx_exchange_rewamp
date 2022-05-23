@@ -60,7 +60,7 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
         setTitle(`${wsPrice} | ${wsPair} | DIFX`)
       }
     }
-  }, [pricesWSData]);
+  }, [pricesWSData, pair]);
 
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];

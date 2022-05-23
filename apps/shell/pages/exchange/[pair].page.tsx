@@ -81,7 +81,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
             (!layoutType || ['default', 'pro'].includes(layoutType))
             &&
             <div key="pair-search" className="base">
-              <ListPairWrapper />
+              <ListPairWrapper pair={pair as string}/>
             </div>
           }
           <div key="trade-info" className="base">

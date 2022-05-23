@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SearchOutlined } from '@ant-design/icons';
+import Head from 'next/head';
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 // import { API_ENDPOINT, QUERY_KEY, REFETCH, STORE_KEY } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
-  PairType, useHttpGet, useLocalStorage, useSocketProps, useSocket, SocketEvent
+  pageTitleAtom, PairType, useHttpGet, useLocalStorage, useSocketProps, useSocket, SocketEvent, useTitle
 } from "@difx/shared";
 import { getPriceFormatted, getPricePercentChange } from "@difx/utils";
 import { Input, Table, Button } from "antd";
@@ -13,10 +15,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { API_ENDPOINT, EXCHANGE_LAYOUT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 import { TableWraperStyled } from "./styled";
 import clsx from 'clsx';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
-export function ListPairWrapper({ layout = 'default' }: { layout?: EXCHANGE_LAYOUT }) {
+export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, layout?: EXCHANGE_LAYOUT }) {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null/*{ refetchInterval: REFETCH._10SECS }*/);
+
+  const { setTitle } = useTitle();
 
   const param: useSocketProps = {
     event: SocketEvent.prices,
@@ -44,9 +48,23 @@ export function ListPairWrapper({ layout = 'default' }: { layout?: EXCHANGE_LAYO
 
   useEffect(() => {
     if (resData) {
-      setPairs(resData.spot)
+      setPairs(resData.spot);
+      const spot = resData.spot.find(e => e.symbol === pair);
+      if (spot) {
+        setTitle(`${getPriceFormatted(spot.last, 2)} | ${pair} | DIFX`)
+      }
     }
   }, [resData]);
+
+  useEffect(() => {
+    if (!isEmpty(pricesWSData) && pricesWSData.length === 4) {
+      const wsPair = pricesWSData[0];
+      if (wsPair === pair) {
+        const wsPrice = getPriceFormatted(pricesWSData[1], 2)
+        setTitle(`${wsPrice} | ${wsPair} | DIFX`)
+      }
+    }
+  }, [pricesWSData]);
 
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];

@@ -50,7 +50,7 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
         setTitle(`${getPriceFormatted(spot.last, 2)} | ${pair} | DIFX`)
       }
     }
-  }, [resData]);
+  }, [resData, pair]);
 
   useEffect(() => {
     if (!isEmpty(pricesWSData) && pricesWSData.length === 4) {

@@ -25,11 +25,11 @@ export function useAuth() {
       if(currentUser){
         let permissions: Permissions = JSON.parse(localStorage?.getItem("permissions") || "null")
         const stateUser: any = currentUser
+        socket.updateAuth(sessionToken || currentUser.token.accessToken);
+        delete stateUser?.token
         setUser(stateUser);
         setPermissions(permissions)
         setIsLoggedIn(true);
-        socket.updateAuth(sessionToken || currentUser.token.accessToken);
-        delete stateUser?.token
       }
     }
   },[isLoggedIn])

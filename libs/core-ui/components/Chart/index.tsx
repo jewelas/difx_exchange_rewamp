@@ -157,6 +157,7 @@ function Chart({
         volume: data[5],
       }
       if(lineChart){
+        console.log(dataStructure)
         lineChart.updateData(dataStructure)
       }
       setCurrentChartData(dataStructure)

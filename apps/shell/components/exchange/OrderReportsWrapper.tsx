@@ -92,7 +92,7 @@ export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string
             )
           }
           {tab === 'trade-history' && <TradeHistoryReport height={reportHeight} isSelectedPairOnly={isSelectedPairOnly} pair={pair} />}
-          {tab === 'order-history' && <OrderHistoryReport height={reportHeight} pair={pair} />}
+          {tab === 'order-history' && <OrderHistoryReport height={reportHeight} isSelectedPairOnly={isSelectedPairOnly} pair={pair} />}
           {tab === 'funds' && <FundReport height={reportHeight} />}
         </div>
       </div>

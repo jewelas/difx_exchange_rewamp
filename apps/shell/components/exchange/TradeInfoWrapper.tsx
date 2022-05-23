@@ -62,7 +62,7 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
   }, [tradesData])
 
   const param: useSocketProps = {
-    pair: pair && pair as string,
+    join: pair && pair as string,
     event: SocketEvent.trades,
   };
   const tradeChangedSocketData = useSocket(param)

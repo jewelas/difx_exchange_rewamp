@@ -53,8 +53,8 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
 
   // Get order book
   const param: useSocketProps = {
-    pair: pairInfo && pairInfo.symbol,
-    leavePair: OrderBookWrapper.previousPair,
+    join: pairInfo && pairInfo.symbol,
+    leave: OrderBookWrapper.previousPair,
     event: SocketEvent.orderbook_limited,
   };
   const data = useSocket(param);

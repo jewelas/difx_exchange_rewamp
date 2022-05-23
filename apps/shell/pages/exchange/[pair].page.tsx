@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { useLocalStorage } from "@difx/shared";
-import { STORE_KEY } from "@difx/constants";
+import { EXCHANGE_LAYOUT, STORE_KEY } from "@difx/constants";
 import AppLayout from "../index.page";
 import ListPairWrapper from "../../components/exchange/ListPairWrapper";
 import OrderBookWrapper from "../../components/exchange/OrderBookWrapper";
@@ -71,7 +71,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
             {pair && <OrderBookWrapper pair={pair as string} layout={layoutType as string} />}
           </div>
           <div key="pair-info" className="base">
-            {pair && <PairMetaDataWrapper pair={pair as string} />}
+            {pair && <PairMetaDataWrapper pair={pair as string} layout={layoutType as EXCHANGE_LAYOUT} />}
           </div>
           <div key="chart" className="base">
             {/* {pair && <ChartWrapper pair={pair as string} />} */}
@@ -81,7 +81,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
             (!layoutType || ['default', 'pro'].includes(layoutType))
             &&
             <div key="pair-search" className="base">
-              <ListPairWrapper />
+              <ListPairWrapper pair={pair as string}/>
             </div>
           }
           <div key="trade-info" className="base">

@@ -3,6 +3,7 @@ import { socket } from "./../api/index";
 
 export enum SocketEvent {
   orderbook_limited,
+  prices,
   trades,
   user_orders,
   user_stoplimits,
@@ -12,16 +13,16 @@ export enum SocketEvent {
 }
 export interface useSocketProps {
   event: SocketEvent;
-  leavePair?: string;
-  pair?: string;
+  leave?: string | number;
+  join?: string | number;
 
   onSuccess?: (data: any) => void;
 }
 
-export function useSocketByEvent({ event, leavePair, pair, onSuccess }: useSocketProps) {
+export function useSocketByEvent({ event, leave, join, onSuccess }: useSocketProps) {
   const send = () => {
-    if (leavePair) socket.send('leave', leavePair);
-    if (pair) socket.send('join', pair);
+    if (leave) socket.send('leave', leave);
+    if (join) socket.send('join', join);
     socket.listen(SocketEvent[event], (data: any) => {
       onSuccess && onSuccess(data)
     });
@@ -29,7 +30,7 @@ export function useSocketByEvent({ event, leavePair, pair, onSuccess }: useSocke
 
   useEffect(() => {
     return () => {
-      if (pair) socket.send("leave", pair);
+      if (join) socket.send("leave", join);
       socket.off(SocketEvent[event])
     }
   }, [])
@@ -37,15 +38,15 @@ export function useSocketByEvent({ event, leavePair, pair, onSuccess }: useSocke
   return { send }
 }
 
-export function useSocket({ leavePair, event, pair,
+export function useSocket({ leave, event, join,
 }: useSocketProps) {
   const [state, setState] = useState(null);
 
   useEffect(() => {
 
     // Sending
-    if (leavePair) socket.send("leave", leavePair);
-    if (pair) socket.send("join", pair);
+    if (leave) socket.send("leave", leave);
+    if (join) socket.send("join", join);
 
     // Receiving
     socket.listen(SocketEvent[event], (data: any) => {
@@ -53,11 +54,11 @@ export function useSocket({ leavePair, event, pair,
     });
 
     return () => {
-      if (pair) socket.send("leave", pair);
+      if (join) socket.send("leave", join);
       socket.off(SocketEvent[event])
     }
 
-  }, [leavePair, pair, event]);
+  }, [leave, join, event]);
 
   return state;
 }

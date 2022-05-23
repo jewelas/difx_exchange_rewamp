@@ -29,6 +29,9 @@ export const THEME = {
   DARK: "dark",
 };
 
+
+export type EXCHANGE_LAYOUT = 'default' | 'compact' | 'pro'
+
 export const DEFAULT_PAIR = "DIFXUSDT";
 
 export const PAIRS = {

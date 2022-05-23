@@ -9,6 +9,14 @@
     "search": "Search",
     "info": "Info"
   },
+  "staking":{
+    "view-staking":"View Staking",
+    "staking-history":"Staking History",
+    "export": "Export",
+    "date": "Date",
+    "search":"Search",
+    "reset": "Reset"
+  },
   "header": {
     "profile": "Profile",
     "notification": "Notification",

@@ -212,7 +212,7 @@ export const dark: ThemeInterface = {
 
   color: {
     primary: "#3D7EFF",
-    primaryLight: "#161F30",
+    primaryLight: "rgba(0,0,0,0.2)",
     secondary: "#FAAD14",
     success: "#21C198",
     danger: "#DB5354",

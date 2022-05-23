@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
-import { Icon } from "@difx/core-ui";
+import { Icon, showInfo} from "@difx/core-ui";
 import t from "@difx/locale";
-import { useHttpDelete, useHttpPost, useMarketPair } from "@difx/shared";
+import { isLoggedInAtom, useAuth, useHttpDelete, useHttpPost, useMarketPair } from "@difx/shared";
 import { Avatar, Button, Space, Table } from "antd";
 import Text from "antd/lib/typography/Text";
 import { useRouter } from "next/router";
@@ -30,11 +30,13 @@ export function ListView({ data, datatype, categoriesList }) {
   }
   
   const router = useRouter();
+  const { isLoggedIn } = useAuth();
   const { mutate: addFavorite } = useHttpPost<null, any>({ onSuccess, endpoint: API_ENDPOINT.ADD_FAVORITES })
   const { mutate: removeFavorite } = useHttpDelete<null, any>({ onSuccess, endpoint: API_ENDPOINT.REMOVE_FAVORITES })
 
 
   const onfavorite = (item) => {
+    if(isLoggedIn){
     const requestData = {
       symbol: item.symbol,
       type: datatype
@@ -90,7 +92,12 @@ export function ListView({ data, datatype, categoriesList }) {
       }
     }
 
-  }
+  
+}else{
+  showInfo("Favorites info", "You need to login to select your favorite.")
+}
+}
+  
   const columns = [
     {
       title: "Coin", key: "symbol",

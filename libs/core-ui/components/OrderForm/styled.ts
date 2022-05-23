@@ -5,6 +5,12 @@ import { ThemeInterface } from "./../../themes";
 export const ComponentStyled = styled.div`
   padding:5px;
 
+  .ant-typography.prefix{
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
+    margin-top: -3px;
+    width:90px
+  }
+
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {

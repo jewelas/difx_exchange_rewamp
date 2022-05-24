@@ -91,6 +91,9 @@ export const TableWraperStyled = styled.div`
     .ant-input{
       height: 40px !important;
     }
+    .ant-table .ant-table-thead th{
+      padding: 7px 0 !important;
+    }
     .table-group{
       .head{
         display: flex;

@@ -109,7 +109,8 @@ export const ComponentStyled = styled.div`
       }
     }
     .table-head {
-      padding: 10px 15px 10px 20px;
+      padding: 5px 15px 0px 20px;
+      margin-bottom: -4px;
       display: flex;
       justify-content: space-between;
       .ant-typography{

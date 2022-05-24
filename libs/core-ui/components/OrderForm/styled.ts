@@ -76,8 +76,8 @@ export const ComponentStyled = styled.div`
   }
   .slider-group{
     margin-top:25px;
-    margin-bottom:35px;
-    padding:0 6px 0 3px;
+    margin-bottom:20px;
+    padding:0 3px 0 3px;
     .ant-slider-dot{
       top: -5px;
       width: 14px;

@@ -33,11 +33,11 @@ export interface OrderFormProps {
 export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
 
   const marks = {
-    0: '0%',
-    25: '25%',
-    50: '50%',
-    75: '75%',
-    100: '100%',
+    0: ' ',
+    25: ' ',
+    50: ' ',
+    75: ' ',
+    100: ' ',
   };
 
   const router = useRouter();

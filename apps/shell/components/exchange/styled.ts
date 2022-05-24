@@ -443,9 +443,9 @@ export const PlaceOrderWraperStyled = styled.div`
     padding: 10px;
     .asset-group{
         .asset-title{
-          margin-top:20px;
+          margin-top:5px;
           margin-left:5px;
-          margin-bottom:10px
+          margin-bottom:3px
         }
         .asset-content{
           display:flex;

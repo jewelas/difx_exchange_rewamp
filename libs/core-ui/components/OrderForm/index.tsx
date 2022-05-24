@@ -215,8 +215,8 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
               ?
               <Form.Item
                 name={`${side}.marketPrice`}>
-                <Input disabled type="text" placeholder={"Most optimal price"}
-                  prefix={<Typography className="prefix">Price</Typography>}
+                <Input disabled type="text"
+                  prefix={<Typography className="prefix">Market Price</Typography>}
                   suffix={quoteCurrency} />
               </Form.Item>
               :

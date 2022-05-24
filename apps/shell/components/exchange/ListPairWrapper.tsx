@@ -200,11 +200,13 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
 
     if (!isEmpty(pricesWSData) && pricesWSData.length === 4) {
       const index = allDataPairs.findIndex(e => e.key === pricesWSData[0]);
-      allDataPairs[index].price = pricesWSData[1];
-      const change = ((pricesWSData[1] - allDataPairs[index].open) / allDataPairs[index].open) * 100
-      allDataPairs[index].change = `${change < 0 ? '' : '+'}${change.toFixed(2)}%`;
-      allDataPairs[index].trend = change < 0 ? 'down' : 'up';
-      handleRowClassName(pricesWSData[0], change < 0 ? "down" : "up")
+      if(index>=0){
+        allDataPairs[index].price = pricesWSData[1];
+        const change = ((pricesWSData[1] - allDataPairs[index].open) / allDataPairs[index].open) * 100
+        allDataPairs[index].change = `${change < 0 ? '' : '+'}${change.toFixed(2)}%`;
+        allDataPairs[index].trend = change < 0 ? 'down' : 'up';
+        handleRowClassName(pricesWSData[0], change < 0 ? "down" : "up")
+      }
     }
     return allDataPairs;
   }, [allDataPairs, pricesWSData]);

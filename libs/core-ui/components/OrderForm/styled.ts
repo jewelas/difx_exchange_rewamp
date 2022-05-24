@@ -27,6 +27,11 @@ export const ComponentStyled = styled.div`
     opacity:0.6;
   }
 
+  .ant-input{
+    text-align: right;
+    margin-right: 10px;
+  }
+
   .balance{
     color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
     margin-bottom: 10px;

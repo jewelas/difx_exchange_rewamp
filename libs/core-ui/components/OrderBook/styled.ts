@@ -78,6 +78,7 @@ export const ComponentStyled = styled.div`
     }
 
     .right {
+      margin-left: -18px;
       .ant-select {
         margin-top: -6px;
       }
@@ -96,6 +97,9 @@ export const ComponentStyled = styled.div`
     .head.compact{
       width: 100%;
       display:flex;
+      .left .t2{
+        margin-right:-12px;
+      }
       .left, .right{
         display: flex;
         flex-grow: 1;
@@ -180,8 +184,8 @@ export const ComponentStyled = styled.div`
           z-index: 2;
           font-size: 12px !important;
           &.price {
-            width: 70px;
-            max-width: 70px;
+            width: 50px;
+            max-width: 50px;
             overflow: hidden;
             overflow: hidden;
             white-space: nowrap;

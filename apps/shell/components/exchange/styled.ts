@@ -433,19 +433,20 @@ export const ChartHeadStyled = styled.div`
     cursor: pointer;
     opacity: 0.5;
   }
-
-  
-
 `
 
 
 export const PlaceOrderWraperStyled = styled.div`
     padding: 10px;
     .asset-group{
+      margin-top: -5px;
         .asset-title{
           margin-top:5px;
           margin-left:5px;
-          margin-bottom:3px
+          margin-bottom:2px;
+          .ant-typography{
+            font-size: 13px;
+          }
         }
         .asset-content{
           display:flex;
@@ -468,6 +469,8 @@ export const PlaceOrderWraperStyled = styled.div`
     .content{
       .tab-ordetype-group{
         &.compact{
+          margin-top: -5px;
+          margin-bottom: 2px;
           .ant-tabs-nav{
             width: 100%;
           }
@@ -510,6 +513,7 @@ export const PlaceOrderWraperStyled = styled.div`
           justify-content: space-between;
           margin-bottom:10px;
           .ant-btn{
+            height: 33px !important;
             flex-grow: 1;
             background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important; 
             border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important; 

@@ -17,6 +17,7 @@ import {
 export type OrderSideType = 'bid' | 'ask';
 export type OrderType = 'limit' | 'market' | 'stop-limit';
 export interface OrderFormProps {
+  layout?: string;
   side?: OrderSideType,
   type?: OrderType,
   baseCurrency?: string,
@@ -30,7 +31,7 @@ export interface OrderFormProps {
   canDeposit?: boolean
 }
 
-export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
+export function OrderForm({layout='default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: ' ',
@@ -239,7 +240,7 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
               suffix={baseCurrency} />
           </Form.Item>
 
-          <div className={clsx("slider-group", side)}>
+          <div className={clsx("slider-group", side, layout)}>
             <Slider onChange={onSliderChange} marks={marks} step={5} value={sliderValue} />
           </div>
 

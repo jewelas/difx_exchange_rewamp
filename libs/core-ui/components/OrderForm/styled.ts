@@ -33,7 +33,9 @@ export const ComponentStyled = styled.div`
 
   .balance{
     color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-top: -15px;
+    font-size: 12px;
     display: flex;
     justify-content: flex-end;
     .value{
@@ -73,10 +75,17 @@ export const ComponentStyled = styled.div`
       width: 100%;
       margin-top:10px;
   }
+  .ant-btn.ant-btn-primary.success{
+    margin-top:1px !important;
+  }
   .slider-group{
     margin-top:25px;
     margin-bottom:20px;
     padding:0 3px 0 3px;
+    &.compact{
+      margin-bottom: -12px;
+      margin-top: 15px;
+    }
     .ant-slider-dot{
       top: -5px;
       width: 14px;

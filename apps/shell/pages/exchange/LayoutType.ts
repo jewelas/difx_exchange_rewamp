@@ -51,7 +51,7 @@ export function getLayoutType(type: 'default' | 'compact' | 'pro', isStatic?: bo
       maxH: 1,
       static: isStaticWidgets,
     },
-    { i: "chart", x: 0, y: 1, w: 14, h: 7, static: isStaticWidgets },
+    { i: "chart", x: 0, y: 1, w: 14, h: 6, static: isStaticWidgets },
 
     // Col 2
     {
@@ -59,20 +59,20 @@ export function getLayoutType(type: 'default' | 'compact' | 'pro', isStatic?: bo
       x: 14,
       y: 0,
       w: 5,
-      h: 8,
+      h: 7,
       minH: 9,
       static: isStaticWidgets,
     },
 
     // Col 3
-    { i: "place-order", x: 19, y: 0, w: 5, h: 8, static: isStaticWidgets },
+    { i: "place-order", x: 19, y: 0, w: 5, h: 7, static: isStaticWidgets },
 
 
     // Row 2 - Col 1
-    { i: "report", x: 0, y: 8, w: 18, h: 7, static: isStaticWidgets },
+    { i: "report", x: 0, y: 7, w: 18, h: 7, static: isStaticWidgets },
 
     // Row 2 - Col 2
-    { i: "trade-info", x: 18, y: 8, w: 6, h: 7, static: isStaticWidgets },
+    { i: "trade-info", x: 18, y: 7, w: 6, h: 7, static: isStaticWidgets },
   ];
 
   const ThreeColsPro = [

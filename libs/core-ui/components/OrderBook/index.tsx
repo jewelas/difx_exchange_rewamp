@@ -68,7 +68,7 @@ export function OrderBook({
     }
   }
 
-  const BidComponent = ({ layout = 'default', maxRow = (layout === 'compact' ? 19 : 16), hideColumns }: { layout?: string, maxRow?: number, hideColumns?: string[] }) => (
+  const BidComponent = ({ layout = 'default', maxRow = 16, hideColumns }: { layout?: string, maxRow?: number, hideColumns?: string[] }) => (
     <OrderData
       layout={layout}
       hideColumns={hideColumns}
@@ -82,7 +82,7 @@ export function OrderBook({
     />
   )
 
-  const AskComponent = ({ layout = 'default', maxRow = (layout === 'compact' ? 19 : 16), hideColumns = [] }: { layout?: string; maxRow?: number, hideColumns?: string[] }) => (
+  const AskComponent = ({ layout = 'default', maxRow = 16, hideColumns = [] }: { layout?: string; maxRow?: number, hideColumns?: string[] }) => (
     <OrderData
       layout={layout}
       hideColumns={hideColumns}

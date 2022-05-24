@@ -68,7 +68,7 @@ export function OrderBook({
     }
   }
 
-  const BidComponent = ({ layout = 'default', maxRow = (layout === 'compact' ? 17 : 12), hideColumns }: { layout?: string, maxRow?: number, hideColumns?: string[] }) => (
+  const BidComponent = ({ layout = 'default', maxRow = 16, hideColumns }: { layout?: string, maxRow?: number, hideColumns?: string[] }) => (
     <OrderData
       layout={layout}
       hideColumns={hideColumns}
@@ -82,7 +82,7 @@ export function OrderBook({
     />
   )
 
-  const AskComponent = ({ layout = 'default', maxRow = (layout === 'compact' ? 17 : 12), hideColumns = [] }: { layout?: string; maxRow?: number, hideColumns?: string[] }) => (
+  const AskComponent = ({ layout = 'default', maxRow = 16, hideColumns = [] }: { layout?: string; maxRow?: number, hideColumns?: string[] }) => (
     <OrderData
       layout={layout}
       hideColumns={hideColumns}
@@ -187,7 +187,7 @@ export function OrderBook({
 
         </div>
         <div className="right">
-          <Button ghost>More</Button>
+          {layout==='compact' && <Button ghost>More</Button>}
           <Select
             defaultValue="0.01"
             style={{ width: 120 }}

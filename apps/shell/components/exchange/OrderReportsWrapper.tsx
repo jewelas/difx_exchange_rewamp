@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Icon, Loading, Switch } from "@difx/core-ui";
-import { useAuth } from "@difx/shared";
+import { BaseResponse, useAuth, useHttpPut } from "@difx/shared";
+import { AxiosResponse } from "axios";
+import { API_ENDPOINT } from "@difx/constants";
+import { showNotification } from "./../../utils/pageUtils";
 import { Button, Switch as AntdSwitch, Tabs } from "antd";
 import { useEffect, useState } from 'react';
 import FundReport from "./FundReport";
@@ -11,7 +14,7 @@ import OrderStopLimitReport from "./OrderStopLimitReport";
 import { OrderReportsWraperStyled } from "./styled";
 import TradeHistoryReport from "./TradeHistoryReport";
 
-export function OrderReportsWrapper({ pair, layout = 'default'}: { pair: string, layout?: string }) {
+export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string, layout?: string }) {
 
   const [tab, setTab] = useState('open-order');
   const [isSelectedPairOnly, setIsSelectedPairOnly] = useState(false);
@@ -20,10 +23,16 @@ export function OrderReportsWrapper({ pair, layout = 'default'}: { pair: string,
 
   const [reportHeight, setReportHeight] = useState(197);
 
-  useEffect(()=>{
-    if(layout==='compact') setReportHeight(350);
+  const onSuccess = (response: AxiosResponse<BaseResponse>) => {
+    const { message } = response.data;
+    showNotification('success', 'Cancel Order', message);
+  }
+  const { mutate: cancelAllOrders } = useHttpPut<null, BaseResponse>({ onSuccess, endpoint: API_ENDPOINT.CANCEL_ALL_ORDERS });
+
+  useEffect(() => {
+    if (layout === 'compact') setReportHeight(350);
     else setReportHeight(197)
-  },[layout]);
+  }, [layout]);
 
   if (!pair) return <Loading />;
 
@@ -52,7 +61,7 @@ export function OrderReportsWrapper({ pair, layout = 'default'}: { pair: string,
           <TabPane tab="Funds" key="funds" />
         </Tabs>
         {
-          ['open-order', 'order-history'].includes(tab)
+          ['open-order'].includes(tab)
           &&
           <div className="bar-group">
             <div className="bar-left">
@@ -66,7 +75,7 @@ export function OrderReportsWrapper({ pair, layout = 'default'}: { pair: string,
               tab === 'open-order'
               &&
               <div className="bar-right">
-                <Button disabled={!isLoggedIn} ghost>
+                <Button onClick={() => { cancelAllOrders(null) }} disabled={!isLoggedIn} ghost>
                   <Icon.CancelOrderIcon useDarkMode />
                   <span>Cancel all</span>
                 </Button>
@@ -83,7 +92,7 @@ export function OrderReportsWrapper({ pair, layout = 'default'}: { pair: string,
             )
           }
           {tab === 'trade-history' && <TradeHistoryReport height={reportHeight} isSelectedPairOnly={isSelectedPairOnly} pair={pair} />}
-          {tab === 'order-history' && <OrderHistoryReport height={reportHeight} pair={pair} />}
+          {tab === 'order-history' && <OrderHistoryReport height={reportHeight} isSelectedPairOnly={isSelectedPairOnly} pair={pair} />}
           {tab === 'funds' && <FundReport height={reportHeight} />}
         </div>
       </div>

@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 export const PageStyled = styled.div`
   background: ${({ theme }) => theme.background.space};
-  margin-top: -5px;
-  /* padding: 0 10px; */
+  margin-top: -20px;
+  &.shrink{
+    padding: 0 100px;
+  }
 
   .react-grid-item {
     overflow: hidden;

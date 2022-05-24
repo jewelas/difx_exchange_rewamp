@@ -8,7 +8,6 @@ import { localStorageAtom } from "../atom/index";
  * @param defaultValue
  * @returns
  */
-useLocalStorage.init = false;
 export function useLocalStorage(key: string, defaultValue?: any) {
 
     const value = useAtomValue(localStorageAtom);
@@ -27,8 +26,6 @@ export function useLocalStorage(key: string, defaultValue?: any) {
     }
 
     useEffect(() => {
-        if(useLocalStorage.init) return;
-        useLocalStorage.init = true;
         const currentItem = localStorage?.getItem(key);
         if (currentItem) {
             const parsed = isParseable(currentItem) ? JSON.parse(currentItem) : currentItem;

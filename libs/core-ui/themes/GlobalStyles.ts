@@ -347,7 +347,7 @@ const GlobalStyles = createGlobalStyle`
                 border:unset;
                 background: transparent !important;
                 color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
-                padding: 7px 0;
+                padding: 5px 0;
               }
             }
           }
@@ -484,6 +484,18 @@ const GlobalStyles = createGlobalStyle`
           display:none;
         }
       }
+
+      .compact-list-pairs{
+        .ant-input-affix-wrapper{
+          background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary} !important;
+          .ant-input{
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary} !important;
+          }
+          border:unset !important;
+          box-shadow: unset !important;
+        }
+      }
+
       .ant-popover.ant-popover-placement-bottom{
         .ant-popover-content{
           margin-top: -10px;

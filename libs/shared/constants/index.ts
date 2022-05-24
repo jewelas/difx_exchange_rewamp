@@ -44,6 +44,7 @@ export const QUERY_KEY = {
   COUNTRIES: 'countries',
   PAIRS: 'pairs',
   TRADES: 'trades',
+  STAKING_HISTORY: 'staking_history',
   CHART_HISTORY: 'chart_history',
   CHART_CURRENT: 'chart_current',
   STAKING: 'STAKING',
@@ -74,17 +75,16 @@ export const STORE_KEY = {
 export const API_ENDPOINT = {
   GET_COUNTRY: '/api/v1/public/country-iso',
   GET_CURRENCY_PAIRS: '/api/v1/public/fiat-currency',
+  CANCEL_ALL_ORDERS: '/api/v1/order/cancel-all-order',
   GET_AVAILABLE_LANGUAGES: '/api/v1/public/lang',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',
   GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
   GET_MY_TRADES: (symbol?: string) => `/api/v1/user/trade-history${symbol ? `?symbol=${symbol}` : ''}`,
-  // GET_CHART_HISTORY: (symbol: string, resolution: string = '5m') => {
-  //   const { from, to } = calcChartDateRange(resolution);
-  //   return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
-  // },
+  GET_ORDER_HISTORY: (symbol?: string) => `/api/v1/user/order-history${symbol ? `?symbol=${symbol}` : ''}`,
+  GET_STAKING_HISTORY: (startDate:string, endDate:string, page:number, limit:number) => `/api/v1/staking/history?end_date=${endDate}&page=${page}&limit=${limit}&start_date=${startDate}`,
+  GET_STAKING_INTEREST_LIST: (startDate:string, endDate:string, page:number, limit:number) => `/api/v1/staking/interest?end_date=${endDate}&page=${page}&limit=${limit}&start_date=${startDate}`,
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m', from: number, to: number) => {
-    // const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
   },
   GET_CHART_CURRENT: (symbol: string, resolution: string = '5m') => {
@@ -110,8 +110,7 @@ export const API_ENDPOINT = {
   PLACE_ORDER_LIMIT: '/api/v1/order/limit-order',
   PLACE_ORDER_MARKET: '/api/v1/order/market-order',
   PLACE_ORDER_STOP: '/api/v1/order/sl-order',
-  CANCEL_BID_ORDER: '/api/v1/order/cancel-bid',
-  CANCEL_ASK_ORDER: '/api/v1/order/cancel-ask',
+  CANCEL_ORDER: '/api/v1/order/cancel-order',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
   GET_MARKET_PAIRS: '/api/v1/market/pairs',
   GET_SELECTED_MARKET_PAIRS: (coin: string) => `/api/v1/market/pair-detail?coin=${coin}`,

@@ -24,7 +24,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
 
   const param: useSocketProps = {
     event: SocketEvent.user_balances,
-    join: user ? user.id: null
+    join: user ? user.id : null
   };
   const balanceData = useSocket(param);
 
@@ -53,12 +53,12 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
 
   const { mutate: getBalances } = useHttpGetByEvent<any, Array<Balance>>({ onSuccess: getBalancesSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
-  const placeOrderSuccess = (response: AxiosResponse<{data: PlaceOrderResponse}>) => {
+  const placeOrderSuccess = (response: AxiosResponse<{ data: PlaceOrderResponse }>) => {
     const { data } = response.data;
     showNotification('success', 'Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
   }
 
-  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, {data: PlaceOrderResponse}>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
+  const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, { data: PlaceOrderResponse }>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
 
   useEffect(() => {
     if (isLoggedIn) getBalances(null)
@@ -78,18 +78,18 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
     }
 
     if (type === 'limit') {
-      const request = {...data};
+      const request = { ...data };
       delete request["total"];
       placeOrder(request);
     } else if (type === 'market') {
-      const request: PlaceOrderRequest = {...data};
+      const request: PlaceOrderRequest = { ...data };
       delete request["total"];
       delete request["price"];
       request.endpoint = API_ENDPOINT.PLACE_ORDER_MARKET;
       request.amount = data.total;
       placeOrder(request);
     } else if (type === 'stop-limit') {
-      const request:PlaceOrderRequest = {...data};
+      const request: PlaceOrderRequest = { ...data };
       request.endpoint = API_ENDPOINT.PLACE_ORDER_STOP;
       delete request["total"];
       placeOrder(request);
@@ -115,6 +115,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
       <div className="place-order-group">
         <div className="bid">
           <OrderForm
+            layout={layout}
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}
@@ -127,6 +128,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
         </div>
         <div className="ask">
           <OrderForm
+            layout={layout}
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}
@@ -147,6 +149,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
           side === 'bid' &&
           <div className="bid">
             <OrderForm
+              layout={layout}
               canDeposit={false}
               isLoading={isLoading}
               onPlaceOrder={onSubmitOrder}
@@ -164,6 +167,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
           side === 'ask' &&
           <div className="ask">
             <OrderForm
+              layout={layout}
               canDeposit={false}
               isLoading={isLoading}
               onPlaceOrder={onSubmitOrder}
@@ -185,6 +189,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
       <div className="place-order-group">
         <div className="bid">
           <OrderForm
+            layout={layout}
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}
@@ -197,6 +202,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
         </div>
         <div className="ask">
           <OrderForm
+            layout={layout}
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}

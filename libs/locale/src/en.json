@@ -10,6 +10,14 @@
     "info": "Info",
     "hide_small_balances": "Hide Small Balances"
   },
+  "staking":{
+    "view-staking":"View Staking",
+    "staking-history":"Staking History",
+    "export": "Export",
+    "date": "Date",
+    "search":"Search",
+    "reset": "Reset"
+  },
   "header": {
     "profile": "Profile",
     "notification": "Notification",

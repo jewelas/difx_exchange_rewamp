@@ -5,6 +5,11 @@ import { ThemeInterface } from "./../../themes";
 export const ComponentStyled = styled.div`
   padding:5px;
 
+  .ant-typography.prefix{
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
+    margin-top: -3px;
+  }
+
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -21,9 +26,16 @@ export const ComponentStyled = styled.div`
     opacity:0.6;
   }
 
+  .ant-input{
+    text-align: right;
+    margin-right: 10px;
+  }
+
   .balance{
     color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-top: -15px;
+    font-size: 12px;
     display: flex;
     justify-content: flex-end;
     .value{
@@ -63,10 +75,17 @@ export const ComponentStyled = styled.div`
       width: 100%;
       margin-top:10px;
   }
+  .ant-btn.ant-btn-primary.success, .ant-btn.ant-btn-primary.danger{
+    margin-top:1px !important;
+  }
   .slider-group{
     margin-top:25px;
-    margin-bottom:35px;
-    padding:0 6px 0 3px;
+    margin-bottom:20px;
+    padding:0 3px 0 3px;
+    &.compact{
+      margin-bottom: -12px;
+      margin-top: 15px;
+    }
     .ant-slider-dot{
       top: -5px;
       width: 14px;

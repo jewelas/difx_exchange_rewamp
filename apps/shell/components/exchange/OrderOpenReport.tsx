@@ -26,6 +26,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
 
   const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
+
     if (data && !isEmpty(data.result)) {
       for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
@@ -78,16 +79,20 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
 
   const columns = [
     {
-      title: 'Id',
-      dataIndex: 'id',
+      title: 'Date',
       sorter: {
-        compare: (a, b) => a.id - b.id,
-        multiple: 1,
+        compare: (a, b) => {
+          const aTime = new Date(a.timestamp).getTime();
+          const bTime = new Date(b.timestamp).getTime();
+          return aTime - bTime;
+        },
+        multiple: 4,
       },
-      render: (text, record) => {
+      dataIndex: 'timestamp',
+      render: (text) => {
         return (
-          <div className="cell">
-            <Typography level="B3">{text}</Typography>
+          <div className='cell'>
+            <Typography level="B3">{getCurrentDateTimeByDateString(text)}</Typography>
           </div>
         )
       }
@@ -108,7 +113,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       }
     },
     {
-      title: 'Type',
+      title: 'Side',
       dataIndex: 's',
       sorter: {
         compare: (a, b) => a.s - b.s,
@@ -148,25 +153,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
         return (
           <div className='cell'>
             <Typography level="B3">{text}</Typography>
-          </div>
-        )
-      }
-    },
-    {
-      title: 'Date',
-      sorter: {
-        compare: (a, b) => {
-          const aTime = new Date(a.timestamp).getTime();
-          const bTime = new Date(b.timestamp).getTime();
-          return aTime - bTime;
-        },
-        multiple: 4,
-      },
-      dataIndex: 'timestamp',
-      render: (text) => {
-        return (
-          <div className='cell'>
-            <Typography level="B3">{getCurrentDateTimeByDateString(text)}</Typography>
           </div>
         )
       }

@@ -2,9 +2,9 @@
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import t from "@difx/locale";
-import { StakingHistoryResponse, useHttpGetByEvent } from "@difx/shared";
+import { Paging, StakingHistoryResponse, useHttpGetByEvent } from "@difx/shared";
 import { getCurrentDateByDateString, getCurrentTimeByDateString } from "@difx/utils";
-import { Button, DatePicker, Table } from "antd";
+import { Button, DatePicker, Pagination, Table } from "antd";
 import { AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
 import moment, { Moment } from "moment";
@@ -16,6 +16,7 @@ export interface TableWrapperProps { }
 export function TableWrapper(props: TableWrapperProps) {
 
   const [data, setData] = useState([]);
+  const [pageInfo, setPageInfo] = useState<Paging>(null);
 
   const _startDate = new Date();
   _startDate.setDate(_startDate.getDate() - 30);
@@ -37,22 +38,35 @@ export function TableWrapper(props: TableWrapperProps) {
   const startDateFormatted = moment(startDate).format(dateFormat);
   const endDateFormatted = moment(endDate).format(dateFormat);
 
-  const onSuccess = (response: AxiosResponse<{ result: StakingHistoryResponse[] }>) => {
+  const onSuccess = (response: AxiosResponse<{ result: StakingHistoryResponse[], currentPage: number, totalItems: number, totalPages: number }>) => {
     const { data } = response;
+
+    if (data) {
+      setPageInfo({
+        currentPage: data.currentPage,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages
+      })
+    }
+
     if (!isEmpty(data.result)) {
       setData(data.result)
     } else setData([])
   }
-  const { mutate: getStakingHistory, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: StakingHistoryResponse[] }>({ onSuccess, endpoint: API_ENDPOINT.GET_STAKING_HISTORY(startDateFormatted, endDateFormatted, page, limit) });
+  const { mutate: getStakingHistory, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: StakingHistoryResponse[], currentPage: number, totalItems: number, totalPages: number }>({ onSuccess, endpoint: API_ENDPOINT.GET_STAKING_HISTORY(startDateFormatted, endDateFormatted, page, limit) });
 
   useEffect(() => {
     getStakingHistory(null);
-  }, [startDate, endDate]);
+  }, [startDate, endDate, page]);
 
   const onReset = () => {
     setStartDate(_startDate);
     setEndDate(new Date());
     setPage(1);
+  }
+
+  const onPageChange = (p: number)=>{
+    setPage(p)
   }
 
   const columns = [
@@ -137,15 +151,20 @@ export function TableWrapper(props: TableWrapperProps) {
         {
           isDataLoading ? <Loading type="component" style={{ height: "200px" }} />
             :
-            <Table
-              className="table-group"
-              // scroll={{ x: "max-content", y: height }}
-              showSorterTooltip={false}
-              pagination={false}
-              columns={columns}
-              dataSource={data}
-              rowKey="id"
-            />
+            <>
+              <Table
+                // scroll={{ x: "max-content", y: height }}
+                showSorterTooltip={false}
+                pagination={false}
+                columns={columns}
+                dataSource={data}
+                rowKey="id"
+              />
+              {
+                pageInfo && !isEmpty(data) &&
+                <Pagination onChange={onPageChange} defaultCurrent={pageInfo.currentPage} total={pageInfo.totalPages} />
+              }
+            </>
         }
       </div>
     </>

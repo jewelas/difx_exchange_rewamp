@@ -33,6 +33,7 @@ export * from "./type/Config";
 export * from "./type/ExtraAuth";
 export * from "./type/Balance";
 export * from "./type/PlaceOrder";
+export * from "./type/Paging";
 export * from "./type/Order";
 export * from "./type/market";
 export * from "./type/Staking";

@@ -85,6 +85,13 @@ export const PageStyled = styled.div`
     }
     .table-group{
       padding: 15px;
+      .ant-select-selector{
+        height: 33px !important;
+      }
+      .ant-pagination{
+        margin-top:20px !important;
+        text-align: center;
+      }
       .ant-table-cell{
         font-weight: 600;
         font-size: 18px;

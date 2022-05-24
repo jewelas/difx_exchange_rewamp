@@ -147,8 +147,8 @@ function Chart({
   },[lineChart, pair, currentResolution])
 
   const param: useSocketProps = {
-    pair: pair,
-    leavePair: previousPairRef.current,
+    join: pair,
+    leave: previousPairRef.current,
     event: SocketEvent.graph_data,
   };
 

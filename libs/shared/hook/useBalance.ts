@@ -13,7 +13,6 @@ export function useBalance() {
 
   const onSuccess = (response: AxiosResponse) => {
     const { data } = response
-    console.log(response)
     setUserBalance(data)
   }
   

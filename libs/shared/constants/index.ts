@@ -29,6 +29,9 @@ export const THEME = {
   DARK: "dark",
 };
 
+
+export type EXCHANGE_LAYOUT = 'default' | 'compact' | 'pro'
+
 export const DEFAULT_PAIR = "LTCUSDT";
 
 export const PAIRS = {
@@ -49,7 +52,9 @@ export const QUERY_KEY = {
   MARKET_PAIRS: 'market_pairs',
   MARKET_PAIRS_INFO: (coin: string) => `market_pairs_info_${coin}`,
   CURRENCY_PAIRS: 'currency_pair',
-  AVAILABLE_LANGUAGES: 'available_languages'
+  AVAILABLE_LANGUAGES: 'available_languages',
+  CURRENCIES: 'currencies',
+  MARKET_CURRENT_PRICE: (coin: string) => `market_current_price_${coin}`
 }
 
 export const ASSETS_URL = "https://media.difx.com/"
@@ -61,6 +66,8 @@ export const REFETCH = {
 
 export const STORE_KEY = {
   FAVORITE_PAIRS: 'favoritePairs',
+  FAVORITE_SPOT_PAIRS: 'favoriteSpotPairs',
+  FAVORITE_FUTURE_PAIRS: 'favoriteFuturePairs',
   LAST_PAIR: 'lastPair',
   EXCHANGE_STYLE: 'exchangeStyle'
 }
@@ -112,4 +119,7 @@ export const API_ENDPOINT = {
   ADD_FAVORITES: '/api/v1/user/favorite-pair',
   REMOVE_FAVORITES: '/api/v1/user/unfavorite-pair',
   CREATE_STAKING: '/api/v1/staking/create',
+  GET_CURRENCIES: '/api/v1/market/coins',
+  PREVIEW_CURRENCY: '/api/v1/market/preview-currency',
+  GET_MARKET_COIN_PRICE: (coin: any) => `/api/v1/market/coin-price?coin=${coin}`,
 }

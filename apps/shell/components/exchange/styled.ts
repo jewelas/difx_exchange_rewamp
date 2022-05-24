@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ThemeInterface } from "@difx/core-ui/themes";
 
 export const PairMetadataStyled = styled.div`
@@ -6,6 +6,9 @@ export const PairMetadataStyled = styled.div`
     height: 100%;
     padding: 0 10px;
     justify-content: space-between;
+    .show-more-pair{
+      margin-top:3px !important;
+    }
     .left {
       margin-top: 22px;
       display: flex;
@@ -37,6 +40,40 @@ export const PairMetadataStyled = styled.div`
         cursor: pointer;
         margin-top: 22px;
       }
+    }
+`;
+
+const upChanged = keyframes`
+    from {
+      background: transparent;
+    }
+    to {
+      background:rgba(33, 193, 152, 0.35);
+    }
+`;
+const upChangedClear = keyframes`
+    to {
+      background: transparent;
+    }
+    from {
+      background:rgba(33, 193, 152, 0.35);
+    }
+`;
+
+const downChanged = keyframes`
+    from {
+      background: transparent;
+    }
+    to {
+      background:rgba(219, 83, 84, 0.35);
+    }
+`;
+const downChangedClear = keyframes`
+    to {
+      background: transparent;
+    }
+    from {
+      background:rgba(219, 83, 84, 0.35);
     }
 `;
 
@@ -89,6 +126,25 @@ export const TableWraperStyled = styled.div`
           cursor: pointer;
           font-weight: 600;
         }
+      }
+      .ant-table-row.changed{
+        background-image: transparent !important;
+        &.up{
+          animation-name: ${upChanged};
+          animation-duration: 2s;
+        }
+        &.up-clear{
+            animation-name: ${upChangedClear};
+            animation-duration: 2s;
+          }
+        &.down{
+          animation-name: ${downChanged};
+          animation-duration: 2s;
+        }
+        &.down-clear{
+            animation-name: ${downChangedClear};
+            animation-duration: 2s;
+          }
       }
       .content{
         overflow-x:hidden;
@@ -162,14 +218,14 @@ export const ChartContainerStyled = styled.div`
   }
 `
 export const ChartHeadStyled = styled.div`
-  background-color: ${({theme}) => theme.background.secondary};
+  background-color: ${({ theme }) => theme.background.secondary};
   height: 32px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  color: ${({theme}) => theme.fontColor.primary};
-  font-size: ${({theme}) => theme.typography.small};
-  font-weight: ${({theme}) => theme.fontWeight.regular};
+  color: ${({ theme }) => theme.fontColor.primary};
+  font-size: ${({ theme }) => theme.typography.small};
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
 
   .timeframes{
     display: flex;
@@ -181,7 +237,7 @@ export const ChartHeadStyled = styled.div`
       opacity: 0.8;
       &.active{
         opacity: 1 !important;
-        color: ${({theme}) => theme.color.primary};
+        color: ${({ theme }) => theme.color.primary};
       }
     }
   }
@@ -205,7 +261,7 @@ export const ChartHeadStyled = styled.div`
     align-items: center;
     position: relative;
     cursor: pointer;
-    color: ${({theme}) => theme.fontColor.primary};
+    color: ${({ theme }) => theme.fontColor.primary};
 
     .chart-type-icon{
       background: transparent;
@@ -218,7 +274,7 @@ export const ChartHeadStyled = styled.div`
       display: none;
       width: 115px;
       position: absolute;
-      background-color: ${({theme}) => theme.background.primary};
+      background-color: ${({ theme }) => theme.background.primary};
       opacity: 1;
       top: 24px;
       right: 0px;
@@ -294,7 +350,7 @@ export const ChartHeadStyled = styled.div`
     .indicator-dropdown{
       display: none;
       position: absolute;
-      background-color: ${({theme}) => theme.background.primary};
+      background-color: ${({ theme }) => theme.background.primary};
       opacity: 1;
       top: 24px;
       right: 0px;
@@ -328,13 +384,13 @@ export const ChartHeadStyled = styled.div`
       }
       button{
         width: 42px;
-        border: 1px solid ${({theme}) => theme.fontColor.primary};
+        border: 1px solid ${({ theme }) => theme.fontColor.primary};
         background: transparent;
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        color:  ${({theme}) => theme.fontColor.primary};
+        color:  ${({ theme }) => theme.fontColor.primary};
         font-weight: 600;
         gap: 5px;
         opacity: 0.5;
@@ -346,9 +402,9 @@ export const ChartHeadStyled = styled.div`
         border-radius: 2px;
 
         &.active{
-          border: 1px solid ${({theme}) => theme.color.primary} ;
-          background: ${({theme}) => theme.color.primary};
-          color: ${({theme}) => theme.fontColor.button};
+          border: 1px solid ${({ theme }) => theme.color.primary} ;
+          background: ${({ theme }) => theme.color.primary};
+          color: ${({ theme }) => theme.fontColor.button};
           opacity: 1;
         }
       }

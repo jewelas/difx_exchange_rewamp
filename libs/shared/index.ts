@@ -5,6 +5,7 @@ export * from "./hook/useSocket";
 export * from "./hook/useTheme";
 export * from "./hook/useAuth";
 export * from "./hook/useGuestAuth";
+export * from "./hook/useTitle";
 export * from "./hook/useHttp";
 export * from "./hook/useLocalStorage";
 export * from "./hook/useRecaptcha";
@@ -15,6 +16,7 @@ export * from "./hook/useMarketModal";
 export * from "./hook/useCurrency";
 export * from "./hook/useLanguage";
 export * from "./hook/useBalance";
+export * from "./hook/useFavourites";
 
 export * from "./type/Base";
 export * from "./type/User";

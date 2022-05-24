@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
-import { Icon } from "@difx/core-ui";
+import { Icon, showInfo} from "@difx/core-ui";
 import t from "@difx/locale";
-import { useHttpDelete, useHttpPost, useMarketPair } from "@difx/shared";
+import { isLoggedInAtom, useAuth, useFavourites, useHttpDelete, useHttpPost, useMarketPair } from "@difx/shared";
 import { Avatar, Button, Space, Table } from "antd";
 import Text from "antd/lib/typography/Text";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import Trend from "react-trend";
 
 
@@ -16,82 +15,44 @@ export function ListView({ data, datatype, categoriesList }) {
     setMarketPair,
     drawerVisible,
     setDrawerVisible,
-    setSpotFavorites,
-    spotFavorites,
-    setSpotList,
-    setFuturesList,
-    futuresList,
-    spotList,
-    futureFavorites,
-    setFutureFavorites 
   } = useMarketPair()
-
-  const onSuccess = (response) => {
-    return null
-  }
   
   const router = useRouter();
-  const { mutate: addFavorite } = useHttpPost<null, any>({ onSuccess, endpoint: API_ENDPOINT.ADD_FAVORITES })
-  const { mutate: removeFavorite } = useHttpDelete<null, any>({ onSuccess, endpoint: API_ENDPOINT.REMOVE_FAVORITES })
 
+  const {
+    spotFavourite,
+    futureFavourite,
+    addSpotFavourites,
+    addFutureFavourites,
+    removeSpotFavourites,
+    removeFutureFavourites
+  } = useFavourites()
 
-  const onfavorite = (item) => {
-    const requestData = {
-      symbol: item.symbol,
-      type: datatype
-    }
-    
-    if (item.favorite) {
-      if(datatype === "spot"){
-        const newSpotFavoriteList = spotFavorites.filter(spotfavitem => spotfavitem.symbol != item.symbol)
-        const newSpotList = spotList.map(spotitem => {
-          if(spotitem.symbol === item.symbol){
-            spotitem.favorite = false
-          }
-          return spotitem
-        })
-      setSpotFavorites(newSpotFavoriteList)
-      setSpotList(newSpotList)
-      removeFavorite(requestData)
-      } else {
-        const newFutureFavoriteList = futureFavorites.filter(futurefavitem => futurefavitem.symbol != item.symbol)
-        const newFutureList = futuresList.map(futureitem => {
-          if(futureitem.symbol === item.symbol){
-            futureitem.favorite = false
-          }
-          return futureitem
-        })
-      setFutureFavorites(newFutureFavoriteList)
-      setFuturesList(newFutureList)
-      removeFavorite(requestData)
+  const onfavorite = (pair) => {
+    pair.type = datatype
+    if(datatype === "spot"){
+      if(spotFavourite.includes(pair)){
+        removeSpotFavourites(pair)
+      }else{
+        addSpotFavourites(pair)
       }
-    } else {
-      if(datatype === "spot"){
-        const spotFavitem = spotList.find(spotfavitem => spotfavitem.symbol === item.symbol)
-        const newSpotList = spotList.map(spotitem => {
-          if(item.symbol === spotitem.symbol){
-            spotitem.favorite = true
-          }
-          return spotitem
-        })
-        setSpotFavorites(prev => [...prev, spotFavitem])
-        setSpotList(newSpotList)
-        addFavorite(requestData)
-      } else {
-        const futureFavitem = futuresList.find(futurefavitem => futurefavitem.symbol === item.symbol)
-        const newFutureList = futuresList.map(futureitem => {
-          if(item.symbol === futureitem.symbol){
-            futureitem.favorite = true
-          }
-          return futureitem
-        })
-        setFutureFavorites(prev => [...prev, futureFavitem])
-        setFuturesList(newFutureList)
-        addFavorite(requestData)
+    }else{
+      if(futureFavourite.includes(pair)){
+        removeFutureFavourites(pair)
+      }else{
+        addFutureFavourites(pair)
       }
     }
-
   }
+
+  const isFavourite = useCallback((pair) => {
+    if(datatype === "spot"){
+      return spotFavourite.find(item => item.symbol === pair.symbol) ? true : false
+    }else{
+      return futureFavourite.find(item => item.symbol === pair.symbol) ? true : false
+    }
+  },[spotFavourite, futureFavourite])
+  
   const columns = [
     {
       title: "Coin", key: "symbol",
@@ -102,7 +63,7 @@ export function ListView({ data, datatype, categoriesList }) {
         return (
           <Space>
             <div onClick={() => onfavorite(item)} className="cursor-pointer">
-              <Icon.FavoriteIcon fill={item.favorite ? "#FFC107" : "#56595C"} variant="medium" width={14} height={14} />
+              <Icon.FavoriteIcon fill={isFavourite(item) ? "#FFC107" :  "#56595C"} variant="medium" width={14} height={14} />
             </div>
             <Avatar shape="square" size={28} icon={<Icon.CoinPlaceholder width={28} height={28} />} src={`${ASSETS_URL}${item.currency1.toLowerCase()}.png`} /> <span>{item.currency1} <Text type="secondary">/ {item.currency2}</Text></span></Space>
         );
@@ -179,7 +140,6 @@ export function ListView({ data, datatype, categoriesList }) {
       )
     },
   ];
-
 
   return (
     <>

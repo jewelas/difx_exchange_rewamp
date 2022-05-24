@@ -21,10 +21,11 @@ export function useAuth() {
   useEffect(()=>{
     if(!isLoggedIn){
       let currentUser: User = JSON.parse(localStorage?.getItem("currentUser") || "null")
-
+      const sessionToken = localStorage.getItem("sessionToken");
       if(currentUser){
         let permissions: Permissions = JSON.parse(localStorage?.getItem("permissions") || "null")
         const stateUser: any = currentUser
+        socket.updateAuth(sessionToken || currentUser.token.accessToken);
         delete stateUser?.token
         setUser(stateUser);
         setPermissions(permissions)
@@ -38,12 +39,12 @@ export function useAuth() {
     localStorage?.setItem("sessionToken", updatedUser.token.accessToken)
     localStorage?.setItem("refreshToken", updatedUser.token.refreshToken)
     localStorage?.setItem("permissions", JSON.stringify(permission))
+    socket.updateAuth(updatedUser.token.accessToken);
     const stateUser: any = updatedUser
     delete stateUser?.token
     setUser(stateUser);
     setPermissions(permission)
     setIsLoggedIn(true);
-    socket.updateAuth(updatedUser.token.accessToken);
   };
 
   const logOut = () : void => {
@@ -51,6 +52,8 @@ export function useAuth() {
     localStorage?.removeItem("sessionToken")
     localStorage?.removeItem("refreshToken")
     localStorage?.removeItem("permissions")
+    localStorage?.removeItem("favoriteSpotPairs")
+    localStorage?.removeItem("favoriteFuturePairs")
     setUser(undefined);
     setPermissions(undefined)
     setIsLoggedIn(false);

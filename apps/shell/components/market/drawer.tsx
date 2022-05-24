@@ -4,18 +4,17 @@ import { useHttpGet, useMarketPair } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from '@difx/utils';
 import { Avatar, Button, Col, Row, Space, Typography } from "antd";
 import Text from "antd/lib/typography/Text";
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from "react";
+import React from "react";
 import { CoinDrawerInfo, DrawerWrapper } from "../../pages/market/styled";
 // import { IconButton } from "@difx/core-ui";
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 export function MarketDrawer() {
    const router = useRouter();
    const {marketPair} = useMarketPair()
-   const [ellipsis, setEllipsis] = useState(true);
+//    const [ellipsis, setEllipsis] = useState(true);
     const { data: coinInfo, isLoading, isError } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS_INFO(marketPair.currency), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS(marketPair.currency), null);
     if(isLoading){
     return <> loading.. </>

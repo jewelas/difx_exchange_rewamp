@@ -18,9 +18,8 @@ export function MarketWrapper() {
   const [topLooser, setTopLooser] = useState([])
   const [topVolume, setTopVolume] = useState([])
 
-  const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList, spotFavorites, setSpotFavorites,futureFavorites, setFutureFavorites} = useMarketPair();
+  const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList} = useMarketPair();
   const {modalVisible, setModalVisible} = useMarketModal();
-
 
   useEffect(() => {
     if(marketData){
@@ -29,13 +28,6 @@ export function MarketWrapper() {
       setCategoriesList(marketData.categories)
     }
   }, [marketData]);
-
-  useEffect(() => {
-    if(futuresList){
-      const favoritesFutures = futuresList.filter((futuresList:any) => futuresList.favorite === true)
-      setFutureFavorites(favoritesFutures)
-    }
-  }, [futuresList]);
 
   useEffect(() => {
     if(spotList){
@@ -49,7 +41,7 @@ export function MarketWrapper() {
         return a.volume < b.volume ? 1 : -1
       })
       const favoritesSpot = spotList.filter((spotList:any) => spotList.favorite === true)
-      setSpotFavorites(favoritesSpot)
+      // setSpotFavorites(favoritesSpot)
       setTopGainer(getTopGainer)
       setTopLooser(getTopLooser)
       setTopVolume(getTopVolume)
@@ -95,7 +87,7 @@ export function MarketWrapper() {
             <MarketCard>
               <TopMarket  getTopGainer={topGainer} getTopLooser={topLooser} getTopVolume={topVolume} getFutures={futuresList} />
             </MarketCard>
-            <Stats spotList={spotList} futuresList={futuresList} categoriesList={categoriesList} spotFavorites={spotFavorites} futureFavorites={futureFavorites} />
+            <Stats spotList={spotList} futuresList={futuresList} categoriesList={categoriesList}/>
         </MarketContentStyled>
         <Drawer
           title="Overview"

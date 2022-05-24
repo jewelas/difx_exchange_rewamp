@@ -1,12 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Typography } from "@difx/core-ui";
+import { useAuth } from "@difx/shared";
 import t from "@difx/locale";
-import { getCurrentDateByDateString } from "@difx/utils";
-import { Button, DatePicker, Tabs } from 'antd';
-import isEmpty from "lodash/isEmpty";
-import moment, { Moment } from "moment";
+import { Button, Tabs } from 'antd';
 import { useRouter } from "next/router";
-import { useState } from "react";
 import AppLayout from "../index.page";
 import TableWrapper from "./../../components/staking-history/TableWrapper";
 import { PageStyled } from "./styled";
@@ -18,6 +15,8 @@ export interface StakingHistoryPageProps {
 export function StakingHistoryPage(props: StakingHistoryPageProps) {
   const { TabPane } = Tabs;
   const router = useRouter();
+
+  const { isLoggedIn } = useAuth();
 
   return (
     <AppLayout>
@@ -36,7 +35,11 @@ export function StakingHistoryPage(props: StakingHistoryPageProps) {
               <TabPane tab="Interest" key="interest" />
             </Tabs>
           </div>
-          <TableWrapper />
+          {
+            isLoggedIn ? <TableWrapper />
+              :
+              <div style={{ display: 'flex', justifyContent: 'center' }}><Button htmlType="button" onClick={() => { router.push('/login') }}>Login in or Sign up</Button></div>
+          }
         </div>
       </PageStyled>
     </AppLayout>

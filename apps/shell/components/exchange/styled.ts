@@ -183,6 +183,10 @@ export const TableWraperStyled = styled.div`
         .listpair.price{
           width: 60px;
         }
+        .listpair.change{
+          width:70px;
+          text-align: right;
+        }
         .price{
           width:auto;
           min-width: 40px;

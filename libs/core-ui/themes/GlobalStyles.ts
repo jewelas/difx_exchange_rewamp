@@ -320,7 +320,7 @@ const GlobalStyles = createGlobalStyle`
                 border:unset;
                 background: transparent !important;
                 color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
-                padding: 7px 0;
+                padding: 5px 0;
               }
             }
           }

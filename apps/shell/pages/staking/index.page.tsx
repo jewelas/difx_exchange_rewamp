@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Icon, Typography } from '@difx/core-ui';
+import { useAuth } from '@difx/shared';
 import { Button, Col, Row } from 'antd';
 import { useRouter } from "next/router";
 import React from "react";
@@ -12,6 +13,9 @@ export interface StakingPageProps {
 }
 
 export function StakingPage(props: StakingPageProps) {
+
+  const { isLoggedIn } = useAuth();
+
   const router = useRouter();
   return (
     <AppLayout>
@@ -60,7 +64,7 @@ export function StakingPage(props: StakingPageProps) {
                     </div>
                   </div>
                   <div className="bottom">
-                    <Button onClick={() => { router.push('/staking-history') }} className="l" type="primary" ghost>Order History</Button>
+                    <Button disabled={!isLoggedIn} onClick={() => { router.push('/staking-history') }} className="l" type="primary" ghost>Order History</Button>
                     <Button className="r" type="primary">Earning</Button>
                   </div>
                 </div>
@@ -82,7 +86,10 @@ export function StakingPage(props: StakingPageProps) {
             </Row>
           </Col>
         </Row>
-        <StakingWrapper />
+        {
+          isLoggedIn &&
+          <StakingWrapper />
+        }
       </PageStyled>
     </AppLayout>
   );

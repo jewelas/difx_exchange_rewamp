@@ -86,7 +86,7 @@ export const PageStyled = styled.div`
           .bottom{
             display: flex;
             justify-content: space-around;
-            .ant-btn.ant-btn-primary.ant-btn-background-ghost{
+            .ant-btn:not([disabled]).ant-btn-primary.ant-btn-background-ghost{
               color: #fff !important;
             }
             .ant-btn{

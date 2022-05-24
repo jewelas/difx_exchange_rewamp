@@ -97,7 +97,7 @@ export function MarketWrapper() {
         >
           <MarketDrawer />
         </Drawer>
-        <Modal title="&nbsp;" visible={modalVisible} footer={null} onCancel={closeModal}>
+        <Modal title="Quick Trade" visible={modalVisible} footer={null} onCancel={closeModal}>
             <MarketModal />
         </Modal>
       </PageStyled>

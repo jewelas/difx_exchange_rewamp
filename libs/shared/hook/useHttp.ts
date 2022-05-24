@@ -217,12 +217,15 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
 
 export function useAPI() {
 
+    const { refreshToken, logOut } = useAuth()
+    const { refreshAnonymousToken } = useGuestAuth()
+
     instance.interceptors.request.use(axiosAuthorization)
 
     instance.interceptors.response.use((response) => {
         return response
     }, (error) => {
-        return Promise.reject(error)
+        onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
     })
 
     return { API: instance }

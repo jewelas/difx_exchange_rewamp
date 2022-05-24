@@ -128,9 +128,53 @@ const MarketPopup = styled.div`
         line-height: 14.4px;
         color: ${({theme}) => theme.fontColor.secondary};
     }
-`
-const Quantity = styled.div`
+    .coinselect .ant-select-selection-item{
+        display: flex;
+        align-items: center;
+    }
+
+    .ant-slider:hover {
+        .ant-slider-handle{
+        border-color: ${({theme}) => theme.color.primary};
+    }
+    .ant-slider-track{
+        background: ${({theme}) => theme.color.primary};
+    }
     
+    }
+    .ant-slider-handle{
+        border-color: ${({theme}) => theme.color.primary};
+    }
+    .ant-slider-track{
+        background: ${({theme}) => theme.color.primary};
+    }
+    .priceBox{
+        margin-top: 40px !important;
+    }
+    .middle-box{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .convert-btn-box{
+            width: 38px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: ${({ theme }) => theme.shadow.light};
+            border-radius: ${({ theme }) => theme.borderRadius.circle};
+            cursor: pointer;
+        }
+    }
+`
+
+const OptionGroupStyled = styled.div`
+display: flex;
+.coinvalue{
+    margin-left: 10px;
+}
 `
 
 // Grid Card Design
@@ -180,4 +224,4 @@ const DrawerWrapper = styled.div`
     .coin-about h1{font-size: 16px;}
 `
 
-export {DrawerWrapper,SpotFilter, MarketPopup, FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}
+export { DrawerWrapper,SpotFilter, MarketPopup, OptionGroupStyled, FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}

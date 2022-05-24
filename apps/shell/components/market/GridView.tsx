@@ -4,13 +4,17 @@ import Text from "antd/lib/typography/Text";
 import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "../../pages/market/styled";
 import { Icon } from "@difx/core-ui";
 import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
-import { useFavourites, useHttpDelete, useHttpPost, useMarketModal, useMarketPair } from "@difx/shared";
+import { isLoggedInAtom, useFavourites, useHttpDelete, useHttpPost, useMarketModal, useMarketPair } from "@difx/shared";
 import Trend from "react-trend";
 import { useRouter } from "next/router";
+import { useAtomValue } from "jotai";
 
 
 export function GridView({data, datatype}) {
-  const {setMarketPair, modalVisible, setModalVisible} = useMarketModal()
+  const {setMarketPair, modalVisible, setModalVisible, setQuickBuyType} = useMarketModal()
+  const isLoggedIn = useAtomValue(isLoggedInAtom)
+
+  const router = useRouter();
 
   const {
     spotFavourite,
@@ -106,12 +110,31 @@ export function GridView({data, datatype}) {
                             <Row gutter={20}>
                                 <Col span={12}>
                                     <Button type="primary" className="success" onClick={() => {
-                                      setMarketPair(item.currency1)
-                                      setModalVisible(!modalVisible)
-                                    }}>Buy</Button>
+                                      if(isLoggedIn){
+                                        setMarketPair(item.currency1)
+                                        setQuickBuyType("buy")
+                                        setModalVisible(!modalVisible)
+                                      }else{
+                                        router.push(`/login`)
+                                      }
+                                    }}>
+                                      Buy
+                                    </Button>
                                 </Col>
                                 <Col span={12}>
-                                    <Button type="primary" className="danger">Sell</Button>
+                                    <Button type="primary" className="danger"
+                                      onClick={() => {
+                                        if(isLoggedIn){
+                                          setMarketPair(item.currency1)
+                                          setQuickBuyType("sell")
+                                          setModalVisible(!modalVisible)
+                                        }else{
+                                          router.push(`/login`)
+                                        }
+                                      }}
+                                    >
+                                      Sell
+                                    </Button>
                                 </Col>
                             </Row>
                         </MarketCardBtns>

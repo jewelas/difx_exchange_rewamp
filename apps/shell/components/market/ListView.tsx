@@ -2,7 +2,7 @@
 import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
 import { Icon, showInfo} from "@difx/core-ui";
 import t from "@difx/locale";
-import { isLoggedInAtom, useAuth, useFavourites, useHttpDelete, useHttpPost, useMarketPair } from "@difx/shared";
+import { useFavourites, useMarketPair } from "@difx/shared";
 import { Avatar, Button, Space, Table } from "antd";
 import Text from "antd/lib/typography/Text";
 import { useRouter } from "next/router";

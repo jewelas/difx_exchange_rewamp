@@ -54,7 +54,7 @@ function Layout({
   stroke,
   displayStroke
 }: {
-  fill: string;
+  fill?: string;
   children: React.ReactChild;
   useDarkMode?: boolean;
   pathIndex?: number;

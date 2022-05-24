@@ -16,9 +16,6 @@ interface Props {
 }
 export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = false }: Props) {
 
-  // const { token } = useAuth();
-  // const headers = { headers: { 'x-access-token': token } }
-
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
   const param: useSocketProps = {
@@ -76,16 +73,20 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
 
   const columns = [
     {
-      title: 'Id',
-      dataIndex: 'id',
+      title: 'Date',
       sorter: {
-        compare: (a, b) => a.id - b.id,
-        multiple: 1,
+        compare: (a, b) => {
+          const aTime = new Date(a.timestamp).getTime();
+          const bTime = new Date(b.timestamp).getTime();
+          return aTime - bTime;
+        },
+        multiple: 4,
       },
-      render: (text, record) => {
+      dataIndex: 'timestamp',
+      render: (text) => {
         return (
-          <div className="cell">
-            <Typography level="B3">{text}</Typography>
+          <div className='cell'>
+            <Typography level="B3">{getCurrentDateTimeByDateString(text)}</Typography>
           </div>
         )
       }
@@ -106,7 +107,7 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       }
     },
     {
-      title: 'Type',
+      title: 'Side',
       dataIndex: 'side',
       sorter: {
         compare: (a, b) => a.side - b.side,
@@ -161,25 +162,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
         return (
           <div className='cell'>
             <Typography level="B3">{text}</Typography>
-          </div>
-        )
-      }
-    },
-    {
-      title: 'Date',
-      sorter: {
-        compare: (a, b) => {
-          const aTime = new Date(a.timestamp).getTime();
-          const bTime = new Date(b.timestamp).getTime();
-          return aTime - bTime;
-        },
-        multiple: 4,
-      },
-      dataIndex: 'timestamp',
-      render: (text) => {
-        return (
-          <div className='cell'>
-            <Typography level="B3">{getCurrentDateTimeByDateString(text)}</Typography>
           </div>
         )
       }

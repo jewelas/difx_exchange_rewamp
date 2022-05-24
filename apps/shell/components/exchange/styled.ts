@@ -27,12 +27,21 @@ export const PairMetadataStyled = styled.div`
     }
     .center {
       display: flex;
+      overflow-x: scroll;
+      -ms-overflow-style: none;  /* Internet Explorer 10+ */
+      scrollbar-width: none;  /* Firefox */
+      &::-webkit-scrollbar{
+        display: none;  /* Safari and Chrome */
+      }
+      margin-left: 20px;
+      margin-right: 20px;
       .price {
         display: flex;
         flex-direction: column;
         margin-top: 14px;
         margin-left: 15px;
         margin-right: 15px;
+        white-space: nowrap;
       }
     }
     .right {
@@ -82,8 +91,14 @@ export const TableWraperStyled = styled.div`
     .ant-input{
       height: 40px !important;
     }
+    .ant-table .ant-table-thead th{
+      padding: 7px 0 !important;
+    }
     .table-group{
       .head{
+        .B2{
+          font-size: 14px;
+        }
         display: flex;
         margin: 25px 0 5px 0;
         text-transform: capitalize;
@@ -165,8 +180,16 @@ export const TableWraperStyled = styled.div`
             }
           }
         }
+        .listpair.price{
+          width: 60px;
+        }
+        .listpair.change{
+          width:70px;
+          text-align: right;
+        }
         .price{
-          width:80px;
+          width:auto;
+          min-width: 40px;
         }
         .change{
           width:90px;
@@ -421,26 +444,33 @@ export const ChartHeadStyled = styled.div`
     cursor: pointer;
     opacity: 0.5;
   }
-
-  
-
 `
 
 
 export const PlaceOrderWraperStyled = styled.div`
     padding: 10px;
     .asset-group{
+      margin-top: -5px;
         .asset-title{
-          margin-top:20px;
+          margin-top:5px;
           margin-left:5px;
-          margin-bottom:10px
+          margin-bottom:2px;
+          .ant-typography{
+            font-size: 13px;
+          }
         }
         .asset-content{
           display:flex;
+          flex-wrap: wrap;
           justify-content: space-between;
           .ant-btn{
+            margin-top:5px !important;
+            width: 80px !important;
+            height: 33px !important;
+            font-size: 11px;
+            height: 20px;
             margin: 0 5px;
-            flex-grow: 1;
+            /* flex-grow: 1; */
             background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important; 
             border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important; 
             color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; 
@@ -450,6 +480,8 @@ export const PlaceOrderWraperStyled = styled.div`
     .content{
       .tab-ordetype-group{
         &.compact{
+          margin-top: -5px;
+          margin-bottom: 2px;
           .ant-tabs-nav{
             width: 100%;
           }
@@ -492,6 +524,7 @@ export const PlaceOrderWraperStyled = styled.div`
           justify-content: space-between;
           margin-bottom:10px;
           .ant-btn{
+            height: 33px !important;
             flex-grow: 1;
             background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important; 
             border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important; 
@@ -531,6 +564,9 @@ export const PlaceOrderWraperStyled = styled.div`
 export const OrderReportsWraperStyled = styled.div`
     padding: 10px 20px;
     height:100%;
+    .ant-table-column-title{
+      font-size: 12px;
+    }
     .display-selected-pair{
       .wrapper{
         z-index: 9;

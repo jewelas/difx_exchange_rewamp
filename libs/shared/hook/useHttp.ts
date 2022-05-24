@@ -156,9 +156,40 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
 
     const mutation = useMutation(
         (request: any) => {
+            const data ={...request};
+            delete data["endpoint"];
             return instance.post<Request, AxiosResponse<Response>>(
                 (request && request.endpoint) ? request.endpoint : endpoint,
-                request
+                data
+            );
+        },
+        {
+            onSuccess: (response: AxiosResponse<Response>) => {
+                onSuccess && onSuccess(response);
+            },
+            onError: (error: AxiosError) => {
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
+                onError && onError(error as AxiosError);
+            },
+        }
+    );
+    return mutation;
+}
+
+export function useHttpPut<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
+
+    const { refreshToken, logOut } = useAuth()
+    const { refreshAnonymousToken } = useGuestAuth()
+
+    instance.interceptors.request.use(axiosAuthorization)
+
+    const mutation = useMutation(
+        (request: any) => {
+            const data ={...request};
+            delete data["endpoint"];
+            return instance.put<Request, AxiosResponse<Response>>(
+                (request && request.endpoint) ? request.endpoint : endpoint,
+                data
             );
         },
         {

@@ -10,31 +10,36 @@ import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from 'react';
 
-export function OrderHistoryReport({ height = 200, pair }: { height?: number; pair: string }) {
+export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, pair }: { isSelectedPairOnly?:boolean, height?: number; pair: string }) {
 
   const { isLoggedIn } = useAuth();
-  // const headers = { headers: { 'x-access-token': token } }
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
-  const getOrderBookSuccess = (response: AxiosResponse<Array<Order>>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
     const { data } = response;
-    if (data) {
-      for (const order of data) {
+    if (data && !isEmpty(data.result)) {
+      for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
           setTableData(tableData);
         }
       }
+    } else {
+      setTableData([]);
     }
   }
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_HISTORY(pair) });
 
   useEffect(() => {
     if (isLoggedIn) {
-      getOrderBooks(null);
+      if (isSelectedPairOnly && pair) {
+        getOrderBooks({ endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
+      } else {
+        getOrderBooks(null);
+      }
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, isSelectedPairOnly]);
 
   const columns = [
     {

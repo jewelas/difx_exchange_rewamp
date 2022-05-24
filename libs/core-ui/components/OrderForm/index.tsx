@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, Input, Slider } from "antd";
 import clsx from "clsx";
+import { Typography } from "./../Typography";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
 import { PairType, PlaceOrderRequest } from "./../../../shared";
@@ -16,6 +17,7 @@ import {
 export type OrderSideType = 'bid' | 'ask';
 export type OrderType = 'limit' | 'market' | 'stop-limit';
 export interface OrderFormProps {
+  layout?: string;
   side?: OrderSideType,
   type?: OrderType,
   baseCurrency?: string,
@@ -29,14 +31,14 @@ export interface OrderFormProps {
   canDeposit?: boolean
 }
 
-export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
+export function OrderForm({layout='default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
 
   const marks = {
-    0: '0%',
-    25: '25%',
-    50: '50%',
-    75: '75%',
-    100: '100%',
+    0: ' ',
+    25: ' ',
+    50: ' ',
+    75: ' ',
+    100: ' ',
   };
 
   const router = useRouter();
@@ -70,6 +72,8 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
 
   const onFormChange = (changeField: any) => {
 
+    setSliderValue(0);
+
     // Update input
     if (changeField && changeField[0]) {
       const fieldName = changeField[0].name[0];
@@ -94,7 +98,10 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
           [`${side}.total`]: Math.floor(newTotal * 100) / 100,
         });
       }
-      setSliderValue(0);
+      if (balance){
+        const total = form.getFieldValue(`${side}.total`);
+        setSliderValue((100 * total) / balance.amount);
+      }
     }
 
     validateForm();
@@ -102,6 +109,11 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
 
   const validateForm = () => {
     const fieldsValue = form.getFieldsValue();
+
+    if(balance && fieldsValue[`${side}.total`] > balance.amount){
+      setIsDisabled(true);
+      return;
+    }
 
     if (type === 'limit') {
       setIsDisabled(
@@ -193,27 +205,50 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
             &&
             <Form.Item
               name={`${side}.stop`}>
-              <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Trigger Price" suffix={quoteCurrency} />
+              <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Trigger Price"
+                prefix={<Typography className="prefix">Trigger Price</Typography>}
+                suffix={quoteCurrency} />
             </Form.Item>
           }
 
-          <Form.Item
-            name={`${side}.price`}>
-            <Input disabled={type === 'market'} onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Price"} suffix={quoteCurrency} />
-          </Form.Item>
+          {
+            type === 'market'
+              ?
+              <Form.Item
+                name={`${side}.marketPrice`}>
+                <Input disabled type="text"
+                  prefix={<Typography className="prefix">Market Price</Typography>}
+                  suffix={quoteCurrency} />
+              </Form.Item>
+              :
+              <Form.Item
+                name={`${side}.price`}>
+                <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Price"}
+                  prefix={<Typography className="prefix">Price</Typography>}
+                  suffix={quoteCurrency} />
+              </Form.Item>
+          }
 
           <Form.Item
             name={`${side}.amount`}>
-            <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Amount" suffix={baseCurrency} />
+            <Input
+              onInput={onReplaceComma}
+              type="text"
+              onWheel={preventScroll}
+              placeholder="Amount"
+              prefix={<Typography className="prefix">Amount</Typography>}
+              suffix={baseCurrency} />
           </Form.Item>
 
-          <div className={clsx("slider-group", side)}>
-            <Slider onChange={onSliderChange} marks={marks} step={null} value={sliderValue} />
+          <div className={clsx("slider-group", side, layout)}>
+            <Slider onChange={onSliderChange} marks={marks} step={5} value={sliderValue} />
           </div>
 
           <Form.Item
             name={`${side}.total`}>
-            <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Total" suffix={quoteCurrency} />
+            <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Total"
+              prefix={<Typography className="prefix">Price</Typography>}
+              suffix={quoteCurrency} />
           </Form.Item>
           <Button
             onClick={() => { !isLoggedIn && router.push('/login') }}
@@ -221,7 +256,6 @@ export function OrderForm({ canDeposit = true, isLoading = true, onPlaceOrder, p
             htmlType={isLoggedIn ? "submit" : "button"}
             className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{getButtonSubmitLabel()}</Button>
         </div>
-
       </Form>
     </ComponentStyled>
   );

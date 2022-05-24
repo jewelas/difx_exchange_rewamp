@@ -3,7 +3,7 @@
 
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, SocketEvent, useAuth, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
+import { BaseResponse, Order, SocketEvent, useAuth, useHttpGetByEvent, useHttpPut, useSocket, useSocketProps } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -15,10 +15,7 @@ interface Props {
   pair?: string;
   height?: number;
 }
-export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false }: Props) {
-
-  // const { token } = useAuth();
-  // const headers = { headers: { 'x-access-token': token } }
+export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false }: Props) {
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
@@ -29,6 +26,7 @@ export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false 
 
   const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
+
     if (data && !isEmpty(data.result)) {
       for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
@@ -66,7 +64,7 @@ export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false 
   }
 
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
-  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_BID_ORDER }); // TODO: handle headers in interceptor in useHttp
+  const { mutate: cancelOrder, isLoading } = useHttpPut<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_ORDER });
 
   const { isLoggedIn } = useAuth();
   useEffect(() => {
@@ -81,16 +79,20 @@ export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false 
 
   const columns = [
     {
-      title: 'Id',
-      dataIndex: 'id',
+      title: 'Date',
       sorter: {
-        compare: (a, b) => a.id - b.id,
-        multiple: 1,
+        compare: (a, b) => {
+          const aTime = new Date(a.timestamp).getTime();
+          const bTime = new Date(b.timestamp).getTime();
+          return aTime - bTime;
+        },
+        multiple: 4,
       },
-      render: (text, record) => {
+      dataIndex: 'timestamp',
+      render: (text) => {
         return (
-          <div className="cell">
-            <Typography level="B3">{text}</Typography>
+          <div className='cell'>
+            <Typography level="B3">{getCurrentDateTimeByDateString(text)}</Typography>
           </div>
         )
       }
@@ -111,7 +113,7 @@ export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false 
       }
     },
     {
-      title: 'Type',
+      title: 'Side',
       dataIndex: 's',
       sorter: {
         compare: (a, b) => a.s - b.s,
@@ -156,40 +158,13 @@ export function OrderOpenReport({height = 200, pair, isSelectedPairOnly = false 
       }
     },
     {
-      title: 'Date',
-      sorter: {
-        compare: (a, b) => {
-          const aTime = new Date(a.timestamp).getTime();
-          const bTime = new Date(b.timestamp).getTime();
-          return aTime - bTime;
-        },
-        multiple: 4,
-      },
-      dataIndex: 'timestamp',
-      render: (text) => {
-        return (
-          <div className='cell'>
-            <Typography level="B3">{getCurrentDateTimeByDateString(text)}</Typography>
-          </div>
-        )
-      }
-    },
-    {
       title: '',
       dataIndex: '',
       render: (text, record) => {
         return (
           <div
             onClick={() => {
-              if (!isLoading) {
-                record.s === 0
-                  // eslint-disable-next-line
-                  // @ts-ignore
-                  ? cancelOrder({ id: record.id }) // Cancel Bid Order
-                  // eslint-disable-next-line
-                  // @ts-ignore
-                  : cancelOrder({ id: record.id, endpoint: API_ENDPOINT.CANCEL_ASK_ORDER }) // Cancel Ask Order
-              }
+              if (!isLoading) { cancelOrder({ side: record.s, trade_id: record.id }) }
             }}
             className="cell">
             <Icon.TrashIcon useDarkMode width={20} height={20} />

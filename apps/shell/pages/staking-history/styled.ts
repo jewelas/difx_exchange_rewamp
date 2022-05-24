@@ -63,6 +63,9 @@ export const PageStyled = styled.div`
           opacity: 0.6;
           fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
         }
+        .ant-picker.ant-picker-range input{
+          color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+        }
         .ant-picker-clear{
           border-radius: 100%;
           svg{

@@ -48,6 +48,11 @@ export const PageStyled = styled.div`
         line-height: 22px;
       }
     }
+    .ant-pagination-item-link, .ant-pagination-item{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      border:unset;
+    }
     .filter{
       padding: 0 30px;
       display:flex;

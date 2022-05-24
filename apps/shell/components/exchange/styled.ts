@@ -540,6 +540,9 @@ export const PlaceOrderWraperStyled = styled.div`
 export const OrderReportsWraperStyled = styled.div`
     padding: 10px 20px;
     height:100%;
+    .ant-table-column-title{
+      font-size: 12px;
+    }
     .display-selected-pair{
       .wrapper{
         z-index: 9;

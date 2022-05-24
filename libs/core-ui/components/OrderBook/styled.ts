@@ -112,6 +112,9 @@ export const ComponentStyled = styled.div`
       padding: 10px 15px 10px 20px;
       display: flex;
       justify-content: space-between;
+      .ant-typography{
+        font-size: 12px;
+      }
       .col-total{
         display: flex;
         svg{
@@ -172,6 +175,7 @@ export const ComponentStyled = styled.div`
         }
         .ant-typography {
           z-index: 2;
+          font-size: 12px !important;
           &.price {
             width: 70px;
             max-width: 70px;

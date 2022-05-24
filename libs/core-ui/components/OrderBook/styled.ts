@@ -5,14 +5,14 @@ export const BarStyled = styled.div`
   z-index: 1;
   position: absolute;
   right: 0;
-  height: 30px;
+  height: 24px;
   &.ask {
     background: rgba(219, 83, 84, 0.2);
   }
   &.bid {
     background: rgba(33, 193, 152, 0.2);
   }
-  margin-top: -5px;
+  margin-top: -2px;
 `;
 
 export const ComponentStyled = styled.div`
@@ -165,8 +165,8 @@ export const ComponentStyled = styled.div`
       .table-row {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 1px;
-        padding: 5px;
+        /* margin-bottom: 1px; */
+        padding: 2px;
         padding-left: 20px;
         padding-right: 15px;
         &:hover{

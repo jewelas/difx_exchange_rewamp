@@ -45,27 +45,27 @@ export function getLayoutType(type: 'default' | 'compact' | 'pro', isStatic?: bo
       i: "pair-info",
       x: 0,
       y: 0,
-      w: 11,
+      w: 14,
       h: 1,
       minH: 1,
       maxH: 1,
       static: isStaticWidgets,
     },
-    { i: "chart", x: 0, y: 1, w: 11, h: 8, static: isStaticWidgets },
+    { i: "chart", x: 0, y: 1, w: 14, h: 8, static: isStaticWidgets },
 
     // Col 2
     {
       i: "order-book",
-      x: 11,
+      x: 14,
       y: 0,
-      w: 7,
+      w: 5,
       h: 9,
       minH: 9,
       static: isStaticWidgets,
     },
 
     // Col 3
-    { i: "place-order", x: 18, y: 0, w: 6, h: 9, static: isStaticWidgets },
+    { i: "place-order", x: 19, y: 0, w: 5, h: 9, static: isStaticWidgets },
 
 
     // Row 2 - Col 1

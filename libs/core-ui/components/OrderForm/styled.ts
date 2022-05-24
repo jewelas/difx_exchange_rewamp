@@ -8,7 +8,6 @@ export const ComponentStyled = styled.div`
   .ant-typography.prefix{
     color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
     margin-top: -3px;
-    width:90px
   }
 
   /* Chrome, Safari, Edge, Opera */

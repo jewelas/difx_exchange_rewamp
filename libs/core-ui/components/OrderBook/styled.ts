@@ -25,6 +25,7 @@ export const ComponentStyled = styled.div`
     margin-top:-2px;
   }
   .com-title {
+    margin-bottom: -10px;
     padding-top: 10px;
     padding-left: 20px;
     border-bottom: ${({ theme }) => theme.border};
@@ -55,6 +56,7 @@ export const ComponentStyled = styled.div`
     }
   }
   .com-head {
+    margin-bottom: -8px;
     display: flex;
     justify-content: space-between;
     padding: 15px 15px 12px 10px;

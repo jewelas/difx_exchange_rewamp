@@ -449,10 +449,16 @@ export const PlaceOrderWraperStyled = styled.div`
         }
         .asset-content{
           display:flex;
+          flex-wrap: wrap;
           justify-content: space-between;
           .ant-btn{
+            margin-top:5px !important;
+            width: 80px !important;
+            height: 33px !important;
+            font-size: 11px;
+            height: 20px;
             margin: 0 5px;
-            flex-grow: 1;
+            /* flex-grow: 1; */
             background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important; 
             border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important; 
             color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important; 

@@ -7,7 +7,8 @@
     "submit": "Submit",
     "have_acc": "Already have an account?",
     "search": "Search",
-    "info": "Info"
+    "info": "Info",
+    "hide_small_balances": "Hide Small Balances"
   },
   "header": {
     "profile": "Profile",
@@ -118,6 +119,17 @@
     "transaction_history": "Transaction History",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
-    "help_support": "Help & Support"
+    "help_support": "Help & Support",
+    "transfer": "Transfer",
+    "total_balance": "Total Balance",
+    "spot_balance" : "Spot Balance",
+    "overview_para": "Whole data about your wallet here",
+    "pl_analysis": "P/L Analysis",
+    "yesterday_pl": "Yesterday's PnL",
+    "overview_pl": "Overview PnL",
+    "stake_now": "Stake Now",
+    "history": "History",
+    "use_difx_token": "Use DIFX token to enjoy 20 % off trading fees",
+    "use_difx_point": "Use DIFX point for trading fees"
   }
 }

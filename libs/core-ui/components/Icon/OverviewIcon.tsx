@@ -6,9 +6,10 @@ function Icon({
   height = 15,
   fill = "#9AA5B4",
   useDarkMode,
+  useDarkModeFor
 }: IconProps) {
   return (
-    <Layout fill={fill} useDarkMode={useDarkMode} pathIndex={5}>
+    <Layout fill={fill} useDarkMode={useDarkMode} pathIndex={5} useDarkModeFor={useDarkModeFor}>
       <svg
         width={width}
         height={height}

@@ -23,8 +23,9 @@ export interface ThemeInterface extends Theme {
     dangerDisabled: string;
     disabled: string;
     selected: string;
-    InputPlaceholder: string
-    rowHover: string
+    InputPlaceholder: string;
+    rowHover: string;
+    btnSecondary: string;
   };
   scrollbar: {
     bar: string;
@@ -79,6 +80,7 @@ export interface ThemeInterface extends Theme {
     regular: string;
     rounded: string;
     circle: string;
+    round: string;
   };
   buttonHeight: {
     large: string;
@@ -106,6 +108,7 @@ export const light: ThemeInterface = {
   successColor: "#21C198",
   primaryColor: "#3D7EFF",
   errorColor: "#DB5354",
+  warningColor: "#FAAD14",
 
   color: {
     primary: "#3D7EFF",
@@ -127,7 +130,8 @@ export const light: ThemeInterface = {
     disabled: "#FCFCFC",
     selected: "#DAE5F5",
     InputPlaceholder: "#8C8C8C",
-    rowHover: "rgba(0,0,0,0.1)"
+    rowHover: "rgba(0,0,0,0.1)",
+    btnSecondary: "#F8F8F9"
   },
   scrollbar: {
     bar: "#999",
@@ -158,9 +162,9 @@ export const light: ThemeInterface = {
   },
   fontWeight: {
     regular: 400,
-    medium: 500,
-    semiBold: 600,
-    bold: 700,
+    medium: 400,
+    semiBold: 700,
+    bold: 900,
   },
   typography: {
     h1: "56px",
@@ -189,6 +193,7 @@ export const light: ThemeInterface = {
     regular: "2px",
     rounded: "10px",
     circle: "50%",
+    round: "35px"
   },
   buttonHeight: {
     large: "48px",
@@ -209,6 +214,7 @@ export const dark: ThemeInterface = {
   successColor: "#21C198",
   primaryColor: "#3D7EFF",
   errorColor: "#DB5354",
+  warningColor: "#FAAD14",
 
   color: {
     primary: "#3D7EFF",
@@ -230,7 +236,8 @@ export const dark: ThemeInterface = {
     disabled: "rgba(13, 20, 33, 0.6)",
     selected: "rgba(13, 20, 33, 0.6)",
     InputPlaceholder: "#8C8C8C",
-    rowHover: "rgba(255,255,255,0.1)"
+    rowHover: "rgba(255,255,255,0.1)",
+    btnSecondary: "#F8F8F9"
   },
   scrollbar: {
     bar: "#464D5F",
@@ -261,9 +268,9 @@ export const dark: ThemeInterface = {
   },
   fontWeight: {
     regular: 400,
-    medium: 500,
-    semiBold: 600,
-    bold: 700,
+    medium: 400,
+    semiBold: 700,
+    bold: 900,
   },
   typography: {
     h1: "56px",
@@ -292,6 +299,7 @@ export const dark: ThemeInterface = {
     regular: "2px",
     rounded: "10px",
     circle: "50%",
+    round: "35px"
   },
   buttonHeight: {
     large: "48px",

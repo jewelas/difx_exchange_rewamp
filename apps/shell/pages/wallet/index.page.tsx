@@ -1,30 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppLayout from "../index.page";
 import { Layout } from 'antd';
 import { PageStyled, WalletContentStyled } from "./styled";
 import WalletSidebar from "../../components/wallet/sidebar";
+import { useRouter } from "next/router";
 
-const { Content } = Layout;
+export interface WalletLayoutProps {
+  children: React.ReactChild;
+}
 
-export function WalletPage() {
+export function WalletLayout({ children }: WalletLayoutProps) {
+  const router = useRouter();
+  useEffect(() => {
+    if(router.pathname === "/wallet"){
+    router.push(`/wallet/overview`);
+    }
+  }, []);
+
   return (
     <AppLayout>
       <PageStyled>
         <WalletContentStyled>
           <Layout>
             <WalletSidebar />
-            <Layout style={{ padding: '0 24px 24px' }}>
-              <Content
-                className="site-layout-background"
-                style={{
-                  padding: 24,
-                  margin: 0,
-                  minHeight: 280,
-                }}
-              >
-                Content
-              </Content>
-            </Layout>
+            {children}
           </Layout>
         </WalletContentStyled>
       </PageStyled>
@@ -32,4 +31,4 @@ export function WalletPage() {
   );
 }
 
-export default WalletPage;
+export default WalletLayout;

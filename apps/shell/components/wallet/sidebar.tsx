@@ -3,6 +3,7 @@ import { Menu } from "antd";
 import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
 import { SidebarWrapper } from "./styled";
+import Link from "next/link";
 
 export function WalletSidebar() {
   return (
@@ -12,34 +13,40 @@ export function WalletSidebar() {
         defaultSelectedKeys={["2"]}
         style={{ paddingTop: 30 }}
       >
-        <Menu.Item 
-          icon={<Icon.OverviewIcon />}
-        >
-          {t("wallet.overview")}
-        </Menu.Item>
+        
+          <Menu.Item 
+            icon={<Icon.OverviewIcon />}
+          >
+            <Link href="/wallet">{t("wallet.overview")}</Link>
+          </Menu.Item>
         <Menu.Item 
           icon={<Icon.SpotIcon />}
         >
-          {t("wallet.spot")}
+          <Link href="/wallet/spot">
+            {t("wallet.spot")}
+          </Link>
         </Menu.Item>
         <Menu.Item 
           icon={<Icon.FutureIcon />}
-          onClick={() => {"/"}}
-          key="futures"
         >
-          {t("wallet.futures")}
+          <Link href="/wallet/futures">
+            {t("wallet.futures")}
+          </Link>
         </Menu.Item>
         <Menu.Item 
           icon={<Icon.GiftIcon />}
-          onClick={() => {"/"}}
           key="earn"
         >
-          {t("wallet.earn")}
+          <Link href="/wallet/earn">
+            {t("wallet.earn")}
+          </Link>
         </Menu.Item>
         <Menu.Item 
           icon={<Icon.HistoryIcon />}
         >
-          {t("wallet.transaction_history")}
+          <Link href="/wallet/transaction-history">
+            {t("wallet.transaction_history")}
+          </Link>
         </Menu.Item>
         <Menu.ItemGroup>
           <Menu.Item key="deposit" icon={<Icon.HistoryIcon />}>

@@ -116,7 +116,7 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
       },
       render: (text, record) => {
         return (
-          <div className='price'>
+          <div className='listpair price'>
             <Typography level="B3" color={record.trend === 'up' ? 'success' : 'danger'}>{text}</Typography>
           </div>
         )

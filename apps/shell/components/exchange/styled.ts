@@ -96,6 +96,9 @@ export const TableWraperStyled = styled.div`
     }
     .table-group{
       .head{
+        .B2{
+          font-size: 14px;
+        }
         display: flex;
         margin: 25px 0 5px 0;
         text-transform: capitalize;
@@ -177,8 +180,12 @@ export const TableWraperStyled = styled.div`
             }
           }
         }
+        .listpair.price{
+          width: 60px;
+        }
         .price{
-          width:80px;
+          width:auto;
+          min-width: 40px;
         }
         .change{
           width:90px;

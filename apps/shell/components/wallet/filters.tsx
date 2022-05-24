@@ -48,7 +48,7 @@ export function WalletFilters({overviewContent}) {
                     <Button type="text" icon={<Icon.PieChartIcon />} shape="round" size="small" className="round-light-primary-btn">Assets Allocation</Button>
                 : null }
                 {overviewContent === "spot" ? 
-                    <Button type="link">Convert small balance to DIFX</Button>
+                    <Button type="link" className="anchor-link">Convert small balance to DIFX</Button>
                 : null }
             </Space>
         </Col>

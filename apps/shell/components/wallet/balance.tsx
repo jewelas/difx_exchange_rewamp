@@ -19,13 +19,13 @@ export interface TopBalanceInterface{
 
 export function TopBalance({
     type, heading, amount, currency,
-    overviewHeading, overviewAmount, overviewCurrency, 
+    overviewHeading, overviewAmount, overviewCurrency, bgImage
     }: TopBalanceInterface) {
     return (
         <TopBalanceWrapper>
             <div className="total-balance-wrapper">
                 <div className="bg-img-abs-right">
-                    <img src={`/imgs/as.svg`} alt="" />
+                    <img src={`/imgs/${bgImage}.svg`} alt="" />
                 </div>
                 <Space split={<Divider type="vertical" />} size={20}>
                     <TotalBalance heading={heading} amount={amount} currency={currency} />

@@ -113,7 +113,7 @@ export const ComponentStyled = styled.div`
       display: flex;
       justify-content: space-between;
       .ant-typography{
-        font-size: 12px;
+        font-size: 11px;
       }
       .col-total{
         display: flex;

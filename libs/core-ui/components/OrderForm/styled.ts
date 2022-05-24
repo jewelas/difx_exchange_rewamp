@@ -75,7 +75,7 @@ export const ComponentStyled = styled.div`
       width: 100%;
       margin-top:10px;
   }
-  .ant-btn.ant-btn-primary.success{
+  .ant-btn.ant-btn-primary.success, .ant-btn.ant-btn-primary.danger{
     margin-top:1px !important;
   }
   .slider-group{

@@ -11,4 +11,9 @@ export interface StakingHistoryResponse extends BaseResponse {
   id: string;
   start_date: string;
   type: string;
+
+  payout_type: string;
+  payout_in: string;
+  staking_id: number;
+  timestamp: string;
 }

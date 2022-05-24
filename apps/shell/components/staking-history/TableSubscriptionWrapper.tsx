@@ -10,10 +10,7 @@ import isEmpty from "lodash/isEmpty";
 import moment, { Moment } from "moment";
 import { useEffect, useState } from "react";
 
-/* eslint-disable-next-line */
-export interface TableWrapperProps { }
-
-export function TableWrapper(props: TableWrapperProps) {
+export function TableSubscriptionWrapper() {
 
   const [data, setData] = useState([]);
   const [pageInfo, setPageInfo] = useState<Paging>(null);
@@ -172,4 +169,4 @@ export function TableWrapper(props: TableWrapperProps) {
   );
 }
 
-export default TableWrapper;
+export default TableSubscriptionWrapper;

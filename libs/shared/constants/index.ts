@@ -44,6 +44,7 @@ export const QUERY_KEY = {
   COUNTRIES: 'countries',
   PAIRS: 'pairs',
   TRADES: 'trades',
+  STAKING_HISTORY: 'staking_history',
   CHART_HISTORY: 'chart_history',
   CHART_CURRENT: 'chart_current',
   STAKING: 'STAKING',
@@ -84,6 +85,7 @@ export const API_ENDPOINT = {
   //   return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
   // },
   GET_ORDER_HISTORY: (symbol?: string) => `/api/v1/user/order-history${symbol ? `?symbol=${symbol}` : ''}`,
+  GET_STAKING_HISTORY: (startDate:string, endDate:string, page:number, limit:number) => `/api/v1/staking/history?end_date=${endDate}&page=${page}&limit=${limit}&start_date=${startDate}`,
   GET_CHART_HISTORY: (symbol: string, resolution: string = '5m', from: number, to: number) => {
     // const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`

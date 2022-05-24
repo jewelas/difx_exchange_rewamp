@@ -1,10 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Typography } from "@difx/core-ui";
-import React from "react";
 import t from "@difx/locale";
+import { getCurrentDateByDateString } from "@difx/utils";
+import { Button, DatePicker, Tabs } from 'antd';
+import isEmpty from "lodash/isEmpty";
+import moment, { Moment } from "moment";
 import { useRouter } from "next/router";
-import { Button, Tabs, DatePicker } from 'antd';
+import { useState } from "react";
 import AppLayout from "../index.page";
+import TableWrapper from "./../../components/staking-history/TableWrapper";
 import { PageStyled } from "./styled";
 
 /* eslint-disable-next-line */
@@ -12,9 +16,7 @@ export interface StakingHistoryPageProps {
 }
 
 export function StakingHistoryPage(props: StakingHistoryPageProps) {
-
   const { TabPane } = Tabs;
-  const { RangePicker } = DatePicker;
   const router = useRouter();
 
   return (
@@ -23,7 +25,7 @@ export function StakingHistoryPage(props: StakingHistoryPageProps) {
         <div className="head">
           <div className="left"><Typography fontWeight={600} fontSize={30} lineHeight={38}>{t("staking.staking-history")}</Typography></div>
           <div className="right">
-            <Button onClick={()=>{router.push('/staking')}} className="first">{t("staking.view-staking")}</Button>
+            <Button onClick={() => { router.push('/staking') }} className="first">{t("staking.view-staking")}</Button>
             <Button>{t("staking.export")}</Button>
           </div>
         </div>
@@ -34,17 +36,7 @@ export function StakingHistoryPage(props: StakingHistoryPageProps) {
               <TabPane tab="Interest" key="interest" />
             </Tabs>
           </div>
-          <div className="filter">
-            <div className="date">
-              <div className="date-title">{t("staking.date")}</div>
-              <RangePicker />
-            </div>
-            <Button className="first" type="primary">{t("staking.search")}</Button>
-            <Button>{t("staking.reset")}</Button>
-          </div>
-          <div className="table-group">
-
-          </div>
+          <TableWrapper />
         </div>
       </PageStyled>
     </AppLayout>

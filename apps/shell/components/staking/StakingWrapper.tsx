@@ -7,7 +7,6 @@ import { Balance, SocketEvent, Staking, useAuth, useHttpGet, useHttpGetByEvent, 
 import { Checkbox, Col, Input, Row } from 'antd';
 import { AxiosResponse } from "axios";
 import isEmpty from 'lodash/isEmpty';
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Card from '../../components/staking/Card';
 import ModalStacking from "../../components/staking/ModalStacking";

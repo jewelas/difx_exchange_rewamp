@@ -36,6 +36,7 @@ export * from "./type/PlaceOrder";
 export * from "./type/Order";
 export * from "./type/market";
 export * from "./type/Staking";
+export * from "./type/StakingHistory";
 export * from "./type/Currency";
 export * from "./type/Language";
 export * from "./type/ChartData";

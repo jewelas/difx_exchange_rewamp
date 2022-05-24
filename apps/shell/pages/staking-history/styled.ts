@@ -78,6 +78,31 @@ export const PageStyled = styled.div`
         }
       }
       .ant-btn.first{ margin-right: 10px;}
+      .ant-btn{
+        width: 100px;
+        height: 38px !important;
+      }
+    }
+    .table-group{
+      padding: 15px;
+      .ant-table-cell{
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 28.28px;
+      }
+      .cell.coin{
+        display:flex;
+        .name{
+          margin-top: 3px;
+          margin-left: 5px;
+        }
+      }
+      .ant-btn.active{
+        width: 100px;
+        height: 38px !important;
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
+        border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success} !important;
+      }
     }
   }
 `;

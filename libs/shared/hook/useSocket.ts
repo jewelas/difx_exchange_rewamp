@@ -16,14 +16,18 @@ export interface useSocketProps {
   event: SocketEvent;
   leave?: string | number;
   join?: string | number;
-
   onSuccess?: (data: any) => void;
 }
 
-export function useSocketByEvent({ event, leave, join, onSuccess }: useSocketProps) {
-  const send = () => {
+export function useSocketByEvent({ event, onSuccess }: useSocketProps) {
+  const [currentJoin, setCurrentJoin] = useState(null);
+  const send = ({ leave, join }: { leave?: string | number, join?: string | number }) => {
+    
     if (leave) socket.send('leave', leave);
-    if (join) socket.send('join', join);
+    if (join){
+      setCurrentJoin(join);
+      socket.send('join', join);
+    }
     socket.listen(SocketEvent[event], (data: any) => {
       onSuccess && onSuccess(data)
     });
@@ -31,7 +35,7 @@ export function useSocketByEvent({ event, leave, join, onSuccess }: useSocketPro
 
   useEffect(() => {
     return () => {
-      if (join) socket.send("leave", join);
+      if (currentJoin) socket.send("leave", currentJoin);
       socket.off(SocketEvent[event])
     }
   }, [])

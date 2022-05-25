@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Space, Table } from "antd";
-import React from "react";
+import { ASSETS_URL } from "@difx/constants";
+import t from "@difx/locale";
+import { Avatar, Button, Divider, Space, Table } from "antd";
+import Text from "antd/lib/typography/Text";
+import Link from "next/link";
 import { RecentTransactionsWrapper } from "./styled";
 
 
@@ -13,72 +16,54 @@ interface DataType {
     status: string;
   }
 
-export function SpotTransactions() {
+export function SpotTransactions({userBalance}) {
+
+
   const columns = [
     {
-      title: "Coin", key: "coin", dataIndex: 'coin',
+      title: "Coin", key: "currency", dataIndex: 'currency', width: 16 , 
+      render: (item: string) => {
+        return(
+          <>
+            <Space>
+              <Avatar shape="square" size={22} src={`${ASSETS_URL}${item.toLowerCase()}.png`}/>
+              <Text>{item}</Text> 
+            </Space>
+          </> 
+        )
+      }
     },
     {
-      title: "Amount", key: "amount", dataIndex: 'amount',
+      title: "Amount", key: "amount", dataIndex: 'amount', width: 16
     },
     {
-      title: "Type",
-      key: "type",
-      dataIndex: 'type',
-    },
-    { title: "Date", dataIndex: "date", key: "date"},
-    {
-      title: "Chart",
-      key: "date",
-      dataIndex: "date"
+      title: "InOrder", key: "inorder", dataIndex: 'inorder', width: 16
     },
     {
-      title: "Status", key: "status", align: "right" as const,
-      render: () => (
-        <Space size="middle">
-            <Button
-              type="text"
-              className="ant-btn-success"
-            >
-              Completed
-            </Button>
-        </Space>
-      )
+      title: "Total", key: "total", dataIndex: 'total', width: 16
     },
-  ];
+    {
+      title: "", key: "button-group", align: "right" as const, width: 36,
+      render: (item: string) => {
+        return(
+          <>
+            <Space split={<Divider type="vertical" className="table-btn-divider"/>} className="wallet-btn-group">
+              <Link href="/wallet/deposit"><Button  type="link" className="deposit-link">{t("wallet.deposit")}</Button></Link>
+              <Link href="/wallet/withdraw"><Button type="link">{t("wallet.withdraw")}</Button></Link>
+              <Button type="link">{t("wallet.transfer")}</Button>
+            </Space>
+          </> 
+        )
+      }
+    },
 
-  const data: DataType[] = [
-    {
-      key: '1',
-      coin: 'John Brown',
-      amount: 32,
-      type: 'New York No. 1 Lake Park',
-      date: "2022-02-22",
-      status: "Completed"
-    },
-    {
-      key: '2',
-      coin: 'John Brown',
-      amount: 32,
-      type: 'New York No. 1 Lake Park',
-      date: "2022-02-22",
-      status: "Completed"
-    },
-    {
-      key: '3',
-      coin: 'John Brown',
-      amount: 32,
-      type: 'New York No. 1 Lake Park',
-      date: "2022-02-22",
-      status: "Completed"
-    },
   ];
 
   return (
     <RecentTransactionsWrapper>
       <Table
       columns={columns}
-      dataSource={data}
+      dataSource={userBalance}
       pagination={{ position: ['bottomCenter'] }}
       className="common-table"
       />

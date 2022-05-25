@@ -589,6 +589,9 @@ const GlobalStyles = createGlobalStyle`
     .ant-divider-vertical {
       height: 2.9em !important;
     }
+    .table-btn-divider.ant-divider-vertical {
+      height: 1.9em !important;
+    }
 
 `;
 

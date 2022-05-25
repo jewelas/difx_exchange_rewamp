@@ -1,16 +1,31 @@
 import React from "react";
-import { Button, Col, Layout, Row } from 'antd';
-import { Icon } from "@difx/core-ui";
+import { Layout} from 'antd';
 import { t } from "i18next";
 import TopBalance from "../../../components/wallet/balance";
 import AccountCards from "../../../components/wallet/card";
 import RecentTransactions from "../../../components/wallet/recentTransactions";
 import WalletLayout from "../index.page";
 import WalletFilters from "../../../components/wallet/filters";
+import { useBalance } from "@difx/shared";
 
 const { Content } = Layout;
 
 export function OverviewPage() {
+
+  const { 
+    overviewBalanceUSD,
+    overviewBalanceBTC,
+    spotBalanceUSD,
+    spotBalanceBTC,
+    futureBalanceUSD,
+    futureBalanceBTC,
+    rewardsBalanceUSD,
+    rewardsBalanceBTC,
+    earnBalaceUSD,
+    earnBalaceBTC 
+  } = useBalance()
+  
+
   return (
     <WalletLayout>
         <Layout style={{ padding: '24px 24px 0' }}>
@@ -19,8 +34,22 @@ export function OverviewPage() {
                 <p>{t("wallet.overview_para")}</p>
             </div>
             <Content>
-            <TopBalance type="overview" heading="Overview Balance" amount="0.00" currency="0.00" overviewHeading={null} overviewAmount={null} overviewCurrency={null} bgImage={null} />
-            <AccountCards />
+            <TopBalance 
+              type="overview" 
+              heading="Overview Balance" 
+              amount={overviewBalanceBTC}
+              currency={overviewBalanceUSD}
+            />
+            <AccountCards 
+              spotBalanceUSD={spotBalanceUSD}
+              spotBalanceBTC={spotBalanceBTC}
+              futureBalanceUSD={futureBalanceUSD}
+              futureBalanceBTC={futureBalanceBTC}
+              rewardsBalanceUSD={rewardsBalanceUSD}
+              rewardsBalanceBTC={rewardsBalanceBTC}
+              earnBalaceUSD={earnBalaceUSD}
+              earnBalaceBTC= {earnBalaceBTC }
+            />
             <WalletFilters overviewContent="overview" />
             <RecentTransactions />
             </Content>

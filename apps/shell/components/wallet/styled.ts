@@ -163,6 +163,18 @@ const RecentTransactionsWrapper = styled.div`
             margin-bottom: 0px;
         }
     }
+    .anchor-link{
+        color: ${({theme}) => theme.fontColor.muted} !important;
+    }
+    .recent-transactions-table{
+        padding: 0px 50px !important;
+    }
+    .ant-btn{
+        border: none !important;;
+    }
+    .deposit-link{
+        color: ${({theme}) => theme.color.success} !important;
+    }
 `
 
 export {RecentTransactionsWrapper, SidebarWrapper, TopBalanceWrapper, AccountCardWrapper}

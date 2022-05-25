@@ -56,7 +56,8 @@ export const QUERY_KEY = {
   AVAILABLE_LANGUAGES: 'available_languages',
   CURRENCIES: 'currencies',
   MARKET_CURRENT_PRICE: (coin: string) => `market_current_price_${coin}`,
-  WALLET_OVERVIEW: 'recent_transactions'
+  WALLET_OVERVIEW: 'recent_transactions',
+  RECENT_TRANSACTIONS: 'recent_transactions',
 }
 
 export const ASSETS_URL = "https://media.difx.com/"
@@ -122,5 +123,7 @@ export const API_ENDPOINT = {
   GET_CURRENCIES: '/api/v1/market/coins',
   PREVIEW_CURRENCY: '/api/v1/market/preview-currency',
   GET_MARKET_COIN_PRICE: (coin: any) => `/api/v1/market/coin-price?coin=${coin}`,
-  GET_WALLET_OVERVIEW: '/api/v1/wallet/overview'
+  GET_WALLET_OVERVIEW: '/api/v1/wallet/overview',
+  GET_SPOT_OVERVIEW: '/api/v1/wallet/spot-overview',
+  GET_TRANSACTION_LIST: (page: number, limit: number) => `/api/v1/wallet/transaction?page=${page}&limit=${limit}`
 }

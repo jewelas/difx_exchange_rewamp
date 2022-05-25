@@ -6,7 +6,7 @@ function Icon({
   height = 14,
   useDarkMode,
   useDarkModeFor,
-  fill = "#262626",
+  fill = "#9AA5B4",
 }: IconProps) {
   return (
     <Layout fill={fill} useDarkMode={useDarkMode} useDarkModeFor={useDarkModeFor}>

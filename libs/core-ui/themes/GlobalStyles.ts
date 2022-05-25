@@ -48,10 +48,10 @@ const GlobalStyles = createGlobalStyle`
       padding:0 30px
     }
     .ant-table .ant-table-thead th{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;padding:15px 0;font-weight:500;font-size:16px;background:${({ theme }: { theme: ThemeInterface }) => theme.table.head} !important}
-    .ant-table .ant-table-thead th:first-child{
+    .ant-table .ant-table-thead th:first-child, .ant-table .ant-table-tbody td:first-child{
       padding-left: 20px;
     }
-    .ant-table .ant-table-thead th:last-child{
+    .ant-table .ant-table-thead th:last-child, .ant-table .ant-table-tbody td:last-child{
       padding-right: 20px;
     }
     .ant-table-measure-row td{border-bottom:none !important}
@@ -108,6 +108,15 @@ const GlobalStyles = createGlobalStyle`
             opacity: 0.9;
           }
         }
+      }
+      &.ant-btn-dangerous{
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
+      }
+      &.ant-btn-success{
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
+      }
+      &.ant-btn-info{
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.warningColor} !important;
       }
       &.dangerOutline{
         background: transparent !important;
@@ -168,14 +177,32 @@ const GlobalStyles = createGlobalStyle`
     .ant-btn-link{
       &.anchor-link{padding:0px;height:auto !important;display: flex;
     align-items: center;
-    gap: 10px;border:none !important}
+    gap: 5px;border:none !important}
     &.anchor-link:hover{
       border: transparent !important;
     }
     }
+    .ant-btn-ghost{
+      border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.btnSecondary} !important;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.color.btnSecondary} !important;
+    }
 
     .ant-btn-lg{
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.large} !important;
+    }
+    .round-light-primary-btn{
+      display: flex !important;
+      align-items: center;
+      border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round} !important;
+      &>div{
+        display: flex;
+      }
+      span{
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+        font-weight: ${({ theme }: { theme: ThemeInterface }) => theme.fontWeight.bold} !important;
+        margin-left: 10px;
+      }
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primaryLight} !important;
     }
 
     .ant-btn-text{
@@ -557,6 +584,10 @@ const GlobalStyles = createGlobalStyle`
     /* Firefox */
     input[type=number] {
       -moz-appearance: textfield;
+    }
+
+    .ant-divider-vertical {
+      height: 2.9em !important;
     }
 
 `;

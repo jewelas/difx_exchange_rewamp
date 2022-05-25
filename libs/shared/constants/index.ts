@@ -32,7 +32,7 @@ export const THEME = {
 
 export type EXCHANGE_LAYOUT = 'default' | 'compact' | 'pro'
 
-export const DEFAULT_PAIR = "DIFXUSDT";
+export const DEFAULT_PAIR = "LTCUSDT";
 
 export const PAIRS = {
   INITIALPAIR: 'BTCUSDT',
@@ -68,6 +68,8 @@ export const REFETCH = {
 
 export const STORE_KEY = {
   FAVORITE_PAIRS: 'favoritePairs',
+  FAVORITE_SPOT_PAIRS: 'favoriteSpotPairs',
+  FAVORITE_FUTURE_PAIRS: 'favoriteFuturePairs',
   LAST_PAIR: 'lastPair',
   EXCHANGE_STYLE: 'exchangeStyle'
 }
@@ -88,7 +90,6 @@ export const API_ENDPOINT = {
     return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
   },
   GET_CHART_CURRENT: (symbol: string, resolution: string = '5m') => {
-    const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view-current?symbol=${symbol}&resolution=${resolution}`
   },
   GET_BALANCE: '/api/v1/user/spot-balance',

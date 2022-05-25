@@ -14,7 +14,8 @@ const ContentStyled = styled.div`
   width: 100%;
   /* max-width: 1600px; */
   margin: 0 auto;
-  background: ${({ theme }) => theme.background.primary};
+  /* padding-top: 20px; */
+  /* background: ${({ theme }) => theme.background.primary}; */
 `;
 
 export interface BaseLayoutProps {

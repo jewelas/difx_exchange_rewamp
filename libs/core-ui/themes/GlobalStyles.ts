@@ -89,7 +89,7 @@ const GlobalStyles = createGlobalStyle`
         background: transparent !important;
         color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
         border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
-        &:hover, &:focus, &:active{
+        &:hover {
           background: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
           border-color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor} !important;
           color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;
@@ -122,7 +122,7 @@ const GlobalStyles = createGlobalStyle`
         background: transparent !important;
         color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
         border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
-        &:hover, &:focus, &:active{
+        &:hover {
           background: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
           border-color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor} !important;
           color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.button} !important;

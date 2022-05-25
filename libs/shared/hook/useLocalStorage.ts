@@ -9,7 +9,6 @@ import { localStorageAtom } from "../atom/index";
  * @returns
  */
 export function useLocalStorage(key: string, defaultValue?: any) {
-
     const value = useAtomValue(localStorageAtom);
     const setValue = useUpdateAtom(localStorageAtom);
 

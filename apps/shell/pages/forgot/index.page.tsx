@@ -40,20 +40,24 @@ export function ForgotPage(props: ForgotPageProps) {
                 <ResetPassForm email={email} phoneNumber={phoneNumber} token={token} />
               </TabPane>
             </Tabs>
-
-            <div className="left-right">
-              <div className="left">
-                <Typography level="B1">
-                  {t("signin.new_account")}{" "}
-                  <Link href="/register">{t("common.register")}</Link>
-                </Typography>
-              </div>
-              <div className="right">
-                <Typography level="B1">
-                  <Link href="/login">{t("common.have_acc")}</Link>
-                </Typography>
-              </div>
-            </div>
+            {
+              tab === "forgot" ?
+                <div className="left-right">
+                  <div className="left">
+                    <Typography level="B1">
+                      {t("signin.new_account")}{" "}
+                      <Link href="/register">{t("common.register")}</Link>
+                    </Typography>
+                  </div>
+                  <div className="right">
+                    <Typography level="B1">
+                      <Link href="/login">{t("common.have_acc")}</Link>
+                    </Typography>
+                  </div>
+                </div>
+              :
+                null
+              }
           </Col>
         </Row>
       </PageStyled>

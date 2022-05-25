@@ -4,7 +4,7 @@ export const PageStyled = styled.div`
   background: ${({ theme }) => theme.background.space};
   margin-top: -20px;
   &.shrink{
-    padding: 0 100px;
+    padding: 20px 100px 0px 100px;
   }
 
   .react-grid-item {

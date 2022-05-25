@@ -13,6 +13,9 @@ export interface TrendChartProps {
   data: number[];
   backgroundColor?: string;
   lineColor?: string;
+  width?: number;
+  height?: number;
+  gradientHeight?: number;
 }
 
 // https://stackoverflow.com/questions/21646738/convert-hex-to-rgba
@@ -27,7 +30,7 @@ function hexToRGB(hex: string, alpha: string) {
 }
 
 const DEFAULT_COLOR = '#faae32';
-export function TrendChart({ label, data, backgroundColor = DEFAULT_COLOR, lineColor = DEFAULT_COLOR }: TrendChartProps) {
+export function TrendChart({ gradientHeight, width = 100, height = 50, label, data, backgroundColor = DEFAULT_COLOR, lineColor = DEFAULT_COLOR }: TrendChartProps) {
   const [chartData, setChartData] = useState<any>({
     datasets: [],
   });
@@ -77,12 +80,12 @@ export function TrendChart({ label, data, backgroundColor = DEFAULT_COLOR, lineC
     if (!chart) {
       return;
     }
-    const gradient = chart.ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, hexToRGB(backgroundColor, '0.5'));
-    gradient.addColorStop(0.25, hexToRGB(backgroundColor, '0.35'));
-    gradient.addColorStop(0.5, hexToRGB(backgroundColor, '0.25'));
+    const gradient = chart.ctx.createLinearGradient(0, 0, 0, gradientHeight || height);
+    gradient.addColorStop(0, hexToRGB(backgroundColor, '0.85'));
+    gradient.addColorStop(0.25, hexToRGB(backgroundColor, '0.75'));
+    gradient.addColorStop(0.5, hexToRGB(backgroundColor, '0.5'));
     gradient.addColorStop(0.75, hexToRGB(backgroundColor, '0.15'));
-    gradient.addColorStop(1, 'rgba(0,0,0,0)');
+    gradient.addColorStop(1, hexToRGB(backgroundColor, '0.02'));
 
     const buildData = {
       labels: data,
@@ -102,7 +105,9 @@ export function TrendChart({ label, data, backgroundColor = DEFAULT_COLOR, lineC
   }, []);
 
   return (
-    <Line ref={chartRef} options={options} data={chartData} />
+    <div style={{ width, height }}>
+      <Line ref={chartRef} options={options} data={chartData} />
+    </div>
   )
 
 }

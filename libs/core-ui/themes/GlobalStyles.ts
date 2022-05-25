@@ -322,6 +322,9 @@ const GlobalStyles = createGlobalStyle`
           .ant-table-cell-scrollbar{
             box-shadow: unset;
           }
+          .ant-table-tbody .ant-table-cell span{
+            display: inline-block !important;
+          }
           .ant-table-thead{
             th{
               background: transparent !important;

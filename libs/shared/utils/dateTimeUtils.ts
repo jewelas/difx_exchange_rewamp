@@ -14,7 +14,7 @@ export function getCurrentTimeByDateString(dateString: string, excludeSec:boolea
 }
 
 // e.g:  22-05-24
-export function getCurrentDateByDateString(dateString: string): string {
+export function getCurrentDateByDateString(dateString:string): string {
   const options: any = {
     year: "2-digit",
     month: "2-digit",
@@ -26,7 +26,7 @@ export function getCurrentDateByDateString(dateString: string): string {
 }
 
 // e.g:  5/24/2022, 9:50:34 AM
-export function getCurrentDateTimeByDateString(dateString: string): string {
+export function getCurrentDateTimeByDateString(dateString:string): string {
   const localDate = new Date(dateString);
   return localDate.toLocaleString();
 }

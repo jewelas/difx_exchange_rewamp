@@ -82,7 +82,6 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
   )
 
   const PlaceOrder = (orderType: OrderType) => {
-
     const DefaultLayout = () => (
       <div className="place-order-group">
         <div className="bid">

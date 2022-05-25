@@ -21,12 +21,12 @@ export function useBalance() {
 
   // Update balance from Socket
   const onReceivedWSData = (balanceData: any) => {
-    console.log(balanceData,'balanceDatabalanceData')
     if (balanceData) {
       const index = userBalance.findIndex(e => e.currency === balanceData.currency);
       if (index !== -1) {
         userBalance[index].amount += balanceData.change;
-        setUserBalance(userBalance);
+        // Update in another thread
+        setTimeout(()=>{setUserBalance(userBalance)},500)
       }
     }
   }

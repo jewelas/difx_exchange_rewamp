@@ -142,6 +142,9 @@ export const StyledHeader = styled(Layout.Header)`
       height: 100%;
       &.icon{
         margin-top:-3px !important;
+        svg{
+          width: 15px;
+        }
       }
       button:not(.ant-btn-icon-only) {
       }

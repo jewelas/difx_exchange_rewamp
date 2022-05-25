@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 export const PageStyled = styled.div`
   background: ${({ theme }) => theme.background.space};
-  margin-top: -22px;
+  margin-top: -3px;
   &.shrink{
+    margin-top: -22px !important;
     padding: 20px 100px 0px 100px;
   }
 

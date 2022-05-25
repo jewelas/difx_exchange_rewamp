@@ -233,7 +233,7 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
     <TableWraperStyled ref={componentRef} style={layout === 'compact' ? { width: '500px' } : {}}>
       <Input onKeyUp={onSearch} placeholder="Search" prefix={<SearchOutlined />} />
       <div className="table-group">
-        <div className="head">
+        <div className="head category">
           <div onClick={() => { setTab('favorite') }} className={tab}><Icon.FavoriteIcon useDarkMode /></div>
           <div onClick={() => { setTab('all') }} className={clsx('tab', tab)}><Typography level='B2'>All</Typography></div>
           {

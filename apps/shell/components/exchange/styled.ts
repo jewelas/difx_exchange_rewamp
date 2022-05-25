@@ -99,6 +99,12 @@ export const TableWraperStyled = styled.div`
         .B2{
           font-size: 14px;
         }
+        &.category{
+          .B2{
+            font-size: 12px;
+            font-weight: 500;
+          }
+        }
         display: flex;
         margin: 25px 0 5px 0;
         text-transform: capitalize;
@@ -450,14 +456,11 @@ export const ChartHeadStyled = styled.div`
 export const PlaceOrderWraperStyled = styled.div`
     padding: 10px;
     .asset-group{
-      margin-top: -5px;
+        margin-top:7px;
         .asset-title{
           margin-top:5px;
           margin-left:5px;
           margin-bottom:2px;
-          .ant-typography{
-            font-size: 13px;
-          }
         }
         .asset-content{
           display:flex;

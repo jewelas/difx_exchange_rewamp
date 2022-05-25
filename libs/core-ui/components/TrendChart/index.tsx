@@ -70,15 +70,14 @@ export function TrendChart({ label, data, backgroundColor = DEFAULT_COLOR, lineC
 
   };
 
-
-  const chart2Ref = useRef<any>(null);
+  const chartRef = useRef<any>(null);
 
   useEffect(() => {
-    const chart2 = chart2Ref.current;
-    if (!chart2) {
+    const chart = chartRef.current;
+    if (!chart) {
       return;
     }
-    const gradient2 = chart2.ctx.createLinearGradient(0, 0, 0, 400);
+    const gradient2 = chart.ctx.createLinearGradient(0, 0, 0, 400);
     gradient2.addColorStop(0, hexToRGB(backgroundColor, '0.5'));
     gradient2.addColorStop(0.25, hexToRGB(backgroundColor, '0.35'));
     gradient2.addColorStop(0.5, hexToRGB(backgroundColor, '0.25'));
@@ -103,7 +102,7 @@ export function TrendChart({ label, data, backgroundColor = DEFAULT_COLOR, lineC
   }, []);
 
   return (
-    <Line ref={chart2Ref} options={options} data={chartData} />
+    <Line ref={chartRef} options={options} data={chartData} />
   )
 
 }

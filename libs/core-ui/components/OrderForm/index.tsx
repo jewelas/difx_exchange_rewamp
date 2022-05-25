@@ -254,7 +254,7 @@ export function OrderForm({layout='default', canDeposit = true, isLoading = true
           <Form.Item
             name={`${side}.total`}>
             <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Total"
-              prefix={<Typography className="prefix">Price</Typography>}
+              prefix={<Typography className="prefix">Total</Typography>}
               suffix={quoteCurrency} />
           </Form.Item>
           <Button

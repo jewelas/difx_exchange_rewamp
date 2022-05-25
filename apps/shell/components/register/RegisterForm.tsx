@@ -24,6 +24,7 @@ import { FormStyled } from "../../pages/register/styled";
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import VerifyOTP from "./VerifyOTP";
 import { useAtom } from "jotai";
+import Link from "next/link";
 
 /* eslint-disable-next-line */
 export interface RegisterFormComponentProps {}
@@ -285,6 +286,11 @@ export function RegisterFormComponent(props: RegisterFormComponentProps) {
         >
           Sign Up
         </Button>
+        <div className="muted-link">
+          <Typography level="B1">
+            <Link href="/login">{t("common.have_acc")}</Link>
+          </Typography>
+        </div>
       </Form>
     </FormStyled>
   );

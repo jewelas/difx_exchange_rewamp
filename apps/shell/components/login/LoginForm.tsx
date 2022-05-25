@@ -101,7 +101,7 @@ export function LoginForm(props: LoginFormProps) {
     }
   };
 
-  const onError = useCallback((error: AxiosError) => {
+  const onError = useCallback(async(error: AxiosError) => {
     setIsLoading(false)
     const { response } = error;
     const { statusText, data } = response.data;
@@ -115,7 +115,7 @@ export function LoginForm(props: LoginFormProps) {
             email: fieldsValue.email
           }
         }
-        localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+        await localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
         router.push("/verify-ip")
         break
       case "TFA_REQUIRED":
@@ -125,7 +125,8 @@ export function LoginForm(props: LoginFormProps) {
             session_id: data.session_id
           }
         }
-        localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+
+        await localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
         router.push("/two-factor")
         break
       default:

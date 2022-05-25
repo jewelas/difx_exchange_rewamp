@@ -16,7 +16,7 @@ useGuestAuth.isFetchingToken = false;
 export function useGuestAuth() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [permissions, setPermissions] = useAtom(permissionsAtom);
-  const [, setAnonymousToken] = useAtom(anonymousTokenAtom);
+  const [anonymousToken, setAnonymousToken] = useAtom(anonymousTokenAtom);
   const [config, setConfig] = useAtom(configAtom);
   const { getFingerprint } = useFingerprint() 
 
@@ -87,5 +87,5 @@ export function useGuestAuth() {
     }
   };
 
-  return {permissions, config, refreshAnonymousToken};
+  return {anonymousToken, permissions, config, refreshAnonymousToken};
 }

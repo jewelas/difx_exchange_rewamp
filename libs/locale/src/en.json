@@ -7,7 +7,8 @@
     "submit": "Submit",
     "have_acc": "Already have an account?",
     "search": "Search",
-    "info": "Info"
+    "info": "Info",
+    "hide_small_balances": "Hide Small Balances"
   },
   "staking":{
     "view-staking":"View Staking",
@@ -66,7 +67,7 @@
     "check_correct_url": "Please check that you are visiting the correct URL"
   },
   "2fa": {
-    "enter_code": "Enter two factor authentication code!",
+    "enter_code": "Enter two factor authentication code",
     "2fa": "Two Factor Verification",
     "verify_success": "Verification successfully!"
   },
@@ -117,5 +118,26 @@
     "top_volume": "Top Volume",
     "new_listing": "New Listing",
     "futures": "Futures"
+  },
+  "wallet": {
+    "overview": "Overview",
+    "spot": "Spot",
+    "futures": "Futures",
+    "earn": "Earn",
+    "transaction_history": "Transaction History",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "help_support": "Help & Support",
+    "transfer": "Transfer",
+    "total_balance": "Total Balance",
+    "spot_balance" : "Spot Balance",
+    "overview_para": "Whole data about your wallet here",
+    "pl_analysis": "P/L Analysis",
+    "yesterday_pl": "Yesterday's PnL",
+    "overview_pl": "Overview PnL",
+    "stake_now": "Stake Now",
+    "history": "History",
+    "use_difx_token": "Use DIFX token to enjoy 20 % off trading fees",
+    "use_difx_point": "Use DIFX point for trading fees"
   }
 }

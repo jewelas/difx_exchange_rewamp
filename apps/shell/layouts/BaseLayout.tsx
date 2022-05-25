@@ -12,9 +12,9 @@ const LayoutStyled = styled(Layout)`
 
 const ContentStyled = styled.div`
   width: 100%;
-  max-width: 1600px;
+  /* max-width: 1600px; */
   margin: 0 auto;
-  padding-top: 20px;
+  /* padding-top: 20px; */
   /* background: ${({ theme }) => theme.background.primary}; */
 `;
 

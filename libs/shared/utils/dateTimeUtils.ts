@@ -1,6 +1,6 @@
 
 // e.g:  09:51:32
-export function getCurrentTimeByDateString(dateString, excludeSec:boolean = false): string {
+export function getCurrentTimeByDateString(dateString: string, excludeSec:boolean = false): string {
 
   let options:any = {};
   if(excludeSec){

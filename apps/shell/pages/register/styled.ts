@@ -174,6 +174,13 @@ export const PageStyled = styled.div`
   .ant-tabs .ant-tabs-ink-bar{
     background: none !important;
   }
+  .muted-link{
+    margin-top: 10px;
+    a{
+      color: ${({ theme }) => theme.fontColor.muted} !important;
+      text-decoration: underline;
+    }
+  }
 `;
 
 export const EmailVerifyContainer = styled.div`

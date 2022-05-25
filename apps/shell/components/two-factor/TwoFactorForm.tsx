@@ -5,7 +5,7 @@ import {
   useAuth,
   useHttpPost
 } from "@difx/shared";
-import { OTPBox } from "@difx/core-ui";
+import { OTPBox, Icon } from "@difx/core-ui";
 import { Button, Form, Input } from "antd";
 import { FormInstance } from "antd/es/form";
 import { AxiosError, AxiosResponse } from "axios";
@@ -18,6 +18,8 @@ export function TwoFactorForm({sessionId}) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const formRef = useRef<FormInstance>(null);
   const [otpValue, setOtpValue] = useState('')
+  const [timer, setTimer] = useState(30)
+  const [resend, setResend] = useState(false)
 
   const { updateSession } = useAuth();
 
@@ -75,6 +77,11 @@ export function TwoFactorForm({sessionId}) {
     otp.length === 6 ? setHasFieldError(false) : setHasFieldError(true)
   }
 
+  const pasteCode = async() => {
+    const text = await navigator.clipboard.readText();
+    setOtpValue(text)
+  }
+
   return (
     <Form
       ref={formRef}
@@ -84,6 +91,12 @@ export function TwoFactorForm({sessionId}) {
     >
       <div className="content">
         <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
+        <div className="botton-box">
+          <div className="paste-btn" onClick={()=>pasteCode()}>
+            {t("forgot.paste")}
+            <Icon.PasteIcon fill={`${({theme}) => theme.color.primary}`}/>
+          </div>
+        </div>
         <Button
           htmlType="submit"
           disabled={isLoading || hasFieldError}

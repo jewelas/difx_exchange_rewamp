@@ -37,7 +37,7 @@ export function TwoFactorPage(props: TwoFactorProps) {
           <Col className="col-group" xs={24} sm={20} md={16} lg={14} xl={10}>
             <Typography level="H4">{t("2fa.2fa")}</Typography>
             <Typography level="B2">
-              Enter the 2FA Code
+              {t("2fa.enter_code")}
             </Typography>
             <div className="form">
               <TwoFactorForm sessionId={sessionId}/>

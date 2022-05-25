@@ -88,7 +88,15 @@ const Template: Story = (args) => {
     CoinIcon,
     HeadTagIcon,
     NoDataIcon,
-    CancelOrderIcon
+    CancelOrderIcon,
+    OverviewIcon,
+    SpotIcon,
+    FutureIcon,
+    HistoryIcon,
+    SupportIcon,
+    GiftIcon,
+    BoardIcon,
+    PieChartIcon
   } = Icon;
 
   const renderIcon = (iconName: string, iconComponent: JSX.Element) => {
@@ -196,6 +204,14 @@ const Template: Story = (args) => {
         {renderIcon("HeadTagIcon", <HeadTagIcon {...iconArgs} />)}
         {renderIcon("NoDataIcon", <NoDataIcon {...iconArgs} />)}
         {renderIcon("CancelOrderIcon", <CancelOrderIcon {...iconArgs} />)}
+        {renderIcon("OverviewIcon", <OverviewIcon {...iconArgs} />)}
+        {renderIcon("SpotIcon", <SpotIcon {...iconArgs} />)}
+        {renderIcon("FutureIcon", <FutureIcon {...iconArgs} />)}
+        {renderIcon("HistoryIcon", <HistoryIcon {...iconArgs} />)}
+        {renderIcon("SupportIcon", <SupportIcon {...iconArgs} />)}
+        {renderIcon("GiftIcon", <GiftIcon {...iconArgs} />)}
+        {renderIcon("BoardIcon", <BoardIcon {...iconArgs} />)}
+        {renderIcon("PieChartIcon", <PieChartIcon {...iconArgs} />)}
       </div>
     </div>
   );

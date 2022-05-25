@@ -7,9 +7,11 @@ import { useEffect, useRef, useState } from 'react';
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from '../../../shared/constants';
 import { useTheme, useHttpGetByEvent, useAPI, useSocket, useSocketProps, SocketEvent, ChartData } from './../../../shared';
+import { layoutTypeAtom } from "../../../shared/atom"
 import { rect, circle } from './shapeDefinition';
 import { ChartStyled, GridStyled, IndicatorStyled, MainStyled } from './styled';
 import BackgroundIcon from './BackgroundIcon';
+import { useAtomValue } from 'jotai';
 
 
 export interface ChartDataType {
@@ -54,8 +56,17 @@ function Chart({
   const [currentChartData, setCurrentChartData] = useState<ChartData>();
   const [dataLoadedTillTimestamp, setDataLoadedTillTimestamp] = useState<number | null>(null)
   const [loadMore, setLoadMore] = useState<boolean>(true)
+  const layoutType = useAtomValue(layoutTypeAtom)
 
   const {API} = useAPI()
+
+  const timeMap: any = {
+    "5m": 300000,
+    "15m": 900000,
+    "30m": 1800000,
+    "1h": 3600000,
+    "30d": 86400000
+  }
 
   const calcFormTimestamp = (type: string, to: number) => {
     // 1hr in milliseconds
@@ -146,43 +157,18 @@ function Chart({
   useEffect(()=>{
     if(data){
       const dataStructure: ChartData = {
-        timestamp: data[0],
+        timestamp: (data[0] * 1000),
         open: data[1],
         close: data[2],
         high: data[3],
         low: data[4],
         volume: data[5],
       }
-      setCurrentChartData(dataStructure)
+      if(lineChart){
+        lineChart.updateData(dataStructure)
+      }
     }
   },[data])
-
-
-  // const getChartHistorySuccess = (response: AxiosResponse) => {
-  //   const { data: resData } = response
-  //   if (resData) setChartHistory(resData);
-  // }
-
-  // const { mutate: getChartHistory } = useHttpGetByEvent<null, any>({ 
-  //   onSuccess: getChartHistorySuccess,
-  //   endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution)
-  // });
-
-  // const { data: chartCurrent } = useHttpGet<null, any>(
-  //   QUERY_KEY.CHART_CURRENT, 
-  //   `${API_ENDPOINT.GET_CHART_CURRENT(pair, currentResolution)}`,
-  //   { refetchInterval: REFETCH._3SECS }
-  // );
-
-  // useEffect(() => {
-  //   if (lineChart) {
-  //     // getChartHistory(null);
-  //     console.log(API)
-  //     async() => {
-  //       const res = await API.get(API_ENDPOINT.GET_CHART_HISTORY(pair, currentResolution))
-  //     }
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (lineChart) {
@@ -196,15 +182,6 @@ function Chart({
     }
   }, [lineChart, chartHistory]);
 
-  useEffect(() => {
-    if (lineChart && chartHistory && currentChartData) {
-      if (currentChartData && !chartHistory.find(e => e.timestamp === currentChartData.timestamp)) {
-        const prevdata = lineChart.getDataList()
-        prevdata.push(currentChartData)
-        lineChart.applyNewData(prevdata)
-      }
-    }
-  }, [chartHistory, currentChartData, lineChart]);
 
   useEffect(() => {
     if (lineChart && currentChartType) {
@@ -235,6 +212,16 @@ function Chart({
       }
     }
   }, [mainIndicator, lineChart]);
+
+  useEffect(() => {
+    if(lineChart){
+      setTimeout(()=>{
+        if (chartContainerRef.current) chartContainerRef.current.style.height = '100%';
+        if (chartRef.current) chartRef.current.style.height = '100%';
+        lineChart.resize()
+      },500)
+    }
+  },[lineChart, layoutType])
 
   useEffect(()=>{
     if(subIndicatorSelected){
@@ -290,8 +277,8 @@ function Chart({
 
 
   const onExitFullScreen = () => {
-    if (chartContainerRef.current) chartContainerRef.current.style.height = '360px';
-    if (chartRef.current) chartRef.current.style.height = '360px';
+    if (chartContainerRef.current) chartContainerRef.current.style.height = '100%';
+    if (chartRef.current) chartRef.current.style.height = '100%';
     lineChart?.resize();
   }
 

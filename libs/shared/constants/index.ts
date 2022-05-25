@@ -32,7 +32,7 @@ export const THEME = {
 
 export type EXCHANGE_LAYOUT = 'default' | 'compact' | 'pro'
 
-export const DEFAULT_PAIR = "DIFXUSDT";
+export const DEFAULT_PAIR = "LTCUSDT";
 
 export const PAIRS = {
   INITIALPAIR: 'BTCUSDT',
@@ -55,7 +55,8 @@ export const QUERY_KEY = {
   CURRENCY_PAIRS: 'currency_pair',
   AVAILABLE_LANGUAGES: 'available_languages',
   CURRENCIES: 'currencies',
-  MARKET_CURRENT_PRICE: (coin: string) => `market_current_price_${coin}`
+  MARKET_CURRENT_PRICE: (coin: string) => `market_current_price_${coin}`,
+  WALLET_OVERVIEW: 'recent_transactions'
 }
 
 export const ASSETS_URL = "https://media.difx.com/"
@@ -67,6 +68,8 @@ export const REFETCH = {
 
 export const STORE_KEY = {
   FAVORITE_PAIRS: 'favoritePairs',
+  FAVORITE_SPOT_PAIRS: 'favoriteSpotPairs',
+  FAVORITE_FUTURE_PAIRS: 'favoriteFuturePairs',
   LAST_PAIR: 'lastPair',
   EXCHANGE_STYLE: 'exchangeStyle'
 }
@@ -87,7 +90,6 @@ export const API_ENDPOINT = {
     return `api/v1/chart/normal-view?symbol=${symbol}&resolution=${resolution || '5m'}&from=${from}&to=${to}`
   },
   GET_CHART_CURRENT: (symbol: string, resolution: string = '5m') => {
-    const { from, to } = calcChartDateRange(resolution);
     return `api/v1/chart/normal-view-current?symbol=${symbol}&resolution=${resolution}`
   },
   GET_BALANCE: '/api/v1/user/spot-balance',
@@ -120,4 +122,5 @@ export const API_ENDPOINT = {
   GET_CURRENCIES: '/api/v1/market/coins',
   PREVIEW_CURRENCY: '/api/v1/market/preview-currency',
   GET_MARKET_COIN_PRICE: (coin: any) => `/api/v1/market/coin-price?coin=${coin}`,
+  GET_WALLET_OVERVIEW: '/api/v1/wallet/overview'
 }

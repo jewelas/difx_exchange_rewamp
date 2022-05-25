@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "antd";
-import { useState } from "react";
 import SwitchIcon from "../Icon/SwitchIcon";
 import { Typography } from "../Typography";
 import { PairType } from "./../../../shared";
@@ -41,9 +40,7 @@ export function OrderBookHead({
             ?
             <div>
               <Typography level="text">{totalType === 'sum' ? `Sum` : `Total`}</Typography>
-              <div>
-                <Typography level="text">{totalType === 'sum' ? `(${pairInfo.currency1})` : `(${pairInfo.currency2})`}</Typography>
-              </div>
+              <Typography level="text">{totalType === 'sum' ? `(${pairInfo.currency1})` : `(${pairInfo.currency2})`}</Typography>
             </div>
             :
             <div>

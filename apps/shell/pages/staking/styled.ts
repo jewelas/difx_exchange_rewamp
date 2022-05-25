@@ -3,6 +3,7 @@ import { ThemeInterface } from "@difx/core-ui/themes";
 
 export const PageStyled = styled.div`
   background-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
+  margin-top: -20px;
   .head,.info,.body{
     .ant-col{
       margin: 0 auto;
@@ -85,7 +86,7 @@ export const PageStyled = styled.div`
           .bottom{
             display: flex;
             justify-content: space-around;
-            .ant-btn.ant-btn-primary.ant-btn-background-ghost{
+            .ant-btn:not([disabled]).ant-btn-primary.ant-btn-background-ghost{
               color: #fff !important;
             }
             .ant-btn{

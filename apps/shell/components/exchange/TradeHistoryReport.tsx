@@ -13,22 +13,23 @@ import { useEffect, useState } from 'react';
 export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {height?: number; pair: string, isSelectedPairOnly?: boolean }) {
 
   const { isLoggedIn } = useAuth();
-  // const headers = { headers: { 'x-access-token': token } }
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
-  const getOrderBookSuccess = (response: AxiosResponse<Array<Order>>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<{result: Array<Order>}>) => {
     const { data } = response;
-    if (data) {
-      for (const order of data) {
+    if (data && !isEmpty(data.result)) {
+      for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
           setTableData(tableData);
         }
       }
+    } else {
+      setTableData([]);
     }
   }
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, Array<Order>>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES() });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES() });
 
   useEffect(() => {
     if (isLoggedIn) {

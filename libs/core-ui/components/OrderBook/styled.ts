@@ -5,14 +5,14 @@ export const BarStyled = styled.div`
   z-index: 1;
   position: absolute;
   right: 0;
-  height: 30px;
+  height: 24px;
   &.ask {
     background: rgba(219, 83, 84, 0.2);
   }
   &.bid {
     background: rgba(33, 193, 152, 0.2);
   }
-  margin-top: -5px;
+  margin-top: -2px;
 `;
 
 export const ComponentStyled = styled.div`
@@ -25,6 +25,7 @@ export const ComponentStyled = styled.div`
     margin-top:-2px;
   }
   .com-title {
+    margin-bottom: -10px;
     padding-top: 10px;
     padding-left: 20px;
     border-bottom: ${({ theme }) => theme.border};
@@ -55,6 +56,7 @@ export const ComponentStyled = styled.div`
     }
   }
   .com-head {
+    margin-bottom: -8px;
     display: flex;
     justify-content: space-between;
     padding: 15px 15px 12px 10px;
@@ -76,6 +78,7 @@ export const ComponentStyled = styled.div`
     }
 
     .right {
+      margin-left: -18px;
       .ant-select {
         margin-top: -6px;
       }
@@ -94,6 +97,9 @@ export const ComponentStyled = styled.div`
     .head.compact{
       width: 100%;
       display:flex;
+      .left .t2{
+        margin-right:-12px;
+      }
       .left, .right{
         display: flex;
         flex-grow: 1;
@@ -109,9 +115,13 @@ export const ComponentStyled = styled.div`
       }
     }
     .table-head {
-      padding: 10px 15px 10px 20px;
+      padding: 5px 15px 0px 20px;
+      margin-bottom: -4px;
       display: flex;
       justify-content: space-between;
+      .ant-typography{
+        font-size: 11px;
+      }
       .col-total{
         display: flex;
         svg{
@@ -162,8 +172,8 @@ export const ComponentStyled = styled.div`
       .table-row {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 1px;
-        padding: 5px;
+        /* margin-bottom: 1px; */
+        padding: 2px;
         padding-left: 20px;
         padding-right: 15px;
         &:hover{
@@ -172,9 +182,10 @@ export const ComponentStyled = styled.div`
         }
         .ant-typography {
           z-index: 2;
+          font-size: 12px !important;
           &.price {
-            width: 70px;
-            max-width: 70px;
+            width: 50px;
+            max-width: 50px;
             overflow: hidden;
             overflow: hidden;
             white-space: nowrap;

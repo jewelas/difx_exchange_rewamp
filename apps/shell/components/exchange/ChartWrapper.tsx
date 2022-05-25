@@ -20,12 +20,12 @@ export function ChartWrapper({ pair }: { pair: string }) {
     if (resData) setChartHistory(resData);
   }
 
-  const { mutate: getChartHistory } = useHttpGetByEvent<null, any>({ onSuccess: getChartHistorySuccess, endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, resolution) });
+  // const { mutate: getChartHistory } = useHttpGetByEvent<null, any>({ onSuccess: getChartHistorySuccess, endpoint: API_ENDPOINT.GET_CHART_HISTORY(pair, resolution) });
   const { data: chartCurrent } = useHttpGet<null, any>(QUERY_KEY.CHART_CURRENT, `${API_ENDPOINT.GET_CHART_CURRENT(pair, resolution)}`, null);
 
-  useEffect(() => {
-    getChartHistory(null);
-  }, [resolution, pair]);
+  // useEffect(() => {
+  //   getChartHistory(null);
+  // }, [resolution, pair]);
 
 
   return (

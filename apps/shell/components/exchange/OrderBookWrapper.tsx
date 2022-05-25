@@ -28,7 +28,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
     if (data && data.result) {
       for (const order of data.result) {
         if (!openOrderData.find(e => e.id === order.id)) {
-          openOrderData.push(order);
+          openOrderData.push({ id: order.id, side: order.s === 0 ? 'bid' : 'ask', price: order.p });
           setOpenOrderData([...openOrderData]);
         }
       }
@@ -39,7 +39,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
 
   const { mutate: getOpenOrders } = useHttpGetByEvent<BaseRequest, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
   // const { data: openOrderData } = useHttpGetByEvent<BaseRequest, {result:Order[]}>(QUERY_KEY.OPEN_ORDERS, API_ENDPOINT.GET_ORDER_OPEN(), null);
-  const [openOrderData, setOpenOrderData] = useState<Order[]>([]);
+  const [openOrderData, setOpenOrderData] = useState<any[]>([]);
 
   const { isLoggedIn } = useAuth();
   useEffect(() => {
@@ -59,20 +59,17 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
   };
   const data = useSocket(param);
 
+
   // Get open order
   const openOrderSocketData = useSocket({ event: SocketEvent.user_orders });
-
-  let openOrder = [];
-  if (openOrderData && openOrderData) openOrder = openOrder.concat(openOrderData.map(e => {
-    if (e) return { id: e.id, side: e.s === 0 ? 'bid' : 'ask', price: e.p }
-  }));
-  if (openOrderSocketData) {
-    if (openOrderSocketData.q !== 0) {
-      openOrder.push({ id: openOrderSocketData.id, side: openOrderSocketData.s === 0 ? 'bid' : 'ask', price: openOrderSocketData.p });
-    } else {
-      openOrder = openOrder.filter(e => e.id !== openOrderSocketData.id)
+  useEffect(()=>{
+  if (openOrderSocketData){
+    if (!openOrderData.find(e => e.id === openOrderSocketData.id)) {
+      openOrderData.push({ id: openOrderSocketData.id, side: openOrderSocketData.s === 0 ? 'bid' : 'ask', price: openOrderSocketData.p });
+      setOpenOrderData([...openOrderData]);
     }
   }
+  },[openOrderSocketData]);
 
   OrderBookWrapper.previousPair = pairInfo ? pairInfo.symbol : null;
 
@@ -135,7 +132,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
       currentPrice={currentPrice}
       bids={bids}
       asks={asks}
-      priceOpenOrders={Array.from(new Set(openOrder))}
+      priceOpenOrders={Array.from(new Set(openOrderData))}
     />
   );
 }

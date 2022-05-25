@@ -3,7 +3,8 @@ import { Icon, Loading, Typography } from "@difx/core-ui";
 import {
   SocketEvent,
   useHttpGet, useLocalStorage, useSocket,
-  useSocketProps
+  useSocketProps,
+  useCurrency
 } from "@difx/shared";
 import {
   DownOutlined
@@ -29,6 +30,8 @@ export interface PairMetaDataWrapperProps {
 export function PairMetaDataWrapper({ pair, layout }: PairMetaDataWrapperProps) {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
+
+  const { currentCurrency: fiatCurrency } = useCurrency();
 
   let pairInfo = null;
   if (resData) {
@@ -114,7 +117,7 @@ export function PairMetaDataWrapper({ pair, layout }: PairMetaDataWrapperProps) 
         {
           layout === 'compact'
           &&
-          <Popover placement="bottom" content={<ListPairWrapper layout={layout as EXCHANGE_LAYOUT} />} trigger="hover">
+          <Popover placement="bottom" content={<div className="compact-list-pairs"><ListPairWrapper layout={layout as EXCHANGE_LAYOUT} /></div>} trigger="hover">
             <div className="show-more-pair">
               <DownOutlined />
             </div>
@@ -134,10 +137,15 @@ export function PairMetaDataWrapper({ pair, layout }: PairMetaDataWrapperProps) 
                   : null
             }
           >{`${currentPrice}`}</Typography>
-          <Typography level="B3">{`$${getPriceFormatted(
-            currentPrice,
-            precision
-          )}`}</Typography>
+
+          {
+            fiatCurrency &&
+            <Typography level="B3">{`${fiatCurrency.symbol}${getPriceFormatted(
+              currentPrice * fiatCurrency.usd_rate,
+              precision
+            )}`}</Typography>
+          }
+
         </div>
         <div className="price">
           <Typography fontSize={11} level="B3">24h Change</Typography>

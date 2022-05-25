@@ -110,9 +110,16 @@ export function OrderForm({layout='default', canDeposit = true, isLoading = true
   const validateForm = () => {
     const fieldsValue = form.getFieldsValue();
 
-    if(balance && fieldsValue[`${side}.total`] > balance.amount){
-      setIsDisabled(true);
-      return;
+    if(side === 'bid'){
+      if(balance && fieldsValue[`${side}.total`] > balance.amount){
+        setIsDisabled(true);
+        return;
+      }
+    }else if(side === 'ask'){
+      if(balance && fieldsValue[`${side}.amount`] > balance.amount){
+        setIsDisabled(true);
+        return;
+      }
     }
 
     if (type === 'limit') {

@@ -22,6 +22,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
   const {userBalance: balances} = useBalance();
+  console.log(balances,'bbbbbbb')
 
   const pairInfo: PairType = useMemo(() => {
     if (pairsData)
@@ -82,7 +83,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
   )
 
   const PlaceOrder = (orderType: OrderType) => {
-
+    console.log(pairInfo, balances,'ssaaxxx')
     const DefaultLayout = () => (
       <div className="place-order-group">
         <div className="bid">

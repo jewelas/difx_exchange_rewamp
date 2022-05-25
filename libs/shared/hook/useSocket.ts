@@ -20,7 +20,7 @@ export interface useSocketProps {
 }
 
 export function useSocketByEvent({ event, onSuccess }: useSocketProps) {
-  const [currentJoin, setCurrentJoin] = useState(null);
+  const [currentJoin, setCurrentJoin] = useState<any>(null);
   const send = ({ leave, join }: { leave?: string | number, join?: string | number }) => {
     
     if (leave) socket.send('leave', leave);

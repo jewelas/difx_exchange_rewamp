@@ -6,6 +6,7 @@ import { API_ENDPOINT, QUERY_KEY } from "../constants"
 import { currentUserAtom, isLoggedInAtom, userBalanceAtom } from "../atom/index"
 import { useAtom } from "jotai";
 import { AxiosResponse } from "axios";
+import isEmpty from "lodash/isEmpty";
 
 export function useBalance() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
@@ -15,7 +16,7 @@ export function useBalance() {
   // Call API to get balance
   const onSuccess = (response: AxiosResponse) => {
     const { data } = response
-    setUserBalance(data)
+    setUserBalance(data);
   }
   const { mutate: getBalance } = useHttpGetByEvent<null, any>({ onSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
@@ -25,8 +26,7 @@ export function useBalance() {
       const index = userBalance.findIndex(e => e.currency === balanceData.currency);
       if (index !== -1) {
         userBalance[index].amount += balanceData.change;
-        // Update in another thread
-        setTimeout(()=>{setUserBalance(userBalance)},500)
+        setUserBalance(userBalance);
       }
     }
   }
@@ -35,11 +35,17 @@ export function useBalance() {
   useEffect(() => {
     if (isLoggedIn) {
       getBalance(null)
-      if (currentUser) send({ join: currentUser.id });
     } else {
       setUserBalance([])
     }
   }, [isLoggedIn])
+
+
+  useEffect(()=>{
+    if (currentUser && !isEmpty(userBalance)){
+      send({ join: currentUser.id });
+    }
+  },[currentUser, userBalance])
 
   return {
     userBalance,

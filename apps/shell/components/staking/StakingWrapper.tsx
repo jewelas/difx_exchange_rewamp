@@ -143,7 +143,7 @@ export function StakingWrapper(props: StakingWrapperProps) {
                 title='Locking Stacking'
                 visible={isShowModal}
                 onCancel={() => { setIsShowModal(false) }}
-                onSubmit={() => { send() }}
+                onSubmit={() => { send({}) }}
             />
         </>
     );

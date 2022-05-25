@@ -2,17 +2,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, Input, Slider } from "antd";
 import clsx from "clsx";
+import isEmpty from "lodash/isEmpty";
 import { Typography } from "./../Typography";
+import { useAtomValue } from "jotai/utils";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
-import { PairType, PlaceOrderRequest } from "./../../../shared";
-import { Balance } from "./../../../shared/type/Balance";
+import { PairType, PlaceOrderRequest, userBalanceAtom } from "./../../../shared";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
 import DepositIcon from "./../Icon/DepositIcon";
 import {
   ComponentStyled
 } from "./styled";
-
 
 export type OrderSideType = 'bid' | 'ask';
 export type OrderType = 'limit' | 'market' | 'stop-limit';
@@ -23,7 +23,6 @@ export interface OrderFormProps {
   baseCurrency?: string,
   quoteCurrency?: string,
   isLoggedIn?: boolean,
-  balance?: Balance,
   priceSelected?: number,
   pairInfo?: PairType,
   onPlaceOrder: (formData: PlaceOrderRequest, type: OrderType, side: OrderSideType) => void,
@@ -31,7 +30,7 @@ export interface OrderFormProps {
   canDeposit?: boolean
 }
 
-export function OrderForm({layout='default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, balance, pairInfo }: OrderFormProps) {
+export function OrderForm({ layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: ' ',
@@ -45,6 +44,20 @@ export function OrderForm({layout='default', canDeposit = true, isLoading = true
 
   const [isDisabled, setIsDisabled] = useState(isLoggedIn);
   const [sliderValue, setSliderValue] = useState(0);
+
+  const balances = useAtomValue(userBalanceAtom);
+  const [balance, setBalance] = useState(0.00);
+
+  useEffect(() => {
+    if (!isEmpty(balances) && pairInfo) {
+      let balanceObj = balances.find(e => e.currency === (side === "bid" ? pairInfo.currency2 : pairInfo.currency1));
+      setBalance(balanceObj?.amount || 0.00);
+      setTimeout(() => {
+        balanceObj = balances.find(e => e.currency === (side === "bid" ? pairInfo.currency2 : pairInfo.currency1));
+        setBalance(balanceObj?.amount || 0.00);
+      }, 3000)
+    }
+  }, [balances, pairInfo]);
 
   const [form] = Form.useForm();
 
@@ -98,9 +111,9 @@ export function OrderForm({layout='default', canDeposit = true, isLoading = true
           [`${side}.total`]: Math.floor(newTotal * 100) / 100,
         });
       }
-      if (balance){
+      if (balance) {
         const total = form.getFieldValue(`${side}.total`);
-        setSliderValue((100 * total) / balance.amount);
+        setSliderValue((100 * total) / balance);
       }
     }
 
@@ -110,13 +123,13 @@ export function OrderForm({layout='default', canDeposit = true, isLoading = true
   const validateForm = () => {
     const fieldsValue = form.getFieldsValue();
 
-    if(side === 'bid'){
-      if(balance && fieldsValue[`${side}.total`] > balance.amount){
+    if (side === 'bid') {
+      if (balance && fieldsValue[`${side}.total`] > balance) {
         setIsDisabled(true);
         return;
       }
-    }else if(side === 'ask'){
-      if(balance && fieldsValue[`${side}.amount`] > balance.amount){
+    } else if (side === 'ask') {
+      if (balance && fieldsValue[`${side}.amount`] > balance) {
         setIsDisabled(true);
         return;
       }
@@ -157,7 +170,7 @@ export function OrderForm({layout='default', canDeposit = true, isLoading = true
     if (balance) {
       const currentPrice = pairInfo?.last || priceSelected;
 
-      const percentOfBalance: number = (balance.amount * value) / 100;
+      const percentOfBalance: number = (balance * value) / 100;
       const percentOfBalanceRound: number = Math.floor(percentOfBalance * 100) / 100;
 
       if (side === 'bid') {
@@ -196,7 +209,7 @@ export function OrderForm({layout='default', canDeposit = true, isLoading = true
       >
         <div className="balance">
           <div className="value">
-            {`Balance: ${getPriceFormatted(balance?.amount || 0, 2)} ${side === 'bid' ? quoteCurrency : baseCurrency}`}
+            {`Balance: ${getPriceFormatted(balance || 0, 2)} ${side === 'bid' ? quoteCurrency : baseCurrency}`}
           </div>
           {
             canDeposit &&

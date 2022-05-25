@@ -116,7 +116,7 @@ export function getLayoutType(type: 'default' | 'compact' | 'pro', isStatic?: bo
 
   const TwoCols = [
 
-    // Col 1
+    // Row 1
     {
       i: "pair-info",
       x: 0,
@@ -127,23 +127,27 @@ export function getLayoutType(type: 'default' | 'compact' | 'pro', isStatic?: bo
       maxH: 1,
       static: isStaticWidgets,
     },
-    { i: "chart", x: 0, y: 1, w: 16, h: 6, static: isStaticWidgets },
-    { i: "place-order", x: 0, y: 7, w: 16, h: 6, static: isStaticWidgets },
+    { i: "chart", x: 0, y: 1, w: 16, h: 8, static: isStaticWidgets },
+    { i: "trade-info", x: 16, y: 0, w: 8, h: 9, static: isStaticWidgets },
 
-    { i: "pair-search", x: 16, y: 0, w: 8, h: 6, static: isStaticWidgets },
-    { i: "trade-info", x: 16, y: 6, w: 8, h: 7, static: isStaticWidgets },
-
+    // Row 2
+    { i: "place-order", x: 0, y: 9, w: 16, h: 8, static: isStaticWidgets },
     {
       i: "order-book",
       x: 16,
-      y: 13,
+      y: 9,
       w: 8,
-      h: 13,
-      minH: 13,
+      h: 17,
+      minH: 17,
       static: isStaticWidgets,
     },
 
-    { i: "report", x: 0, y: 13, w: 16, h: 13, static: isStaticWidgets },
+    // Row 3
+    { i: "report", x: 0, y: 17, w: 16, h: 17, static: isStaticWidgets },
+
+    // Row 4
+    { i: "pair-search", x: 16, y: 26, w: 8, h: 8, static: isStaticWidgets },
+
   ];
 
   let layout = ThreeColsDefault;

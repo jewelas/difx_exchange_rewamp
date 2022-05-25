@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHttpGetByEvent } from "..";
 import { Balance } from './../type/Balance';
 import { useSocketProps, SocketEvent, useSocketByEvent } from "./../../shared";
@@ -11,7 +11,9 @@ import isEmpty from "lodash/isEmpty";
 export function useBalance() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [currentUser] = useAtom(currentUserAtom);
-  const [userBalance, setUserBalance] = useAtom(userBalanceAtom)
+  const [userBalance, setUserBalance] = useAtom(userBalanceAtom);
+
+  const [sent, isSent] = useState(false);
 
   // Call API to get balance
   const onSuccess = (response: AxiosResponse) => {
@@ -42,8 +44,9 @@ export function useBalance() {
 
 
   useEffect(()=>{
-    if (currentUser && !isEmpty(userBalance)){
+    if (currentUser && !isEmpty(userBalance) && !sent){
       send({ join: currentUser.id });
+      isSent(true)
     }
   },[currentUser, userBalance])
 

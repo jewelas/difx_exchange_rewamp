@@ -138,7 +138,7 @@ export function TableSubscriptionWrapper() {
           <div className="date-title">{t("staking.date")}</div>
           <RangePicker
             onChange={onPickerChange}
-            defaultValue={[moment(getCurrentDateByDateString(startDate), dateFormat2Digits), moment(getCurrentDateByDateString(endDate), dateFormat2Digits)]}
+            defaultValue={[moment(getCurrentDateByDateString(startDate.toString()), dateFormat2Digits), moment(getCurrentDateByDateString(endDate.toString()), dateFormat2Digits)]}
           />
         </div>
         <Button onClick={() => { getStakingHistory(null) }} className="first" type="primary">{t("staking.search")}</Button>

@@ -77,12 +77,12 @@ export function TrendChart({ label, data, backgroundColor = DEFAULT_COLOR, lineC
     if (!chart) {
       return;
     }
-    const gradient2 = chart.ctx.createLinearGradient(0, 0, 0, 400);
-    gradient2.addColorStop(0, hexToRGB(backgroundColor, '0.5'));
-    gradient2.addColorStop(0.25, hexToRGB(backgroundColor, '0.35'));
-    gradient2.addColorStop(0.5, hexToRGB(backgroundColor, '0.25'));
-    gradient2.addColorStop(0.75, hexToRGB(backgroundColor, '0.15'));
-    gradient2.addColorStop(1, 'rgba(0,0,0,0)');
+    const gradient = chart.ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, hexToRGB(backgroundColor, '0.5'));
+    gradient.addColorStop(0.25, hexToRGB(backgroundColor, '0.35'));
+    gradient.addColorStop(0.5, hexToRGB(backgroundColor, '0.25'));
+    gradient.addColorStop(0.75, hexToRGB(backgroundColor, '0.15'));
+    gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
     const buildData = {
       labels: data,
@@ -94,7 +94,7 @@ export function TrendChart({ label, data, backgroundColor = DEFAULT_COLOR, lineC
           pointRadius: 0,
           borderWidth: 2,
           fill: true,
-          backgroundColor: gradient2,
+          backgroundColor: gradient,
         },
       ],
     };

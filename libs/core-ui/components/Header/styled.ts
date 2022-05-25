@@ -129,8 +129,8 @@ export const StyledLine = styled.div`
 export const StyledHeader = styled(Layout.Header)`
   /* z-index: 9999; */
   padding: unset !important;
-  height: 70px !important;
-  line-height: 70px !important;
+  height: 50px !important;
+  line-height: 50px !important;
   position: relative;
   width: 100%;
 
@@ -140,6 +140,9 @@ export const StyledHeader = styled(Layout.Header)`
     right: 30px;
     .right-nav {
       height: 100%;
+      &.icon{
+        margin-top:-3px !important;
+      }
       button:not(.ant-btn-icon-only) {
       }
     }
@@ -160,6 +163,7 @@ export const StyledHeader = styled(Layout.Header)`
     display: none !important;
   }
   .group {
+    height: 50px;
     display: flex;
     background: ${({ theme }) => theme.background.secondary};
     border-bottom: solid 2px ${({ theme }) => theme.scrollbar.background} !important;
@@ -169,7 +173,7 @@ export const StyledHeader = styled(Layout.Header)`
       width: 122px;
       svg {
         height: 30px;
-        margin-top: 20px;
+        margin-top: 10px;
         margin-left: 18px;
         margin-right: 5px;
         #Layer_5 path,
@@ -189,7 +193,7 @@ export const StyledHeader = styled(Layout.Header)`
     .ant-menu {
       background: transparent;
       color: ${({ theme }) => theme.fontColor.primary};
-      height: 70px;
+      height: 50px;
       flex-grow: 1;
       border-bottom: unset !important;
       .ant-menu-item::after {

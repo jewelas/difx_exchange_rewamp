@@ -1,13 +1,16 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Spin, Button } from "antd";
 import clsx from "clsx";
 import { formatNumber } from "./../../utils/formatter";
 import DotIcon from "./../Icon/DotIcon";
+import { useCurrency } from "./../../../shared/hook/useCurrency";
 import WifiIcon from "./../Icon/WifiIcon";
 import { Typography } from "../Typography";
 import { NetworkStatusType } from "./../../../shared/type/Network";
 import Loading from "./../Loading";
 import { BarStyled } from "./styled";
+import { getPriceFormatted } from "../../../shared/utils/priceUtils";
 
 export interface OrderBookBodyProps {
   numberFormat?: "0.01" | "0.1" | "1" | "10" | string;
@@ -125,15 +128,29 @@ function renderData(
 }
 
 export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout }: OrderBookBodyProps) {
+  const { currentCurrency: fiatCurrency } = useCurrency();
+
   if (!currentPrice) {
     return <Spin className="loading" indicator={<Loading />} />;
   }
+
   return (
     <div className="center-group">
-      <div className="left">
+      <div style={{ display: "flex" }} className="left">
         <Typography level="B1" className={clsx("price", priceTrend)}>
           {formatNumber(currentPrice)}
         </Typography>
+        {
+          fiatCurrency &&
+          <div style={{ marginLeft: '5px' }}>
+            <Typography level="B2" className={clsx("price", priceTrend)}>
+              {` ≈ ${fiatCurrency.symbol}${getPriceFormatted(
+                currentPrice * fiatCurrency.usd_rate,
+                2
+              )}`}
+            </Typography>
+          </div>
+        }
       </div>
       <div className="right">
         <div style={{ display: 'flex' }}>

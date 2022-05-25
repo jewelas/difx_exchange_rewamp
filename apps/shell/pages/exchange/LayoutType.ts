@@ -87,7 +87,7 @@ export function getLayoutType(type: 'default' | 'compact' | 'pro', isStatic?: bo
       maxH: 1,
       static: isStaticWidgets,
     },
-    { i: "chart", x: 0, y: 1, w: 15, h: 6, static: isStaticWidgets },
+    { i: "chart", x: 0, y: 1, w: 15, h: 8, static: isStaticWidgets },
 
     // Col 2
     {
@@ -95,23 +95,23 @@ export function getLayoutType(type: 'default' | 'compact' | 'pro', isStatic?: bo
       x: 15,
       y: 0,
       w: 5,
-      h: 13,
-      minH: 13,
+      h: 17,
+      minH: 17,
       static: isStaticWidgets,
     },
 
     // Col 3
-    { i: "trade-info", x: 20, y: 0, w: 4, h: 13, static: isStaticWidgets },
+    { i: "trade-info", x: 20, y: 0, w: 4, h: 17, static: isStaticWidgets },
 
 
     // Row 2 - Col 1
-    { i: "pair-search", x: 0, y: 7, w: 5, h: 6, static: isStaticWidgets },
+    { i: "pair-search", x: 0, y: 9, w: 5, h: 8, static: isStaticWidgets },
 
     // Row 2 - Col 2
-    { i: "place-order", x: 5, y: 7, w: 10, h: 6, static: isStaticWidgets },
+    { i: "place-order", x: 5, y: 9, w: 10, h: 8, static: isStaticWidgets },
 
     // Row 3
-    { i: "report", x: 0, y: 13, w: 24, h: 5, static: isStaticWidgets },
+    { i: "report", x: 0, y: 17, w: 24, h: 7, static: isStaticWidgets },
   ];
 
   const TwoCols = [

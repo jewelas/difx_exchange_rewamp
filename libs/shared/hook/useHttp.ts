@@ -257,6 +257,7 @@ export function useAPI() {
         return response
     }, (error) => {
         onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
+        return error.response
     })
 
     return { API: instance }

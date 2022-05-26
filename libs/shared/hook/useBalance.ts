@@ -44,42 +44,16 @@ export function useBalance() {
     }
   }
   const { send } = useSocketByEvent({ event: SocketEvent.user_balances, onSuccess: onReceivedWSData });
-  // const data = useSocket({join:"BTCUSDT",event: SocketEvent.orderbook_limited});
 
   const currentBTCPrice = useMemo(()=>{
-    console.log(btcInfo)
     if(btcInfo){
       const { spot } = btcInfo
-      const currentPrice = spot[0].lowest_ask
+      const currentPrice = spot[0].last
       return currentPrice
     }else{
       return 0
     }
   },[btcInfo])
-
-  useEffect(()=>{
-    console.log(btcInfo)
-  },[btcInfo])
-
-  // useEffect(()=>{
-  //   console.log(btcPrice)
-  // },[btcInfo])
-
-  // const totalSpotUSDBalance = useMemo(()=>{
-  //   let totalbalance = 0
-  //   userBalance.forEach(coin => {
-  //     totalbalance += coin.amount
-  //   })
-  //   return Number(totalbalance.toFixed(2))
-  // },[currentBTCPrice, userBalance])
-
-  // const totalSpotBTCBalance = useMemo(()=>{
-  //   if(totalSpotUSDBalance && currentBTCPrice){
-  //     return Number((totalSpotUSDBalance/currentBTCPrice).toFixed(6))
-  //   }else{
-  //     return 0
-  //   }
-  // },[currentBTCPrice, totalSpotUSDBalance])
 
   const overviewBalanceBTC = useMemo(()=>{
     if(overviewBalanceUSD && currentBTCPrice){

@@ -92,7 +92,7 @@ export const TableWraperStyled = styled.div`
       height: 40px !important;
     }
     .ant-table .ant-table-thead th{
-      padding: 7px 0 !important;
+      padding: 4px 0 !important;
     }
     .table-group{
       .head{

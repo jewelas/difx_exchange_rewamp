@@ -32,6 +32,7 @@ export const ComponentStyled = styled.div`
     padding-bottom: 10px;
   }
   .com-priceinfo{
+    margin-top: 7px !important;
     .left {
       .B1 {
         font-weight: 600;
@@ -52,7 +53,7 @@ export const ComponentStyled = styled.div`
     .btn-change-total{
       position: absolute;
       right: 51px;
-      margin-top: 7px !important;
+      margin-top: 6px !important;
     }
   }
   .com-head {
@@ -97,6 +98,8 @@ export const ComponentStyled = styled.div`
     .head.compact{
       width: 100%;
       display:flex;
+      font-size: 11px;
+      margin-bottom: -4px;
       .left .t2{
         margin-right:-12px;
       }

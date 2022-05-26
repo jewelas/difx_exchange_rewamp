@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useHttpGetByEvent } from "..";
 import { Balance } from './../type/Balance';
-import { useSocketProps, SocketEvent, useSocketByEvent, useAPI } from "./../../shared";
+import {useHttpGet, useSocketProps, SocketEvent, useSocketByEvent, useAPI } from "./../../shared";
 import { API_ENDPOINT, QUERY_KEY } from "../constants"
 import { currentUserAtom, isLoggedInAtom, userBalanceAtom } from "../atom/index"
 import { useAtom } from "jotai";
@@ -42,16 +42,18 @@ export function useBalance() {
     }
   }
   const { send } = useSocketByEvent({ event: SocketEvent.user_balances, onSuccess: onReceivedWSData });
-  const data = useSocket({join:"BTCUSDT",event: SocketEvent.orderbook_limited});
+  const data:any = useSocket({event: SocketEvent.prices});
 
+  const { data: pairs } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, {});
   const currentBTCPrice = useMemo(()=>{
-    if(data){
-      const { asks, bids } = data
-      return (asks[0][0] + bids[0][0])/2
-    }else{
-      return 0
+    if(!isEmpty(data) && data[0] === "BTCUSDT"){
+      return data[1]
+    }else if(!isEmpty(pairs)){
+      const btcusdt = pairs.spot.find((e:any)=>e.symbol="BTCUSDT");
+      if(btcusdt) return btcusdt.last;
     }
-  },[data])
+    return 0;
+  },[pairs, data])
 
   // const totalSpotUSDBalance = useMemo(()=>{
   //   let totalbalance = 0

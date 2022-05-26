@@ -1,5 +1,7 @@
 import { dark, GlobalStyles, light } from "@difx/core-ui/themes";
 import { useAuth, useGuestAuth, useTheme, useLanguage, useCurrency } from "@difx/shared";
+import Image from 'next/image';
+import t from "@difx/locale";
 import { ErrorBoundary } from 'react-error-boundary'
 import { ThemeProvider } from "styled-components";
 import BaseLayout from "../layouts/BaseLayout";
@@ -13,10 +15,18 @@ export interface AppLayoutProps {
 }
 
 function ErrorFallback({ error }) {
+  console.log("Error:", error.message);
   return (
-    <div role="alert">
-      <p>Something went wrong:</p>
-      <pre style={{ color: 'red' }}>{error.message}</pre>
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', position: 'absolute', width: '100%' }}>
+      <div style={{ textAlign: "center" }}>
+        <Image
+          src="/imgs/logo.svg"
+          alt="Difx Logo"
+          width={30}
+          height={30}
+        />
+      </div>
+      <div style={{ fontSize: '17px', textAlign: 'center' }}>{t("common.msg_wrong")}</div>
     </div>
   )
 }
@@ -33,7 +43,7 @@ export function AppLayout({ children = <HomeComponent /> }: AppLayoutProps) {
 
   return (
     // Use theme in ThemeProvider to reuse variable when customize the styled-component
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <ErrorBoundary FallbackComponent={ErrorFallback} onError={() => {console.log('eeeeerrrrsot')}}>
       <ThemeProvider theme={theme === "light" ? light : dark}>
         <GlobalStyles />
         <BaseLayout>

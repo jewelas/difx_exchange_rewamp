@@ -2,12 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { Loading, OrderForm, OrderSideType, OrderType, Typography } from "@difx/core-ui";
-import { PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, useAuth, useBalance, useHttpGet, useHttpPost } from "@difx/shared";
+import { Balance, currentUserAtom, isLoggedInAtom, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, SocketEvent, useHttpGet, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
 import { Button, Tabs } from "antd";
 import { AxiosResponse } from "axios";
 import clsx from 'clsx';
 import { useAtom } from "jotai";
-import React, { useMemo, useState } from 'react';
+import { useAtomValue } from "jotai/utils";
+import React, { useEffect, useMemo, useState } from 'react';
 import { showNotification } from "./../../utils/pageUtils";
 import { PlaceOrderWraperStyled } from "./styled";
 
@@ -15,13 +16,28 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
 
   const [tab, setTab] = useState('limit');
   const [side, setSide] = useState<'bid' | 'ask'>('bid');
-  const { isLoggedIn, user } = useAuth();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const user = useAtomValue(currentUserAtom);
+  const [balances, setBalances] = useState<Array<Balance>>([]);
 
   const [priceSelected,] = useAtom(priceSelectedAtom);
 
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
-  const {userBalance: balances} = useBalance();
+  const param: useSocketProps = {
+    event: SocketEvent.user_balances,
+    join: user ? user.id : null
+  };
+  const balanceData = useSocket(param);
+  useEffect(() => {
+    if (balanceData) {
+      const index = balances.findIndex(e => e.currency === balanceData.currency);
+      if (index !== -1) {
+        balances[index].amount += balanceData.change;
+        setBalances(balances);
+      }
+    }
+  }, [balanceData]);
 
   const pairInfo: PairType = useMemo(() => {
     if (pairsData)
@@ -94,7 +110,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             quoteCurrency={pairInfo.currency2}
             type={orderType}
             isLoggedIn={isLoggedIn}
-            // balance={(balances.find(e => e.currency === pairInfo.currency2) || {}).amount}
+            balance={balances.find(e => e.currency === pairInfo.currency1)?.amount || 0.00}
             pairInfo={pairInfo} />
         </div>
         <div className="ask">
@@ -108,7 +124,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             side="ask"
             type={orderType}
             isLoggedIn={isLoggedIn}
-            // balance={(balances.find(e => e.currency === pairInfo.currency1) || {}).amount}
+            balance={balances.find(e => e.currency === pairInfo.currency2)?.amount || 0.00}
             pairInfo={pairInfo} />
         </div>
       </div>
@@ -129,7 +145,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
               quoteCurrency={pairInfo.currency2}
               type={orderType}
               isLoggedIn={isLoggedIn}
-              // balance={(balances.find(e => e.currency === pairInfo.currency2) || {}).amount}
+              balance={balances.find(e => e.currency === pairInfo.currency2)?.amount || 0.00}
               pairInfo={pairInfo} />
           </div>
         }
@@ -148,7 +164,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
               side="ask"
               type={orderType}
               isLoggedIn={isLoggedIn}
-              // balance={(balances.find(e => e.currency === pairInfo.currency1) || {}).amount}
+              balance={balances.find(e => e.currency === pairInfo.currency1)?.amount || 0.00}
               pairInfo={pairInfo} />
           </div>
         }
@@ -168,7 +184,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             quoteCurrency={pairInfo.currency2}
             type={orderType}
             isLoggedIn={isLoggedIn}
-            // balance={(balances.find(e => e.currency === pairInfo.currency2) || {}).amount}
+            balance={(balances.find(e => e.currency === pairInfo.currency2) || {}).amount}
             pairInfo={pairInfo} />
         </div>
         <div className="ask">
@@ -182,7 +198,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             side="ask"
             type={orderType}
             isLoggedIn={isLoggedIn}
-            // balance={(balances.find(e => e.currency === pairInfo.currency1) || {}).amount}
+            balance={(balances.find(e => e.currency === pairInfo.currency1) || {}).amount}
             pairInfo={pairInfo} />
         </div>
       </div>

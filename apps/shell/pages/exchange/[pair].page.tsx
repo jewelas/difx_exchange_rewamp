@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { EXCHANGE_LAYOUT, STORE_KEY, QUERY_KEY, API_ENDPOINT } from "@difx/constants";
+import { EXCHANGE_LAYOUT, STORE_KEY } from "@difx/constants";
 import { Loading } from "@difx/core-ui";
-import { useLocalStorage, useHttpGet, PairType, useSocketProps, useSocket, SocketEvent, useTitle } from "@difx/shared";
-import {getPriceFormatted} from "@difx/utils";
+import { useLocalStorage } from "@difx/shared";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -31,32 +30,6 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
 
   const router = useRouter();
   const { pair } = router.query;
-
-  const { data: resData } = useHttpGet<null, {spot:PairType[]}>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
-  const param: useSocketProps = {
-    event: SocketEvent.prices,
-  };
-  const pricesWSData = useSocket(param);
-
-  const { setTitle } = useTitle();
-
-  useEffect(() => {
-    if (resData) {
-      const spot = resData.spot.find(e => e.symbol === pair);
-      if (spot) {
-        setTitle(`${getPriceFormatted(spot.last, 2)} | ${pair} | DIFX`)
-      }
-    }
-  }, [resData, pair]);
-  useEffect(() => {
-    if (!isEmpty(pricesWSData) && pricesWSData.length === 4) {
-      const wsPair = pricesWSData[0];
-      if (wsPair === pair) {
-        const wsPrice = getPriceFormatted(pricesWSData[1], 2)
-        setTitle(`${wsPrice} | ${wsPair} | DIFX`)
-      }
-    }
-  }, [pricesWSData, pair]);
 
   const initLayouts = getLayoutType('default', isStaticWidgets);
   const [layouts, setLayouts] = useState(initLayouts);

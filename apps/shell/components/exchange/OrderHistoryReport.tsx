@@ -4,7 +4,8 @@
 import isEmpty from "lodash/isEmpty";
 import { API_ENDPOINT } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
-import { Order, useAuth, useHttpGetByEvent } from "@difx/shared";
+import { useAtomValue } from "jotai/utils";
+import { Order, isLoggedInAtom, useHttpGetByEvent } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -12,7 +13,7 @@ import { useEffect, useState } from 'react';
 
 export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, pair }: { isSelectedPairOnly?:boolean, height?: number; pair: string }) {
 
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 

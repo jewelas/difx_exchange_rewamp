@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Icon, Loading, Switch } from "@difx/core-ui";
-import { BaseResponse, useAuth, useHttpPut } from "@difx/shared";
+import { BaseResponse, isLoggedInAtom, useHttpPut } from "@difx/shared";
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT } from "@difx/constants";
 import { showNotification } from "./../../utils/pageUtils";
 import { Button, Switch as AntdSwitch, Tabs } from "antd";
 import { useEffect, useState } from 'react';
+import { useAtomValue } from "jotai/utils";
 import FundReport from "./FundReport";
 import OrderHistoryReport from "./OrderHistoryReport";
 import OrderOpenReport from "./OrderOpenReport";
@@ -19,7 +20,7 @@ export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string
   const [tab, setTab] = useState('open-order');
   const [isSelectedPairOnly, setIsSelectedPairOnly] = useState(false);
   const [orderType, setOrderType] = useState('limit');
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
 
   const [reportHeight, setReportHeight] = useState(197);
 

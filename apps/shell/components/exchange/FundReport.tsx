@@ -2,17 +2,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT } from "@difx/constants";
-import { Typography, Loading } from "@difx/core-ui";
-import isEmpty from "lodash/isEmpty";
-import { useAuth, useHttpGetByEvent } from "@difx/shared";
+import { Loading, Typography } from "@difx/core-ui";
+import { isLoggedInAtom, useHttpGetByEvent } from "@difx/shared";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
+import { useAtomValue } from "jotai/utils";
+import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
 export function FundReport({height=200}:{height?:number}) {
 
   const [tableData, setTableData] = useState<any>([]);
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
 
   const getDataSuccess = (response: AxiosResponse) => {
     const { data } = response;

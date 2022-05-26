@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Icon, Typography } from '@difx/core-ui';
-import { useAuth } from '@difx/shared';
+import { isLoggedInAtom } from '@difx/shared';
 import { Button, Col, Row } from 'antd';
+import { useAtomValue } from "jotai/utils";
 import { useRouter } from "next/router";
 import React from "react";
 import StakingWrapper from './../../components/staking/StakingWrapper';
@@ -14,7 +15,7 @@ export interface StakingPageProps {
 
 export function StakingPage(props: StakingPageProps) {
 
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
 
   const router = useRouter();
   return (

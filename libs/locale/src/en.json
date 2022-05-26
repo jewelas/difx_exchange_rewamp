@@ -67,7 +67,7 @@
     "check_correct_url": "Please check that you are visiting the correct URL"
   },
   "2fa": {
-    "enter_code": "Enter two factor authentication code!",
+    "enter_code": "Enter two factor authentication code",
     "2fa": "Two Factor Verification",
     "verify_success": "Verification successfully!"
   },

@@ -38,9 +38,9 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
 
   return (
     <ChartContainerStyled>
-       <Tabs defaultActiveKey="chart">
-        <TabPane tab="Chart" key="chart">
-          <div ref={KlineRef}>
+       {/* <Tabs defaultActiveKey="chart">
+        <TabPane tab="Chart" key="chart"> */}
+          <div className="container" ref={KlineRef}>
             <ChartHead 
               currentResolution={currentResolution}
               setCurrentResolution={setCurrentResolution}
@@ -66,14 +66,14 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
               setFullscreen={setFullscreen}
             />
           </div>
-        </TabPane>
+        {/* </TabPane>
         <TabPane tab="Pro" key="pro">
           Trading View
         </TabPane>
         <TabPane tab="Info" key="info">
           Coin Info
         </TabPane>
-      </Tabs>
+      </Tabs> */}
     </ChartContainerStyled>
   )
 }

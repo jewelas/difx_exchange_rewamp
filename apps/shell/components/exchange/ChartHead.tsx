@@ -95,14 +95,13 @@ export default function ChartHead({
       <div className="timeframes">
         {
           TIME_FRAMES.map((time_resolution) =>
-            <>
-              <span
-                onClick={() => setCurrentResolution(time_resolution)}
-                className={currentResolution === time_resolution ? 'active' : null}
-              >
-                {time_resolution}
-              </span>
-            </>
+            <span
+              onClick={() => setCurrentResolution(time_resolution)}
+              className={currentResolution === time_resolution ? 'active' : null}
+              key={time_resolution}
+            >
+              {time_resolution}
+            </span>
           )
         }
       </div>
@@ -114,7 +113,6 @@ export default function ChartHead({
           <div className="types-dropdown">
             {
               CANDLE_TYPES.map((candle, index) =>
-                <>
                   <button
                     onClick={() => setCurrentChartType(candle.type)}
                     className={currentChartType === candle.type ? 'active' : null}
@@ -123,7 +121,6 @@ export default function ChartHead({
                     {candle.icon}
                     <span>{candle.label}</span>
                   </button>
-                </>
               )
             }
           </div>

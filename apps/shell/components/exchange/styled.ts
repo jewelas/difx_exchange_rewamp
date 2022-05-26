@@ -10,7 +10,7 @@ export const PairMetadataStyled = styled.div`
       margin-top:3px !important;
     }
     .left {
-      margin-top: 22px;
+      margin-top: 12px;
       display: flex;
       svg {
         margin-top: 5px;
@@ -38,7 +38,7 @@ export const PairMetadataStyled = styled.div`
       .price {
         display: flex;
         flex-direction: column;
-        margin-top: 14px;
+        margin-top: 3px;
         margin-left: 15px;
         margin-right: 15px;
         white-space: nowrap;
@@ -47,7 +47,7 @@ export const PairMetadataStyled = styled.div`
     .right {
       svg {
         cursor: pointer;
-        margin-top: 22px;
+        margin-top: 12px;
       }
     }
 `;
@@ -92,12 +92,18 @@ export const TableWraperStyled = styled.div`
       height: 40px !important;
     }
     .ant-table .ant-table-thead th{
-      padding: 7px 0 !important;
+      padding: 4px 0 !important;
     }
     .table-group{
       .head{
         .B2{
           font-size: 14px;
+        }
+        &.category{
+          .B2{
+            font-size: 12px;
+            font-weight: 500;
+          }
         }
         display: flex;
         margin: 25px 0 5px 0;
@@ -139,7 +145,6 @@ export const TableWraperStyled = styled.div`
         }
         .B2{
           cursor: pointer;
-          font-weight: 600;
         }
       }
       .ant-table-row.changed{
@@ -235,9 +240,9 @@ export const ChartWraperStyled = styled.div`
 export const ChartContainerStyled = styled.div`
   height: 100%;
   padding: 10px;
-
-  .ant-tabs-nav{
-    margin-bottom: 10px !important;
+  
+  .container{
+    height: 100%;
   }
 `
 export const ChartHeadStyled = styled.div`
@@ -450,14 +455,11 @@ export const ChartHeadStyled = styled.div`
 export const PlaceOrderWraperStyled = styled.div`
     padding: 10px;
     .asset-group{
-      margin-top: -5px;
+        margin-top:7px;
         .asset-title{
           margin-top:5px;
           margin-left:5px;
           margin-bottom:2px;
-          .ant-typography{
-            font-size: 13px;
-          }
         }
         .asset-content{
           display:flex;

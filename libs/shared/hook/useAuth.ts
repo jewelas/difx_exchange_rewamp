@@ -52,6 +52,8 @@ export function useAuth() {
     localStorage?.removeItem("sessionToken")
     localStorage?.removeItem("refreshToken")
     localStorage?.removeItem("permissions")
+    localStorage?.removeItem("favoriteSpotPairs")
+    localStorage?.removeItem("favoriteFuturePairs")
     setUser(undefined);
     setPermissions(undefined)
     setIsLoggedIn(false);

@@ -68,7 +68,7 @@ export function ExchangePage({ isStaticWidgets = false }: ExchangePageProps) {
       <PageStyled className={layoutType === 'default' && 'shrink'}>
         <GridLayout
           margin={[5, 5]}
-          rowHeight={70}
+          rowHeight={50}
           className="layout"
           layouts={layouts}
           breakpoints={breakpoints}

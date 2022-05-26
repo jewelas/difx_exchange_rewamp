@@ -5,21 +5,25 @@ import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayou
 import GridView from "./GridView";
 import ListView from "./ListView";
 import clsx from 'clsx';
+import { useFavourites} from "@difx/shared";
 
-export function Stats({spotList, futuresList, categoriesList, spotFavorites, futureFavorites}) {
-    const [tab, setTab] = useState('spot');
-    const [favoriteTab, setFavoriteTab] = useState('spot');
-    const [spotCategories, setSpotCategories] = useState('all');
-    const [cardVisible, setCardVisible] = useState(false);
-    const { TabPane } = Tabs;
+export function Stats({spotList, futuresList, categoriesList}) {
+  const [tab, setTab] = useState('spot');
+  const [favoriteTab, setFavoriteTab] = useState('spot');
+  const [spotCategories, setSpotCategories] = useState('all');
+  const [cardVisible, setCardVisible] = useState(false);
+  const { TabPane } = Tabs;
 
-    const filterPairsByCategory = useMemo(()=>{
-      if(spotCategories!=='all'){
-        if(!spotList) return [];
-        return spotList.filter(e=>e.categories && e.categories.includes(spotCategories))
-      }
-      return [];
-    },[spotCategories]);
+  const { spotFavourite, futureFavourite } = useFavourites()
+
+  const filterPairsByCategory = useMemo(()=>{
+    if(spotCategories!=='all'){
+      if(!spotList) return [];
+      return spotList.filter(e=>e.categories && e.categories.includes(spotCategories))
+    }
+    return [];
+  },[spotCategories]);
+    
   return (
     <MarketWrapper>
         <MarketTabsWrapper>
@@ -58,12 +62,12 @@ export function Stats({spotList, futuresList, categoriesList, spotFavorites, fut
                   </FavoriteFilter>
                   {favoriteTab === 'spot' && 
                   <>
-                    { cardVisible ? <GridView datatype="spot" data={spotFavorites} /> : <ListView datatype="spot" data={spotFavorites} categoriesList={categoriesList} />}
+                    { cardVisible ? <GridView datatype="spot" data={spotFavourite} /> : <ListView datatype="spot" data={spotFavourite} categoriesList={categoriesList} />}
                   </>
                   }
                   {favoriteTab === 'future' && 
                   <>
-                    { cardVisible ? <GridView  datatype="future" data={futureFavorites} /> : <ListView datatype="future" data={futureFavorites} categoriesList={categoriesList} />}
+                    { cardVisible ? <GridView  datatype="future" data={futureFavourite} /> : <ListView datatype="future" data={futureFavourite} categoriesList={categoriesList} />}
                   </>
                   }
                 </>

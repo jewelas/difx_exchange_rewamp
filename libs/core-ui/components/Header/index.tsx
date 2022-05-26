@@ -168,7 +168,7 @@ export function Header(props: HeaderProps) {
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>
                   </Menu.Item>
-                  <Menu.Item className="right-nav" key="/notification">
+                  <Menu.Item className="right-nav icon" key="/notification">
                     <StyledButtonGroup>
                       <Button
                         icon={<NotificationIcon useDarkMode />}
@@ -178,7 +178,7 @@ export function Header(props: HeaderProps) {
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>
                   </Menu.Item>
-                  <Menu.Item className="right-nav" key="/user">
+                  <Menu.Item className="right-nav icon" key="/user">
                     <StyledButtonGroup>
                       <Button
   
@@ -193,7 +193,7 @@ export function Header(props: HeaderProps) {
                 </>
               )}
 
-              <Menu.Item className="right-nav" key="download">
+              <Menu.Item className="right-nav icon" key="download">
                 <StyledButtonGroup>
                   <Button
                     icon={<DownloadIcon useDarkMode />}
@@ -203,7 +203,7 @@ export function Header(props: HeaderProps) {
                   <StyledLine />
                 </StyledButtonGroup>
               </Menu.Item>
-              <Menu.Item className="right-nav" key="lang">
+              <Menu.Item className="right-nav icon" key="lang">
                 <StyledButtonGroup>
                   <Button
                     icon={<EarthIcon useDarkMode />}
@@ -214,7 +214,7 @@ export function Header(props: HeaderProps) {
                   <StyledLine />
                 </StyledButtonGroup>
               </Menu.Item>
-              <Menu.Item className="right-nav" key="theme">
+              <Menu.Item className="right-nav icon" key="theme">
                 <StyledButtonGroup>
                   <Button
                     onClick={() => {switchTheme()}}
@@ -232,7 +232,7 @@ export function Header(props: HeaderProps) {
               </Menu.Item>
 
               {router && router.pathname === '/exchange/[pair]' && (
-                <Menu.Item className="right-nav" key="setting">
+                <Menu.Item className="right-nav icon" key="setting">
                   <StyledButtonGroup>
                     <StyledLine />
                     <Popover content={<SettingPopover/>} trigger="click" placement="bottomRight">

@@ -79,6 +79,30 @@ const PageStyled = styled.div`
       }
     }
   }
+  .botton-box{
+    margin: 10px 0px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .resend-box{
+    color: ${({ theme }) => theme.fontColor.muted};
+    span{
+      margin-left: 5px;
+      cursor: pointer;
+      &.active{
+        color: ${({ theme }) => theme.fontColor.link}
+      }
+    }
+  }
+  .paste-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    color: ${({ theme }) => theme.fontColor.link};
+    cursor: pointer;
+  }
 `;
 
 export default PageStyled;

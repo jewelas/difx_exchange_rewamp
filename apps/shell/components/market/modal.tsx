@@ -113,7 +113,7 @@ export function MarketModal() {
                 setToAmount("")
                 setIsEnable(false)
             }
-        }, 500)
+        }, 750)
     },[marketPair, quickBuyType])
 
 

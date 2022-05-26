@@ -19,6 +19,13 @@ const GlobalStyles = createGlobalStyle`
     }
     scrollbar-color: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar} ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
     scrollbar-width: thin;
+    :-webkit-autofill,
+    :-webkit-autofill:hover,
+    :-webkit-autofill:focus,
+    :-webkit-autofill:active, .ant-form-item-control-input-content .ant-input-affix-wrapper>input.ant-input:focus, .ant-form-item-control-input-content .ant-input-affix-wrapper > input.ant-input:focus{
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        box-shadow: 0 0 0 30px white inset !important;
+    }
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
@@ -65,10 +72,7 @@ const GlobalStyles = createGlobalStyle`
       &.ant-tag-green{background:${({ theme }: { theme: ThemeInterface }) => theme.color.successDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.success};}
       &.ant-tag-red{background:${({ theme }: { theme: ThemeInterface }) => theme.color.dangerDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.danger};}
     }
-    .ant-btn{
-      padding: 0;
-      height: auto !important;
-    }
+    
     }
     .common-table.modal-table{
       .ant-table .ant-table-thead th{
@@ -79,6 +83,10 @@ const GlobalStyles = createGlobalStyle`
       }
       .ant-table .ant-table-thead th.ant-table-selection-column, .ant-table .ant-table-tbody td.ant-table-selection-column{
         padding-left: 0px;
+      }
+      .ant-btn-text.ant-btn{
+        padding: 0;
+        height: auto !important;
       }
     }
 
@@ -340,11 +348,11 @@ const GlobalStyles = createGlobalStyle`
           .ant-table-tbody .ant-table-cell span{
             display: inline-block !important;
           }
-          .ant-table-container .ant-table-content .ant-table-thead{
+          /* .ant-table-container .ant-table-content .ant-table-thead{
             .ant-table-cell{
               font-size: 11px;
             }
-          }
+          } */
           .ant-table-thead{
             th{
               background: transparent !important;
@@ -352,9 +360,9 @@ const GlobalStyles = createGlobalStyle`
               border-bottom: unset;
               padding: 16px 0;
 
-              .ant-table-column-title{
+              /* .ant-table-column-title{
                 font-size: 11px;
-              }
+              } */
 
               &:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before{
                 display: none;

@@ -58,6 +58,7 @@ export const QUERY_KEY = {
   MARKET_CURRENT_PRICE: (coin: string) => `market_current_price_${coin}`,
   WALLET_OVERVIEW: 'recent_transactions',
   RECENT_TRANSACTIONS: 'recent_transactions',
+  COIN_INFO: (coin: string) => `coin_info_${coin}`,
 }
 
 export const ASSETS_URL = "https://media.difx.com/"
@@ -116,6 +117,7 @@ export const API_ENDPOINT = {
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
   GET_MARKET_PAIRS: '/api/v1/market/pairs',
   GET_SELECTED_MARKET_PAIRS: (coin: string) => `/api/v1/market/pair-detail?coin=${coin}`,
+  GET_COIN_DETAILS: (coin: string) => `/api/v1/market/coin-detail?coin=${coin}`,
   GET_STAKING_LIST: '/api/v1/staking/list',
   ADD_FAVORITES: '/api/v1/user/favorite-pair',
   REMOVE_FAVORITES: '/api/v1/user/unfavorite-pair',

@@ -327,7 +327,7 @@ const GlobalStyles = createGlobalStyle`
           }
           .ant-table-container .ant-table-content .ant-table-thead{
             .ant-table-cell{
-              font-size: 11px !important;
+              font-size: 11px;
             }
           }
           .ant-table-thead{
@@ -338,7 +338,7 @@ const GlobalStyles = createGlobalStyle`
               padding: 16px 0;
 
               .ant-table-column-title{
-                font-size: 11px !important;
+                font-size: 11px;
               }
 
               &:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before{

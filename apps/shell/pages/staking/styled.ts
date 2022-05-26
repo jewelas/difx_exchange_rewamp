@@ -3,7 +3,7 @@ import { ThemeInterface } from "@difx/core-ui/themes";
 
 export const PageStyled = styled.div`
   background-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
-  margin-top: -20px;
+  margin-top: -22px;
   .head,.info,.body{
     .ant-col{
       margin: 0 auto;

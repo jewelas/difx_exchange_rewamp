@@ -325,12 +325,21 @@ const GlobalStyles = createGlobalStyle`
           .ant-table-tbody .ant-table-cell span{
             display: inline-block !important;
           }
+          .ant-table-container .ant-table-content .ant-table-thead{
+            .ant-table-cell{
+              font-size: 11px;
+            }
+          }
           .ant-table-thead{
             th{
               background: transparent !important;
               color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
               border-bottom: unset;
               padding: 16px 0;
+
+              .ant-table-column-title{
+                font-size: 11px;
+              }
 
               &:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before{
                 display: none;

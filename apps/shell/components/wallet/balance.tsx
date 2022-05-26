@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Divider, Space } from "antd";
 import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";

@@ -117,17 +117,21 @@ export function useBalance() {
 
   
   const setInitialData = async() => {
-    const overViewResponse = await API.get(API_ENDPOINT.GET_WALLET_OVERVIEW)
-    const spotResponse = await API.get(API_ENDPOINT.GET_SPOT_OVERVIEW)
-    const { spot, earn, future, reward } = overViewResponse?.data.data
-    const { yesterdayPnl } = spotResponse?.data.data
-    const totalbalance = (spot+ earn + future + reward)
-    setOverviewBalanceUSD(totalbalance.toFixed(2))
-    setSpotBalanceUSD(spot.toFixed(2))
-    setSpotYesterdayPnlUSD(yesterdayPnl.toFixed(2))
-    setFutureBalanceUSD(future.toFixed(2))
-    setRewardsBalanceUSD(reward.toFixed(2))
-    setEarnBalaceUSD(earn.toFixed(2))
+    try{
+      const overViewResponse = await API.get(API_ENDPOINT.GET_WALLET_OVERVIEW)
+      const spotResponse = await API.get(API_ENDPOINT.GET_SPOT_OVERVIEW)
+      const { spot, earn, future, reward } = overViewResponse?.data.data
+      const { yesterdayPnl } = spotResponse?.data.data
+      const totalbalance = (spot+ earn + future + reward)
+      setOverviewBalanceUSD(totalbalance.toFixed(2))
+      setSpotBalanceUSD(spot.toFixed(2))
+      setSpotYesterdayPnlUSD(yesterdayPnl.toFixed(2))
+      setFutureBalanceUSD(future.toFixed(2))
+      setRewardsBalanceUSD(reward.toFixed(2))
+      setEarnBalaceUSD(earn.toFixed(2))
+    }catch(error){
+      console.log(error)
+    }
   }
 
   useEffect(() => {

@@ -616,6 +616,16 @@ export const OrderReportsWraperStyled = styled.div`
       }
       .report-group{
         height: 100%;
+        .ant-table-wrapper{
+          .ant-table-header{
+            height: 40px;
+          }
+          .ant-table-body{
+            .ant-table-cell{
+              padding: 4px 0 !important;
+            }
+          }
+        }
       }
       .cell{
         svg{

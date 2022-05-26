@@ -145,7 +145,6 @@ export const TableWraperStyled = styled.div`
         }
         .B2{
           cursor: pointer;
-          font-weight: 600;
         }
       }
       .ant-table-row.changed{

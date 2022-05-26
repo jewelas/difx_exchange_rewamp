@@ -163,6 +163,58 @@ const RecentTransactionsWrapper = styled.div`
             margin-bottom: 0px;
         }
     }
+    .anchor-link{
+        color: ${({theme}) => theme.fontColor.muted} !important;
+    }
+    .recent-transactions-table{
+        padding: 0px 50px !important;
+    }
+    .ant-btn{
+        border: none !important;;
+    }
+    .deposit-link{
+        color: ${({theme}) => theme.color.success} !important;
+    }
 `
-
-export {RecentTransactionsWrapper, SidebarWrapper, TopBalanceWrapper, AccountCardWrapper}
+const ConvertModal = styled.div`
+    .modal-footer{
+        border-top:${({theme}) => theme.border.secondary};
+        margin: 0 -24px -24px;
+        padding: 20px 24px;
+    }
+    .convert-total{
+        label{
+            color: ${({theme}) => theme.fontColor.secondary};
+        }
+        div{
+            font-size: 18px;
+            font-weight: ${({theme}) => theme.fontWeight.semiBold};
+            span{
+                color: ${({theme}) => theme.fontColor.secondary};
+                font-size: 12px;
+                font-weight: ${({theme}) => theme.fontWeight.regular};
+            }
+        }
+    }
+`
+// Stepper Wrapper StyleSheet
+const StepperWrapper = styled.div`
+    background: rgb(254,249,244);
+    background: linear-gradient(117deg, rgba(254,249,244,1) 0%, rgba(255,255,255,1) 100%);
+    padding: 24px 40px;
+    position: relative;
+    overflow: hidden;
+    .wallet-stepper-topright{
+        position: absolute;
+        right: -60px;
+        top:-70px;
+        opacity: .4;
+    }
+    .wallet-stepper-leftbottom{
+        position: absolute;
+        left: -70px;
+        bottom:-100px;
+        opacity: .4;
+    }
+`
+export {StepperWrapper, RecentTransactionsWrapper, SidebarWrapper, TopBalanceWrapper, AccountCardWrapper, ConvertModal}

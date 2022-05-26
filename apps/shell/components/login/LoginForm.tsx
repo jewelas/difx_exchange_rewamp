@@ -101,7 +101,7 @@ export function LoginForm(props: LoginFormProps) {
     }
   };
 
-  const onError = useCallback(async(error: AxiosError) => {
+  const onError = async (error: AxiosError) => {
     setIsLoading(false)
     const { response } = error;
     const { statusText, data } = response.data;
@@ -115,7 +115,7 @@ export function LoginForm(props: LoginFormProps) {
             email: fieldsValue.email
           }
         }
-        await localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+        localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
         router.push("/verify-ip")
         break
       case "TFA_REQUIRED":
@@ -125,14 +125,13 @@ export function LoginForm(props: LoginFormProps) {
             session_id: data.session_id
           }
         }
-
-        await localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+        localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
         router.push("/two-factor")
         break
       default:
         break
     }
-  }, []);
+  };
 
   const { mutate: signIn } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
 

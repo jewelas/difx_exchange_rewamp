@@ -16,6 +16,7 @@ export * from "./hook/useMarketModal";
 export * from "./hook/useCurrency";
 export * from "./hook/useLanguage";
 export * from "./hook/useBalance";
+export * from "./hook/useConvertSmallBalModal";
 export * from "./hook/useFavourites";
 
 export * from "./type/Base";

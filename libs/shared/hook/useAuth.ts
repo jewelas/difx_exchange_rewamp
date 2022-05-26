@@ -60,7 +60,12 @@ export function useAuth() {
   }
 
   const refreshToken = async() => {
-    if(!user) return
+    
+    if(!user) {
+      logOut()
+      return
+    }
+
     let refreshToken = localStorage?.getItem("refreshToken")
 
     const reqData = {
@@ -71,6 +76,7 @@ export function useAuth() {
     //use axios instance instead of useHttpPost because otherwise it will cause a loop of hooks
     instance.interceptors.request.use(axiosAuthorization)
 
+    
     try{
       const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.REFRESH_TOKEN,reqData)
       const { data } = response.data

@@ -2,8 +2,8 @@ import { IconProps } from ".";
 import Layout from "./Layout";
 
 function Icon({
-  width = 19,
-  height = 19,
+  width = 16,
+  height = 16,
   useDarkMode,
   useDarkModeFor = 'svg',
   fill = "#262626",

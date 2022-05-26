@@ -77,8 +77,12 @@ import FutureIcon from "./FutureIcon";
 import HistoryIcon from "./HistoryIcon";
 import SupportIcon from "./SupportIcon";
 import GiftIcon from "./GiftIcon";
-import BoardIcon from "./BoardIcon"
-import PieChartIcon from "./PieChartIcon"
+import WalletWithdrawIcon from "./WalletWithdrawIcon"
+import WalletDepositIcon from "./WalletDepositIcon"
+import WalletTransferIcon from "./WalletTransferIcon"
+import BoardIcon from "./BoardIcon";
+import PieChartIcon from "./PieChartIcon";
+import CopyIcon from "./CopyIcon"
 export interface IconProps {
   width?: number;
   height?: number;
@@ -172,7 +176,11 @@ const Icon = {
   SupportIcon,
   GiftIcon,
   BoardIcon,
-  PieChartIcon
+  PieChartIcon,
+  WalletWithdrawIcon,
+  WalletDepositIcon,
+  WalletTransferIcon,
+  CopyIcon
 };
 
 export { Icon };

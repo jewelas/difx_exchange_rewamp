@@ -91,6 +91,9 @@ export const TableWraperStyled = styled.div`
     .ant-input{
       height: 40px !important;
     }
+    .ant-table .ant-table-tbody tr td{
+      padding: 3px 0 !important;
+    }
     .ant-table .ant-table-thead th{
       padding: 4px 0 !important;
     }

@@ -4,7 +4,7 @@ import Layout from "./Layout";
 function Icon({
   width = 15,
   height = 15,
-  fill = "#08c",
+  fill = "#8CB2F0",
   useDarkMode,
 }: IconProps) {
   return (

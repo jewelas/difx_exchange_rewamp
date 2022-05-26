@@ -138,6 +138,9 @@
     "stake_now": "Stake Now",
     "history": "History",
     "use_difx_token": "Use DIFX token to enjoy 20 % off trading fees",
-    "use_difx_point": "Use DIFX point for trading fees"
+    "use_difx_point": "Use DIFX point for trading fees",
+    "convert_small_bal_difx": "Convert small balance to DIFX",
+    "assets_allocation": "Assets Allocation",
+    "convert_small_bal": "Convert Small Balances"
   }
 }

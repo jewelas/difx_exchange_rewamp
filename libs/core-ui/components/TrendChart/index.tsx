@@ -55,6 +55,9 @@ export function TrendChart({ gradientHeight, width = 100, height = 50, label, da
       title: {
         display: false,
       },
+      tooltip: {
+        enabled: false
+      },
     },
     scales: {
       x: {

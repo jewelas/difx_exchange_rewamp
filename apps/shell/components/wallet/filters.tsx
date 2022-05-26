@@ -4,8 +4,10 @@ import { Icon, Typography } from "@difx/core-ui";
 import t from "@difx/locale";
 import { TopBalanceWrapper } from "./styled";
 import { SearchOutlined } from '@ant-design/icons';
+import { useConvertSmallBalModal } from "@difx/shared";
 
 export function WalletFilters({overviewContent}) {
+    const {modalVisible, setModalVisible} = useConvertSmallBalModal()
   return (
     <div className="toggle-card-wrapper">
         <Row align="middle" justify="space-between">
@@ -45,10 +47,10 @@ export function WalletFilters({overviewContent}) {
         <Col>
             <Space split={<Divider type="vertical" />}>
                 {overviewContent == "spot" || overviewContent == "overview" ?
-                    <Button type="text" icon={<Icon.PieChartIcon />} shape="round" size="small" className="round-light-primary-btn">Assets Allocation</Button>
+                    <Button type="text" icon={<Icon.PieChartIcon />} shape="round" size="small" className="round-light-primary-btn">{t("wallet.assets_allocation")}</Button>
                 : null }
                 {overviewContent === "spot" ? 
-                    <Button type="link" className="anchor-link">Convert small balance to DIFX</Button>
+                    <Button type="link" className="anchor-link" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.convert_small_bal_difx")}</Button>
                 : null }
             </Space>
         </Col>

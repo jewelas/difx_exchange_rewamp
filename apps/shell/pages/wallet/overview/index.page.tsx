@@ -28,7 +28,7 @@ export function OverviewPage() {
 
   return (
     <WalletLayout>
-        <Layout style={{ padding: '24px 24px 0' }}>
+        <Layout style={{ padding: '24px' }}>
             <div className="wallet-heading">
                 <h3>{t("wallet.overview")}</h3>
                 <p>{t("wallet.overview_para")}</p>

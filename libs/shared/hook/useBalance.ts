@@ -7,24 +7,27 @@ import { currentUserAtom, isLoggedInAtom, userBalanceAtom } from "../atom/index"
 import { useAtom } from "jotai";
 import { AxiosResponse } from "axios";
 import { useSocket } from "./useSocket";
+import isEmpty from "lodash/isEmpty";
 
 export function useBalance() {
-  const [isLoggedIn] = useAtom(isLoggedInAtom)
-  const [currentUser] = useAtom(currentUserAtom)
-  const [userBalance, setUserBalance] = useAtom(userBalanceAtom)
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
+  const [currentUser] = useAtom(currentUserAtom);
+  const [userBalance, setUserBalance] = useAtom(userBalanceAtom);
   const [overviewBalanceUSD, setOverviewBalanceUSD] = useState(0)
   const [spotBalanceUSD, setSpotBalanceUSD] = useState(0)
   const [futureBalanceUSD, setFutureBalanceUSD] = useState(0)
   const [spotYesterdayPnlUSD, setSpotYesterdayPnlUSD] = useState(0)
   const [rewardsBalanceUSD, setRewardsBalanceUSD] = useState(0)
   const [earnBalaceUSD, setEarnBalaceUSD] = useState(0)
-  
+
   const { API } = useAPI()
+
+  const [sent, isSent] = useState(false);
 
   // Call API to get balance
   const onSuccess = (response: AxiosResponse) => {
     const { data } = response
-    setUserBalance(data)
+    setUserBalance(data);
   }
   const { mutate: getBalance } = useHttpGetByEvent<null, any>({ onSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
 
@@ -34,8 +37,7 @@ export function useBalance() {
       const index = userBalance.findIndex(e => e.currency === balanceData.currency);
       if (index !== -1) {
         userBalance[index].amount += balanceData.change;
-        // Update in another thread
-        setTimeout(()=>{setUserBalance(userBalance)},500)
+        setUserBalance(userBalance);
       }
     }
   }
@@ -143,6 +145,14 @@ export function useBalance() {
       setUserBalance([])
     }
   }, [isLoggedIn])
+
+
+  useEffect(()=>{
+    if (currentUser && !isEmpty(userBalance) && !sent){
+      send({ join: currentUser.id });
+      isSent(true)
+    }
+  },[currentUser, userBalance])
 
   return {
     userBalance,

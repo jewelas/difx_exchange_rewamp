@@ -128,10 +128,6 @@ const MarketPopup = styled.div`
         line-height: 14.4px;
         color: ${({theme}) => theme.fontColor.secondary};
     }
-    .coinselect .ant-select-selection-item{
-        display: flex;
-        align-items: center;
-    }
 `
 const Quantity = styled.div`
     
@@ -140,6 +136,10 @@ const OptionGroupStyled = styled.div`
 display: flex;
 .coinvalue{
     margin-left: 10px;
+    span{
+        font-size: 11px;
+        color: ${({theme}) => theme.fontColor.secondary};
+    }
 }
 `
 

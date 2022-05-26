@@ -14,7 +14,7 @@ export function FuturesPage() {
 
   return (
     <WalletLayout>
-        <Layout style={{ padding: '24px 24px 0' }}>
+        <Layout style={{ padding: '24px' }}>
             <Content>
             <TopBalance 
               type="earn" 

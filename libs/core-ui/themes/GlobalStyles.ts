@@ -65,6 +65,21 @@ const GlobalStyles = createGlobalStyle`
       &.ant-tag-green{background:${({ theme }: { theme: ThemeInterface }) => theme.color.successDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.success};}
       &.ant-tag-red{background:${({ theme }: { theme: ThemeInterface }) => theme.color.dangerDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.danger};}
     }
+    .ant-btn{
+      padding: 0;
+      height: auto !important;
+    }
+    }
+    .common-table.modal-table{
+      .ant-table .ant-table-thead th{
+        background: transparent !important;
+      }
+      .ant-table tr th, .ant-table tr td{
+        border-bottom: none !important
+      }
+      .ant-table .ant-table-thead th.ant-table-selection-column, .ant-table .ant-table-tbody td.ant-table-selection-column{
+        padding-left: 0px;
+      }
     }
 
     .ant-btn{
@@ -322,12 +337,24 @@ const GlobalStyles = createGlobalStyle`
           .ant-table-cell-scrollbar{
             box-shadow: unset;
           }
+          .ant-table-tbody .ant-table-cell span{
+            display: inline-block !important;
+          }
+          .ant-table-container .ant-table-content .ant-table-thead{
+            .ant-table-cell{
+              font-size: 11px;
+            }
+          }
           .ant-table-thead{
             th{
               background: transparent !important;
               color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
               border-bottom: unset;
               padding: 16px 0;
+
+              .ant-table-column-title{
+                font-size: 11px;
+              }
 
               &:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before{
                 display: none;
@@ -347,7 +374,7 @@ const GlobalStyles = createGlobalStyle`
                 border:unset;
                 background: transparent !important;
                 color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
-                padding: 5px 0;
+                padding: 15px 0;
               }
             }
           }
@@ -414,10 +441,12 @@ const GlobalStyles = createGlobalStyle`
 
     .ant-modal-header{
       border-bottom: solid 1px ${({ theme }: { theme: ThemeInterface }) => theme.color.rowHover} !important;
+      background-color: transparent !important;
     }
-    .ant-modal-content, .ant-modal-header{
+    .ant-modal-content{
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary} !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      border-radius:10px !important
     }
 
     .ant-modal-mask{
@@ -593,6 +622,21 @@ const GlobalStyles = createGlobalStyle`
       height: 1.9em !important;
     }
 
+  .ant-steps-item-custom>.ant-steps-item-container>.ant-steps-item-icon{
+    width: 32px !important;
+    height: 32px !important;
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primaryLight} !important;
+    font-size: 12px;
+    font-weight: ${({ theme }: { theme: ThemeInterface }) => theme.fontWeight.semiBold} !important;
+  }
+  .ant-steps-item-title:after{
+    height:3px !important;
+    top: 15px !important
+  }
+  .coinselect .ant-select-selection-item,.coinselect .ant-select-selection-placeholder{
+        display: flex;
+        align-items: center;
+  }
 `;
 
 export { GlobalStyles };

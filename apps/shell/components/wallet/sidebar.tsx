@@ -50,7 +50,9 @@ export function WalletSidebar() {
         </Menu.Item>
         <Menu.ItemGroup>
           <Menu.Item key="deposit" icon={<Icon.HistoryIcon />}>
-          {t("wallet.deposit")}
+              <Link href="/wallet/deposit">
+                {t("wallet.deposit")}
+              </Link>
           </Menu.Item>
           <Menu.Item key="withdraw" icon={<Icon.HistoryIcon />}>
           {t("wallet.withdraw")}

@@ -1,20 +1,27 @@
-import React, { useEffect } from "react";
-import { Layout } from 'antd';
+import React from "react";
+import { Layout, Modal } from 'antd';
 import TopBalance from "../../../components/wallet/balance";
 import SpotTransactions from "../../../components/wallet/spotTransactions";
 import WalletLayout from "../index.page";
 import WalletFilters from "../../../components/wallet/filters";
-import { useBalance } from "@difx/shared";
+import ConvertSmallBalModal from "../../../components/wallet/spot/modal";
+import { useBalance, useConvertSmallBalModal } from "@difx/shared";
+import { t } from "i18next";
 
 const { Content } = Layout;
 
 export function SpotPage() {
 
   const { userBalance, spotBalanceUSD, spotBalanceBTC, spotYesterdayPnlBTC, spotYesterdayPnlUSD } = useBalance()
+  const { modalVisible, setModalVisible } = useConvertSmallBalModal()
+
+  const closeModal = () => {
+      setModalVisible(false);
+  };
 
   return (
     <WalletLayout>
-        <Layout style={{ padding: '24px 24px 0' }}>
+        <Layout style={{ padding: '24px' }}>
             <Content>
             <TopBalance 
               type="spot" 
@@ -31,6 +38,9 @@ export function SpotPage() {
             />
             <WalletFilters overviewContent="spot" />
             <SpotTransactions userBalance={userBalance}/>
+            <Modal title={t("wallet.convert_small_bal")} visible={modalVisible} onCancel={closeModal} footer={null}>
+                <ConvertSmallBalModal />
+            </Modal>
             </Content>
         </Layout>
     </WalletLayout>

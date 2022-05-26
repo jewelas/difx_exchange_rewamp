@@ -19,3 +19,4 @@ export * from "./Switch";
 // export * from "./CoinSelect";
 export * from "./Notification";
 export * from "./ConvertButton";
+export * from "./TrendChart";

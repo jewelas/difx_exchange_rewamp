@@ -121,7 +121,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
     }
   }, [data, pairInfo]);
 
-  if (!pairInfo) return <Loading type="component" />
+  if (!pairInfo) return <Loading />
 
   return (
     <OrderBook

@@ -48,6 +48,8 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
   const balances = useAtomValue(userBalanceAtom);
   const [balance, setBalance] = useState(0.00);
 
+  const [numberRound, setNumberRound] = useState<number>(100);
+
   useEffect(() => {
     if (!isEmpty(balances) && pairInfo) {
       let balanceObj = balances.find(e => e.currency === (side === "bid" ? pairInfo.currency2 : pairInfo.currency1));
@@ -67,6 +69,8 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
 
   useEffect(() => {
     if (pairInfo && !priceSelected) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
+    const group_precision = pairInfo ? pairInfo.group_precision : 2;
+    setNumberRound(Math.pow(10, group_precision));
   }, [pairInfo]);
 
   useEffect(() => {
@@ -95,20 +99,20 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
         const currentPrice = form.getFieldValue(`${side}.price`);
         const amount: number = currentPrice ? fieldValue / currentPrice : 0;
         form.setFieldsValue({
-          [`${side}.amount`]: Math.floor(amount * 100) / 100,
+          [`${side}.amount`]: Math.floor(amount * numberRound) / numberRound,
         });
       } else if (fieldName === `${side}.amount`) {
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = currentPrice * fieldValue;
         form.setFieldsValue({
-          [`${side}.total`]: Math.floor(newTotal * 100) / 100,
+          [`${side}.total`]: Math.floor(newTotal * numberRound) / numberRound,
         });
       } else if (fieldName === `${side}.price`) {
         const amount = form.getFieldValue(`${side}.amount`);
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = amount * currentPrice;
         form.setFieldsValue({
-          [`${side}.total`]: Math.floor(newTotal * 100) / 100,
+          [`${side}.total`]: Math.floor(newTotal * numberRound) / numberRound,
         });
       }
       if (balance) {
@@ -171,18 +175,18 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
       const currentPrice = pairInfo?.last || priceSelected;
 
       const percentOfBalance: number = (balance * value) / 100;
-      const percentOfBalanceRound: number = Math.floor(percentOfBalance * 100) / 100;
+      const percentOfBalanceRound: number = Math.floor(percentOfBalance * numberRound) / numberRound;
 
       if (side === 'bid') {
         const amount: number = currentPrice ? percentOfBalanceRound / currentPrice : 0;
-        const amountRound: number = Math.floor(amount * 100) / 100;
+        const amountRound: number = Math.floor(amount * numberRound) / numberRound;
         form.setFieldsValue({
           [`${side}.total`]: percentOfBalanceRound,
           [`${side}.amount`]: amountRound,
         });
       } else if (side === 'ask') {
         const total: number = currentPrice ? percentOfBalanceRound * currentPrice : 0;
-        const totalRound: number = Math.floor(total * 100) / 100;
+        const totalRound: number = Math.floor(total * numberRound) / numberRound;
         form.setFieldsValue({
           [`${side}.total`]: totalRound,
           [`${side}.amount`]: percentOfBalanceRound,

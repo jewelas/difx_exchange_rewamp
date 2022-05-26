@@ -98,7 +98,7 @@ export function TrendChart({ gradientHeight, width = 100, height = 50, label, da
           data: data,
           borderColor: lineColor,
           pointRadius: 0,
-          borderWidth: 2,
+          borderWidth: 1,
           fill: true,
           backgroundColor: gradient,
         },

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Avatar, Button, Col, Form, Input, Layout, Popover, Row, Select, Tooltip, Typography } from 'antd';
+import React from "react";
+import { Avatar, Button, Col, Form, Layout, Popover, Row, Select, Typography } from 'antd';
 import WalletLayout from "../index.page";
 import WalletStepper from "../../../components/wallet/stepper";
 import { OptionGroupStyled } from "../../market/styled";

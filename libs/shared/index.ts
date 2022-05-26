@@ -18,6 +18,7 @@ export * from "./hook/useLanguage";
 export * from "./hook/useBalance";
 export * from "./hook/useConvertSmallBalModal";
 export * from "./hook/useFavourites";
+export * from "./hook/useTransactionDetailsModal";
 
 export * from "./type/Base";
 export * from "./type/User";

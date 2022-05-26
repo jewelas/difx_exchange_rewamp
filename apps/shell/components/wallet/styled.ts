@@ -217,4 +217,26 @@ const StepperWrapper = styled.div`
         opacity: .4;
     }
 `
-export {StepperWrapper, RecentTransactionsWrapper, SidebarWrapper, TopBalanceWrapper, AccountCardWrapper, ConvertModal}
+const  TransactionDetailsWrapper = styled.div`
+    .top-section{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 -24px 24px;
+        padding: 0 24px 24px 24px;
+        border-bottom: ${({theme}) => theme.border.secondary};
+    }
+    .witdrawal-modal{
+        .ant-row{
+            margin: 10px 0;
+            &>.ant-col:last-child{
+                max-width: 50%;
+                .long-text{
+                    font-size: 12px;
+                    text-align: right;
+                }
+            }
+        }
+    }
+`
+export {TransactionDetailsWrapper, StepperWrapper, RecentTransactionsWrapper, SidebarWrapper, TopBalanceWrapper, AccountCardWrapper, ConvertModal}

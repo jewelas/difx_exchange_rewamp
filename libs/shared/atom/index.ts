@@ -41,3 +41,5 @@ export const userBalanceAtom = atom<Balance[]>([]) as PrimitiveAtom<Balance[]>;
 export const layoutTypeAtom = atom<string | 'default' | 'compact' | 'pro'>('default');
 
 export const candleTypeAtom = atom<string | 'greenUp' | 'redUp'>('greenUp');
+
+export const withrawalDetailsModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;

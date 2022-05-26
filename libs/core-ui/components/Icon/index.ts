@@ -77,6 +77,9 @@ import FutureIcon from "./FutureIcon";
 import HistoryIcon from "./HistoryIcon";
 import SupportIcon from "./SupportIcon";
 import GiftIcon from "./GiftIcon";
+import WalletWithdrawIcon from "./WalletWithdrawIcon"
+import WalletDepositIcon from "./WalletDepositIcon"
+import WalletTransferIcon from "./WalletTransferIcon"
 import BoardIcon from "./BoardIcon";
 import PieChartIcon from "./PieChartIcon";
 import CopyIcon from "./CopyIcon"
@@ -174,6 +177,9 @@ const Icon = {
   GiftIcon,
   BoardIcon,
   PieChartIcon,
+  WalletWithdrawIcon,
+  WalletDepositIcon,
+  WalletTransferIcon,
   CopyIcon
 };
 

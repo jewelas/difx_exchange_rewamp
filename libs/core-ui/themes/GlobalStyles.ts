@@ -618,6 +618,9 @@ const GlobalStyles = createGlobalStyle`
     .ant-divider-vertical {
       height: 2.9em !important;
     }
+    .table-btn-divider.ant-divider-vertical {
+      height: 1.9em !important;
+    }
 
   .ant-steps-item-custom>.ant-steps-item-container>.ant-steps-item-icon{
     width: 32px !important;

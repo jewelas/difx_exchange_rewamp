@@ -1,19 +1,17 @@
-import { useHttpGet } from "@difx/shared";
-import { Col, Row, Space } from "antd";
-import React, { useEffect, useState } from "react";
+import { Col, Row } from "antd";
+import React from "react";
 import { AccountCardWrapper } from "./styled";
-import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
 
-export function AccountCards() {
-    // const { data: walletOverviewData, isLoading } = useHttpGet<null, null>(QUERY_KEY.WALLET_OVERVIEW, API_ENDPOINT.GET_WALLET_OVERVIEW, null);
-
-    // const [walletOverview, setWalletOverview] = useState([])
-
-    // useEffect(() => {
-    //     setWalletOverview(walletOverviewData)
-    //   }, [walletOverviewData]);
-
-    //   console.log("nitin", walletOverview)
+export function AccountCards({
+    spotBalanceUSD,
+    spotBalanceBTC,
+    futureBalanceUSD,
+    futureBalanceBTC,
+    rewardsBalanceUSD,
+    rewardsBalanceBTC,
+    earnBalaceUSD,
+    earnBalaceBTC 
+}) {
   return (
     <AccountCardWrapper>
         <Row gutter={[16, 16]}>
@@ -27,8 +25,8 @@ export function AccountCards() {
                         <h3>Spot Account</h3>
                     </div>
                     <div className="wallet-card-content">
-                        <h6>0.00 BTC</h6>
-                        <span>≈ $0.00</span>
+                        <h6>{spotBalanceBTC} BTC</h6>
+                        <span>≈ ${spotBalanceUSD}</span>
                     </div>
                 </div>
             </Col>
@@ -42,8 +40,8 @@ export function AccountCards() {
                         <h3>Future Account</h3>
                     </div>
                     <div className="wallet-card-content">
-                        <h6>0.00 BTC</h6>
-                        <span>≈ $0.00</span>
+                        <h6>{futureBalanceBTC} BTC</h6>
+                        <span>≈ ${futureBalanceUSD}</span>
                     </div>
                 </div>
             </Col>
@@ -57,8 +55,8 @@ export function AccountCards() {
                         <h3>Earn</h3>
                     </div>
                     <div className="wallet-card-content">
-                        <h6>0.00 BTC</h6>
-                        <span>≈ $0.00</span>
+                        <h6>{earnBalaceBTC} BTC</h6>
+                        <span>≈ ${earnBalaceUSD}</span>
                     </div>
                 </div>
             </Col>
@@ -69,11 +67,11 @@ export function AccountCards() {
                     </div>
                     <div className="wallet-card-icon">
                         <img src={"/imgs/gifts-duotone.svg"} alt="" />
-                        <h3>Spot Account</h3>
+                        <h3>Rewards</h3>
                     </div>
                     <div className="wallet-card-content">
-                        <h6>0.00 BTC</h6>
-                        <span>≈ $0.00</span>
+                        <h6>{rewardsBalanceBTC} BTC</h6>
+                        <span>≈ ${rewardsBalanceUSD}</span>
                     </div>
                 </div>
             </Col>

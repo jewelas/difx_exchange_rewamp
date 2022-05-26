@@ -1,26 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Divider, Space } from "antd";
 import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
 import { TopBalanceWrapper } from "./styled";
 import TotalBalance from "./totalBalance";
 import OverviewBalance from "./overviewBalance";
+import Link from "next/link";
 
 export interface TopBalanceInterface{
-    type: string,
+    type,
     heading: string,
-    amount: string,
-    currency: string,
-    overviewHeading: string,
-    overviewAmount: string,
-    overviewCurrency: string,
-    bgImage: string
+    amount: number,
+    currency: number,
+    yesterdayPnlHeading?: string,
+    yesterdayPnlAmount?: number,
+    yesterdayPnlCurrency?: number,
+    overviewPnlHeading?: string,
+    overviewPnlAmount?: number,
+    overviewPnlCurrency?: number,
+    bgImage?: string
 }
 
 export function TopBalance({
-    type, heading, amount, currency,
-    overviewHeading, overviewAmount, overviewCurrency, bgImage
+        type,
+        heading,
+        amount, 
+        currency,
+        yesterdayPnlHeading,
+        yesterdayPnlAmount,
+        yesterdayPnlCurrency,
+        overviewPnlHeading,
+        overviewPnlAmount, 
+        overviewPnlCurrency, 
+        bgImage
     }: TopBalanceInterface) {
+
     return (
         <TopBalanceWrapper>
             <div className="total-balance-wrapper">
@@ -34,20 +48,20 @@ export function TopBalance({
                         <div className="total-balance-heading">
                             <p>{t("wallet.yesterday_pl")} (BTC)</p>
                         </div>
-                        <h4>0.00</h4>
-                        <h6>≈ $0.00</h6>
+                        <h4>{yesterdayPnlAmount}</h4>
+                        <h6>≈ ${yesterdayPnlCurrency}</h6>
                     </div>
                     :
                     null
                     }
                     {type === "overview" ? null :
-                        <OverviewBalance overviewHeading={overviewHeading} overviewAmount={overviewAmount} overviewCurrency={overviewCurrency} />
+                        <OverviewBalance overviewHeading={overviewPnlHeading} overviewAmount={overviewPnlAmount} overviewCurrency={overviewPnlCurrency} />
                     }
                 </Space>
                 {type == "overview" ? 
                     <Space className="wallet-btn-group">
-                        <Button type="primary">{t("wallet.deposit")}</Button>
-                        <Button type="ghost">{t("wallet.withdraw")}</Button>
+                        <Link href="/wallet/deposit"><Button type="primary">{t("wallet.deposit")}</Button></Link>
+                        <Link href="/wallet/withdraw"><Button type="ghost">{t("wallet.withdraw")}</Button></Link>
                         <Button type="ghost">{t("wallet.transfer")}</Button>
                     </Space>
                 :
@@ -55,8 +69,8 @@ export function TopBalance({
                 }
                 {type === "spot" ?
                     <Space className="wallet-btn-group">
-                        <Button type="primary">{t("wallet.deposit")}</Button>
-                        <Button type="ghost">{t("wallet.withdraw")}</Button>
+                        <Link href="/wallet/deposit"><Button type="primary">{t("wallet.deposit")}</Button></Link>
+                        <Link href="/wallet/withdraw"><Button type="ghost">{t("wallet.withdraw")}</Button></Link>
                         <Button type="ghost">{t("wallet.transfer")}</Button>
                         <Button type="link" icon={<Icon.EyeVisibleIcon width={16}/>} className="anchor-link"> {t("wallet.pl_analysis")}</Button>
                     </Space>

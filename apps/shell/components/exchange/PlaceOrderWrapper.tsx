@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { Loading, OrderForm, OrderSideType, OrderType, Typography } from "@difx/core-ui";
-import { Balance, currentUserAtom, isLoggedInAtom, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, SocketEvent, useHttpGet, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
+import { Balance, currentUserAtom, isLoggedInAtom, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, SocketEvent, useHttpGet, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
 import { Button, Tabs } from "antd";
 import { AxiosResponse } from "axios";
 import clsx from 'clsx';
@@ -45,11 +45,21 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
     else return {} as PairType;
   }, [pairsData, pair]);
 
+
+  const getBalancesSuccess = (response: AxiosResponse<Array<Balance>>) => {
+    if (response.data) {
+      setBalances(response.data);
+    }
+  }
+  const { mutate: getBalances } = useHttpGetByEvent<any, Array<Balance>>({ onSuccess: getBalancesSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
+  useEffect(() => {
+    if (isLoggedIn) getBalances(null)
+  }, [isLoggedIn]);
+
   const placeOrderSuccess = (response: AxiosResponse<{ data: PlaceOrderResponse }>) => {
     const { data } = response.data;
     showNotification('success', 'Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
   }
-
   const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, { data: PlaceOrderResponse }>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
 
   const { TabPane } = Tabs;

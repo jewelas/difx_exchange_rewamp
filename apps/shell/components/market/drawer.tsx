@@ -15,7 +15,7 @@ export function MarketDrawer() {
    const router = useRouter();
    const {marketPair} = useMarketPair()
 //    const [ellipsis, setEllipsis] = useState(true);
-    const { data: coinInfo, isLoading, isError } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS_INFO(marketPair.currency), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS(marketPair.currency), null);
+    const { data: coinInfo, isLoading, isError } = useHttpGet<null, any>(QUERY_KEY.COIN_INFO(marketPair.currency), API_ENDPOINT.GET_COIN_DETAILS(marketPair.currency), null);
     if(isLoading){
     return <> loading.. </>
     }

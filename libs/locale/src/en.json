@@ -8,7 +8,16 @@
     "have_acc": "Already have an account?",
     "search": "Search",
     "info": "Info",
-    "hide_small_balances": "Hide Small Balances"
+    "hide_small_balances": "Hide Small Balances",
+    "amount": "Amount",
+    "id": "ID",
+    "size": "Size",
+    "fee": "Fee",
+    "type": "Type",
+    "network": "Network",
+    "address": "Address",
+    "transaction_id": "Transaction ID",
+    "status": "Status"
   },
   "staking":{
     "view-staking":"View Staking",
@@ -141,6 +150,7 @@
     "use_difx_point": "Use DIFX point for trading fees",
     "convert_small_bal_difx": "Convert small balance to DIFX",
     "assets_allocation": "Assets Allocation",
-    "convert_small_bal": "Convert Small Balances"
+    "convert_small_bal": "Convert Small Balances",
+    "tansaction_details" : "Transaction Detalis"
   }
 }

@@ -16,11 +16,11 @@ export function TransactionDetailsModal() {
     };
 
   return (
-        <Modal title="Transaction Detalis" footer={null} visible={modalVisible} onCancel={closeModal}>
+        <Modal title={t("wallet.tansaction_details")} footer={null} visible={modalVisible} onCancel={closeModal}>
             <TransactionDetailsWrapper>
                 <div className="top-section">
                     <div>
-                        <label><Text type="secondary">Amount</Text></label>
+                        <label><Text type="secondary">{t("common.amount")}</Text></label>
                         <Typography.Title level={5}>
                             12 DIFX
                         </Typography.Title>
@@ -33,7 +33,7 @@ export function TransactionDetailsModal() {
                 <div className="witdrawal-modal">
                     <Row justify="space-between">
                         <Col>
-                            <Text type="secondary">ID</Text>
+                            <Text type="secondary">{t("common.id")}</Text>
                         </Col>
                         <Col>
                             <Text>2045</Text>
@@ -41,7 +41,7 @@ export function TransactionDetailsModal() {
                     </Row>
                     <Row justify="space-between">
                         <Col>
-                            <Text type="secondary">Size</Text>
+                            <Text type="secondary">{t("common.size")}</Text>
                         </Col>
                         <Col>
                             <Text>10.00 FTM</Text>
@@ -49,7 +49,7 @@ export function TransactionDetailsModal() {
                     </Row>
                     <Row justify="space-between">
                         <Col>
-                            <Text type="secondary">Fee</Text>
+                            <Text type="secondary">{t("common.fee")}</Text>
                         </Col>
                         <Col>
                             <Text>0.99 FTM</Text>
@@ -57,7 +57,7 @@ export function TransactionDetailsModal() {
                     </Row>
                     <Row justify="space-between">
                         <Col>
-                            <Text type="secondary">Type</Text>
+                            <Text type="secondary">{t("common.type")}</Text>
                         </Col>
                         <Col>
                             <Text>Withdraw</Text>
@@ -65,7 +65,7 @@ export function TransactionDetailsModal() {
                     </Row>
                     <Row justify="space-between">
                         <Col>
-                            <Text type="secondary">Network</Text>
+                            <Text type="secondary">{t("common.network")}</Text>
                         </Col>
                         <Col>
                             <Text>FTM</Text>
@@ -73,7 +73,7 @@ export function TransactionDetailsModal() {
                     </Row>
                     <Row justify="space-between">
                         <Col>
-                            <Text type="secondary">Address</Text>
+                            <Text type="secondary">{t("common.address")}</Text>
                         </Col>
                         <Col>
                             <Text className="long-text">0x312ebdc921cccb33d9f202e8bb7b8d5721de151f</Text>
@@ -81,7 +81,7 @@ export function TransactionDetailsModal() {
                     </Row>
                     <Row justify="space-between">
                         <Col>
-                            <Text type="secondary">Trasncation ID</Text>
+                            <Text type="secondary">{t("common.transaction_id")}</Text>
                         </Col>
                         <Col>
                             <Text className="long-text">0x312ebdc921cccb33d9f202e8bb7b8d5721de151f</Text>
@@ -89,7 +89,7 @@ export function TransactionDetailsModal() {
                     </Row>
                     <Row justify="space-between">
                         <Col>
-                            <Text type="secondary">Status</Text>
+                            <Text type="secondary">{t("common.status")}</Text>
                         </Col>
                         <Col>
                             <Text type="success">Completed</Text>

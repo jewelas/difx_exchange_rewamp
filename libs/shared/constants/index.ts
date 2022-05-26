@@ -116,7 +116,7 @@ export const API_ENDPOINT = {
   CANCEL_ORDER: '/api/v1/order/cancel-order',
   CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
   GET_MARKET_PAIRS: '/api/v1/market/pairs',
-  GET_SELECTED_MARKET_PAIRS: (coin: string) => `/api/v1/market/pair-detail?coin=${coin}`,
+  GET_SELECTED_MARKET_PAIRS: (coin: string) => `/api/v1/market/pairs?symbol=${coin}`,
   GET_COIN_DETAILS: (coin: string) => `/api/v1/market/coin-detail?coin=${coin}`,
   GET_STAKING_LIST: '/api/v1/staking/list',
   ADD_FAVORITES: '/api/v1/user/favorite-pair',

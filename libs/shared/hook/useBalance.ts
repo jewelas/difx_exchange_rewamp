@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useHttpGetByEvent } from "..";
 import { Balance } from './../type/Balance';
 import { useSocketProps, SocketEvent, useSocketByEvent, useAPI } from "./../../shared";
-import { API_ENDPOINT, QUERY_KEY } from "../constants"
+import { API_ENDPOINT, QUERY_KEY, REFETCH } from "../constants"
 import { currentUserAtom, isLoggedInAtom, userBalanceAtom } from "../atom/index"
 import { useAtom } from "jotai";
 import { AxiosResponse } from "axios";
 import { useSocket } from "./useSocket";
 import isEmpty from "lodash/isEmpty";
+import { useHttpGet } from "./useHttp";
 
 export function useBalance() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
@@ -30,6 +31,7 @@ export function useBalance() {
     setUserBalance(data);
   }
   const { mutate: getBalance } = useHttpGetByEvent<null, any>({ onSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
+  const { data: btcInfo } = useHttpGet<null, any>(QUERY_KEY.MARKET_CURRENT_PRICE("BTCUSDT"), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS("BTCUSDT"), { refetchInterval: REFETCH._10SECS });
 
   // Update balance from Socket
   const onReceivedWSData = (balanceData: any) => {
@@ -42,16 +44,26 @@ export function useBalance() {
     }
   }
   const { send } = useSocketByEvent({ event: SocketEvent.user_balances, onSuccess: onReceivedWSData });
-  const data = useSocket({join:"BTCUSDT",event: SocketEvent.orderbook_limited});
+  // const data = useSocket({join:"BTCUSDT",event: SocketEvent.orderbook_limited});
 
   const currentBTCPrice = useMemo(()=>{
-    if(data){
-      const { asks, bids } = data
-      return (asks[0][0] + bids[0][0])/2
+    console.log(btcInfo)
+    if(btcInfo){
+      const { spot } = btcInfo
+      const currentPrice = spot[0].lowest_ask
+      return currentPrice
     }else{
       return 0
     }
-  },[data])
+  },[btcInfo])
+
+  useEffect(()=>{
+    console.log(btcInfo)
+  },[btcInfo])
+
+  // useEffect(()=>{
+  //   console.log(btcPrice)
+  // },[btcInfo])
 
   // const totalSpotUSDBalance = useMemo(()=>{
   //   let totalbalance = 0

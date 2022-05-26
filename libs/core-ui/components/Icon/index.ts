@@ -77,8 +77,9 @@ import FutureIcon from "./FutureIcon";
 import HistoryIcon from "./HistoryIcon";
 import SupportIcon from "./SupportIcon";
 import GiftIcon from "./GiftIcon";
-import BoardIcon from "./BoardIcon"
-import PieChartIcon from "./PieChartIcon"
+import BoardIcon from "./BoardIcon";
+import PieChartIcon from "./PieChartIcon";
+import CopyIcon from "./CopyIcon"
 export interface IconProps {
   width?: number;
   height?: number;
@@ -172,7 +173,8 @@ const Icon = {
   SupportIcon,
   GiftIcon,
   BoardIcon,
-  PieChartIcon
+  PieChartIcon,
+  CopyIcon
 };
 
 export { Icon };

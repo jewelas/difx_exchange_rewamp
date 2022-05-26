@@ -10,7 +10,7 @@ const { Content } = Layout;
 export function FuturesPage() {
   return (
     <WalletLayout>
-        <Layout style={{ padding: '24px 24px 0' }}>
+        <Layout style={{ padding: '24px' }}>
             <Content>
             <TopBalance type="futures" heading="Future Balance" amount="0.00" currency="0.00" overviewHeading="Total Unrealized PnL" overviewAmount="0.00" overviewCurrency="0.00" bgImage="wallet_card_bg" />
             <WalletFilters overviewContent="futures"/>

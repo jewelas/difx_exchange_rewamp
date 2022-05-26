@@ -35,6 +35,7 @@ export const marketFuturesListAtom = atom<any | null>(null) as PrimitiveAtom<any
 export const marketSpotFavoritesListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
 export const marketFutureFavoritesListAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
 
+export const convertSmallBalModalAtom = atom<boolean | null>(null) as PrimitiveAtom<boolean | null>;
 export const userBalanceAtom = atom<Balance[]>([]) as PrimitiveAtom<Balance[]>;
 
 export const layoutTypeAtom = atom<string | 'default' | 'compact' | 'pro'>('default');

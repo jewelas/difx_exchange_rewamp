@@ -189,6 +189,7 @@ export const ComponentStyled = styled.div`
           &.price {
             width: 50px;
             max-width: 50px;
+            overflow: visible !important;
             white-space: nowrap;
             display: flex;
             justify-content: flex-start;

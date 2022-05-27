@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Spin } from "antd";
+import { Button } from "antd";
 import clsx from "clsx";
 import { getPriceFormatted } from "../../../shared/utils/priceUtils";
 import { Typography } from "../Typography";
@@ -131,7 +131,7 @@ export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout }
   const { currentCurrency: fiatCurrency } = useCurrency();
 
   if (!currentPrice) {
-    return <Spin className="loading" indicator={<Loading />} />;
+    return <Loading type="component" style={{position:'absolute', width:'100%', height:'100%'}} />;
   }
 
   return (

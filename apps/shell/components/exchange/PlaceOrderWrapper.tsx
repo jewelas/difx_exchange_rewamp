@@ -23,14 +23,14 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
   const [askForm] = Form.useForm();
 
   useEffect(() => {
-    bidForm.setFieldsValue({ [`${side}.stop`]: 0 });
-    bidForm.setFieldsValue({ [`${side}.amount`]: 0 });
-    bidForm.setFieldsValue({ [`${side}.total`]: 0 });
+    bidForm.setFieldsValue({ [`bid.stop`]: 0 });
+    bidForm.setFieldsValue({ [`bid.amount`]: 0 });
+    bidForm.setFieldsValue({ [`bid.total`]: 0 });
 
-    askForm.setFieldsValue({ [`${side}.stop`]: 0 });
-    askForm.setFieldsValue({ [`${side}.amount`]: 0 });
-    askForm.setFieldsValue({ [`${side}.total`]: 0 });
-  }, []);
+    askForm.setFieldsValue({ [`ask.stop`]: 0 });
+    askForm.setFieldsValue({ [`ask.amount`]: 0 });
+    askForm.setFieldsValue({ [`ask.total`]: 0 });
+  }, [pair]);
 
   const [priceSelected,] = useAtom(priceSelectedAtom);
 
@@ -105,6 +105,15 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
       placeOrder(request);
     }
 
+    if(side === "ask"){
+      askForm.setFieldsValue({ [`${side}.stop`]: 0 });
+      askForm.setFieldsValue({ [`${side}.amount`]: 0 });
+      askForm.setFieldsValue({ [`${side}.total`]: 0 });
+    }else if(side === "bid"){
+      bidForm.setFieldsValue({ [`${side}.stop`]: 0 });
+      bidForm.setFieldsValue({ [`${side}.amount`]: 0 });
+      bidForm.setFieldsValue({ [`${side}.total`]: 0 });
+    }
   }
 
   const Side = () => (

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
-import { Loading, OrderForm, OrderSideType, OrderType, Typography } from "@difx/core-ui";
+import { Loading, OrderForm, OrderSideType, OrderType, Typography, showSuccess } from "@difx/core-ui";
 import { Balance, currentUserAtom, isLoggedInAtom, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, SocketEvent, useHttpGet, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
 import { Button, Tabs } from "antd";
 import { AxiosResponse } from "axios";
@@ -9,7 +9,6 @@ import clsx from 'clsx';
 import { useAtom } from "jotai";
 import { useAtomValue } from "jotai/utils";
 import React, { useEffect, useMemo, useState } from 'react';
-import { showNotification } from "./../../utils/pageUtils";
 import { PlaceOrderWraperStyled } from "./styled";
 
 export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, layout?: string }) {
@@ -58,7 +57,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
 
   const placeOrderSuccess = (response: AxiosResponse<{ data: PlaceOrderResponse }>) => {
     const { data } = response.data;
-    showNotification('success', 'Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
+    showSuccess('Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
   }
   const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, { data: PlaceOrderResponse }>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
 

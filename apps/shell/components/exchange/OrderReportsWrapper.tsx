@@ -4,7 +4,7 @@ import { Icon, Loading, Switch } from "@difx/core-ui";
 import { BaseResponse, isLoggedInAtom, useHttpPut } from "@difx/shared";
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT } from "@difx/constants";
-import { showNotification } from "./../../utils/pageUtils";
+import { showSuccess, ConvertButton} from "@difx/core-ui";
 import { Button, Switch as AntdSwitch, Tabs } from "antd";
 import { useEffect, useState } from 'react';
 import { useAtomValue } from "jotai/utils";
@@ -26,7 +26,7 @@ export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string
 
   const onSuccess = (response: AxiosResponse<BaseResponse>) => {
     const { message } = response.data;
-    showNotification('success', 'Cancel Order', message);
+    showSuccess('Cancel Order', message);
   }
   const { mutate: cancelAllOrders } = useHttpPut<null, BaseResponse>({ onSuccess, endpoint: API_ENDPOINT.CANCEL_ALL_ORDERS });
 

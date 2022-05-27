@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, Input, Slider } from "antd";
+import { Button, Form, FormInstance, Input, Slider } from "antd";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
@@ -27,9 +27,10 @@ export interface OrderFormProps {
   isLoading?: boolean,
   canDeposit?: boolean,
   balance?: number;
+  form:FormInstance
 }
 
-export function OrderForm({balance, layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
+export function OrderForm({form, balance, layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: ' ',
@@ -46,7 +47,7 @@ export function OrderForm({balance, layout = 'default', canDeposit = true, isLoa
 
   const [numberRound, setNumberRound] = useState<number>(100);
 
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
 
   useEffect(() => {
     if (priceSelected) form.setFieldsValue({ [`${side}.price`]: priceSelected })
@@ -57,12 +58,6 @@ export function OrderForm({balance, layout = 'default', canDeposit = true, isLoa
     const group_precision = pairInfo ? pairInfo.group_precision : 2;
     setNumberRound(Math.pow(10, group_precision));
   }, [pairInfo]);
-
-  useEffect(() => {
-    form.setFieldsValue({ [`${side}.stop`]: 0 });
-    form.setFieldsValue({ [`${side}.amount`]: 0 });
-    form.setFieldsValue({ [`${side}.total`]: 0 });
-  }, []);
 
   const onSubmit = (formData: PlaceOrderRequest) => {
     onPlaceOrder(formData, type, side);

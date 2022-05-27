@@ -3,7 +3,7 @@
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { Loading, OrderForm, OrderSideType, OrderType, Typography, showSuccess } from "@difx/core-ui";
 import { Balance, currentUserAtom, isLoggedInAtom, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, SocketEvent, useHttpGet, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
-import { Button, Tabs } from "antd";
+import { Button, Form, Tabs } from "antd";
 import { AxiosResponse } from "axios";
 import clsx from 'clsx';
 import { useAtom } from "jotai";
@@ -18,6 +18,19 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   const user = useAtomValue(currentUserAtom);
   const [balances, setBalances] = useState<Array<Balance>>([]);
+
+  const [bidForm] = Form.useForm();
+  const [askForm] = Form.useForm();
+
+  useEffect(() => {
+    bidForm.setFieldsValue({ [`${side}.stop`]: 0 });
+    bidForm.setFieldsValue({ [`${side}.amount`]: 0 });
+    bidForm.setFieldsValue({ [`${side}.total`]: 0 });
+
+    askForm.setFieldsValue({ [`${side}.stop`]: 0 });
+    askForm.setFieldsValue({ [`${side}.amount`]: 0 });
+    askForm.setFieldsValue({ [`${side}.total`]: 0 });
+  }, []);
 
   const [priceSelected,] = useAtom(priceSelectedAtom);
 
@@ -111,6 +124,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
       <div className="place-order-group">
         <div className="bid">
           <OrderForm
+            form={bidForm}
             layout={layout}
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
@@ -124,6 +138,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
         </div>
         <div className="ask">
           <OrderForm
+            form={askForm}
             layout={layout}
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
@@ -145,6 +160,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
           side === 'bid' &&
           <div className="bid">
             <OrderForm
+              form={bidForm}
               layout={layout}
               canDeposit={false}
               isLoading={isLoading}
@@ -163,6 +179,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
           side === 'ask' &&
           <div className="ask">
             <OrderForm
+              form={askForm}
               layout={layout}
               canDeposit={false}
               isLoading={isLoading}
@@ -185,6 +202,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
       <div className="place-order-group">
         <div className="bid">
           <OrderForm
+            form={bidForm}
             layout={layout}
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
@@ -198,6 +216,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
         </div>
         <div className="ask">
           <OrderForm
+            form={askForm}
             layout={layout}
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}

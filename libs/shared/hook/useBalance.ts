@@ -30,6 +30,7 @@ export function useBalance() {
     setUserBalance(data);
   }
   const { mutate: getBalance } = useHttpGetByEvent<null, any>({ onSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
+  // const { data: btcInfo } = useHttpGet<null, any>(QUERY_KEY.MARKET_CURRENT_PRICE("BTCUSDT"), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS("BTCUSDT"), null);
 
   // Update balance from Socket
   const onReceivedWSData = (balanceData: any) => {
@@ -42,34 +43,19 @@ export function useBalance() {
     }
   }
   const { send } = useSocketByEvent({ event: SocketEvent.user_balances, onSuccess: onReceivedWSData });
-  const data:any = useSocket({event: SocketEvent.prices});
 
-  const { data: pairs } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, {});
+  // Get BTC latest prices
+  const data:any = useSocket({event: SocketEvent.prices});
+  const { data: btcInfo } = useHttpGet<null, any>(QUERY_KEY.MARKET_CURRENT_PRICE("BTCUSDT"), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS("BTCUSDT"), {})
   const currentBTCPrice = useMemo(()=>{
     if(!isEmpty(data) && data[0] === "BTCUSDT"){
       return data[1]
-    }else if(!isEmpty(pairs)){
-      const btcusdt = pairs.spot.find((e:any)=>e.symbol="BTCUSDT");
+    }else if(!isEmpty(btcInfo)){
+      const btcusdt = btcInfo.spot.find((e:any)=>e.symbol="BTCUSDT");
       if(btcusdt) return btcusdt.last;
     }
     return 0;
-  },[pairs, data])
-
-  // const totalSpotUSDBalance = useMemo(()=>{
-  //   let totalbalance = 0
-  //   userBalance.forEach(coin => {
-  //     totalbalance += coin.amount
-  //   })
-  //   return Number(totalbalance.toFixed(2))
-  // },[currentBTCPrice, userBalance])
-
-  // const totalSpotBTCBalance = useMemo(()=>{
-  //   if(totalSpotUSDBalance && currentBTCPrice){
-  //     return Number((totalSpotUSDBalance/currentBTCPrice).toFixed(6))
-  //   }else{
-  //     return 0
-  //   }
-  // },[currentBTCPrice, totalSpotUSDBalance])
+  },[btcInfo, data])
 
   const overviewBalanceBTC = useMemo(()=>{
     if(overviewBalanceUSD && currentBTCPrice){

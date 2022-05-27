@@ -12,6 +12,7 @@ import {
   useAuth,
   useHttpGet,
   useHttpPost,
+  useAPI,
   configAtom
 } from "@difx/shared";
 import { Button, Form, Input, Switch } from "antd";
@@ -37,7 +38,8 @@ export function LoginForm(props: LoginFormProps) {
   const { data: countryCode } = useHttpGet<null, object>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
   const { updateSession } = useAuth();
-  const [config] = useAtom(configAtom)
+  const [ config ] = useAtom(configAtom)
+  const { API }  = useAPI()
 
   const [getCaptcha] = useRecaptcha()
 
@@ -75,14 +77,7 @@ export function LoginForm(props: LoginFormProps) {
     /* eslint-disable-next-line */
     setDialCode(item.value);
   };
-
-  const onSuccess = useCallback((response: AxiosResponse<SignInResponse>) => {
-    const { data } = response.data;
-    const { permission, user } = data
-    updateSession(user, permission)
-    router.push("/home");
-  }, []);
-
+  
   const onFormChange = () => {
     const fieldsValue = form.getFieldsValue();
     for (const [, value] of Object.entries(fieldsValue)) {
@@ -91,7 +86,7 @@ export function LoginForm(props: LoginFormProps) {
         return
       }
     }
-
+    
     const fieldsError = form.getFieldsError();
     const errors = fieldsError.find((e) => !isEmpty(e.errors));
     if (errors && !isEmpty(errors.errors)) {
@@ -101,39 +96,93 @@ export function LoginForm(props: LoginFormProps) {
     }
   };
 
-  const onError = async (error: AxiosError) => {
-    setIsLoading(false)
-    const { response } = error;
-    const { statusText, data } = response.data;
-    let authDetails: ExtraAuth
-    const fieldsValue = form.getFieldsValue();
-    switch (statusText) {
-      case "IP_VERIFICATION_REQUIRED":
-        authDetails = {
-          type: "IP_VERIFICATION",
-          details: {
-            email: fieldsValue.email
-          }
-        }
-        localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
-        router.push("/verify-ip")
-        break
-      case "TFA_REQUIRED":
-        authDetails = {
-          type: "TFA",
-          details: {
-            session_id: data.session_id
-          }
-        }
-        localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
-        router.push("/two-factor")
-        break
-      default:
-        break
-    }
-  };
+  // const onSuccess = useCallback((response: AxiosResponse<SignInResponse>) => {
+  //   const { data } = response.data;
+  //   const { permission, user } = data
+  //   updateSession(user, permission)
+  //   router.push("/home");
+  // }, []);
+  
+  // const onError = (error: AxiosError) => {
+  //   setIsLoading(false)
+  //   const { response } = error;
+  //   const { statusText, data } = response.data;
+  //   let authDetails: ExtraAuth
+  //   const fieldsValue = form.getFieldsValue();
+  //   switch (statusText) {
+  //     case "IP_VERIFICATION_REQUIRED":
+  //       authDetails = {
+  //         type: "IP_VERIFICATION",
+  //         details: {
+  //           email: fieldsValue.email
+  //         }
+  //       }
+  //       localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+  //       router.push("/verify-ip")
+  //       break
+  //     case "TFA_REQUIRED":
+  //       authDetails = {
+  //         type: "TFA",
+  //         details: {
+  //           session_id: data.session_id
+  //         }
+  //       }
+  //       localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+  //       router.push("/two-factor")
+  //       break
+  //     default:
+  //       break
+  //   }
+  // };
 
-  const { mutate: signIn } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
+  // const { mutate: signIn } = useHttpPost<SignInRequest, SignInResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.SIGNIN });
+
+  const signIn = async(formData) => {
+    try{
+      const response = await API.post(API_ENDPOINT.SIGNIN, formData)
+      // eslint-disable-next-line
+      const { statusCode, data } = response?.data
+      let authDetails: ExtraAuth
+      const fieldsValue = form.getFieldsValue();
+      switch (statusCode) {
+        case 200: {
+          const { data: responseData } = data
+          const { permission, user } = responseData
+          updateSession(user, permission)
+          router.push("/home");
+          break
+        }
+        case 410: {
+          authDetails = {
+            type: "IP_VERIFICATION",
+            details: {
+              email: fieldsValue.email
+            }
+          }
+          localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+          router.push("/verify-ip")
+          break
+        }
+        case 411: {
+          authDetails = {
+            type: "TFA",
+            details: {
+              session_id: data.session_id
+            }
+          }
+          localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+          router.push("/two-factor")
+          break
+        }
+        default:
+          break
+      }
+    }catch(error){
+      console.log(error)
+    }finally{
+      setIsLoading(false)
+    }
+  }
 
   const onSubmit = async (formData: SignInRequest) => {
     setIsLoading(true)
@@ -154,7 +203,8 @@ export function LoginForm(props: LoginFormProps) {
       delete formData.dial_code
     }
 
-    signIn(formData);
+    signIn(formData)
+    
   };
 
   const onChangeLoginType = (type: "email" | "phone") => {

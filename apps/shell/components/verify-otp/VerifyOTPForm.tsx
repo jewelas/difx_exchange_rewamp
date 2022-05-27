@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { API_ENDPOINT } from "@difx/shared";
 
-export function TwoFactorForm({sessionDetails}) {
+export function VerifyOTPForm({sessionDetails}) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const formRef = useRef<FormInstance>(null);
   const [otpValue, setOtpValue] = useState('')
@@ -128,4 +128,4 @@ export function TwoFactorForm({sessionDetails}) {
   );
 }
 
-export default TwoFactorForm;
+export default VerifyOTPForm;

@@ -128,5 +128,6 @@ export const API_ENDPOINT = {
   GET_MARKET_COIN_PRICE: (coin: any) => `/api/v1/market/coin-price?coin=${coin}`,
   GET_WALLET_OVERVIEW: '/api/v1/wallet/overview',
   GET_SPOT_OVERVIEW: '/api/v1/wallet/spot-overview',
-  GET_TRANSACTION_LIST: (page: number, limit: number) => `/api/v1/wallet/transaction?page=${page}&limit=${limit}`
+  GET_TRANSACTION_LIST: (page: number, limit: number) => `/api/v1/wallet/transaction?page=${page}&limit=${limit}`,
+  GENERATE_DEPOSIT_ADDRESS: `/api/v1/wallet/deposit-address`
 }

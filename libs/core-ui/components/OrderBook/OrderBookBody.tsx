@@ -146,7 +146,7 @@ export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout, 
             <Typography level="B2" className={clsx("price", priceTrend)}>
               {` ≈ ${fiatCurrency.symbol}${getPriceFormatted(
                 currentPrice * fiatCurrency.usd_rate,
-                2
+                numberFormat
               )}`}
             </Typography>
           </div>

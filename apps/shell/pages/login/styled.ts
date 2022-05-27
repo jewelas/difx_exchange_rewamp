@@ -164,7 +164,7 @@ const PageStyled = styled.div`
       }
       .bottom-box span{
         &:nth-child(2){
-          font-weight:${({ theme }) => theme.fontWeight.bold} !important;
+          font-weight:${({ theme }) => theme.fontWeight.medium} !important;
         }
       }
       .ant-input-password-icon{

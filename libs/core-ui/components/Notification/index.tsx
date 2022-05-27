@@ -14,7 +14,6 @@ export const showError = (message: string, description?: string ) => {
   notification.open({
     message: message,
     description: description,
-    duration:100,
     icon: <Icon.ErrorIcon width={34} height={34}/>,
     closeIcon: <Icon.CloseIcon fill='#9AA5B4' width={18} height={18}/>
   })

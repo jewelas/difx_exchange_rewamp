@@ -30,6 +30,9 @@ function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnon
         case 411:
             showInfo("Verify 2FA Code", response?.data.message)
             break
+        case 415:
+            showInfo("Verify Account", response?.data.message)
+            break
         default:
             showError("Oops", response?.data.message)
             break

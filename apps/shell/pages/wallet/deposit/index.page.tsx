@@ -22,7 +22,6 @@ export function DepositPage() {
   const [form] = Form.useForm()
 
   const theme =  useTheme()
-  
 
   return (
     <WalletLayout>

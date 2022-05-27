@@ -146,8 +146,7 @@ export function LoginForm(props: LoginFormProps) {
       const fieldsValue = form.getFieldsValue();
       switch (statusCode) {
         case 200: {
-          const { data: responseData } = data
-          const { permission, user } = responseData
+          const { permission, user } = data
           updateSession(user, permission)
           router.push("/home");
           break

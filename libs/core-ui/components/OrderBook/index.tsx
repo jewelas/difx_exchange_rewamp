@@ -152,7 +152,7 @@ export function OrderBook({
     for (let i = 0; i < 4; i++) {
       const precision = pairInfo.group_precision - i
       const value = (1 / Math.pow(10, precision)).toFixed(precision > 0 ? precision : 0);
-      rs.push(<Option value={pairInfo.group_precision - i}>{value}</Option>)
+      rs.push(<Option key={`formater_${value}`} value={pairInfo.group_precision - i}>{value}</Option>)
     }
     return rs;
   }

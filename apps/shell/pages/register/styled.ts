@@ -101,9 +101,9 @@ export const FormStyled = styled.div`
 `;
 
 export const PageStyled = styled.div`
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 50px);
   .left-side {
-    height: calc(100vh - 70px) !important;
+    height: calc(100vh - 50px) !important;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -42,8 +42,6 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
 
   const router = useRouter();
 
-  console.log(pairInfo,'xxxx')
-
   const [isDisabled, setIsDisabled] = useState(isLoggedIn);
   const [sliderValue, setSliderValue] = useState(0);
 

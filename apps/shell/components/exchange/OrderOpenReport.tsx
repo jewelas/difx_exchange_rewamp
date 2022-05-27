@@ -19,10 +19,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
-  const param: useSocketProps = {
-    event: SocketEvent.user_orders,
-  };
-  const userOrdersData = useSocket(param);
+  const userOrdersData = useSocket({event: SocketEvent.user_orders});
 
   const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;

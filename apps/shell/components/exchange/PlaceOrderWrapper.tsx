@@ -70,7 +70,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
 
   const placeOrderSuccess = (response: AxiosResponse<{ data: PlaceOrderResponse }>) => {
     const { data } = response.data;
-    showSuccess('Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
+    if(data.order_id || data.stop_id) showSuccess('Success', `Order created successfully, id: ${data.order_id || data.stop_id}`)
   }
   const { mutate: placeOrder, isLoading } = useHttpPost<PlaceOrderRequest, { data: PlaceOrderResponse }>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.PLACE_ORDER_LIMIT });
 

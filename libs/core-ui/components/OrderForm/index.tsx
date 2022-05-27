@@ -27,10 +27,10 @@ export interface OrderFormProps {
   isLoading?: boolean,
   canDeposit?: boolean,
   balance?: number;
-  form:FormInstance
+  form: FormInstance
 }
 
-export function OrderForm({form, balance, layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
+export function OrderForm({ form, balance, layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: ' ',
@@ -42,12 +42,14 @@ export function OrderForm({form, balance, layout = 'default', canDeposit = true,
 
   const router = useRouter();
 
+  console.log(pairInfo,'xxxx')
+
   const [isDisabled, setIsDisabled] = useState(isLoggedIn);
   const [sliderValue, setSliderValue] = useState(0);
 
   const [numberRound, setNumberRound] = useState<number>(100);
-
-  // const [form] = Form.useForm();
+  const [groupPrecision, setGroupPrecision] = useState<number>(0);
+  const [bAmount, setBAmmount] = useState<number>(0);
 
   useEffect(() => {
     if (priceSelected) form.setFieldsValue({ [`${side}.price`]: priceSelected })
@@ -57,6 +59,11 @@ export function OrderForm({form, balance, layout = 'default', canDeposit = true,
     if (pairInfo && !priceSelected) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
     const group_precision = pairInfo ? pairInfo.group_precision : 2;
     setNumberRound(Math.pow(10, group_precision));
+
+    if(pairInfo){
+      setGroupPrecision(pairInfo.group_precision);
+      setBAmmount(pairInfo.bamount);
+    }
   }, [pairInfo]);
 
   const onSubmit = (formData: PlaceOrderRequest) => {
@@ -179,8 +186,18 @@ export function OrderForm({form, balance, layout = 'default', canDeposit = true,
     validateForm();
   }
 
-  const onReplaceComma = (e: any) => {
+  const onReplaceComma = (e: any, totalDigit?: number) => {
     e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+    let afterDot = 0;
+    if (e.target.value.includes(".")) {
+      const split:string[] = e.target.value.split(".");
+      afterDot = split[1].length;
+      if (totalDigit && afterDot >= totalDigit){
+        e.target.value = `${split[0] || '0'}.${split[1].slice(0,totalDigit)}`
+      }else if(!split[0]){
+        e.target.value = `0.${split[1].slice(0,totalDigit)}`
+      }
+    }
   }
 
   return (
@@ -209,7 +226,7 @@ export function OrderForm({form, balance, layout = 'default', canDeposit = true,
             &&
             <Form.Item
               name={`${side}.stop`}>
-              <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Trigger Price"
+              <Input onInput={(e: any) => { onReplaceComma(e,groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Trigger Price"
                 prefix={<Typography className="prefix">Trigger Price</Typography>}
                 suffix={quoteCurrency} />
             </Form.Item>
@@ -227,7 +244,7 @@ export function OrderForm({form, balance, layout = 'default', canDeposit = true,
               :
               <Form.Item
                 name={`${side}.price`}>
-                <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Price"}
+                <Input onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder={"Price"}
                   prefix={<Typography className="prefix">Price</Typography>}
                   suffix={quoteCurrency} />
               </Form.Item>
@@ -236,7 +253,7 @@ export function OrderForm({form, balance, layout = 'default', canDeposit = true,
           <Form.Item
             name={`${side}.amount`}>
             <Input
-              onInput={onReplaceComma}
+              onInput={(e: any) => { onReplaceComma(e, bAmount) }}
               type="text"
               onWheel={preventScroll}
               placeholder="Amount"
@@ -250,7 +267,7 @@ export function OrderForm({form, balance, layout = 'default', canDeposit = true,
 
           <Form.Item
             name={`${side}.total`}>
-            <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Total"
+            <Input onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Total"
               prefix={<Typography className="prefix">Total</Typography>}
               suffix={quoteCurrency} />
           </Form.Item>

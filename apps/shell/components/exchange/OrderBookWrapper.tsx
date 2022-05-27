@@ -24,6 +24,7 @@ export interface OrderBookWrapperProps {
 export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
+  const [groupPrecision, setGroupPrecision] = useState(2);
 
   const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
@@ -80,7 +81,8 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
     if (pairsData) {
       const spot = pairsData.spot.find(e => e.symbol === pair);
       if (spot) {
-        setTitle(`${getPriceFormatted(spot.last, 2)} | ${pair} | DIFX`)
+        setGroupPrecision(spot.group_precision)
+        setTitle(`${getPriceFormatted(spot.last, spot.group_precision)} | ${pair} | DIFX`)
       }
     }
   }, [pairsData, pair]);
@@ -89,7 +91,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
     if (!isEmpty(pricesWSData) && pricesWSData.length === 4) {
       const wsPair = pricesWSData[0];
       if (wsPair === pair) {
-        const wsPrice = getPriceFormatted(pricesWSData[1], 2)
+        const wsPrice = getPriceFormatted(pricesWSData[1], groupPrecision || 2)
         setTitle(`${wsPrice} | ${wsPair} | DIFX`)
       }
     }

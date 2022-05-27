@@ -8,7 +8,8 @@
     "have_acc": "Already have an account?",
     "search": "Search",
     "info": "Info",
-    "hide_small_balances": "Hide Small Balances"
+    "hide_small_balances": "Hide Small Balances",
+    "msg_wrong":"We're sorry, but something went wrong."
   },
   "staking":{
     "view-staking":"View Staking",

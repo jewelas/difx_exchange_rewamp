@@ -91,6 +91,9 @@ export const TableWraperStyled = styled.div`
     .ant-input{
       height: 40px !important;
     }
+    .ant-table .ant-table-tbody tr td{
+      padding: 3px 0 !important;
+    }
     .ant-table .ant-table-thead th{
       padding: 4px 0 !important;
     }
@@ -613,6 +616,16 @@ export const OrderReportsWraperStyled = styled.div`
       }
       .report-group{
         height: 100%;
+        .ant-table-wrapper{
+          .ant-table-header{
+            height: 40px;
+          }
+          .ant-table-body{
+            .ant-table-cell{
+              padding: 4px 0 !important;
+            }
+          }
+        }
       }
       .cell{
         svg{

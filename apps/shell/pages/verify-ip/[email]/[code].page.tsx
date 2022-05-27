@@ -1,10 +1,10 @@
 import { useHttpPost, VerifyIpRequest, VerifyIpResponse } from "@difx/shared";
+import { showSuccess } from "@difx/core-ui";
 import { AxiosError, AxiosResponse } from "axios";
 import t from "@difx/locale";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import AppLayout from "../../index.page";
-import { showNotification } from "../../../utils/pageUtils";
 import { API_ENDPOINT } from "@difx/constants";
 
 export function VerifyIpPage() {
@@ -14,14 +14,14 @@ export function VerifyIpPage() {
   const onSuccess = (response: AxiosResponse<VerifyIpResponse>) => {
     const { data } = response;
     const { statusText } = data;
-    showNotification("success", t("signin.ip_verification"), statusText);
+    showSuccess(t("signin.ip_verification"), statusText);
     router.push("/login");
   };
 
   const onError = useCallback((error: AxiosError) => {
     const { response } = error;
     const { statusText } = response.data;
-    showNotification("error", t("signin.ip_verification"), statusText);
+    showSuccess(t("signin.ip_verification"), statusText);
   }, []);
 
   const { mutate: verifyIp } = useHttpPost<VerifyIpRequest, VerifyIpResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.VERIFY_IP });

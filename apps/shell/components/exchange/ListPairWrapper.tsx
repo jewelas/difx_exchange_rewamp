@@ -4,19 +4,17 @@ import { SearchOutlined } from '@ant-design/icons';
 import { API_ENDPOINT, EXCHANGE_LAYOUT, QUERY_KEY, STORE_KEY } from "@difx/constants";
 // import { API_ENDPOINT, QUERY_KEY, REFETCH, STORE_KEY } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { PairType, SocketEvent, useHttpGet, useLocalStorage, useSocket, useSocketProps, useTitle } from "@difx/shared";
-import { getPriceFormatted, getPricePercentChange } from "@difx/utils";
+import { PairType, SocketEvent, useHttpGet, useLocalStorage, useSocket, useSocketProps } from "@difx/shared";
+import { getPriceFormatted, getPricePercentChange, numFormatter } from "@difx/utils";
 import { Button, Input, Table } from "antd";
 import clsx from 'clsx';
 import isEmpty from 'lodash/isEmpty';
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState, useEffect } from 'react';
 import { TableWraperStyled } from "./styled";
 
 export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, layout?: EXCHANGE_LAYOUT }) {
   const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null/*{ refetchInterval: REFETCH._10SECS }*/);
-
-  const { setTitle } = useTitle();
 
   const param: useSocketProps = {
     event: SocketEvent.prices,
@@ -45,22 +43,8 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
   useEffect(() => {
     if (resData) {
       setPairs(resData.spot);
-      const spot = resData.spot.find(e => e.symbol === pair);
-      if (spot) {
-        setTitle(`${getPriceFormatted(spot.last, 2)} | ${pair} | DIFX`)
-      }
     }
   }, [resData, pair]);
-
-  useEffect(() => {
-    if (!isEmpty(pricesWSData) && pricesWSData.length === 4) {
-      const wsPair = pricesWSData[0];
-      if (wsPair === pair) {
-        const wsPrice = getPriceFormatted(pricesWSData[1], 2)
-        setTitle(`${wsPrice} | ${wsPair} | DIFX`)
-      }
-    }
-  }, [pricesWSData, pair]);
 
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];
@@ -153,7 +137,7 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
               level="B3"
               color={record.trend === 'up' ? 'success' : 'danger'}
             >
-              {typeChange === 'percent' ? record.change : record.volume}
+              {typeChange === 'percent' ? record.change : numFormatter(Number(record.volume.replace(/,/g, '')))}
             </Typography>
           </div>
         )

@@ -21,8 +21,8 @@ function Icon({
       <path d="M10.3383 11C10.169 11 9.99968 10.9352 9.87068 10.8062L5.19398 6.12935C4.93534 5.8707 4.93534 5.45264 5.19398 5.19399C5.45262 4.93534 5.87068 4.93534 6.12932 5.19399L10.806 9.87081C11.0647 10.1295 11.0647 10.5475 10.806 10.8062C10.677 10.9352 10.5077 11 10.3383 11Z" fill="white"/>
       <defs>
       <linearGradient id="paint0_linear_3410_5965" x1="8" y1="0" x2="8" y2="16" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#DB5354"/>
-      <stop offset="1" stop-color="#EE6A6B"/>
+      <stop stopColor="#DB5354"/>
+      <stop offset="1" stopColor="#EE6A6B"/>
       </linearGradient>
       </defs>
     </svg>

@@ -4,7 +4,7 @@ import {
   VerifyIpResponse,
   useHttpPost
 } from "@difx/shared";
-import { OTPBox, Icon } from "@difx/core-ui";
+import { OTPBox, Icon, showSuccess } from "@difx/core-ui";
 import { Button, Form, notification } from "antd";
 import { FormInstance } from "antd/es/form";
 import { AxiosError, AxiosResponse } from "axios";
@@ -12,7 +12,6 @@ import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { API_ENDPOINT } from "@difx/shared";
-import { showNotification } from "./../../utils/pageUtils";
 
 export function VerifyIpForm({ userEmail }) {
   const [hasFieldError, setHasFieldError] = useState(true);
@@ -68,7 +67,7 @@ export function VerifyIpForm({ userEmail }) {
     const { data } = response;
 
     if (data.statusText === "SUCCESS"){
-      showNotification("success", t("2fa.2fa"), t("2fa.verify_success"));
+      showSuccess(t("2fa.2fa"), t("2fa.verify_success"));
       localStorage.removeItem("extraAuthRequired")
       router.push("/login");
     }

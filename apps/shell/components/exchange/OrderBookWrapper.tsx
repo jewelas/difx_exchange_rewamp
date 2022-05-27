@@ -45,13 +45,24 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
 
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
-    if (isLoggedIn) getOpenOrders(null);
-  }, [isLoggedIn]);
+    if (isLoggedIn)getOpenOrders(null);
+    if(pair) getOrderBook({endpoint: API_ENDPOINT.GET_ORDER_BOOK(pair)});
+  }, [isLoggedIn, pair]);
 
   let pairInfo = null;
   if (pairsData) {
     pairInfo = pairsData.spot.find((e) => e.symbol === pair);
   }
+
+  // Fetch orderbook
+  const getDataSuccess = (response: AxiosResponse)=>{
+    const { data } = response;
+    if (data) {
+      setOrderBookData(data);
+    }
+  }
+  const { mutate: getOrderBook } = useHttpGetByEvent<null, any>({ onSuccess: getDataSuccess, endpoint: API_ENDPOINT.GET_ORDER_BOOK(pair) });
+  const [orderBookData, setOrderBookData] = useState(null);
 
   // Get order book
   const param: useSocketProps = {
@@ -59,7 +70,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
     leave: OrderBookWrapper.previousPair,
     event: SocketEvent.orderbook_limited,
   };
-  const data = useSocket(param);
+  const orderBookWSData = useSocket(param);
 
   // Get open order
   const openOrderSocketData = useSocket({ event: SocketEvent.user_orders });
@@ -100,8 +111,10 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
   OrderBookWrapper.previousPair = pairInfo ? pairInfo.symbol : null;
 
   const { bids, asks, currentPrice, priceTrend } = useMemo(() => {
-    if (data && data.bids && data.asks) {
-      const { bids: _bids, asks: _asks } = data;
+    
+    // From Socket
+    if (orderBookWSData && orderBookWSData.bids && orderBookWSData.asks) {
+      const { bids: _bids, asks: _asks } = orderBookWSData;
 
       // Sum Bids
       if (_bids[0] && _bids[0].length >= 2) {
@@ -137,7 +150,47 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
         priceTrend,
         currentPrice: newPrice,
       };
-    } else {
+
+      // From API
+    } else if (orderBookData && orderBookData.bids && orderBookData.asks) {
+      const { bids: _bids, asks: _asks } = orderBookData;
+
+      // Sum Bids
+      if (_bids[0] && _bids[0].length >= 2) {
+        _bids[0][3] = _bids[0][1];
+        _bids.reduce((a, b) => {
+          b[3] = b[1] + a[3];
+          return b;
+        });
+      }
+
+
+      // Sum Asks
+      if (_asks[0] && _asks[0].length >= 2) {
+        _asks[0][3] = _asks[0][1];
+        _asks.reduce((a, b) => {
+          b[3] = b[1] + a[3];
+          return b;
+        });
+      }
+
+      const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
+      const newPrice = !isEmpty(reverseAsks) ? getAveragePrice(
+        reverseAsks[reverseAsks.length - 1][0],
+        (_bids && _bids[0]) ? _bids[0][0] : 0,
+        (pairInfo ? pairInfo.group_precision : 0)
+      ) : 0;
+      const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
+      OrderBookWrapper.previousPrice = newPrice;
+
+      return {
+        bids: _bids,
+        asks: reverseAsks,
+        priceTrend,
+        currentPrice: newPrice,
+      };
+
+    }else {
       return {
         bids: [],
         asks: [],
@@ -145,7 +198,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
         currentPrice: 0.0,
       };
     }
-  }, [data, pairInfo]);
+  }, [orderBookWSData, orderBookData, pairInfo]);
 
   if (!pairInfo) return <Loading type="component" />
 

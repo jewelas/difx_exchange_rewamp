@@ -144,7 +144,8 @@ export function OrderBook({
   const renderOptions = () => {
     const rs = [];
     for (let i = 0; i < 4; i++) {
-      const value = (1 / Math.pow(10, pairInfo.group_precision - i)).toFixed(pairInfo.group_precision - i);
+      const precision = pairInfo.group_precision - i
+      const value = (1 / Math.pow(10, precision)).toFixed(precision > 0 ? precision : 0);
       rs.push(<Option value={pairInfo.group_precision - i}>{value}</Option>)
     }
     return rs;

@@ -2,14 +2,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, Input, Slider } from "antd";
 import clsx from "clsx";
-import isEmpty from "lodash/isEmpty";
-import { Typography } from "./../Typography";
-import { useAtomValue } from "jotai/utils";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
-import { PairType, PlaceOrderRequest, userBalanceAtom } from "./../../../shared";
+import { PairType, PlaceOrderRequest } from "./../../../shared";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
 import DepositIcon from "./../Icon/DepositIcon";
+import { Typography } from "./../Typography";
 import {
   ComponentStyled
 } from "./styled";

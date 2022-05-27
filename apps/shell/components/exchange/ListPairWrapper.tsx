@@ -5,7 +5,7 @@ import { API_ENDPOINT, EXCHANGE_LAYOUT, QUERY_KEY, STORE_KEY } from "@difx/const
 // import { API_ENDPOINT, QUERY_KEY, REFETCH, STORE_KEY } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import { PairType, SocketEvent, useHttpGet, useLocalStorage, useSocket, useSocketProps } from "@difx/shared";
-import { getPriceFormatted, getPricePercentChange } from "@difx/utils";
+import { getPriceFormatted, getPricePercentChange, numFormatter } from "@difx/utils";
 import { Button, Input, Table } from "antd";
 import clsx from 'clsx';
 import isEmpty from 'lodash/isEmpty';
@@ -137,7 +137,7 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
               level="B3"
               color={record.trend === 'up' ? 'success' : 'danger'}
             >
-              {typeChange === 'percent' ? record.change : record.volume}
+              {typeChange === 'percent' ? record.change : numFormatter(Number(record.volume.replace(/,/g, '')))}
             </Typography>
           </div>
         )

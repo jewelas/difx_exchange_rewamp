@@ -3,8 +3,9 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
 import { Loading, NoData, Typography } from '@difx/core-ui';
-import { Balance, SocketEvent, Staking, useAuth, useHttpGet, useHttpGetByEvent, useSocketByEvent, useSocketProps } from '@difx/shared';
+import { Balance, SocketEvent, Staking, isLoggedInAtom, useHttpGet, useHttpGetByEvent, useSocketByEvent, useSocketProps } from '@difx/shared';
 import { Checkbox, Col, Input, Row } from 'antd';
+import { useAtomValue } from "jotai/utils";
 import { AxiosResponse } from "axios";
 import isEmpty from 'lodash/isEmpty';
 import React, { useEffect, useState } from "react";
@@ -32,7 +33,7 @@ export function StakingWrapper(props: StakingWrapperProps) {
     const [isShowModal, setIsShowModal] = useState(false);
     const [balances, setBalances] = useState<Array<Balance>>(null);
 
-    const { isLoggedIn } = useAuth();
+    const isLoggedIn = useAtomValue(isLoggedInAtom);
 
     useEffect(() => {
         if (isLoggedIn) getBalances(null);

@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { useHttpGetByEvent } from "..";
 import { Balance } from './../type/Balance';
-import { useSocketProps, SocketEvent, useSocketByEvent, useAPI } from "./../../shared";
-import { API_ENDPOINT, QUERY_KEY, REFETCH } from "../constants"
+import {useHttpGet, useSocketProps, SocketEvent, useSocketByEvent, useAPI } from "./../../shared";
+import { API_ENDPOINT, QUERY_KEY } from "../constants"
 import { currentUserAtom, isLoggedInAtom, userBalanceAtom } from "../atom/index"
 import { useAtom } from "jotai";
 import { AxiosResponse } from "axios";
 import { useSocket } from "./useSocket";
 import isEmpty from "lodash/isEmpty";
-import { useHttpGet } from "./useHttp";
 
 export function useBalance() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
@@ -31,7 +30,7 @@ export function useBalance() {
     setUserBalance(data);
   }
   const { mutate: getBalance } = useHttpGetByEvent<null, any>({ onSuccess, endpoint: API_ENDPOINT.GET_BALANCE });
-  const { data: btcInfo } = useHttpGet<null, any>(QUERY_KEY.MARKET_CURRENT_PRICE("BTCUSDT"), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS("BTCUSDT"), { refetchInterval: REFETCH._10SECS });
+  // const { data: btcInfo } = useHttpGet<null, any>(QUERY_KEY.MARKET_CURRENT_PRICE("BTCUSDT"), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS("BTCUSDT"), null);
 
   // Update balance from Socket
   const onReceivedWSData = (balanceData: any) => {
@@ -45,15 +44,18 @@ export function useBalance() {
   }
   const { send } = useSocketByEvent({ event: SocketEvent.user_balances, onSuccess: onReceivedWSData });
 
+  // Get BTC latest prices
+  const data:any = useSocket({event: SocketEvent.prices});
+  const { data: btcInfo } = useHttpGet<null, any>(QUERY_KEY.MARKET_CURRENT_PRICE("BTCUSDT"), API_ENDPOINT.GET_SELECTED_MARKET_PAIRS("BTCUSDT"), {})
   const currentBTCPrice = useMemo(()=>{
-    if(btcInfo){
-      const { spot } = btcInfo
-      const currentPrice = spot[0].last
-      return currentPrice
-    }else{
-      return 0
+    if(!isEmpty(data) && data[0] === "BTCUSDT"){
+      return data[1]
+    }else if(!isEmpty(btcInfo)){
+      const btcusdt = btcInfo.spot.find((e:any)=>e.symbol="BTCUSDT");
+      if(btcusdt) return btcusdt.last;
     }
-  },[btcInfo])
+    return 0;
+  },[btcInfo, data])
 
   const overviewBalanceBTC = useMemo(()=>{
     if(overviewBalanceUSD && currentBTCPrice){

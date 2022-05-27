@@ -2,13 +2,15 @@
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { LayoutType, Loading, OrderBook } from "@difx/core-ui";
 import {
-  BaseRequest,
-  Order, SocketEvent, useAuth, useHttpGet, useHttpGetByEvent, useNetwork,
+  BaseRequest, isLoggedInAtom, Order, SocketEvent, useHttpGet, useHttpGetByEvent, useNetwork,
   useSocket,
-  useSocketProps
+  useSocketProps,
+  useTitle
 } from "@difx/shared";
-import { getAveragePrice, getTrendPrice } from "@difx/utils";
+import { getAveragePrice, getPriceFormatted, getTrendPrice } from "@difx/utils";
 import { AxiosResponse } from "axios";
+import { useAtomValue } from "jotai/utils";
+import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 import { useEffect, useMemo, useState } from "react";
 // import { useRouter } from "next/router";
@@ -23,7 +25,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
   const { effectiveType, online } = useNetwork();
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
-  const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
     if (data && data.result) {
       for (const order of data.result) {
@@ -37,11 +39,10 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
     }
   }
 
-  const { mutate: getOpenOrders } = useHttpGetByEvent<BaseRequest, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
-  // const { data: openOrderData } = useHttpGetByEvent<BaseRequest, {result:Order[]}>(QUERY_KEY.OPEN_ORDERS, API_ENDPOINT.GET_ORDER_OPEN(), null);
+  const { mutate: getOpenOrders } = useHttpGetByEvent<BaseRequest, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
   const [openOrderData, setOpenOrderData] = useState<any[]>([]);
 
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
     if (isLoggedIn) getOpenOrders(null);
   }, [isLoggedIn]);
@@ -59,17 +60,40 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
   };
   const data = useSocket(param);
 
-
   // Get open order
   const openOrderSocketData = useSocket({ event: SocketEvent.user_orders });
-  useEffect(()=>{
-  if (openOrderSocketData){
-    if (!openOrderData.find(e => e.id === openOrderSocketData.id)) {
-      openOrderData.push({ id: openOrderSocketData.id, side: openOrderSocketData.s === 0 ? 'bid' : 'ask', price: openOrderSocketData.p });
-      setOpenOrderData([...openOrderData]);
+  useEffect(() => {
+    if (openOrderSocketData) {
+      if (!openOrderData.find(e => e.id === openOrderSocketData.id)) {
+        openOrderData.push({ id: openOrderSocketData.id, side: openOrderSocketData.s === 0 ? 'bid' : 'ask', price: openOrderSocketData.p });
+        setOpenOrderData([...openOrderData]);
+      }
     }
-  }
-  },[openOrderSocketData]);
+  }, [openOrderSocketData]);
+
+  // Get latest price
+  const pricesWSData = useSocket({ event: SocketEvent.prices });
+
+  // Update title
+  const { setTitle } = useTitle();
+  useEffect(() => {
+    if (pairsData) {
+      const spot = pairsData.spot.find(e => e.symbol === pair);
+      if (spot) {
+        setTitle(`${getPriceFormatted(spot.last, 2)} | ${pair} | DIFX`)
+      }
+    }
+  }, [pairsData, pair]);
+  //
+  useEffect(() => {
+    if (!isEmpty(pricesWSData) && pricesWSData.length === 4) {
+      const wsPair = pricesWSData[0];
+      if (wsPair === pair) {
+        const wsPrice = getPriceFormatted(pricesWSData[1], 2)
+        setTitle(`${wsPrice} | ${wsPair} | DIFX`)
+      }
+    }
+  }, [pricesWSData, pair]);
 
   OrderBookWrapper.previousPair = pairInfo ? pairInfo.symbol : null;
 
@@ -121,7 +145,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
     }
   }, [data, pairInfo]);
 
-  if (!pairInfo) return <Loading />
+  if (!pairInfo) return <Loading type="component" />
 
   return (
     <OrderBook

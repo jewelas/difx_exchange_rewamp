@@ -41,7 +41,7 @@ export function OrderBook({
 }: OrderBookProps) {
   const { Option } = Select;
   const [sortType, setSortType] = useState<SortType>("all");
-  const [numberFormat, setNumberFormat] = useState("0.01");
+  const [numberFormat, setNumberFormat] = useState(pairInfo ? pairInfo.group_precision : 2);
   const [totalType, setTotalType] = useState<'total' | 'sum'>('total');
 
   const [, setPriceSelected] = useAtom(priceSelectedAtom);
@@ -101,7 +101,8 @@ export function OrderBook({
       networkStatus={networkStatus}
       priceTrend={priceTrend}
       currentPrice={currentPrice}
-      layout = {layout}
+      layout={layout}
+      numberFormat={numberFormat}
     />
   )
 
@@ -139,6 +140,15 @@ export function OrderBook({
     }
     return null;
   };
+
+  const renderOptions = () => {
+    const rs = [];
+    for (let i = 0; i < 4; i++) {
+      const value = (1 / Math.pow(10, pairInfo.group_precision - i)).toFixed(pairInfo.group_precision - i);
+      rs.push(<Option value={pairInfo.group_precision - i}>{value}</Option>)
+    }
+    return rs;
+  }
 
   return (
     <ComponentStyled>
@@ -187,19 +197,19 @@ export function OrderBook({
 
         </div>
         <div className="right">
-          {layout==='compact' && <Button ghost>More</Button>}
-          <Select
-            defaultValue="0.01"
-            style={{ width: 120 }}
-            onChange={(v: string) => {
-              setNumberFormat(v);
-            }}
-          >
-            <Option value="0.01">0.01</Option>
-            <Option value="0.1">0.1</Option>
-            <Option value="1">1</Option>
-            <Option value="10">10</Option>
-          </Select>
+          {layout === 'compact' && <Button ghost>More</Button>}
+          {
+            pairInfo &&
+            <Select
+              defaultValue={numberFormat}
+              style={{ width: 120 }}
+              onChange={(v: number) => {
+                setNumberFormat(v);
+              }}
+            >
+              {renderOptions()}
+            </Select>
+          }
         </div>
       </div>
 
@@ -218,12 +228,12 @@ export function OrderBook({
           :
           <div className={clsx('head', layout)}>
             <div className="left">
-              <div className="t1">{totalType==='sum'?'Sum':'Total'}</div>
+              <div className="t1">{totalType === 'sum' ? 'Sum' : 'Total'}</div>
               <div className="t2">Price</div>
             </div>
             <div className="right">
               <div className="t1">Price</div>
-              <div className="t2">{totalType==='sum'?'Sum':'Total'}</div>
+              <div className="t2">{totalType === 'sum' ? 'Sum' : 'Total'}</div>
             </div>
           </div>
         }

@@ -209,6 +209,7 @@ export const ComponentStyled = styled.div`
             flex-grow: 1;
             max-width: 70px;
             white-space: nowrap;
+            overflow: visible;
             display: flex;
             justify-content: flex-end;
           }

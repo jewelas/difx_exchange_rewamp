@@ -3,6 +3,7 @@ import { Select, Button } from "antd";
 import clsx from "clsx";
 import { useState } from "react";
 import { useAtom } from "jotai";
+import {useEffect} from 'react';
 
 import { NetworkStatusType } from "./../../../shared/type/Network";
 import OrderBuyIcon from "../Icon/OrderBuyIcon";
@@ -40,11 +41,16 @@ export function OrderBook({
   layout = 'default'
 }: OrderBookProps) {
   const { Option } = Select;
+
   const [sortType, setSortType] = useState<SortType>("all");
   const [numberFormat, setNumberFormat] = useState(pairInfo ? pairInfo.group_precision : 2);
   const [totalType, setTotalType] = useState<'total' | 'sum'>('total');
 
   const [, setPriceSelected] = useAtom(priceSelectedAtom);
+
+  useEffect(()=>{
+    if(pairInfo) setNumberFormat(pairInfo.group_precision);
+  }, [pairInfo]);
 
   if (asks) {
     const maxValueOfAsks = Math.max(...asks.map((ask) => ask[1]), 0);
@@ -202,7 +208,7 @@ export function OrderBook({
           {
             pairInfo &&
             <Select
-              defaultValue={numberFormat}
+              value={numberFormat}
               style={{ width: 120 }}
               onChange={(v: number) => {
                 setNumberFormat(v);

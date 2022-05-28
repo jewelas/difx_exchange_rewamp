@@ -5,7 +5,7 @@ import isEmpty from "lodash/isEmpty";
 import { API_ENDPOINT } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
 import { useAtomValue } from "jotai/utils";
-import { Order, isLoggedInAtom, useHttpGetByEvent } from "@difx/shared";
+import { Order, isLoggedInAtom, useHttpGetByEvent, useSocketProps, SocketEvent, useSocket } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -17,15 +17,39 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
+  const param: useSocketProps = {
+    event: SocketEvent.user_trades,
+  };
+  const userOrdersData = useSocket(param);
+
+  useEffect(() => {
+    if (userOrdersData) {
+      const index = tableData.findIndex(e => e.id === userOrdersData.id)
+      if (index !== -1) {
+        if (userOrdersData.amount === 0) {
+          tableData.splice(index, 1);
+        }
+      } else {
+        userOrdersData.timestamp = new Date();
+        tableData.push(userOrdersData);
+      }
+      setTableData([...tableData]);
+    }
+  }, [userOrdersData]);
+
   const getOrderBookSuccess = (response: AxiosResponse<{result: Array<Order>}>) => {
     const { data } = response;
     if (data && !isEmpty(data.result)) {
       for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
-          setTableData(tableData);
         }
       }
+      let newTableData = tableData;
+      if(isSelectedPairOnly){
+        newTableData = newTableData.filter((e:any)=>e.symbol === pair);
+      }
+      setTableData([...newTableData]);
     } else {
       setTableData([]);
     }
@@ -40,7 +64,7 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
         getOrderBooks(null);
       }
     }
-  }, [isLoggedIn, isSelectedPairOnly]);
+  }, [isLoggedIn, isSelectedPairOnly, pair]);
 
   const columns = [
     {
@@ -48,7 +72,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 'id',
       sorter: {
         compare: (a, b) => a.id - b.id,
-        multiple: 1,
       },
       render: (text, record) => {
         return (
@@ -63,7 +86,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 'symbol',
       sorter: {
         compare: (a, b) => a.symbol.localeCompare(b.symbol),
-        multiple: 2,
       },
       render: (text) => {
         return (
@@ -78,7 +100,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 's',
       sorter: {
         compare: (a, b) => a.s - b.s,
-        multiple: 3,
       },
       render: (text) => {
         return (
@@ -93,7 +114,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 'p',
       sorter: {
         compare: (a, b) => a.p - b.p,
-        multiple: 4,
       },
       render: (text) => {
         return (
@@ -108,7 +128,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 'q',
       sorter: {
         compare: (a, b) => a.q - b.q,
-        multiple: 4,
       },
       render: (text) => {
         return (
@@ -126,7 +145,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
           const bTime = new Date(b.timestamp).getTime();
           return aTime - bTime;
         },
-        multiple: 4,
       },
       dataIndex: 'timestamp',
       render: (text) => {

@@ -3,8 +3,9 @@
 
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, useAuth, SocketEvent, useSocket, useSocketProps, useHttpGetByEvent, useHttpPost } from "@difx/shared";
+import { BaseResponse, Order, useAuth, SocketEvent, useSocket, useSocketProps, useHttpGetByEvent, useHttpPost, isLoggedInAtom } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
+import { useAtomValue } from "jotai/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
@@ -44,9 +45,13 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
-          setTableData([...tableData]);
         }
       }
+      let newTableData = tableData;
+      if(isSelectedPairOnly){
+        newTableData = newTableData.filter((e:any)=>e.symbol === pair);
+      }
+      setTableData([...newTableData]);
     } else {
       setTableData([]);
     }
@@ -62,14 +67,17 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT() });
   const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_STOP_LIMIT_ORDER }); // TODO: handle headers in interceptor in useHttp
 
-
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
-    if (isSelectedPairOnly && pair) {
-      getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT(pair) });
-    } else {
-      getOrderBooks(null);
+    if (isLoggedIn) {
+      if (isSelectedPairOnly && pair) {
+        getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT(pair) });
+      } else {
+        getOrderBooks(null);
+      }
     }
-  }, [isSelectedPairOnly, pair]);
+
+  }, [isSelectedPairOnly, isLoggedIn, pair]);
 
   const columns = [
     {
@@ -80,7 +88,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
           const bTime = new Date(b.timestamp).getTime();
           return aTime - bTime;
         },
-        multiple: 4,
       },
       dataIndex: 'timestamp',
       render: (text) => {
@@ -96,7 +103,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'symbol',
       sorter: {
         compare: (a, b) => a.symbol.localeCompare(b.symbol),
-        multiple: 2,
       },
       render: (text) => {
         return (
@@ -111,7 +117,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'side',
       sorter: {
         compare: (a, b) => a.side - b.side,
-        multiple: 3,
       },
       render: (text) => {
         return (
@@ -126,7 +131,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'limit',
       sorter: {
         compare: (a, b) => a.limit - b.limit,
-        multiple: 4,
       },
       render: (text) => {
         return (
@@ -141,7 +145,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'stop',
       sorter: {
         compare: (a, b) => a.stop - b.stop,
-        multiple: 5,
       },
       render: (text) => {
         return (
@@ -156,7 +159,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'amount',
       sorter: {
         compare: (a, b) => a.amount - b.amount,
-        multiple: 6,
       },
       render: (text) => {
         return (

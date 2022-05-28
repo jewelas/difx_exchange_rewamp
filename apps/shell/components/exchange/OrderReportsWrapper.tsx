@@ -4,7 +4,7 @@ import { Icon, Loading, Switch } from "@difx/core-ui";
 import { BaseResponse, isLoggedInAtom, useHttpPut } from "@difx/shared";
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT } from "@difx/constants";
-import { showSuccess, ConvertButton} from "@difx/core-ui";
+import { showSuccess, ConvertButton } from "@difx/core-ui";
 import { Button, Switch as AntdSwitch, Tabs } from "antd";
 import { useEffect, useState } from 'react';
 import { useAtomValue } from "jotai/utils";
@@ -42,17 +42,20 @@ export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string
   return (
     <OrderReportsWraperStyled>
       <div className="display-selected-pair">
-        <div className="wrapper">
-          <AntdSwitch
-            size="small"
-            checked={isSelectedPairOnly}
-            onChange={(checked) => {
-              setIsSelectedPairOnly(checked);
-            }}
-          />
-          <span onClick={() => { setIsSelectedPairOnly(!isSelectedPairOnly) }} className="label">Display selected pair only</span>
-        </div>
-
+        {
+          tab !== 'funds'
+          &&
+          <div className="wrapper">
+            <AntdSwitch
+              size="small"
+              checked={isSelectedPairOnly}
+              onChange={(checked) => {
+                setIsSelectedPairOnly(checked);
+              }}
+            />
+            <span onClick={() => { setIsSelectedPairOnly(!isSelectedPairOnly) }} className="label">Display selected pair only</span>
+          </div>
+        }
       </div>
       <div className="content">
         <Tabs defaultActiveKey="1" onChange={(e) => { setTab(e) }}>

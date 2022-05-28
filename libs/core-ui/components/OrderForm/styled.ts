@@ -78,6 +78,12 @@ export const ComponentStyled = styled.div`
   .ant-btn.ant-btn-primary.success, .ant-btn.ant-btn-primary.danger{
     margin-top:1px !important;
   }
+
+  .ant-input-affix-wrapper > input.ant-input:focus{
+    -webkit-box-shadow: unset !important;
+    box-shadow: unset !important;
+  }
+
   .slider-group{
     margin-top:25px;
     margin-bottom:20px;

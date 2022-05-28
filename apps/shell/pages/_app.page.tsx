@@ -1,6 +1,8 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { ErrorBoundary } from 'react-error-boundary';
 import { ConfigProvider } from "antd";
+import ErrorFallback from "./ErrorFallback";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "jotai";
 
@@ -32,13 +34,15 @@ function CustomApp({ Component, pageProps }: AppProps) {
         />
         <meta name="og:image" content={"/imgs/logo.svg"} />
       </Head>
-      <Provider>
-        <QueryClientProvider client={queryClient}>
-          <ConfigProvider>
-            <Component {...pageProps} />
-          </ConfigProvider>
-        </QueryClientProvider>
-      </Provider>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Provider>
+          <QueryClientProvider client={queryClient}>
+            <ConfigProvider>
+              <Component {...pageProps} />
+            </ConfigProvider>
+          </QueryClientProvider>
+        </Provider>
+      </ErrorBoundary>
     </>
   );
 }

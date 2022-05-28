@@ -6,14 +6,14 @@ import { getPriceFormatted } from "../../../shared/utils/priceUtils";
 import { Typography } from "../Typography";
 import { useCurrency } from "./../../../shared/hook/useCurrency";
 import { NetworkStatusType } from "./../../../shared/type/Network";
-import { formatNumber } from "./../../utils/formatter";
+import { toFixedNumber } from "./../../../shared/utils/numberFormatter";
 import DotIcon from "./../Icon/DotIcon";
 import WifiIcon from "./../Icon/WifiIcon";
 import Loading from "./../Loading";
 import { BarStyled } from "./styled";
 
 export interface OrderBookBodyProps {
-  numberFormat?: "0.01" | "0.1" | "1" | "10" | string;
+  numberFormat: number;
   priceTrend?: string;
   currentPrice?: number;
   networkStatus?: NetworkStatusType;
@@ -33,7 +33,7 @@ function renderData(
   max_row: number,
   type: "bid" | "ask",
   data: Array<Array<number>> | undefined,
-  numberFormat: string,
+  numberFormat: number,
   onPriceSelected: (price: number) => void,
   priceOpenOrders: Array<number>,
   hideColumns: string[],
@@ -61,7 +61,7 @@ function renderData(
     const Price = () => (
       !hideColumns.includes('price') ?
         <Typography level="B3" className="price">
-          {formatNumber(row[0], numberFormat)}
+          {toFixedNumber(row[0], numberFormat)}
         </Typography>
         : <></>
     )
@@ -69,7 +69,7 @@ function renderData(
     const Amount = () => (
       !hideColumns.includes('amount') ?
         <Typography level="B3" className="amount">
-          {formatNumber(row[1], numberFormat)}
+          {toFixedNumber(row[1], numberFormat)}
         </Typography>
         : <></>
     )
@@ -80,9 +80,9 @@ function renderData(
           {
             totalType === 'total'
               ?
-              formatNumber(row[0] * row[1], numberFormat)
+              toFixedNumber(row[0] * row[1], numberFormat)
               :
-              formatNumber(row[3], numberFormat)
+              toFixedNumber(row[3], numberFormat)
           }
         </Typography>
         : <></>
@@ -127,7 +127,7 @@ function renderData(
   return result;
 }
 
-export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout }: OrderBookBodyProps) {
+export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout, numberFormat }: OrderBookBodyProps) {
   const { currentCurrency: fiatCurrency } = useCurrency();
 
   if (!currentPrice) {
@@ -138,7 +138,7 @@ export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout }
     <div className="center-group">
       <div style={{ display: "flex" }} className="left">
         <Typography level="B1" className={clsx("price", priceTrend)}>
-          {formatNumber(currentPrice)}
+          {toFixedNumber(currentPrice, numberFormat)}
         </Typography>
         {
           fiatCurrency &&
@@ -146,7 +146,7 @@ export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout }
             <Typography level="B2" className={clsx("price", priceTrend)}>
               {` ≈ ${fiatCurrency.symbol}${getPriceFormatted(
                 currentPrice * fiatCurrency.usd_rate,
-                2
+                numberFormat
               )}`}
             </Typography>
           </div>
@@ -170,7 +170,7 @@ export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout }
 export function OrderData({
   type,
   data,
-  numberFormat = "0.01",
+  numberFormat,
   onPriceSelected,
   priceOpenOrders,
   maxRowData = 12,

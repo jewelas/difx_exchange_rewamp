@@ -3,6 +3,7 @@ import { Select, Button } from "antd";
 import clsx from "clsx";
 import { useState } from "react";
 import { useAtom } from "jotai";
+import {useEffect} from 'react';
 
 import { NetworkStatusType } from "./../../../shared/type/Network";
 import OrderBuyIcon from "../Icon/OrderBuyIcon";
@@ -40,11 +41,16 @@ export function OrderBook({
   layout = 'default'
 }: OrderBookProps) {
   const { Option } = Select;
+
   const [sortType, setSortType] = useState<SortType>("all");
-  const [numberFormat, setNumberFormat] = useState("0.01");
+  const [numberFormat, setNumberFormat] = useState(pairInfo ? pairInfo.group_precision : 2);
   const [totalType, setTotalType] = useState<'total' | 'sum'>('total');
 
   const [, setPriceSelected] = useAtom(priceSelectedAtom);
+
+  useEffect(()=>{
+    if(pairInfo) setNumberFormat(pairInfo.group_precision);
+  }, [pairInfo]);
 
   if (asks) {
     const maxValueOfAsks = Math.max(...asks.map((ask) => ask[1]), 0);
@@ -101,7 +107,8 @@ export function OrderBook({
       networkStatus={networkStatus}
       priceTrend={priceTrend}
       currentPrice={currentPrice}
-      layout = {layout}
+      layout={layout}
+      numberFormat={numberFormat}
     />
   )
 
@@ -139,6 +146,16 @@ export function OrderBook({
     }
     return null;
   };
+
+  const renderOptions = () => {
+    const rs = [];
+    for (let i = 0; i < 4; i++) {
+      const precision = pairInfo.group_precision - i
+      const value = (1 / Math.pow(10, precision)).toFixed(precision > 0 ? precision : 0);
+      rs.push(<Option key={`formater_${value}`} value={pairInfo.group_precision - i}>{value}</Option>)
+    }
+    return rs;
+  }
 
   return (
     <ComponentStyled>
@@ -187,19 +204,19 @@ export function OrderBook({
 
         </div>
         <div className="right">
-          {layout==='compact' && <Button ghost>More</Button>}
-          <Select
-            defaultValue="0.01"
-            style={{ width: 120 }}
-            onChange={(v: string) => {
-              setNumberFormat(v);
-            }}
-          >
-            <Option value="0.01">0.01</Option>
-            <Option value="0.1">0.1</Option>
-            <Option value="1">1</Option>
-            <Option value="10">10</Option>
-          </Select>
+          {layout === 'compact' && <Button ghost>More</Button>}
+          {
+            pairInfo &&
+            <Select
+              value={numberFormat}
+              style={{ width: 120 }}
+              onChange={(v: number) => {
+                setNumberFormat(v);
+              }}
+            >
+              {renderOptions()}
+            </Select>
+          }
         </div>
       </div>
 
@@ -218,12 +235,12 @@ export function OrderBook({
           :
           <div className={clsx('head', layout)}>
             <div className="left">
-              <div className="t1">{totalType==='sum'?'Sum':'Total'}</div>
+              <div className="t1">{totalType === 'sum' ? 'Sum' : 'Total'}</div>
               <div className="t2">Price</div>
             </div>
             <div className="right">
               <div className="t1">Price</div>
-              <div className="t2">{totalType==='sum'?'Sum':'Total'}</div>
+              <div className="t2">{totalType === 'sum' ? 'Sum' : 'Total'}</div>
             </div>
           </div>
         }

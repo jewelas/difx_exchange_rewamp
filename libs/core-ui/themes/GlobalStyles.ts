@@ -672,6 +672,18 @@ const GlobalStyles = createGlobalStyle`
         margin-right: 1px;
         }
     }
+  .successTag{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.color.successLight};
+    padding: 15px;
+    border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+  }
+  .errorTag{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.color.errorLight};
+    padding: 15px;
+    border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor};
+  }
 `;
 
 export { GlobalStyles };

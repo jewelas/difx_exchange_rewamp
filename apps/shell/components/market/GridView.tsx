@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Avatar, Button, Card, Col, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "../../pages/market/styled";
-import { Icon } from "@difx/core-ui";
+import { Icon, TrendChart } from "@difx/core-ui";
 import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
 import { isLoggedInAtom, useFavourites, useHttpDelete, useHttpPost, useMarketModal, useMarketPair } from "@difx/shared";
 import Trend from "react-trend";
@@ -101,17 +101,10 @@ export function GridView({data, datatype}) {
                             </CoinText>
                             </Col>
                             <Col span={10}>
-                            <Trend
-                                smooth
-                                data={item.pricing}
-                                strokeWidth={3}
-                                autoDraw
-                                autoDrawDuration={3000}
-                                gradient={[
-                                    (item.last / item.open) * 100 - 100 >= 0
-                                    ? "#21C198"
-                                    : "#ff0000",
-                                ]}
+                            <TrendChart 
+                              data={item.pricing}
+                              backgroundColor={ (item.last / item.open) * 100 - 100 >= 0 ? "#21C198" : "#ff0000"}
+                              lineColor={ (item.last / item.open) * 100 - 100 >= 0 ? "#21C198" : "#ff0000"}
                             />
                             </Col>
                         </Row>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
-import { Icon, showInfo} from "@difx/core-ui";
+import { ASSETS_URL } from "@difx/constants";
+import { Icon, showInfo, TrendChart} from "@difx/core-ui";
 import t from "@difx/locale";
 import { useFavourites, useMarketPair } from "@difx/shared";
 import { Avatar, Button, Space, Table } from "antd";
@@ -109,10 +109,6 @@ export function ListView({ data, datatype, categoriesList }) {
         return (
           <>
             <LastPrice price={item.last} />
-            {/* <Space size={12} direction="vertical">
-              {item.last}
-              <Text type="secondary">≈ {item.last.toFixed(2)}</Text>
-            </Space> */}
           </>
         )
       },
@@ -137,18 +133,10 @@ export function ListView({ data, datatype, categoriesList }) {
       render: (text: string, item: any) => {
         const changed = (item.last / item.open) * 100 - 100;
         return (
-          <Trend
-            smooth
+          <TrendChart 
             data={item.pricing}
-            strokeWidth={4}
-            autoDraw
-            autoDrawDuration={3000}
-            strokeLinecap={'round'}
-            gradient={[
-              changed >= 0
-                ? "#21C198"
-                : "#ff0000",
-            ]}
+            backgroundColor={ changed >= 0 ? "#21C198" : "#ff0000"}
+            lineColor={ changed >= 0 ? "#21C198" : "#ff0000"}
           />
         );
       },

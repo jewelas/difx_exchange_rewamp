@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const PageStyled = styled.div`
   height: calc(100vh - 50px);
+  background: ${({ theme }) => theme.background.primary};
   .ant-row.row-group {
     background: ${({ theme }) => theme.background.primary};
     .ant-col.col-group {

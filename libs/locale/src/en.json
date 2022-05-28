@@ -86,6 +86,11 @@
     "enter_code": "Enter the OTP!",
     "verify_success": "Verification successfully!"
   },
+  "verify_otp": {
+    "header": "Verification",
+    "enter_code": "Enter the OTP send to ",
+    "verify_success": "Verification successfully!"
+  },
   "register": {
     "title": "Register",
     "message1": "Register to get upto",

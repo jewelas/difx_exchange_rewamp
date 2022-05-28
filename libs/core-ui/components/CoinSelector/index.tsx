@@ -14,13 +14,13 @@ const CoinSelector = ({selectedCoin, handleChange}: CoinSelectorInterface) => {
 
   const { data: currencyData } = useHttpGet<null, any>(QUERY_KEY.CURRENCIES, API_ENDPOINT.GET_CURRENCIES, {});
 
-
   return (
     <Select 
         value={selectedCoin} 
         style={{ width: '100%' }} 
         className="coinselect"
         onChange={handleChange}
+        placeholder="Select Coin"
     >
     {
     !currencyData
@@ -28,7 +28,7 @@ const CoinSelector = ({selectedCoin, handleChange}: CoinSelectorInterface) => {
     "Loading..."
     :
     currencyData.map((item: any) =>
-        <Option value={item.coin} key={item.coin}>
+        <Option value={JSON.stringify(item)} key={item.coin}>
             <OptionGroupStyled>
                 <div className="coinflag">
                     <Avatar shape="square" size={26} src={`${ASSETS_URL}${item.coin.toLowerCase()}.png`}/>

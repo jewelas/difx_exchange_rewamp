@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Avatar, Button, Col, Form, Input, Layout, Popover, Row, Select, Typography } from 'antd';
 import { OptionGroupStyled } from "../../market/styled";
 import { API_ENDPOINT, ASSETS_URL, QUERY_KEY } from "@difx/constants";
@@ -6,7 +6,7 @@ import Text from "antd/lib/typography/Text";
 import { DepositLayout } from "./DepositForm.style";
 import Paragraph from "antd/lib/typography/Paragraph";
 import { CoinSelector, Icon } from "@difx/core-ui";
-import { useHttpGet, useTheme } from "@difx/shared";
+import { useAPI, useHttpGet, useTheme } from "@difx/shared";
 
 const QRBox = (
     <div>
@@ -20,16 +20,34 @@ export function DepositForm() {
   const [selectedCoin, setSelectedCoin] = useState(null)
   const [supportedNetworks, setSupportedNetworks] = useState(null)
   const [selectedNetwork, setSelectedNetwork] = useState(null)
-  const { data: currencyData } = useHttpGet<null, any>(QUERY_KEY.CURRENCIES, API_ENDPOINT.GET_CURRENCIES, {});
-  
+  // const [depositAddress, setDepositAddress] = useState(null)
+  // const [depositTagId, setDepositTagId] = useState(null)
 
   const theme =  useTheme()
+  const { API } = useAPI()
 
-  const handleSelect = (coin: string) => {
-    setSelectedCoin(coin)
-    const coinInfo = currencyData.find(item => item.coin === coin)
+  const handleCoinSelect = (coin: string) => {
+    const coinInfo = JSON.parse(coin || "null")
+    setSelectedCoin(coinInfo.coin)
     setSupportedNetworks(coinInfo.networks)
   }
+
+  const handleNetworkSelect = (network: string) => {
+    setSelectedNetwork(network)
+  }
+
+  const depositAddress = useMemo(()=>{
+    if(selectedCoin && selectedNetwork){
+      const reqData = {
+        coin: selectedCoin,
+        network: selectedNetwork
+      }
+      const response = API.post(API_ENDPOINT.GENERATE_DEPOSIT_ADDRESS,reqData)
+      console.log(response)
+    }else{
+      return null
+    }
+  },[selectedNetwork,selectedCoin])
 
   return (
     <DepositLayout>
@@ -42,21 +60,26 @@ export function DepositForm() {
                     <Form.Item
                         label="Coin"
                     >
-                      <CoinSelector selectedCoin={selectedCoin} handleChange={handleSelect}/>
+                      <CoinSelector selectedCoin={selectedCoin} handleChange={handleCoinSelect}/>
                     </Form.Item>
                     <Form.Item
                         label="Network"
                     >
-                        <Select placeholder="Select Network" className="coinselect" disabled={!supportedNetworks ? true : false}>
-                            {
-                              !supportedNetworks ? 
-                                "Loading..."
-                              :
-                                supportedNetworks.map(network => {
-                                  <Select.Option value="demo">{network} </Select.Option>
-                                })
-                            }
-                        </Select>
+                      <Select 
+                        placeholder="Select Network"
+                        className="coinselect"
+                        disabled={!supportedNetworks ? true : false}
+                        onChange={handleNetworkSelect}
+                      >
+                          {
+                            !supportedNetworks ? 
+                              "Loading..."
+                            :
+                              supportedNetworks.map((network,index) => {
+                                return <Select.Option key={index} value={network}>{network} </Select.Option>
+                              })
+                          }
+                      </Select>
                     </Form.Item>
                     <Form.Item label="Address">
                         <div className="qr-wrapper">
@@ -65,9 +88,9 @@ export function DepositForm() {
                                 icon: [<Icon.CopyIcon key="copy-icon" />, <Icon.CheckCircleIcon key="copied-icon" width={15} height={15} />],
                                 tooltips: ['Copy Address', 'Copied'],
                             }}
-                            className="ant-form-static-input">
-                                0x312ebdc921cccb33d9f202e8bb7b 8d5721de151f
-                                
+                            className="ant-form-static-input"
+                            >
+                                {depositAddress}
                             </Paragraph>
                             <Popover content={QRBox} title="Title">
                                 <Button type="text" style={{width:"auto"}} icon={<Icon.QRCodeIcon fill={theme.theme === "light" ? "#000000" : "#FFFFFF"} className="input-qr"/>} />
@@ -80,9 +103,9 @@ export function DepositForm() {
                                 icon: [<Icon.CopyIcon key="copy-icon" />, <Icon.CheckCircleIcon key="copied-icon" width={15} height={15} />],
                                 tooltips: ['Copy Address', 'Copied'],
                             }}
-                            className="ant-form-static-input">
-                                0x312ebdc921cccb33d9f202e8bb7b 8d5721de151f
-                                
+                            className="ant-form-static-input"
+                            >
+                              {}
                             </Paragraph>
                     </Form.Item>
                 </Form>

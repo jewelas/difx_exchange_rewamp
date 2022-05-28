@@ -4,6 +4,8 @@ export const privateRoutes = [
     "/wallet/spot",
     "/wallet/futures",
     "/wallet/earn",
+    "/wallet/deposit",
+    "/wallet/withdraw",
     "/profile",
     "/myTrades"
 ]

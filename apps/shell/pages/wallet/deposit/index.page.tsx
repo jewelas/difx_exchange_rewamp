@@ -30,7 +30,7 @@ export function DepositPage() {
             <WalletStepper />
             <DepositLayout>
                 <div className="deposit-form-wrapper">
-                    <div className="deposit-form">
+                    <div className="deposit-form"> 
                         <Form
                         form={form}
                         layout="vertical"

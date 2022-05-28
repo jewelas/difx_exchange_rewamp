@@ -58,7 +58,7 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
     // const group_precision = pairInfo ? pairInfo.group_precision : 2;
     // setNumberRound(Math.pow(10, group_precision));
 
-    if(pairInfo){
+    if (pairInfo) {
       setGroupPrecision(pairInfo.group_precision);
       setBAmmount(pairInfo.bamount);
     }
@@ -84,20 +84,20 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
         const currentPrice = form.getFieldValue(`${side}.price`);
         const amount: number = currentPrice ? fieldValue / currentPrice : 0;
         form.setFieldsValue({
-          [`${side}.amount`]: Math.floor(amount * Math.pow(10,bAmount)) / Math.pow(10,bAmount),
+          [`${side}.amount`]: Math.floor(amount * Math.pow(10, bAmount)) / Math.pow(10, bAmount),
         });
       } else if (fieldName === `${side}.amount`) {
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = currentPrice * fieldValue;
         form.setFieldsValue({
-          [`${side}.total`]: Math.floor(newTotal * Math.pow(10,groupPrecision)) /  Math.pow(10,groupPrecision),
+          [`${side}.total`]: Math.floor(newTotal * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
         });
       } else if (fieldName === `${side}.price`) {
         const amount = form.getFieldValue(`${side}.amount`);
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = amount * currentPrice;
         form.setFieldsValue({
-          [`${side}.total`]: Math.floor(newTotal *  Math.pow(10,groupPrecision)) /  Math.pow(10,groupPrecision),
+          [`${side}.total`]: Math.floor(newTotal * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
         });
       }
       if (balance) {
@@ -185,16 +185,22 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
   }
 
   const onReplaceComma = (e: any, totalDigit?: number) => {
+    // Remove comma operator
     e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+
+    // Handle to prevent input wrong number format
     let afterDot = 0;
     if (e.target.value.includes(".")) {
-      const split:string[] = e.target.value.split(".");
+      const split: string[] = e.target.value.split(".");
       afterDot = split[1].length;
-      if (totalDigit && afterDot >= totalDigit){
-        e.target.value = `${split[0] || '0'}.${split[1].slice(0,totalDigit)}`
-      }else if(!split[0]){
-        e.target.value = `0.${split[1].slice(0,totalDigit)}`
+      if (totalDigit && afterDot >= totalDigit) {
+        e.target.value = `${Number(split[0]) || '0'}.${split[1].slice(0, totalDigit)}`
+      } else if (!split[0]) {
+        e.target.value = `0.${split[1].slice(0, totalDigit)}`
       }
+    } else {
+      // Handle to remove leading zeros
+      e.target.value = Number(e.target.value)
     }
   }
 
@@ -224,7 +230,7 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
             &&
             <Form.Item
               name={`${side}.stop`}>
-              <Input onInput={(e: any) => { onReplaceComma(e,groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Trigger Price"
+              <Input onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Trigger Price"
                 prefix={<Typography className="prefix">Trigger Price</Typography>}
                 suffix={quoteCurrency} />
             </Form.Item>

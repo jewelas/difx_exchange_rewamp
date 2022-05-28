@@ -7,6 +7,7 @@ import RecentTransactions from "../../../components/wallet/recentTransactions";
 import WalletLayout from "../index.page";
 import WalletFilters from "../../../components/wallet/filters";
 import { useBalance } from "@difx/shared";
+import TransactionDetailsModal from "../../../components/wallet/transaction-details/modal";
 
 const { Content } = Layout;
 
@@ -53,6 +54,7 @@ export function OverviewPage() {
             <WalletFilters overviewContent="overview" />
             <RecentTransactions />
             </Content>
+            <TransactionDetailsModal />
         </Layout>
     </WalletLayout>
   );

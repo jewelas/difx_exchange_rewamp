@@ -2,12 +2,11 @@ import React from "react";
 import { Button, Checkbox, Col, Divider, Input, Row, Space, Switch } from "antd";
 import { Icon, Typography } from "@difx/core-ui";
 import t from "@difx/locale";
-import { TopBalanceWrapper } from "./styled";
 import { SearchOutlined } from '@ant-design/icons';
 import { useConvertSmallBalModal } from "@difx/shared";
 
 export function WalletFilters({overviewContent}) {
-    const {modalVisible, setModalVisible} = useConvertSmallBalModal()
+  const {modalVisible, setModalVisible} = useConvertSmallBalModal()
   return (
     <div className="toggle-card-wrapper">
         <Row align="middle" justify="space-between">

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Button, Col, Row, Space, Switch, Tabs } from "antd";
 import { Icon, Typography } from "@difx/core-ui";
-import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, FavoriteFilter, SpotFilter } from "../../pages/market/styled";
+import { MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, FavoriteFilter, SpotFilter } from "../../pages/market/styled";
 import GridView from "./GridView";
 import ListView from "./ListView";
 import clsx from 'clsx';

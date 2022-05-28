@@ -136,7 +136,7 @@ export function PairMetaDataWrapper({ pair, layout }: PairMetaDataWrapperProps) 
                   ? "success"
                   : null
             }
-          >{`${currentPrice}`}</Typography>
+          >{`${getPriceFormatted(currentPrice, precision)}`}</Typography>
 
           {
             fiatCurrency &&

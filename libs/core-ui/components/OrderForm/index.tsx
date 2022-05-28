@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, Input, Slider } from "antd";
+import { Button, Form, FormInstance, Input, Slider } from "antd";
 import clsx from "clsx";
-import isEmpty from "lodash/isEmpty";
-import { Typography } from "./../Typography";
-import { useAtomValue } from "jotai/utils";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
-import { PairType, PlaceOrderRequest, userBalanceAtom } from "./../../../shared";
+import { PairType, PlaceOrderRequest } from "./../../../shared";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
 import DepositIcon from "./../Icon/DepositIcon";
+import { Typography } from "./../Typography";
 import {
   ComponentStyled
 } from "./styled";
@@ -27,10 +25,12 @@ export interface OrderFormProps {
   pairInfo?: PairType,
   onPlaceOrder: (formData: PlaceOrderRequest, type: OrderType, side: OrderSideType) => void,
   isLoading?: boolean,
-  canDeposit?: boolean
+  canDeposit?: boolean,
+  balance?: number;
+  form: FormInstance
 }
 
-export function OrderForm({ layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
+export function OrderForm({ form, balance, layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: ' ',
@@ -45,35 +45,32 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
   const [isDisabled, setIsDisabled] = useState(isLoggedIn);
   const [sliderValue, setSliderValue] = useState(0);
 
-  const balances = useAtomValue(userBalanceAtom);
-  const [balance, setBalance] = useState(0.00);
+  // const [numberRound, setNumberRound] = useState<number>(100);
+  const [groupPrecision, setGroupPrecision] = useState<number>(0);
+  const [bAmount, setBAmmount] = useState<number>(0);
 
   useEffect(() => {
-    if (!isEmpty(balances) && pairInfo) {
-      let balanceObj = balances.find(e => e.currency === (side === "bid" ? pairInfo.currency2 : pairInfo.currency1));
-      setBalance(balanceObj?.amount || 0.00);
-      setTimeout(() => {
-        balanceObj = balances.find(e => e.currency === (side === "bid" ? pairInfo.currency2 : pairInfo.currency1));
-        setBalance(balanceObj?.amount || 0.00);
-      }, 3000)
+    if (priceSelected){
+      form.setFieldsValue({ [`${side}.price`]: priceSelected });
+      form.setFieldsValue({ [`${side}.total`]: priceSelected });
+      const amount = form.getFieldValue(`${side}.amount`);
+      const total = amount * priceSelected;
+      form.setFieldsValue({
+        [`${side}.total`]: Math.floor(total * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
+      });
     }
-  }, [balances, pairInfo]);
-
-  const [form] = Form.useForm();
-
-  useEffect(() => {
-    if (priceSelected) form.setFieldsValue({ [`${side}.price`]: priceSelected })
   }, [priceSelected]);
 
   useEffect(() => {
     if (pairInfo && !priceSelected) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })
-  }, [pairInfo]);
+    // const group_precision = pairInfo ? pairInfo.group_precision : 2;
+    // setNumberRound(Math.pow(10, group_precision));
 
-  useEffect(() => {
-    form.setFieldsValue({ [`${side}.stop`]: 0 });
-    form.setFieldsValue({ [`${side}.amount`]: 0 });
-    form.setFieldsValue({ [`${side}.total`]: 0 });
-  }, []);
+    if (pairInfo) {
+      setGroupPrecision(pairInfo.group_precision);
+      setBAmmount(pairInfo.bamount);
+    }
+  }, [pairInfo]);
 
   const onSubmit = (formData: PlaceOrderRequest) => {
     onPlaceOrder(formData, type, side);
@@ -95,20 +92,20 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
         const currentPrice = form.getFieldValue(`${side}.price`);
         const amount: number = currentPrice ? fieldValue / currentPrice : 0;
         form.setFieldsValue({
-          [`${side}.amount`]: Math.floor(amount * 100) / 100,
+          [`${side}.amount`]: Math.floor(amount * Math.pow(10, bAmount)) / Math.pow(10, bAmount),
         });
       } else if (fieldName === `${side}.amount`) {
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = currentPrice * fieldValue;
         form.setFieldsValue({
-          [`${side}.total`]: Math.floor(newTotal * 100) / 100,
+          [`${side}.total`]: Math.floor(newTotal * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
         });
       } else if (fieldName === `${side}.price`) {
         const amount = form.getFieldValue(`${side}.amount`);
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = amount * currentPrice;
         form.setFieldsValue({
-          [`${side}.total`]: Math.floor(newTotal * 100) / 100,
+          [`${side}.total`]: Math.floor(newTotal * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
         });
       }
       if (balance) {
@@ -171,18 +168,18 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
       const currentPrice = pairInfo?.last || priceSelected;
 
       const percentOfBalance: number = (balance * value) / 100;
-      const percentOfBalanceRound: number = Math.floor(percentOfBalance * 100) / 100;
+      const percentOfBalanceRound: number = Math.floor(percentOfBalance * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision);
 
       if (side === 'bid') {
         const amount: number = currentPrice ? percentOfBalanceRound / currentPrice : 0;
-        const amountRound: number = Math.floor(amount * 100) / 100;
+        const amountRound: number = Math.floor(amount * Math.pow(10, bAmount)) / Math.pow(10, bAmount);
         form.setFieldsValue({
           [`${side}.total`]: percentOfBalanceRound,
           [`${side}.amount`]: amountRound,
         });
       } else if (side === 'ask') {
         const total: number = currentPrice ? percentOfBalanceRound * currentPrice : 0;
-        const totalRound: number = Math.floor(total * 100) / 100;
+        const totalRound: number = Math.floor(total * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision);
         form.setFieldsValue({
           [`${side}.total`]: totalRound,
           [`${side}.amount`]: percentOfBalanceRound,
@@ -195,8 +192,24 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
     validateForm();
   }
 
-  const onReplaceComma = (e: any) => {
+  const onReplaceComma = (e: any, totalDigit?: number) => {
+    // Remove comma operator
     e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+
+    // Handle to prevent input wrong number format
+    let afterDot = 0;
+    if (e.target.value.includes(".")) {
+      const split: string[] = e.target.value.split(".");
+      afterDot = split[1].length;
+      if (totalDigit && afterDot >= totalDigit) {
+        e.target.value = `${Number(split[0]) || '0'}.${split[1].slice(0, totalDigit)}`
+      } else if (!split[0]) {
+        e.target.value = `0.${split[1].slice(0, totalDigit)}`
+      }
+    } else {
+      // Handle to remove leading zeros
+      e.target.value = Number(e.target.value)
+    }
   }
 
   return (
@@ -225,7 +238,7 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
             &&
             <Form.Item
               name={`${side}.stop`}>
-              <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Trigger Price"
+              <Input onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Trigger Price"
                 prefix={<Typography className="prefix">Trigger Price</Typography>}
                 suffix={quoteCurrency} />
             </Form.Item>
@@ -243,7 +256,7 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
               :
               <Form.Item
                 name={`${side}.price`}>
-                <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder={"Price"}
+                <Input onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder={"Price"}
                   prefix={<Typography className="prefix">Price</Typography>}
                   suffix={quoteCurrency} />
               </Form.Item>
@@ -252,7 +265,7 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
           <Form.Item
             name={`${side}.amount`}>
             <Input
-              onInput={onReplaceComma}
+              onInput={(e: any) => { onReplaceComma(e, bAmount) }}
               type="text"
               onWheel={preventScroll}
               placeholder="Amount"
@@ -266,7 +279,7 @@ export function OrderForm({ layout = 'default', canDeposit = true, isLoading = t
 
           <Form.Item
             name={`${side}.total`}>
-            <Input onInput={onReplaceComma} type="text" onWheel={preventScroll} placeholder="Total"
+            <Input onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Total"
               prefix={<Typography className="prefix">Total</Typography>}
               suffix={quoteCurrency} />
           </Form.Item>

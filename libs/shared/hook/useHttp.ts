@@ -51,7 +51,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
 
     const defaultOption = {
         refetchOnMount: false,
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
     };
     const mergeOptions = {
         ...defaultOption,

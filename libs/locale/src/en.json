@@ -17,7 +17,8 @@
     "network": "Network",
     "address": "Address",
     "transaction_id": "Transaction ID",
-    "status": "Status"
+    "status": "Status",
+    "msg_wrong":"We're sorry, but something went wrong."
   },
   "staking":{
     "view-staking":"View Staking",

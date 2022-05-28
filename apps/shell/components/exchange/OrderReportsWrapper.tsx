@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Icon, Loading, Switch } from "@difx/core-ui";
-import { BaseResponse, useAuth, useHttpPut } from "@difx/shared";
+import { BaseResponse, isLoggedInAtom, useHttpPut } from "@difx/shared";
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT } from "@difx/constants";
-import { showNotification } from "./../../utils/pageUtils";
+import { showSuccess, ConvertButton } from "@difx/core-ui";
 import { Button, Switch as AntdSwitch, Tabs } from "antd";
 import { useEffect, useState } from 'react';
+import { useAtomValue } from "jotai/utils";
 import FundReport from "./FundReport";
 import OrderHistoryReport from "./OrderHistoryReport";
 import OrderOpenReport from "./OrderOpenReport";
@@ -19,13 +20,13 @@ export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string
   const [tab, setTab] = useState('open-order');
   const [isSelectedPairOnly, setIsSelectedPairOnly] = useState(false);
   const [orderType, setOrderType] = useState('limit');
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
 
   const [reportHeight, setReportHeight] = useState(197);
 
   const onSuccess = (response: AxiosResponse<BaseResponse>) => {
     const { message } = response.data;
-    showNotification('success', 'Cancel Order', message);
+    showSuccess('Cancel Order', message);
   }
   const { mutate: cancelAllOrders } = useHttpPut<null, BaseResponse>({ onSuccess, endpoint: API_ENDPOINT.CANCEL_ALL_ORDERS });
 
@@ -41,17 +42,20 @@ export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string
   return (
     <OrderReportsWraperStyled>
       <div className="display-selected-pair">
-        <div className="wrapper">
-          <AntdSwitch
-            size="small"
-            checked={isSelectedPairOnly}
-            onChange={(checked) => {
-              setIsSelectedPairOnly(checked);
-            }}
-          />
-          <span onClick={() => { setIsSelectedPairOnly(!isSelectedPairOnly) }} className="label">Display selected pair only</span>
-        </div>
-
+        {
+          tab !== 'funds'
+          &&
+          <div className="wrapper">
+            <AntdSwitch
+              size="small"
+              checked={isSelectedPairOnly}
+              onChange={(checked) => {
+                setIsSelectedPairOnly(checked);
+              }}
+            />
+            <span onClick={() => { setIsSelectedPairOnly(!isSelectedPairOnly) }} className="label">Display selected pair only</span>
+          </div>
+        }
       </div>
       <div className="content">
         <Tabs defaultActiveKey="1" onChange={(e) => { setTab(e) }}>

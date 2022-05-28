@@ -2,9 +2,8 @@
 import React, { useState } from "react";
 import clsx from 'clsx';
 import isEmpty from 'lodash/isEmpty';
-import { Typography, Timeline } from '@difx/core-ui';
+import { Typography, Timeline, showSuccess } from '@difx/core-ui';
 import { AxiosResponse } from "axios";
-import { showNotification } from "./../../utils/pageUtils";
 import { Button, Input, Checkbox, Form } from 'antd';
 import { ModalStyled } from './styled';
 import { Staking, Balance, StakingRequest, StakingResponse, useHttpPost } from "@difx/shared";
@@ -35,7 +34,7 @@ export function ModalStacking({ onCancel, onSubmit : onSubmitParam, title, visib
     form.setFieldsValue({'amount':''});
     setHasErrorField(true);
     onCancel();
-    showNotification('success', 'Success', `Order created successfully`);
+    showSuccess('Success', `Order created successfully`);
 
   }
   const { mutate: placeOrder, isLoading } = useHttpPost<StakingRequest, StakingResponse>({ onSuccess: placeOrderSuccess, endpoint: API_ENDPOINT.CREATE_STAKING });

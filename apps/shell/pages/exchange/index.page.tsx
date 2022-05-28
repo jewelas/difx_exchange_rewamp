@@ -9,7 +9,7 @@ export function ExchangeDefault() {
   const router = useRouter();
 
   const { value: lastPair } = useLocalStorage(STORE_KEY.LAST_PAIR, null);
-  const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
+  const { data: resData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, { refetchOnMount: true });
 
   useEffect(() => {
     if (resData) {
@@ -27,8 +27,8 @@ export function ExchangeDefault() {
   }, [resData]);
   return (
     <AppLayout>
-      <div style={{ left:0, top:0, position: 'absolute', width: '100%', height: '100%' }}>
-        <Loading style={{ padding:'unset', height: '100%' }} />
+      <div style={{ left: 0, top: 0, position: 'absolute', width: '100%', height: '100%' }}>
+        <Loading style={{ padding: 'unset', height: '100%' }} />
       </div>
     </AppLayout>
   )

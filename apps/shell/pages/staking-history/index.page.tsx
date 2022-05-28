@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Typography } from "@difx/core-ui";
-import { useAuth } from "@difx/shared";
+import { isLoggedInAtom } from "@difx/shared";
 import { useState } from "react";
+import { useAtomValue } from "jotai/utils";
 import t from "@difx/locale";
 import { Button, Tabs } from 'antd';
 import { useRouter } from "next/router";
@@ -19,7 +20,7 @@ export function StakingHistoryPage(props: StakingHistoryPageProps) {
   const { TabPane } = Tabs;
   const router = useRouter();
 
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
 
   const [tab, setTab] = useState(null);
 

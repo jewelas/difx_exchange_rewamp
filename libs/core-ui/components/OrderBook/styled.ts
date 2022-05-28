@@ -189,8 +189,7 @@ export const ComponentStyled = styled.div`
           &.price {
             width: 50px;
             max-width: 50px;
-            overflow: hidden;
-            overflow: hidden;
+            overflow: visible !important;
             white-space: nowrap;
             display: flex;
             justify-content: flex-start;
@@ -210,6 +209,7 @@ export const ComponentStyled = styled.div`
             flex-grow: 1;
             max-width: 70px;
             white-space: nowrap;
+            overflow: visible;
             display: flex;
             justify-content: flex-end;
           }

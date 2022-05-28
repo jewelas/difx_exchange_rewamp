@@ -43,6 +43,7 @@ export const PAIRS = {
 export const QUERY_KEY = {
   COUNTRIES: 'countries',
   PAIRS: 'pairs',
+  ORDER_BOOK: 'order_book',
   TRADES: 'trades',
   STAKING_HISTORY: 'staking_history',
   CHART_HISTORY: 'chart_history',
@@ -83,6 +84,7 @@ export const API_ENDPOINT = {
   GET_AVAILABLE_LANGUAGES: '/api/v1/public/lang',
   GET_ANONYMOUS_TOKEN: '/api/v1/public/anonymous',
   GET_PAIRS: 'api/v1/market/pairs',
+  GET_ORDER_BOOK: (symbol: string) => `/api/v1/market/order-book?symbol=${symbol}`,
   GET_TRADES: (symbol: string) => `/api/v1/market/trades?symbol=${symbol}`,
   GET_MY_TRADES: (symbol?: string) => `/api/v1/user/trade-history${symbol ? `?symbol=${symbol}` : ''}`,
   GET_ORDER_HISTORY: (symbol?: string) => `/api/v1/user/order-history${symbol ? `?symbol=${symbol}` : ''}`,

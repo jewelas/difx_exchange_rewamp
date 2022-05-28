@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, SocketEvent, useAuth, useHttpGetByEvent, useHttpPut, useSocket, useSocketProps } from "@difx/shared";
+import { BaseResponse, Order, SocketEvent, isLoggedInAtom, useHttpGetByEvent, useHttpPut, useSocket, useSocketProps } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
+import { useAtomValue } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
@@ -19,26 +19,25 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
-  const param: useSocketProps = {
-    event: SocketEvent.user_orders,
-  };
-  const userOrdersData = useSocket(param);
-
   const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
-
     if (data && !isEmpty(data.result)) {
       for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
-          setTableData([...tableData]);
         }
       }
+      let newTableData = tableData;
+      if(isSelectedPairOnly){
+        newTableData = newTableData.filter((e:any)=>e.symbol === pair);
+      }
+      setTableData([...newTableData]);
     } else {
       setTableData([]);
     }
   }
 
+  const userOrdersData = useSocket({event: SocketEvent.user_orders});
   useEffect(() => {
     if (userOrdersData) {
       const index = tableData.findIndex(e => e.id === userOrdersData.id);
@@ -66,7 +65,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
   const { mutate: cancelOrder, isLoading } = useHttpPut<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_ORDER });
 
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
     if (isLoggedIn) {
       if (isSelectedPairOnly && pair) {
@@ -75,7 +74,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
         getOrderBooks(null);
       }
     }
-  }, [isSelectedPairOnly, isLoggedIn]);
+  }, [isSelectedPairOnly, isLoggedIn, pair]);
 
   const columns = [
     {
@@ -86,7 +85,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
           const bTime = new Date(b.timestamp).getTime();
           return aTime - bTime;
         },
-        multiple: 4,
       },
       dataIndex: 'timestamp',
       render: (text) => {
@@ -102,7 +100,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       dataIndex: 'symbol',
       sorter: {
         compare: (a, b) => a.symbol.localeCompare(b.symbol),
-        multiple: 2,
       },
       render: (text) => {
         return (
@@ -117,7 +114,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       dataIndex: 's',
       sorter: {
         compare: (a, b) => a.s - b.s,
-        multiple: 3,
       },
       render: (text) => {
         return (
@@ -132,7 +128,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       dataIndex: 'p',
       sorter: {
         compare: (a, b) => a.p - b.p,
-        multiple: 4,
       },
       render: (text) => {
         return (
@@ -147,7 +142,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       dataIndex: 'q',
       sorter: {
         compare: (a, b) => a.q - b.q,
-        multiple: 4,
       },
       render: (text) => {
         return (

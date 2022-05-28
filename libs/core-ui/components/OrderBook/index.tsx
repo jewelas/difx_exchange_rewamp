@@ -137,11 +137,11 @@ export function OrderBook({
         );
       else if (type === "ask")
         return (
-          <AskComponent maxRow={24} />
+          <AskComponent maxRow={32} />
         );
       else if (type === "bid")
         return (
-          <BidComponent maxRow={24} />
+          <BidComponent maxRow={32} />
         );
     }
     return null;

@@ -1,6 +1,5 @@
 import t from "@difx/locale";
 import {
-  TwoFactorRequest,
   useAPI,
   useAuth,
 } from "@difx/shared";
@@ -12,7 +11,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { API_ENDPOINT } from "@difx/shared";
 
-export function TwoFactorForm({sessionId}) {
+export function VerifyOTPForm({sessionDetails}) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const formRef = useRef<FormInstance>(null);
   const [otpValue, setOtpValue] = useState('')
@@ -52,14 +51,16 @@ export function TwoFactorForm({sessionId}) {
 
   const twoFactor = async(formData) => {
     try{
-      const response = await API.post(API_ENDPOINT.TWO_FACTOR, formData)
+      const response = await API.post(API_ENDPOINT.VERIFY_OTP, formData)
+      console.log(response)
       /* eslint-disable-next-line */
       const { statusCode, data } = response?.data
       switch (statusCode) {
         case 200: {
-          const { permission, user } = data
-          updateSession(user, permission)
-          router.push("/home");
+          // const { permission, user } = data
+          // updateSession(user, permission)
+          // localStorage.removeItem("extraAuthRequired")
+          router.push("/login");
           break
         }
         case 412: {
@@ -79,10 +80,14 @@ export function TwoFactorForm({sessionId}) {
   };
 
 
-  const onSubmit = async (formData: TwoFactorRequest) => {
+  const onSubmit = async (formData) => {
     setIsLoading(true)
     formData.code = otpValue
-    formData.session_id = sessionId
+    if(sessionDetails.type === "email"){
+      formData.email = sessionDetails.id
+    }else{
+      formData.phonenumber = sessionDetails.id
+    }
     twoFactor(formData);
   };
 
@@ -124,4 +129,4 @@ export function TwoFactorForm({sessionId}) {
   );
 }
 
-export default TwoFactorForm;
+export default VerifyOTPForm;

@@ -1,5 +1,6 @@
 import t from "@difx/locale";
 import {
+  ExtraAuth,
   useAPI,
   useAuth,
 } from "@difx/shared";
@@ -55,17 +56,34 @@ export function VerifyOTPForm({sessionDetails}) {
       console.log(response)
       /* eslint-disable-next-line */
       const { statusCode, data } = response?.data
+      let authDetails: ExtraAuth
       switch (statusCode) {
         case 200: {
-          // const { permission, user } = data
-          // updateSession(user, permission)
-          // localStorage.removeItem("extraAuthRequired")
-          router.push("/login");
+          const { permission, user } = data
+          updateSession(user, permission)
+          router.push("/home");
           break
         }
-        case 412: {
-          localStorage.removeItem("extraAuthRequired")
-          router.push("/login")
+        case 410: {
+          authDetails = {
+            type: "IP_VERIFICATION",
+            details: {
+              email: formData.email
+            }
+          }
+          localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+          router.push("/verify-ip")
+          break
+        }
+        case 411: {
+          authDetails = {
+            type: "TFA",
+            details: {
+              session_id: data.session_id
+            }
+          }
+          localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+          router.push("/two-factor")
           break
         }
         default:

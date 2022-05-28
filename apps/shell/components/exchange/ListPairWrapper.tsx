@@ -72,7 +72,6 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
       dataIndex: 'pair',
       sorter: {
         compare: (a, b) => a.pair.localeCompare(b.pair),
-        multiple: 3,
       },
       render: (text, record) => {
         return (
@@ -96,7 +95,6 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
       dataIndex: 'price',
       sorter: {
         compare: (a, b) => a.price - b.price,
-        multiple: 2,
       },
       render: (text, record) => {
         return (
@@ -128,7 +126,6 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
           _b = _b.replace(regex, "");
           return Number(_a) - Number(_b);
         },
-        multiple: 1,
       },
       render: (text, record) => {
         return (

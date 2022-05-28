@@ -23,8 +23,8 @@ const GlobalStyles = createGlobalStyle`
     :-webkit-autofill:hover,
     :-webkit-autofill:focus,
     :-webkit-autofill:active, .ant-form-item-control-input-content .ant-input-affix-wrapper>input.ant-input:focus, .ant-form-item-control-input-content .ant-input-affix-wrapper > input.ant-input:focus{
-        -webkit-box-shadow: 0 0 0 30px white inset !important;
-        box-shadow: 0 0 0 30px white inset !important;
+        -webkit-box-shadow: 0 0 0 30px white inset;
+        box-shadow: 0 0 0 30px white inset;
     }
     ::-webkit-scrollbar {
       width: 8px;

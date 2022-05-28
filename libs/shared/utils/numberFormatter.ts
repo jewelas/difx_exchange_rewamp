@@ -7,3 +7,17 @@ export function numFormatter(n: number) {
   if (n >= 1e12) return +(n / 1e12).toFixed(1) + "T";
   return n;
 }
+
+export function toFixedNumber(value: number, group_precision: number): string{
+  let numberFormatted = 0.0;
+  if(group_precision<=-1){
+    numberFormatted = Math.round(value / 10) * 10;
+    return numberFormatted.toLocaleString("en-us", {
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+    });
+  }else{
+    const numberFormatted = Number(value.toFixed(group_precision));
+    return numberFormatted.toString();
+  }
+};

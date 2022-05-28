@@ -142,7 +142,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             quoteCurrency={pairInfo.currency2}
             type={orderType}
             isLoggedIn={isLoggedIn}
-            balance={balances.find(e => e.currency === pairInfo.currency1)?.amount || 0.00}
+            balance={balances.find(e => e.currency === pairInfo.currency2)?.amount || 0.00}
             pairInfo={pairInfo} />
         </div>
         <div className="ask">
@@ -157,7 +157,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             side="ask"
             type={orderType}
             isLoggedIn={isLoggedIn}
-            balance={balances.find(e => e.currency === pairInfo.currency2)?.amount || 0.00}
+            balance={balances.find(e => e.currency === pairInfo.currency1)?.amount || 0.00}
             pairInfo={pairInfo} />
         </div>
       </div>

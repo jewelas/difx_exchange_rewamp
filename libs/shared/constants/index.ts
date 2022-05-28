@@ -106,7 +106,7 @@ export const API_ENDPOINT = {
   RESET_PASS: '/api/v1/auth/reset-password',
   TWO_FACTOR: '/api/v1/auth/verify-twofa',
   VERIFY_IP: '/api/v1/auth/verify-ip',
-  VERIFY_OTP: '/api/v1/public/verify-profile-code',
+  VERIFY_OTP: '/api/v1/auth/verify-profile-code',
   RESEND_IP_VERIFICATION_MAIL: `api/v1/auth/resend-ip-verification`,
   REFRESH_TOKEN: '/api/v1/auth/refresh',
   GET_ORDER_OPEN: (symbol?: string) => `/api/v1/user/open-orders${symbol ? `?symbol=${symbol}` : ''}`,

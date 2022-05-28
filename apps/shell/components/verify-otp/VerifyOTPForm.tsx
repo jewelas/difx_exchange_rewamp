@@ -52,14 +52,15 @@ export function VerifyOTPForm({sessionDetails}) {
   const twoFactor = async(formData) => {
     try{
       const response = await API.post(API_ENDPOINT.VERIFY_OTP, formData)
+      console.log(response)
       /* eslint-disable-next-line */
       const { statusCode, data } = response?.data
       switch (statusCode) {
         case 200: {
-          const { permission, user } = data
-          updateSession(user, permission)
-          localStorage.removeItem("extraAuthRequired")
-          router.push("/home");
+          // const { permission, user } = data
+          // updateSession(user, permission)
+          // localStorage.removeItem("extraAuthRequired")
+          router.push("/login");
           break
         }
         case 412: {

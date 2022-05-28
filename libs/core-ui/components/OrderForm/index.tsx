@@ -50,7 +50,15 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
   const [bAmount, setBAmmount] = useState<number>(0);
 
   useEffect(() => {
-    if (priceSelected) form.setFieldsValue({ [`${side}.price`]: priceSelected })
+    if (priceSelected){
+      form.setFieldsValue({ [`${side}.price`]: priceSelected });
+      form.setFieldsValue({ [`${side}.total`]: priceSelected });
+      const amount = form.getFieldValue(`${side}.amount`);
+      const total = amount * priceSelected;
+      form.setFieldsValue({
+        [`${side}.total`]: Math.floor(total * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
+      });
+    }
   }, [priceSelected]);
 
   useEffect(() => {

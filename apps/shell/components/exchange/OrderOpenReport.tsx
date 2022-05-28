@@ -85,7 +85,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
           const bTime = new Date(b.timestamp).getTime();
           return aTime - bTime;
         },
-        multiple: 4,
       },
       dataIndex: 'timestamp',
       render: (text) => {
@@ -101,7 +100,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       dataIndex: 'symbol',
       sorter: {
         compare: (a, b) => a.symbol.localeCompare(b.symbol),
-        multiple: 2,
       },
       render: (text) => {
         return (
@@ -116,7 +114,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       dataIndex: 's',
       sorter: {
         compare: (a, b) => a.s - b.s,
-        multiple: 3,
       },
       render: (text) => {
         return (
@@ -131,7 +128,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       dataIndex: 'p',
       sorter: {
         compare: (a, b) => a.p - b.p,
-        multiple: 4,
       },
       render: (text) => {
         return (
@@ -146,7 +142,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       dataIndex: 'q',
       sorter: {
         compare: (a, b) => a.q - b.q,
-        multiple: 4,
       },
       render: (text) => {
         return (

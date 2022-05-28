@@ -41,7 +41,6 @@ export function FundReport({ height = 200 }: { height?: number }) {
       dataIndex: 'currency',
       sorter: {
         compare: (a, b) => a.currency.localeCompare(b.currency),
-        multiple: 1,
       },
       render: (text, record) => {
         return (
@@ -56,7 +55,6 @@ export function FundReport({ height = 200 }: { height?: number }) {
       dataIndex: 'amount',
       sorter: {
         compare: (a, b) => a.amount - b.amount,
-        multiple: 2,
       },
       render: (text) => {
         return (

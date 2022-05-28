@@ -91,7 +91,6 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       dataIndex: 'id',
       sorter: {
         compare: (a, b) => a.id - b.id,
-        multiple: 1,
       },
       render: (text, record) => {
         return (
@@ -106,7 +105,6 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       dataIndex: 'symbol',
       sorter: {
         compare: (a, b) => a.symbol.localeCompare(b.symbol),
-        multiple: 2,
       },
       render: (text) => {
         return (
@@ -121,7 +119,6 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       dataIndex: 's',
       sorter: {
         compare: (a, b) => a.s - b.s,
-        multiple: 3,
       },
       render: (text, record) => {
         return (
@@ -136,7 +133,6 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       dataIndex: 'p',
       sorter: {
         compare: (a, b) => (a.p && b.p) ? (a.p - b.p) : (a.limit-b.limit),
-        multiple: 4,
       },
       render: (text, record) => {
         return (
@@ -151,7 +147,6 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       dataIndex: 'q',
       sorter: {
         compare: (a, b) => a.q - b.q,
-        multiple: 4,
       },
       render: (text) => {
         return (
@@ -169,7 +164,6 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
           const bTime = new Date(b.timestamp).getTime();
           return aTime - bTime;
         },
-        multiple: 4,
       },
       dataIndex: 'timestamp',
       render: (text) => {

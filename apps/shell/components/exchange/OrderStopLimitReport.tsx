@@ -88,7 +88,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
           const bTime = new Date(b.timestamp).getTime();
           return aTime - bTime;
         },
-        multiple: 4,
       },
       dataIndex: 'timestamp',
       render: (text) => {
@@ -104,7 +103,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'symbol',
       sorter: {
         compare: (a, b) => a.symbol.localeCompare(b.symbol),
-        multiple: 2,
       },
       render: (text) => {
         return (
@@ -119,7 +117,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'side',
       sorter: {
         compare: (a, b) => a.side - b.side,
-        multiple: 3,
       },
       render: (text) => {
         return (
@@ -134,7 +131,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'limit',
       sorter: {
         compare: (a, b) => a.limit - b.limit,
-        multiple: 4,
       },
       render: (text) => {
         return (
@@ -149,7 +145,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'stop',
       sorter: {
         compare: (a, b) => a.stop - b.stop,
-        multiple: 5,
       },
       render: (text) => {
         return (
@@ -164,7 +159,6 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       dataIndex: 'amount',
       sorter: {
         compare: (a, b) => a.amount - b.amount,
-        multiple: 6,
       },
       render: (text) => {
         return (

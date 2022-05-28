@@ -72,7 +72,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 'id',
       sorter: {
         compare: (a, b) => a.id - b.id,
-        multiple: 1,
       },
       render: (text, record) => {
         return (
@@ -87,7 +86,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 'symbol',
       sorter: {
         compare: (a, b) => a.symbol.localeCompare(b.symbol),
-        multiple: 2,
       },
       render: (text) => {
         return (
@@ -102,7 +100,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 's',
       sorter: {
         compare: (a, b) => a.s - b.s,
-        multiple: 3,
       },
       render: (text) => {
         return (
@@ -117,7 +114,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 'p',
       sorter: {
         compare: (a, b) => a.p - b.p,
-        multiple: 4,
       },
       render: (text) => {
         return (
@@ -132,7 +128,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       dataIndex: 'q',
       sorter: {
         compare: (a, b) => a.q - b.q,
-        multiple: 4,
       },
       render: (text) => {
         return (
@@ -150,7 +145,6 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
           const bTime = new Date(b.timestamp).getTime();
           return aTime - bTime;
         },
-        multiple: 4,
       },
       dataIndex: 'timestamp',
       render: (text) => {

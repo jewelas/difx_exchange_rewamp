@@ -8,6 +8,7 @@ export enum SocketEvent {
   user_orders,
   user_stoplimits,
   user_balances,
+  user_trades,
   off,
   qr_listen,
   graph_data

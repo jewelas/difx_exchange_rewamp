@@ -19,8 +19,6 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
-  const userOrdersData = useSocket({event: SocketEvent.user_orders});
-
   const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
 
@@ -36,6 +34,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
     }
   }
 
+  const userOrdersData = useSocket({event: SocketEvent.user_orders});
   useEffect(() => {
     if (userOrdersData) {
       const index = tableData.findIndex(e => e.id === userOrdersData.id);

@@ -5,7 +5,7 @@ import isEmpty from "lodash/isEmpty";
 import { API_ENDPOINT } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
 import { useAtomValue } from "jotai/utils";
-import { Order, isLoggedInAtom, useHttpGetByEvent } from "@difx/shared";
+import { Order, isLoggedInAtom, useHttpGetByEvent, useSocket, SocketEvent } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -16,6 +16,45 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
   const isLoggedIn = useAtomValue(isLoggedInAtom);
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
+
+
+  // Limit order
+  const userOrdersData = useSocket({event: SocketEvent.user_orders});
+  useEffect(() => {
+    if (userOrdersData) {
+      const index = tableData.findIndex(e => e.id === userOrdersData.id);
+      if (index !== -1) {
+        if (userOrdersData.q === 0) {
+          tableData.splice(index, 1);
+        } else {
+          tableData[index].q = userOrdersData.q;
+        }
+      } else {
+        userOrdersData.timestamp = new Date();
+        tableData.push(userOrdersData);
+      }
+      setTableData([...tableData]);
+    }
+  }, [userOrdersData]);
+
+  // Stop limit order
+  const userStopLimitOrdersData = useSocket({event: SocketEvent.user_stoplimits});
+  useEffect(() => {
+    if (userStopLimitOrdersData) {
+      const index = tableData.findIndex(e => e.id === userStopLimitOrdersData.id);
+      if (index !== -1) {
+        if (userStopLimitOrdersData.q === 0) {
+          tableData.splice(index, 1);
+        } else {
+          tableData[index].q = userStopLimitOrdersData.q;
+        }
+      } else {
+        userStopLimitOrdersData.timestamp = new Date();
+        tableData.push(userStopLimitOrdersData);
+      }
+      setTableData([...tableData]);
+    }
+  }, [userStopLimitOrdersData]);
 
   const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
     const { data } = response;
@@ -74,16 +113,16 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       }
     },
     {
-      title: 'Type',
+      title: 'Side',
       dataIndex: 's',
       sorter: {
         compare: (a, b) => a.s - b.s,
         multiple: 3,
       },
-      render: (text) => {
+      render: (text, record) => {
         return (
           <div className='cell'>
-            <Typography level="B3" color={text === 0 ? 'success' : 'danger'}>{text === 0 ? 'BUY' : 'SELL'}</Typography>
+            <Typography level="B3" color={(record.s === 0 || record.side===0) ? 'success' : 'danger'}>{(record.s === 0 || record.side===0) ? 'BUY' : 'SELL'}</Typography>
           </div>
         )
       }
@@ -92,13 +131,13 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       title: 'Price',
       dataIndex: 'p',
       sorter: {
-        compare: (a, b) => a.p - b.p,
+        compare: (a, b) => (a.p && b.p) ? (a.p - b.p) : (a.limit-b.limit),
         multiple: 4,
       },
-      render: (text) => {
+      render: (text, record) => {
         return (
           <div className='cell'>
-            <Typography level="B3">{text}</Typography>
+            <Typography level="B3">{record.p || record.limit}</Typography>
           </div>
         )
       }

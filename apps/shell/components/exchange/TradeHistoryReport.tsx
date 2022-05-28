@@ -5,7 +5,7 @@ import isEmpty from "lodash/isEmpty";
 import { API_ENDPOINT } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
 import { useAtomValue } from "jotai/utils";
-import { Order, isLoggedInAtom, useHttpGetByEvent } from "@difx/shared";
+import { Order, isLoggedInAtom, useHttpGetByEvent, useSocketProps, SocketEvent, useSocket } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -16,6 +16,26 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
   const isLoggedIn = useAtomValue(isLoggedInAtom);
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
+
+  const param: useSocketProps = {
+    event: SocketEvent.user_trades,
+  };
+  const userOrdersData = useSocket(param);
+
+  useEffect(() => {
+    if (userOrdersData) {
+      const index = tableData.findIndex(e => e.id === userOrdersData.id)
+      if (index !== -1) {
+        if (userOrdersData.amount === 0) {
+          tableData.splice(index, 1);
+        }
+      } else {
+        userOrdersData.timestamp = new Date();
+        tableData.push(userOrdersData);
+      }
+      setTableData([...tableData]);
+    }
+  }, [userOrdersData]);
 
   const getOrderBookSuccess = (response: AxiosResponse<{result: Array<Order>}>) => {
     const { data } = response;

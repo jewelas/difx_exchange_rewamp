@@ -3,17 +3,20 @@
 
 import { API_ENDPOINT } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
-import { isLoggedInAtom, useHttpGetByEvent } from "@difx/shared";
+import { isLoggedInAtom, useHttpGetByEvent, useCurrency } from "@difx/shared";
+import { getPriceFormatted } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useAtomValue } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 
-export function FundReport({height=200}:{height?:number}) {
+export function FundReport({ height = 200 }: { height?: number }) {
 
   const [tableData, setTableData] = useState<any>([]);
   const isLoggedIn = useAtomValue(isLoggedInAtom);
+
+  const { currentCurrency: fiatCurrency } = useCurrency();
 
   const getDataSuccess = (response: AxiosResponse) => {
     const { data } = response;
@@ -58,7 +61,18 @@ export function FundReport({height=200}:{height?:number}) {
       render: (text) => {
         return (
           <div className='cell'>
-            <Typography level="B3">{text}</Typography>
+            <div>
+              <Typography level="B3">{text}</Typography>
+              {
+                fiatCurrency &&
+                <div>
+                  <Typography fontSize={11} level="B3">{`≈ ${fiatCurrency.symbol}${getPriceFormatted(
+                    text * fiatCurrency.usd_rate,
+                    2
+                  )}`}</Typography>
+                </div>
+              }
+            </div>
           </div>
         )
       }
@@ -69,7 +83,7 @@ export function FundReport({height=200}:{height?:number}) {
 
   return (
     <Table
-      scroll={{ x: "max-content", y: height+50 }}
+      scroll={{ x: "max-content", y: height + 50 }}
       showSorterTooltip={false}
       pagination={false}
       columns={columns}

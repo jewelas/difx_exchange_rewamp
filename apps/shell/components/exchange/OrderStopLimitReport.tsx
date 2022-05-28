@@ -3,8 +3,9 @@
 
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, useAuth, SocketEvent, useSocket, useSocketProps, useHttpGetByEvent, useHttpPost } from "@difx/shared";
+import { BaseResponse, Order, useAuth, SocketEvent, useSocket, useSocketProps, useHttpGetByEvent, useHttpPost, isLoggedInAtom } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
+import { useAtomValue } from "jotai/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
@@ -66,14 +67,17 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT() });
   const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_STOP_LIMIT_ORDER }); // TODO: handle headers in interceptor in useHttp
 
-
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
-    if (isSelectedPairOnly && pair) {
-      getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT(pair) });
-    } else {
-      getOrderBooks(null);
+    if (isLoggedIn) {
+      if (isSelectedPairOnly && pair) {
+        getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT(pair) });
+      } else {
+        getOrderBooks(null);
+      }
     }
-  }, [isSelectedPairOnly, pair]);
+
+  }, [isSelectedPairOnly, isLoggedIn, pair]);
 
   const columns = [
     {

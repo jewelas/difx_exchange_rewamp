@@ -74,7 +74,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
         getOrderBooks(null);
       }
     }
-  }, [isSelectedPairOnly, isLoggedIn]);
+  }, [isSelectedPairOnly, isLoggedIn, pair]);
 
   const columns = [
     {

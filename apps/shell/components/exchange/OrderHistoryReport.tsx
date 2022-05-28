@@ -83,7 +83,7 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
         getOrderBooks(null);
       }
     }
-  }, [isLoggedIn, isSelectedPairOnly]);
+  }, [isLoggedIn, isSelectedPairOnly, pair]);
 
   const columns = [
     {

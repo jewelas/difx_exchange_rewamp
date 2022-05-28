@@ -64,7 +64,7 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
         getOrderBooks(null);
       }
     }
-  }, [isLoggedIn, isSelectedPairOnly]);
+  }, [isLoggedIn, isSelectedPairOnly, pair]);
 
   const columns = [
     {

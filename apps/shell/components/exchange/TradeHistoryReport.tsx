@@ -43,9 +43,13 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       for (const order of data.result) {
         if (!tableData.find(e => e.id === order.id)) {
           tableData.push(order);
-          setTableData(tableData);
         }
       }
+      let newTableData = tableData;
+      if(isSelectedPairOnly){
+        newTableData = newTableData.filter((e:any)=>e.symbol === pair);
+      }
+      setTableData([...newTableData]);
     } else {
       setTableData([]);
     }

@@ -2,7 +2,7 @@ import { Color } from "@difx/core-ui";
 import styled from "styled-components";
 
 const PageStyled = styled.div`
-  height: calc(100vh - 70px);
+  height: calc(100vh - 50px);
   background: ${({ theme }) => theme.background.secondary};
   .ant-row.row-group {
     background: ${({ theme }) => theme.background.secondary};

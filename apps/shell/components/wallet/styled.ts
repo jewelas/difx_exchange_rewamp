@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 const { Sider } = Layout;
 
 const SidebarWrapper = styled(Sider)`
-  height: calc(100vh - 70px);
+  height: calc(100vh - 50px);
   .ant-menu-item{
       gap: 10px;
       &.ant-menu-item-active>div{

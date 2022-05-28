@@ -1,9 +1,8 @@
 import t from "@difx/locale";
 import {
   TwoFactorRequest,
-  TwoFactorResponse,
+  useAPI,
   useAuth,
-  useHttpPost
 } from "@difx/shared";
 import { OTPBox, Icon } from "@difx/core-ui";
 import { Button, Form, Input } from "antd";
@@ -18,20 +17,12 @@ export function TwoFactorForm({sessionId}) {
   const [hasFieldError, setHasFieldError] = useState(true);
   const formRef = useRef<FormInstance>(null);
   const [otpValue, setOtpValue] = useState('')
-  const [timer, setTimer] = useState(30)
-  const [resend, setResend] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const { API } = useAPI()
 
   const { updateSession } = useAuth();
 
   const router = useRouter();
-
-  const onSuccess = (response: AxiosResponse<TwoFactorResponse>) => {
-    const { data } = response.data;
-    const { permission, user } = data
-    updateSession(user, permission)
-    localStorage.removeItem("extraAuthRequired")
-    router.push("/home");
-  };
 
   const isRequiredFieldsEmpty = (): boolean => {
     let result = false;
@@ -60,13 +51,37 @@ export function TwoFactorForm({sessionId}) {
     }
   };
 
-  const onError = (error: AxiosError) => {
-    formRef.current?.setFieldsValue({ code: null });
+  const twoFactor = async(formData) => {
+    try{
+      const response = await API.post(API_ENDPOINT.TWO_FACTOR, formData)
+      /* eslint-disable-next-line */
+      const { statusCode, data } = response?.data
+      switch (statusCode) {
+        case 200: {
+          const { permission, user } = data
+          updateSession(user, permission)
+          router.push("/home");
+          break
+        }
+        case 412: {
+          localStorage.removeItem("extraAuthRequired")
+          router.push("/login")
+          break
+        }
+        default:
+          break
+      }
+    }catch(error){
+      console.log(error)
+    }finally{
+      setOtpValue('')
+      setIsLoading(false)
+    }
   };
 
-  const { mutate: twoFactor, isLoading } = useHttpPost<TwoFactorRequest, TwoFactorResponse>({ onSuccess, onError, endpoint: API_ENDPOINT.TWO_FACTOR });
 
   const onSubmit = async (formData: TwoFactorRequest) => {
+    setIsLoading(true)
     formData.code = otpValue
     formData.session_id = sessionId
     twoFactor(formData);

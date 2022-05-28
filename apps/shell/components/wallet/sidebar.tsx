@@ -42,20 +42,22 @@ export function WalletSidebar() {
           </Link>
         </Menu.Item>
         <Menu.Item 
-          icon={<Icon.HistoryIcon />}
+          icon={<Icon.SwitchIcon />}
         >
           <Link href="/wallet/transaction-history">
             {t("wallet.transaction_history")}
           </Link>
         </Menu.Item>
         <Menu.ItemGroup>
-          <Menu.Item key="deposit" icon={<Icon.HistoryIcon />}>
+          <Menu.Item key="deposit" icon={<Icon.WalletDepositIcon />}>
               <Link href="/wallet/deposit">
                 {t("wallet.deposit")}
               </Link>
           </Menu.Item>
-          <Menu.Item key="withdraw" icon={<Icon.HistoryIcon />}>
-          {t("wallet.withdraw")}
+          <Menu.Item key="withdraw" icon={<Icon.WalletWithdrawIcon />}>
+            <Link href="/wallet/withdraw">
+              {t("wallet.withdraw")}
+            </Link>
           </Menu.Item>
         </Menu.ItemGroup>
           <Menu.Item key="help_support" icon={<Icon.SupportIcon />}

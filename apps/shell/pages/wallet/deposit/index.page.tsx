@@ -5,10 +5,10 @@ import WalletStepper from "../../../components/wallet/stepper";
 import { OptionGroupStyled } from "../../market/styled";
 import { ASSETS_URL } from "@difx/constants";
 import Text from "antd/lib/typography/Text";
-import { DepositLayout } from "./styled";
 import Paragraph from "antd/lib/typography/Paragraph";
 import { Icon } from "@difx/core-ui";
 import { useTheme } from "@difx/shared";
+import { DepositLayout } from "../styled";
 
 
 const QRBox = (

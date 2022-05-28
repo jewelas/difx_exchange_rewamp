@@ -43,3 +43,7 @@ export const layoutTypeAtom = atom<string | 'default' | 'compact' | 'pro'>('defa
 export const candleTypeAtom = atom<string | 'greenUp' | 'redUp'>('greenUp');
 
 export const withrawalDetailsModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+export const walletWithdrawModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+
+export const withdrawModalTabsAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+export const transferModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;

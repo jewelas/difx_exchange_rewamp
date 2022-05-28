@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 const { Sider } = Layout;
 
 const SidebarWrapper = styled(Sider)`
-  height: calc(100vh - 70px);
+  height: calc(100vh - 50px);
   .ant-menu-item{
       gap: 10px;
       &.ant-menu-item-active>div{
@@ -11,15 +11,15 @@ const SidebarWrapper = styled(Sider)`
       }
       &.ant-menu-item-selected, :hover{
         background-color: ${({theme}) => theme.color.primaryLight} !important;
-        &>div, &>div svg{
+        &>div, &>div svg, &>div svg path{
             fill: ${({theme}) => theme.color.primary};
         }
-        .ant-menu-title-content{
+        .ant-menu-title-content, .ant-menu-title-content a{
           color: ${({theme}) => theme.color.primary};
           font-weight: ${({theme}) => theme.fontWeight.semiBold};
         }
       }
-      .ant-menu-title-content{
+      .ant-menu-title-content, .ant-menu-title-content a{
           color: ${({theme}) => theme.fontColor.secondary};
       }
       &>div{
@@ -81,7 +81,6 @@ const TopBalanceWrapper = styled.div`
         }
         .total-balance-heading{
         display: flex;
-        justify-content: space-between;
         align-items: center;
             p{
                 margin-bottom: 0px;
@@ -239,4 +238,119 @@ const  TransactionDetailsWrapper = styled.div`
         }
     }
 `
-export {TransactionDetailsWrapper, StepperWrapper, RecentTransactionsWrapper, SidebarWrapper, TopBalanceWrapper, AccountCardWrapper, ConvertModal}
+const WithdrawModalWrapper = styled.div`
+    .withdraw-options{
+        &>div{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: ${({theme}) => theme.background.primary};
+            padding: 10px 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            &>div:first-child{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+                img {
+                    margin-right:20px;
+                    width:40px
+                }
+                .ant-typography{
+                    margin-bottom: 0px;
+                }
+            }
+        }
+    }
+`
+const TransferModalWrapper = styled.div`
+    .transfer_input_wrapper{
+        display: flex;
+        align-items: center;
+        background: ${({theme}) => theme.background.primary};
+        border-radius: ${({ theme }) => theme.borderRadius.rounded};
+        margin-bottom: 20px;
+        .transfer_dots{
+            width: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            padding: 0 20px;
+            position: relative;
+            &>svg{
+                transform: rotate(90deg);
+                position: absolute;
+                width: 56px;
+                height: 42px;
+                top: 15px;
+                line{
+                    stroke: ${({ theme }) => theme.fontColor.secondary};
+                }
+            }
+            .transfer_input_circle{
+                width: 12px;
+                height: 12px;
+                border-radius: ${({ theme }) => theme.borderRadius.round};
+                border: 2px solid ${({ theme }) => theme.fontColor.primary};
+                position: relative;
+            }
+            .transfer_input_square{
+                width: 12px;
+                height: 12px;
+                border: 2px solid ${({ theme }) => theme.fontColor.primary};
+            }
+        }
+        .transfer_inputs{
+            width:calc(100% - 70px);
+            /* padding-left: 20px; */
+            .ant-form-item{
+                flex-direction: row;
+                margin-bottom: 0px;
+                align-items: center;
+                &:first-child{
+                    border-bottom: ${({theme}) => theme.border.secondary};
+                }
+                .ant-form-item-label{
+                    padding-bottom: 0;
+                    width: 40px;
+                    label{
+                        color: ${({theme}) => theme.fontColor.secondary};
+                        height: 48px
+                    }
+                }
+                .ant-select{
+                    width: 150px;
+                    .ant-select-selector {
+                        .ant-select-selection-item{
+                            display: flex;
+                            align-items: center;
+                            
+                        }
+                    }
+                }
+                .ant-form-item-control-input-content label{
+                    padding:0 11px;
+                }
+            }
+        }
+        .transfer_img{
+            width: 70px;
+            &>div{
+                width: 38px;
+                height: 38px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-shadow: ${({ theme }) => theme.shadow.light};
+                border-radius: ${({ theme }) => theme.borderRadius.circle};
+                cursor: pointer;
+                background: ${({theme}) => theme.background.secondary};
+                margin: auto;
+            }
+        }
+    }
+`
+
+export {TransferModalWrapper, WithdrawModalWrapper, TransactionDetailsWrapper, StepperWrapper, RecentTransactionsWrapper, SidebarWrapper, TopBalanceWrapper, AccountCardWrapper, ConvertModal}

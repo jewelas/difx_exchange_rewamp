@@ -19,6 +19,9 @@ export * from "./hook/useBalance";
 export * from "./hook/useConvertSmallBalModal";
 export * from "./hook/useFavourites";
 export * from "./hook/useTransactionDetailsModal";
+export * from "./hook/useWalletWithdrawModal";
+export * from "./hook/useWithdrawTabs";
+export * from "./hook/useTransferModal";
 
 export * from "./type/Base";
 export * from "./type/User";

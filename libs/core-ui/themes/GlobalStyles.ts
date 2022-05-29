@@ -516,10 +516,19 @@ const GlobalStyles = createGlobalStyle`
         }
       }
 
+      .ant-popover-inner-content{
+        color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      }
+
       .ant-popover.ant-popover-placement-bottomRight, .ant-popover.ant-popover-placement-bottom{
         .ant-popover-arrow{
           display:none;
         }
+      }
+
+      .ant-input-affix-wrapper.error{
+        border: solid 1px ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+        box-shadow: unset !important;
       }
 
       .compact-list-pairs{

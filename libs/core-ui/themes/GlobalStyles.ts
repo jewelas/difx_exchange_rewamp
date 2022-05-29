@@ -555,10 +555,10 @@ const GlobalStyles = createGlobalStyle`
           &:before{
             background:unset;
           }
-          background: ${({ theme }) => theme.background.primary};
+          background: ${({ theme }) => theme.background.popover};
         }
         .ant-popover-inner{
-          background: ${({ theme }) => theme.background.primary};
+          background: ${({ theme }) => theme.background.popover};
           .check-list-group{
             .check-item{
               margin: 5px 0;

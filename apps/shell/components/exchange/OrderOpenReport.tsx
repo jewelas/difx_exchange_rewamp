@@ -152,6 +152,34 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       }
     },
     {
+      title: 'Filled',
+      dataIndex: 'filled',
+      sorter: {
+        compare: (a, b) => a.q - b.q,
+      },
+      render: (text) => {
+        return (
+          <div className='cell'>
+            <Typography level="B3">{text || '0.00%'}</Typography>
+          </div>
+        )
+      }
+    },
+    {
+      title: 'Total',
+      dataIndex: 'total',
+      sorter: {
+        compare: (a, b) => a.q - b.q,
+      },
+      render: (text) => {
+        return (
+          <div className='cell'>
+            <Typography level="B3">{text || '0.00'}</Typography>
+          </div>
+        )
+      }
+    },
+    {
       title: '',
       dataIndex: '',
       render: (text, record) => {

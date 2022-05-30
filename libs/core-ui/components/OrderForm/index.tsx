@@ -117,7 +117,7 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
         if (side === "bid") {
           const currentPrice = form.getFieldValue(`${side}.price`);
           const maxAmount = balance / currentPrice;
-          if (maxAmount > fieldValue) {
+          if (maxAmount < Number(fieldValue)) {
             setShowAmountPopover(true);
           } else {
             setShowAmountPopover(false);

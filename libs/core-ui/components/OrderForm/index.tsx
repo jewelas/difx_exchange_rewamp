@@ -186,7 +186,12 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
   // eslint-disable-next-line
   // @ts-ignore
   const getButtonSubmitLabel = () => {
-    if (!isLoggedIn) return 'Log in or Sign up';
+    if (!isLoggedIn){
+      return <div onClick={(e:any) => {!e.target.className.includes("signup") && !isLoggedIn && router.push('/login')}} style={{display:"flex", justifyContent:"center"}}>
+        <div onClick={() => { !isLoggedIn && router.push('/login') }} style={{marginRight:5}}>Log in or</div>
+        <div className="signup" onClick={() => { !isLoggedIn && router.push('/register') }}>Sign up</div>
+      </div>
+    }
     if (side === 'ask') return 'Sell';
     if (side === 'bid') return 'Buy'
   }
@@ -332,7 +337,6 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
             </Form.Item>
           </Popover>
           <Button
-            onClick={() => { !isLoggedIn && router.push('/login') }}
             disabled={isDisabled || isLoading}
             htmlType={isLoggedIn ? "submit" : "button"}
             className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{getButtonSubmitLabel()}</Button>

@@ -68,11 +68,13 @@ export default function QRContainer() {
           <img src={"/imgs/qr-banner.png"} />
         </div>
         <div>
-          <QRCodeSVG
-          value={qrToken}
-          size={180}
-          includeMargin={true}
-          />
+            <Loading isLoading={isLoading}>
+              <QRCodeSVG
+              value={qrToken}
+              size={180}
+              includeMargin={true}
+              />
+            </Loading>
         </div>
       </div>
       <div className='bottom-box'>

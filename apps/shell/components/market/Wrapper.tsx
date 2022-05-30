@@ -14,9 +14,9 @@ export function MarketWrapper() {
   const { data: marketData } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS, API_ENDPOINT.GET_MARKET_PAIRS, null);
 
   const [categoriesList, setCategoriesList] = useState([])
-  const [topGainer, setTopGainer] = useState([])
-  const [topLooser, setTopLooser] = useState([])
-  const [topVolume, setTopVolume] = useState([])
+  const [topGainer, setTopGainer] = useState(null)
+  const [topLooser, setTopLooser] = useState(null)
+  const [topVolume, setTopVolume] = useState(null)
 
   const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList} = useMarketPair();
   const {modalVisible, setModalVisible} = useMarketModal();
@@ -30,21 +30,6 @@ export function MarketWrapper() {
       setCategoriesList(marketData.categories)
     }
   }, [marketData]);
-
-  useEffect(()=>{
-    if(data){
-      const newData = spotList.map(item => {
-        if(item.symbol === data[0]){
-          item.last = data[1]
-          item.volume = data[2]
-          item.change = data[3]
-          return item
-        }
-        return item
-      })
-      setSpotList(newData)
-    }
-  },[data])
 
   useEffect(() => {
     if(spotList){
@@ -64,6 +49,21 @@ export function MarketWrapper() {
       setTopVolume(getTopVolume)
     }
   }, [spotList])
+
+  useEffect(()=>{
+    if(data && spotList){
+      const newData = spotList.map(item => {
+        if(item.symbol === data[0]){
+          item.last = data[1]
+          item.volume = data[2]
+          item.change = data[3]
+          return item
+        }
+        return item
+      })
+      setSpotList(newData)
+    }
+  },[data])
 
   const onCloseDrawer = () => {
     setDrawerVisible(false)

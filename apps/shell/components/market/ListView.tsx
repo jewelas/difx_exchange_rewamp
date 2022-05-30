@@ -10,6 +10,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Trend from "react-trend";
 import { LastPriceWrapper } from "./styled";
 import clsx from "clsx";
+import Item from "antd/lib/list/Item";
 
 const LastPrice = ({price}) => {
   const [currentPirce, setCurrentPirce] = useState(price)
@@ -131,12 +132,11 @@ export function ListView({ data, datatype, categoriesList }) {
       key: "pricing",
       width: 80,
       render: (text: string, item: any) => {
-        const changed = (item.last / item.open) * 100 - 100;
         return (
           <TrendChart 
             data={item.pricing}
-            backgroundColor={ changed >= 0 ? "#21C198" : "#ff0000"}
-            lineColor={ changed >= 0 ? "#21C198" : "#ff0000"}
+            backgroundColor={ item.change > 0 ? "#21C198" : "#ff0000"}
+            lineColor={ item.change > 0 ? "#21C198" : "#ff0000"}
           />
         );
       },

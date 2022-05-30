@@ -576,6 +576,7 @@ export const OrderReportsWraperStyled = styled.div`
       td{
         .head{
           display:flex;
+          font-size: 12px;
           .lbl{
               color: ${({ theme }) => theme.fontColor.secondary};
               margin: 0 -25px;

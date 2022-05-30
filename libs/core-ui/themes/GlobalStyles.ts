@@ -363,7 +363,7 @@ const GlobalStyles = createGlobalStyle`
               padding:5px 24px;
             }
           }
-          /* .ant-table-container .ant-table-content .ant-table-thead{
+          &.ant-table-small .ant-table-container .ant-table-content .ant-table-thead{
             .ant-table-cell{
               font-size: 11px;
             }
@@ -728,6 +728,7 @@ const GlobalStyles = createGlobalStyle`
     border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
     color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor};
   }
+  
 `;
 
 export { GlobalStyles };

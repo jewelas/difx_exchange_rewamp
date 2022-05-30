@@ -556,10 +556,16 @@ export const PlaceOrderWraperStyled = styled.div`
         .bid{
           margin-right: 10px;
           flex-grow: 1;
+          &.compact{
+            margin-right: 0px;
+          }
         }
         .ask{
           margin-left: 10px;
           flex-grow: 1;
+          &.compact{
+            margin-left: 0px;
+          }
         }
       }
     }

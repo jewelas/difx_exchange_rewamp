@@ -37,7 +37,7 @@ const LastPrice = ({price}) => {
     >
       <Space size={12} direction="vertical">
         {currentPirce}
-        <Text type="secondary">≈ {currentPirce}</Text>
+        <Text type="secondary">≈ ${currentPirce}</Text>
       </Space>
     </LastPriceWrapper>
   )

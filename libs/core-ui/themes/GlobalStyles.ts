@@ -49,6 +49,7 @@ const GlobalStyles = createGlobalStyle`
     }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
     .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};}
+    .ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before{display:none}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
     tr{
@@ -256,13 +257,13 @@ const GlobalStyles = createGlobalStyle`
       height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      border: none !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       &::placeholder{
         color: ${({ theme }: { theme: ThemeInterface }) => theme.color.InputPlaceholder} !important;;
       }
       &:hover{
-        border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
+        border: none !important;
       }
     }
     .ant-input-suffix{
@@ -270,7 +271,7 @@ const GlobalStyles = createGlobalStyle`
       }
 
     .ant-input:hover{
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
+      border: none !important;
     }
 
     .ant-input-affix-wrapper,
@@ -295,7 +296,7 @@ const GlobalStyles = createGlobalStyle`
 
     .ant-input-affix-wrapper{
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      border: none !important;
       height: 48px;
       .ant-input-prefix{
         svg{
@@ -354,11 +355,11 @@ const GlobalStyles = createGlobalStyle`
               padding:5px 24px;
             }
           }
-          /* .ant-table-container .ant-table-content .ant-table-thead{
+          &.ant-table-small .ant-table-container .ant-table-content .ant-table-thead{
             .ant-table-cell{
               font-size: 11px;
             }
-          } */
+          }
           .ant-table-thead{
             th{
               background: transparent !important;
@@ -423,7 +424,7 @@ const GlobalStyles = createGlobalStyle`
       height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      border: none !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
 
@@ -673,6 +674,42 @@ const GlobalStyles = createGlobalStyle`
         display: flex;
         align-items: center;
   }
+  /* Small Select */
+  .ant-select.ant-select-sm.input-small{
+    .ant-select-selector{
+      height: 32px !important;
+      display: flex;
+      align-items: center;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary} !important;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+    }
+  }
+  .ant-radio-checked .ant-radio-inner{
+    border-width: 4px;
+  }
+  .ant-radio-inner{display:none}
+  .ant-radio-inner:after{width:0px !important;height:0px !important}
+  .suffix-amount{
+        display:flex;
+        .line{
+        border-left: solid 1px ${({theme}) => theme.border.color};
+        margin-left: 6px;
+        margin-right: 1px;
+        }
+    }
+  .successTag{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.color.successLight};
+    padding: 10px;
+    border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+  }
+  .errorTag{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.color.errorLight};
+    padding: 10px;
+    border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor};
+  }
+  
 `;
 
 export { GlobalStyles };

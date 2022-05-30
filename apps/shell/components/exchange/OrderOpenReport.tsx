@@ -153,14 +153,15 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
     },
     {
       title: 'Filled',
-      dataIndex: 'filled',
+      dataIndex: 'eq',
       sorter: {
         compare: (a, b) => a.q - b.q,
       },
-      render: (text) => {
+      render: (text,record) => {
+        const filled = ((record.oq - record.q) * 100)/record.oq
         return (
           <div className='cell'>
-            <Typography level="B3">{text || '0.00%'}</Typography>
+            <Typography level="B3">{`${filled}%` || '0.00%'}</Typography>
           </div>
         )
       }

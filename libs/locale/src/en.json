@@ -18,15 +18,15 @@
     "address": "Address",
     "transaction_id": "Transaction ID",
     "status": "Status",
-    "msg_wrong":"We're sorry, but something went wrong.",
+    "msg_wrong": "We're sorry, but something went wrong.",
     "maxAmount": "Max Amount "
   },
-  "staking":{
-    "view-staking":"View Staking",
-    "staking-history":"Staking History",
+  "staking": {
+    "view-staking": "View Staking",
+    "staking-history": "Staking History",
     "export": "Export",
     "date": "Date",
-    "search":"Search",
+    "search": "Search",
     "reset": "Reset"
   },
   "header": {
@@ -146,7 +146,7 @@
     "help_support": "Help & Support",
     "transfer": "Transfer",
     "total_balance": "Total Balance",
-    "spot_balance" : "Spot Balance",
+    "spot_balance": "Spot Balance",
     "overview_para": "Whole data about your wallet here",
     "pl_analysis": "P/L Analysis",
     "yesterday_pl": "Yesterday's PnL",
@@ -158,7 +158,7 @@
     "convert_small_bal_difx": "Convert small balance to DIFX",
     "assets_allocation": "Assets Allocation",
     "convert_small_bal": "Convert Small Balances",
-    "tansaction_details" : "Transaction Detalis"
+    "tansaction_details": "Transaction Detalis"
   },
   "order": {
     "order": "Order",
@@ -169,5 +169,14 @@
     "future_orders": "Future Order",
     "positions": "Position",
     "transactions": "Transactions"
+  },
+  "report": {
+    "filled": "Filled",
+    "total": "Total",
+    "size": "Size",
+    "price": "Price",
+    "side": "Side",
+    "symbol": "Symbol",
+    "date": "Date"
   }
 }

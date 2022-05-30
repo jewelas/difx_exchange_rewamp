@@ -572,6 +572,11 @@ export const OrderReportsWraperStyled = styled.div`
     .ant-table-column-title{
       font-size: 12px;
     }
+    .ant-table-row{
+      .ant-table-cell{
+        min-width: 50px;
+      }
+    }
     .ant-table-expanded-row.ant-table-expanded-row-level-1{
       td{
         .head{

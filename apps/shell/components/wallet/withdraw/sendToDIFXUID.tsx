@@ -1,25 +1,92 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Button, Col, Divider, Form, Input, Radio, RadioChangeEvent, Row, Select, Space, Typography } from "antd";
-import { ASSETS_URL } from "@difx/constants"
+import { API_ENDPOINT, ASSETS_URL } from "@difx/constants"
 import { DepositLayout } from "../../../pages/wallet/styled";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { OptionGroupStyled } from "../../market/styled";
 import Text from "antd/lib/typography/Text";
+import { CoinSelector } from "@difx/core-ui";
+import { currentUserAtom, useAPI, useBalance } from "@difx/shared";
+import { useAtomValue } from "jotai";
 
 export function SendToDIFXUID() {
-  const [form] = Form.useForm()
-  const [value, setValue] = useState(1);
+    const [form] = Form.useForm()
+    const [value, setValue] = useState(1);
+    const [selectedCoin, setSelectedCoin] = useState(null)
+    const [coinPrice, setCoinPrice] = useState(null)
+    const [difxID, setDifxID] = useState(null)
+    const [withdrawAmount, setWithdrawAmount] = useState(null)
+    const [minAmount, setMinAmount] = useState(null)
+    const [withdrawFee, setWithdrawFee] = useState(null)
+    const [note, setNote] = useState(null)
   
   const onChange = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value);
     setValue(e.target.value);
   };
 
+  const { userBalance } = useBalance()
+  const { API } = useAPI()
+  const currentUser = useAtomValue(currentUserAtom)
+
+  const initCoinPrice = async(coin) => {
+    try{
+        const response = await API.get(API_ENDPOINT.GET_MARKET_COIN_PRICE(coin))
+        if(response.status === 200){
+            // eslint-disable-next-line
+            const { data } = response?.data
+            setCoinPrice(data.currentPrice)
+        }else{
+            setCoinPrice(0)
+        }
+    }catch(error){
+        setCoinPrice(0)
+    }
+  }
+
+  const handleCoinSelect = (coin: string) => {
+    const coinInfo = JSON.parse(coin || "null")
+    initCoinPrice(coinInfo.coin)
+    setSelectedCoin(coinInfo.coin)
+    setMinAmount(coinInfo.wmin)
+    setWithdrawFee(coinInfo.wfee)
+  }
+
+  const availableBalance = useMemo(()=>{
+    if(selectedCoin && userBalance){
+        const coinBalance = userBalance.find((coin: any) => coin.currency === selectedCoin).amount
+        return coinBalance
+    }else{
+        return 0
+    }
+  },[userBalance, selectedCoin])
+
+  const receiveAmount = useMemo(()=>{
+    if(withdrawAmount){
+        return (withdrawAmount - withdrawFee)
+    }else{
+        return 0
+    }
+  },[selectedCoin,withdrawAmount])
+
+  const receiveAmountInUSD = useMemo(()=>{
+    if(receiveAmount){
+        return (receiveAmount * coinPrice)
+    }else{
+        return 0
+    }
+  },[receiveAmount])
+
   const SuffixAmountInput = (
     <div className="suffix-amount">
       <div style={{ opacity: 0.75 }}>BTC</div>
       <div className="line" />
-      <Button ghost>MAX</Button>
+      <Button
+       ghost
+       onClick={()=>setWithdrawAmount(availableBalance)}
+        >
+            MAX
+        </Button>
     </div>
   )
   return (
@@ -33,18 +100,7 @@ export function SendToDIFXUID() {
                     <Form.Item
                         label="Coin"
                     >
-                        <Select className="coinselect">
-                            <Select.Option>
-                                <OptionGroupStyled>
-                                    <div className="coinflag">
-                                        <Avatar shape="square" size={26} src={`${ASSETS_URL}difx.png`}/>
-                                    </div>
-                                    <div className="coinvalue">
-                                        BTC <span>Bitcoin</span>
-                                    </div>
-                                </OptionGroupStyled>
-                            </Select.Option>
-                        </Select>
+                        <CoinSelector selectedCoin={selectedCoin} handleChange={handleCoinSelect}/>
                     </Form.Item>
                     <Form.Item label="DIFX UID">
                         <Input placeholder="Enter DIFX UID" />
@@ -52,13 +108,20 @@ export function SendToDIFXUID() {
                     <div className='amount'>
                         <Form.Item
                             label='Amount'>
-                            <Input placeholder="Please enter the amount" type="text" onWheel={(e: any) => { e.target.blur() }} suffix={SuffixAmountInput} />
+                            <Input 
+                                placeholder="Please enter the amount" 
+                                type="text" 
+                                onWheel={(e: any) => { e.target.blur() }} 
+                                value={withdrawAmount}
+                                suffix={SuffixAmountInput} 
+                                onChange={(e)=>setWithdrawAmount(e.target.value)} 
+                            />
                             <Row align="middle" justify="space-between" style={{marginTop: 4}}>
                                 <Col>
-                                    <Text type="secondary">Avaible amount</Text> 0.0000 BTC
+                                    <Text type="secondary">Avaible amount</Text> {availableBalance} {selectedCoin}
                                 </Col>
                                 <Col>
-                                    <Text type="secondary">Minimum amount</Text> 0.0000 BTC
+                                    <Text type="secondary">Minimum amount</Text> {minAmount} {selectedCoin}
                                 </Col>
                             </Row>
                         </Form.Item>
@@ -66,7 +129,11 @@ export function SendToDIFXUID() {
                     <Form.Item
                         label="Note ( Optional )"
                     >
-                        <Input placeholder="Note for recipient" />
+                        <Input 
+                            placeholder="Note for recipient" 
+                            value={note}
+                            onChange={(e)=>setNote(e.target.value)}
+                        />
                     </Form.Item>
                 </Form>
                 <Divider />
@@ -75,10 +142,10 @@ export function SendToDIFXUID() {
                         <Col>
                             <Text type="secondary">Receive Amount</Text>
                         </Col>
-                        <Col>
-                            <Text strong>0.0091885 BTC</Text>
+                        <Col style={{textAlign: "right"}}>
+                            <Text strong>{receiveAmount} {selectedCoin}</Text>
                             <div style={{textAlign: "right"}}>
-                                <small>≈ $100</small>
+                                <small>≈ ${receiveAmountInUSD}</small>
                             </div>
                         </Col>
                     </Row>

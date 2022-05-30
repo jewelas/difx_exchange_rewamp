@@ -131,5 +131,6 @@ export const API_ENDPOINT = {
   GET_WALLET_OVERVIEW: '/api/v1/wallet/overview',
   GET_SPOT_OVERVIEW: '/api/v1/wallet/spot-overview',
   GET_TRANSACTION_LIST: (page: number, limit: number) => `/api/v1/wallet/transaction?page=${page}&limit=${limit}`,
-  GENERATE_DEPOSIT_ADDRESS: `/api/v1/wallet/deposit-address`
+  GENERATE_DEPOSIT_ADDRESS: `/api/v1/wallet/deposit-address`,
+  WITHDRAW_REQUEST: `/api/v1/wallet/withdraw`
 }

@@ -657,6 +657,7 @@ const GlobalStyles = createGlobalStyle`
       display: flex;
       align-items: center;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary} !important;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
     }
   }
   .ant-radio-checked .ant-radio-inner{

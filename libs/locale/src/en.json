@@ -158,5 +158,15 @@
     "assets_allocation": "Assets Allocation",
     "convert_small_bal": "Convert Small Balances",
     "tansaction_details" : "Transaction Detalis"
+  },
+  "order": {
+    "order": "Order",
+    "spot_orders": "Spot Orders",
+    "open_orders": "Open Orders",
+    "order_history": "Order history",
+    "trade_history": "Trade History",
+    "future_orders": "Future Order",
+    "positions": "Position",
+    "transactions": "Transactions"
   }
 }

@@ -4,23 +4,28 @@ import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
 import { SidebarWrapper } from "./styled";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export function WalletSidebar() {
+  const router = useRouter();
   return (
     <SidebarWrapper width={260} className="site-layout-background">
       <Menu
         mode="inline"
         defaultSelectedKeys={["2"]}
         style={{ paddingTop: 30 }}
+        selectedKeys={[router?.pathname]}
       >
         
           <Menu.Item 
             icon={<Icon.OverviewIcon />}
+            key="/wallet/overview"
           >
-            <Link href="/wallet">{t("wallet.overview")}</Link>
+            <Link href="/wallet/overview">{t("wallet.overview")}</Link>
           </Menu.Item>
         <Menu.Item 
           icon={<Icon.SpotIcon />}
+          key="/wallet/spot"
         >
           <Link href="/wallet/spot">
             {t("wallet.spot")}
@@ -28,6 +33,7 @@ export function WalletSidebar() {
         </Menu.Item>
         <Menu.Item 
           icon={<Icon.FutureIcon />}
+          key="/wallet/futures"
         >
           <Link href="/wallet/futures">
             {t("wallet.futures")}
@@ -35,7 +41,7 @@ export function WalletSidebar() {
         </Menu.Item>
         <Menu.Item 
           icon={<Icon.GiftIcon />}
-          key="earn"
+          key="/wallet/earn"
         >
           <Link href="/wallet/earn">
             {t("wallet.earn")}
@@ -43,6 +49,7 @@ export function WalletSidebar() {
         </Menu.Item>
         <Menu.Item 
           icon={<Icon.SwitchIcon />}
+          key="/wallet/transaction-history"
         >
           <Link href="/wallet/transaction-history">
             {t("wallet.transaction_history")}

@@ -13,18 +13,18 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: "Lato", sans-serif !important;
         transform: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.transition} !important;
+    theme.transition} !important;
         background: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.background.body} !important;
+    theme.background.body} !important;
     }
     scrollbar-color: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar} ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
     scrollbar-width: thin;
     :-webkit-autofill,
     :-webkit-autofill:hover,
     :-webkit-autofill:focus,
-    :-webkit-autofill:active{
-        -webkit-box-shadow: 0 0 0 30px white inset !important;
-        box-shadow: 0 0 0 30px white inset !important;
+    :-webkit-autofill:active, .ant-form-item-control-input-content .ant-input-affix-wrapper>input.ant-input:focus, .ant-form-item-control-input-content .ant-input-affix-wrapper > input.ant-input:focus{
+        -webkit-box-shadow: 0 0 0 30px white inset;
+        box-shadow: 0 0 0 30px white inset;
     }
     ::-webkit-scrollbar {
       width: 8px;
@@ -49,6 +49,7 @@ const GlobalStyles = createGlobalStyle`
     }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
     .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};}
+    .ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before{display:none}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
     tr{
@@ -264,12 +265,6 @@ const GlobalStyles = createGlobalStyle`
       &:hover{
         border: none !important;
       }
-      &[disabled]{
-        border: none !important;
-        :hover{
-          border: none !important;
-        }
-      }
     }
     .ant-input-suffix{
         color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
@@ -346,9 +341,6 @@ const GlobalStyles = createGlobalStyle`
         }
       }
     }
-    .ant-table.ant-table-small {
-      font-size: 12px;
-    }
     .ant-table{
           background: transparent !important;
           .ant-table-cell-scrollbar{
@@ -356,6 +348,12 @@ const GlobalStyles = createGlobalStyle`
           }
           .ant-table-tbody .ant-table-cell span{
             display: inline-block !important;
+          }
+          .ant-table-expanded-row.ant-table-expanded-row-level-1{
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
+            td div{
+              padding:5px 24px;
+            }
           }
           &.ant-table-small .ant-table-container .ant-table-content .ant-table-thead{
             .ant-table-cell{
@@ -368,6 +366,10 @@ const GlobalStyles = createGlobalStyle`
               color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
               border-bottom: unset;
               padding: 16px 0;
+
+              /* .ant-table-column-title{
+                font-size: 11px;
+              } */
 
               &:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before{
                 display: none;
@@ -382,7 +384,20 @@ const GlobalStyles = createGlobalStyle`
           }
           .ant-table-tbody{
             tr{
+              &:hover{
+                background : ${({ theme }: { theme: ThemeInterface }) => theme.color.rowHover};
+                cursor: pointer;
+              }
               line-height: 0.5;
+              .ant-table-cell.ant-table-row-expand-icon-cell{
+                button{
+                  border-color: transparent;
+                  background: transparent;
+                  &:focus{
+                    color: unset;
+                  }
+                }
+              }
               td{
                 border:unset;
                 background: transparent !important;
@@ -521,10 +536,19 @@ const GlobalStyles = createGlobalStyle`
         }
       }
 
+      .ant-popover-inner-content{
+        color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      }
+
       .ant-popover.ant-popover-placement-bottomRight, .ant-popover.ant-popover-placement-bottom{
         .ant-popover-arrow{
           display:none;
         }
+      }
+
+      .ant-input-affix-wrapper.error{
+        border: solid 1px ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+        box-shadow: unset !important;
       }
 
       .compact-list-pairs{
@@ -551,10 +575,10 @@ const GlobalStyles = createGlobalStyle`
           &:before{
             background:unset;
           }
-          background: ${({ theme }) => theme.background.primary};
+          background: ${({ theme }) => theme.background.popover};
         }
         .ant-popover-inner{
-          background: ${({ theme }) => theme.background.primary};
+          background: ${({ theme }) => theme.background.popover};
           .check-list-group{
             .check-item{
               margin: 5px 0;
@@ -657,6 +681,7 @@ const GlobalStyles = createGlobalStyle`
       display: flex;
       align-items: center;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary} !important;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
     }
   }
   .ant-radio-checked .ant-radio-inner{
@@ -672,6 +697,19 @@ const GlobalStyles = createGlobalStyle`
         margin-right: 1px;
         }
     }
+  .successTag{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.color.successLight};
+    padding: 10px;
+    border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+  }
+  .errorTag{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.color.errorLight};
+    padding: 10px;
+    border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor};
+  }
+  
 `;
 
 export { GlobalStyles };

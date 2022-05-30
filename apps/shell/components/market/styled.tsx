@@ -41,7 +41,7 @@ const MarketCard = styled.div`
         width: 80px;
     }
     .rate-width{
-        width: 65px;
+        width: 90px;
         text-align: right;
     }
     .coin-width{

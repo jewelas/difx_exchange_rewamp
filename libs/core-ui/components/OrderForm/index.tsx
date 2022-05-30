@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, FormInstance, Input, Slider } from "antd";
+import { Button, Form, FormInstance, Input, Slider, Popover } from "antd";
 import clsx from "clsx";
+import t from "./../../../locale";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
-import { PairType, PlaceOrderRequest } from "./../../../shared";
+import { useAtom } from "jotai";
+import { PairType, PlaceOrderRequest, previousPathAtom, useCurrency } from "./../../../shared";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
 import DepositIcon from "./../Icon/DepositIcon";
 import { Typography } from "./../Typography";
@@ -30,7 +32,7 @@ export interface OrderFormProps {
   form: FormInstance
 }
 
-export function OrderForm({ form, balance, layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
+export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: ' ',
@@ -40,7 +42,12 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
     100: ' ',
   };
 
+  const [, setPrevousPath] = useAtom(previousPathAtom)
+
   const router = useRouter();
+  const { asPath } = router;
+
+  const { currentCurrency: fiatCurrency } = useCurrency();
 
   const [isDisabled, setIsDisabled] = useState(isLoggedIn);
   const [sliderValue, setSliderValue] = useState(0);
@@ -48,9 +55,10 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
   // const [numberRound, setNumberRound] = useState<number>(100);
   const [groupPrecision, setGroupPrecision] = useState<number>(0);
   const [bAmount, setBAmmount] = useState<number>(0);
+  const [showAmountPopover, setShowAmountPopover] = useState(false);
 
   useEffect(() => {
-    if (priceSelected){
+    if (priceSelected) {
       form.setFieldsValue({ [`${side}.price`]: priceSelected });
       form.setFieldsValue({ [`${side}.total`]: priceSelected });
       const amount = form.getFieldValue(`${side}.amount`);
@@ -80,8 +88,16 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
     return value > 0;
   }
 
-  const onFormChange = (changeField: any) => {
+  const onFocusAmountField = () => {
+    let visible = false;
+    if (balance) {
+      const amount = form.getFieldValue(`${side}.amount`);
+      if (amount && amount > balance) visible = true;
+    }
+    setShowAmountPopover(visible);
+  }
 
+  const onFormChange = (changeField: any) => {
     setSliderValue(0);
 
     // Update input
@@ -100,6 +116,24 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
         form.setFieldsValue({
           [`${side}.total`]: Math.floor(newTotal * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
         });
+
+        if (side === "bid") {
+          const currentPrice = form.getFieldValue(`${side}.price`);
+          const maxAmount = balance / currentPrice;
+          if (maxAmount < Number(fieldValue)) {
+            setShowAmountPopover(true);
+          } else {
+            setShowAmountPopover(false);
+          }
+        } else if (side === "ask") {
+          if (balance && fieldValue > balance) {
+            setShowAmountPopover(true);
+          } else {
+            setShowAmountPopover(false);
+          }
+        }
+
+
       } else if (fieldName === `${side}.price`) {
         const amount = form.getFieldValue(`${side}.amount`);
         const currentPrice = form.getFieldValue(`${side}.price`);
@@ -155,7 +189,12 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
   // eslint-disable-next-line
   // @ts-ignore
   const getButtonSubmitLabel = () => {
-    if (!isLoggedIn) return 'Log in or Sign up';
+    if (!isLoggedIn) {
+      return <div onClick={(e: any) => { setPrevousPath(asPath); !e.target.className.includes("signup") && !isLoggedIn && router.push('/login') }} style={{ display: "flex", justifyContent: "center" }}>
+        <div onClick={() => { setPrevousPath(asPath); !isLoggedIn && router.push('/login') }} style={{ marginRight: 5 }}>Log in or</div>
+        <div className="signup" onClick={() => { setPrevousPath(asPath); !isLoggedIn && router.push('/register') }}>Sign up</div>
+      </div>
+    }
     if (side === 'ask') return 'Sell';
     if (side === 'bid') return 'Buy'
   }
@@ -212,6 +251,16 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
     }
   }
 
+  const getAmountErrorMsg = () => {
+    if (side === "bid") {
+      const currentPrice = form.getFieldValue(`${side}.price`);
+      return t("common.maxAmount") + getPriceFormatted(balance / currentPrice, groupPrecision);
+    } else if (side === "ask") {
+      return t("common.maxAmount") + getPriceFormatted(balance, bAmount);
+    }
+    return null;
+  }
+
   return (
     <ComponentStyled>
       <Form
@@ -222,7 +271,7 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
       >
         <div className="balance">
           <div className="value">
-            {`Balance: ${getPriceFormatted(balance || 0, 2)} ${side === 'bid' ? quoteCurrency : baseCurrency}`}
+            {`Balance: ${getPriceFormatted(balance || 0, bAmount)} ${side === 'bid' ? quoteCurrency : baseCurrency}`}
           </div>
           {
             canDeposit &&
@@ -262,29 +311,35 @@ export function OrderForm({ form, balance, layout = 'default', canDeposit = true
               </Form.Item>
           }
 
-          <Form.Item
-            name={`${side}.amount`}>
-            <Input
-              onInput={(e: any) => { onReplaceComma(e, bAmount) }}
-              type="text"
-              onWheel={preventScroll}
-              placeholder="Amount"
-              prefix={<Typography className="prefix">Amount</Typography>}
-              suffix={baseCurrency} />
-          </Form.Item>
+          <Popover visible={showAmountPopover} placement="top" content={getAmountErrorMsg()} trigger="focus">
+            <Form.Item
+              name={`${side}.amount`}>
+              <Input
+                className={clsx(showAmountPopover && 'error')}
+                onFocus={() => { onFocusAmountField() }}
+                onBlur={() => { setShowAmountPopover(false) }}
+                onInput={(e: any) => { onReplaceComma(e, bAmount) }}
+                type="text"
+                onWheel={preventScroll}
+                placeholder="Amount"
+                prefix={<Typography className="prefix">Amount</Typography>}
+                suffix={baseCurrency} />
+            </Form.Item>
+          </Popover>
 
           <div className={clsx("slider-group", side, layout)}>
             <Slider onChange={onSliderChange} marks={marks} step={5} value={sliderValue} />
           </div>
 
-          <Form.Item
-            name={`${side}.total`}>
-            <Input onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Total"
-              prefix={<Typography className="prefix">Total</Typography>}
-              suffix={quoteCurrency} />
-          </Form.Item>
+          <Popover placement="top" content={fiatCurrency && `≈ ${fiatCurrency?.symbol}${form.getFieldValue(`${side}.total`) * fiatCurrency?.usd_rate}`} trigger="focus">
+            <Form.Item
+              name={`${side}.total`}>
+              <Input onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Total"
+                prefix={<Typography className="prefix">Total</Typography>}
+                suffix={quoteCurrency} />
+            </Form.Item>
+          </Popover>
           <Button
-            onClick={() => { !isLoggedIn && router.push('/login') }}
             disabled={isDisabled || isLoading}
             htmlType={isLoggedIn ? "submit" : "button"}
             className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{getButtonSubmitLabel()}</Button>

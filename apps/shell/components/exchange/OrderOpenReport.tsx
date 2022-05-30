@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, SocketEvent, isLoggedInAtom, useHttpGetByEvent, useHttpPut, useSocket, useSocketProps } from "@difx/shared";
+import t from "@difx/locale";
+import { BaseResponse, Order, SocketEvent, isLoggedInAtom, useHttpGetByEvent, useHttpPut, useSocket } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -46,6 +47,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
           tableData.splice(index, 1);
         } else {
           tableData[index].q = userOrdersData.q;
+          tableData[index].oq = userOrdersData.oq;
         }
       } else {
         userOrdersData.timestamp = new Date();
@@ -78,7 +80,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
 
   const columns = [
     {
-      title: 'Date',
+      title: t("report.date"),
       sorter: {
         compare: (a, b) => {
           const aTime = new Date(a.timestamp).getTime();
@@ -96,7 +98,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       }
     },
     {
-      title: 'Symbol',
+      title: t("report.symbol"),
       dataIndex: 'symbol',
       sorter: {
         compare: (a, b) => a.symbol.localeCompare(b.symbol),
@@ -110,7 +112,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       }
     },
     {
-      title: 'Side',
+      title: t("report.side"),
       dataIndex: 's',
       sorter: {
         compare: (a, b) => a.s - b.s,
@@ -124,7 +126,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       }
     },
     {
-      title: 'Price',
+      title: t("report.price"),
       dataIndex: 'p',
       sorter: {
         compare: (a, b) => a.p - b.p,
@@ -138,7 +140,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       }
     },
     {
-      title: 'Size',
+      title: t("report.size"),
       dataIndex: 'q',
       sorter: {
         compare: (a, b) => a.q - b.q,
@@ -152,8 +154,8 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       }
     },
     {
-      title: 'Filled',
-      dataIndex: 'eq',
+      title: t("report.filled"),
+      dataIndex: 'oq',
       sorter: {
         compare: (a, b) => a.q - b.q,
       },
@@ -167,7 +169,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       }
     },
     {
-      title: 'Total',
+      title: t("report.total"),
       dataIndex: 'total',
       sorter: {
         compare: (a, b) => a.q - b.q,

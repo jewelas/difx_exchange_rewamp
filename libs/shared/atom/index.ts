@@ -2,6 +2,7 @@ import { atom, PrimitiveAtom } from "jotai";
 import { User, Permissions, Config, Balance } from "..";
 
 export const themeAtom = atom<string>("light");
+export const previousPathAtom = atom<string>("/");
 export const anonymousTokenAtom = atom<string | null>(null) as PrimitiveAtom<string | null>;;
 export const pageTitleAtom = atom<string>("DIFX | Cryptocurrency Spot Exchange");
 

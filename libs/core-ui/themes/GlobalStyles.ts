@@ -22,9 +22,9 @@ const GlobalStyles = createGlobalStyle`
     :-webkit-autofill,
     :-webkit-autofill:hover,
     :-webkit-autofill:focus,
-    :-webkit-autofill:active{
-        -webkit-box-shadow: 0 0 0 30px white inset !important;
-        box-shadow: 0 0 0 30px white inset !important;
+    :-webkit-autofill:active, .ant-form-item-control-input-content .ant-input-affix-wrapper>input.ant-input:focus, .ant-form-item-control-input-content .ant-input-affix-wrapper > input.ant-input:focus{
+        -webkit-box-shadow: 0 0 0 30px white inset;
+        box-shadow: 0 0 0 30px white inset;
     }
     ::-webkit-scrollbar {
       width: 8px;
@@ -49,6 +49,7 @@ const GlobalStyles = createGlobalStyle`
     }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
     .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};}
+    .ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before{display:none}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
     tr{
@@ -264,12 +265,6 @@ const GlobalStyles = createGlobalStyle`
       &:hover{
         border: none !important;
       }
-      &[disabled]{
-        border: none !important;
-        :hover{
-          border: none !important;
-        }
-      }
     }
     .ant-input-suffix{
         color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
@@ -346,9 +341,6 @@ const GlobalStyles = createGlobalStyle`
         }
       }
     }
-    .ant-table.ant-table-small {
-      font-size: 12px;
-    }
     .ant-table{
           background: transparent !important;
           .ant-table-cell-scrollbar{
@@ -374,6 +366,10 @@ const GlobalStyles = createGlobalStyle`
               color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
               border-bottom: unset;
               padding: 16px 0;
+
+              /* .ant-table-column-title{
+                font-size: 11px;
+              } */
 
               &:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before{
                 display: none;
@@ -573,31 +569,16 @@ const GlobalStyles = createGlobalStyle`
             margin-top: -10px;
           }
         }
-        .ant-popover-inner{
-        }
       }
-
-      .ant-popover.ant-popover-placement-top{
-        .ant-popover-arrow .ant-popover-arrow-content{
-          &:before{
-            background:unset;
-          }
-          background: ${({ theme }) => theme.background.popover};
-        }
-        .ant-popover-inner{
-          background: ${({ theme }) => theme.background.popover};
-        }
-      }
-
       .ant-popover-content{
         .ant-popover-arrow .ant-popover-arrow-content{
           &:before{
             background:unset;
           }
-          background: ${({ theme }) => theme.background.primary};
+          background: ${({ theme }) => theme.background.popover};
         }
         .ant-popover-inner{
-          background: ${({ theme }) => theme.background.primary};
+          background: ${({ theme }) => theme.background.popover};
           .check-list-group{
             .check-item{
               margin: 5px 0;
@@ -718,13 +699,13 @@ const GlobalStyles = createGlobalStyle`
     }
   .successTag{
     background: ${({ theme }: { theme: ThemeInterface }) => theme.color.successLight};
-    padding: 15px;
+    padding: 10px;
     border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
     color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
   }
   .errorTag{
     background: ${({ theme }: { theme: ThemeInterface }) => theme.color.errorLight};
-    padding: 15px;
+    padding: 10px;
     border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
     color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor};
   }

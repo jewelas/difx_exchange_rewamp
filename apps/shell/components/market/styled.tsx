@@ -41,7 +41,7 @@ const MarketCard = styled.div`
         width: 80px;
     }
     .rate-width{
-        width: 65px;
+        width: 90px;
         text-align: right;
     }
     .coin-width{
@@ -224,4 +224,35 @@ const DrawerWrapper = styled.div`
     .coin-about h1{font-size: 16px;}
 `
 
-export { DrawerWrapper,SpotFilter, MarketPopup, OptionGroupStyled, FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}
+const LastPriceWrapper = styled.div`
+    transition: all 1s ease-in-out;
+    &.up{
+        color: ${({theme}) => theme.color.success} !important;
+    }
+    &.down{
+        color: ${({theme}) => theme.color.danger} !important;
+    }
+`
+
+export { 
+    DrawerWrapper,
+    SpotFilter, 
+    MarketPopup, 
+    OptionGroupStyled, 
+    FavoriteFilter, 
+    GridWrapper, 
+    CoinDrawerInfo, 
+    CardStar, 
+    MarketCardBtns, 
+    CoinPriceInfo, 
+    MarketCard, 
+    MarketContentStyled, 
+    PageStyled, 
+    MarketTabsWrapper, 
+    MarketWrapper, 
+    MarketContentWrapper, 
+    MarketGridLayout, 
+    TableLastPrice, 
+    CoinText,
+    LastPriceWrapper
+}

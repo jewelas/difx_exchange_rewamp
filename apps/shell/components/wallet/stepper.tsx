@@ -14,7 +14,7 @@ export function WalletStepper() {
                 <img src={"/imgs/stepper_bitcoin_bg.svg"} alt="" />
             </div>
             <Steps current={4}>
-                <Step title="Copy address" description="Choose the crypto and its network." icon={1}/>
+                <Step title="Get address and network" description="Choose the crypto and its network." icon={1}/>
                 <Step title="Initiate a withdrawal" description="Choose the crypto and its network." icon={2} />
                 <Step title="Network confirmation" description="Choose the crypto and its network." icon={3} />
                 <Step title="Deposit Successful" description="Choose the crypto and its network." icon={4} />

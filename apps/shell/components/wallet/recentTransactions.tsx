@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import t from "@difx/locale";
-import { useHttpGet } from "@difx/shared";
+import { useHttpGet, useTransactionDetailsModal } from "@difx/shared";
 import { Avatar, Button, Col, Row, Space, Table } from "antd";
 import Text from "antd/lib/typography/Text";
 import { RecentTransactionsWrapper } from "./styled";
@@ -23,7 +23,7 @@ interface DataType {
   }
 
 export function RecentTransactions() {
-
+  const {modalVisible, setModalVisible} = useTransactionDetailsModal()
   const { data, isLoading } = useHttpGet( QUERY_KEY.RECENT_TRANSACTIONS ,API_ENDPOINT.GET_TRANSACTION_LIST(1,10), null)
 
   const iconSwitch = (type) => {
@@ -44,7 +44,7 @@ export function RecentTransactions() {
       case "requires_admin_confirmation":
         return <Button type="text" className="ant-btn-info" > Pending </Button>
       default:
-        return <Button type="text" className="ant-btn-dangerous"> Declined </Button>
+        return <Button type="text" className="ant-btn-dangerous" onClick={() => {setModalVisible(!modalVisible)}}> Declined </Button>
     }
   }
 

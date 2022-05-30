@@ -1,14 +1,47 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
-import { Icon, showInfo} from "@difx/core-ui";
+import { ASSETS_URL } from "@difx/constants";
+import { Icon, showInfo, TrendChart} from "@difx/core-ui";
 import t from "@difx/locale";
 import { useFavourites, useMarketPair } from "@difx/shared";
 import { Avatar, Button, Space, Table } from "antd";
 import Text from "antd/lib/typography/Text";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Trend from "react-trend";
+import { LastPriceWrapper } from "./styled";
+import clsx from "clsx";
 
+const LastPrice = ({price}) => {
+  const [currentPirce, setCurrentPirce] = useState(price)
+  const [ priceTrend, setPriceTrend ] = useState("")
+
+  useEffect(()=>{
+    if(price){
+      if(price > currentPirce){
+        setPriceTrend("up")
+      }else if(price < currentPirce){
+        setPriceTrend("down")
+      }
+      setCurrentPirce(price)
+      setTimeout(()=>{
+        setPriceTrend("")
+      },3000)
+    }
+  },[price])
+
+  if(!currentPirce) return null
+
+  return (
+    <LastPriceWrapper 
+      className={clsx({up: (priceTrend === "up")},{down: (priceTrend === "down")})}
+    >
+      <Space size={12} direction="vertical">
+        {currentPirce}
+        <Text type="secondary">≈ {currentPirce}</Text>
+      </Space>
+    </LastPriceWrapper>
+  )
+}
 
 export function ListView({ data, datatype, categoriesList }) {
   const { 
@@ -75,10 +108,7 @@ export function ListView({ data, datatype, categoriesList }) {
       render: (item: any) => {
         return (
           <>
-            <Space size={12} direction="vertical">
-              {item.last}
-              <Text type="secondary">≈ {item.last.toFixed(2)}</Text>
-            </Space>
+            <LastPrice price={item.last} />
           </>
         )
       },
@@ -103,18 +133,10 @@ export function ListView({ data, datatype, categoriesList }) {
       render: (text: string, item: any) => {
         const changed = (item.last / item.open) * 100 - 100;
         return (
-          <Trend
-            smooth
+          <TrendChart 
             data={item.pricing}
-            strokeWidth={4}
-            autoDraw
-            autoDrawDuration={3000}
-            strokeLinecap={'round'}
-            gradient={[
-              changed >= 0
-                ? "#21C198"
-                : "#ff0000",
-            ]}
+            backgroundColor={ changed >= 0 ? "#21C198" : "#ff0000"}
+            lineColor={ changed >= 0 ? "#21C198" : "#ff0000"}
           />
         );
       },

@@ -175,6 +175,18 @@ export function LoginForm(props: LoginFormProps) {
           router.push("/two-factor")
           break
         }
+        case 415: {
+          authDetails = {
+            type: "VERIFICATION_REQUIRED",
+            details: {
+              id: formData.email ? formData.email : formData.phonenumber ? formData.phonenumber : null,
+              type: formData.email ? "email" : formData.phonenumber ? "phonenumber" : null
+            }
+          }
+          localStorage.setItem("extraAuthRequired", JSON.stringify(authDetails))
+          router.push("/verify-otp")
+          break
+        }
         default:
           break
       }

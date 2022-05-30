@@ -1,7 +1,7 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
 import t from "@difx/locale";
-import { useHttpGet, useMarketModal, useMarketPair } from "@difx/shared";
+import { SocketEvent, useHttpGet, useMarketModal, useMarketPair, useSocket } from "@difx/shared";
 import { Col, Drawer, Input, Modal, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import MarketDrawer from "../../components/market/drawer";
@@ -21,6 +21,8 @@ export function MarketWrapper() {
   const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList} = useMarketPair();
   const {modalVisible, setModalVisible} = useMarketModal();
 
+  const data = useSocket({event: SocketEvent.prices});
+
   useEffect(() => {
     if(marketData){
       setSpotList(marketData.spot)
@@ -28,6 +30,21 @@ export function MarketWrapper() {
       setCategoriesList(marketData.categories)
     }
   }, [marketData]);
+
+  useEffect(()=>{
+    if(data){
+      const newData = spotList.map(item => {
+        if(item.symbol === data[0]){
+          item.last = data[1]
+          item.volume = data[2]
+          item.change = data[3]
+          return item
+        }
+        return item
+      })
+      setSpotList(newData)
+    }
+  },[data])
 
   useEffect(() => {
     if(spotList){
@@ -40,7 +57,7 @@ export function MarketWrapper() {
       const getTopVolume = [...spotList].sort((a:any,b:any) => {
         return a.volume < b.volume ? 1 : -1
       })
-      const favoritesSpot = spotList.filter((spotList:any) => spotList.favorite === true)
+      // const favoritesSpot = spotList.filter((spotList:any) => spotList.favorite === true)
       // setSpotFavorites(favoritesSpot)
       setTopGainer(getTopGainer)
       setTopLooser(getTopLooser)

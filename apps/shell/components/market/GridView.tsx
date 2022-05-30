@@ -1,13 +1,44 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Avatar, Button, Card, Col, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "../../pages/market/styled";
-import { Icon } from "@difx/core-ui";
+import { Icon, TrendChart } from "@difx/core-ui";
 import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
 import { isLoggedInAtom, useFavourites, useHttpDelete, useHttpPost, useMarketModal, useMarketPair } from "@difx/shared";
 import Trend from "react-trend";
 import { useRouter } from "next/router";
 import { useAtomValue } from "jotai";
+import { LastPriceWrapper } from "./styled";
+import clsx from "clsx";
+
+const LastPrice = ({price}) => {
+  const [currentPirce, setCurrentPirce] = useState(price)
+  const [ priceTrend, setPriceTrend ] = useState("")
+
+  useEffect(()=>{
+    if(price){
+      if(price > currentPirce){
+        setPriceTrend("up")
+      }else if(price < currentPirce){
+        setPriceTrend("down")
+      }
+      setCurrentPirce(price)
+      setTimeout(()=>{
+        setPriceTrend("")
+      },3000)
+    }
+  },[price])
+
+  if(!currentPirce) return null
+
+  return (
+    <LastPriceWrapper 
+      className={clsx({up: (priceTrend === "up")},{down: (priceTrend === "down")})}
+    >
+        ${currentPirce}
+    </LastPriceWrapper>
+  )
+}
 
 
 export function GridView({data, datatype}) {
@@ -70,17 +101,10 @@ export function GridView({data, datatype}) {
                             </CoinText>
                             </Col>
                             <Col span={10}>
-                            <Trend
-                                smooth
-                                data={item.pricing}
-                                strokeWidth={3}
-                                autoDraw
-                                autoDrawDuration={3000}
-                                gradient={[
-                                    (item.last / item.open) * 100 - 100 >= 0
-                                    ? "#21C198"
-                                    : "#ff0000",
-                                ]}
+                            <TrendChart 
+                              data={item.pricing}
+                              backgroundColor={ (item.last / item.open) * 100 - 100 >= 0 ? "#21C198" : "#ff0000"}
+                              lineColor={ (item.last / item.open) * 100 - 100 >= 0 ? "#21C198" : "#ff0000"}
                             />
                             </Col>
                         </Row>
@@ -90,7 +114,7 @@ export function GridView({data, datatype}) {
                                     <Text type="secondary">
                                         Last Price
                                     </Text>
-                                    <Text>${item.last}</Text>
+                                    <Text><LastPrice price={item.last} /></Text>
                                 </Col>
                                 <Col span={8}>
                                     <Text type="secondary">

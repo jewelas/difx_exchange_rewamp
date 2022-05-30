@@ -101,14 +101,6 @@ export const ModalStyled = styled(Modal)`
       flex-grow: 1;
     }
   }
-  .suffix-amount{
-    display:flex;
-    .line{
-      border-left: solid 1px ${({ theme }: { theme: ThemeInterface }) => theme.border.color};
-      margin-left: 6px;
-      margin-right: 1px;
-    }
-  }
 
 `;
 

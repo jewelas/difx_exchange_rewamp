@@ -22,9 +22,9 @@ const GlobalStyles = createGlobalStyle`
     :-webkit-autofill,
     :-webkit-autofill:hover,
     :-webkit-autofill:focus,
-    :-webkit-autofill:active, .ant-form-item-control-input-content .ant-input-affix-wrapper>input.ant-input:focus, .ant-form-item-control-input-content .ant-input-affix-wrapper > input.ant-input:focus{
-        -webkit-box-shadow: 0 0 0 30px white inset;
-        box-shadow: 0 0 0 30px white inset;
+    :-webkit-autofill:active{
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        box-shadow: 0 0 0 30px white inset !important;
     }
     ::-webkit-scrollbar {
       width: 8px;
@@ -256,13 +256,19 @@ const GlobalStyles = createGlobalStyle`
       height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      border: none !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
       &::placeholder{
         color: ${({ theme }: { theme: ThemeInterface }) => theme.color.InputPlaceholder} !important;;
       }
       &:hover{
-        border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
+        border: none !important;
+      }
+      &[disabled]{
+        border: none !important;
+        :hover{
+          border: none !important;
+        }
       }
     }
     .ant-input-suffix{
@@ -270,7 +276,7 @@ const GlobalStyles = createGlobalStyle`
       }
 
     .ant-input:hover{
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.primary} !important;
+      border: none !important;
     }
 
     .ant-input-affix-wrapper,
@@ -295,7 +301,7 @@ const GlobalStyles = createGlobalStyle`
 
     .ant-input-affix-wrapper{
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      border: none !important;
       height: 48px;
       .ant-input-prefix{
         svg{
@@ -340,6 +346,9 @@ const GlobalStyles = createGlobalStyle`
         }
       }
     }
+    .ant-table.ant-table-small {
+      font-size: 12px;
+    }
     .ant-table{
           background: transparent !important;
           .ant-table-cell{
@@ -361,17 +370,13 @@ const GlobalStyles = createGlobalStyle`
             .ant-table-cell{
               font-size: 11px;
             }
-          } */
+          }
           .ant-table-thead{
             th{
               background: transparent !important;
               color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
               border-bottom: unset;
               padding: 16px 0;
-
-              /* .ant-table-column-title{
-                font-size: 11px;
-              } */
 
               &:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan]):before{
                 display: none;
@@ -426,7 +431,7 @@ const GlobalStyles = createGlobalStyle`
       height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.regular} !important;
-      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+      border: none !important;
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
 
@@ -690,6 +695,41 @@ const GlobalStyles = createGlobalStyle`
   .coinselect .ant-select-selection-item,.coinselect .ant-select-selection-placeholder{
         display: flex;
         align-items: center;
+  }
+  /* Small Select */
+  .ant-select.ant-select-sm.input-small{
+    .ant-select-selector{
+      height: 32px !important;
+      display: flex;
+      align-items: center;
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.secondary} !important;
+      border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
+    }
+  }
+  .ant-radio-checked .ant-radio-inner{
+    border-width: 4px;
+  }
+  .ant-radio-inner{display:none}
+  .ant-radio-inner:after{width:0px !important;height:0px !important}
+  .suffix-amount{
+        display:flex;
+        .line{
+        border-left: solid 1px ${({theme}) => theme.border.color};
+        margin-left: 6px;
+        margin-right: 1px;
+        }
+    }
+  .successTag{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.color.successLight};
+    padding: 15px;
+    border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.successColor};
+  }
+  .errorTag{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.color.errorLight};
+    padding: 15px;
+    border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
+    color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor};
   }
 `;
 

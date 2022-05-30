@@ -9,7 +9,6 @@ import { OTPBox, Icon } from "@difx/core-ui";
 import { useAtom } from "jotai";
 import { Button, Form, Input } from "antd";
 import { FormInstance } from "antd/es/form";
-import { AxiosError, AxiosResponse } from "axios";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";

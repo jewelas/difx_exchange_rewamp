@@ -6,7 +6,9 @@ import { Theme } from 'antd/lib/config-provider/context';
 export interface ThemeInterface extends Theme {
   color: {
     primary: string;
-    primaryLight: string,
+    primaryLight: string;
+    successLight: string;
+    errorLight: string;
     secondary: string;
     success: string;
     danger: string;
@@ -110,10 +112,13 @@ export const light: ThemeInterface = {
   primaryColor: "#3D7EFF",
   errorColor: "#DB5354",
   warningColor: "#FAAD14",
+  
 
   color: {
     primary: "#3D7EFF",
     primaryLight: "#E0EFFF",
+    successLight: "#E8F8F2",
+    errorLight: "#FDF1EE",
     secondary: "#FAAD14",
     success: "#21C198",
     danger: "#DB5354",
@@ -221,6 +226,8 @@ export const dark: ThemeInterface = {
   color: {
     primary: "#3D7EFF",
     primaryLight: "rgba(0,0,0,0.2)",
+    successLight: "#161F30",
+    errorLight: "#161F30",
     secondary: "#FAAD14",
     success: "#21C198",
     danger: "#DB5354",

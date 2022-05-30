@@ -12,6 +12,7 @@ import {
   useAuth,
   useHttpGet,
   useHttpPost,
+  previousPathAtom,
   useAPI,
   configAtom
 } from "@difx/shared";
@@ -38,7 +39,8 @@ export function LoginForm(props: LoginFormProps) {
   const { data: countryCode } = useHttpGet<null, object>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
 
   const { updateSession } = useAuth();
-  const [ config ] = useAtom(configAtom)
+  const [ config ] = useAtom(configAtom);
+  const [previous, ] = useAtom(previousPathAtom)
   const { API }  = useAPI()
 
   const [getCaptcha] = useRecaptcha()
@@ -148,7 +150,7 @@ export function LoginForm(props: LoginFormProps) {
         case 200: {
           const { permission, user } = data
           updateSession(user, permission)
-          router.push("/home");
+          router.push(previous);
           break
         }
         case 410: {

@@ -22,6 +22,7 @@ export * from "./hook/useTransactionDetailsModal";
 export * from "./hook/useWalletWithdrawModal";
 export * from "./hook/useWithdrawTabs";
 export * from "./hook/useTransferModal";
+export * from "./hook/useVerificationModal";
 
 export * from "./type/Base";
 export * from "./type/User";

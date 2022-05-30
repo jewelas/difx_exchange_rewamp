@@ -5,10 +5,13 @@ import { DepositLayout } from "../../../pages/wallet/styled";
 import { useState } from "react";
 import { OptionGroupStyled } from "../../market/styled";
 import Text from "antd/lib/typography/Text";
+import { useVerificationModal } from "@difx/shared";
+import VerificationModal from "./verificationModal";
 
 export function SendToCryptoAddress() {
   const [form] = Form.useForm()
   const [value, setValue] = useState(1);
+  const { modalVisible, setModalVisible } = useVerificationModal()
   
   const onChange = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value);
@@ -93,7 +96,7 @@ export function SendToCryptoAddress() {
                         </Col>
                     </Row>
                 </div>
-                <Button type="primary" block style={{marginTop:20}}>Confirm</Button>
+                <Button type="primary" block style={{marginTop:20}} onClick={() => {setModalVisible(!modalVisible)}}>Confirm</Button>
             </div>
             <div className="divider"></div>
             <div>
@@ -135,6 +138,7 @@ export function SendToCryptoAddress() {
                 </div>
             </div>
         </div>
+        <VerificationModal />
     </DepositLayout>
   );
 }

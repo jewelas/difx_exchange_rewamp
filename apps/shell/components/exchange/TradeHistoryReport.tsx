@@ -6,12 +6,12 @@ import { API_ENDPOINT } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
 import { useAtomValue } from "jotai/utils";
 import { Order, isLoggedInAtom, useHttpGetByEvent, useSocketProps, SocketEvent, useSocket } from "@difx/shared";
-import { getCurrentDateTimeByDateString } from "@difx/utils";
+import { getCurrentDateTimeByDateString, getPriceFormatted } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from 'react';
 
-export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {height?: number; pair: string, isSelectedPairOnly?: boolean }) {
+export function TradeHistoryReport({ height = 200, pair, isSelectedPairOnly }: { height?: number; pair: string, isSelectedPairOnly?: boolean }) {
 
   const isLoggedIn = useAtomValue(isLoggedInAtom);
 
@@ -37,7 +37,7 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
     }
   }, [userOrdersData]);
 
-  const getOrderBookSuccess = (response: AxiosResponse<{result: Array<Order>}>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
     if (data && !isEmpty(data.result)) {
       for (const order of data.result) {
@@ -46,15 +46,15 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
         }
       }
       let newTableData = tableData;
-      if(isSelectedPairOnly){
-        newTableData = newTableData.filter((e:any)=>e.symbol === pair);
+      if (isSelectedPairOnly) {
+        newTableData = newTableData.filter((e: any) => e.symbol === pair);
       }
       setTableData([...newTableData]);
     } else {
       setTableData([]);
     }
   }
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES() });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_MY_TRADES() });
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -68,15 +68,19 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
 
   const columns = [
     {
-      title: 'Id',
-      dataIndex: 'id',
+      title: 'Date',
       sorter: {
-        compare: (a, b) => a.id - b.id,
+        compare: (a, b) => {
+          const aTime = new Date(a.timestamp).getTime();
+          const bTime = new Date(b.timestamp).getTime();
+          return aTime - bTime;
+        },
       },
-      render: (text, record) => {
+      dataIndex: 'timestamp',
+      render: (text) => {
         return (
-          <div className="cell">
-            <Typography level="B3">{text}</Typography>
+          <div className='cell'>
+            <Typography level="B3">{getCurrentDateTimeByDateString(text)}</Typography>
           </div>
         )
       }
@@ -138,23 +142,37 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
       }
     },
     {
-      title: 'Date',
+      title: 'Fee',
+      dataIndex: 'fee',
       sorter: {
-        compare: (a, b) => {
-          const aTime = new Date(a.timestamp).getTime();
-          const bTime = new Date(b.timestamp).getTime();
-          return aTime - bTime;
-        },
+        compare: (a, b) => a.q - b.q,
       },
-      dataIndex: 'timestamp',
       render: (text) => {
         return (
           <div className='cell'>
-            <Typography level="B3">{getCurrentDateTimeByDateString(text)}</Typography>
+            <Typography level="B3">{text || '0.00'}</Typography>
           </div>
         )
       }
-    }
+    },
+    {
+      title: 'Total',
+      dataIndex: 'total',
+      sorter: {
+        compare: (a, b) => {
+          const _a = ((a.p * a.q) + a.fee);
+          const _b = ((b.p * b.q) + b.fee);
+          return _a - _b;
+        }
+      },
+      render: (text, record) => {
+        return (
+          <div className='cell'>
+            <Typography level="B3">{getPriceFormatted((record.p * record.q) + record.fee, 2) || '0.00'}</Typography>
+          </div>
+        )
+      }
+    },
   ];
 
   if (isEmpty(tableData) && isDataLoading) return <Loading type='component' />
@@ -162,7 +180,7 @@ export function TradeHistoryReport({height = 200, pair, isSelectedPairOnly }: {h
   return (
     <Table
       showSorterTooltip={false}
-      scroll={{ x: "max-content", y: height+30 }}
+      scroll={{ x: "max-content", y: height + 30 }}
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}

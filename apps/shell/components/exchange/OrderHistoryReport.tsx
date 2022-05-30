@@ -11,7 +11,7 @@ import { Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from 'react';
 
-export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, pair }: { isSelectedPairOnly?:boolean, height?: number; pair: string }) {
+export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, pair }: { isSelectedPairOnly?: boolean, height?: number; pair: string }) {
 
   const isLoggedIn = useAtomValue(isLoggedInAtom);
 
@@ -19,7 +19,7 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
 
 
   // Limit order
-  const userOrdersData = useSocket({event: SocketEvent.user_orders});
+  const userOrdersData = useSocket({ event: SocketEvent.user_orders });
   useEffect(() => {
     if (userOrdersData) {
       const index = tableData.findIndex(e => e.id === userOrdersData.id);
@@ -38,7 +38,7 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
   }, [userOrdersData]);
 
   // Stop limit order
-  const userStopLimitOrdersData = useSocket({event: SocketEvent.user_stoplimits});
+  const userStopLimitOrdersData = useSocket({ event: SocketEvent.user_stoplimits });
   useEffect(() => {
     if (userStopLimitOrdersData) {
       const index = tableData.findIndex(e => e.id === userStopLimitOrdersData.id);
@@ -56,7 +56,7 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
     }
   }, [userStopLimitOrdersData]);
 
-  const getOrderBookSuccess = (response: AxiosResponse<{result:Array<Order>}>) => {
+  const getOrderBookSuccess = (response: AxiosResponse<{ result: Array<Order> }>) => {
     const { data } = response;
     if (data && !isEmpty(data.result)) {
       for (const order of data.result) {
@@ -65,15 +65,15 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
         }
       }
       let newTableData = tableData;
-      if(isSelectedPairOnly){
-        newTableData = newTableData.filter((e:any)=>e.symbol === pair);
+      if (isSelectedPairOnly) {
+        newTableData = newTableData.filter((e: any) => e.symbol === pair);
       }
       setTableData([...newTableData]);
     } else {
       setTableData([]);
     }
   }
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, {result:Array<Order>}>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_HISTORY(pair) });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_HISTORY(pair) });
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -123,7 +123,7 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       render: (text, record) => {
         return (
           <div className='cell'>
-            <Typography level="B3" color={(record.s === 0 || record.side===0) ? 'success' : 'danger'}>{(record.s === 0 || record.side===0) ? 'BUY' : 'SELL'}</Typography>
+            <Typography level="B3" color={(record.s === 0 || record.side === 0) ? 'success' : 'danger'}>{(record.s === 0 || record.side === 0) ? 'BUY' : 'SELL'}</Typography>
           </div>
         )
       }
@@ -132,7 +132,7 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       title: 'Price',
       dataIndex: 'p',
       sorter: {
-        compare: (a, b) => (a.p && b.p) ? (a.p - b.p) : (a.limit-b.limit),
+        compare: (a, b) => (a.p && b.p) ? (a.p - b.p) : (a.limit - b.limit),
       },
       render: (text, record) => {
         return (
@@ -182,6 +182,26 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
     <Table
       showSorterTooltip={false}
       scroll={{ x: "max-content", y: height }}
+
+      expandable={{
+        expandedRowRender: record => <div style={{ margin: 0 }}>
+          <div className="head">
+            <div className="lbl">
+              Time Updated:
+            </div>
+            <div className="val">
+              {getCurrentDateTimeByDateString(record.timestamp)}
+            </div>
+            <div style={{marginLeft:5}} className="lbl">
+              Order No:
+            </div>
+            <div className="val">
+              {record.id}
+            </div>
+          </div>
+        </div>,
+      }}
+
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}

@@ -9,7 +9,8 @@
     "search": "Search",
     "info": "Info",
     "hide_small_balances": "Hide Small Balances",
-    "msg_wrong":"We're sorry, but something went wrong."
+    "msg_wrong":"We're sorry, but something went wrong.",
+    "maxAmount": "Max Amount "
   },
   "staking":{
     "view-staking":"View Staking",

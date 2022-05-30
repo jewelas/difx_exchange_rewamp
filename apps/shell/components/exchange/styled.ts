@@ -572,6 +572,21 @@ export const OrderReportsWraperStyled = styled.div`
     .ant-table-column-title{
       font-size: 12px;
     }
+    .ant-table-expanded-row.ant-table-expanded-row-level-1{
+      td{
+        .head{
+          display:flex;
+          font-size: 12px;
+          .lbl{
+              color: ${({ theme }) => theme.fontColor.secondary};
+              margin: 0 -25px;
+          }
+          .val{
+            margin:0 -17px;
+          }
+        }
+      }
+    }
     .display-selected-pair{
       .wrapper{
         z-index: 9;

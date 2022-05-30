@@ -13,9 +13,9 @@ const GlobalStyles = createGlobalStyle`
     body {
         font-family: "Lato", sans-serif !important;
         transform: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.transition} !important;
+    theme.transition} !important;
         background: ${({ theme }: { theme: ThemeInterface }) =>
-        theme.background.body} !important;
+    theme.background.body} !important;
     }
     scrollbar-color: ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.bar} ${({ theme }: { theme: ThemeInterface }) => theme.scrollbar.background};
     scrollbar-width: thin;
@@ -348,6 +348,12 @@ const GlobalStyles = createGlobalStyle`
           .ant-table-tbody .ant-table-cell span{
             display: inline-block !important;
           }
+          .ant-table-expanded-row.ant-table-expanded-row-level-1{
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
+            td div{
+              padding:5px 24px;
+            }
+          }
           /* .ant-table-container .ant-table-content .ant-table-thead{
             .ant-table-cell{
               font-size: 11px;
@@ -377,7 +383,20 @@ const GlobalStyles = createGlobalStyle`
           }
           .ant-table-tbody{
             tr{
+              &:hover{
+                background : ${({ theme }: { theme: ThemeInterface }) => theme.color.rowHover};
+                cursor: pointer;
+              }
               line-height: 0.5;
+              .ant-table-cell.ant-table-row-expand-icon-cell{
+                button{
+                  border-color: transparent;
+                  background: transparent;
+                  &:focus{
+                    color: unset;
+                  }
+                }
+              }
               td{
                 border:unset;
                 background: transparent !important;
@@ -516,10 +535,19 @@ const GlobalStyles = createGlobalStyle`
         }
       }
 
+      .ant-popover-inner-content{
+        color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      }
+
       .ant-popover.ant-popover-placement-bottomRight, .ant-popover.ant-popover-placement-bottom{
         .ant-popover-arrow{
           display:none;
         }
+      }
+
+      .ant-input-affix-wrapper.error{
+        border: solid 1px ${({ theme }: { theme: ThemeInterface }) => theme.color.danger} !important;
+        box-shadow: unset !important;
       }
 
       .compact-list-pairs{
@@ -540,7 +568,22 @@ const GlobalStyles = createGlobalStyle`
             margin-top: -10px;
           }
         }
+        .ant-popover-inner{
+        }
       }
+
+      .ant-popover.ant-popover-placement-top{
+        .ant-popover-arrow .ant-popover-arrow-content{
+          &:before{
+            background:unset;
+          }
+          background: ${({ theme }) => theme.background.popover};
+        }
+        .ant-popover-inner{
+          background: ${({ theme }) => theme.background.popover};
+        }
+      }
+
       .ant-popover-content{
         .ant-popover-arrow .ant-popover-arrow-content{
           &:before{

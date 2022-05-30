@@ -167,7 +167,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
       <div className="place-order-group">
         {
           side === 'bid' &&
-          <div style={{marginRight:0}} className="bid commpact">
+          <div className="bid compact">
             <OrderForm
               form={bidForm}
               layout={layout}
@@ -186,7 +186,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
 
         {
           side === 'ask' &&
-          <div style={{marginLeft: 0}} className="ask compact">
+          <div className="ask compact">
             <OrderForm
               form={askForm}
               layout={layout}

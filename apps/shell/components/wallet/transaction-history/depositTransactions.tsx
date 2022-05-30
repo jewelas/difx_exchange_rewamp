@@ -2,14 +2,11 @@
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import t from "@difx/locale";
 import { useHttpGet, useTransactionDetailsModal } from "@difx/shared";
-import { Avatar, Button, Col, Row, Space, Table } from "antd";
+import { Avatar, Button, Space, Table } from "antd";
 import Text from "antd/lib/typography/Text";
-import { RecentTransactionsWrapper } from "./styled";
+import { RecentTransactionsWrapper } from "../styled";
 import { API_ENDPOINT, ASSETS_URL, QUERY_KEY } from "@difx/constants"
-// import { useEffect } from "react";
-// import Item from "antd/lib/list/Item";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
-import Link from "next/link";
 
 
 
@@ -22,7 +19,7 @@ interface DataType {
     status: string;
   }
 
-export function RecentTransactions() {
+export function DepositTransactions() {
   const {modalVisible, setModalVisible} = useTransactionDetailsModal()
   const { data, isLoading } = useHttpGet( QUERY_KEY.RECENT_TRANSACTIONS ,API_ENDPOINT.GET_TRANSACTION_LIST(1,10), null)
 
@@ -102,20 +99,6 @@ export function RecentTransactions() {
 
   return (
     <RecentTransactionsWrapper>
-      <div className="recent_transactions_header">
-      <Row align="middle" justify="space-between">
-          <Col>
-          <h3>Recent Transactions</h3>
-          </Col>
-          <Col>
-              <Link href="/wallet/transactions-history">
-                <Button type="link" className="anchor-link" icon={<Icon.BoardIcon />}>
-                    View All
-                </Button>
-              </Link>
-          </Col>
-      </Row>
-      </div>
       <Table
         columns={columns}
         /* eslint-disable */
@@ -128,4 +111,4 @@ export function RecentTransactions() {
   );
 }
 
-export default RecentTransactions;
+export default DepositTransactions;

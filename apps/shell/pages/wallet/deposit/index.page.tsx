@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Layout } from 'antd';
 import WalletLayout from "../index.page";
 import WalletStepper from "../../../components/wallet/stepper";

@@ -342,6 +342,9 @@ const GlobalStyles = createGlobalStyle`
     }
     .ant-table{
           background: transparent !important;
+          .ant-table-cell{
+            min-width: 50px;
+          }
           .ant-table-cell-scrollbar{
             box-shadow: unset;
           }

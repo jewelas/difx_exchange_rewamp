@@ -4,7 +4,7 @@ import Text from "antd/lib/typography/Text";
 import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "../../pages/market/styled";
 import { Icon, TrendChart } from "@difx/core-ui";
 import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
-import { isLoggedInAtom, useFavourites, useHttpDelete, useHttpPost, useMarketModal, useMarketPair } from "@difx/shared";
+import { isLoggedInAtom, useFavourites, useMarketModal, numFormatter } from "@difx/shared";
 import Trend from "react-trend";
 import { useRouter } from "next/router";
 import { useAtomValue } from "jotai";
@@ -126,7 +126,7 @@ export function GridView({data, datatype}) {
                                     <Text type="secondary">
                                     24h Volume
                                     </Text>
-                                    <Text>{item.volume.toFixed(1)}</Text>
+                                    <Text>{numFormatter(item.volume)} {item.currency1}</Text>
                                 </Col>
                             </Row>
                         </CoinPriceInfo>

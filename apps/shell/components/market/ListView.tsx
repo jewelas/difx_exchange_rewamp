@@ -11,6 +11,7 @@ import Trend from "react-trend";
 import { LastPriceWrapper } from "./styled";
 import clsx from "clsx";
 import Item from "antd/lib/list/Item";
+import { numFormatter } from "@difx/utils";
 
 const LastPrice = ({price}) => {
   const [currentPirce, setCurrentPirce] = useState(price)
@@ -126,7 +127,17 @@ export function ListView({ data, datatype, categoriesList }) {
         )
       }
     },
-    { title: "24h Volume", dataIndex: "volume", key: "volume", sorter: (a, b) => a.volume - b.volume },
+    { title: "24h Volume", key: "volume", sorter: (a, b) => a.volume - b.volume ,
+      render: (item: any) => {
+        return (
+          <Space size={12} direction="vertical">
+            <Text>{numFormatter(item.volume)} {item.currency1}</Text>
+            
+            <Text type="secondary">≈ ${numFormatter(item.volume * item.last)}</Text>
+          </Space>
+        )
+      }
+    },
     {
       title: "Chart",
       key: "pricing",

@@ -42,8 +42,6 @@ export function MarketWrapper() {
       const getTopVolume = [...spotList].sort((a:any,b:any) => {
         return a.volume < b.volume ? 1 : -1
       })
-      // const favoritesSpot = spotList.filter((spotList:any) => spotList.favorite === true)
-      // setSpotFavorites(favoritesSpot)
       setTopGainer(getTopGainer)
       setTopLooser(getTopLooser)
       setTopVolume(getTopVolume)

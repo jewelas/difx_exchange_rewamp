@@ -38,7 +38,7 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
         }
       </Head>
 
-      <Header onNavigation={(page: string) => router.push(page)} />
+      <Header onNavigation={(page: string) => {router.push(page, undefined, { shallow: true })}} />
       <ContentStyled dir={RTLDirection}>{children}</ContentStyled>
     </LayoutStyled>
   );

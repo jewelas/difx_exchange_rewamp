@@ -18,7 +18,8 @@
     "address": "Address",
     "transaction_id": "Transaction ID",
     "status": "Status",
-    "msg_wrong":"We're sorry, but something went wrong."
+    "msg_wrong":"We're sorry, but something went wrong.",
+    "maxAmount": "Max Amount "
   },
   "staking":{
     "view-staking":"View Staking",

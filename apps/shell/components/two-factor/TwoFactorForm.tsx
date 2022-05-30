@@ -3,9 +3,11 @@ import {
   TwoFactorRequest,
   useAPI,
   useAuth,
+  previousPathAtom
 } from "@difx/shared";
 import { OTPBox, Icon } from "@difx/core-ui";
-import { Button, Form } from "antd";
+import { useAtom } from "jotai";
+import { Button, Form, Input } from "antd";
 import { FormInstance } from "antd/es/form";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
@@ -18,6 +20,8 @@ export function TwoFactorForm({sessionId}) {
   const [otpValue, setOtpValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { API } = useAPI()
+
+  const [previous, ] = useAtom(previousPathAtom)
 
   const { updateSession } = useAuth();
 
@@ -59,7 +63,7 @@ export function TwoFactorForm({sessionId}) {
         case 200: {
           const { permission, user } = data
           updateSession(user, permission)
-          router.push("/home");
+          router.push(previous);
           break
         }
         case 412: {

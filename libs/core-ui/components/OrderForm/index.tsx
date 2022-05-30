@@ -5,8 +5,8 @@ import clsx from "clsx";
 import t from "./../../../locale";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
-import { useCurrency } from "./../../../shared";
-import { PairType, PlaceOrderRequest } from "./../../../shared";
+import { useAtom } from "jotai";
+import { PairType, PlaceOrderRequest, previousPathAtom, useCurrency } from "./../../../shared";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
 import DepositIcon from "./../Icon/DepositIcon";
 import { Typography } from "./../Typography";
@@ -42,7 +42,10 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
     100: ' ',
   };
 
+  const [, setPrevousPath] = useAtom(previousPathAtom)
+
   const router = useRouter();
+  const { asPath } = router;
 
   const { currentCurrency: fiatCurrency } = useCurrency();
 
@@ -186,7 +189,12 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
   // eslint-disable-next-line
   // @ts-ignore
   const getButtonSubmitLabel = () => {
-    if (!isLoggedIn) return 'Log in or Sign up';
+    if (!isLoggedIn) {
+      return <div onClick={(e: any) => { setPrevousPath(asPath); !e.target.className.includes("signup") && !isLoggedIn && router.push('/login') }} style={{ display: "flex", justifyContent: "center" }}>
+        <div onClick={() => { setPrevousPath(asPath); !isLoggedIn && router.push('/login') }} style={{ marginRight: 5 }}>Log in or</div>
+        <div className="signup" onClick={() => { setPrevousPath(asPath); !isLoggedIn && router.push('/register') }}>Sign up</div>
+      </div>
+    }
     if (side === 'ask') return 'Sell';
     if (side === 'bid') return 'Buy'
   }
@@ -332,7 +340,6 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
             </Form.Item>
           </Popover>
           <Button
-            onClick={() => { !isLoggedIn && router.push('/login') }}
             disabled={isDisabled || isLoading}
             htmlType={isLoggedIn ? "submit" : "button"}
             className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{getButtonSubmitLabel()}</Button>

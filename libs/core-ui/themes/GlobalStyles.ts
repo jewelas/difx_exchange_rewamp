@@ -569,7 +569,8 @@ const GlobalStyles = createGlobalStyle`
           }
         }
       }
-      .ant-popover-content{
+      
+      .ant-popover.ant-popover-placement-top{
         .ant-popover-arrow .ant-popover-arrow-content{
           &:before{
             background:unset;
@@ -578,6 +579,18 @@ const GlobalStyles = createGlobalStyle`
         }
         .ant-popover-inner{
           background: ${({ theme }) => theme.background.popover};
+        }
+      }
+
+      .ant-popover-content{
+        .ant-popover-arrow .ant-popover-arrow-content{
+          &:before{
+            background:unset;
+          }
+          background: ${({ theme }) => theme.background.primary};
+        }
+        .ant-popover-inner{
+          background: ${({ theme }) => theme.background.primary};
           .check-list-group{
             .check-item{
               margin: 5px 0;

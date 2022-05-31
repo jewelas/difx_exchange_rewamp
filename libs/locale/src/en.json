@@ -19,7 +19,8 @@
     "transaction_id": "Transaction ID",
     "status": "Status",
     "msg_wrong": "We're sorry, but something went wrong.",
-    "maxAmount": "Max Amount "
+    "maxAmount": "Max Amount",
+    "confirm": "Confirm"
   },
   "staking": {
     "view-staking": "View Staking",
@@ -158,7 +159,8 @@
     "convert_small_bal_difx": "Convert small balance to DIFX",
     "assets_allocation": "Assets Allocation",
     "convert_small_bal": "Convert Small Balances",
-    "tansaction_details": "Transaction Detalis"
+    "tansaction_details": "Transaction Detalis",
+    "verification_code": "Verification Code"
   },
   "order": {
     "order": "Order",

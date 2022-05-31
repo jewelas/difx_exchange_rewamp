@@ -239,6 +239,7 @@ const  TransactionDetailsWrapper = styled.div`
     }
 `
 const WithdrawModalWrapper = styled.div`
+    padding: 20px;
     .withdraw-options{
         &>div{
             display: flex;
@@ -262,6 +263,32 @@ const WithdrawModalWrapper = styled.div`
             }
         }
     }
+    .botton-box{
+        margin: 10px 0px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .resend-box{
+        color: ${({ theme }) => theme.fontColor.muted};
+        button{
+          border: none !important;
+          background: transparent !important;
+          cursor: pointer;
+          color: ${({ theme }) => theme.fontColor.link} !important;
+          :disabled{
+            color: ${({ theme }) => theme.fontColor.muted} !important;
+          }
+        }
+      }
+      .paste-btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        gap: 5px;
+        color: ${({ theme }) => theme.fontColor.link};
+        cursor: pointer;
+      }
 `
 const TransferModalWrapper = styled.div`
     .transfer_input_wrapper{

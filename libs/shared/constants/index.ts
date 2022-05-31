@@ -117,7 +117,7 @@ export const API_ENDPOINT = {
   PLACE_ORDER_MARKET: '/api/v1/order/market-order',
   PLACE_ORDER_STOP: '/api/v1/order/sl-order',
   CANCEL_ORDER: '/api/v1/order/cancel-order',
-  CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-stop',
+  CANCEL_STOP_LIMIT_ORDER: '/api/v1/order/cancel-slorder',
   GET_MARKET_PAIRS: '/api/v1/market/pairs',
   GET_SELECTED_MARKET_PAIRS: (coin: string) => `/api/v1/market/pairs?symbol=${coin}`,
   GET_COIN_DETAILS: (coin: string) => `/api/v1/market/coin-detail?coin=${coin}`,

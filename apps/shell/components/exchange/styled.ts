@@ -42,6 +42,9 @@ export const PairMetadataStyled = styled.div`
         margin-left: 15px;
         margin-right: 15px;
         white-space: nowrap;
+        .ant-typography.B3{
+          color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;
+        }
       }
     }
     .right {

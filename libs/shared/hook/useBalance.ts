@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useHttpGetByEvent } from "..";
 import { Balance } from './../type/Balance';
-import {useHttpGet, useSocketProps, SocketEvent, useSocketByEvent, useAPI } from "./../../shared";
+import {useHttpGet, SocketEvent, useSocketByEvent, useAPI } from "./../../shared";
 import { API_ENDPOINT, QUERY_KEY } from "../constants"
 import { currentUserAtom, isLoggedInAtom, userBalanceAtom } from "../atom/index"
 import { useAtom } from "jotai";

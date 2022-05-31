@@ -1,27 +1,35 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Avatar, Button, Col, Form, Input, Layout, Popover, Row, Select, Typography } from 'antd';
-import { OptionGroupStyled } from "../../market/styled";
-import { API_ENDPOINT, ASSETS_URL, QUERY_KEY } from "@difx/constants";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Popover, Row, Select, Typography } from 'antd';
+import { API_ENDPOINT } from "@difx/constants";
 import Text from "antd/lib/typography/Text";
 import { DepositLayout } from "./DepositForm.style";
 import Paragraph from "antd/lib/typography/Paragraph";
 import { CoinSelector, Icon } from "@difx/core-ui";
-import { useAPI, useHttpGet, useTheme } from "@difx/shared";
+import { useAPI, useTheme } from "@difx/shared";
+import { QRCodeSVG } from 'qrcode.react';
 
-const QRBox = (
-    <div>
-      <p>Content</p>
-      <p>Content</p>
-    </div>
-);
+
+const QRBox = ({qrData}) => {
+  return (
+    <QRCodeSVG
+      value={qrData}
+      size={180}
+      includeMargin={true}
+    />
+  )
+};
 
 export function DepositForm() {
   const [form] = Form.useForm()
   const [selectedCoin, setSelectedCoin] = useState(null)
   const [supportedNetworks, setSupportedNetworks] = useState(null)
   const [selectedNetwork, setSelectedNetwork] = useState(null)
-  // const [depositAddress, setDepositAddress] = useState(null)
-  // const [depositTagId, setDepositTagId] = useState(null)
+  const [depositAddress, setDepositAddress] = useState(null)
+  const [depositTagId, setDepositTagId] = useState(null)
+  const [minimumDeposit, setMinimumDeposit] = useState(null)
+  const [maximumDeposit, setMaximumDeposit] = useState(null)
+  const [depositFee, setDepositFee] = useState(null)
+  const [legacyAddress, setLegacyAddress] = useState(null)
 
   const theme =  useTheme()
   const { API } = useAPI()
@@ -36,16 +44,40 @@ export function DepositForm() {
     setSelectedNetwork(network)
   }
 
-  const depositAddress = useMemo(()=>{
+  const clearFields = () => {
+    setDepositAddress(null)
+    setDepositTagId(null)
+    setLegacyAddress(null)
+    setDepositFee(null)
+    setMaximumDeposit(null)
+    setMinimumDeposit(null)
+  }
+
+  useEffect(()=>{
     if(selectedCoin && selectedNetwork){
       const reqData = {
         coin: selectedCoin,
         network: selectedNetwork
       }
-      const response = API.post(API_ENDPOINT.GENERATE_DEPOSIT_ADDRESS,reqData)
-      console.log(response)
+      API.post(API_ENDPOINT.GENERATE_DEPOSIT_ADDRESS,reqData).then((response) => {
+        // eslint-disable-next-line
+        const { data } = response?.data
+        if(data){
+          const { address, tag, legacyaddress, dfee, dmax, dmin } = data
+          setDepositAddress(address)
+          setDepositTagId(tag)
+          setLegacyAddress(legacyaddress)
+          setDepositFee(dfee)
+          setMaximumDeposit(dmax)
+          setMinimumDeposit(dmin)
+        }else{
+          clearFields()
+        }
+      }).catch(error => {
+        console.log(error)
+      })
     }else{
-      return null
+      clearFields()
     }
   },[selectedNetwork,selectedCoin])
 
@@ -81,60 +113,91 @@ export function DepositForm() {
                           }
                       </Select>
                     </Form.Item>
-                    <Form.Item label="Address">
-                        <div className="qr-wrapper">
-                            <Paragraph 
-                            copyable={{
-                                icon: [<Icon.CopyIcon key="copy-icon" />, <Icon.CheckCircleIcon key="copied-icon" width={15} height={15} />],
-                                tooltips: ['Copy Address', 'Copied'],
-                            }}
-                            className="ant-form-static-input"
-                            >
-                                {depositAddress}
-                            </Paragraph>
-                            <Popover content={QRBox} title="Title">
-                                <Button type="text" style={{width:"auto"}} icon={<Icon.QRCodeIcon fill={theme.theme === "light" ? "#000000" : "#FFFFFF"} className="input-qr"/>} />
-                            </Popover>
-                          </div>
-                    </Form.Item>
-                    <Form.Item label="Tag ID">
-                            <Paragraph 
-                            copyable={{
-                                icon: [<Icon.CopyIcon key="copy-icon" />, <Icon.CheckCircleIcon key="copied-icon" width={15} height={15} />],
-                                tooltips: ['Copy Address', 'Copied'],
-                            }}
-                            className="ant-form-static-input"
-                            >
-                              {}
-                            </Paragraph>
-                    </Form.Item>
+                    {
+                      depositAddress ?
+                      <Form.Item label="Address">
+                          <div className="qr-wrapper">
+                              <Paragraph 
+                              copyable={{
+                                  icon: [<Icon.CopyIcon key="copy-icon" />, <Icon.CheckCircleIcon key="copied-icon" width={15} height={15} />],
+                                  tooltips: ['Copy Address', 'Copied'],
+                              }}
+                              className="ant-form-static-input"
+                              >
+                                  {depositAddress}
+                              </Paragraph>
+                              <Popover content={<QRBox qrData={depositAddress} />}>
+                                  <Button type="text" style={{width:"auto"}} icon={<Icon.QRCodeIcon fill={theme.theme === "light" ? "#000000" : "#FFFFFF"} className="input-qr"/>} />
+                              </Popover>
+                            </div>
+                      </Form.Item>
+                      :
+                        null
+                    }
+                    {
+                      depositTagId ? 
+                        <Form.Item label="Tag ID">
+                                <Paragraph 
+                                copyable={{
+                                    icon: [<Icon.CopyIcon key="copy-icon" />, <Icon.CheckCircleIcon key="copied-icon" width={15} height={15} />],
+                                    tooltips: ['Copy Address', 'Copied'],
+                                }}
+                                className="ant-form-static-input"
+                                >
+                                  {depositTagId}
+                                </Paragraph>
+                        </Form.Item>
+                      :
+                        null
+                    }
+                    {
+                      legacyAddress ? 
+                        <Form.Item label="Tag ID">
+                                <Paragraph 
+                                copyable={{
+                                    icon: [<Icon.CopyIcon key="copy-icon" />, <Icon.CheckCircleIcon key="copied-icon" width={15} height={15} />],
+                                    tooltips: ['Copy Address', 'Copied'],
+                                }}
+                                className="ant-form-static-input"
+                                >
+                                  {legacyAddress}
+                                </Paragraph>
+                        </Form.Item>
+                      :
+                        null
+                    }
                 </Form>
-                <div className="">
-                    <Row align="middle" justify="space-between">
-                        <Col>
-                            <Text type="secondary">Min.Deposit Amount</Text>
-                        </Col>
-                        <Col>
-                            <Text>0.02 BTC</Text>
-                        </Col>
-                    </Row>
-                    <Row align="middle" justify="space-between">
-                        <Col>
-                            <Text type="secondary">Expected Arrival</Text>
-                        </Col>
-                        <Col>
-                            <Text>12 Network Confirmation</Text>
-                        </Col>
-                    </Row>
-                    <Row align="middle" justify="space-between">
-                        <Col>
-                            <Text type="secondary">Min.Deposit Amount</Text>
-                        </Col>
-                        <Col>
-                            <Text>12 Network Confirmation</Text>
-                        </Col>
-                    </Row>
-                </div>
+                {
+                  depositAddress ? 
+                    <div className="">
+                        <Row align="middle" justify="space-between">
+                            <Col>
+                                <Text type="secondary">Min.Deposit Amount</Text>
+                            </Col>
+                            <Col>
+                                <Text>{minimumDeposit} {selectedCoin}</Text>
+                            </Col>
+                        </Row>
+                        <Row align="middle" justify="space-between">
+                            <Col>
+                                <Text type="secondary">Max.Deposit Amount</Text>
+                            </Col>
+                            <Col>
+                                <Text>{maximumDeposit} {selectedCoin}</Text>
+                            </Col>
+                        </Row>
+                        <Row align="middle" justify="space-between">
+                            <Col>
+                                <Text type="secondary">Deposit Fee</Text>
+                            </Col>
+                            <Col>
+                                <Text>{depositFee} {selectedCoin}</Text>
+                            </Col>
+                        </Row>
+                    </div>
+                  :
+                    null
+                }
             </div>
             <div className="divider"></div>
             <div className="">

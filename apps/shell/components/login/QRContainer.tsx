@@ -9,9 +9,9 @@ import {
  } from '@difx/shared';
 import { socket } from "@difx/shared";
 import { useRouter } from 'next/router';
-import { notification } from 'antd';
+// import { notification } from 'antd';
 import t from "@difx/locale";
-import { Loading } from "@difx/core-ui"
+import { Loading, showSuccess } from "@difx/core-ui"
 
 export default function QRContainer() {
   const [ qrToken, setQRToken ] = useState()
@@ -20,17 +20,17 @@ export default function QRContainer() {
   const router = useRouter()
   
   const subscribeSocket = (eventName) => {
-    // socket.listen(eventName, (data: any)=>{
-    //   if(data.statusCode === 200){
-    //     const { user, permission } = data.data
-    //     updateSession(user,permission)
-    //     notification.info({
-    //       message: "Login Success",
-    //       description: data.message,
-    //     })
-    //     router.push("/home")
-    //   }
-    // })
+    socket.listen(eventName, (data: any)=>{
+      if(data){
+        const { user, permission } = data
+        updateSession(user,permission)
+        showSuccess(
+          "Login Success",
+          "Successfully Logged In"
+        )
+        router.push("/home")
+      }
+    })
   }
 
   const onSuccess = useCallback((response)=>{
@@ -58,7 +58,14 @@ export default function QRContainer() {
   }
 
   useEffect(()=>{
-    getNewQr()
+    getNewQr() 
+    const rqUpdation = setInterval(()=>{
+      getNewQr() 
+    },15000)
+
+    return () => {
+      clearInterval(rqUpdation)
+    }
   },[])
 
   return (
@@ -68,11 +75,13 @@ export default function QRContainer() {
           <img src={"/imgs/qr-banner.png"} />
         </div>
         <div>
-          <QRCodeSVG
-          value={qrToken}
-          size={180}
-          includeMargin={true}
-          />
+            <Loading isLoading={isLoading}>
+              <QRCodeSVG
+              value={qrToken}
+              size={180}
+              includeMargin={true}
+              />
+            </Loading>
         </div>
       </div>
       <div className='bottom-box'>

@@ -484,7 +484,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-typography{
-      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
 
     .ant-modal-close-x{

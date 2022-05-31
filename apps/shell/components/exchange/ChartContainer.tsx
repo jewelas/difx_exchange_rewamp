@@ -6,6 +6,7 @@ import { useHttpGetByEvent, useHttpGet } from "@difx/shared"
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from "@difx/constants";
 import { AxiosResponse } from "axios";
 import { useState, useEffect, useRef } from "react"
+import CoinInfo from "./CoinInfo"
 
 const { TabPane } = Tabs
 
@@ -14,7 +15,7 @@ export interface ChartContainerInterface {
 }
 
 export default function ChartContainer({pair}: ChartContainerInterface) {
-  const [tab, setTab] = useState('basic')
+  const [panel, setPanel] = useState('original')
   const [currentResolution, setCurrentResolution] = useState('5m')
   const [currentChartType, setCurrentChartType] = useState('candle_solid')
   const [mainIndicator, setMainIndicator] = useState('MA')
@@ -38,8 +39,6 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
 
   return (
     <ChartContainerStyled>
-       {/* <Tabs defaultActiveKey="chart">
-        <TabPane tab="Chart" key="chart"> */}
           <div className="container" ref={KlineRef}>
             <ChartHead 
               currentResolution={currentResolution}
@@ -53,27 +52,27 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
               setSubIndicatorSelected={setSubIndicatorSelected}
               fullscreen={fullscreen}
               setFullscreen={setFullscreen}
+              panel={panel}
+              setPanel={setPanel}
             />
-            <Chart
-              pair={pair}
-              currentResolution={currentResolution}
-              currentChartType={currentChartType}
-              mainIndicator={mainIndicator}
-              subIndicator={subIndicator}
-              fullscreen={fullscreen}
-              setSubIndicatorSelected={setSubIndicatorSelected}
-              subIndicatorSelected={subIndicatorSelected}
-              setFullscreen={setFullscreen}
-            />
+            {
+              panel === "original" ?
+                <Chart
+                  pair={pair}
+                  currentResolution={currentResolution}
+                  currentChartType={currentChartType}
+                  mainIndicator={mainIndicator}
+                  subIndicator={subIndicator}
+                  fullscreen={fullscreen}
+                  setSubIndicatorSelected={setSubIndicatorSelected}
+                  subIndicatorSelected={subIndicatorSelected}
+                  setFullscreen={setFullscreen}
+                />
+              :
+                <CoinInfo coin={pair}/>
+
+            }
           </div>
-        {/* </TabPane>
-        <TabPane tab="Pro" key="pro">
-          Trading View
-        </TabPane>
-        <TabPane tab="Info" key="info">
-          Coin Info
-        </TabPane>
-      </Tabs> */}
     </ChartContainerStyled>
   )
 }

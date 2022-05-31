@@ -248,6 +248,7 @@ export const ChartContainerStyled = styled.div`
   padding: 10px;
   
   .container{
+    background: ${({theme})=>theme.background.secondary};
     height: 100%;
   }
 `
@@ -260,12 +261,13 @@ export const ChartHeadStyled = styled.div`
   color: ${({ theme }) => theme.fontColor.primary};
   font-size: ${({ theme }) => theme.typography.small};
   font-weight: ${({ theme }) => theme.fontWeight.regular};
+  transition: all 0.2s ease-in-out;
 
   .timeframes{
     display: flex;
     gap: 10px;
     margin-left: 5px;
-
+    
     span{
       cursor: pointer;
       opacity: 0.8;
@@ -276,13 +278,13 @@ export const ChartHeadStyled = styled.div`
     }
   }
 
-  .right-box{
+  .instruments-box{
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
-    flex-grow: 1;
     gap: 2px;
+    margin-left: 10px;
   }
 
   .candle-types{
@@ -302,6 +304,11 @@ export const ChartHeadStyled = styled.div`
       opacity: 0.5;
       border: none;
       cursor: pointer;
+      padding: 0px 2px;
+
+      svg{
+        height: 20px;
+      }
     }
 
     .types-dropdown{
@@ -310,7 +317,7 @@ export const ChartHeadStyled = styled.div`
       position: absolute;
       background-color: ${({ theme }) => theme.background.primary};
       opacity: 1;
-      top: 24px;
+      top: 20px;
       right: 0px;
       flex-direction: column;
       justify-content: center;
@@ -375,10 +382,13 @@ export const ChartHeadStyled = styled.div`
       opacity: 0.5;
       font-size: 11px;
       cursor: pointer;
-      margin: 2px;
       transition: all 0.2s ease-in-out;
       padding: 0px 2px;
       border-radius: 2px;
+
+      svg{
+        height: 20px;
+      }
     }
 
     .indicator-dropdown{
@@ -386,7 +396,7 @@ export const ChartHeadStyled = styled.div`
       position: absolute;
       background-color: ${({ theme }) => theme.background.primary};
       opacity: 1;
-      top: 24px;
+      top: 20px;
       right: 0px;
       flex-direction: column;
       justify-content: center;
@@ -451,9 +461,38 @@ export const ChartHeadStyled = styled.div`
     }
   }
 
+  .right-box{
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .pane-selector{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+    }
+
+    button{
+      border: none;
+      background: transparent;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+      
+      &.active{
+        border-radius: 2px;
+        background: rgba(61, 126, 255, 0.1);
+        color: ${({theme}) => theme.color.primary};
+      }
+    }
+
+  }
+
   .fullscreen{
     cursor: pointer;
     opacity: 0.5;
+    width: 24px;
   }
 `
 
@@ -667,3 +706,8 @@ export const OrderReportsWraperStyled = styled.div`
       }
     }
 `;
+
+export const CoinInfoStyled = styled.div`
+  background: ${({theme})=>theme.background.secondary};
+  padding-top: 20px;
+`

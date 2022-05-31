@@ -169,7 +169,7 @@
     "order_history": "Order history",
     "trade_history": "Trade History",
     "future_orders": "Future Order",
-    "positions": "Position",
+    "position": "Position",
     "transactions": "Transactions"
   },
   "report": {

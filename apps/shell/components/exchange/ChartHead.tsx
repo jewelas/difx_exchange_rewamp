@@ -2,6 +2,7 @@ import { ChartHeadStyled } from "./styled"
 import { Icon } from "@difx/core-ui";
 import { useEffect } from "react";
 import clsx from "clsx";
+import { Button } from "antd";
 
 const TIME_FRAMES = ['5m', '15m', '30m', '1h', '1d'];
 const MAINS_INDEX = ['MA', 'EMA', 'BOLL', 'SAR'];
@@ -70,6 +71,8 @@ export default function ChartHead({
   setSubIndicatorSelected,
   fullscreen,
   setFullscreen,
+  panel,
+  setPanel
 }) {
 
 
@@ -92,82 +95,115 @@ export default function ChartHead({
 
   return (
     <ChartHeadStyled>
-      <div className="timeframes">
-        {
-          TIME_FRAMES.map((time_resolution) =>
-            <span
-              onClick={() => setCurrentResolution(time_resolution)}
-              className={currentResolution === time_resolution ? 'active' : null}
-              key={time_resolution}
-            >
-              {time_resolution}
-            </span>
-          )
-        }
-      </div>
-      <div className="right-box">
-        <div className="candle-types">
-          <button className="chart-type-icon">
-            <Icon.CandleSolidIcon useDarkMode useDarkModeFor='svg' />
-          </button>
-          <div className="types-dropdown">
+      {
+        panel === "original" ?
+          <>
+          <div className="timeframes">
             {
-              CANDLE_TYPES.map((candle, index) =>
-                  <button
-                    onClick={() => setCurrentChartType(candle.type)}
-                    className={currentChartType === candle.type ? 'active' : null}
-                    key={`${candle.type}_${index}`}
-                  >
-                    {candle.icon}
-                    <span>{candle.label}</span>
-                  </button>
+              TIME_FRAMES.map((time_resolution) =>
+                <span
+                  onClick={() => setCurrentResolution(time_resolution)}
+                  className={currentResolution === time_resolution ? 'active' : null}
+                  key={time_resolution}
+                >
+                  {time_resolution}
+                </span>
               )
             }
           </div>
-
-        </div>
-        <div className="indicators">
-          <button className="indicator-icon">
-            <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
-          </button>
-          <div className="indicator-dropdown">
-            <div className="indicator-index">
-              <span>Main Index</span>
-              <div className="indicator-button-group">
+          <div className="instruments-box">
+            <div className="candle-types">
+              <button className="chart-type-icon">
+                <Icon.CandleSolidIcon useDarkMode useDarkModeFor='svg' />
+              </button>
+              <div className="types-dropdown">
                 {
-                  MAINS_INDEX.map((indicator, index) =>
-                    <button
-                      onClick={() => setMainIndicator(prev => prev === indicator ? '' : indicator)}
-                      className={`indicator-button ${mainIndicator === indicator ? 'active' : null}`}
-                      key={`main_${indicator}_${index}`}
-                    >
-                      {indicator}
-                    </button>
+                  CANDLE_TYPES.map((candle, index) =>
+                      <button
+                        onClick={() => setCurrentChartType(candle.type)}
+                        className={currentChartType === candle.type ? 'active' : null}
+                        key={`${candle.type}_${index}`}
+                      >
+                        {candle.icon}
+                        <span>{candle.label}</span>
+                      </button>
                   )
                 }
               </div>
+
             </div>
-            <div className="indicator-index">
-              <span>Sub Index</span>
-              <div className="indicator-button-group">
-                {
-                  SUBS_INDEX.map((indicator) =>
-                    <button
-                      onClick={() => handleSubIndicators(indicator)}
-                      className={clsx("indicator-button", subIndicator && subIndicator.includes(indicator) && 'active')}
-                      key={`sub_${indicator}`}
-                    >
-                      {indicator}
-                    </button>
-                  )
-                }
+            <div className="indicators">
+              <button className="indicator-icon">
+                <Icon.IndicatorIcon useDarkMode useDarkModeFor='svg' />
+              </button>
+              <div className="indicator-dropdown">
+                <div className="indicator-index">
+                  <span>Main Index</span>
+                  <div className="indicator-button-group">
+                    {
+                      MAINS_INDEX.map((indicator, index) =>
+                        <button
+                          onClick={() => setMainIndicator(prev => prev === indicator ? '' : indicator)}
+                          className={`indicator-button ${mainIndicator === indicator ? 'active' : null}`}
+                          key={`main_${indicator}_${index}`}
+                        >
+                          {indicator}
+                        </button>
+                      )
+                    }
+                  </div>
+                </div>
+                <div className="indicator-index">
+                  <span>Sub Index</span>
+                  <div className="indicator-button-group">
+                    {
+                      SUBS_INDEX.map((indicator) =>
+                        <button
+                          onClick={() => handleSubIndicators(indicator)}
+                          className={clsx("indicator-button", subIndicator && subIndicator.includes(indicator) && 'active')}
+                          key={`sub_${indicator}`}
+                        >
+                          {indicator}
+                        </button>
+                      )
+                    }
+                  </div>
+                </div>
+
               </div>
             </div>
+          </div>
+          </>
+        :
+          null
+      }
 
+      <div className="right-box">
+        <div className="pane-selector">
+          <div className="panel-type">
+            <button 
+              className={clsx(panel === "original" ? "active" : null)}
+              onClick={()=>setPanel("original")}
+            >
+              Original
+            </button>
+          </div>
+          <div className="panel-type">
+            <button 
+              className={clsx(panel === "info" ? "active" : null)}
+              onClick={()=>setPanel("info")}
+            >
+              Info
+            </button>
           </div>
         </div>
         <div className="fullscreen" onClick={handleFullscreen}>
-          <Icon.FullScreenIcon useDarkMode />
+          {
+            panel === "original" ?
+              <Icon.FullScreenIcon useDarkMode />
+            :
+              null
+          }
         </div>
       </div>
     </ChartHeadStyled>

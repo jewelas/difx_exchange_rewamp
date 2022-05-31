@@ -14,9 +14,9 @@ export function MarketWrapper() {
   const { data: marketData } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS, API_ENDPOINT.GET_MARKET_PAIRS, null);
 
   const [categoriesList, setCategoriesList] = useState([])
-  const [topGainer, setTopGainer] = useState([])
-  const [topLooser, setTopLooser] = useState([])
-  const [topVolume, setTopVolume] = useState([])
+  const [topGainer, setTopGainer] = useState(null)
+  const [topLooser, setTopLooser] = useState(null)
+  const [topVolume, setTopVolume] = useState(null)
 
   const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList} = useMarketPair();
   const {modalVisible, setModalVisible} = useMarketModal();
@@ -31,8 +31,25 @@ export function MarketWrapper() {
     }
   }, [marketData]);
 
+  useEffect(() => {
+    if(spotList){
+      const getTopGainer = [...spotList].sort((a:any,b:any) => {
+          return a.change < b.change ? 1 : -1
+      })
+      const getTopLooser = [...spotList].sort((a:any,b:any) => {
+        return a.change > b.change ? 1 : -1
+      })
+      const getTopVolume = [...spotList].sort((a:any,b:any) => {
+        return a.volume < b.volume ? 1 : -1
+      })
+      setTopGainer(getTopGainer)
+      setTopLooser(getTopLooser)
+      setTopVolume(getTopVolume)
+    }
+  }, [spotList])
+
   useEffect(()=>{
-    if(data){
+    if(data && spotList){
       const newData = spotList.map(item => {
         if(item.symbol === data[0]){
           item.last = data[1]
@@ -45,25 +62,6 @@ export function MarketWrapper() {
       setSpotList(newData)
     }
   },[data])
-
-  useEffect(() => {
-    if(spotList){
-      const getTopGainer = [...spotList].sort((a:any,b:any) => {
-          return a.change < b.change ? 1 : -1
-      })
-      const getTopLooser = [...spotList].sort((a:any,b:any) => {
-        return a.change > b.change ? 1 : -1
-      })
-      const getTopVolume = [...spotList].sort((a:any,b:any) => {
-        return a.volume < b.volume ? 1 : -1
-      })
-      // const favoritesSpot = spotList.filter((spotList:any) => spotList.favorite === true)
-      // setSpotFavorites(favoritesSpot)
-      setTopGainer(getTopGainer)
-      setTopLooser(getTopLooser)
-      setTopVolume(getTopVolume)
-    }
-  }, [spotList])
 
   const onCloseDrawer = () => {
     setDrawerVisible(false)

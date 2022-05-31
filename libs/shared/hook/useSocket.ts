@@ -68,3 +68,26 @@ export function useSocket({ leave, event, join,
 
   return state;
 }
+
+//----------- FOR CHART ---------------------------
+
+export interface ChartSocketInterface{
+  pair: string,
+  resolution: string
+}
+
+export function useChartSocket({pair,resolution}: ChartSocketInterface) {
+  const [state, setState] = useState(null);
+
+  useEffect(() => {
+    // Receiving
+    socket.listen(`${pair}@${resolution}`, (data: any) => {
+      setState(data);
+    });
+    return () => {
+      socket.off(`${pair}@${resolution}`)
+    }
+  }, [pair,resolution]);
+
+  return state;
+}

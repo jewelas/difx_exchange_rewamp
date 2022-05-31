@@ -8,7 +8,7 @@ export const QRContainerStyled = styled.div`
   .top-box{
     margin: 40px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
   
     img{
@@ -16,7 +16,8 @@ export const QRContainerStyled = styled.div`
     }
     div{
       display: flex;
-      flex-grow: 1;
+      /* flex-grow: 1; */
+      width: 180px;
       height: 180px !important;
       height: 100%;
       justify-content: center;

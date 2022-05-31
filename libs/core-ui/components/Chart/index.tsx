@@ -6,7 +6,7 @@ import { Chart as LineChart, dispose, init } from 'klinecharts';
 import { useEffect, useRef, useState } from 'react';
 import { AxiosResponse } from "axios";
 import { API_ENDPOINT, QUERY_KEY, REFETCH } from '../../../shared/constants';
-import { useTheme, useHttpGetByEvent, useAPI, useSocket, useSocketProps, SocketEvent, ChartData } from './../../../shared';
+import { useTheme, useAPI, useChartSocket, ChartSocketInterface, ChartData } from './../../../shared';
 import { layoutTypeAtom } from "../../../shared/atom"
 import { rect, circle } from './shapeDefinition';
 import { ChartStyled, GridStyled, IndicatorStyled, MainStyled } from './styled';
@@ -146,26 +146,17 @@ function Chart({
     }
   },[lineChart, pair, currentResolution])
 
-  const param: useSocketProps = {
-    join: pair,
-    leave: previousPairRef.current,
-    event: SocketEvent.graph_data,
+  const param: ChartSocketInterface = {
+    pair: pair,
+    resolution: currentResolution
   };
 
-  const data = useSocket(param);
+  const data = useChartSocket(param);
 
   useEffect(()=>{
     if(data){
-      const dataStructure: ChartData = {
-        timestamp: (data[0] * 1000),
-        open: data[1],
-        close: data[2],
-        high: data[3],
-        low: data[4],
-        volume: data[5],
-      }
       if(lineChart){
-        lineChart.updateData(dataStructure)
+        lineChart.updateData(data)
       }
     }
   },[data])

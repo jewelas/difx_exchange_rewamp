@@ -110,6 +110,7 @@ export const API_ENDPOINT = {
   VERIFY_IP: '/api/v1/auth/verify-ip',
   VERIFY_OTP: '/api/v1/auth/verify-profile-code',
   RESEND_IP_VERIFICATION_MAIL: `api/v1/auth/resend-ip-verification`,
+  LOG_OUT: `/api/v1/auth/logout`,
   REFRESH_TOKEN: '/api/v1/auth/refresh',
   GET_ORDER_OPEN: (symbol?: string) => `/api/v1/user/open-orders${symbol ? `?symbol=${symbol}` : ''}`,
   GET_ORDER_STOP_LIMIT: (symbol?: string) => `/api/v1/user/sl-orders${symbol ? `?symbol=${symbol}` : ''}`,
@@ -131,5 +132,6 @@ export const API_ENDPOINT = {
   GET_WALLET_OVERVIEW: '/api/v1/wallet/overview',
   GET_SPOT_OVERVIEW: '/api/v1/wallet/spot-overview',
   GET_TRANSACTION_LIST: (page: number, limit: number) => `/api/v1/wallet/transaction?page=${page}&limit=${limit}`,
-  GENERATE_DEPOSIT_ADDRESS: `/api/v1/wallet/deposit-address`
+  GENERATE_DEPOSIT_ADDRESS: `/api/v1/wallet/deposit-address`,
+  WITHDRAW_REQUEST: `/api/v1/wallet/withdraw`
 }

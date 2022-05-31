@@ -359,7 +359,7 @@ export function LoginForm(props: LoginFormProps) {
 
         <div className="left-right">
           <div className="left">
-            <button 
+            {/* <button 
               className="sub-account-link"
               onClick={onToggleSubAccount}
             >
@@ -369,7 +369,7 @@ export function LoginForm(props: LoginFormProps) {
                 :
                   <>{t("register.mainAccount")}</>
               }
-            </button>
+            </button> */}
           </div>
           <div className="forgot-pass">
             <Typography level="B1">

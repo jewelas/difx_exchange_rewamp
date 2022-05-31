@@ -23,7 +23,7 @@ export function WithdrawPage() {
                     <Tabs defaultActiveKey="send_to_crypto_address" size={"large"} onChange={(e) => { setTab(e) }} tabBarGutter={50}>
                         <TabPane tab="Send to crypto address" key="send_to_crypto_address" />
                         <TabPane tab="Send to DIFX UID" key="send_to_difx_uid" />
-                        <TabPane tab="Send to sub account" key="send_to_sub_account" />
+                        {/* <TabPane tab="Send to sub account" key="send_to_sub_account" /> */}
                     </Tabs>
                 </Row>
             </WalletTabsWrapper>

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Typography } from "@difx/core-ui";
+import { LoginSignUpButton, Typography } from "@difx/core-ui";
 import { isLoggedInAtom } from "@difx/shared";
+import { CSVLink } from "react-csv";
 import { useState } from "react";
 import { useAtomValue } from "jotai/utils";
 import t from "@difx/locale";
@@ -20,9 +21,12 @@ export function StakingHistoryPage(props: StakingHistoryPageProps) {
   const { TabPane } = Tabs;
   const router = useRouter();
 
+  const [headerDataForExporting, setHeaderForExporting] = useState<any[]>([]);
+  const [bodyDataForExporting, setBodyForExporting] = useState([]);
+
   const isLoggedIn = useAtomValue(isLoggedInAtom);
 
-  const [tab, setTab] = useState(null);
+  const [tab, setTab] = useState("subscription");
 
   return (
     <AppLayout>
@@ -31,7 +35,9 @@ export function StakingHistoryPage(props: StakingHistoryPageProps) {
           <div className="left"><Typography fontWeight={600} fontSize={30} lineHeight={38}>{t("staking.staking-history")}</Typography></div>
           <div className="right">
             <Button onClick={() => { router.push('/staking') }} className="first">{t("staking.view-staking")}</Button>
-            <Button>{t("staking.export")}</Button>
+            <CSVLink filename={`${tab}-${new Date().toLocaleString()}`} data={bodyDataForExporting} headers={headerDataForExporting}>
+              <Button>{t("staking.export")}</Button>
+            </CSVLink>
           </div>
         </div>
         <div className="content">
@@ -42,9 +48,14 @@ export function StakingHistoryPage(props: StakingHistoryPageProps) {
             </Tabs>
           </div>
           {
-            isLoggedIn ? (tab==='subscription' ? <TableSubscriptionWrapper /> : <TableInterestWrapper />)
+            isLoggedIn ? (tab === 'subscription' ?
+              <TableSubscriptionWrapper setHeaderForExporting={setHeaderForExporting} setBodyForExporting={setBodyForExporting}/> :
+              <TableInterestWrapper setHeaderForExporting={setHeaderForExporting} setBodyForExporting={setBodyForExporting}/>
+            )
               :
-              <div style={{ display: 'flex', justifyContent: 'center' }}><Button htmlType="button" onClick={() => { router.push('/login') }}>Login in or Sign up</Button></div>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <LoginSignUpButton />
+              </div>
           }
         </div>
       </PageStyled>

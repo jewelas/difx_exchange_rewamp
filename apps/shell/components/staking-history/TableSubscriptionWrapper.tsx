@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
@@ -10,7 +11,11 @@ import isEmpty from "lodash/isEmpty";
 import moment, { Moment } from "moment";
 import { useEffect, useState } from "react";
 
-export function TableSubscriptionWrapper() {
+interface Props {
+  setHeaderForExporting: (value: any[]) => void;
+  setBodyForExporting: (value: any[]) => void;
+}
+export function TableSubscriptionWrapper({ setHeaderForExporting, setBodyForExporting }: Props) {
 
   const [data, setData] = useState([]);
   const [pageInfo, setPageInfo] = useState<Paging>(null);
@@ -47,7 +52,11 @@ export function TableSubscriptionWrapper() {
     }
 
     if (!isEmpty(data.result)) {
-      setData(data.result)
+      setData(data.result);
+
+      setHeaderForExporting(columns.map((e:any)=>{return {label: e.title, key:e.dataIndex}}));
+      setBodyForExporting(data.result);
+
     } else setData([])
   }
   const { mutate: getStakingHistory, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: StakingHistoryResponse[], currentPage: number, totalItems: number, totalPages: number }>({ onSuccess, endpoint: API_ENDPOINT.GET_STAKING_HISTORY(startDateFormatted, endDateFormatted, page, limit) });
@@ -158,7 +167,7 @@ export function TableSubscriptionWrapper() {
                 rowKey="id"
               />
               {
-                pageInfo && !isEmpty(data) &&
+                pageInfo && pageInfo.totalPages > 1 && !isEmpty(data) &&
                 <Pagination onChange={onPageChange} defaultCurrent={pageInfo.currentPage} total={pageInfo.totalPages} />
               }
             </>

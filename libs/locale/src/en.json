@@ -1,5 +1,8 @@
 {
   "common": {
+    "log_in": "Log in",
+    "or":"or",
+    "sign_up":"Sign up",
     "title": "DIFX | Cryptocurrency Spot Exchange",
     "forgot_password": "Forgot password?",
     "register": "Register",

@@ -42,6 +42,9 @@ export const PairMetadataStyled = styled.div`
         margin-left: 15px;
         margin-right: 15px;
         white-space: nowrap;
+        .ant-typography.B3{
+          color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;
+        }
       }
     }
     .right {
@@ -556,10 +559,16 @@ export const PlaceOrderWraperStyled = styled.div`
         .bid{
           margin-right: 10px;
           flex-grow: 1;
+          &.compact{
+            margin-right: 0px;
+          }
         }
         .ask{
           margin-left: 10px;
           flex-grow: 1;
+          &.compact{
+            margin-left: 0px;
+          }
         }
       }
     }

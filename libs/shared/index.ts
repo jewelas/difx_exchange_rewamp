@@ -22,6 +22,7 @@ export * from "./hook/useTransactionDetailsModal";
 export * from "./hook/useWalletWithdrawModal";
 export * from "./hook/useWithdrawTabs";
 export * from "./hook/useTransferModal";
+export * from "./hook/useVerificationModal";
 
 export * from "./type/Base";
 export * from "./type/User";
@@ -47,6 +48,7 @@ export * from "./type/StakingHistory";
 export * from "./type/Currency";
 export * from "./type/Language";
 export * from "./type/ChartData";
+export * from "./type/Withdraw";
 
 export * from "./atom";
 

@@ -48,3 +48,4 @@ export const walletWithdrawModalAtom = atom<boolean>(false) as PrimitiveAtom<boo
 
 export const withdrawModalTabsAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
 export const transferModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+export const walletVerificationModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;

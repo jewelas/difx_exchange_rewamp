@@ -74,7 +74,8 @@ export const STORE_KEY = {
   FAVORITE_SPOT_PAIRS: 'favoriteSpotPairs',
   FAVORITE_FUTURE_PAIRS: 'favoriteFuturePairs',
   LAST_PAIR: 'lastPair',
-  EXCHANGE_STYLE: 'exchangeStyle'
+  EXCHANGE_STYLE: 'exchangeStyle',
+  RECENT_TRANSACTIONS: 'recentTransactions'
 }
 
 export const API_ENDPOINT = {
@@ -133,5 +134,6 @@ export const API_ENDPOINT = {
   GET_SPOT_OVERVIEW: '/api/v1/wallet/spot-overview',
   GET_TRANSACTION_LIST: (page: number, limit: number) => `/api/v1/wallet/transaction?page=${page}&limit=${limit}`,
   GENERATE_DEPOSIT_ADDRESS: `/api/v1/wallet/deposit-address`,
-  WITHDRAW_REQUEST: `/api/v1/wallet/withdraw`
+  WITHDRAW_REQUEST: `/api/v1/wallet/withdraw`,
+  GET_RECENT_TRANSACTIONS: `api/v1/wallet/recent-transaction`,
 }

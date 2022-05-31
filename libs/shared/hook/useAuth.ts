@@ -47,16 +47,31 @@ export function useAuth() {
     setIsLoggedIn(true);
   };
 
-  const logOut = () : void => {
-    localStorage?.removeItem("currentUser")
-    localStorage?.removeItem("sessionToken")
-    localStorage?.removeItem("refreshToken")
-    localStorage?.removeItem("permissions")
-    localStorage?.removeItem("favoriteSpotPairs")
-    localStorage?.removeItem("favoriteFuturePairs")
-    setUser(undefined);
-    setPermissions(undefined)
-    setIsLoggedIn(false);
+  const logOut = async() : Promise<void> => {
+    try{
+      instance.interceptors.request.use(axiosAuthorization)
+
+      // TODO: Need to implement pushy
+      const reqData = {
+        device_token:"dasdasdasdasdasd"
+      }     
+      const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.LOG_OUT,reqData)
+      
+      console.log(response)
+      const { data } = response.data
+      localStorage?.removeItem("currentUser")
+      localStorage?.removeItem("sessionToken")
+      localStorage?.removeItem("refreshToken")
+      localStorage?.removeItem("permissions")
+      localStorage?.removeItem("favoriteSpotPairs")
+      localStorage?.removeItem("favoriteFuturePairs")
+      setUser(undefined);
+      setPermissions(undefined)
+      setIsLoggedIn(false);
+    }catch(err){
+      console.log(err)
+    }
+    
   }
 
   const refreshToken = async() => {

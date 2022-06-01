@@ -125,6 +125,12 @@ export const ComponentStyled = styled.div`
       .ant-typography{
         font-size: 11px;
       }
+      .quantity{
+        width: 70px;
+        max-width: 70px;
+        text-align: right;
+        margin-left: 16px;
+      }
       .col-total{
         display: flex;
         svg{

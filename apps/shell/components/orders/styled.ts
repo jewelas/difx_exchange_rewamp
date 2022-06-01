@@ -31,5 +31,29 @@ const SidebarWrapper = styled(Sider)`
       border-top: ${({theme}) => theme.border.secondary};
   }
 `
+const OrderTransacrtionWrapper = styled.div`
+    margin-top: 2px;
+    background: ${({theme}) => theme.background.secondary};
+    .recent_transactions_header{
+        padding: 20px;
+        h3{
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 0px;
+        }
+    }
+    .anchor-link{
+        color: ${({theme}) => theme.fontColor.muted} !important;
+    }
+    .recent-transactions-table{
+        padding: 0px 50px !important;
+    }
+    .ant-btn{
+        border: none !important;;
+    }
+    .deposit-link{
+        color: ${({theme}) => theme.color.success} !important;
+    }
+`
 
-export {SidebarWrapper}
+export {OrderTransacrtionWrapper, SidebarWrapper}

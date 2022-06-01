@@ -1,10 +1,9 @@
 import { Layout } from "antd";
 import styled from "styled-components";
 
-const PageStyled = styled.div`
-`
+const PageStyled = styled.div``;
 
-const OrderContentStyled = styled(Layout.Content)`
+const ProfileContentStyled = styled(Layout.Content)`
     .title {
         font-weight: 600;
         font-size: 30px;
@@ -45,11 +44,20 @@ const OrderContentStyled = styled(Layout.Content)`
             }
         }
     }
-`;
-
-const OrderWrapper = styled.div`
+`
+const ProfileWrapper = styled.div`
     padding: 25px;
     background: ${({theme}) => theme.background.secondary};
 `
+const FeeLevelWrapper = styled.div`
+    padding: 20px;
+    background: ${({theme}) => theme.color.primaryGradient};
+    color: ${({theme}) => theme.fontColor.button};
+    height: 150px;
+    position: relative;
+    .bg-img{
+        position: absolute;
+    }
+`
 
-export {PageStyled, OrderWrapper, OrderContentStyled}
+export {FeeLevelWrapper, ProfileWrapper, ProfileContentStyled, PageStyled}

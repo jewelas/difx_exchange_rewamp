@@ -172,7 +172,7 @@
     "order_history": "Order history",
     "trade_history": "Trade History",
     "future_orders": "Future Order",
-    "positions": "Position",
+    "position": "Position",
     "transactions": "Transactions"
   },
   "report": {
@@ -183,5 +183,17 @@
     "side": "Side",
     "symbol": "Symbol",
     "date": "Date"
+  },
+  "profile": {
+    "user_profile": "User Profile",
+    "fee_settings": "Fee Settings",
+    "idetity_verification": "Idetity Verification",
+    "security_setting": "Security Setting",
+    "notification": "Notification",
+    "general_setting": "General Setting",
+    "sub_account": "Sub Account",
+    "api_keys": "Api Keys",
+    "trading_fees": "Trading fees",
+    "transaction_fees": "Transaction fees"
   }
 }

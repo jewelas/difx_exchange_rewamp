@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Checkbox, Col, Divider, Input, Row, Space, Switch } from "antd";
-import { Icon, Typography } from "@difx/core-ui";
+import { Icon, TokenConvertSwitch, Typography } from "@difx/core-ui";
 import t from "@difx/locale";
 import { SearchOutlined } from '@ant-design/icons';
 import { useConvertSmallBalModal } from "@difx/shared";
@@ -13,16 +13,7 @@ export function WalletFilters({overviewContent}) {
         <Col>
             <div className="toggle-card">
             {overviewContent === "overview" ? 
-            <Space split={<Divider type="vertical" />}>
-                <div>
-                    <Switch />
-                    <Typography level="B1">{t("wallet.use_difx_token")}</Typography>
-                </div>
-                <div>
-                    <Switch />
-                    <Typography level="B1"> {t("wallet.use_difx_point")}</Typography>
-                </div>
-            </Space>
+            <TokenConvertSwitch />
             : 
             null
             }

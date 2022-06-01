@@ -179,7 +179,7 @@ export function ListView({ data, datatype, categoriesList }) {
       <Table
         columns={columns}
         dataSource={data}
-        pagination={{ position: ['bottomCenter'] }}
+        pagination={{ position: ['bottomCenter'], hideOnSinglePage: true, defaultPageSize: 50 }}
         className="common-table"
       />
     </>

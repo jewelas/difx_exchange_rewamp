@@ -41,12 +41,6 @@ const WalletContentStyled = styled(Layout.Content)`
                 span{
                     color: ${({theme}) => theme.fontColor.secondary};
                 }
-                .ant-switch{
-                    margin-right: 10px;
-                }
-                .ant-switch.ant-switch-checked + span{
-                    color: ${({theme}) => theme.color.primary};
-                }
             }
         }
     }

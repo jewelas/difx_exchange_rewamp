@@ -178,7 +178,7 @@ export function Header(props: HeaderProps) {
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>
                   </Menu.Item>
-                  <Menu.Item className="right-nav icon" key="/user">
+                  <Menu.Item className="right-nav icon" key="/profile">
                     <StyledButtonGroup>
                       <Button
   

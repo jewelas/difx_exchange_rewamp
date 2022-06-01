@@ -64,16 +64,44 @@ const GlobalStyles = createGlobalStyle`
     }
     .ant-table-measure-row td{border-bottom:none !important}
     .ant-tag {
-        font-size: 14px;
-        padding: 7px 20px;
+        font-size: 13px;
+        padding: 3px 12px;
       &.roundtag{
         border-radius: 35px;
+        padding: 7px 20px;
         border:none
       }
-      &.ant-tag-green{background:${({ theme }: { theme: ThemeInterface }) => theme.color.successDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.success};}
-      &.ant-tag-red{background:${({ theme }: { theme: ThemeInterface }) => theme.color.dangerDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.danger};}
+      &.ant-tag-green{background:${({ theme }: { theme: ThemeInterface }) => theme.color.successDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.success};border:1px solid ${({ theme }: { theme: ThemeInterface }) => theme.color.success};}
+      &.ant-tag-red{background:${({ theme }: { theme: ThemeInterface }) => theme.color.dangerDisabled};color:${({ theme }: { theme: ThemeInterface }) => theme.color.danger};border:1px solid ${({ theme }: { theme: ThemeInterface }) => theme.color.danger};}
     }
-    
+    .ant-progress.ant-progress-circle.success{
+      .ant-progress-text{
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.color.success};
+      }
+      .ant-progress-circle{
+        background:${({ theme }: { theme: ThemeInterface }) => theme.color.successDisabled};
+      }
+      .ant-progress-circle-trail {
+        stroke: ${({ theme }: { theme: ThemeInterface }) => theme.color.successDisabled};
+      }
+      .ant-progress-circle-path{
+        stroke: ${({ theme }: { theme: ThemeInterface }) => theme.color.success};
+      }
+    }
+    .ant-progress.ant-progress-circle.error{
+      .ant-progress-text{
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.color.danger};
+      }
+      .ant-progress-circle{
+        background:${({ theme }: { theme: ThemeInterface }) => theme.color.dangerDisabled};
+      }
+      .ant-progress-circle-trail {
+        stroke: ${({ theme }: { theme: ThemeInterface }) => theme.color.dangerDisabled};
+      }
+      .ant-progress-circle-path{
+        stroke: ${({ theme }: { theme: ThemeInterface }) => theme.color.danger};
+      }
+    }
     }
     .common-table.modal-table{
       .ant-table .ant-table-thead th{
@@ -191,11 +219,12 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-btn:hover{
-      border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+      /* border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important; */
     }
 
     .ant-btn-sm{
       height: ${({ theme }: { theme: ThemeInterface }) => theme.buttonHeight.small} !important;
+      font-size: 13px !important;
     }
 
     .ant-btn-link{
@@ -206,6 +235,7 @@ const GlobalStyles = createGlobalStyle`
       border: transparent !important;
     }
     }
+    .btn-icon{display:flex !important;align-items:center !important;gap:5px}
     .ant-btn-ghost{
       border-color: ${({ theme }: { theme: ThemeInterface }) => theme.color.btnSecondary} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.color.btnSecondary} !important;
@@ -220,11 +250,11 @@ const GlobalStyles = createGlobalStyle`
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round} !important;
       &>div{
         display: flex;
+        margin-right: 10px;
       }
       span{
         color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
         font-weight: ${({ theme }: { theme: ThemeInterface }) => theme.fontWeight.bold} !important;
-        margin-left: 10px;
       }
       background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primaryLight} !important;
     }
@@ -722,7 +752,10 @@ const GlobalStyles = createGlobalStyle`
     border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round};
     color: ${({ theme }: { theme: ThemeInterface }) => theme.errorColor};
   }
-  
+  .ant-menu-submenu .ant-menu-submenu-title>div{
+    display: flex;
+    margin-right: 5px;
+  }
 `;
 
 export { GlobalStyles };

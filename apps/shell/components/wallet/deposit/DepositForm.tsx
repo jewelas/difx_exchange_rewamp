@@ -8,7 +8,6 @@ import { CoinSelector, Icon } from "@difx/core-ui";
 import { useAPI, useTheme } from "@difx/shared";
 import { QRCodeSVG } from 'qrcode.react';
 
-
 const QRBox = ({qrData}) => {
   return (
     <QRCodeSVG

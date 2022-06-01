@@ -37,10 +37,10 @@ export const ComponentStyled = styled.div`
       .B1 {
         font-weight: 600;
         &.bid {
-          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success} !important;
         }
         &.ask {
-          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger} !important;
         }
       }
     }
@@ -224,10 +224,10 @@ export const ComponentStyled = styled.div`
           .B1 {
             font-weight: 600;
             &.bid {
-              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success};
+              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success} !important;
             }
             &.ask {
-              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger};
+              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger} !important;
             }
           }
         }
@@ -245,13 +245,13 @@ export const ComponentStyled = styled.div`
       .ask {
         overflow: hidden;
         .price {
-          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger} !important;
         }
       }
       .bid {
         overflow: hidden;
         .price {
-          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success} !important;
         }
       }
     }

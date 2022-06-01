@@ -173,7 +173,9 @@
     "trade_history": "Trade History",
     "future_orders": "Future Order",
     "positions": "Position",
-    "transactions": "Transactions"
+    "transactions": "Transactions",
+    "buy": "Buy",
+    "sell": "Sell"
   },
   "report": {
     "filled": "Filled",

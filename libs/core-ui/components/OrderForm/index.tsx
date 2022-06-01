@@ -333,7 +333,7 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
               <Button
                 disabled={isDisabled || isLoading}
                 htmlType="submit"
-                className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{side === "bid" ? "Buy" : "Ask"}
+                className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{side === "bid" ? t("order.buy") : t("order.sell")}
               </Button>
               :
               <LoginSignUpButton className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} />

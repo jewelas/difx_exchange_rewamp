@@ -38,15 +38,18 @@ export function Stats({spotList, futuresList, categoriesList}) {
                     </div>
                 </Col>
                 <Col>
+                  {tab !== 'futures' ?
                     <MarketGridLayout>
-                    <Switch
-                    size="small"
-                    checked={cardVisible}
-                    onChange={() => {
-                      setCardVisible(!cardVisible);
-                    }}
-                  /> <Typography level="B2"> Quick buy</Typography>
-                    </MarketGridLayout>
+                      
+                      <Switch
+                      size="small"
+                      checked={cardVisible}
+                      onChange={() => {
+                        setCardVisible(!cardVisible);
+                      }}
+                    /> <Typography level="B2"> Quick buy</Typography>
+                    </MarketGridLayout> : null
+                  }
                 </Col>
             </Row>
         </MarketTabsWrapper>
@@ -97,7 +100,7 @@ export function Stats({spotList, futuresList, categoriesList}) {
                 }
                 {tab === 'futures' && 
                   <>
-                  { cardVisible ? <GridView datatype="future" data={futuresList} /> : <ListView datatype="future" data={futuresList} categoriesList={categoriesList} />}
+                  <GridView datatype="future" data={futuresList} />
                 </>
                 }
             </div>

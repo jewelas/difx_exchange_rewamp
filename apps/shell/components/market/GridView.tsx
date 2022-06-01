@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Avatar, Button, Card, Col, Row } from "antd";
 import Text from "antd/lib/typography/Text";
-import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper } from "../../pages/market/styled";
+import { CoinText, CoinPriceInfo, MarketCardBtns, CardStar, GridWrapper, FutureCardBtns } from "../../pages/market/styled";
 import { Icon, TrendChart } from "@difx/core-ui";
 import { API_ENDPOINT, ASSETS_URL } from "@difx/constants";
-import { isLoggedInAtom, useFavourites, useMarketModal, numFormatter } from "@difx/shared";
+import { isLoggedInAtom, useFavourites, useMarketModal, numFormatter, useFutureModal } from "@difx/shared";
 import Trend from "react-trend";
 import { useRouter } from "next/router";
 import { useAtomValue } from "jotai";
@@ -12,37 +12,38 @@ import { LastPriceWrapper } from "./styled";
 import clsx from "clsx";
 
 const LastPrice = ({price}) => {
-  const [currentPirce, setCurrentPirce] = useState(price)
+  const [currentPrice, setCurrentPrice] = useState(price)
   const [ priceTrend, setPriceTrend ] = useState("")
 
   useEffect(()=>{
     if(price){
-      if(price > currentPirce){
+      if(price > currentPrice){
         setPriceTrend("up")
-      }else if(price < currentPirce){
+      }else if(price < currentPrice){
         setPriceTrend("down")
       }
-      setCurrentPirce(price)
+      setCurrentPrice(price)
       setTimeout(()=>{
         setPriceTrend("")
       },3000)
     }
   },[price])
 
-  if(!currentPirce) return null
+  if(!currentPrice) return null
 
   return (
     <LastPriceWrapper 
       className={clsx({up: (priceTrend === "up")},{down: (priceTrend === "down")})}
     >
-        ${currentPirce}
+        ${currentPrice}
     </LastPriceWrapper>
   )
 }
 
 
 export function GridView({data, datatype}) {
-  const {setMarketPair, modalVisible, setModalVisible, setQuickBuyType} = useMarketModal()
+  const {setMarketPair, modalVisible, setModalVisible, setQuickBuyType} = useMarketModal();
+  const {futureModalVisible, setFutureModalVisible} = useFutureModal()
   const isLoggedIn = useAtomValue(isLoggedInAtom)
 
   const router = useRouter();
@@ -133,6 +134,16 @@ export function GridView({data, datatype}) {
                         <MarketCardBtns>
                             <Row gutter={20}>
                                 <Col span={12}>
+                                {datatype === "future" ? 
+                                    <Button type="primary" className="success" onClick={() => {
+                                      if(isLoggedIn){
+                                        setFutureModalVisible(!futureModalVisible)
+                                      }else{
+                                        router.push(`/login`)
+                                      }
+                                    }}>
+                                      Buy
+                                    </Button> : 
                                     <Button type="primary" className="success" onClick={() => {
                                       if(isLoggedIn){
                                         setMarketPair(item.currency1)
@@ -143,15 +154,14 @@ export function GridView({data, datatype}) {
                                       }
                                     }}>
                                       Buy
-                                    </Button>
+                                    </Button> }
                                 </Col>
                                 <Col span={12}>
+                                  {datatype === "future" ? 
                                     <Button type="primary" className="danger"
                                       onClick={() => {
                                         if(isLoggedIn){
-                                          setMarketPair(item.currency1)
-                                          setQuickBuyType("sell")
-                                          setModalVisible(!modalVisible)
+                                          setFutureModalVisible(!futureModalVisible)
                                         }else{
                                           router.push(`/login`)
                                         }
@@ -159,6 +169,19 @@ export function GridView({data, datatype}) {
                                     >
                                       Sell
                                     </Button>
+                                    : <Button type="primary" className="danger"
+                                    onClick={() => {
+                                      if(isLoggedIn){
+                                        setMarketPair(item.currency1)
+                                        setQuickBuyType("sell")
+                                        setModalVisible(!modalVisible)
+                                      }else{
+                                        router.push(`/login`)
+                                      }
+                                    }}
+                                  >
+                                    Sell
+                                  </Button> }
                                 </Col>
                             </Row>
                         </MarketCardBtns>

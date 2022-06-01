@@ -233,8 +233,12 @@ const LastPriceWrapper = styled.div`
         color: ${({theme}) => theme.color.danger} !important;
     }
 `
+const FutureModalWrapper = styled.div`
+
+`
 
 export { 
+    FutureModalWrapper,
     DrawerWrapper,
     SpotFilter, 
     MarketPopup, 

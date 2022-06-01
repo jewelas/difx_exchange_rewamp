@@ -250,11 +250,11 @@ const GlobalStyles = createGlobalStyle`
       border-radius: ${({ theme }: { theme: ThemeInterface }) => theme.borderRadius.round} !important;
       &>div{
         display: flex;
+        margin-right: 10px;
       }
       span{
         color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
         font-weight: ${({ theme }: { theme: ThemeInterface }) => theme.fontWeight.bold} !important;
-        margin-left: 10px;
       }
       background: ${({ theme }: { theme: ThemeInterface }) => theme.color.primaryLight} !important;
     }

@@ -28,6 +28,7 @@ export interface ThemeInterface extends Theme {
     InputPlaceholder: string;
     rowHover: string;
     btnSecondary: string;
+    primaryGradient: string;
   };
   scrollbar: {
     bar: string;
@@ -137,7 +138,8 @@ export const light: ThemeInterface = {
     selected: "#DAE5F5",
     InputPlaceholder: "#8C8C8C",
     rowHover: "rgba(0,0,0,0.1)",
-    btnSecondary: "#F8F8F9"
+    btnSecondary: "#F8F8F9",
+    primaryGradient: "linear-gradient(119deg, rgba(11,92,214,1) 0%, rgba(61,126,255,1) 100%);"
   },
   scrollbar: {
     bar: "#999",
@@ -246,7 +248,8 @@ export const dark: ThemeInterface = {
     selected: "rgba(13, 20, 33, 0.6)",
     InputPlaceholder: "#8C8C8C",
     rowHover: "rgba(255,255,255,0.1)",
-    btnSecondary: "#F8F8F9"
+    btnSecondary: "#F8F8F9",
+    primaryGradient: "linear-gradient(119deg, rgba(11,92,214,1) 0%, rgba(61,126,255,1) 100%);"
   },
   scrollbar: {
     bar: "#464D5F",

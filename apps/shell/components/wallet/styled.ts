@@ -239,6 +239,7 @@ const  TransactionDetailsWrapper = styled.div`
     }
 `
 const WithdrawModalWrapper = styled.div`
+    padding: 20px;
     .withdraw-options{
         &>div{
             display: flex;

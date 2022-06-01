@@ -432,7 +432,7 @@ export const GridStyled = (themeType: string) => {
     },
     separator: {
       size: 1,
-      color: '#888888',
+      color: theme.color.disabled,
       fill: true,
       activeBackgroundColor: 'rgba(230, 230, 230, .15)'
     },

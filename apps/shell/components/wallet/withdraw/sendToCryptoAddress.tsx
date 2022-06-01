@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Col, Divider, Form, Input, Radio, RadioChangeEvent, Row, Select, Space, Typography } from "antd";
-import { API_ENDPOINT } from "@difx/constants"
+import { API_ENDPOINT, QUERY_KEY } from "@difx/constants"
 import { DepositLayout } from "../../../pages/wallet/styled";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Text from "antd/lib/typography/Text";
-import { CoinSelector } from "@difx/core-ui";
-import { currentUserAtom, useAPI, useBalance } from "@difx/shared";
+import { CoinSelector, Loading } from "@difx/core-ui";
+import { currentUserAtom, useAPI, useBalance, useHttpGet, WithdrawTypes } from "@difx/shared";
 import { useAtomValue } from "jotai";
+import { useVerificationModal } from "@difx/shared";
+import VerificationModal from "./verificationModal";
 
 export function SendToCryptoAddress() {
   const [form] = Form.useForm()
-  const [value, setValue] = useState(1);
+  const [selectedRecentTransaction, setSelectedRecentTransaction] = useState();
   const [selectedCoin, setSelectedCoin] = useState(null)
   const [coinPrice, setCoinPrice] = useState(null)
   const [supportedNetworks, setSupportedNetworks] = useState(null)
@@ -18,15 +20,22 @@ export function SendToCryptoAddress() {
   const [withdrawAddress, setWithdrawAddress] = useState(null)
   const [withdrawAmount, setWithdrawAmount] = useState(null)
   const [minAmount, setMinAmount] = useState(null)
+  const [maxAmount, setMaxAmount] = useState(null)
   const [withdrawFee, setWithdrawFee] = useState(null)
   
   const { userBalance } = useBalance()
   const { API } = useAPI()
   const currentUser = useAtomValue(currentUserAtom)
+  const { modalVisible, setModalVisible } = useVerificationModal()
+
+  const { data: recentTransaction, isLoading } = useHttpGet(QUERY_KEY.RECENT_TRANSACTIONS, API_ENDPOINT.GET_RECENT_TRANSACTIONS,{})
   
   const onChange = (e: RadioChangeEvent) => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
+    const coinInfo = e.target.value
+    setSelectedCoin(coinInfo.coin)
+    setWithdrawAddress(coinInfo.address)
+    setSelectedNetwork(coinInfo.network)
+    setSelectedRecentTransaction(e.target.value)
   };
 
   const initCoinPrice = async(coin) => {
@@ -50,6 +59,7 @@ export function SendToCryptoAddress() {
     setSelectedCoin(coinInfo.coin)
     setSupportedNetworks(coinInfo.networks)
     setMinAmount(coinInfo.wmin)
+    setMaxAmount(coinInfo.wmax)
     setWithdrawFee(coinInfo.wfee)
   }
 
@@ -92,13 +102,13 @@ export function SendToCryptoAddress() {
 
   const confirmWithdraw = async() => {
     try{
+        // setModalVisible(true)
         const reqData = {
-            type: "system-user",
+            type: WithdrawTypes.external,
             coin: selectedCoin,
             amount: withdrawAmount,
             address: withdrawAddress,
             network: selectedNetwork,
-            uuid: currentUser.uuid
         }
         const response = await API.post(API_ENDPOINT.WITHDRAW_REQUEST, reqData)
         console.log(response)
@@ -149,6 +159,7 @@ export function SendToCryptoAddress() {
                         className="coinselect"
                         disabled={!supportedNetworks ? true : false}
                         onChange={handleNetworkSelect}
+                        value={selectedNetwork}
                       >
                           {
                             !supportedNetworks ? 
@@ -177,6 +188,9 @@ export function SendToCryptoAddress() {
                                 </Col>
                                 <Col>
                                     <Text type="secondary">Minimum amount</Text> {minAmount} {selectedCoin}
+                                </Col>
+                                <Col>
+                                    <Text type="secondary">Maximum amount</Text> {maxAmount} {selectedCoin}
                                 </Col>
                             </Row>
                         </Form.Item>
@@ -224,19 +238,30 @@ export function SendToCryptoAddress() {
             </div>
             <div className="divider"></div>
             <div>
-                <div>
-                    <Typography.Title level={5}>Select recent address</Typography.Title>
-                    <div className="radio-group">
-                        <Radio.Group onChange={onChange} value={value}>
-                            <Space direction="vertical">
-                                <Radio value={1}>0x312ebdc921cccb33d9f202e8bb7b8d5721de151f</Radio>
-                                <Radio value={2}>0x312ebdc921cccb33d9f202e8bb7b8d5721de151f</Radio>
-                                <Radio value={3}>0x312ebdc921cccb33d9f202e8bb7b8d5721de151f</Radio>
-                            </Space>
-                        </Radio.Group>
-                    </div>
-                </div>
-                <Divider />
+                {
+                    recentTransaction ? 
+                        <>
+                            <div>
+                                <Typography.Title level={5}>Select recent address</Typography.Title>
+                                <div className="radio-group">
+                                    <Radio.Group onChange={onChange} value={selectedRecentTransaction}>
+                                        <Space direction="vertical">
+                                            {
+                                                // eslint-disable-next-line
+                                                // @ts-ignore
+                                                recentTransaction.map((item, index) => {
+                                                    return <Radio key={index} value={item}>{item.address}</Radio>
+                                                })
+                                            }
+                                        </Space>
+                                    </Radio.Group>
+                                </div>
+                            </div>
+                            <Divider />
+                        </>
+                    :
+                        null
+                }
                 <div>
                     <Typography.Title level={5}>FAQ</Typography.Title>
                     <Typography.Paragraph style={{marginBottom:40}}>
@@ -262,6 +287,7 @@ export function SendToCryptoAddress() {
                 </div>
             </div>
         </div>
+        <VerificationModal userEmail={currentUser.email}/>
     </DepositLayout>
   );
 }

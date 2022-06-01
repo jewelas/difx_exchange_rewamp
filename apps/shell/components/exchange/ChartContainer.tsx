@@ -20,7 +20,7 @@ export default function ChartContainer({pair}: ChartContainerInterface) {
   const [currentChartType, setCurrentChartType] = useState('candle_solid')
   const [mainIndicator, setMainIndicator] = useState('MA')
   const [subIndicatorSelected, setSubIndicatorSelected] = useState(null)
-  const [subIndicator, setSubIndicator] = useState([])
+  const [subIndicator, setSubIndicator] = useState(["VOL"])
   // const [subI, setSubI] = useState([])
   const [fullscreen, setFullscreen] = useState(false)
 

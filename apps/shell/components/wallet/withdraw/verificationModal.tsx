@@ -67,7 +67,7 @@ export function VerificationModal({userEmail}) {
             <WithdrawModalWrapper>
                 <div>
                     <Typography.Title level={5}>{t("wallet.verification_code")}</Typography.Title>
-                    <Paragraph type="secondary">Please enter the verification code sent to +51234567788</Paragraph>
+                    <Paragraph type="secondary">Please enter the verification code sent to {userEmail}</Paragraph>
                 </div>
                 <div className="withdraw-code">
                 <Form

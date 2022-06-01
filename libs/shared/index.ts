@@ -48,6 +48,7 @@ export * from "./type/StakingHistory";
 export * from "./type/Currency";
 export * from "./type/Language";
 export * from "./type/ChartData";
+export * from "./type/Withdraw";
 
 export * from "./atom";
 

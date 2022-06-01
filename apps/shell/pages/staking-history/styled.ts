@@ -3,7 +3,6 @@ import { ThemeInterface } from "@difx/core-ui/themes";
 
 export const PageStyled = styled.div`
   background-color: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
-  margin-top:-20px;
   height:100%;
   padding: 20px 90px;
   .ant-typography{

@@ -21,3 +21,4 @@ export * from "./ConvertButton";
 export * from "./TrendChart";
 export * from "./CoinSelector";
 export * from "./TokenConvertSwitch";
+export * from "./LoginSignUpButton";

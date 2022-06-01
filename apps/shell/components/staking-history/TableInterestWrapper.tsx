@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
@@ -10,7 +11,11 @@ import isEmpty from "lodash/isEmpty";
 import moment, { Moment } from "moment";
 import { useEffect, useState } from "react";
 
-export function TableInterestWrapper() {
+interface Props {
+  setHeaderForExporting: (value: any[]) => void;
+  setBodyForExporting: (value: any[]) => void;
+}
+export function TableInterestWrapper({ setHeaderForExporting, setBodyForExporting }: Props) {
 
   const [data, setData] = useState([]);
   const [pageInfo, setPageInfo] = useState<Paging>(null);
@@ -48,6 +53,9 @@ export function TableInterestWrapper() {
 
     if (!isEmpty(data.result)) {
       setData(data.result)
+
+      setHeaderForExporting(columns.map((e:any)=>{return (!e.title || !e.dataIndex) ? null: {label: e.title, key:e.dataIndex}}));
+      setBodyForExporting(data.result.map((e:any)=>{return {...e,interest_amount:`${(e.apy * e.duration) / 365}%`}}));
     } else setData([])
   }
   const { mutate: getStakingHistory, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: StakingHistoryResponse[], currentPage: number, totalItems: number, totalPages: number }>({ onSuccess, endpoint: API_ENDPOINT.GET_STAKING_INTEREST_LIST(startDateFormatted, endDateFormatted, page, limit) });
@@ -62,7 +70,7 @@ export function TableInterestWrapper() {
     setPage(1);
   }
 
-  const onPageChange = (p: number)=>{
+  const onPageChange = (p: number) => {
     setPage(p)
   }
 
@@ -114,10 +122,11 @@ export function TableInterestWrapper() {
     },
     {
       title: 'Interest Amount',
+      dataIndex: "interest_amount",
       render: (text, record) => {
         return (
           <div className='cell'>
-            <Typography level="B1">{`${(record.apy * record.duration)/365}%`}</Typography>
+            <Typography level="B1">{`${(record.apy * record.duration) / 365}%`}</Typography>
           </div>
         )
       }
@@ -154,7 +163,7 @@ export function TableInterestWrapper() {
                 rowKey="id"
               />
               {
-                pageInfo && !isEmpty(data) &&
+                pageInfo && pageInfo.totalPages > 1 && !isEmpty(data) &&
                 <Pagination onChange={onPageChange} defaultCurrent={pageInfo.currentPage} total={pageInfo.totalPages} />
               }
             </>

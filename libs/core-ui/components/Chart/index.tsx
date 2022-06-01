@@ -50,7 +50,7 @@ function Chart({
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HTMLDivElement>(null);
   const previousPairRef = useRef()
-  const [subsIndex, setSubsIndex] = useState<any>();
+  const [subsIndex, setSubsIndex] = useState<any>([]);
   const [lineChart, setLineChart] = useState<LineChart>();
   const [chartHistory, setChartHistory] = useState<Array<ChartDataType>>([]);
   const [currentChartData, setCurrentChartData] = useState<ChartData>();
@@ -131,12 +131,19 @@ function Chart({
             }
           }
       })
+      const paneId = kLineChart?.createTechnicalIndicator("VOL", false);
+      kLineChart?.createTechnicalIndicator("VOL", false, { id: paneId as string })
+      subsIndex["VOL"] = paneId
       setLineChart(kLineChart);
     }
     return () => {
       dispose('k-line-chart')
     }
   }, []);
+
+  useEffect(()=>{
+    console.log(subsIndex)
+  },[subsIndex])
   
   useEffect(() => {
     if(lineChart){
@@ -184,15 +191,15 @@ function Chart({
     }
   }, [currentChartType, lineChart]);
 
-  useEffect(() => {
-    if (lineChart && currentChartType) {
-      if(mainIndicator === ''){
-        lineChart?.removeTechnicalIndicator("candle_pane")
-      }else{
-        lineChart?.createTechnicalIndicator(mainIndicator, false, { id: 'candle_pane' });
-      }
-    }
-  }, [mainIndicator, lineChart]);
+  // useEffect(() => {
+  //   if (lineChart && currentChartType) {
+  //     if(mainIndicator === ''){
+  //       lineChart?.removeTechnicalIndicator("candle_pane")
+  //     }else{
+  //       lineChart?.createTechnicalIndicator(mainIndicator, false, { id: 'candle_pane' });
+  //     }
+  //   }
+  // }, [mainIndicator, lineChart]);
 
   useEffect(() => {
     if (lineChart) {
@@ -218,6 +225,7 @@ function Chart({
     if(subIndicatorSelected){
       if(subsIndex){
         if(subsIndex[`${subIndicatorSelected}`]){
+          console.log("SUB")
           lineChart?.removeTechnicalIndicator(subsIndex[`${subIndicatorSelected}`], subIndicatorSelected)
           delete subsIndex[`${subIndicatorSelected}`]
           setSubsIndex(subsIndex)

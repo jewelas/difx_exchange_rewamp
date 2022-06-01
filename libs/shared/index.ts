@@ -42,7 +42,7 @@ export * from "./type/Balance";
 export * from "./type/PlaceOrder";
 export * from "./type/Paging";
 export * from "./type/Order";
-export * from "./type/market";
+export * from "./type/Market";
 export * from "./type/Staking";
 export * from "./type/StakingHistory";
 export * from "./type/Currency";

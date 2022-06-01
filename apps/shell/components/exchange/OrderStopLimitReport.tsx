@@ -3,7 +3,7 @@
 
 import { API_ENDPOINT } from "@difx/constants";
 import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, useAuth, SocketEvent, useSocket, useSocketProps, useHttpGetByEvent, useHttpPost, isLoggedInAtom } from "@difx/shared";
+import { BaseResponse, Order, useAuth, SocketEvent, useSocket, useSocketProps, useHttpGetByEvent, useHttpPost, useHttpPut, isLoggedInAtom } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { useAtomValue } from "jotai/utils";
 import { Table } from "antd";
@@ -65,7 +65,7 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
   }
 
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_STOP_LIMIT() });
-  const { mutate: cancelOrder, isLoading } = useHttpPost<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_STOP_LIMIT_ORDER }); // TODO: handle headers in interceptor in useHttp
+  const { mutate: cancelOrder, isLoading } = useHttpPut<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_STOP_LIMIT_ORDER }); // TODO: handle headers in interceptor in useHttp
 
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
@@ -177,7 +177,7 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
             onClick={() => {
               // eslint-disable-next-line
               // @ts-ignore
-              if (!isLoading) cancelOrder({ id: record.id })
+              if (!isLoading) cancelOrder({ trade_id: record.id })
             }}
             className="cell">
             <Icon.TrashIcon useDarkMode width={20} height={20} />

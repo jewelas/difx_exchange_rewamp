@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout } from 'antd';
-import OrderLayout from "../index.page";
+import OrderLayout from "../../index.page";
 
 export function SpotOrdersPage() {
 

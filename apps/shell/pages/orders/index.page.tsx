@@ -13,7 +13,7 @@ export function OrderLayout({ children }: WalletLayoutProps) {
   const router = useRouter();
   useEffect(() => {
     if(router.pathname === "/orders"){
-    router.push(`/orders/open-orders`);
+    router.push(`/orders/spot/open-orders`);
     }
   }, []);
 

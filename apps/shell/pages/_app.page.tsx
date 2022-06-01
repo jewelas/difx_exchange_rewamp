@@ -1,14 +1,30 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { ErrorBoundary } from 'react-error-boundary';
 import { ConfigProvider } from "antd";
 import ErrorFallback from "./ErrorFallback";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "jotai";
+import NoSSR, { isSSRPage } from "./NoSSR";
 
 const queryClient = new QueryClient();
 
 function CustomApp({ Component, pageProps }: AppProps) {
+
+  const router = useRouter();
+  const { asPath } = router;
+
+  const AppPage = (<ErrorBoundary FallbackComponent={ErrorFallback}>
+    <Provider>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider>
+          <Component {...pageProps} />
+        </ConfigProvider>
+      </QueryClientProvider>
+    </Provider>
+  </ErrorBoundary>)
+
   return (
     <>
       <Head>
@@ -34,15 +50,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
         />
         <meta name="og:image" content={"/imgs/logo.svg"} />
       </Head>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Provider>
-          <QueryClientProvider client={queryClient}>
-            <ConfigProvider>
-              <Component {...pageProps} />
-            </ConfigProvider>
-          </QueryClientProvider>
-        </Provider>
-      </ErrorBoundary>
+      {
+        isSSRPage(asPath) ? AppPage : <NoSSR>{AppPage}</NoSSR>
+      }
     </>
   );
 }

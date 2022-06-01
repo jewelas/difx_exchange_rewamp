@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, FormInstance, Input, Slider, Popover } from "antd";
+import { Button, Form, FormInstance, Input, Popover, Slider } from "antd";
 import clsx from "clsx";
-import t from "./../../../locale";
+import LoginSignUpButton from "./../LoginSignUpButton";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
-import { useAtom } from "jotai";
+import t from "./../../../locale";
 import { PairType, PlaceOrderRequest, previousPathAtom, useCurrency } from "./../../../shared";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
 import DepositIcon from "./../Icon/DepositIcon";
@@ -186,19 +187,6 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
     }
   }
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  const getButtonSubmitLabel = () => {
-    if (!isLoggedIn) {
-      return <div onClick={(e: any) => { setPrevousPath(asPath); !e.target.className.includes("signup") && !isLoggedIn && router.push('/login') }} style={{ display: "flex", justifyContent: "center" }}>
-        <div onClick={() => { setPrevousPath(asPath); !isLoggedIn && router.push('/login') }} style={{ marginRight: 5 }}>Log in or</div>
-        <div className="signup" onClick={() => { setPrevousPath(asPath); !isLoggedIn && router.push('/register') }}>Sign up</div>
-      </div>
-    }
-    if (side === 'ask') return 'Sell';
-    if (side === 'bid') return 'Buy'
-  }
-
   const preventScroll = (e: any) => { e.target.blur() };
 
   const onSliderChange = (value: number) => {
@@ -339,10 +327,18 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
                 suffix={quoteCurrency} />
             </Form.Item>
           </Popover>
-          <Button
-            disabled={isDisabled || isLoading}
-            htmlType={isLoggedIn ? "submit" : "button"}
-            className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{getButtonSubmitLabel()}</Button>
+          {
+            isLoggedIn
+              ?
+              <Button
+                disabled={isDisabled || isLoading}
+                htmlType="submit"
+                className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} type='primary'>{side === "bid" ? "Buy" : "Ask"}
+              </Button>
+              :
+              <LoginSignUpButton className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} />
+          }
+
         </div>
       </Form>
     </ComponentStyled>

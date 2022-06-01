@@ -10,10 +10,8 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  swcMinify: true,
   generateBuildId: () => "build",
-  // experimental: {
-  //   styledComponents: true
-  // },
   compiler: {
     styledComponents: true
   },

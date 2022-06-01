@@ -5,7 +5,7 @@ const NoSSR = props => (
   <React.Fragment>{props.children}</React.Fragment>
 )
 
-const SSR_PATHS = ['/','/home']
+const SSR_PATHS = ['/','/home', '/market', '/login', '/register']
 export function isSSRPage(path:string){
   for(const ssrPath of SSR_PATHS){
     if(path.includes(ssrPath)) return true;

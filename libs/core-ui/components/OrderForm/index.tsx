@@ -25,6 +25,7 @@ export interface OrderFormProps {
   quoteCurrency?: string,
   isLoggedIn?: boolean,
   priceSelected?: number,
+  amountSelected?: number,
   pairInfo?: PairType,
   onPlaceOrder: (formData: PlaceOrderRequest, type: OrderType, side: OrderSideType) => void,
   isLoading?: boolean,
@@ -33,7 +34,7 @@ export interface OrderFormProps {
   form: FormInstance
 }
 
-export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
+export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = true, isLoading = true, onPlaceOrder, priceSelected, amountSelected, side = 'bid', type = 'limit', baseCurrency, quoteCurrency, isLoggedIn = false, pairInfo }: OrderFormProps) {
 
   const marks = {
     0: ' ',
@@ -59,6 +60,9 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
   const [showAmountPopover, setShowAmountPopover] = useState(false);
 
   useEffect(() => {
+    if(amountSelected){
+      form.setFieldsValue({ [`${side}.amount`]: amountSelected });
+    }
     if (priceSelected) {
       form.setFieldsValue({ [`${side}.price`]: priceSelected });
       form.setFieldsValue({ [`${side}.total`]: priceSelected });
@@ -68,7 +72,7 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
         [`${side}.total`]: Math.floor(total * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
       });
     }
-  }, [priceSelected]);
+  }, [priceSelected, amountSelected]);
 
   useEffect(() => {
     if (pairInfo && !priceSelected) form.setFieldsValue({ [`${side}.price`]: pairInfo.last })

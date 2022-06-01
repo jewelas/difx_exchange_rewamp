@@ -18,6 +18,7 @@ export interface OrderBookBodyProps {
   currentPrice?: number;
   networkStatus?: NetworkStatusType;
   onPriceSelected?: (price: number) => void;
+  onAmountSelected?: (price: number) => void;
   priceOpenOrders?: Array<any>;
   totalType?: 'total' | 'sum';
   hideColumns?: string[];
@@ -35,6 +36,7 @@ function renderData(
   data: Array<Array<number>> | undefined,
   numberFormat: number,
   onPriceSelected: (price: number) => void,
+  onAmountSelected: (price: number) => void,
   priceOpenOrders: Array<number>,
   hideColumns: string[],
   layout = 'default'
@@ -90,7 +92,7 @@ function renderData(
 
     if (row) {
       result.push(
-        <div onClick={() => { onPriceSelected && onPriceSelected(row[0]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
+        <div onClick={() => { onPriceSelected && onPriceSelected(row[0]); onAmountSelected && onAmountSelected(row[1]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
           <BarStyled className={type} style={barStyle} />
           {
             priceOpenOrders.find((e: any) => e.side === type && e.price === row[0]) &&
@@ -172,6 +174,7 @@ export function OrderData({
   data,
   numberFormat,
   onPriceSelected,
+  onAmountSelected,
   priceOpenOrders,
   maxRowData = 12,
   totalType = 'total',
@@ -183,10 +186,10 @@ export function OrderData({
     return <Loading type="component" style={{ height: 300 }} />;
   }
 
-  if (!type || !onPriceSelected) return null;
+  if (!type || !onPriceSelected || !onAmountSelected) return null;
   return (
     <div className={type}>
-      {renderData(totalType, maxRowData, type, data, numberFormat, onPriceSelected, priceOpenOrders || [], hideColumns, layout)}
+      {renderData(totalType, maxRowData, type, data, numberFormat, onPriceSelected, onAmountSelected, priceOpenOrders || [], hideColumns, layout)}
     </div>
   );
 }

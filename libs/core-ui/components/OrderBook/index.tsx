@@ -13,7 +13,7 @@ import SwitchIcon from "../Icon/SwitchIcon";
 import { Typography } from "../Typography";
 import { OrderData, CurrentPrice } from "./OrderBookBody";
 import { ComponentStyled } from "./styled";
-import { PairType, priceSelectedAtom } from "./../../../shared";
+import { PairType, priceSelectedAtom, amountSelectedAtom } from "./../../../shared";
 import { OrderBookHead } from "./OrderBookHead";
 
 /* eslint-disable-next-line */
@@ -47,6 +47,7 @@ export function OrderBook({
   const [totalType, setTotalType] = useState<'total' | 'sum'>('total');
 
   const [, setPriceSelected] = useAtom(priceSelectedAtom);
+  const [, setAmountSelected] = useAtom(amountSelectedAtom);
 
   useEffect(()=>{
     if(pairInfo) setNumberFormat(pairInfo.group_precision);
@@ -82,6 +83,7 @@ export function OrderBook({
       data={bids}
       numberFormat={numberFormat}
       onPriceSelected={setPriceSelected}
+      onAmountSelected={setAmountSelected}
       priceOpenOrders={priceOpenOrders}
       maxRowData={maxRow}
       totalType={totalType}
@@ -96,6 +98,7 @@ export function OrderBook({
       data={asks}
       numberFormat={numberFormat}
       onPriceSelected={setPriceSelected}
+      onAmountSelected={setAmountSelected}
       priceOpenOrders={priceOpenOrders}
       maxRowData={maxRow}
       totalType={totalType}

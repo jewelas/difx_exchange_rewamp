@@ -34,13 +34,14 @@ export function SpotTransactions({userBalance}) {
       }
     },
     {
-      title: "Amount", key: "amount", dataIndex: 'amount', width: 16
+      title: "Amount", key: "amount", width: 16,
+      render: (item) => (item.amount - item.inorder)
     },
     {
       title: "InOrder", key: "inorder", dataIndex: 'inorder', width: 16
     },
     {
-      title: "Total", key: "total", dataIndex: 'total', width: 16
+      title: "Total", key: "total", dataIndex: 'amount', width: 16
     },
     {
       title: "", key: "button-group", align: "right" as const, width: 36,

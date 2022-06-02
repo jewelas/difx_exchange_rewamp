@@ -4,11 +4,12 @@ import { API_ENDPOINT, QUERY_KEY } from "@difx/constants"
 import { DepositLayout } from "../../../pages/wallet/styled";
 import { useEffect, useMemo, useState } from "react";
 import Text from "antd/lib/typography/Text";
-import { CoinSelector, Loading } from "@difx/core-ui";
+import { CoinSelector, Loading, showWarning } from "@difx/core-ui";
 import { currentUserAtom, useAPI, useBalance, useHttpGet, WithdrawTypes } from "@difx/shared";
 import { useAtomValue } from "jotai";
 import { useVerificationModal } from "@difx/shared";
 import VerificationModal from "./verificationModal";
+import t from "@difx/locale";
 
 export function SendToCryptoAddress() {
   const [form] = Form.useForm()
@@ -61,6 +62,7 @@ export function SendToCryptoAddress() {
     setMinAmount(coinInfo.wmin)
     setMaxAmount(coinInfo.wmax)
     setWithdrawFee(coinInfo.wfee)
+    setSelectedNetwork(JSON.stringify(coinInfo.networks[0]))
   }
 
   const handleNetworkSelect = (network: string) => {
@@ -103,12 +105,20 @@ export function SendToCryptoAddress() {
   const confirmWithdraw = async() => {
     try{
         // setModalVisible(true)
+        if(!currentUser.emailverified){
+            showWarning(t("notifications.verify_email"),t("notifications.verify_email_message"))
+            return
+        }
+        if(!currentUser.twofaenabled){
+            showWarning(t("notifications.enable_2fa"),t("notifications.enable_2fa_message"))
+            return
+        }
         const reqData = {
             type: WithdrawTypes.external,
             coin: selectedCoin,
             amount: withdrawAmount,
             address: withdrawAddress,
-            network: selectedNetwork,
+            network: JSON.parse(selectedNetwork).network
         }
         const response = await API.post(API_ENDPOINT.WITHDRAW_REQUEST, reqData)
         console.log(response)
@@ -166,7 +176,7 @@ export function SendToCryptoAddress() {
                               "Loading..."
                             :
                               supportedNetworks.map((network,index) => {
-                                return <Select.Option key={index} value={network}>{network} </Select.Option>
+                                return <Select.Option key={index} value={JSON.stringify(network)}>{network.display} </Select.Option>
                               })
                           }
                       </Select>

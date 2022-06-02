@@ -7,8 +7,7 @@ import Text from "antd/lib/typography/Text";
 import { RecentTransactionsWrapper } from "../styled";
 import { API_ENDPOINT, ASSETS_URL, QUERY_KEY } from "@difx/constants"
 import { getCurrentDateTimeByDateString } from "@difx/utils";
-
-
+import { useState } from "react";
 
 interface DataType {
     key: string;
@@ -21,7 +20,9 @@ interface DataType {
 
 export function DepositTransactions() {
   const {modalVisible, setModalVisible} = useTransactionDetailsModal()
-  const { data, isLoading } = useHttpGet( QUERY_KEY.RECENT_TRANSACTIONS ,API_ENDPOINT.GET_TRANSACTION_LIST(1,10), null)
+  const [currentPage, setCurrentpage] = useState(1)
+  const [dataLimit, setDataLimit] = useState(10)
+  const { data, isLoading } = useHttpGet( QUERY_KEY.RECENT_TRANSACTIONS ,API_ENDPOINT.GET_TRANSACTION_LIST(currentPage,dataLimit,"deposit"), null)
 
   const iconSwitch = (type) => {
     switch(type){

@@ -12,11 +12,14 @@ import {
   Permissions
 } from "..";
 import { API_ENDPOINT } from "..";
+import { useRouter } from "next/router";
 
 export function useAuth() {
   const [user, setUser] = useAtom(currentUserAtom);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [permissions, setPermissions] = useAtom(permissionsAtom);
+
+  const router = useRouter();
 
   useEffect(()=>{
     if(!isLoggedIn){
@@ -72,6 +75,7 @@ export function useAuth() {
       setUser(undefined);
       setPermissions(undefined)
       setIsLoggedIn(false);
+      router.push("/home")
     }catch(err){
       console.log(err)
     }

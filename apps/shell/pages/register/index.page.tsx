@@ -17,11 +17,11 @@ export function RegisterPage(props: RegisterPageProps) {
         <Row className="contentBox">
           <Col className="left-side" md={{ span: 16 }}>
             <div className="message">
-              <Typography level={"H2"}>{t("register.message1")}</Typography>
-              <Typography level={"H1"} color={"primary"}>
+              <Typography level={"H2"} >{t("register.message1")}</Typography>
+              <Typography level={"H1"} className="active">
                 {t("register.message2")}
               </Typography>
-              <Typography level={"H5"} color={"secondary"}>
+              <Typography level={"H5"} className="muted">
                 {t("register.message3")}
               </Typography>
             </div>

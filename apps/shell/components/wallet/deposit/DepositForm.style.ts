@@ -34,8 +34,11 @@ const DepositLayout = styled.div`
             right: 30px;
         }
     }
-    .qr-wrapper{
+    
+    .deposity-qr-conatiner{
         display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
     }
 `;

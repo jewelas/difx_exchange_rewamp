@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { Layout, Modal } from 'antd';
 import TopBalance from "../../../components/wallet/balance";
 import SpotTransactions from "../../../components/wallet/spotTransactions";
@@ -14,10 +14,25 @@ export function SpotPage() {
 
   const { userBalance, spotBalanceUSD, spotBalanceBTC, spotYesterdayPnlBTC, spotYesterdayPnlUSD } = useBalance()
   const { modalVisible, setModalVisible } = useConvertSmallBalModal()
+  const [ search, setSearch ] = useState("")
 
   const closeModal = () => {
       setModalVisible(false);
   };
+
+  const onSearch = (e) => {
+    setSearch(e.target.value)
+  }
+
+  const searchedList = useMemo(()=>{
+    if(search.length > 0){
+      // const filteredValue = userBalance.filter(item => item.currency === search)
+      console.log(userBalance)
+    }else{
+      console.log("empty")
+      return []
+    }
+  },[search])
 
   return (
     <WalletLayout>
@@ -36,7 +51,7 @@ export function SpotPage() {
               overviewPnlCurrency={spotYesterdayPnlUSD}  
               bgImage="btc_card_bg" 
             />
-            <WalletFilters overviewContent="spot" />
+            <WalletFilters overviewContent="spot" onSearch={onSearch}/>
             <SpotTransactions userBalance={userBalance}/>
             <Modal title={t("wallet.convert_small_bal")} visible={modalVisible} onCancel={closeModal} footer={null}>
                 <ConvertSmallBalModal />

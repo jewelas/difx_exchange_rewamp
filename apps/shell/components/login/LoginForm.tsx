@@ -247,7 +247,12 @@ export function LoginForm(props: LoginFormProps) {
                   }}
                   className={clsx("tab", type === "email" && "active")}
                 >
-                  <Typography level="B1">{t("signin.email")}</Typography>
+                  <Typography 
+                    level="B1"
+                    className={clsx(type === "email" && "active")}
+                  >
+                    {t("signin.email")}
+                  </Typography>
                 </div>
                 
                 {
@@ -260,7 +265,12 @@ export function LoginForm(props: LoginFormProps) {
                       }}
                       className={clsx("tab", type === "phone" && "active")}
                     >
-                      <Typography level="B1">{t("signin.phone_number")}</Typography>
+                      <Typography 
+                        level="B1"
+                        className={clsx(type === "phone" && "active")}
+                      >
+                        {t("signin.phone_number")}
+                      </Typography>
                     </div>
                   </>
                   :

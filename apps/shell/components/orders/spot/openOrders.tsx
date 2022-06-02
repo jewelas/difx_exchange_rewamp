@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT } from "@difx/constants";
 import { Loading } from "@difx/core-ui";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
-import { BaseResponse, isLoggedInAtom, Order, useHttpGetByEvent, useHttpPut } from "@difx/shared";
-import { Progress, Table, Tag } from "antd";
+import { BaseResponse, isLoggedInAtom, Order, useHttpGetByEvent, useHttpPut, useSocket, SocketEvent } from "@difx/shared";
+import { Progress, Table, Tag, Button } from "antd";
 import { AxiosResponse } from "axios";
 import { useAtomValue } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
@@ -61,6 +62,26 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
     setTableData([]);
   }, [pair]);
 
+
+  const userOrdersData = useSocket({event: SocketEvent.user_orders});
+  useEffect(() => {
+    if (userOrdersData) {
+      const index = tableData.findIndex(e => e.id === userOrdersData.id);
+      if (index !== -1) {
+        if (userOrdersData.q === 0) {
+          tableData.splice(index, 1);
+        } else {
+          tableData[index].q = userOrdersData.q;
+          tableData[index].oq = userOrdersData.oq;
+        }
+      } else {
+        userOrdersData.timestamp = new Date();
+        tableData.push(userOrdersData);
+      }
+      setTableData([...tableData]);
+    }
+  }, [userOrdersData]);
+
   const columns = [
     {
       title: "ID", key: "id", dataIndex: 'id', width: '20%'
@@ -102,6 +123,19 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
     {
       key: "status", dataIndex: "status", align: "right" as const, width: '10%',
     },
+    {
+      title: '',
+      dataIndex: '',
+      render: (text, record) => {
+        return (
+          <Button htmlType="button"
+            onClick={() => {
+              if (!isLoading) { cancelOrder({ side: record.s, trade_id: record.id }) }
+            }}>Cancel
+          </Button>
+        )
+      }
+    }
   ];
 
   if (isEmpty(tableData) && isDataLoading) return <>

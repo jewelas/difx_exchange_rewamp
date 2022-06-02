@@ -64,6 +64,9 @@ const WalletTabsWrapper = styled.div`
 const WalletWrapper = styled.div`
     padding: 25px;
     background: ${({theme}) => theme.background.secondary};
+   .ant-select.ant-select-sm .ant-select-selector{
+        background: ${({theme}) => theme.background.primary} !important;
+   }
 `
 const DepositLayout = styled.div`
     margin-top: 2px;

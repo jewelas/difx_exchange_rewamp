@@ -27,7 +27,7 @@ export function SpotOpenOrdersPage() {
                                         <DatePicker.RangePicker />
                                     </div>
                                     <div>
-                                        <Select style={{ width: 150 }} size="small" onChange={(e: string) => { setSelectedPair(e) }} className="input-small">
+                                        <Select defaultValue="" style={{ width: 150 }} size="small" onChange={(e: string) => { setSelectedPair(e) }} className="input-small">
                                             {
                                                 pairs.map(e =>
                                                     <Select.Option on key={`select_${e}`} value={e}>{e}</Select.Option>

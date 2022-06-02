@@ -116,25 +116,6 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
     if (orderBookWSData && orderBookWSData.bids && orderBookWSData.asks) {
       const { bids: _bids, asks: _asks } = orderBookWSData;
 
-      // Sum Bids
-      if (_bids[0] && _bids[0].length >= 2) {
-        _bids[0][3] = _bids[0][1];
-        _bids.reduce((a, b) => {
-          b[3] = b[1] + a[3];
-          return b;
-        });
-      }
-
-
-      // Sum Asks
-      if (_asks[0] && _asks[0].length >= 2) {
-        _asks[0][3] = _asks[0][1];
-        _asks.reduce((a, b) => {
-          b[3] = b[1] + a[3];
-          return b;
-        });
-      }
-
       const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
       const newPrice = getAveragePrice(
         reverseAsks[reverseAsks.length - 1][0],
@@ -154,25 +135,6 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
       // From API
     } else if (orderBookData && orderBookData.bids && orderBookData.asks) {
       const { bids: _bids, asks: _asks } = orderBookData;
-
-      // Sum Bids
-      if (_bids[0] && _bids[0].length >= 2) {
-        _bids[0][3] = _bids[0][1];
-        _bids.reduce((a, b) => {
-          b[3] = b[1] + a[3];
-          return b;
-        });
-      }
-
-
-      // Sum Asks
-      if (_asks[0] && _asks[0].length >= 2) {
-        _asks[0][3] = _asks[0][1];
-        _asks.reduce((a, b) => {
-          b[3] = b[1] + a[3];
-          return b;
-        });
-      }
 
       const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
       const newPrice = !isEmpty(reverseAsks) ? getAveragePrice(

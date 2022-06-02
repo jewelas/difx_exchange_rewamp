@@ -12,7 +12,7 @@ import VerificationModal from "./verificationModal";
 
 export function SendToCryptoAddress() {
   const [form] = Form.useForm()
-  const [selectedRecentTransaction, setSelectedRecentTransaction] = useState();
+  const [selectedRecentTransaction, setSelectedRecentTransaction] = useState(null);
   const [selectedCoin, setSelectedCoin] = useState(null)
   const [coinPrice, setCoinPrice] = useState(null)
   const [supportedNetworks, setSupportedNetworks] = useState(null)
@@ -119,7 +119,7 @@ export function SendToCryptoAddress() {
 
   const SuffixAmountInput = (
     <div className="suffix-amount">
-      <div style={{ opacity: 0.75 }}>BTC</div>
+      <div style={{ opacity: 0.75 }}>{selectedCoin}</div>
       <div className="line" />
       <Button
        ghost

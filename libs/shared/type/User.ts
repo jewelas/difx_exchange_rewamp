@@ -11,5 +11,7 @@ export interface User {
   kycverified: boolean;
   corp_kyc: boolean;
   type: "IND" | "BUS";
-  uuid: string
+  uuid: string;
+  usebonus: boolean;
+  usetokens: boolean;
 }

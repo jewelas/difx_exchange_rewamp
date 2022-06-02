@@ -44,11 +44,6 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
     100: ' ',
   };
 
-  const [, setPrevousPath] = useAtom(previousPathAtom)
-
-  const router = useRouter();
-  const { asPath } = router;
-
   const { currentCurrency: fiatCurrency } = useCurrency();
 
   const [isDisabled, setIsDisabled] = useState(isLoggedIn);
@@ -58,9 +53,11 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
   const [groupPrecision, setGroupPrecision] = useState<number>(0);
   const [bAmount, setBAmmount] = useState<number>(0);
   const [showAmountPopover, setShowAmountPopover] = useState(false);
+  const [isErrorTotal, setIsErrorTotal] = useState(false);
+  const [errorMsgTotal, setErrorMsgTotal] = useState<string | null>(null);
 
   useEffect(() => {
-    if(amountSelected){
+    if (amountSelected) {
       form.setFieldsValue({ [`${side}.amount`]: amountSelected });
     }
     if (priceSelected) {
@@ -162,14 +159,20 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
     if (side === 'bid') {
       if (balance && fieldsValue[`${side}.total`] > balance) {
         setIsDisabled(true);
+        setIsErrorTotal(true);
+        setErrorMsgTotal(`${t("error.insufficient_bal")} ${balance}${quoteCurrency}`);
         return;
       }
     } else if (side === 'ask') {
       if (balance && fieldsValue[`${side}.amount`] > balance) {
         setIsDisabled(true);
+        setIsErrorTotal(true);
+        setErrorMsgTotal(`${t("error.insufficient_bal")} ${fieldsValue[`${side}.price`] * fieldsValue[`${side}.amount`]}${quoteCurrency}`);
         return;
       }
     }
+
+    setIsErrorTotal(false);
 
     if (type === 'limit') {
       setIsDisabled(
@@ -246,9 +249,9 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
   const getAmountErrorMsg = () => {
     if (side === "bid") {
       const currentPrice = form.getFieldValue(`${side}.price`);
-      return t("common.maxAmount") + getPriceFormatted(balance / currentPrice, groupPrecision);
+      return t("common.maxAmount") + " " + getPriceFormatted(balance / currentPrice, groupPrecision);
     } else if (side === "ask") {
-      return t("common.maxAmount") + getPriceFormatted(balance, bAmount);
+      return t("common.maxAmount") + " " + getPriceFormatted(balance, bAmount);
     }
     return null;
   }
@@ -303,7 +306,7 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
               </Form.Item>
           }
 
-          <Popover visible={showAmountPopover} placement="top" content={getAmountErrorMsg()} trigger="focus">
+          <Popover visible={showAmountPopover} placement="topRight" content={getAmountErrorMsg()} trigger="focus">
             <Form.Item
               name={`${side}.amount`}>
               <Input
@@ -323,14 +326,21 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
             <Slider onChange={onSliderChange} marks={marks} step={5} value={sliderValue} />
           </div>
 
-          <Popover placement="top" content={fiatCurrency && `≈ ${fiatCurrency?.symbol}${form.getFieldValue(`${side}.total`) * fiatCurrency?.usd_rate}`} trigger="focus">
+          <Popover placement="topRight" content={fiatCurrency && `≈ ${fiatCurrency?.symbol}${form.getFieldValue(`${side}.total`) * fiatCurrency?.usd_rate}`} trigger="focus">
             <Form.Item
               name={`${side}.total`}>
-              <Input onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Total"
+              <Input className={clsx(isErrorTotal && 'error')} onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Total"
                 prefix={<Typography className="prefix">Total</Typography>}
                 suffix={quoteCurrency} />
             </Form.Item>
           </Popover>
+          {
+            isErrorTotal &&
+            <div style={{ marginBottom: 10, marginTop: -5 }}>
+              <Typography color="danger">{errorMsgTotal}</Typography>
+            </div>
+          }
+
           {
             isLoggedIn
               ?
@@ -342,7 +352,6 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
               :
               <LoginSignUpButton className={clsx(side === 'bid' && "success", side === 'ask' && "danger")} />
           }
-
         </div>
       </Form>
     </ComponentStyled>

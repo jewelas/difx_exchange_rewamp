@@ -601,7 +601,7 @@ const GlobalStyles = createGlobalStyle`
         }
       }
       
-      .ant-popover.ant-popover-placement-top{
+      .ant-popover.ant-popover-placement-topRight{
         .ant-popover-arrow .ant-popover-arrow-content{
           &:before{
             background:unset;

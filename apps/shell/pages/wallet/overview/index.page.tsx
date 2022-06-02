@@ -52,7 +52,7 @@ export function OverviewPage() {
               earnBalaceBTC= {earnBalaceBTC }
             />
             <WalletFilters overviewContent="overview" />
-            <RecentTransactions />
+            {/* <RecentTransactions /> */}
             </Content>
             <TransactionDetailsModal />
         </Layout>

@@ -1,20 +1,16 @@
 import React from "react";
-import { Button, Col, Image, Layout, Row, Space, Typography} from 'antd';
-import RecentTransactions from "../../../components/wallet/recentTransactions";
+import { Button, Col, Layout, Row, Space, Typography} from 'antd';
 import WalletLayout from "../index.page";
-import TransactionDetailsModal from "../../../components/wallet/transaction-details/modal";
 import { TokenConvertSwitch } from "@difx/core-ui";
 import { t } from "i18next";
-import { FeeLevelWrapper, ProfileWrapper } from "../styled";
-
-const { Content } = Layout;
+import { FeeLevelWrapper, WhiteBG, ProfileWrapper } from "../styled";
+import FeesTable from "../../../components/profile/feesTable";
 
 export function FeesPage() {
-
   return (
     <WalletLayout>
         <Layout style={{ padding: '24px' }}>
-            <Content>
+            <WhiteBG style={{paddingBottom: '50px'}}>
                 <ProfileWrapper>
                     <Typography.Title level={3}>{t("profile.fee_settings")}</Typography.Title>
                     <FeeLevelWrapper>
@@ -23,6 +19,33 @@ export function FeesPage() {
                                 src="/imgs/fee-bg.png"
                                 alt=""
                             />
+                        </div>
+                        <div className="fee-levels">
+                            <div className="fee-level">
+                                <div className="diamond-img">
+                                    <img
+                                        src="/imgs/diamond.svg"
+                                        alt=""
+                                    />
+                                </div>
+                                <div className="vip-level">
+                                    <h5>VIP LEVEL 5</h5>
+                                    <span>DIFX Holdings  1000</span>
+                                </div>
+                            </div>
+                            <div className="level-details">
+                                <h6>Spot Trading fee</h6>
+                                <Row gutter={20} justify={"space-between"}>
+                                    <Col>
+                                        <Typography.Title level={5}>Maker</Typography.Title>
+                                        <span>0.256%</span>
+                                    </Col>
+                                    <Col>
+                                        <Typography.Title level={5}>Taker</Typography.Title>
+                                        <span>0.256%</span>
+                                    </Col>
+                                </Row>
+                            </div>
                         </div>
                     </FeeLevelWrapper>
                 </ProfileWrapper>
@@ -41,9 +64,8 @@ export function FeesPage() {
                     </Col>
                     </Row>
                 </div>
-                <RecentTransactions />
-            </Content>
-            <TransactionDetailsModal />
+                <FeesTable />
+            </WhiteBG>
         </Layout>
     </WalletLayout>
   );

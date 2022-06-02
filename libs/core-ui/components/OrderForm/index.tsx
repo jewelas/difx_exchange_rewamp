@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import t from "./../../../locale";
 import { PairType, PlaceOrderRequest, previousPathAtom, useCurrency } from "./../../../shared";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
-import DepositIcon from "./../Icon/DepositIcon";
+import DownloadIcon from "./../Icon/DownloadIcon";
 import { Typography } from "./../Typography";
 import {
   ComponentStyled
@@ -268,7 +268,7 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
           {
             canDeposit &&
             <Button ghost className={clsx("deposit", `_${side}`)}>
-              <DepositIcon useDarkMode />
+              <DownloadIcon useDarkMode />
             </Button>
           }
         </div>

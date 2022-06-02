@@ -65,6 +65,7 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
   const { mutate: getTradesData } = useHttpGetByEvent<null, Array<number | string>>({ onSuccess: getTradesSuccess, endpoint: `${API_ENDPOINT.GET_TRADES(pair)}` });
   
   useEffect(()=>{
+    setTradesData([]);
     getTradesData({endpoint:`${API_ENDPOINT.GET_TRADES(pair)}`})
   },[pair, getTradesData]);
 
@@ -83,7 +84,7 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
       });
     }
     return tradesData.splice(0, 12);
-  }, [tradeChangedSocketData, tradesData]);
+  }, [tradeChangedSocketData]);
 
   if (!pair) return <Loading type='component' />
 

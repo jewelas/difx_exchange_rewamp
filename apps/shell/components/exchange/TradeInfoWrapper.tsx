@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
-import { SocketEvent, useHttpGetByEvent, useSocket, useSocketProps } from "@difx/shared";
+import { SocketEvent, useHttpGetByEvent, useSocket, useSocketByEvent, useSocketProps } from "@difx/shared";
 import { getCurrentTimeByDateString } from "@difx/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
@@ -57,24 +57,15 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
         size: e[2],
         at: e[3]
       }));
-      setTradesData(_data)
+      console.log(_data, '_data', pair)
+      setTradesData(_data);
     } else setTradesData([])
   }
 
   const [tradesData, setTradesData] = useState<Array<{ trend: number, price: number, size: number, at: string }>>([]);
   const { mutate: getTradesData } = useHttpGetByEvent<null, Array<number | string>>({ onSuccess: getTradesSuccess, endpoint: `${API_ENDPOINT.GET_TRADES(pair)}` });
-  
-  useEffect(()=>{
-    setTradesData([]);
-    getTradesData({endpoint:`${API_ENDPOINT.GET_TRADES(pair)}`})
-  },[pair, getTradesData]);
 
-  const param: useSocketProps = {
-    join: pair && pair as string,
-    event: SocketEvent.trades,
-  };
-  const tradeChangedSocketData = useSocket(param)
-  const tableData = useMemo(() => {
+  const getWSTradesSuccess = (tradeChangedSocketData: any) => {
     if (tradeChangedSocketData) {
       tradesData.splice(0, 0, {
         trend: tradeChangedSocketData[1],
@@ -82,9 +73,25 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
         size: tradeChangedSocketData[3],
         at: tradeChangedSocketData[4]
       });
+      setTradesData(tradesData);
     }
-    return tradesData.splice(0, 12);
-  }, [tradeChangedSocketData]);
+  }
+
+  const param: useSocketProps = {
+    join: pair,
+    leave: TradeInfoWrapper.previousPair,
+    event: SocketEvent.trades,
+    onSuccess: getWSTradesSuccess
+  };
+  const { send } = useSocketByEvent(param);
+
+  useEffect(() => {
+    setTradesData([]);
+    getTradesData({ endpoint: `${API_ENDPOINT.GET_TRADES(pair)}` });
+    send({ join: pair, leave: TradeInfoWrapper.previousPair });
+    TradeInfoWrapper.previousPair = pair;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pair]);
 
   if (!pair) return <Loading type='component' />
 
@@ -99,7 +106,7 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
             showSorterTooltip={false}
             pagination={false}
             columns={columns}
-            dataSource={tableData}
+            dataSource={tradesData}
             rowKey="at"
           />
         </div>
@@ -108,4 +115,5 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
   );
 }
 
+TradeInfoWrapper.previousPair = null;
 export default TradeInfoWrapper;

@@ -6,7 +6,7 @@ import { Avatar, Button, Col, Row, Space, Typography } from "antd";
 import Text from "antd/lib/typography/Text";
 import { useRouter } from 'next/router';
 import React from "react";
-import { CoinDrawerInfo, DrawerWrapper } from "../../pages/market/styled";
+import { CoinDrawerInfo, DrawerWrapper } from "./styled";
 // import { IconButton } from "@difx/core-ui";
 
 const { Title } = Typography;

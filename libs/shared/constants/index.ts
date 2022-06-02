@@ -136,4 +136,5 @@ export const API_ENDPOINT = {
   GENERATE_DEPOSIT_ADDRESS: `/api/v1/wallet/deposit-address`,
   WITHDRAW_REQUEST: `/api/v1/wallet/withdraw`,
   GET_RECENT_TRANSACTIONS: `api/v1/wallet/recent-transaction`,
+  UPDATE_USER_PROFILE: `/api/v1/user/update-profile`,
 }

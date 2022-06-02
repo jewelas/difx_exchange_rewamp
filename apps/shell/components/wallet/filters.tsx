@@ -5,7 +5,7 @@ import t from "@difx/locale";
 import { SearchOutlined } from '@ant-design/icons';
 import { useConvertSmallBalModal } from "@difx/shared";
 
-export function WalletFilters({overviewContent}) {
+export function WalletFilters({overviewContent, onSearch}) {
   const {modalVisible, setModalVisible} = useConvertSmallBalModal()
   return (
     <div className="toggle-card-wrapper">
@@ -21,7 +21,7 @@ export function WalletFilters({overviewContent}) {
             <Space split={<Divider type="vertical" />}>
             {overviewContent !== "overview" ? 
                 <div className="input-group search-input">
-                  <Input placeholder={t("common.search")} prefix={<SearchOutlined />} />
+                  <Input placeholder={t("common.search")} onChange={onSearch} prefix={<SearchOutlined />} />
                 </div>
                 : null }
                 {overviewContent === "spot" ? 

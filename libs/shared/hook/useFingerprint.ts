@@ -5,7 +5,7 @@ export function useFingerprint() {
   
   useEffect(()=>{
     if(navigator){
-      const {ClientJS} = require('ClientJS')
+      const {ClientJS} = require('clientjs')
       clientRef.current = new ClientJS()
     }
   },[])

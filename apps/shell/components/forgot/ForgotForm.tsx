@@ -130,7 +130,12 @@ export function ForgotForm({setTab, setEmail, setPhoneNumber}: ForgotFormProps) 
               }}
               className={clsx("tab", type === "email" && "active")}
             >
-              <Typography level="B1">{t("signin.email")}</Typography>
+              <Typography 
+                level="B1"
+                className={clsx(type === "email" && "active")}
+              >
+                {t("signin.email")}
+              </Typography>
             </div>
             <div className="splitter" />
             <div
@@ -139,7 +144,12 @@ export function ForgotForm({setTab, setEmail, setPhoneNumber}: ForgotFormProps) 
               }}
               className={clsx("tab", type === "phone" && "active")}
             >
-              <Typography level="B1">{t("signin.phone_number")}</Typography>
+              <Typography 
+                level="B1"
+                className={clsx(type === "phone" && "active")}
+              >
+                {t("signin.phone_number")}
+              </Typography>
             </div>
           </div>
         </div>

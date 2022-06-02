@@ -47,6 +47,11 @@ export function useAuth() {
     setIsLoggedIn(true);
   };
 
+  const updateProfile = (updatedUser: User): void => {
+    localStorage?.setItem("currentUser", JSON.stringify(updatedUser))
+    setUser(updatedUser)
+  };
+
   const logOut = async() : Promise<void> => {
     try{
       instance.interceptors.request.use(axiosAuthorization)
@@ -56,8 +61,7 @@ export function useAuth() {
         device_token:"dasdasdasdasdasd"
       }     
       const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.LOG_OUT,reqData)
-      
-      console.log(response)
+
       const { data } = response.data
       localStorage?.removeItem("currentUser")
       localStorage?.removeItem("sessionToken")
@@ -111,6 +115,7 @@ export function useAuth() {
     isLoggedIn,
     permissions,
     updateSession,
+    updateProfile,
     refreshToken,
     logOut,
    };

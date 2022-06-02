@@ -487,6 +487,10 @@ const GlobalStyles = createGlobalStyle`
       color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
     }
 
+    .ant-typography.active{
+      color: ${({ theme }: { theme: ThemeInterface }) => theme.color.primary} !important;
+    }
+
     .ant-modal-close-x{
       svg{
         fill: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};

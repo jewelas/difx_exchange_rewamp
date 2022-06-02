@@ -28,7 +28,7 @@ export function SendToCryptoAddress() {
   const currentUser = useAtomValue(currentUserAtom)
   const { modalVisible, setModalVisible } = useVerificationModal()
 
-  const { data: recentTransaction, isLoading } = useHttpGet(QUERY_KEY.RECENT_TRANSACTIONS, API_ENDPOINT.GET_RECENT_TRANSACTIONS,{})
+  const { data: recentTransaction, isLoading } = useHttpGet<any, any>(QUERY_KEY.RECENT_TRANSACTIONS, API_ENDPOINT.GET_RECENT_TRANSACTIONS,{})
   
   const onChange = (e: RadioChangeEvent) => {
     const coinInfo = e.target.value
@@ -239,7 +239,7 @@ export function SendToCryptoAddress() {
             <div className="divider"></div>
             <div>
                 {
-                    recentTransaction ? 
+                    recentTransaction && recentTransaction.length > 0 ? 
                         <>
                             <div>
                                 <Typography.Title level={5}>Select recent address</Typography.Title>

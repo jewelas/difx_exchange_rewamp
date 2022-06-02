@@ -18,6 +18,7 @@ export function toFixedNumber(value: number, group_precision: number): string{
     });
   }else{
     const numberFormatted = Number(value.toFixed(group_precision));
+    if(numberFormatted === 0) return value.toString();
     return numberFormatted.toString();
   }
 };

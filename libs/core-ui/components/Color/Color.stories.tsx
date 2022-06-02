@@ -40,9 +40,6 @@ const Template: Story = (args) => {
   return (
     <div>
       <h2>Colors</h2>
-      <div>
-        {`import { Color } from @difx/core-ui`}
-      </div>
 
       <div style={{ fontWeight: 600, fontSize: 19, margin: "10px 0px 5px 0px" }}>In Light Mode</div>
       <div>

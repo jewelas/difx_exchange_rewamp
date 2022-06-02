@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
 import { Loading, OrderForm, OrderSideType, OrderType, Typography, showSuccess } from "@difx/core-ui";
-import { Balance, currentUserAtom, isLoggedInAtom, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, SocketEvent, useHttpGet, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
+import { Balance, currentUserAtom, isLoggedInAtom, PairType, PlaceOrderRequest, PlaceOrderResponse, priceSelectedAtom, amountSelectedAtom, SocketEvent, useHttpGet, useHttpGetByEvent, useHttpPost, useSocket, useSocketProps } from "@difx/shared";
 import { Button, Form, Tabs } from "antd";
 import { AxiosResponse } from "axios";
 import clsx from 'clsx';
@@ -19,6 +19,9 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
   const user = useAtomValue(currentUserAtom);
   const [balances, setBalances] = useState<Array<Balance>>([]);
 
+  const [priceSelected, setPriceSelected] = useAtom(priceSelectedAtom);
+  const [amountSelected, setAmountSelected] = useAtom(amountSelectedAtom);
+
   const [bidForm] = Form.useForm();
   const [askForm] = Form.useForm();
 
@@ -30,9 +33,11 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
     askForm.setFieldsValue({ [`ask.stop`]: 0 });
     askForm.setFieldsValue({ [`ask.amount`]: 0 });
     askForm.setFieldsValue({ [`ask.total`]: 0 });
+
+    setPriceSelected(0);
+    setAmountSelected(0);
   }, [pair]);
 
-  const [priceSelected,] = useAtom(priceSelectedAtom);
 
   const { data: pairsData } = useHttpGet<null, any>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
@@ -138,6 +143,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}
+            amountSelected={amountSelected}
             baseCurrency={pairInfo.currency1}
             quoteCurrency={pairInfo.currency2}
             type={orderType}
@@ -152,6 +158,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}
+            amountSelected={amountSelected}
             baseCurrency={pairInfo.currency1}
             quoteCurrency={pairInfo.currency2}
             side="ask"
@@ -175,6 +182,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
               isLoading={isLoading}
               onPlaceOrder={onSubmitOrder}
               priceSelected={priceSelected}
+              amountSelected={amountSelected}
               baseCurrency={pairInfo.currency1}
               quoteCurrency={pairInfo.currency2}
               type={orderType}
@@ -194,6 +202,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
               isLoading={isLoading}
               onPlaceOrder={onSubmitOrder}
               priceSelected={priceSelected}
+              amountSelected={amountSelected}
               baseCurrency={pairInfo.currency1}
               quoteCurrency={pairInfo.currency2}
               side="ask"
@@ -216,6 +225,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}
+            amountSelected={amountSelected}
             baseCurrency={pairInfo.currency1}
             quoteCurrency={pairInfo.currency2}
             type={orderType}
@@ -230,6 +240,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
             isLoading={isLoading}
             onPlaceOrder={onSubmitOrder}
             priceSelected={priceSelected}
+            amountSelected={amountSelected}
             baseCurrency={pairInfo.currency1}
             quoteCurrency={pairInfo.currency2}
             side="ask"

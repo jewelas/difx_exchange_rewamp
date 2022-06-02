@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { Color } from "../Color";
 import { TextStyled } from "./styled";
 
 export interface TypographyProps {
@@ -14,25 +13,10 @@ export interface TypographyProps {
 }
 
 const Typography = ({ color, fontSize, fontWeight, lineHeight, level, className, children }: TypographyProps) => {
-  let _color;
-  switch (color) {
-    case "danger":
-      _color = Color.red?.failure;
-      break;
-    case "primary":
-      _color = Color.blue?.primary;
-      break;
-    case "success":
-      _color = Color.green?.success;
-      break;
-    case "secondary":
-      _color = Color.grey.textSecondary;
-      break;
-  }
   return (
     <TextStyled
-      className={clsx(level, className)}
-      style={{ color: _color, fontSize: `${fontSize}px`, fontWeight: `${fontWeight}px`, lineHeight: `${lineHeight}px` }}
+      className={clsx(level, className, color)}
+      style={{fontSize: `${fontSize}px`, fontWeight: `${fontWeight}px`, lineHeight: `${lineHeight}px` }}
     >
       {children}
     </TextStyled>

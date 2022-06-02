@@ -8,7 +8,7 @@ export interface OrderBookHeadProps {
   pairInfo: PairType;
   layout?: string;
   totalType: 'total' | 'sum';
-  setTotalType: (value:'total' | 'sum')=>void;
+  setTotalType: (value: 'total' | 'sum') => void;
 }
 
 export function OrderBookHead({
@@ -24,30 +24,20 @@ export function OrderBookHead({
         !['compact'].includes(layout)
         &&
         <div>
-          <Typography level="text">{`Price(${pairInfo.currency2})`}</Typography>
+          <Typography level="text">{`Price`}</Typography>
         </div>
       }
 
-      <div>
-        <Typography level="text">{`Quantity(${pairInfo.currency1})`}</Typography>
+      <div className="quantity">
+        <Typography level="text">{`Quantity`}</Typography>
       </div>
       <div className="col-total">
         <div style={{ marginTop: '-19px !important' }}>
           <Button onClick={() => { setTotalType(totalType === 'sum' ? 'total' : 'sum') }} ghost><SwitchIcon useDarkMode /></Button>
         </div>
-        {
-          !['compact'].includes(layout)
-            ?
-            <div>
-              <Typography level="text">{totalType === 'sum' ? `Sum` : `Total`}</Typography>
-              <Typography level="text">{totalType === 'sum' ? `(${pairInfo.currency1})` : `(${pairInfo.currency2})`}</Typography>
-            </div>
-            :
-            <div>
-              <Typography level="text">{totalType === 'sum' ? `Sum` : `Total`}</Typography>
-              <Typography level="text">{totalType === 'sum' ? `(${pairInfo.currency1})` : `(${pairInfo.currency2})`}</Typography>
-            </div>
-        }
+        <div>
+          <Typography level="text">{totalType === 'sum' ? `Sum` : `Amount`}</Typography>
+        </div>
       </div>
     </div>
   );

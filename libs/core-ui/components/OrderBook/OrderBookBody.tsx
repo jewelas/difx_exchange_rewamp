@@ -18,6 +18,7 @@ export interface OrderBookBodyProps {
   currentPrice?: number;
   networkStatus?: NetworkStatusType;
   onPriceSelected?: (price: number) => void;
+  onAmountSelected?: (price: number) => void;
   priceOpenOrders?: Array<any>;
   totalType?: 'total' | 'sum';
   hideColumns?: string[];
@@ -35,6 +36,7 @@ function renderData(
   data: Array<Array<number>> | undefined,
   numberFormat: number,
   onPriceSelected: (price: number) => void,
+  onAmountSelected: (price: number) => void,
   priceOpenOrders: Array<number>,
   hideColumns: string[],
   layout = 'default'
@@ -42,9 +44,24 @@ function renderData(
   const result = [];
 
   if (!data) return [];
+
+  const sum: number[] = [];
   for (let i = 0; i < max_row; i++) {
     const row = data[i];
     if (!row) break;
+
+    if (totalType === "sum") {
+      if (type === 'ask') {
+        const calc = data[max_row - i - 1][0] * data[max_row - i - 1][1];
+        if (i === 0) sum.push(calc);
+        else sum.push(sum[i - 1] + calc);
+      } else if (type === 'bid') {
+        const calc = data[i][0] * data[i][1];
+        if (i === 0) sum.push(calc);
+        else sum.push(sum[i - 1] + calc);
+      }
+    }
+
     const barStyle: any = {};
     barStyle.width = `${row[2].toString()}%`;
     if (layout === 'compact') {
@@ -82,7 +99,7 @@ function renderData(
               ?
               toFixedNumber(row[0] * row[1], numberFormat)
               :
-              toFixedNumber(row[3], numberFormat)
+              toFixedNumber(type === 'bid' ? sum[i] : sum[sum.length - i - 1], numberFormat)
           }
         </Typography>
         : <></>
@@ -90,7 +107,7 @@ function renderData(
 
     if (row) {
       result.push(
-        <div onClick={() => { onPriceSelected && onPriceSelected(row[0]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
+        <div onClick={() => { onPriceSelected && onPriceSelected(row[0]); onAmountSelected && onAmountSelected(row[1]) }} key={`${type}_${row[0]}_${i}`} className="table-row">
           <BarStyled className={type} style={barStyle} />
           {
             priceOpenOrders.find((e: any) => e.side === type && e.price === row[0]) &&
@@ -131,7 +148,7 @@ export function CurrentPrice({ currentPrice, priceTrend, networkStatus, layout, 
   const { currentCurrency: fiatCurrency } = useCurrency();
 
   if (!currentPrice) {
-    return <Loading type="component" style={{position:'absolute', width:'100%', height:'100%'}} />;
+    return <Loading type="component" style={{ position: 'absolute', width: '100%', height: '100%' }} />;
   }
 
   return (
@@ -172,6 +189,7 @@ export function OrderData({
   data,
   numberFormat,
   onPriceSelected,
+  onAmountSelected,
   priceOpenOrders,
   maxRowData = 12,
   totalType = 'total',
@@ -183,10 +201,10 @@ export function OrderData({
     return <Loading type="component" style={{ height: 300 }} />;
   }
 
-  if (!type || !onPriceSelected) return null;
+  if (!type || !onPriceSelected || !onAmountSelected) return null;
   return (
     <div className={type}>
-      {renderData(totalType, maxRowData, type, data, numberFormat, onPriceSelected, priceOpenOrders || [], hideColumns, layout)}
+      {renderData(totalType, maxRowData, type, data, numberFormat, onPriceSelected, onAmountSelected, priceOpenOrders || [], hideColumns, layout)}
     </div>
   );
 }

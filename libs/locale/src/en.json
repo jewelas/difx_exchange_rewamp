@@ -50,7 +50,8 @@
     "register": "Register",
     "exchange": "Exchange",
     "staking": "Staking",
-    "logout": "Logout"
+    "logout": "Logout",
+    "nomination": "Nomination"
   },
   "resetPass": {
     "title": "Reset Password"
@@ -128,7 +129,8 @@
     "should_contain_special_char": "Should contain special character",
     "should_contain_number": "Should contain number",
     "should_not_contain_space": "Should not contain space",
-    "re_input_pass": "Please re-enter your password!"
+    "re_input_pass": "Please re-enter your password!",
+    "insufficient_bal": "Max allowed:"
   },
   "market": {
     "market": "Market",
@@ -172,8 +174,10 @@
     "order_history": "Order history",
     "trade_history": "Trade History",
     "future_orders": "Future Order",
-    "position": "Position",
-    "transactions": "Transactions"
+    "positions": "Position",
+    "transactions": "Transactions",
+    "buy": "Buy",
+    "sell": "Sell"
   },
   "report": {
     "filled": "Filled",

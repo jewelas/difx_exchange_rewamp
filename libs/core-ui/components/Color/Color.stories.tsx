@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Story, Meta } from "@storybook/react";
-import { Color } from ".";
+import { light, dark } from "./../../themes/themes"
 
 export default {
   title: "Core/Color",
@@ -17,90 +17,66 @@ function wc_hex_is_light(color: string) {
   return brightness > 155;
 }
 
-const Template: Story = (args) => {
-  const renderColorRange = (name: string, colorsParam: any) => {
-    const keys: any = Object.keys(colorsParam);
 
-    return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div
-          style={{
-            fontWeight: 600,
-            textAlign: "center",
-            fontSize: "16px",
-            color: "#777",
-          }}
-        >
-          {name}
-        </div>
-        {keys.map((e: any, i: number) => {
-          let colorName = "";
-          if (isNaN(parseInt(e))) {
-            colorName = e;
-          }
-          const color = colorsParam[e];
-          return (
-            <div
-              key={`${e}_${i}`}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: 7,
-                background: color,
-                color:
-                  wc_hex_is_light(color) || color.includes("#fff")
-                    ? "#000"
-                    : "#fff",
-              }}
-            >
-              <div>
-                Color.{name}
-                {!colorName ? `[${i}]` : `.${colorName}`}
-              </div>
-              <div>{color}</div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
+const Template: Story = (args) => {
+
+  const keys = ["color", "background", "fontColor"];
+
+  const renderItems = (theme: any, key: string) => {
+    const result = [];
+    const background = Object.keys(theme[key]);
+    background.map(e => {
+      const background = theme[key][e];
+      if (!background.includes("#") && !background.includes("rgb")) return null;
+      if (background.length > 15) return null;
+      const color = wc_hex_is_light(background) || background.includes("#fff") ? "#000" : "#fff";
+      result.push(
+        <div key={`${key}_${e}`} style={{ textAlign: "center", padding: 10, border: "solid 1px #ccc", width: 200, marginBottom: 10, marginRight: 10, background, color: color }}>{`${e}: ${background}`}</div>
+      )
+    });
+    return result;
+  }
 
   return (
     <div>
       <h2>Colors</h2>
-      <div
-        style={{
-          fontSize: "12px",
-          display: "inline-block",
-          border: "solid 1px #ccc",
-          padding: "5px",
-        }}
-      >
-        {`import { Color } from @difx/core-ui`}
+
+      <div style={{ fontWeight: 600, fontSize: 19, margin: "10px 0px 5px 0px" }}>In Light Mode</div>
+      <div>
+      {
+          keys.map(e => (
+            <div key={`item_light_${e}`} >
+              <div style={{ fontWeight: 600, fontSize: 15 }}>{e}</div>
+              <div style={{
+                display: "flex",
+                flexWrap: "wrap",
+                marginBottom: "10px",
+              }}>
+
+                {renderItems(dark, e)}
+              </div>
+            </div>
+          ))
+        }
       </div>
 
-      <div
-        style={{
-          marginTop: "20px",
-          display: "grid",
-          gridGap: "10px 10px",
-          gridTemplateColumns: "auto auto auto",
-          marginBottom: "50px",
-        }}
-      >
-        {renderColorRange("red", Color["red"])}
-        {renderColorRange("volcano", Color["volcano"])}
-        {renderColorRange("orange", Color["orange"])}
-        {renderColorRange("gold", Color["gold"])}
-        {renderColorRange("yellow", Color["yellow"])}
-        {renderColorRange("lime", Color["lime"])}
-        {renderColorRange("green", Color["green"])}
-        {renderColorRange("cyan", Color["cyan"])}
-        {renderColorRange("blue", Color["blue"])}
-        {renderColorRange("geekblue", Color["geekblue"])}
-        {renderColorRange("purple", Color["purple"])}
-        {renderColorRange("magenta", Color["magenta"])}
-        {renderColorRange("grey", Color["grey"])}
+
+      <div style={{ marginTop:10, fontWeight: 600, fontSize: 25, margin: "20px 10px 5px 0px" }}>In Dark Mode</div>
+      <div>
+        {
+          keys.map(e => (
+            <div key={`item_dark_${e}`} >
+              <div style={{ fontWeight: 600, fontSize: 15 }}>{e}</div>
+              <div style={{
+                display: "flex",
+                flexWrap: "wrap",
+              }}>
+
+                {renderItems(dark, e)}
+              </div>
+            </div>
+          ))
+        }
       </div>
     </div>
   );

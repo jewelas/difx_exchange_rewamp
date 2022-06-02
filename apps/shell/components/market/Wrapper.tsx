@@ -120,7 +120,7 @@ export function MarketWrapper() {
         <Modal title="Quick Trade" visible={modalVisible} footer={null} onCancel={closeModal}>
             <MarketModal />
         </Modal>
-        <Modal title="" visible={futureModalVisible} footer={null} onCancel={closeFutureModal} width={"60%"} style={{ top: 20 }}>
+        <Modal title="" visible={futureModalVisible} footer={null} onCancel={closeFutureModal} width={"50%"} style={{ top: 20 }}>
             <FutureModal />
         </Modal>
       </PageStyled>

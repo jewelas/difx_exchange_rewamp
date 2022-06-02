@@ -110,6 +110,27 @@ export function GridView({data, datatype}) {
                             </Col>
                         </Row>
                         <CoinPriceInfo>
+                          {datatype === "future" ? 
+                            <Row gutter={10}>
+                                <Col span={8}>
+                                    <Text type="secondary">
+                                      Buy Price
+                                    </Text>
+                                    <Text><LastPrice price={item.last} /></Text>
+                                </Col>
+                                <Col span={8}>
+                                    <Text type="secondary">
+                                      24h Change
+                                    </Text>
+                                    <Text type={item.change > 0 ? "success" : "danger"}>{item.change > 0 ? '+' : ''}{item.change.toFixed(2)}%</Text>
+                                </Col>
+                                <Col span={8}>
+                                    <Text type="secondary">
+                                      Sell Price
+                                    </Text>
+                                    <Text>{numFormatter(item.volume)} {item.currency1}</Text>
+                                </Col>
+                            </Row> :
                             <Row gutter={10}>
                                 <Col span={8}>
                                     <Text type="secondary">
@@ -130,6 +151,7 @@ export function GridView({data, datatype}) {
                                     <Text>{numFormatter(item.volume)} {item.currency1}</Text>
                                 </Col>
                             </Row>
+                          }
                         </CoinPriceInfo>
                         <MarketCardBtns>
                             <Row gutter={20}>
@@ -142,7 +164,7 @@ export function GridView({data, datatype}) {
                                         router.push(`/login`)
                                       }
                                     }}>
-                                      Buy
+                                      Long
                                     </Button> : 
                                     <Button type="primary" className="success" onClick={() => {
                                       if(isLoggedIn){
@@ -167,7 +189,7 @@ export function GridView({data, datatype}) {
                                         }
                                       }}
                                     >
-                                      Sell
+                                      Short
                                     </Button>
                                     : <Button type="primary" className="danger"
                                     onClick={() => {

@@ -1,15 +1,14 @@
-import { API_ENDPOINT, REFETCH, QUERY_KEY } from "@difx/constants";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { API_ENDPOINT } from "@difx/constants";
 import { Loading, Typography } from "@difx/core-ui";
+import { SocketEvent, useHttpGetByEvent, useSocket, useSocketProps } from "@difx/shared";
 import { getCurrentTimeByDateString } from "@difx/utils";
-import {
-  PairType, SocketEvent, useHttpGet, useSocket, useSocketProps
-} from "@difx/shared";
 import { Table } from "antd";
-import { useMemo, useRef } from 'react';
+import { AxiosResponse } from "axios";
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { TableWraperStyled } from "./styled";
 
 export function TradeInfoWrapper({ pair }: { pair: string }) {
-  const { data: pairs } = useHttpGet<null, PairType[]>(QUERY_KEY.PAIRS, API_ENDPOINT.GET_PAIRS, null);
 
   const componentRef = useRef(null);
 
@@ -49,17 +48,25 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
     },
   ];
 
-  const { data: tradesData } = useHttpGet<null, Array<number | string>>(QUERY_KEY.TRADES, `${API_ENDPOINT.GET_TRADES(pair)}`, null);
-  const marketTrades: Array<{ trend: number, price: number, size: number, at: string }> = useMemo(() => {
-    if (tradesData && tradesData.length >= 4) {
-      return tradesData.map(e => ({
+  const getTradesSuccess = (response: AxiosResponse<Array<number | string>>) => {
+    const { data } = response;
+    if (data && data.length >= 4) {
+      const _data = data.map(e => ({
         trend: e[0],
         price: e[1],
         size: e[2],
         at: e[3]
       }));
-    } else return []
-  }, [tradesData])
+      setTradesData(_data)
+    } else setTradesData([])
+  }
+
+  const [tradesData, setTradesData] = useState<Array<{ trend: number, price: number, size: number, at: string }>>([]);
+  const { mutate: getTradesData } = useHttpGetByEvent<null, Array<number | string>>({ onSuccess: getTradesSuccess, endpoint: `${API_ENDPOINT.GET_TRADES(pair)}` });
+  
+  useEffect(()=>{
+    getTradesData({endpoint:`${API_ENDPOINT.GET_TRADES(pair)}`})
+  },[pair, getTradesData]);
 
   const param: useSocketProps = {
     join: pair && pair as string,
@@ -68,17 +75,17 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
   const tradeChangedSocketData = useSocket(param)
   const tableData = useMemo(() => {
     if (tradeChangedSocketData) {
-      marketTrades.splice(0, 0, {
+      tradesData.splice(0, 0, {
         trend: tradeChangedSocketData[1],
         price: tradeChangedSocketData[2],
         size: tradeChangedSocketData[3],
         at: tradeChangedSocketData[4]
       });
     }
-    return marketTrades.splice(0, 12);
-  }, [tradeChangedSocketData, marketTrades]);
+    return tradesData.splice(0, 12);
+  }, [tradeChangedSocketData, tradesData]);
 
-  if (!pairs || !pair) return  <Loading type='component' />
+  if (!pair) return <Loading type='component' />
 
   return (
     <TableWraperStyled style={{ marginTop: -29 }} ref={componentRef}>

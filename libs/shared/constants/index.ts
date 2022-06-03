@@ -75,7 +75,9 @@ export const STORE_KEY = {
   FAVORITE_FUTURE_PAIRS: 'favoriteFuturePairs',
   LAST_PAIR: 'lastPair',
   EXCHANGE_STYLE: 'exchangeStyle',
-  RECENT_TRANSACTIONS: 'recentTransactions'
+  RECENT_TRANSACTIONS: 'recentTransactions',
+  HIDE_BALANCE: 'hideBalance',
+  HIDE_SMALL_BALANCES: 'hideSmallBalances'
 }
 
 export const API_ENDPOINT = {
@@ -132,9 +134,15 @@ export const API_ENDPOINT = {
   GET_MARKET_COIN_PRICE: (coin: any) => `/api/v1/market/coin-price?coin=${coin}`,
   GET_WALLET_OVERVIEW: '/api/v1/wallet/overview',
   GET_SPOT_OVERVIEW: '/api/v1/wallet/spot-overview',
-  GET_TRANSACTION_LIST: (page: number, limit: number) => `/api/v1/wallet/transaction?page=${page}&limit=${limit}`,
+  GET_TRANSACTION_LIST: (page: number, limit: number, type: string) => {
+    return `/api/v1/wallet/transaction?${page ? `page=${page}` : ''}${limit ? `&limit=${limit}` : ''}${type ? `&type=${type}` : ''}`
+  },
+  // GET_STAKING_HISTORY: (page: number, limit: number, endDate: string, startDate: string) => {
+  //   return `/api/v1/staking/history?${page ? `page=${page}` : ''}${limit ? `&limit=${limit}` : ''}${endDate ? `&end_date=${endDate}` : ''}${startDate ? `&start_date=${startDate}` : ''}`
+  // },
   GENERATE_DEPOSIT_ADDRESS: `/api/v1/wallet/deposit-address`,
   WITHDRAW_REQUEST: `/api/v1/wallet/withdraw`,
+  CONFIRM_WITHDRAW: `/api/v1/wallet/confirm-withdraw`,
   GET_RECENT_TRANSACTIONS: `api/v1/wallet/recent-transaction`,
   UPDATE_USER_PROFILE: `/api/v1/user/update-profile`,
 }

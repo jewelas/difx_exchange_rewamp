@@ -201,5 +201,12 @@
     "api_keys": "Api Keys",
     "trading_fees": "Trading fees",
     "transaction_fees": "Transaction fees"
+  },
+  "notifications":{
+    "verify_email": "Verify Email",
+    "verify_email_message": "Please verify your email address",
+    "enable_2fa": "Enable 2FA",
+    "enable_2fa_message": "Please enable your Two Factor Authentication"
   }
+
 }

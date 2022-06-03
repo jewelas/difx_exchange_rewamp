@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon, Loading, Typography } from "@difx/core-ui";
 import t from "@difx/locale";
-import { useHttpGet, useTransactionDetailsModal } from "@difx/shared";
-import { Avatar, Button, Space, Table } from "antd";
+import { useHttpGet, useTransactionDetails, useTransactionDetailsModal } from "@difx/shared";
+import { Avatar, Button, Pagination, Space, Table } from "antd";
 import Text from "antd/lib/typography/Text";
 import { RecentTransactionsWrapper } from "../styled";
 import { API_ENDPOINT, ASSETS_URL, QUERY_KEY } from "@difx/constants"
@@ -21,7 +21,14 @@ interface DataType {
 
 export function ConvertTransactions() {
   const {modalVisible, setModalVisible} = useTransactionDetailsModal()
-  const { data, isLoading } = useHttpGet( QUERY_KEY.RECENT_TRANSACTIONS ,API_ENDPOINT.GET_TRANSACTION_LIST(1,10), null)
+  const {
+    data,
+    limit,
+    totalItems,
+    currentPage,
+    getParticularPage, 
+    isLoading
+  } = useTransactionDetails("convert")
 
   const iconSwitch = (type) => {
     switch(type){
@@ -93,6 +100,10 @@ export function ConvertTransactions() {
     },
   ];
 
+  const onPageChange = (page) => {
+    getParticularPage(page)
+  }
+
   if(isLoading){
     return <Loading />
   }
@@ -103,9 +114,16 @@ export function ConvertTransactions() {
         columns={columns}
         /* eslint-disable */
         // @ts-ignore
-        dataSource={data.result}
+        dataSource={data}
         pagination={false}
         className="common-table"
+      />
+      <Pagination 
+        current={currentPage} 
+        pageSize={limit} 
+        total={totalItems} 
+        // showSizeChanger 
+        onChange={onPageChange}
       />
       </RecentTransactionsWrapper>
   );

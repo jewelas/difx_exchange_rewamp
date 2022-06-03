@@ -185,7 +185,9 @@
     "price": "Price",
     "side": "Side",
     "symbol": "Symbol",
-    "date": "Date"
+    "date": "Date",
+    "date_updated" : "Time Updated:",
+    "order_no" : "Order No:"
   },
   "profile": {
     "user_profile": "User Profile",

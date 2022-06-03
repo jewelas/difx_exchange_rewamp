@@ -80,8 +80,9 @@ export function TopBalance({
                 {type == "overview" ? 
                     <Space className="wallet-btn-group">
                         <Link href="/wallet/deposit"><Button type="primary">{t("wallet.deposit")}</Button></Link>
-                        <Button type="ghost" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.withdraw")}</Button>
-                        <Button type="ghost" onClick={() => {setTransferModalVisible(!transferModalVisible)}}>{t("wallet.transfer")}</Button>
+                        <Link href="/wallet/withdraw"><Button type="ghost">{t("wallet.withdraw")}</Button></Link>
+                        {/* <Button type="ghost" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.withdraw")}</Button>
+                        <Button type="ghost" onClick={() => {setTransferModalVisible(!transferModalVisible)}}>{t("wallet.transfer")}</Button> */}
                     </Space>
                 :
                 null
@@ -89,9 +90,10 @@ export function TopBalance({
                 {type === "spot" ?
                     <Space className="wallet-btn-group">
                         <Link href="/wallet/deposit"><Button type="primary">{t("wallet.deposit")}</Button></Link>
-                        <Button type="ghost" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.withdraw")}</Button>
+                        <Link href="/wallet/withdraw"><Button type="ghost">{t("wallet.withdraw")}</Button></Link>
+                        {/* <Button type="ghost" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.withdraw")}</Button>
                         <Button type="ghost" onClick={() => {setTransferModalVisible(!transferModalVisible)}}>{t("wallet.transfer")}</Button>
-                        <Button type="link" icon={<Icon.EyeVisibleIcon width={16}/>} className="anchor-link"> {t("wallet.pl_analysis")}</Button>
+                        <Button type="link" icon={<Icon.EyeVisibleIcon width={16}/>} className="anchor-link"> {t("wallet.pl_analysis")}</Button> */}
                     </Space>
                 :
                 null

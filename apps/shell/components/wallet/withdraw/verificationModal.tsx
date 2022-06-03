@@ -1,66 +1,88 @@
 import { Icon, OTPBox } from "@difx/core-ui";
 import t from "@difx/locale";
-import { useVerificationModal } from "@difx/shared";
+import { useAPI, useVerificationModal } from "@difx/shared";
 import { Button, Form, Modal, Typography } from "antd";
-import { FormInstance } from "antd/es/form";
 import Paragraph from "antd/lib/typography/Paragraph";
-import React, { useRef, useState } from "react";
-import isEmpty from "lodash/isEmpty";
+import React, { useEffect, useState } from "react";
 import { WithdrawModalWrapper } from "../styled";
+import { API_ENDPOINT } from "@difx/constants"
 
 
-export function VerificationModal({userEmail}) {
-    const { modalVisible, setModalVisible } = useVerificationModal();
-    const [hasFieldError, setHasFieldError] = useState(true);
-    const formRef = useRef<FormInstance>(null);
-    const [otpValue, setOtpValue] = useState('')
-    const [timer, setTimer] = useState(55)
-    const [resend, setResend] = useState(false)
+export function VerificationModal({userEmail, requestId}) {
+  const { modalVisible, setModalVisible } = useVerificationModal();
+  const [hasFieldError, setHasFieldError] = useState(true);
+  const [verificationCode, setVerificationCode] = useState('')
+  const [twofa, setTwofa] = useState('')
+  const [timer, setTimer] = useState(55)
+  const [resend, setResend] = useState(false)
 
-    const closeModal = () => {
-        setModalVisible(false);
+  const { API } = useAPI()
+
+  const closeModal = () => {
+      setModalVisible(false);
     };
-    const isRequiredFieldsEmpty = (): boolean => {
-        let result = false;
-        const values: FormData = formRef.current?.getFieldsValue();
-        /* eslint-disable-next-line */
-        for (const [key, value] of Object.entries(values)) {
-          if (!value) {
-            result = true;
-            break;
-          }
-        }
-        return result;
-      };
-    const onFormChange = () => {
-        if (isRequiredFieldsEmpty()) {
-          setHasFieldError(true);
-        } else {
-          const fieldsError = formRef.current?.getFieldsError();
-          const errors = fieldsError.find((e) => !isEmpty(e.errors));
-          if (errors && !isEmpty(errors.errors)) {
-            setHasFieldError(true);
-          } else {
-            setHasFieldError(false);
-          }
-        }
-    };
-    const handleChange = (otp) => {
-        setOtpValue(otp)
-        otp.length === 6 ? setHasFieldError(false) : setHasFieldError(true)
+
+  const handleVerificationCode = (otp) => {
+      setVerificationCode(otp)
+  }
+
+  const handleTwofa = (otp) => {
+    setTwofa(otp)
+  }
+
+  const resendVerificationCode = () => {
+    const reqData: any = {
+      email:userEmail
     }
+    // resendMail(reqData)
+  }
+  
+  const pasteVerificationCode = async() => {
+    const text = await navigator.clipboard.readText();
+    setVerificationCode(text)
+  }
 
-    const resendOTP = () => {
-        const reqData: any = {
-          email:userEmail
-        }
-        // resendMail(reqData)
+  const pasteTwofa = async() => {
+    const text = await navigator.clipboard.readText();
+    setTwofa(text)
+  }
+
+  const onSubmit = async() => {
+    try{
+      const reqData = {
+        request_id: requestId,
+        verification_code: verificationCode,
+        twofa_code: 125545
       }
-    
-      const pasteCode = async() => {
-        const text = await navigator.clipboard.readText();
-        setOtpValue(text)
-      }
+      console.log(reqData)
+      const response = await API.put(API_ENDPOINT.CONFIRM_WITHDRAW,reqData)
+      console.log(response)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  useEffect(()=>{
+    const countdown = setInterval(()=>{
+      setTimer((prevState)=>{
+        if(prevState > 0) return prevState-1
+        setResend(true)
+        clearInterval(countdown)
+        return prevState
+      })
+    },1000)
+    return () => {
+      clearInterval(countdown)
+    }
+  },[])
+
+  useEffect(()=>{
+    if(verificationCode.length === 6 && twofa.length === 6){
+      setHasFieldError(false)
+    }else{
+      setHasFieldError(true)
+    }
+  },[verificationCode, twofa])
 
   return (
         <Modal title="" footer={null} visible={modalVisible} onCancel={closeModal} closable={false}>
@@ -71,46 +93,47 @@ export function VerificationModal({userEmail}) {
                 </div>
                 <div className="withdraw-code">
                 <Form
-                    autoComplete="off"
-                    >
-                    <div className="content">
-                        <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
-                        <div className="botton-box">
-                        <div className="resend-box">
-                            {`00:${timer.toString().padStart(2,'0')}`}
-                            <span onClick={resendOTP} className={`${resend? 'active' : null}`}> {t("forgot.resend")}</span>
-                        </div> 
-                        <div className="paste-btn" onClick={()=>pasteCode()}>
-                            {t("forgot.paste")}
-                            <Icon.PasteIcon fill={`${({theme}) => theme.color.primary}`}/>
-                        </div>
-                        </div>
-                    </div>
-                    <div style={{marginTop:40}}>
-                        <Paragraph type="secondary">Please enter the 2FA code</Paragraph>
-                    </div>
-                    <div className="content">
-                        <OTPBox value={otpValue} numInputs={6} handleChange={handleChange}/>
-                        <div className="botton-box">
-                        <div className="resend-box">
-                            {`00:${timer.toString().padStart(2,'0')}`}
-                            <span onClick={resendOTP} className={`${resend? 'active' : null}`}> {t("forgot.resend")}</span>
-                        </div> 
-                        <div className="paste-btn" onClick={()=>pasteCode()}>
-                            {t("forgot.paste")}
-                            <Icon.PasteIcon fill={`${({theme}) => theme.color.primary}`}/>
-                        </div>
-                        </div>
-                        <Button
-                        htmlType="submit"
-                        disabled={hasFieldError}
-                        className="sign-in-btn"
-                        type="primary"
-                        >
-                        {t("common.confirm")}
-                        </Button>
-                    </div>
-                    </Form>
+                  onFinish={onSubmit}
+                  autoComplete="off"
+                >
+                  <div className="content">
+                      <OTPBox value={verificationCode} numInputs={6} handleChange={handleVerificationCode}/>
+                      <div className="botton-box">
+                      <div className="resend-box">
+                          {`00:${timer.toString().padStart(2,'0')}`}
+                          <span onClick={resendVerificationCode} className={`${resend? 'active' : null}`}> {t("forgot.resend")}</span>
+                      </div> 
+                      <div className="paste-btn" onClick={()=>pasteVerificationCode()}>
+                          {t("forgot.paste")}
+                          <Icon.PasteIcon fill={`${({theme}) => theme.color.primary}`}/>
+                      </div>
+                      </div>
+                  </div>
+                  <div style={{marginTop:40}}>
+                      <Paragraph type="secondary">Please enter the 2FA code</Paragraph>
+                  </div>
+                  <div className="content">
+                      <OTPBox value={twofa} numInputs={6} handleChange={handleTwofa}/>
+                      <div className="botton-box">
+                      <div className="resend-box">
+                          {/* {`00:${timer.toString().padStart(2,'0')}`}
+                          <span onClick={resendOTP} className={`${resend? 'active' : null}`}> {t("forgot.resend")}</span> */}
+                      </div> 
+                      <div className="paste-btn" onClick={()=>pasteTwofa()}>
+                          {t("forgot.paste")}
+                          <Icon.PasteIcon fill={`${({theme}) => theme.color.primary}`}/>
+                      </div>
+                      </div>
+                      <Button
+                      htmlType="submit"
+                      disabled={hasFieldError}
+                      className="sign-in-btn"
+                      type="primary"
+                      >
+                      {t("common.confirm")}
+                      </Button>
+                  </div>
+                </Form>
                 </div>
             </WithdrawModalWrapper>
         </Modal>

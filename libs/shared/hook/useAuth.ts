@@ -13,6 +13,7 @@ import {
 } from "..";
 import { API_ENDPOINT } from "..";
 import { useRouter } from "next/router";
+import { showError } from "@difx/core-ui";
 
 export function useAuth() {
   const [user, setUser] = useAtom(currentUserAtom);
@@ -82,6 +83,22 @@ export function useAuth() {
     
   }
 
+  const expireSession = (message) => {
+    if(user){
+      router.push("/login")
+      localStorage?.removeItem("currentUser")
+      localStorage?.removeItem("sessionToken")
+      localStorage?.removeItem("refreshToken")
+      localStorage?.removeItem("permissions")
+      localStorage?.removeItem("favoriteSpotPairs")
+      localStorage?.removeItem("favoriteFuturePairs")
+      setUser(undefined);
+      setPermissions(undefined)
+      setIsLoggedIn(false);
+      showError("Login Again", message)
+    }
+  }
+
   const refreshToken = async() => {
     
     if(!user) {
@@ -122,5 +139,6 @@ export function useAuth() {
     updateProfile,
     refreshToken,
     logOut,
+    expireSession,
    };
 }

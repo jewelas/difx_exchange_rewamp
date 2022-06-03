@@ -2,14 +2,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, FormInstance, Input, Popover, Slider } from "antd";
 import clsx from "clsx";
-import LoginSignUpButton from "./../LoginSignUpButton";
-import { useAtom } from "jotai";
-import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
 import t from "./../../../locale";
-import { PairType, PlaceOrderRequest, previousPathAtom, useCurrency } from "./../../../shared";
+import { PairType, PlaceOrderRequest, useCurrency } from "./../../../shared";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
 import DownloadIcon from "./../Icon/DownloadIcon";
+import LoginSignUpButton from "./../LoginSignUpButton";
 import { Typography } from "./../Typography";
 import {
   ComponentStyled
@@ -53,6 +51,7 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
   const [groupPrecision, setGroupPrecision] = useState<number>(0);
   const [bAmount, setBAmmount] = useState<number>(0);
   const [showAmountPopover, setShowAmountPopover] = useState(false);
+  const [showTotalPopover, setShowTotalPopover] = useState(false);
   const [isErrorTotal, setIsErrorTotal] = useState(false);
   const [errorMsgTotal, setErrorMsgTotal] = useState<string | null>(null);
 
@@ -181,9 +180,16 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
         !isValidPriceNumber(fieldsValue[`${side}.total`])
       );
     } else if (type === 'market') {
-      setIsDisabled(
-        !isValidPriceNumber(fieldsValue[`${side}.total`])
-      );
+      if (side === "bid") {
+        setIsDisabled(
+          !isValidPriceNumber(fieldsValue[`${side}.total`])
+        );
+      } else if (side === "ask") {
+        setIsDisabled(
+          !isValidPriceNumber(fieldsValue[`${side}.amount`])
+        );
+      }
+
     } else if (type === 'stop-limit') {
       setIsDisabled(
         !isValidPriceNumber(fieldsValue[`${side}.stop`]) ||
@@ -256,6 +262,20 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
     return null;
   }
 
+  const TotalInputField = (
+    <Popover visible={showTotalPopover} placement="topRight" content={fiatCurrency && `≈ ${fiatCurrency?.symbol}${form.getFieldValue(`${side}.total`) * fiatCurrency?.usd_rate}`} trigger="focus">
+      <Form.Item
+        name={`${side}.total`}>
+        <Input
+          onFocus={() => { setShowTotalPopover(true) }}
+          onBlur={() => { setShowTotalPopover(false) }}
+          className={clsx(isErrorTotal && 'error')} onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Total"
+          prefix={<Typography className="prefix">Total</Typography>}
+          suffix={quoteCurrency} />
+      </Form.Item>
+    </Popover>
+  )
+
   return (
     <ComponentStyled>
       <Form
@@ -291,12 +311,15 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
           {
             type === 'market'
               ?
-              <Form.Item
-                name={`${side}.marketPrice`}>
-                <Input disabled type="text"
-                  prefix={<Typography className="prefix">Market Price</Typography>}
-                  suffix={quoteCurrency} />
-              </Form.Item>
+              <>
+                <Form.Item
+                  name={`${side}.marketPrice`}>
+                  <Input disabled type="text"
+                    prefix={<Typography className="prefix">Market Price</Typography>}
+                    suffix={quoteCurrency} />
+                </Form.Item>
+                {side === 'bid' && TotalInputField}
+              </>
               :
               <Form.Item
                 name={`${side}.price`}>
@@ -306,34 +329,39 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
               </Form.Item>
           }
 
-          <Popover visible={showAmountPopover} placement="topRight" content={getAmountErrorMsg()} trigger="focus">
-            <Form.Item
-              name={`${side}.amount`}>
-              <Input
-                className={clsx(showAmountPopover && 'error')}
-                onFocus={() => { onFocusAmountField() }}
-                onBlur={() => { setShowAmountPopover(false) }}
-                onInput={(e: any) => { onReplaceComma(e, bAmount) }}
-                type="text"
-                onWheel={preventScroll}
-                placeholder="Amount"
-                prefix={<Typography className="prefix">Amount</Typography>}
-                suffix={baseCurrency} />
-            </Form.Item>
-          </Popover>
+          {side === 'bid' && type === 'market'
+            ?
+            null
+            :
+            <Popover visible={showAmountPopover} placement="topRight" content={getAmountErrorMsg()} trigger="focus">
+              <Form.Item
+                name={`${side}.amount`}>
+                <Input
+                  className={clsx(showAmountPopover && 'error')}
+                  onFocus={() => { onFocusAmountField() }}
+                  onBlur={() => { setShowAmountPopover(false) }}
+                  onInput={(e: any) => { onReplaceComma(e, bAmount) }}
+                  type="text"
+                  onWheel={preventScroll}
+                  placeholder="Amount"
+                  prefix={<Typography className="prefix">Amount</Typography>}
+                  suffix={baseCurrency} />
+              </Form.Item>
+            </Popover>
+          }
 
           <div className={clsx("slider-group", side, layout)}>
             <Slider onChange={onSliderChange} marks={marks} step={5} value={sliderValue} />
           </div>
 
-          <Popover placement="topRight" content={fiatCurrency && `≈ ${fiatCurrency?.symbol}${form.getFieldValue(`${side}.total`) * fiatCurrency?.usd_rate}`} trigger="focus">
-            <Form.Item
-              name={`${side}.total`}>
-              <Input className={clsx(isErrorTotal && 'error')} onInput={(e: any) => { onReplaceComma(e, groupPrecision) }} type="text" onWheel={preventScroll} placeholder="Total"
-                prefix={<Typography className="prefix">Total</Typography>}
-                suffix={quoteCurrency} />
-            </Form.Item>
-          </Popover>
+          {
+            type === "market"
+              ?
+              null
+              :
+              TotalInputField
+          }
+
           {
             isErrorTotal &&
             <div style={{ marginBottom: 10, marginTop: -5 }}>

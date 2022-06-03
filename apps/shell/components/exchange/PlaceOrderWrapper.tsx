@@ -101,7 +101,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
       delete request["total"];
       delete request["price"];
       request.endpoint = API_ENDPOINT.PLACE_ORDER_MARKET;
-      request.amount = data.total;
+      request.amount = side==="bid" ? data.total : data.amount;
       placeOrder(request);
     } else if (type === 'stop-limit') {
       const request: PlaceOrderRequest = { ...data };

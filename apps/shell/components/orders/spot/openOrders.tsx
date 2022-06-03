@@ -152,7 +152,7 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
         dataSource={tableData}
         pagination={false}
         className="common-table"
-        rowKey={"id"}
+        rowKey={record=>`oo_${record.id}`}
       />
     </OrderTransacrtionWrapper>
   );

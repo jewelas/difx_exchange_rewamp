@@ -45,7 +45,7 @@ export function OrderHistoryReportExpanded({tableData=[]}:{tableData?:any[]}) {
         columns={columns}
         dataSource={tableData}
         pagination={false}
-        rowKey={"id"}
+        rowKey={record=>`orderHistoryTradeDetail_${record.id}`}
       />
     </div>
   )

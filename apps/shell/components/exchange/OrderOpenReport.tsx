@@ -211,7 +211,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       pagination={false}
       columns={columns}
       dataSource={tableData}
-      rowKey="id"
+      rowKey={record=>`openOrder_${record.id}`}
     />
   );
 }

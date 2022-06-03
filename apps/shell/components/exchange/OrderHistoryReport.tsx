@@ -214,7 +214,7 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}
-      rowKey="id"
+      rowKey={record=>`orderHistory_${record.id}`}
     />
   );
 }

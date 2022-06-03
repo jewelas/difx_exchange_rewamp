@@ -199,7 +199,7 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}
-      rowKey="id"
+      rowKey={record=>`orderSL_${record.id}`}
     />
   );
 }

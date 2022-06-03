@@ -67,11 +67,17 @@ export function PairMetaDataWrapper({ pair, layout }: PairMetaDataWrapperProps) 
       if (data && data.bids && data.asks && pairInfo) {
         const { bids: _bids, asks: _asks } = data;
         const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
-        const newPrice = getAveragePrice(
-          reverseAsks[reverseAsks.length - 1][0],
-          (_bids && _bids[0]) ? _bids[0][0] : 0,
-          pairInfo.group_precision
-        );
+        let newPrice = 0;
+        try {
+          newPrice = getAveragePrice(
+            reverseAsks[reverseAsks.length - 1][0],
+            (_bids && _bids[0]) ? _bids[0][0] : 0,
+            pairInfo.group_precision
+          );
+        } catch (err) {
+          newPrice = pairInfo.last;
+        }
+
         const priceTrend = getTrendPrice(PairMetaDataWrapper.previousPrice, newPrice);
 
         const highPrice = pairInfo.high.toFixed(pairInfo.group_precision);

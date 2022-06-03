@@ -67,6 +67,7 @@ export function useAuth() {
       const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.LOG_OUT,reqData)
 
       const { data } = response.data
+      router.push("/home")
       localStorage?.removeItem("currentUser")
       localStorage?.removeItem("sessionToken")
       localStorage?.removeItem("refreshToken")
@@ -76,7 +77,6 @@ export function useAuth() {
       setUser(undefined);
       setPermissions(undefined)
       setIsLoggedIn(false);
-      router.push("/home")
     }catch(err){
       console.log(err)
     }

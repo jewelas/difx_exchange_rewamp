@@ -76,12 +76,12 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       setTableData([]);
     }
   }
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_HISTORY(pair) });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_HISTORY() });
 
   useEffect(() => {
     if (isLoggedIn) {
       if (isSelectedPairOnly && pair) {
-        getOrderBooks({ endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
+        getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_HISTORY(pair) });
       } else {
         getOrderBooks(null);
       }
@@ -206,7 +206,7 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
             </div>
           </div>
           <div className="body">
-            <OrderHistoryReportExpanded tableData={record.trades} />
+            <OrderHistoryReportExpanded tableData={record.trades && record.trades[0] && record.trades} />
           </div>
         </div>,
       }}

@@ -1,12 +1,12 @@
 import React from "react";
 import { Menu } from "antd";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
 import { SidebarWrapper } from "./styled";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
-export function ProfileSidebar() {
+export function NotificationSidebar() {
   const router = useRouter();
   return (
     <SidebarWrapper width={260} className="site-layout-background">
@@ -64,4 +64,4 @@ export function ProfileSidebar() {
   );
 }
 
-export default ProfileSidebar;
+export default NotificationSidebar;

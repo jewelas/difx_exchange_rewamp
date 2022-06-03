@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import AppLayout from "../index.page";
 import { Layout } from "antd";
+import { useRouter } from "next/router";
+import AppLayout from "../index.page";
 import { PageStyled, NotificationContentStyled } from "./styled";
 import NotificationSidebar from "../../components/notification/sidebar";
-import { useRouter } from "next/router";
 
 export interface NotificationLayoutProps {
   children: React.ReactChild;

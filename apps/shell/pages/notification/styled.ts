@@ -26,6 +26,12 @@ const NotificationContentStyled = styled(Layout.Content)`
       display: flex;
       justify-content: center;
     }
+    .ant-pagination-item-active {
+      background : #3D7EFF;
+      a{
+        color: #F8FAFD;
+      }
+    } 
 
     .notification-content {
       display: flex;

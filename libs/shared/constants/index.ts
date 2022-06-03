@@ -136,4 +136,9 @@ export const API_ENDPOINT = {
   GENERATE_DEPOSIT_ADDRESS: `/api/v1/wallet/deposit-address`,
   WITHDRAW_REQUEST: `/api/v1/wallet/withdraw`,
   GET_RECENT_TRANSACTIONS: `api/v1/wallet/recent-transaction`,
+  GET_NOTIFICATIONS: (page: number, limit: number, type: String) => {
+    return `api/v1/notification/list?page=${page}&limit=${limit}`
+  },
+  MARK_AS_READ_NOTIFICATIONS: '/api/v1/notification/read-mark',
+
 }

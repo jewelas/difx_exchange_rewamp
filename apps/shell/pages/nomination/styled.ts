@@ -120,7 +120,7 @@ export const PageStyled = styled.div`
         display: flex;
         justify-content: center;
         padding: 25px;
-        margin-top: -200px;
+        margin-top: -240px;
 
         .board {
             width: 100%;
@@ -161,6 +161,211 @@ export const PageStyled = styled.div`
                 border-radius: 30px;
                 height: 4px;
                 transform: translateY(50%);
+            }
+
+            .nomineeRequest {
+                .header {
+                    background-color: #fafafa;
+                    color: #9AA5B4;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 18px;
+                    display: flex;
+                    justify-content: space-between;
+                    column-gap: 10px;
+                    width: 100%;
+    
+                    & > div {
+                        padding: 20px 40px;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        flex: 1;
+                    }
+    
+                    & > div:last-of-type {
+                        justify-content: flex-end;
+                    }
+                }
+
+                .rowsContainer {
+                    height: 300px;
+                    overflow: auto;
+
+                    .rows {
+                        color: #2B2C3E;
+                        font-weight: 600;
+                        font-size: 16px;
+                        line-height: 28px;
+                        display: flex;
+                        justify-content: space-between;
+                        column-gap: 10px;
+                        width: 100%;
+                        border-bottom: 1px solid #f4f4f4;
+        
+                        & > div {
+                            padding: 25px 40px;
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: center;
+                            flex: 1;
+                        }
+        
+                        & > div:last-of-type {
+                            justify-content: flex-end;
+                        }
+        
+                        .ifAccept {
+                            display: flex;
+        
+                            .accept {
+                                color: #21C198;
+                                position: relative;
+                                cursor: pointer;
+                                font-weight: 700;
+                                font-size: 18px;
+                                line-height: 18px;
+                                padding-right: 20px;
+        
+                                &::after {
+                                    content: '';
+                                    position: absolute;
+                                    top: 50%;
+                                    right: 0px;
+                                    transform: translateY(-50%);
+                                    height: 30px;
+                                    width: 1px;
+                                    background-color: #f4f4f4;
+                                }
+                            }
+        
+                            .decline {
+                                color: #DB5354;
+                                cursor: pointer;
+                                font-weight: 700;
+                                font-size: 18px;
+                                line-height: 18px;
+                                padding-left: 20px;
+                            }
+                        }
+        
+                        .claim {
+                            background: linear-gradient(84.56deg, #0B5CD6 12.23%, #3D7EFF 94.22%);
+                            background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            -webkit-background-clip: text;
+                            cursor: pointer;
+                            font-weight: 700;
+                            font-size: 18px;
+                            line-height: 18px;
+                        }
+                    }
+                }
+    
+            }
+
+            .nominess {
+                .header {
+                    background-color: #fafafa;
+                    color: #9AA5B4;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 18px;
+                    display: flex;
+                    justify-content: space-between;
+                    column-gap: 10px;
+                    width: 100%;
+    
+                    & > div {
+                        padding: 20px 40px;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        flex: 1;
+                    }
+                }
+
+                .rowsContainer {
+                    height: 300px;
+                    overflow: auto;
+
+                    .rows {
+                        color: #2B2C3E;
+                        font-weight: 600;
+                        font-size: 16px;
+                        line-height: 28px;
+                        display: flex;
+                        justify-content: space-between;
+                        column-gap: 10px;
+                        width: 100%;
+                        border-bottom: 1px solid #f4f4f4;
+        
+                        & > div {
+                            padding: 25px 40px;
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: center;
+                            flex: 1;
+                        }
+    
+                        .pending {
+                            color: #FAAD14;
+                            font-weight: 700;
+                            font-size: 18px;
+                            line-height: 18px;
+                        }
+    
+                        .remove {
+                            color: #DB5354;
+                            cursor: pointer;
+                            font-weight: 700;
+                            font-size: 18px;
+                            line-height: 18px;
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    .adContainer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 100px 25px 60px;
+
+        .adBoxes {
+            width: 100%;
+            max-width: 1682px;
+            display: flex;
+            justify-content: space-between;
+            column-gap: 10px;
+
+            & > div {
+                width: 263px;
+                height: 263px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                row-gap: 20px;
+
+                .title {
+                    color: #131314;
+                    font-weight: 600;
+                    font-size: 20px;
+                    line-height: 22px;
+                    color: #131314;
+                }
+
+                .content {
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 28px;
+                    text-align: center;
+                    color: #2B2C3E;
+                }
             }
         }
     }

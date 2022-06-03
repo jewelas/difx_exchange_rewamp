@@ -760,6 +760,13 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     margin-right: 5px;
   }
+  .removeModal , .addModal{
+    width: max-content !important;
+
+    .ant-modal-close {
+        display: none !important;
+    }
+  }
 `;
 
 export { GlobalStyles };

@@ -174,6 +174,7 @@ export function Header(props: HeaderProps) {
                         icon={<NotificationIcon useDarkMode />}
                         size={"small"}
                         type="text"
+                        onClick={() => onNavigation("/notification")}
                       />
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>

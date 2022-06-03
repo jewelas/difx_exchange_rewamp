@@ -55,6 +55,10 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
   const [isErrorTotal, setIsErrorTotal] = useState(false);
   const [errorMsgTotal, setErrorMsgTotal] = useState<string | null>(null);
 
+  useEffect(()=>{
+    if(isDisabled) validateForm();
+  },[]);
+
   useEffect(() => {
     if (amountSelected) {
       form.setFieldsValue({ [`${side}.amount`]: amountSelected });

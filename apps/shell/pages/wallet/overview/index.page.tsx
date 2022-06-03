@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { Layout} from 'antd';
 import { t } from "i18next";
 import TopBalance from "../../../components/wallet/balance";
@@ -23,8 +23,25 @@ export function OverviewPage() {
     rewardsBalanceUSD,
     rewardsBalanceBTC,
     earnBalaceUSD,
-    earnBalaceBTC 
+    earnBalaceBTC,
+    userBalance
   } = useBalance()
+
+  const [ search, setSearch ] = useState("")
+
+  const onSearch = (e) => {
+    setSearch(e.target.value)
+  }
+
+  const searchedList = useMemo(()=>{
+    if(search.length > 0){
+      // const filteredValue = userBalance.filter(item => item.currency === search)
+      console.log(userBalance)
+    }else{
+      console.log("empty")
+      return []
+    }
+  },[search])
   
 
   return (
@@ -51,8 +68,8 @@ export function OverviewPage() {
               earnBalaceUSD={earnBalaceUSD}
               earnBalaceBTC= {earnBalaceBTC }
             />
-            <WalletFilters overviewContent="overview" />
-            <RecentTransactions />
+            <WalletFilters overviewContent="overview" onSearch={onSearch} />
+            {/* <RecentTransactions /> */}
             </Content>
             <TransactionDetailsModal />
         </Layout>

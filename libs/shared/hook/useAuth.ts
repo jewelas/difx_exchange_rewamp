@@ -13,7 +13,7 @@ import {
 } from "..";
 import { API_ENDPOINT } from "..";
 import { useRouter } from "next/router";
-import { showError } from "@difx/core-ui";
+import { showError } from "../../core-ui/components/Notification";
 
 export function useAuth() {
   const [user, setUser] = useAtom(currentUserAtom);
@@ -83,7 +83,7 @@ export function useAuth() {
     
   }
 
-  const expireSession = (message) => {
+  const expireSession = (message: any) => {
     if(user){
       router.push("/login")
       localStorage?.removeItem("currentUser")

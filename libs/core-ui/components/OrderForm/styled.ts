@@ -43,10 +43,10 @@ export const ComponentStyled = styled.div`
     }
     .deposit{
       &._ask svg path{
-        fill: #DB5354;
+        /* fill: #DB5354; */
       }
       &._bid svg path{
-        fill: #21C198;
+        /* fill: #21C198; */
       }
       svg{
         cursor: pointer;

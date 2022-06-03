@@ -384,8 +384,8 @@ const GlobalStyles = createGlobalStyle`
           }
           .ant-table-expanded-row.ant-table-expanded-row-level-1{
             background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
-            td div{
-              padding:5px 24px;
+            &:hover{
+              background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
             }
           }
           &.ant-table-small .ant-table-container .ant-table-content .ant-table-thead{
@@ -608,7 +608,7 @@ const GlobalStyles = createGlobalStyle`
         }
       }
       
-      .ant-popover.ant-popover-placement-top{
+      .ant-popover.ant-popover-placement-topRight{
         .ant-popover-arrow .ant-popover-arrow-content{
           &:before{
             background:unset;
@@ -762,6 +762,13 @@ const GlobalStyles = createGlobalStyle`
   .ant-menu-submenu .ant-menu-submenu-title>div{
     display: flex;
     margin-right: 5px;
+  }
+  .removeModal , .addModal{
+    width: max-content !important;
+
+    .ant-modal-close {
+        display: none !important;
+    }
   }
 `;
 

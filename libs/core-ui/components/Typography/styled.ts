@@ -1,5 +1,6 @@
 import { Typography as AntdTypography } from "antd";
 import styled from "styled-components";
+import { Color } from "../Color";
 
 const { Text } = AntdTypography;
 
@@ -60,5 +61,18 @@ export const TextStyled = styled(Text)`
     font-size: 14px;
     line-height: 22px;
     color: ${({ theme }) => theme.fontColor.primary};
+  }
+
+  &.danger{
+    color: ${({ theme }) => theme.color.danger} !important
+  }
+  &.primary{
+    color: ${({ theme }) => theme.color.primary} !important
+  }
+  &.success{
+    color:  ${({ theme }) => theme.color.success} !important
+  }
+  &.secondary{
+    color:  #939393 !important
   }
 `;

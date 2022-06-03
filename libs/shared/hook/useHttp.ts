@@ -4,7 +4,7 @@ import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { useAuth, useGuestAuth } from '..'
 import { showError, showInfo, showWarning } from "../../core-ui/components"
 
-function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, expireSession: (message) => void) {
+function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, expireSession: (message: string) => void) {
     const { response } = error;
     const { statusCode } = response?.data;
 

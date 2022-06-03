@@ -1,13 +1,14 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { API_ENDPOINT, QUERY_KEY } from '@difx/constants';
 import t from "@difx/locale";
-import { SocketEvent, useHttpGet, useMarketModal, useMarketPair, useSocket } from "@difx/shared";
+import { SocketEvent, useFutureModal, useHttpGet, useMarketModal, useMarketPair, useSocket } from "@difx/shared";
 import { Col, Drawer, Input, Modal, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import MarketDrawer from "../../components/market/drawer";
 import MarketModal from "../../components/market/modal";
 import Stats from "../../components/market/stats";
 import TopMarket from "../../components/market/TopMarket";
+import FutureModal from './futureModal';
 import { MarketCard, MarketContentStyled, PageStyled } from "./styled";
 
 export function MarketWrapper() {
@@ -20,6 +21,7 @@ export function MarketWrapper() {
 
   const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList} = useMarketPair();
   const {modalVisible, setModalVisible} = useMarketModal();
+  const {futureModalVisible, setFutureModalVisible} = useFutureModal()
 
   const data = useSocket({event: SocketEvent.prices});
 
@@ -69,6 +71,9 @@ export function MarketWrapper() {
   const closeModal = () => {
     setModalVisible(false);
   };
+  const closeFutureModal = () => {
+    setFutureModalVisible(false);
+  };
 
   const onSearch = (e) => {
     const value = e.target.value;
@@ -114,6 +119,9 @@ export function MarketWrapper() {
         </Drawer>
         <Modal title="Quick Trade" visible={modalVisible} footer={null} onCancel={closeModal}>
             <MarketModal />
+        </Modal>
+        <Modal title="" visible={futureModalVisible} footer={null} onCancel={closeFutureModal} width={"50%"} style={{ top: 20 }}>
+            <FutureModal />
         </Modal>
       </PageStyled>
   );

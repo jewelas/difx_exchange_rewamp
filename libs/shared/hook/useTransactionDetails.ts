@@ -12,7 +12,7 @@ export function useTransactionDetails(type: string) {
 
   const {API} = useAPI()
 
-  const updateRecords = async(page,limit,type) => {
+  const updateRecords = async(page: number, limit: number,type: string) => {
     setIsLoading(true)
     try{
       const response = await API.get(API_ENDPOINT.GET_TRANSACTION_LIST(page,limit,type))
@@ -40,7 +40,7 @@ export function useTransactionDetails(type: string) {
     updateRecords(previousPage, limit, type)
   }
 
-  const getParticularPage = (pageNumber) => {
+  const getParticularPage = (pageNumber: number) => {
     updateRecords(pageNumber, limit, type)
   }
 

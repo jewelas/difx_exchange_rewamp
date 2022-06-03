@@ -3,13 +3,16 @@
 
 import isEmpty from "lodash/isEmpty";
 import { API_ENDPOINT } from "@difx/constants";
-import { Loading, Typography } from "@difx/core-ui";
+import { Loading, Typography, Icon } from "@difx/core-ui";
 import { useAtomValue } from "jotai/utils";
 import { Order, isLoggedInAtom, useHttpGetByEvent, useSocket, SocketEvent } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
-import { Table } from "antd";
+import t from "@difx/locale";
+import { Button, Table } from "antd";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from 'react';
+import OrderHistoryReportExpanded from "./OrderHistoryReportExpanded";
+
 
 export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, pair }: { isSelectedPairOnly?: boolean, height?: number; pair: string }) {
 
@@ -73,12 +76,12 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       setTableData([]);
     }
   }
-  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_HISTORY(pair) });
+  const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_HISTORY() });
 
   useEffect(() => {
     if (isLoggedIn) {
       if (isSelectedPairOnly && pair) {
-        getOrderBooks({ endpoint: API_ENDPOINT.GET_MY_TRADES(pair) });
+        getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_HISTORY(pair) });
       } else {
         getOrderBooks(null);
       }
@@ -187,17 +190,23 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
         expandedRowRender: record => <div style={{ margin: 0 }}>
           <div className="head">
             <div className="lbl">
-              Time Updated:
+              {t("report.date_updated")}
             </div>
             <div className="val">
               {getCurrentDateTimeByDateString(record.timestamp)}
             </div>
-            <div style={{marginLeft:5}} className="lbl">
-              Order No:
+            <div style={{ marginLeft: 10 }} className="lbl">
+              {t("report.order_no")}
             </div>
             <div className="val">
               {record.id}
             </div>
+            <div style={{ marginLeft: 2, marginTop: -5 }}>
+              <Button onClick={async() => { await navigator.clipboard.writeText(record.id) }} ghost><Icon.CopyIcon useDarkMode /></Button>
+            </div>
+          </div>
+          <div className="body">
+            <OrderHistoryReportExpanded tableData={record.trades && record.trades[0] && record.trades} />
           </div>
         </div>,
       }}

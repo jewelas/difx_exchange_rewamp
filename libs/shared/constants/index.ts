@@ -75,7 +75,8 @@ export const STORE_KEY = {
   FAVORITE_FUTURE_PAIRS: 'favoriteFuturePairs',
   LAST_PAIR: 'lastPair',
   EXCHANGE_STYLE: 'exchangeStyle',
-  RECENT_TRANSACTIONS: 'recentTransactions'
+  RECENT_TRANSACTIONS: 'recentTransactions',
+  PREVIOUS_PATH: 'previousPath'
 }
 
 export const API_ENDPOINT = {

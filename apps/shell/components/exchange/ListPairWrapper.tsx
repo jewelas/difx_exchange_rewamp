@@ -30,14 +30,16 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
 
   const componentRef = useRef(null);
 
+  const timeouts = [];
+
   const { value: pairsStored, setValue: setPairsStore } = useLocalStorage(STORE_KEY.FAVORITE_PAIRS, []);
 
   const [rowsClassName, setRowsClassName] = useState<{ [key: string]: string }>({});
   const handleRowClassName = (pair: string, trend: "up" | "down") => {
     setRowsClassName({ ...rowsClassName, [pair]: `changed ${trend}` });
-    setTimeout(() => {
+    timeouts.push(setTimeout(() => {
       setRowsClassName({ ...rowsClassName, [pair]: `changed ${trend}-clear` });
-    }, 500)
+    }, 500))
   }
 
   useEffect(() => {
@@ -45,6 +47,14 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
       setPairs(resData.spot);
     }
   }, [resData, pair]);
+
+  useEffect(() => {
+    return () => {
+      for (let i = 0; i < timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
+      }
+    }
+  }, []);
 
   const addToFavorite = (pair: string) => {
     const _pairs = pairsStored ? [...pairsStored] : [];
@@ -181,7 +191,7 @@ export function ListPairWrapper({ pair, layout = 'default' }: { pair?: string, l
 
     if (!isEmpty(pricesWSData) && pricesWSData.length === 4) {
       const index = allDataPairs.findIndex(e => e.key === pricesWSData[0]);
-      if(index>=0){
+      if (index >= 0) {
         allDataPairs[index].price = pricesWSData[1];
         const change = ((pricesWSData[1] - allDataPairs[index].open) / allDataPairs[index].open) * 100
         allDataPairs[index].change = `${change < 0 ? '' : '+'}${change.toFixed(2)}%`;

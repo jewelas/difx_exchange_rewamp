@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { Layout } from 'antd';
 import TopBalance from "../../../components/wallet/balance";
 import FutureTransactions from "../../../components/wallet/futureTransactions";
@@ -10,7 +10,22 @@ const { Content } = Layout;
 
 export function FuturesPage() {
 
-  const { futureBalanceUSD, futureBalanceBTC, spotYesterdayPnlBTC, spotYesterdayPnlUSD} = useBalance()
+  const { userBalance, futureBalanceUSD, futureBalanceBTC, spotYesterdayPnlBTC, spotYesterdayPnlUSD} = useBalance()
+  const [ search, setSearch ] = useState("")
+
+  const onSearch = (e) => {
+    setSearch(e.target.value)
+  }
+
+  const searchedList = useMemo(()=>{
+    if(search.length > 0){
+      // const filteredValue = userBalance.filter(item => item.currency === search)
+      console.log(userBalance)
+    }else{
+      console.log("empty")
+      return []
+    }
+  },[search])
 
   return (
     <WalletLayout>
@@ -26,7 +41,7 @@ export function FuturesPage() {
               overviewPnlCurrency={spotYesterdayPnlUSD} 
               bgImage="wallet_card_bg" 
             />
-            <WalletFilters overviewContent="futures"/>
+            <WalletFilters overviewContent="futures" onSearch={onSearch} />
             <FutureTransactions />
             </Content>
         </Layout>

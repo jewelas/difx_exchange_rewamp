@@ -3,16 +3,16 @@ import styled from "styled-components";
 
 export const PageStyled = styled.div`
   height: calc(100vh - 50px);
-  background: ${({ theme }) => theme.background.primary};
+  background: ${({ theme }) => theme.background.secondary};
   .ant-row.row-group {
-    background: ${({ theme }) => theme.background.primary};
+    background: ${({ theme }) => theme.background.secondary};
     .ant-col.col-group {
       max-width: 550px;
       padding: 50px;
       margin: 0 auto;
       margin-top: 70px;
       margin-bottom: 70px;
-      background: ${({ theme }) => theme.background.secondary};
+      background: ${({ theme }) => theme.background.primary};
       border-radius: 15px;
       .H4 {
         margin-bottom: 30px;
@@ -160,6 +160,48 @@ export const PageStyled = styled.div`
 
       .ant-tabs{
         overflow: hidden;
+      }
+
+      .ant-input-password-icon{
+        svg{
+          width: 18px;
+          height: 18px;
+          path{
+            fill: ${({ theme }) => theme.fontColor.muted} !important;
+          }
+        }
+      }
+      .ant-input{
+        background: ${({ theme }: { theme }) => theme.background.secondary} !important;
+        border-radius: ${({ theme }: { theme }) => theme.borderRadius.regular} !important;
+      }
+      .ant-input-affix-wrapper,
+      .ant-input-affix-wrapper-borderless, 
+      .ant-input-affix-wrapper-borderless:hover,
+      .ant-input-affix-wrapper-borderless:focus, 
+      .ant-input-affix-wrapper-borderless-focused, 
+      .ant-input-affix-wrapper-borderless-disabled, 
+      .ant-input-affix-wrapper-borderless[disabled]{
+        height: ${({ theme }: { theme }) => theme.inputFieldHeight} !important;
+        background: ${({ theme }: { theme }) => theme.background.secondary} !important;
+        border-radius: ${({ theme }: { theme }) => theme.borderRadius.regular} !important;
+        border: ${({ theme }: { theme }) => theme.border.secondary} !important;
+        &:focus{
+          box-shadow: none !important;
+        }
+      }
+      .sign-in-btn{
+        &:disabled{
+          border: ${({ theme }: { theme }) => theme.border.secondary} !important;
+          background: ${({ theme }: { theme }) => theme.color.disabled} !important;
+        }
+      }
+      .ant-select-selector{
+        height: ${({ theme }: { theme }) => theme.inputFieldHeight} !important;
+        background: ${({ theme }: { theme }) => theme.background.secondary} !important;
+        border-radius: ${({ theme }: { theme }) => theme.borderRadius.regular} !important;
+        border: ${({ theme }: { theme }) => theme.border.secondary} !important;
+        color: ${({ theme }: { theme }) => theme.fontColor.primary} !important;
       }
     }
   }

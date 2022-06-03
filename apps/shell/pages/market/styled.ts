@@ -168,6 +168,10 @@ const MarketCardBtns = styled.div`
     margin-top:15px;
     .ant-btn{width:100%}
 `
+const FutureCardBtns = styled.div`
+    margin-top:15px;
+    .ant-btn{width:100%}
+`
 const CardStar = styled.div`
     position: absolute;
     right: 20px;
@@ -187,4 +191,4 @@ const DrawerWrapper = styled.div`
     .coin-about h1{font-size: 16px;}
 `
 
-export {OptionGroupStyled,DrawerWrapper,SpotFilter, MarketPopup, FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}
+export {FutureCardBtns, OptionGroupStyled,DrawerWrapper,SpotFilter, MarketPopup, FavoriteFilter, GridWrapper, CoinDrawerInfo, CardStar, MarketCardBtns, CoinPriceInfo, MarketCard, MarketContentStyled, PageStyled, MarketTabsWrapper, MarketWrapper, MarketContentWrapper, MarketGridLayout, TableLastPrice, CoinText}

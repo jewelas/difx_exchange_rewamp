@@ -26,6 +26,7 @@ export const RTLAtom = atom<boolean>(false);
 export const localStorageAtom = atom<{[key: string]: any}>({}) as PrimitiveAtom<{[key: string]: any}>;
 
 export const priceSelectedAtom = atom<number>(0);
+export const amountSelectedAtom = atom<number>(0);
 export const marketPairAtom = atom<any | null>(null) as PrimitiveAtom<any | null>;
 export const marketDrawerAtom = atom<boolean | null>(null) as PrimitiveAtom<boolean | null>;
 export const marketModalAtom = atom<boolean | null>(null) as PrimitiveAtom<boolean | null>;
@@ -49,3 +50,5 @@ export const walletWithdrawModalAtom = atom<boolean>(false) as PrimitiveAtom<boo
 export const withdrawModalTabsAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
 export const transferModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
 export const walletVerificationModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+
+export const marketFutureModalAtom = atom<boolean | null>(null) as PrimitiveAtom<boolean | null>;

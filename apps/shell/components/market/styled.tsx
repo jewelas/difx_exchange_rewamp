@@ -6,13 +6,13 @@ const MarketContentStyled = styled(Layout.Content)`
   .title {
     font-weight: 600;
     font-size: 30px;
-    color: #090e16;
+    color: ${({theme}) => theme.fontColor.primary} !important;
   }
   .summary {
     font-weight: 600;
     font-size: 20px;
     line-height: 28px;
-    color: #090e16;
+    color: ${({theme}) => theme.fontColor.primary} !important;
   }
 `;
 const MarketCard = styled.div`
@@ -221,7 +221,10 @@ const CoinDrawerInfo = styled.div`
     }
 `
 const DrawerWrapper = styled.div`
-    .coin-about h1{font-size: 16px;}
+    .coin-about{
+        h1{font-size: 16px;}
+        color: ${({theme}) => theme.fontColor.primary} !important;
+    } 
 `
 
 const LastPriceWrapper = styled.div`
@@ -233,8 +236,12 @@ const LastPriceWrapper = styled.div`
         color: ${({theme}) => theme.color.danger} !important;
     }
 `
+const FutureModalWrapper = styled.div`
+
+`
 
 export { 
+    FutureModalWrapper,
     DrawerWrapper,
     SpotFilter, 
     MarketPopup, 

@@ -8,7 +8,6 @@ import { CoinSelector, Icon } from "@difx/core-ui";
 import { useAPI, useTheme } from "@difx/shared";
 import { QRCodeSVG } from 'qrcode.react';
 
-
 const QRBox = ({qrData}) => {
   return (
     <QRCodeSVG
@@ -126,9 +125,9 @@ export function DepositForm() {
                               >
                                   {depositAddress}
                               </Paragraph>
-                              <Popover content={<QRBox qrData={depositAddress} />}>
+                              {/* <Popover content={<QRBox qrData={depositAddress} />}>
                                   <Button type="text" style={{width:"auto"}} icon={<Icon.QRCodeIcon fill={theme.theme === "light" ? "#000000" : "#FFFFFF"} className="input-qr"/>} />
-                              </Popover>
+                              </Popover> */}
                             </div>
                       </Form.Item>
                       :
@@ -201,6 +200,18 @@ export function DepositForm() {
             </div>
             <div className="divider"></div>
             <div className="">
+              {
+                depositAddress ? 
+                <>
+                  <div className="deposity-qr-conatiner">
+                  <Typography.Title level={5}>Scan the QR for deposit address</Typography.Title>
+                    <QRBox qrData={depositAddress} />
+                  </div>
+                </>
+                :
+                 null
+
+              }
             <Typography.Title level={5}>FAQ</Typography.Title>
             <Typography.Paragraph style={{marginBottom:40}}>
                 <Text type="secondary">

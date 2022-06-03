@@ -37,10 +37,10 @@ export const ComponentStyled = styled.div`
       .B1 {
         font-weight: 600;
         &.bid {
-          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success} !important;
         }
         &.ask {
-          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger} !important;
         }
       }
     }
@@ -124,6 +124,12 @@ export const ComponentStyled = styled.div`
       justify-content: space-between;
       .ant-typography{
         font-size: 11px;
+      }
+      .quantity{
+        width: 70px;
+        max-width: 70px;
+        text-align: right;
+        margin-left: 16px;
       }
       .col-total{
         display: flex;
@@ -224,10 +230,10 @@ export const ComponentStyled = styled.div`
           .B1 {
             font-weight: 600;
             &.bid {
-              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success};
+              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success} !important;
             }
             &.ask {
-              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger};
+              color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger} !important;
             }
           }
         }
@@ -245,13 +251,13 @@ export const ComponentStyled = styled.div`
       .ask {
         overflow: hidden;
         .price {
-          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.danger} !important;
         }
       }
       .bid {
         overflow: hidden;
         .price {
-          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success};
+          color: ${({ theme }:{theme:ThemeInterface}) => theme.color.success} !important;
         }
       }
     }

@@ -12,7 +12,7 @@ import VerificationModal from "./verificationModal";
 
 export function SendToCryptoAddress() {
   const [form] = Form.useForm()
-  const [selectedRecentTransaction, setSelectedRecentTransaction] = useState();
+  const [selectedRecentTransaction, setSelectedRecentTransaction] = useState(null);
   const [selectedCoin, setSelectedCoin] = useState(null)
   const [coinPrice, setCoinPrice] = useState(null)
   const [supportedNetworks, setSupportedNetworks] = useState(null)
@@ -28,7 +28,7 @@ export function SendToCryptoAddress() {
   const currentUser = useAtomValue(currentUserAtom)
   const { modalVisible, setModalVisible } = useVerificationModal()
 
-  const { data: recentTransaction, isLoading } = useHttpGet(QUERY_KEY.RECENT_TRANSACTIONS, API_ENDPOINT.GET_RECENT_TRANSACTIONS,{})
+  const { data: recentTransaction, isLoading } = useHttpGet<any, any>(QUERY_KEY.RECENT_TRANSACTIONS, API_ENDPOINT.GET_RECENT_TRANSACTIONS,{})
   
   const onChange = (e: RadioChangeEvent) => {
     const coinInfo = e.target.value
@@ -119,7 +119,7 @@ export function SendToCryptoAddress() {
 
   const SuffixAmountInput = (
     <div className="suffix-amount">
-      <div style={{ opacity: 0.75 }}>BTC</div>
+      <div style={{ opacity: 0.75 }}>{selectedCoin}</div>
       <div className="line" />
       <Button
        ghost
@@ -239,7 +239,7 @@ export function SendToCryptoAddress() {
             <div className="divider"></div>
             <div>
                 {
-                    recentTransaction ? 
+                    recentTransaction && recentTransaction.length > 0 ? 
                         <>
                             <div>
                                 <Typography.Title level={5}>Select recent address</Typography.Title>

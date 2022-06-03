@@ -141,4 +141,5 @@ export const API_ENDPOINT = {
   },
   MARK_AS_READ_NOTIFICATIONS: '/api/v1/notification/read-mark',
 
+  UPDATE_USER_PROFILE: `/api/v1/user/update-profile`,
 }

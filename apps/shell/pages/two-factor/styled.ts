@@ -2,16 +2,16 @@ import styled from "styled-components";
 
 const PageStyled = styled.div`
   height: calc(100vh - 50px);
-  background: ${({ theme }) => theme.background.primary};
+  background: ${({ theme }) => theme.background.secondary};
   .ant-row.row-group {
-    background: ${({ theme }) => theme.background.primary};
+    background: ${({ theme }) => theme.background.secondary};
     .ant-col.col-group {
       max-width: 550px;
       padding: 50px;
       margin: 0 auto;
       margin-top: 70px;
       margin-bottom: 70px;
-      background: ${({ theme }) => theme.background.secondary};
+      background: ${({ theme }) => theme.background.primary};
       border-radius: 15px;
       .form {
         margin-top: 25px;
@@ -102,6 +102,16 @@ const PageStyled = styled.div`
     gap: 5px;
     color: ${({ theme }) => theme.fontColor.link};
     cursor: pointer;
+  }
+  .otpbox{
+    background: ${({ theme }) => theme.background.secondary} !important;
+  }
+
+  .sign-in-btn{
+    &:disabled{
+      border: ${({ theme }: { theme }) => theme.border.secondary} !important;
+      background: ${({ theme }: { theme }) => theme.color.disabled} !important;
+    }
   }
 `;
 

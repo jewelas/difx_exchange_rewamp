@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT } from "@difx/constants";
-import { Icon, Loading, Typography } from "@difx/core-ui";
+import { Icon, Loading, Typography, showSuccess } from "@difx/core-ui";
 import t from "@difx/locale";
 import { BaseResponse, Order, SocketEvent, isLoggedInAtom, useHttpGetByEvent, useHttpPut, useSocket } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
@@ -60,7 +60,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
   const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
     const { data } = response;
     if (data) {
-      getOrderBooks(null);
+      showSuccess('Cancel Order', data.message);
     }
   }
 

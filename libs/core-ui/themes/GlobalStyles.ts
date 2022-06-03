@@ -381,8 +381,8 @@ const GlobalStyles = createGlobalStyle`
           }
           .ant-table-expanded-row.ant-table-expanded-row-level-1{
             background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
-            td div{
-              padding:5px 24px;
+            &:hover{
+              background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
             }
           }
           &.ant-table-small .ant-table-container .ant-table-content .ant-table-thead{

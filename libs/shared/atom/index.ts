@@ -50,3 +50,9 @@ export const walletWithdrawModalAtom = atom<boolean>(false) as PrimitiveAtom<boo
 export const withdrawModalTabsAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
 export const transferModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
 export const walletVerificationModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+
+// Profile Modal
+export const emailVerificationModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+export const mobileVerificationModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+export const verificationCodeModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+export const twoFactorModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;

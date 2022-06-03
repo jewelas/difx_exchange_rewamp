@@ -33,10 +33,10 @@ export function ProfileSidebar() {
         </Menu.Item>
         <Menu.Item 
           icon={<Icon.FutureIcon />}
-          key="/profile/idetity"
+          key="/profile/identity"
         >
-          <Link href="/profile/idetity">
-            {t("profile.idetity_verification")}
+          <Link href="/profile/identity">
+            {t("profile.identity_verification")}
           </Link>
         </Menu.Item>
         <Menu.Item 
@@ -48,27 +48,11 @@ export function ProfileSidebar() {
           </Link>
         </Menu.Item>
         <Menu.Item 
-          icon={<Icon.SwitchIcon />}
-          key="/profile/notification"
-        >
-          <Link href="/profile/notification">
-            {t("profile.notification")}
-          </Link>
-        </Menu.Item>
-        <Menu.Item 
           icon={<Icon.SpotIcon />}
-          key="/profile/general-setting"
+          key="/profile/settings"
         >
-          <Link href="/profile/general-setting">
-            {t("profile.general_setting")}
-          </Link>
-        </Menu.Item>
-        <Menu.Item 
-          icon={<Icon.SpotIcon />}
-          key="/profile/sub-account"
-        >
-          <Link href="/profile/sub-account">
-            {t("profile.sub_account")}
+          <Link href="/profile/settings">
+            {t("profile.setting")}
           </Link>
         </Menu.Item>
         <Menu.Item 

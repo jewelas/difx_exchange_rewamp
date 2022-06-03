@@ -57,7 +57,6 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
         size: e[2],
         at: e[3]
       }));
-      console.log(_data, '_data', pair)
       setTradesData(_data);
     } else setTradesData([])
   }
@@ -107,7 +106,7 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
             pagination={false}
             columns={columns}
             dataSource={tradesData}
-            rowKey="at"
+            rowKey="size"
           />
         </div>
       </div>

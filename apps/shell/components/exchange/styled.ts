@@ -248,7 +248,7 @@ export const ChartContainerStyled = styled.div`
   padding: 10px;
   
   .container{
-    background: ${({theme})=>theme.background.secondary};
+    background: ${({ theme }) => theme.background.secondary};
     height: 100%;
   }
 `
@@ -483,7 +483,7 @@ export const ChartHeadStyled = styled.div`
       &.active{
         border-radius: 2px;
         background: rgba(61, 126, 255, 0.1);
-        color: ${({theme}) => theme.color.primary};
+        color: ${({ theme }) => theme.color.primary};
       }
     }
 
@@ -630,12 +630,30 @@ export const OrderReportsWraperStyled = styled.div`
         .head{
           display:flex;
           font-size: 12px;
+          margin: 12px 49px;
           .lbl{
               color: ${({ theme }) => theme.fontColor.secondary};
-              margin: 0 -25px;
           }
           .val{
-            margin:0 -17px;
+            margin-left: 3px;
+          }
+        }
+        .body{
+          margin: 17px 49px 22px;
+          &:hover{
+            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
+            tr{
+              background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
+            }
+          }
+          .ant-table-thead{
+            tr{
+              line-height: 12px;
+              th{
+                font-size: 12px;
+                color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;
+              }
+            }
           }
         }
       }
@@ -708,6 +726,6 @@ export const OrderReportsWraperStyled = styled.div`
 `;
 
 export const CoinInfoStyled = styled.div`
-  background: ${({theme})=>theme.background.secondary};
+  background: ${({ theme }) => theme.background.secondary};
   padding-top: 20px;
 `

@@ -56,3 +56,4 @@ export const emailVerificationModalAtom = atom<boolean>(false) as PrimitiveAtom<
 export const mobileVerificationModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
 export const verificationCodeModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
 export const twoFactorModalAtom = atom<boolean>(false) as PrimitiveAtom<boolean>;
+export const marketFutureModalAtom = atom<boolean | null>(null) as PrimitiveAtom<boolean | null>;

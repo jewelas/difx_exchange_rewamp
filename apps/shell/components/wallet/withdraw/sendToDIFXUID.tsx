@@ -5,9 +5,11 @@ import { DepositLayout } from "../../../pages/wallet/styled";
 import { useMemo, useState } from "react";
 import { OptionGroupStyled } from "../../market/styled";
 import Text from "antd/lib/typography/Text";
-import { CoinSelector } from "@difx/core-ui";
-import { currentUserAtom, useAPI, useBalance } from "@difx/shared";
+import { CoinSelector, showWarning } from "@difx/core-ui";
+import { currentUserAtom, useAPI, useBalance, useVerificationModal, WithdrawTypes } from "@difx/shared";
 import { useAtomValue } from "jotai";
+import t from "@difx/locale";
+import VerificationModal from "./verificationModal";
 
 export function SendToDIFXUID() {
     const [form] = Form.useForm()
@@ -19,6 +21,8 @@ export function SendToDIFXUID() {
     const [minAmount, setMinAmount] = useState(null)
     const [withdrawFee, setWithdrawFee] = useState(null)
     const [note, setNote] = useState(null)
+    const [withdrawRequestId, setWithdrawRequestId] = useState(null)
+    const { modalVisible, setModalVisible } = useVerificationModal()
   
   const onChange = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value);
@@ -77,6 +81,14 @@ export function SendToDIFXUID() {
     }
   },[receiveAmount])
 
+  const isConfirmValid = useMemo(()=>{
+    if(selectedCoin && withdrawAmount > minAmount){
+      return true
+    }else{
+      return false
+    }
+  },[selectedCoin,withdrawAmount,minAmount])
+
   const SuffixAmountInput = (
     <div className="suffix-amount">
       <div style={{ opacity: 0.75 }}>BTC</div>
@@ -89,6 +101,36 @@ export function SendToDIFXUID() {
         </Button>
     </div>
   )
+
+  const confirmWithdraw = async() => {
+    try{
+        if(!currentUser.emailverified){
+            showWarning(t("notifications.verify_email"),t("notifications.verify_email_message"))
+            return
+        }
+        if(!currentUser.twofaenabled){
+            showWarning(t("notifications.enable_2fa"),t("notifications.enable_2fa_message"))
+            return
+        }
+        const reqData = {
+            type: WithdrawTypes.sub_account,
+            coin: selectedCoin,
+            amount: withdrawAmount,
+            uuid: difxID,
+        }
+        console.log(reqData)
+        const response = await API.post(API_ENDPOINT.WITHDRAW_REQUEST, reqData)
+        // eslint-disable-next-line
+        const { data, statusCode } = response?.data
+        if(statusCode === 201){
+            setModalVisible(true)
+            setWithdrawRequestId(data.request_id)
+        }
+    }catch(error){
+        console.log(error)
+    }
+  }
+
   return (
     <DepositLayout style={{marginTop:0}}>
         <div className="deposit-form-wrapper">
@@ -103,7 +145,7 @@ export function SendToDIFXUID() {
                         <CoinSelector selectedCoin={selectedCoin} handleChange={handleCoinSelect}/>
                     </Form.Item>
                     <Form.Item label="DIFX UID">
-                        <Input placeholder="Enter DIFX UID" />
+                        <Input placeholder="Enter DIFX UID" value={difxID} onChange={(e)=>setDifxID(e.target.value)}/>
                     </Form.Item>
                     <div className='amount'>
                         <Form.Item
@@ -136,21 +178,36 @@ export function SendToDIFXUID() {
                         />
                     </Form.Item>
                 </Form>
-                <Divider />
-                <div>
-                    <Row justify="space-between">
-                        <Col>
-                            <Text type="secondary">Receive Amount</Text>
-                        </Col>
-                        <Col style={{textAlign: "right"}}>
-                            <Text strong>{receiveAmount} {selectedCoin}</Text>
-                            <div style={{textAlign: "right"}}>
-                                <small>≈ ${receiveAmountInUSD}</small>
+                {
+                    selectedCoin && difxID && withdrawAmount ? 
+                        <>
+                            <Divider />
+                            <div>
+                                <Row justify="space-between">
+                                    <Col>
+                                        <Text type="secondary">Receive Amount</Text>
+                                    </Col>
+                                    <Col style={{textAlign: "right"}}>
+                                        <Text strong>{receiveAmount} {selectedCoin}</Text>
+                                        <div style={{textAlign: "right"}}>
+                                            <small>≈ ${receiveAmountInUSD}</small>
+                                        </div>
+                                    </Col>
+                                </Row>
                             </div>
-                        </Col>
-                    </Row>
-                </div>
-                <Button type="primary" block style={{marginTop:20}}>Confirm</Button>
+                            <Button 
+                                type="primary" 
+                                block 
+                                style={{marginTop:20}}
+                                onClick={confirmWithdraw}
+                                disabled={!isConfirmValid}
+                            >
+                                Confirm
+                            </Button>
+                        </>
+                    :
+                        null
+                }
             </div>
             <div className="divider"></div>
             <div>
@@ -177,6 +234,7 @@ export function SendToDIFXUID() {
                 </Typography.Paragraph>
             </div>
         </div>
+        <VerificationModal userEmail={currentUser ? currentUser.email : null} requestId={withdrawRequestId}/>
     </DepositLayout>
   );
 }

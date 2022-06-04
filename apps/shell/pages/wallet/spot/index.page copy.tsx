@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { Layout} from 'antd';
 import { t } from "i18next";
 import TopBalance from "../../../components/wallet/balance";
@@ -24,11 +24,11 @@ export function OverviewPage() {
     rewardsBalanceUSD,
     rewardsBalanceBTC,
     earnBalaceUSD,
-    earnBalaceBTC,
-    userBalance
+    earnBalaceBTC 
   } = useBalance()
 
   const {value: hideBalance, setValue: setHideBalance}  = useLocalStorage(STORE_KEY.HIDE_BALANCE,false)
+  
 
   return (
     <WalletLayout>
@@ -57,7 +57,7 @@ export function OverviewPage() {
               earnBalaceBTC= {earnBalaceBTC}
               hideBalance={hideBalance}
             />
-            <WalletFilters overviewContent="overview"/>
+            <WalletFilters overviewContent="overview" />
             <RecentTransactions />
             </Content>
             <TransactionDetailsModal />

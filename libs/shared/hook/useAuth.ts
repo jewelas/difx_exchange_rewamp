@@ -12,11 +12,15 @@ import {
   Permissions
 } from "..";
 import { API_ENDPOINT } from "..";
+import { useRouter } from "next/router";
+import { showError } from "../../core-ui/components/Notification";
 
 export function useAuth() {
   const [user, setUser] = useAtom(currentUserAtom);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const [permissions, setPermissions] = useAtom(permissionsAtom);
+
+  const router = useRouter();
 
   useEffect(()=>{
     if(!isLoggedIn){
@@ -63,6 +67,7 @@ export function useAuth() {
       const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.LOG_OUT,reqData)
 
       const { data } = response.data
+      router.push("/home")
       localStorage?.removeItem("currentUser")
       localStorage?.removeItem("sessionToken")
       localStorage?.removeItem("refreshToken")
@@ -76,6 +81,22 @@ export function useAuth() {
       console.log(err)
     }
     
+  }
+
+  const expireSession = (message: any) => {
+    if(user){
+      router.push("/login")
+      localStorage?.removeItem("currentUser")
+      localStorage?.removeItem("sessionToken")
+      localStorage?.removeItem("refreshToken")
+      localStorage?.removeItem("permissions")
+      localStorage?.removeItem("favoriteSpotPairs")
+      localStorage?.removeItem("favoriteFuturePairs")
+      setUser(undefined);
+      setPermissions(undefined)
+      setIsLoggedIn(false);
+      showError("Login Again", message)
+    }
   }
 
   const refreshToken = async() => {
@@ -118,5 +139,6 @@ export function useAuth() {
     updateProfile,
     refreshToken,
     logOut,
+    expireSession,
    };
 }

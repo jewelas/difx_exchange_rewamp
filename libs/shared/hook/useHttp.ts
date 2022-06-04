@@ -4,7 +4,7 @@ import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { useAuth, useGuestAuth } from '..'
 import { showError, showInfo, showWarning } from "../../core-ui/components"
 
-function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, logOut: () => void) {
+function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, expireSession: (message: string) => void) {
     const { response } = error;
     const { statusCode } = response?.data;
 
@@ -14,8 +14,7 @@ function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnon
             refreshToken()
             break;
         case 403:
-            logOut();
-            showError("Login Again", response?.data.message)
+            expireSession(response?.data.message)
             break;
         // case 407:
         //     refreshAnonymousToken()
@@ -49,7 +48,7 @@ function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnon
  */
 export function useHttpGet<Request, Response>(queryKey: string, endpoint: string, options: {}, request?: Request) {
 
-    const { refreshToken, logOut } = useAuth();
+    const { refreshToken, expireSession } = useAuth();
     const { refreshAnonymousToken } = useGuestAuth();
 
     const defaultOption = {
@@ -87,7 +86,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
                     return data;
                 }
             } catch (error: any) {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut );
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession );
             }
         },
         mergeOptions
@@ -103,7 +102,7 @@ interface EventProps<Response> {
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken, logOut } = useAuth();
+    const { refreshToken, expireSession } = useAuth();
     const { refreshAnonymousToken } = useGuestAuth();
 
     instance.interceptors.request.use(axiosAuthorization)
@@ -130,7 +129,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
                 onSuccess && onSuccess(response.data);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
                 onError && onError(error as AxiosError);
             },
         }
@@ -140,7 +139,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken, logOut } = useAuth()
+    const { refreshToken, expireSession } = useAuth()
     const { refreshAnonymousToken } = useGuestAuth()
 
     instance.interceptors.request.use(axiosAuthorization)
@@ -172,7 +171,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
                 onError && onError(error as AxiosError);
             },
         }
@@ -182,7 +181,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
 
 export function useHttpPut<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken, logOut } = useAuth()
+    const { refreshToken, expireSession } = useAuth()
     const { refreshAnonymousToken } = useGuestAuth()
 
     instance.interceptors.request.use(axiosAuthorization)
@@ -201,7 +200,7 @@ export function useHttpPut<Request, Response>({ onSuccess, onError, endpoint }: 
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
                 onError && onError(error as AxiosError);
             },
         }
@@ -211,7 +210,7 @@ export function useHttpPut<Request, Response>({ onSuccess, onError, endpoint }: 
 
 export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken, logOut } = useAuth()
+    const { refreshToken, expireSession } = useAuth()
     const { refreshAnonymousToken } = useGuestAuth()
 
     instance.interceptors.request.use(axiosAuthorization)
@@ -241,7 +240,7 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
+                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
                 onError && onError(error as AxiosError);
             },
         }
@@ -251,7 +250,7 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
 
 export function useAPI() {
 
-    const { refreshToken, logOut } = useAuth()
+    const { refreshToken, expireSession } = useAuth()
     const { refreshAnonymousToken } = useGuestAuth()
 
     instance.interceptors.request.use(axiosAuthorization)
@@ -259,7 +258,7 @@ export function useAPI() {
     instance.interceptors.response.use((response) => {
         return response
     }, (error) => {
-        onErrorHandle(error, refreshToken, refreshAnonymousToken, logOut);
+        onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
         return error.response
     })
 

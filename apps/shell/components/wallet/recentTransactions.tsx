@@ -24,7 +24,7 @@ interface DataType {
 
 export function RecentTransactions() {
   const {modalVisible, setModalVisible} = useTransactionDetailsModal()
-  const { data, isLoading } = useHttpGet( QUERY_KEY.RECENT_TRANSACTIONS ,API_ENDPOINT.GET_TRANSACTION_LIST(1,10), null)
+  const { data, isLoading } = useHttpGet( QUERY_KEY.RECENT_TRANSACTIONS ,API_ENDPOINT.GET_TRANSACTION_LIST(1,10,"all"), null)
 
   const iconSwitch = (type) => {
     switch(type){

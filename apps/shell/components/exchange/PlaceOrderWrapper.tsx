@@ -48,10 +48,11 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
   const balanceData = useSocket(param);
   useEffect(() => {
     if (balanceData) {
-      const index = balances.findIndex(e => e.currency === balanceData.currency);
+      const balancesClone = [...balances];
+      const index = balancesClone.findIndex(e => e.currency === balanceData.currency);
       if (index !== -1) {
-        balances[index].amount += balanceData.change;
-        setBalances(balances);
+        balancesClone[index].amount += balanceData.change;
+        setBalances(balancesClone);
       }
     }
   }, [balanceData]);

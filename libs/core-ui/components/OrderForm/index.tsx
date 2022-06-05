@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import t from "./../../../locale";
 import { PairType, PlaceOrderRequest, useCurrency } from "./../../../shared";
 import { getPriceFormatted } from "./../../../shared/utils/priceUtils";
+import { toRoundDown } from "./../../../shared/utils/numberFormatter";
 import DownloadIcon from "./../Icon/DownloadIcon";
 import LoginSignUpButton from "./../LoginSignUpButton";
 import { Typography } from "./../Typography";
@@ -69,7 +70,7 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
       const amount = form.getFieldValue(`${side}.amount`);
       const total = amount * priceSelected;
       form.setFieldsValue({
-        [`${side}.total`]: Math.floor(total * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
+        [`${side}.total`]: toRoundDown(total, groupPrecision),
       });
     }
   }, [priceSelected, amountSelected]);
@@ -113,13 +114,13 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
         const currentPrice = form.getFieldValue(`${side}.price`);
         const amount: number = currentPrice ? fieldValue / currentPrice : 0;
         form.setFieldsValue({
-          [`${side}.amount`]: Math.floor(amount * Math.pow(10, bAmount)) / Math.pow(10, bAmount),
+          [`${side}.amount`]: toRoundDown(amount, bAmount),
         });
       } else if (fieldName === `${side}.amount`) {
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = currentPrice * fieldValue;
         form.setFieldsValue({
-          [`${side}.total`]: Math.floor(newTotal * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
+          [`${side}.total`]: toRoundDown(newTotal, groupPrecision),
         });
 
         if (side === "bid") {
@@ -144,7 +145,7 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
         const currentPrice = form.getFieldValue(`${side}.price`);
         const newTotal: number = amount * currentPrice;
         form.setFieldsValue({
-          [`${side}.total`]: Math.floor(newTotal * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision),
+          [`${side}.total`]: toRoundDown(newTotal, groupPrecision),
         });
       }
       if (balance) {
@@ -212,18 +213,18 @@ export function OrderForm({ form, balance = 0, layout = 'default', canDeposit = 
       const currentPrice = pairInfo?.last || priceSelected;
 
       const percentOfBalance: number = (balance * value) / 100;
-      const percentOfBalanceRound: number = Math.floor(percentOfBalance * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision);
+      const percentOfBalanceRound: number = toRoundDown(percentOfBalance, groupPrecision);
 
       if (side === 'bid') {
         const amount: number = currentPrice ? percentOfBalanceRound / currentPrice : 0;
-        const amountRound: number = Math.floor(amount * Math.pow(10, bAmount)) / Math.pow(10, bAmount);
+        const amountRound: number = toRoundDown(amount, bAmount);
         form.setFieldsValue({
           [`${side}.total`]: percentOfBalanceRound,
           [`${side}.amount`]: amountRound,
         });
       } else if (side === 'ask') {
         const total: number = currentPrice ? percentOfBalanceRound * currentPrice : 0;
-        const totalRound: number = Math.floor(total * Math.pow(10, groupPrecision)) / Math.pow(10, groupPrecision);
+        const totalRound: number = toRoundDown(total, groupPrecision);
         form.setFieldsValue({
           [`${side}.total`]: totalRound,
           [`${side}.amount`]: percentOfBalanceRound,

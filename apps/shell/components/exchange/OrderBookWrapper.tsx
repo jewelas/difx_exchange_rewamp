@@ -42,6 +42,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
 
   const { mutate: getOpenOrders } = useHttpGetByEvent<BaseRequest, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
   const [openOrderData, setOpenOrderData] = useState<any[]>([]);
+  const [pairInfo, setPairInfo] = useState(null);
 
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
@@ -49,10 +50,9 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
     if (pair) getOrderBook({ endpoint: API_ENDPOINT.GET_ORDER_BOOK(pair) });
   }, [isLoggedIn, pair]);
 
-  let pairInfo = null;
-  if (pairsData) {
-    pairInfo = pairsData.spot.find((e) => e.symbol === pair);
-  }
+  useEffect(()=>{
+    setPairInfo(pairsData.spot.find((e) => e.symbol === pair));
+  },[pairsData, pair]);
 
   // Fetch orderbook
   const getDataSuccess = (response: AxiosResponse) => {

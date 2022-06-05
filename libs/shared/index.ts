@@ -25,6 +25,7 @@ export * from "./hook/useTransferModal";
 export * from "./hook/useVerificationModal";
 export * from "./hook/useTransactionDetails";
 export * from "./hook/useFutureModal";
+export * from "./hook/useNominationData";
 
 export * from "./type/Base";
 export * from "./type/User";

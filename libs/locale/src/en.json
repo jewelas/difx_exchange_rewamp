@@ -130,7 +130,11 @@
     "should_contain_number": "Should contain number",
     "should_not_contain_space": "Should not contain space",
     "re_input_pass": "Please re-enter your password!",
-    "insufficient_bal": "Max allowed:"
+    "insufficient_bal": "Max allowed:",
+    "input_name": "Please input your name!",
+    "input_relationship": "Please input relationship!",
+    "input_percentage": "Please input percentage!",
+    "number_not_valid": "Please input number!"
   },
   "market": {
     "market": "Market",

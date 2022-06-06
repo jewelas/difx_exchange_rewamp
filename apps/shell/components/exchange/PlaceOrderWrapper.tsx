@@ -48,10 +48,11 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
   const balanceData = useSocket(param);
   useEffect(() => {
     if (balanceData) {
-      const index = balances.findIndex(e => e.currency === balanceData.currency);
+      const balancesClone = [...balances];
+      const index = balancesClone.findIndex(e => e.currency === balanceData.currency);
       if (index !== -1) {
-        balances[index].amount += balanceData.change;
-        setBalances(balances);
+        balancesClone[index].amount += balanceData.change;
+        setBalances(balancesClone);
       }
     }
   }, [balanceData]);
@@ -101,7 +102,7 @@ export function PlaceOrderWrapper({ pair, layout = 'default' }: { pair: string, 
       delete request["total"];
       delete request["price"];
       request.endpoint = API_ENDPOINT.PLACE_ORDER_MARKET;
-      request.amount = data.total;
+      request.amount = side==="bid" ? data.total : data.amount;
       placeOrder(request);
     } else if (type === 'stop-limit') {
       const request: PlaceOrderRequest = { ...data };

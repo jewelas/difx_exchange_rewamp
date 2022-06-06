@@ -76,6 +76,7 @@ export const STORE_KEY = {
   LAST_PAIR: 'lastPair',
   EXCHANGE_STYLE: 'exchangeStyle',
   RECENT_TRANSACTIONS: 'recentTransactions',
+  PREVIOUS_PATH: 'previousPath',
   HIDE_BALANCE: 'hideBalance',
   HIDE_SMALL_BALANCES: 'hideSmallBalances'
 }

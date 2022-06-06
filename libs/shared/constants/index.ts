@@ -145,4 +145,10 @@ export const API_ENDPOINT = {
   CONFIRM_WITHDRAW: `/api/v1/wallet/confirm-withdraw`,
   GET_RECENT_TRANSACTIONS: `api/v1/wallet/recent-transaction`,
   UPDATE_USER_PROFILE: `/api/v1/user/update-profile`,
+  CREATE_NOMINATION: `/api/v1/nomination/create`,
+  GET_NOMINATION_LIST: `/api/v1/nomination/list`,
+  REMOVE_NOMINATION_LIST: `/api/v1/nomination/remove`,
+  GET_NOMINATION_REQUEST: `/api/v1/nomination/request`,
+  UPDATE_NOMINATION_STATUS: `/api/v1/nomination/update-status`,
+  NOMINATION_CLAIM: `/api/v1/nomination/claim`
 }

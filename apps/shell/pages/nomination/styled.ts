@@ -163,6 +163,38 @@ export const PageStyled = styled.div`
                 transform: translateY(50%);
             }
 
+            .authBoard {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+
+                .description {
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 22px;
+                    color: black;
+                    padding: 20px;
+                }
+
+                .authBtn {
+                    width: 320px;
+                    height: 48px;
+                    background-color: #F3F6FB;
+                    border-radius: 2px;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 22px;
+                    margin: 20px;
+                    color: #4E6593;
+                }
+            }
+
             .nomineeRequest {
                 .header {
                     background-color: #fafafa;
@@ -177,14 +209,15 @@ export const PageStyled = styled.div`
     
                     & > div {
                         padding: 20px 40px;
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-                        flex: 1;
+                        flex: 2;
                     }
     
                     & > div:last-of-type {
-                        justify-content: flex-end;
+                        text-align: right;
+                    }
+
+                    .long {
+                        flex:3;
                     }
                 }
 
@@ -205,18 +238,27 @@ export const PageStyled = styled.div`
         
                         & > div {
                             padding: 25px 40px;
-                            display: flex;
-                            justify-content: flex-start;
-                            align-items: center;
-                            flex: 1;
+                            flex: 2;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
                         }
         
                         & > div:last-of-type {
+                            text-align: right;
+                        }
+
+                        .long {
+                            flex:3;
+                        }
+
+                        .claimBox {
+                            display: flex;
                             justify-content: flex-end;
                         }
         
                         .ifAccept {
                             display: flex;
+                            justify-content: flex-end;
         
                             .accept {
                                 color: #21C198;
@@ -281,7 +323,11 @@ export const PageStyled = styled.div`
                         display: flex;
                         justify-content: flex-start;
                         align-items: center;
-                        flex: 1;
+                        flex: 2;
+                    }
+
+                    .long {
+                        flex: 3;
                     }
                 }
 
@@ -302,10 +348,13 @@ export const PageStyled = styled.div`
         
                         & > div {
                             padding: 25px 40px;
-                            display: flex;
-                            justify-content: flex-start;
-                            align-items: center;
-                            flex: 1;
+                            flex: 2;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+
+                        .long {
+                            flex: 3;
                         }
     
                         .pending {

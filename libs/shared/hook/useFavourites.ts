@@ -3,23 +3,42 @@ import { useAtom } from "jotai";
 import { currentUserAtom } from "../atom";
 import { useAPI } from "../hook/useHttp"
 import { marketSpotFavoritesListAtom, marketFutureFavoritesListAtom } from ".."
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHttpGet } from "./useHttp";
 
 export const useFavourites = () => {
 
-  const { data: marketData } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS, API_ENDPOINT.GET_MARKET_PAIRS, {});
+  // const { data: marketData } = useHttpGet<null, any>(QUERY_KEY.MARKET_PAIRS, API_ENDPOINT.GET_MARKET_PAIRS, {});
 
+  const [ marketData, setMarketData ] = useState(null)
   const [spotFavourite, setSpotFavourite] = useAtom(marketSpotFavoritesListAtom)
   const [futureFavourite, setFutureFavourite] = useAtom(marketFutureFavoritesListAtom)
   const [currentUser] = useAtom(currentUserAtom)
   const { API } = useAPI()
 
+  const init = async() => {
+    try{
+      const response = await API.get(API_ENDPOINT.GET_MARKET_PAIRS)
+      const { data } = response?.data
+      setMarketData(data)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  useEffect(()=>{
+    init()
+  },[])
+
   useEffect(()=>{
     if(marketData){
       if(currentUser){
-        const {spot, futures} = marketData
+        const { spot, futures } = marketData
+        // eslint-disable-next-line
+        // @ts-ignore
         const userSpotFav = spot.filter((item: any) => item.favorite === true)
+        // eslint-disable-next-line
+        // @ts-ignore
         const userFutureFav = futures.filter((item: any) => item.favorite === true)
         localStorage.setItem(STORE_KEY.FAVORITE_SPOT_PAIRS, JSON.stringify(userSpotFav))
         localStorage.setItem(STORE_KEY.FAVORITE_FUTURE_PAIRS, JSON.stringify(userFutureFav))

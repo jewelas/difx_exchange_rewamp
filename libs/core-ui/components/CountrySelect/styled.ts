@@ -2,6 +2,7 @@ import { Select } from "antd";
 import styled from "styled-components";
 
 export const SelectStyled = styled(Select)`
+  min-width: 230px !important;
   &.large {
     .ant-select-selection-placeholder {
       padding-top: 8px !important;

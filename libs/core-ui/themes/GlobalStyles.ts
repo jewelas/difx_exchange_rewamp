@@ -763,6 +763,24 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     margin-right: 5px;
   }
+  .commonModalBtn{
+    margin-top: 20px;
+    text-align: right;
+  }
+  .commonModalForm{
+    .mb-0{
+      margin-bottom: 0px;
+    }
+    .dial-group {
+        display: flex;
+        .dropdown-dial {
+          margin-right: 10px;
+        }
+        .ant-row.ant-form-item {
+          flex-grow: 1;
+        }
+      }
+  }
   .removeModal , .addModal{
     width: max-content !important;
 
@@ -770,6 +788,6 @@ const GlobalStyles = createGlobalStyle`
         display: none !important;
     }
   }
-`;
+`
 
 export { GlobalStyles };

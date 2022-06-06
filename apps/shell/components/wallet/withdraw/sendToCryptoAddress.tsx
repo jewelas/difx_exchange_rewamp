@@ -4,11 +4,12 @@ import { API_ENDPOINT, QUERY_KEY } from "@difx/constants"
 import { DepositLayout } from "../../../pages/wallet/styled";
 import { useEffect, useMemo, useState } from "react";
 import Text from "antd/lib/typography/Text";
-import { CoinSelector, Loading } from "@difx/core-ui";
+import { CoinSelector, Loading, showWarning } from "@difx/core-ui";
 import { currentUserAtom, useAPI, useBalance, useHttpGet, WithdrawTypes } from "@difx/shared";
 import { useAtomValue } from "jotai";
 import { useVerificationModal } from "@difx/shared";
 import VerificationModal from "./verificationModal";
+import t from "@difx/locale";
 
 export function SendToCryptoAddress() {
   const [form] = Form.useForm()
@@ -22,19 +23,23 @@ export function SendToCryptoAddress() {
   const [minAmount, setMinAmount] = useState(null)
   const [maxAmount, setMaxAmount] = useState(null)
   const [withdrawFee, setWithdrawFee] = useState(null)
+  const [withdrawRequestId, setWithdrawRequestId] = useState(null)
   
   const { userBalance } = useBalance()
   const { API } = useAPI()
   const currentUser = useAtomValue(currentUserAtom)
   const { modalVisible, setModalVisible } = useVerificationModal()
 
+
   const { data: recentTransaction, isLoading } = useHttpGet<any, any>(QUERY_KEY.RECENT_TRANSACTIONS, API_ENDPOINT.GET_RECENT_TRANSACTIONS,{})
+  const { data: coinList} = useHttpGet<null, any>(QUERY_KEY.CURRENCIES, API_ENDPOINT.GET_CURRENCIES, {});
   
   const onChange = (e: RadioChangeEvent) => {
-    const coinInfo = e.target.value
-    setSelectedCoin(coinInfo.coin)
-    setWithdrawAddress(coinInfo.address)
-    setSelectedNetwork(coinInfo.network)
+    const transactionInfo = e.target.value
+    const coinInfo = coinList.find(item => item.coin === transactionInfo.coin)
+    setCoinDetails(coinInfo)
+    setWithdrawAddress(transactionInfo.address)
+    setSelectedNetwork(JSON.stringify({network:transactionInfo.network,display:transactionInfo.display}))
     setSelectedRecentTransaction(e.target.value)
   };
 
@@ -55,12 +60,17 @@ export function SendToCryptoAddress() {
 
   const handleCoinSelect = (coin: string) => {
     const coinInfo = JSON.parse(coin || "null")
+    setCoinDetails(coinInfo)
+  }
+
+  const setCoinDetails = (coinInfo) => {
     initCoinPrice(coinInfo.coin)
     setSelectedCoin(coinInfo.coin)
     setSupportedNetworks(coinInfo.networks)
     setMinAmount(coinInfo.wmin)
     setMaxAmount(coinInfo.wmax)
     setWithdrawFee(coinInfo.wfee)
+    setSelectedNetwork(JSON.stringify(coinInfo.networks[0]))
   }
 
   const handleNetworkSelect = (network: string) => {
@@ -102,16 +112,28 @@ export function SendToCryptoAddress() {
 
   const confirmWithdraw = async() => {
     try{
-        // setModalVisible(true)
+        if(!currentUser.emailverified){
+            showWarning(t("notifications.verify_email"),t("notifications.verify_email_message"))
+            return
+        }
+        if(!currentUser.twofaenabled){
+            showWarning(t("notifications.enable_2fa"),t("notifications.enable_2fa_message"))
+            return
+        }
         const reqData = {
             type: WithdrawTypes.external,
             coin: selectedCoin,
             amount: withdrawAmount,
             address: withdrawAddress,
-            network: selectedNetwork,
+            network: JSON.parse(selectedNetwork).network
         }
         const response = await API.post(API_ENDPOINT.WITHDRAW_REQUEST, reqData)
-        console.log(response)
+        // eslint-disable-next-line
+        const { data, statusCode } = response?.data
+        if(statusCode === 201){
+            setModalVisible(true)
+            setWithdrawRequestId(data.request_id)
+        }
     }catch(error){
         console.log(error)
     }
@@ -166,7 +188,7 @@ export function SendToCryptoAddress() {
                               "Loading..."
                             :
                               supportedNetworks.map((network,index) => {
-                                return <Select.Option key={index} value={network}>{network} </Select.Option>
+                                return <Select.Option key={index} value={selectedNetwork}>{network.display} </Select.Option>
                               })
                           }
                       </Select>
@@ -287,7 +309,7 @@ export function SendToCryptoAddress() {
                 </div>
             </div>
         </div>
-        <VerificationModal userEmail={currentUser.email}/>
+        <VerificationModal userEmail={currentUser ? currentUser.email : null} requestId={withdrawRequestId}/>
     </DepositLayout>
   );
 }

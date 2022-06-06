@@ -12,7 +12,6 @@ const { TabPane } = Tabs;
 
 export function WithdrawPage() {
   const [tab, setTab] = useState('send_to_crypto_address');
-  
 
   return (
     <WalletLayout>

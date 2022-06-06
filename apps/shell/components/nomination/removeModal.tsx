@@ -1,7 +1,7 @@
 import React from "react";
 import { PageStyledRemoveModal } from "./styled";
 
-export default function RemoveModal ({onCancel}) {
+export default function RemoveModal ({onCancel, removeNomination}) {
     return (
         <PageStyledRemoveModal>
             <div className="container">
@@ -14,7 +14,7 @@ export default function RemoveModal ({onCancel}) {
                 </div>
                 <div className="btnContainer">
                     <div className="cancel" onClick={onCancel}>Cancel</div>
-                    <div className="delete">Delete</div>
+                    <div className="delete" onClick={removeNomination}>Delete</div>
                 </div>
             </div>
         </PageStyledRemoveModal>

@@ -3,10 +3,18 @@ import { Button, Checkbox, Col, Divider, Input, Row, Space, Switch } from "antd"
 import { Icon, TokenConvertSwitch, Typography } from "@difx/core-ui";
 import t from "@difx/locale";
 import { SearchOutlined } from '@ant-design/icons';
-import { useConvertSmallBalModal } from "@difx/shared";
+import { useConvertSmallBalModal, useLocalStorage } from "@difx/shared";
 
-export function WalletFilters({overviewContent, onSearch}) {
+export interface WalletFiltersInterface{
+    overviewContent: any,
+    onSearch?: any,
+    smallBalanceHidden?: any,
+    setSmallBalanceHidden?: any
+}
+
+export function WalletFilters({overviewContent, onSearch, smallBalanceHidden, setSmallBalanceHidden} : WalletFiltersInterface) {
   const {modalVisible, setModalVisible} = useConvertSmallBalModal()
+
   return (
     <div className="toggle-card-wrapper">
         <Row align="middle" justify="space-between">
@@ -25,7 +33,7 @@ export function WalletFilters({overviewContent, onSearch}) {
                 </div>
                 : null }
                 {overviewContent === "spot" ? 
-                <Checkbox>
+                <Checkbox checked={smallBalanceHidden} onChange={()=>setSmallBalanceHidden(!smallBalanceHidden)}>
                     <Typography level="text">
                         {t("common.hide_small_balances")}
                     </Typography>
@@ -36,9 +44,9 @@ export function WalletFilters({overviewContent, onSearch}) {
         </Col>
         <Col>
             <Space split={<Divider type="vertical" />}>
-                {overviewContent == "spot" || overviewContent == "overview" ?
+                {/* {overviewContent == "spot" || overviewContent == "overview" ?
                     <Button type="text" icon={<Icon.PieChartIcon />} shape="round" size="small" className="round-light-primary-btn">{t("wallet.assets_allocation")}</Button>
-                : null }
+                : null } */}
                 {overviewContent === "spot" ? 
                     <Button type="link" className="anchor-link" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.convert_small_bal_difx")}</Button>
                 : null }

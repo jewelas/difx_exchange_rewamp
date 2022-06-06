@@ -4,9 +4,10 @@ import { Icon } from "@difx/core-ui";
 import t from "@difx/locale";
 import { TopBalanceWrapper } from "./styled";
 import TotalBalance from "./totalBalance";
-import OverviewBalance from "./overviewBalance";
+import OverviewPNL from "./overviewPNL";
 import Link from "next/link";
-import { useTransferModal, useWalletWithdrawModal } from "@difx/shared";
+import { useLocalStorage, useTransferModal, useWalletWithdrawModal } from "@difx/shared";
+import { STORE_KEY } from "@difx/constants"
 
 export interface TopBalanceInterface{
     type,
@@ -19,7 +20,9 @@ export interface TopBalanceInterface{
     overviewPnlHeading?: string,
     overviewPnlAmount?: number,
     overviewPnlCurrency?: number,
-    bgImage?: string
+    bgImage?: string,
+    hideBalance?: boolean,
+    setHideBalance?: any,
 }
 
 export function TopBalance({
@@ -33,7 +36,9 @@ export function TopBalance({
         overviewPnlHeading,
         overviewPnlAmount, 
         overviewPnlCurrency, 
-        bgImage
+        bgImage,
+        hideBalance,
+        setHideBalance,
     }: TopBalanceInterface) {
         const {modalVisible, setModalVisible} = useWalletWithdrawModal();
         const {transferModalVisible, setTransferModalVisible} = useTransferModal()
@@ -41,31 +46,43 @@ export function TopBalance({
     return (
         <TopBalanceWrapper>
             <div className="total-balance-wrapper">
-                <div className="bg-img-abs-right">
-                    <img src={`/imgs/${bgImage}.svg`} alt="" />
-                </div>
+                    <div className="bg-img-abs-right">
+                        <img src={`/imgs/${bgImage}.svg`} alt="" />
+                    </div>
                 <Space split={<Divider type="vertical" />} size={20}>
-                    <TotalBalance heading={heading} amount={amount} currency={currency} />
+                    <TotalBalance 
+                        heading={heading} 
+                        amount={amount} 
+                        currency={currency} 
+                        hideBalance={hideBalance}
+                        setHideBalance={setHideBalance}
+                    />
                     {type === "spot" ? 
                     <div className="total-balance yesterday-pl">
                         <div className="total-balance-heading">
                             <p>{t("wallet.yesterday_pl")} (BTC)</p>
                         </div>
-                        <h4>{yesterdayPnlAmount}</h4>
-                        <h6>≈ ${yesterdayPnlCurrency}</h6>
+                        <h4>{hideBalance ? "****" : yesterdayPnlAmount}</h4>
+                        <h6>≈ ${hideBalance ? "****" : yesterdayPnlCurrency}</h6>
                     </div>
                     :
                     null
                     }
                     {type === "overview" ? null :
-                        <OverviewBalance overviewHeading={overviewPnlHeading} overviewAmount={overviewPnlAmount} overviewCurrency={overviewPnlCurrency} />
+                        <OverviewPNL 
+                            overviewHeading={overviewPnlHeading} 
+                            overviewAmount={overviewPnlAmount} 
+                            overviewCurrency={overviewPnlCurrency}
+                            hideBalance={hideBalance}
+                        />
                     }
                 </Space>
                 {type == "overview" ? 
                     <Space className="wallet-btn-group">
                         <Link href="/wallet/deposit"><Button type="primary">{t("wallet.deposit")}</Button></Link>
-                        <Button type="ghost" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.withdraw")}</Button>
-                        <Button type="ghost" onClick={() => {setTransferModalVisible(!transferModalVisible)}}>{t("wallet.transfer")}</Button>
+                        <Link href="/wallet/withdraw"><Button type="ghost">{t("wallet.withdraw")}</Button></Link>
+                        {/* <Button type="ghost" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.withdraw")}</Button>
+                        <Button type="ghost" onClick={() => {setTransferModalVisible(!transferModalVisible)}}>{t("wallet.transfer")}</Button> */}
                     </Space>
                 :
                 null
@@ -73,9 +90,10 @@ export function TopBalance({
                 {type === "spot" ?
                     <Space className="wallet-btn-group">
                         <Link href="/wallet/deposit"><Button type="primary">{t("wallet.deposit")}</Button></Link>
-                        <Button type="ghost" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.withdraw")}</Button>
+                        <Link href="/wallet/withdraw"><Button type="ghost">{t("wallet.withdraw")}</Button></Link>
+                        {/* <Button type="ghost" onClick={() => {setModalVisible(!modalVisible)}}>{t("wallet.withdraw")}</Button>
                         <Button type="ghost" onClick={() => {setTransferModalVisible(!transferModalVisible)}}>{t("wallet.transfer")}</Button>
-                        <Button type="link" icon={<Icon.EyeVisibleIcon width={16}/>} className="anchor-link"> {t("wallet.pl_analysis")}</Button>
+                        <Button type="link" icon={<Icon.EyeVisibleIcon width={16}/>} className="anchor-link"> {t("wallet.pl_analysis")}</Button> */}
                     </Space>
                 :
                 null

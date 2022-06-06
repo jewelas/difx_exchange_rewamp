@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { API_ENDPOINT } from "@difx/constants";
-import { Icon, Loading, Typography } from "@difx/core-ui";
+import { Icon, Loading, Typography, showSuccess } from "@difx/core-ui";
 import { BaseResponse, Order, useAuth, SocketEvent, useSocket, useSocketProps, useHttpGetByEvent, useHttpPost, useHttpPut, isLoggedInAtom } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
 import { useAtomValue } from "jotai/utils";
@@ -60,7 +60,7 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
   const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
     const { data } = response;
     if (data) {
-      getOrderBooks(null);
+      showSuccess('Cancel Order', data.message);
     }
   }
 
@@ -199,7 +199,7 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}
-      rowKey="id"
+      rowKey={record=>`orderSL_${record.id}`}
     />
   );
 }

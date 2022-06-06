@@ -164,7 +164,7 @@ export function TableSubscriptionWrapper({ setHeaderForExporting, setBodyForExpo
                 pagination={false}
                 columns={columns}
                 dataSource={data}
-                rowKey="id"
+                rowKey={record=>`tsw_${record.id}`}
               />
               {
                 pageInfo && pageInfo.totalPages > 1 && !isEmpty(data) &&

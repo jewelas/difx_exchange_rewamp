@@ -6,7 +6,7 @@ import { getPriceFormatted } from "../../../shared/utils/priceUtils";
 import { Typography } from "../Typography";
 import { useCurrency } from "./../../../shared/hook/useCurrency";
 import { NetworkStatusType } from "./../../../shared/type/Network";
-import { toFixedNumber } from "./../../../shared/utils/numberFormatter";
+import { toFixedNumber, toRoundDown } from "./../../../shared/utils/numberFormatter";
 import DotIcon from "./../Icon/DotIcon";
 import WifiIcon from "./../Icon/WifiIcon";
 import Loading from "./../Loading";
@@ -45,21 +45,21 @@ function renderData(
 
   if (!data) return [];
 
-  const sum: number[] = [];
+  let sum = 0;
   for (let i = 0; i < max_row; i++) {
     const row = data[i];
     if (!row) break;
 
+    let sumClone:number = JSON.parse(JSON.stringify(sum));
     if (totalType === "sum") {
+      let calc = 0;
       if (type === 'ask') {
-        const calc = data[max_row - i - 1][0] * data[max_row - i - 1][1];
-        if (i === 0) sum.push(calc);
-        else sum.push(sum[i - 1] + calc);
+        calc = toRoundDown(data[max_row - i - 1][0] , numberFormat) * toRoundDown(data[max_row - i - 1][1],numberFormat);
       } else if (type === 'bid') {
-        const calc = data[i][0] * data[i][1];
-        if (i === 0) sum.push(calc);
-        else sum.push(sum[i - 1] + calc);
+        calc = toRoundDown(data[i][0], numberFormat) * toRoundDown(data[i][1], numberFormat);
       }
+      sumClone += calc;
+      sum += calc;
     }
 
     const barStyle: any = {};
@@ -99,7 +99,7 @@ function renderData(
               ?
               toFixedNumber(row[0] * row[1], numberFormat)
               :
-              toFixedNumber(type === 'bid' ? sum[i] : sum[sum.length - i - 1], numberFormat)
+              toFixedNumber(sumClone, numberFormat)
           }
         </Typography>
         : <></>

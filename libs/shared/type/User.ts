@@ -14,4 +14,5 @@ export interface User {
   uuid: string;
   usebonus: boolean;
   usetokens: boolean;
+  twofaenabled: boolean;
 }

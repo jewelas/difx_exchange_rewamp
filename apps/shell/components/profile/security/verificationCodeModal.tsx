@@ -1,6 +1,5 @@
 import { Icon, OTPBox } from "@difx/core-ui";
 import t from "@difx/locale";
-import { useVerificationCodeModal, useVerificationModal } from "@difx/shared";
 import { Button, Form, Input, Modal, Typography } from "antd";
 import { FormInstance } from "antd/es/form";
 import Paragraph from "antd/lib/typography/Paragraph";
@@ -9,8 +8,7 @@ import React, { useRef, useState } from "react";
 import { VerificationCodeWrapper } from "../styled";
 
 
-export function VerificationCodeModal({userEmail}) {
-    const { verificationCodeModal, setVerificationCodeModal } = useVerificationCodeModal()
+export function VerificationCodeModal({userEmail, setVerificationCodeModal, verificationCodeModal }) {
 
     const [hasFieldError, setHasFieldError] = useState(true);
     const formRef = useRef<FormInstance>(null);
@@ -64,7 +62,7 @@ export function VerificationCodeModal({userEmail}) {
       }
 
   return (
-        <Modal title="" footer={null} visible={verificationCodeModal} onCancel={closeModal} closable={false}>
+        <Modal title="" footer={null} visible={verificationCodeModal} onCancel={closeModal} closable={false} maskClosable={false}>
             <VerificationCodeWrapper>
                 <div>
                     <Typography.Title level={5} style={{marginBottom:0}}>{t("wallet.verification_code")}</Typography.Title>

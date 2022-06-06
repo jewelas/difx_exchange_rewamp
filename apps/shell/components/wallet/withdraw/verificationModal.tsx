@@ -85,7 +85,7 @@ export function VerificationModal({userEmail, requestId}) {
   },[verificationCode, twofa])
 
   return (
-        <Modal title="" footer={null} visible={modalVisible} onCancel={closeModal} closable={false}>
+        <Modal title="" footer={null} visible={modalVisible} onCancel={closeModal} closable={false} maskClosable={false}>
             <WithdrawModalWrapper>
                 <div>
                     <Typography.Title level={5}>{t("wallet.verification_code")}</Typography.Title>

@@ -27,7 +27,7 @@ export function TransferModal() {
     )
 
   return (
-        <Modal title={t("wallet.transfer")} footer={null} visible={transferModalVisible} onCancel={closeModal}>
+        <Modal title={t("wallet.transfer")} footer={null} visible={transferModalVisible} onCancel={closeModal} maskClosable={false}>
             <TransferModalWrapper>
                 <div>
                     <Form

@@ -72,7 +72,7 @@ export function SpotPage() {
 
             />
             <SpotTransactions userBalance={smallBalanceFilter(searchedList ? searchedList : userBalance)}/>
-            <Modal title={t("wallet.convert_small_bal")} visible={modalVisible} onCancel={closeModal} footer={null}>
+            <Modal title={t("wallet.convert_small_bal")} visible={modalVisible} onCancel={closeModal} footer={null} maskClosable={false}>
                 <ConvertSmallBalModal />
             </Modal>
             </Content>

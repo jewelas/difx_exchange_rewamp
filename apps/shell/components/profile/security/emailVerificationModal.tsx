@@ -1,11 +1,9 @@
 import t from "@difx/locale";
-import { useEmailVerificationModal } from "@difx/shared";
 import { Button, Form, Input, Modal } from "antd";
 import React from "react";
 
 
-export function EmailVerificationModal() {
-    const { emailVerificationModal, setEmailVerificationModal } = useEmailVerificationModal()
+export function EmailVerificationModal({emailVerificationModal, setEmailVerificationModal}) {
 
     const closeModal = () => {
         setEmailVerificationModal(false);
@@ -13,7 +11,7 @@ export function EmailVerificationModal() {
     const [form] = Form.useForm();
 
   return (
-        <Modal title={t("profile.email_verification")} footer={null} visible={emailVerificationModal} onCancel={closeModal}>
+        <Modal title={t("profile.email_verification")} footer={null} visible={emailVerificationModal} onCancel={closeModal} maskClosable={false}>
             <Form
                 form={form}
                 layout="vertical"

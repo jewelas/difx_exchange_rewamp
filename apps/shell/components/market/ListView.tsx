@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ASSETS_URL } from "@difx/constants";
-import { Icon, showInfo, TrendChart} from "@difx/core-ui";
+import { Icon, TrendChart} from "@difx/core-ui";
 import t from "@difx/locale";
 import { useFavourites, useMarketPair } from "@difx/shared";
 import { Avatar, Button, Space, Table } from "antd";
 import Text from "antd/lib/typography/Text";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
-import Trend from "react-trend";
 import { LastPriceWrapper } from "./styled";
 import clsx from "clsx";
-import Item from "antd/lib/list/Item";
 import { numFormatter } from "@difx/utils";
 
 const LastPrice = ({price}) => {
@@ -90,7 +88,7 @@ export function ListView({ data, datatype, categoriesList }) {
   
   const columns = [
     {
-      title: "Coin", key: "symbol",
+      title: "Coin", key: "symbol",width: "20%",
       sorter: {
         compare: (a, b) => a.symbol.localeCompare(b.symbol)
       },
@@ -105,7 +103,7 @@ export function ListView({ data, datatype, categoriesList }) {
       }
     },
     {
-      title: "Last Price", key: "last",
+      title: "Last Price", key: "last",width: "15%",
       sorter: (a, b) => a.last - b.last,
       render: (item: any) => {
         return (
@@ -127,7 +125,7 @@ export function ListView({ data, datatype, categoriesList }) {
         )
       }
     },
-    { title: "24h Volume", key: "volume", sorter: (a, b) => a.volume - b.volume ,
+    { title: "24h Volume", key: "volume",width: "15%", sorter: (a, b) => a.volume - b.volume ,
       render: (item: any) => {
         return (
           <Space size={12} direction="vertical">

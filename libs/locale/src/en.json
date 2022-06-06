@@ -23,7 +23,10 @@
     "status": "Status",
     "msg_wrong": "We're sorry, but something went wrong.",
     "maxAmount": "Max Amount",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "enter": "Enter",
+    "save": "Save",
+    "setup": "Setup"
   },
   "staking": {
     "view-staking": "View Staking",
@@ -212,9 +215,9 @@
     "mobile_verification": "Mobile Verification",
     "login_history": "Login History",
     "device_history": "Device History",
-    "edit_user_name": "Edit User name",
+    "edit_username": "Edit Username",
     "edit_avatar": "Edit Avatar",
-    "change_passowrd": "Change Passowrd",
+    "change_password": "Change Password",
     "language": "Language",
     "currency": "Currency",
     "candle_colors": "Candle colors",
@@ -224,7 +227,15 @@
     "price_alerts": "Price Alerts",
     "difx_exclusives_news": "Difx Exclusives News",
     "setup_two_factor": "Set-up Two factor verification",
-    "key": "Enter Key"
+    "key": "Enter Key",
+    "username": "Username",
+    "customized_nickname": "Set a customized nickname for our profile",
+    "select_avatar": "Select Avatar",
+    "select_avatar_para": "Select an avatar to use as your profile picture",
+    "select_language_para": "Select the language used for email and app push notifications",
+    "notification_topic_para": "Once enabled, you will receive relevant notifications within the app and website.",
+    "select_notification_topics": "Select Notification Topics",
+    "topics": "Topics"
   },
   "notifications":{
     "verify_email": "Verify Email",

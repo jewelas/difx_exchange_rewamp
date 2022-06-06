@@ -1,14 +1,13 @@
 import { CountrySelect, getCountryInfo } from "@difx/core-ui";
 import t from "@difx/locale";
-import { useHttpGet, useMobileVerificationModal } from "@difx/shared";
+import { useHttpGet } from "@difx/shared";
 import { Button, Form, Input, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import { API_ENDPOINT, QUERY_KEY, } from "@difx/constants";
 
 
-export function MobileVerificationModal() {
+export function MobileVerificationModal({setMobileVerificationModal, mobileVerificationModal}) {
     const { data: countryCode } = useHttpGet<null, string>(QUERY_KEY.COUNTRIES, API_ENDPOINT.GET_COUNTRY, null);
-    const { mobileVerificationModal, setMobileVerificationModal } = useMobileVerificationModal()
     const [dialCode, setDialCode] = useState(null);
 
     useEffect(() => {
@@ -36,7 +35,7 @@ export function MobileVerificationModal() {
     const [form] = Form.useForm();
 
   return (
-        <Modal title={t("profile.mobile_verification")} footer={null} visible={mobileVerificationModal} onCancel={closeModal}>
+        <Modal title={t("profile.mobile_verification")} footer={null} visible={mobileVerificationModal} onCancel={closeModal} maskClosable={false}>
             <Form
                 form={form}
                 layout="vertical"

@@ -16,7 +16,7 @@ export function TransactionDetailsModal() {
     };
 
   return (
-        <Modal title={t("wallet.tansaction_details")} footer={null} visible={modalVisible} onCancel={closeModal}>
+        <Modal title={t("wallet.tansaction_details")} footer={null} visible={modalVisible} onCancel={closeModal} maskClosable={false}>
             <TransactionDetailsWrapper>
                 <div className="top-section">
                     <div>

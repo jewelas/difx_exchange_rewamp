@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Layout, Typography} from 'antd';
 import WalletLayout from "../index.page";
 import { Icon } from "@difx/core-ui";
@@ -12,26 +12,31 @@ import EmailVerificationModal from "../../../components/profile/security/emailVe
 import MobileVerificationModal from "../../../components/profile/security/mobileVerificationModal";
 import VerificationCodeModal from "../../../components/profile/security/verificationCodeModal";
 import TwoFactorModal from "../../../components/profile/security/twoFactorModal";
+import Image from "next/image";
 
 export function SecurityPage() {
-    const { emailVerificationModal, setEmailVerificationModal } = useEmailVerificationModal()
-    const { mobileVerificationModal, setMobileVerificationModal } = useMobileVerificationModal()
-    // const { verificationCodeModal, setVerificationCodeModal } = useVerificationCodeModal()
-    const { twoFactorModal, setTwoFactorModal } = useTwoFactorModal()
+    const [ emailVerificationModal, setEmailVerificationModal ] = useState(false)
+    const [ mobileVerificationModal, setMobileVerificationModal ] = useState(false)
+    const [ verificationCodeModal, setVerificationCodeModal ] = useState(false)
+    const [ twoFactorModal, setTwoFactorModal ] = useState(false)
   return (
     <WalletLayout>
         <Layout style={{ padding: '24px' }}>
             <ProfileHeader>
                 <div className="profileHeaderLeftImg">
-                    <img
+                    <Image
                         src="/imgs/profile-header.svg"
                         alt=""
+                        width="100%"
+                        height="100%"
                     />
                 </div>
                 <div className="profileHeaderRightImg">
-                    <img
+                    <Image
                         src="/imgs/security-illus.svg"
                         alt=""
+                        width="100%"
+                        height="100%"
                     />
                 </div>
                 <div className="profileHeaderContent">
@@ -39,9 +44,9 @@ export function SecurityPage() {
                     <ProfileHeaderContent>
                         <div className="profileVerify">
                             <ul>
-                                <li><Icon.CheckCircleIcon />{t("profile.email_verification")}</li>
-                                <li><Icon.CheckCircleIcon />{t("profile.mobile_verification")}</li>
-                                <li><Icon.CheckCircleIcon />{t("profile.two_fa")}</li>
+                                <li><Icon.CheckCircleIcon /><Text>{t("profile.email_verification")}</Text></li>
+                                <li><Icon.CheckCircleIcon /><Text>{t("profile.mobile_verification")}</Text></li>
+                                <li><Icon.CheckCircleIcon /><Text>{t("profile.two_fa")}</Text></li>
                             </ul>
                         </div>
                     </ProfileHeaderContent>
@@ -51,14 +56,16 @@ export function SecurityPage() {
                 <div className="verifyIdsWrapper">
                     <div className="verifyIdCard">
                         <div className="verifyid">
-                            <img
+                            <Image
                                 src="/imgs/id-card-illus.svg"
                                 alt=""
+                                width="100%"
+                                height="100%"
                             />
                             <div className="profileId">
-                                <h4>Email verification</h4>
+                                <Typography.Title level={4}>{t("profile.email_verification")}</Typography.Title>
                                 <div>
-                                    <Icon.CheckCircleIcon /> <span>nitin@gmail.com</span>
+                                    <Icon.CheckCircleIcon /> <Text>nitin@gmail.com</Text>
                                 </div>
                             </div>
                         </div>
@@ -66,14 +73,16 @@ export function SecurityPage() {
                     </div>
                     <div className="verifyIdCard">
                         <div className="verifyid">
-                            <img
+                            <Image
                                 src="/imgs/id-card-illus.svg"
                                 alt=""
+                                width="100%"
+                                height="100%"
                             />
                             <div className="profileId">
-                                <h4>Mobile verification</h4>
+                                <Typography.Title level={4}>{t("profile.mobile_verification")}</Typography.Title>
                                 <div>
-                                    <Icon.CheckCircleIcon /> <span>nitin@gmail.com</span>
+                                    <Icon.CheckCircleIcon /> <Text>nitin@gmail.com</Text>
                                 </div>
                             </div>
                         </div>
@@ -81,12 +90,14 @@ export function SecurityPage() {
                     </div>
                     <div className="verifyIdCard">
                         <div className="verifyid">
-                            <img
+                            <Image
                                 src="/imgs/id-card-illus.svg"
                                 alt=""
+                                width="100%"
+                                height="100%"
                             />
                             <div className="profileId">
-                                <h4>2FA</h4>
+                                <Typography.Title level={4}>{t("profile.two_fa")}</Typography.Title>
                                 <div>
                                     <Text type="secondary">Set a customized username</Text>
                                 </div>
@@ -108,10 +119,10 @@ export function SecurityPage() {
             <WhiteBG style={{paddingBottom: '50px'}}>
                 <DeviceHistoryTable />
             </WhiteBG>
-            <EmailVerificationModal />
-            <MobileVerificationModal />
-            <VerificationCodeModal userEmail={"nitin@gmail.com"}/>
-            <TwoFactorModal />
+            <EmailVerificationModal setEmailVerificationModal={setEmailVerificationModal} emailVerificationModal={emailVerificationModal} />
+            <MobileVerificationModal setMobileVerificationModal={setMobileVerificationModal} mobileVerificationModal={mobileVerificationModal} />
+            <VerificationCodeModal userEmail={"nitin@gmail.com"} verificationCodeModal={verificationCodeModal} setVerificationCodeModal={setVerificationCodeModal} />
+            <TwoFactorModal twoFactorModal={twoFactorModal} setTwoFactorModal={setTwoFactorModal} />
         </Layout>
     </WalletLayout>
   );

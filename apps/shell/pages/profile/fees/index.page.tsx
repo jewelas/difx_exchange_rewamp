@@ -11,7 +11,7 @@ export function FeesPage() {
     <WalletLayout>
         <Layout style={{ padding: '24px' }}>
             <ProfileWrapper>
-                <Typography.Title level={3}>{t("profile.fee_settings")}</Typography.Title>
+                <Typography.Title level={3} style={{marginBottom:20}}>{t("profile.fee_settings")}</Typography.Title>
                 <FeeLevelWrapper>
                     <div className="bg-img">
                         <img

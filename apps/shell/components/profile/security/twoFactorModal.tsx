@@ -1,6 +1,5 @@
 import { Icon, OTPBox } from "@difx/core-ui";
 import t from "@difx/locale";
-import { useTwoFactorModal } from "@difx/shared";
 import { Button, Form, Input, Modal } from "antd";
 import { FormInstance } from "antd/es/form";
 import Paragraph from "antd/lib/typography/Paragraph";
@@ -9,8 +8,7 @@ import React, { useRef, useState } from "react";
 import { VerificationCodeWrapper } from "../styled";
 
 
-export function TwoFactorModal() {
-    const { twoFactorModal, setTwoFactorModal } = useTwoFactorModal()
+export function TwoFactorModal({setTwoFactorModal, twoFactorModal}) {
     const [form] = Form.useForm();
     const [hasFieldError, setHasFieldError] = useState(true);
     const formRef = useRef<FormInstance>(null);
@@ -76,7 +74,7 @@ export function TwoFactorModal() {
     
 
   return (
-        <Modal title={t("profile.setup_two_factor")} footer={null} visible={twoFactorModal} onCancel={closeModal}>
+        <Modal title={t("profile.setup_two_factor")} footer={null} visible={twoFactorModal} onCancel={closeModal} maskClosable={false}>
             <VerificationCodeWrapper>
                 <div className="withdraw-code">
                     <Form

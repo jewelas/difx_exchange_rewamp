@@ -75,4 +75,7 @@ export const TextStyled = styled(Text)`
   &.secondary{
     color:  #939393 !important
   }
+  &.warning{
+    color:  #FAAD14 !important
+  }
 `;

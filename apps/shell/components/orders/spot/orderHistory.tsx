@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT } from "@difx/constants";
-import { Loading } from "@difx/core-ui";
+import { Loading, Typography } from "@difx/core-ui";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
+import t from "@difx/locale";
 import { BaseResponse, isLoggedInAtom, Order, useHttpGetByEvent, useHttpPut, useSocket, SocketEvent } from "@difx/shared";
 import { Progress, Table, Tag, Button } from "antd";
 import { AxiosResponse } from "axios";
@@ -10,12 +11,14 @@ import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from "react";
 import { OrderTransacrtionWrapper } from "../styled";
 
+
 interface Props {
   pair?: string;
   setPairs?: (pairs: string[]) => void;
+  startDate?: number;
+  endDate?: number;
 }
-export function SpotOrderHistoryTransaction({ pair = null, setPairs }: Props) {
-
+export function SpotOrderHistoryTransaction({startDate=null, endDate=null, pair = null, setPairs }: Props) {
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
@@ -45,18 +48,20 @@ export function SpotOrderHistoryTransaction({ pair = null, setPairs }: Props) {
     }
   }
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_HISTORY() });
-  const { mutate: cancelOrder, isLoading } = useHttpPut<Order, BaseResponse>({ onSuccess: cancelOrderSuccess, endpoint: API_ENDPOINT.CANCEL_ORDER });
 
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
     if (isLoggedIn) {
+      let endpoint = API_ENDPOINT.GET_ORDER_HISTORY();
+      let joinOp = '?';
       if (pair) {
-        getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_HISTORY(pair) });
-      } else {
-        getOrderBooks(null);
+        endpoint = API_ENDPOINT.GET_ORDER_HISTORY(pair);
+        joinOp = '&'
       }
+      if (startDate && endDate) endpoint += `${joinOp}from=${startDate}&to=${endDate}`;
+      getOrderBooks({ endpoint });
     }
-  }, [isLoggedIn, pair, getOrderBooks]);
+  }, [isLoggedIn, pair, getOrderBooks, startDate, endDate]);
 
   useEffect(() => {
     setTableData([]);
@@ -80,12 +85,16 @@ export function SpotOrderHistoryTransaction({ pair = null, setPairs }: Props) {
       }
       setTableData([...tableData]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userOrdersData]);
 
 
   const columns = [
     {
       title: "Date", dataIndex: "timestamp", key: "date", width: '20%',
+      render: (text) => {
+        return getCurrentDateTimeByDateString(text);
+      }
     },
     {
       title: "Pair", key: "symbol", dataIndex: 'symbol',
@@ -125,6 +134,11 @@ export function SpotOrderHistoryTransaction({ pair = null, setPairs }: Props) {
     },
     {
       title: "Status", key: "status", dataIndex: "status", align: "right" as const, width: '10%',
+      render: (text) => {
+        if(text === "cancel") return <Typography color="danger" fontWeight={700}>{t("order.cancelled")}</Typography>
+        else if(text==="active") return <Typography color="success" fontWeight={700}>{t("order.completed")}</Typography>
+        else return <Typography color="warning" fontWeight={700}>{text}</Typography>
+      }
     },
   ];
 

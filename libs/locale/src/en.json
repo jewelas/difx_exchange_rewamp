@@ -179,6 +179,8 @@
     "transactions": "Transactions",
     "buy": "Buy",
     "sell": "Sell",
+    "cancelled": "Cancelled",
+    "completed": "Completed",
     "cancel": "Cancel",
     "cancelAll": "Cancel all",
     "cancel_all_order": "Cancel Order",

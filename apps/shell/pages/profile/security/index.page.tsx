@@ -7,7 +7,6 @@ import { WhiteBG, ProfileWrapper, ProfileHeader, ProfileHeaderContent } from "..
 import Text from "antd/lib/typography/Text";
 import LoginHistoryTable from "../../../components/profile/security/loginHistory";
 import DeviceHistoryTable from "../../../components/profile/security/deviceHistory";
-import { useEmailVerificationModal, useMobileVerificationModal, useTwoFactorModal, useVerificationCodeModal } from "@difx/shared";
 import EmailVerificationModal from "../../../components/profile/security/emailVerificationModal";
 import MobileVerificationModal from "../../../components/profile/security/mobileVerificationModal";
 import VerificationCodeModal from "../../../components/profile/security/verificationCodeModal";

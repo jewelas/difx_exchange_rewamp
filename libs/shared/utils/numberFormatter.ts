@@ -19,7 +19,8 @@ export function toFixedNumber(value: number, group_precision: number): string {
   } else {
     const numberFormatted = Math.floor(value * Math.pow(10, group_precision)) / Math.pow(10, group_precision)
     if (Number(numberFormatted) === 0) return value.toString();
-    return numberFormatted.toFixed(group_precision);
+    if (Number.isInteger(numberFormatted)) return numberFormatted.toString();
+    else return numberFormatted.toFixed(group_precision);
   }
 };
 

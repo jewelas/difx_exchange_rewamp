@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT } from "@difx/constants";
-import { Loading, Typography } from "@difx/core-ui";
+import { Loading, Typography, Icon } from "@difx/core-ui";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
+import OrderHistoryReportExpanded from "./../../exchange/OrderHistoryReportExpanded";
 import t from "@difx/locale";
 import { BaseResponse, isLoggedInAtom, Order, useHttpGetByEvent, useHttpPut, useSocket, SocketEvent } from "@difx/shared";
 import { Progress, Table, Tag, Button } from "antd";
@@ -145,6 +146,32 @@ export function SpotOrderHistoryTransaction({startDate=null, endDate=null, pair 
         columns={columns}
         dataSource={tableData}
         pagination={false}
+
+        expandable={{
+          expandedRowRender: record => <div style={{ margin: 0 }}>
+            <div className="head">
+              <div className="lbl">
+                {t("report.date_updated")}
+              </div>
+              <div className="val">
+                {getCurrentDateTimeByDateString(record.timestamp)}
+              </div>
+              <div style={{ marginLeft: 10 }} className="lbl">
+                {t("report.order_no")}
+              </div>
+              <div className="val">
+                {record.id}
+              </div>
+              <div style={{ marginLeft: 2, marginTop: -5 }}>
+                <Button onClick={async() => { await navigator.clipboard.writeText(record.id) }} ghost><Icon.CopyIcon useDarkMode /></Button>
+              </div>
+            </div>
+            <div className="body">
+              <OrderHistoryReportExpanded tableData={record.trades && record.trades[0] && record.trades} />
+            </div>
+          </div>,
+        }}
+
         className="common-table"
         rowKey={record=>`oh_${record.id}`}
       />

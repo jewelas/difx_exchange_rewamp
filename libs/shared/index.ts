@@ -29,6 +29,7 @@ export * from "./hook/useVerificationCodeModal";
 export * from "./hook/useTwoFactorModal";
 export * from "./hook/useTransactionDetails";
 export * from "./hook/useFutureModal";
+export * from "./hook/useRefreshToken";
 export * from "./hook/useNominationData";
 
 export * from "./type/Base";

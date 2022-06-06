@@ -64,15 +64,18 @@ export function ListView({ data, datatype, categoriesList }) {
   } = useFavourites()
 
   const onfavorite = (pair) => {
+    // console.log(spotFavourite)
+    // console.log(pair.symbol)
+    // console.log(spotFavourite.find(item => item.symbol === pair.symbol))
     pair.type = datatype
     if(datatype === "spot"){
-      if(spotFavourite.includes(pair)){
+      if(spotFavourite.find(item => item.symbol === pair.symbol)){
         removeSpotFavourites(pair)
       }else{
         addSpotFavourites(pair)
       }
     }else{
-      if(futureFavourite.includes(pair)){
+      if(futureFavourite.find(item => item.symbol === pair.symbol)){
         removeFutureFavourites(pair)
       }else{
         addFutureFavourites(pair)

@@ -150,6 +150,7 @@ const MarketPopup = styled.div`
     }
     .priceBox{
         margin-top: 40px !important;
+        color: ${({theme}) => theme.fontColor.primary};;
     }
     .middle-box{
         width: 100%;

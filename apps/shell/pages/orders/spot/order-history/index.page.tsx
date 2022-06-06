@@ -38,7 +38,7 @@ export function SpotOrderHistoryPage() {
                     <WalletWrapper>
                         <Typography.Title level={3}>{t("order.order_history")}</Typography.Title>
                         <Row align="middle" justify="space-between">
-                        <Col>
+                            <Col>
                                 <Space>
                                     <div>
                                         <DatePicker.RangePicker

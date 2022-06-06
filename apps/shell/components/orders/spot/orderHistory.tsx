@@ -40,13 +40,6 @@ export function SpotOrderHistoryTransaction({startDate=null, endDate=null, pair 
       setTableData([]);
     }
   }
-
-  const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
-    const { data } = response;
-    if (data) {
-      // TODO
-    }
-  }
   const { mutate: getOrderBooks, isLoading: isDataLoading } = useHttpGetByEvent<any, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_HISTORY() });
 
   const isLoggedIn = useAtomValue(isLoggedInAtom);
@@ -87,7 +80,6 @@ export function SpotOrderHistoryTransaction({startDate=null, endDate=null, pair 
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userOrdersData]);
-
 
   const columns = [
     {

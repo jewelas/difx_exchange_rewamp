@@ -140,7 +140,7 @@ export function SpotOrderHistoryTransaction({ pair = null, setPairs }: Props) {
         dataSource={tableData}
         pagination={false}
         className="common-table"
-        rowKey={"id"}
+        rowKey={record=>`oh_${record.id}`}
       />
     </OrderTransacrtionWrapper>
   );

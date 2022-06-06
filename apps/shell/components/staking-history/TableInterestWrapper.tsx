@@ -160,7 +160,7 @@ export function TableInterestWrapper({ setHeaderForExporting, setBodyForExportin
                 pagination={false}
                 columns={columns}
                 dataSource={data}
-                rowKey="id"
+                rowKey={record=>`tiw_${record.id}`}
               />
               {
                 pageInfo && pageInfo.totalPages > 1 && !isEmpty(data) &&

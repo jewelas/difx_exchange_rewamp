@@ -56,6 +56,7 @@ export * from "./type/Currency";
 export * from "./type/Language";
 export * from "./type/ChartData";
 export * from "./type/Withdraw";
+export * from "./type/Notification";
 
 export * from "./atom";
 

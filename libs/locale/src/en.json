@@ -177,7 +177,12 @@
     "positions": "Position",
     "transactions": "Transactions",
     "buy": "Buy",
-    "sell": "Sell"
+    "sell": "Sell",
+    "cancelAll": "Cancel all",
+    "cancel_all_order": "Cancel Order",
+    "cancel_order": "Cancel Order",
+    "cancel_order_confirm": "Do you want to cancel this order?",
+    "cancel_all_order_confirm": "Do you want to cancel all order?"
   },
   "report": {
     "filled": "Filled",

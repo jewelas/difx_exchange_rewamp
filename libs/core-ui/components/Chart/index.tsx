@@ -96,7 +96,8 @@ function Chart({
         const { data } = response.data
         resolve (data)
       }catch(err){ 
-        reject(err)
+        console.log(err)
+        // reject(err)
       }
     })
   }
@@ -140,10 +141,6 @@ function Chart({
       dispose('k-line-chart')
     }
   }, []);
-
-  useEffect(()=>{
-    console.log(subsIndex)
-  },[subsIndex])
   
   useEffect(() => {
     if(lineChart){

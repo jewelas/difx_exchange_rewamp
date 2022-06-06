@@ -49,24 +49,12 @@ function Chart({
   const mainGroupRef = useRef<HTMLDivElement>(null);
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<HTMLDivElement>(null);
-  const previousPairRef = useRef()
   const [subsIndex, setSubsIndex] = useState<any>([]);
   const [lineChart, setLineChart] = useState<LineChart>();
-  const [chartHistory, setChartHistory] = useState<Array<ChartDataType>>([]);
-  const [currentChartData, setCurrentChartData] = useState<ChartData>();
-  const [dataLoadedTillTimestamp, setDataLoadedTillTimestamp] = useState<number | null>(null)
   const [loadMore, setLoadMore] = useState<boolean>(true)
   const layoutType = useAtomValue(layoutTypeAtom)
 
   const {API} = useAPI()
-
-  const timeMap: any = {
-    "5m": 300000,
-    "15m": 900000,
-    "30m": 1800000,
-    "1h": 3600000,
-    "30d": 86400000
-  }
 
   const calcFormTimestamp = (type: string, to: number) => {
     // 1hr in milliseconds
@@ -104,7 +92,6 @@ function Chart({
 
   const setInitialData = async(chart: any, from: number, to: number) => {
     const data = await getHistoryData(from, to)
-    setDataLoadedTillTimestamp(from)
     chart.applyNewData(data)
   }
 
@@ -170,13 +157,6 @@ function Chart({
       lineChart.setStyleOptions(GridStyled(theme))
     }
   }, [lineChart, theme]);
-  
-  useEffect(() => {
-    if (lineChart) {
-      if (chartHistory) lineChart.applyNewData(chartHistory)
-    }
-  }, [lineChart, chartHistory]);
-
 
   useEffect(() => {
     if (lineChart && currentChartType) {
@@ -187,16 +167,6 @@ function Chart({
       })
     }
   }, [currentChartType, lineChart]);
-
-  // useEffect(() => {
-  //   if (lineChart && currentChartType) {
-  //     if(mainIndicator === ''){
-  //       lineChart?.removeTechnicalIndicator("candle_pane")
-  //     }else{
-  //       lineChart?.createTechnicalIndicator(mainIndicator, false, { id: 'candle_pane' });
-  //     }
-  //   }
-  // }, [mainIndicator, lineChart]);
 
   useEffect(() => {
     if (lineChart) {

@@ -1,4 +1,6 @@
 import { Icon } from "@difx/core-ui";
+import { getCurrentDateByDateString } from "@difx/utils";
+import moment, { Moment } from "moment";
 import { Button, Col, DatePicker, Layout, Row, Select, Space, Typography } from 'antd';
 import { t } from "i18next";
 import isEmpty from "lodash/isEmpty";
@@ -11,8 +13,23 @@ const { Content } = Layout;
 
 export function SpotOpenOrdersPage() {
 
+    const dateFormat2Digits = 'YY-MM-DD';
+
     const [pairs, setPairs] = useState([]);
     const [selectedPair, setSelectedPair] = useState(null);
+    const [canCancelAll, setCanCancelAll] = useState(false);
+
+    const _startDate = new Date();
+    _startDate.setDate(_startDate.getDate() - 30);
+    const [startDate, setStartDate] = useState<Date|null>(_startDate);
+    const [endDate, setEndDate] = useState<Date|null>(new Date());
+
+    const onPickerChange = (dates: Moment[]) => {
+        if (!isEmpty(dates)) {
+          setStartDate(dates[0].toDate());
+          setEndDate(dates[1].toDate());
+        }
+      }
 
     return (
         <OrderLayout>
@@ -24,7 +41,10 @@ export function SpotOpenOrdersPage() {
                             <Col>
                                 <Space>
                                     <div>
-                                        <DatePicker.RangePicker />
+                                        <DatePicker.RangePicker
+                                            onChange={onPickerChange}
+                                            defaultValue={[moment(getCurrentDateByDateString(startDate.toString()), dateFormat2Digits), moment(getCurrentDateByDateString(endDate.toString()), dateFormat2Digits)]}
+                                        />
                                     </div>
                                     <div>
                                         <Select defaultValue="" style={{ width: 150 }} size="small" onChange={(e: string) => { setSelectedPair(e) }} className="input-small">
@@ -39,12 +59,12 @@ export function SpotOpenOrdersPage() {
                                 </Space>
                             </Col>
                             <Col>
-                                <Button type="ghost" size="small" className="btn-icon"><Icon.CancelOrderIcon useDarkMode /> Cancel All</Button>
+                                <Button disabled={!canCancelAll} type="ghost" size="small" className="btn-icon"><Icon.CancelOrderIcon useDarkMode /> Cancel All</Button>
                             </Col>
                         </Row>
                     </WalletWrapper>
                     {/* Transaction here */}
-                    <SpotOpenOrderTransaction pair={selectedPair} setPairs={isEmpty(pairs) ? setPairs : null} />
+                    <SpotOpenOrderTransaction canCancelAll={setCanCancelAll} startDate={startDate.getTime()} endDate={endDate.getTime()} pair={selectedPair} setPairs={isEmpty(pairs) ? setPairs : null} />
                 </Content>
             </Layout>
         </OrderLayout>

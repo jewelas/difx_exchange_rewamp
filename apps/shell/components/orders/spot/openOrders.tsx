@@ -14,8 +14,11 @@ import { OrderTransacrtionWrapper } from "../styled";
 interface Props {
   pair?: string;
   setPairs?: (pairs: string[]) => void;
+  canCancelAll?: (cancelAll: boolean) => void;
+  startDate?: number;
+  endDate?: number;
 }
-export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
+export function SpotOpenOrderTransaction({ startDate = null, endDate = null, canCancelAll, pair = null, setPairs }: Props) {
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
@@ -31,10 +34,12 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
       }
       setPairs && setPairs(_pairs);
       let newTableData = tableData;
-      if(pair) newTableData = newTableData.filter(e=>e.symbol===pair)
+      if (pair) newTableData = newTableData.filter(e => e.symbol === pair)
       setTableData([...newTableData]);
+      canCancelAll(true);
     } else {
       setTableData([]);
+      canCancelAll(false);
     }
   }
 
@@ -50,20 +55,23 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
     if (isLoggedIn) {
+      let endpoint = API_ENDPOINT.GET_ORDER_OPEN();
+      let joinOp = '?';
       if (pair) {
-        getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_OPEN(pair) });
-      } else {
-        getOrderBooks(null);
+        endpoint = API_ENDPOINT.GET_ORDER_OPEN(pair);
+        joinOp = '&'
       }
+      if (startDate && endDate) endpoint += `${joinOp}from=${startDate}&to=${endDate}`;
+      getOrderBooks({ endpoint });
     }
-  }, [isLoggedIn, pair, getOrderBooks]);
+  }, [isLoggedIn, pair, getOrderBooks, startDate, endDate]);
 
   useEffect(() => {
     setTableData([]);
   }, [pair]);
 
 
-  const userOrdersData = useSocket({event: SocketEvent.user_orders});
+  const userOrdersData = useSocket({ event: SocketEvent.user_orders });
   useEffect(() => {
     if (userOrdersData) {
       const index = tableData.findIndex(e => e.id === userOrdersData.id);
@@ -152,7 +160,7 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
         dataSource={tableData}
         pagination={false}
         className="common-table"
-        rowKey={record=>`oo_${record.id}`}
+        rowKey={record => `oo_${record.id}`}
       />
     </OrderTransacrtionWrapper>
   );

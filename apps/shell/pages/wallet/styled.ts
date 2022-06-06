@@ -44,6 +44,19 @@ const WalletContentStyled = styled(Layout.Content)`
             }
         }
     }
+    .ant-picker{
+        height: 48px !important;
+    }
+
+    .ant-pagination{
+        padding: 20px 10px;
+        display: flex;
+        justify-content: flex-end;
+    }
+/* 
+    .ant-select-selector{
+        height: 32px !important;
+    } */
 `;
 const WalletTabsWrapper = styled.div`
     background: ${({theme}) => theme.background.secondary};

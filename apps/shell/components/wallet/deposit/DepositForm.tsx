@@ -39,7 +39,7 @@ export function DepositForm() {
     setSupportedNetworks(coinInfo.networks)
   }
 
-  const handleNetworkSelect = (network: string) => {
+  const handleNetworkSelect = (network: any) => {
     setSelectedNetwork(network)
   }
 
@@ -56,7 +56,7 @@ export function DepositForm() {
     if(selectedCoin && selectedNetwork){
       const reqData = {
         coin: selectedCoin,
-        network: selectedNetwork
+        network: JSON.parse(selectedNetwork).network
       }
       API.post(API_ENDPOINT.GENERATE_DEPOSIT_ADDRESS,reqData).then((response) => {
         // eslint-disable-next-line
@@ -107,7 +107,7 @@ export function DepositForm() {
                               "Loading..."
                             :
                               supportedNetworks.map((network,index) => {
-                                return <Select.Option key={index} value={network}>{network} </Select.Option>
+                                return <Select.Option key={index} value={JSON.stringify(network)}>{network.display} </Select.Option>
                               })
                           }
                       </Select>

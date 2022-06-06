@@ -49,6 +49,9 @@ const GlobalStyles = createGlobalStyle`
     }
     .ant-typography.ant-typography-secondary{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;}
     .ant-typography{color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary};}
+    .ant-typography.muted{
+      color:${({ theme }: { theme: ThemeInterface }) => theme.fontColor.muted} !important
+    }
     .ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before{display:none}
     .common-table{
     tr th, tr td{border-bottom:${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;}
@@ -667,7 +670,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .ant-notification-notice-close{
-      top: 34px !important;
+      top: 20px !important;
     }
 
     /* Skeletion loading */
@@ -760,6 +763,24 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     margin-right: 5px;
   }
+  .commonModalBtn{
+    margin-top: 20px;
+    text-align: right;
+  }
+  .commonModalForm{
+    .mb-0{
+      margin-bottom: 0px;
+    }
+    .dial-group {
+        display: flex;
+        .dropdown-dial {
+          margin-right: 10px;
+        }
+        .ant-row.ant-form-item {
+          flex-grow: 1;
+        }
+      }
+  }
   .removeModal , .addModal{
     width: max-content !important;
 
@@ -767,6 +788,6 @@ const GlobalStyles = createGlobalStyle`
         display: none !important;
     }
   }
-`;
+`
 
 export { GlobalStyles };

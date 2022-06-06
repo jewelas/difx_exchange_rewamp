@@ -94,6 +94,9 @@ const TopBalanceWrapper = styled.div`
                 }
             }
         }
+        .hideBalanceBox{
+            cursor: pointer;
+        }
     }
     
 `

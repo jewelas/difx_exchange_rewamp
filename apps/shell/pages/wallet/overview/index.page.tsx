@@ -6,8 +6,9 @@ import AccountCards from "../../../components/wallet/card";
 import RecentTransactions from "../../../components/wallet/recentTransactions";
 import WalletLayout from "../index.page";
 import WalletFilters from "../../../components/wallet/filters";
-import { useBalance } from "@difx/shared";
+import { useBalance, useLocalStorage } from "@difx/shared";
 import TransactionDetailsModal from "../../../components/wallet/transaction-details/modal";
+import { STORE_KEY } from "@difx/constants"
 
 const { Content } = Layout;
 
@@ -27,22 +28,7 @@ export function OverviewPage() {
     userBalance
   } = useBalance()
 
-  const [ search, setSearch ] = useState("")
-
-  const onSearch = (e) => {
-    setSearch(e.target.value)
-  }
-
-  const searchedList = useMemo(()=>{
-    if(search.length > 0){
-      // const filteredValue = userBalance.filter(item => item.currency === search)
-      console.log(userBalance)
-    }else{
-      console.log("empty")
-      return []
-    }
-  },[search])
-  
+  const {value: hideBalance, setValue: setHideBalance}  = useLocalStorage(STORE_KEY.HIDE_BALANCE,false)
 
   return (
     <WalletLayout>
@@ -57,6 +43,8 @@ export function OverviewPage() {
               heading="Overview Balance" 
               amount={overviewBalanceBTC}
               currency={overviewBalanceUSD}
+              hideBalance={hideBalance}
+              setHideBalance={setHideBalance}
             />
             <AccountCards 
               spotBalanceUSD={spotBalanceUSD}
@@ -66,10 +54,11 @@ export function OverviewPage() {
               rewardsBalanceUSD={rewardsBalanceUSD}
               rewardsBalanceBTC={rewardsBalanceBTC}
               earnBalaceUSD={earnBalaceUSD}
-              earnBalaceBTC= {earnBalaceBTC }
+              earnBalaceBTC= {earnBalaceBTC}
+              hideBalance={hideBalance}
             />
-            <WalletFilters overviewContent="overview" onSearch={onSearch} />
-            {/* <RecentTransactions /> */}
+            <WalletFilters overviewContent="overview"/>
+            <RecentTransactions />
             </Content>
             <TransactionDetailsModal />
         </Layout>

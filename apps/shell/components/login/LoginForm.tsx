@@ -12,7 +12,6 @@ import {
   useAuth,
   useHttpGet,
   useHttpPost,
-  previousPathAtom,
   useAPI,
   configAtom
 } from "@difx/shared";
@@ -22,7 +21,7 @@ import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState, useRef } from "react";
-import { API_ENDPOINT, QUERY_KEY } from "@difx/shared";
+import { API_ENDPOINT, QUERY_KEY, STORE_KEY } from "@difx/shared";
 import { ExtraAuth } from "@difx/shared";
 import { useAtom } from "jotai";
 import { useRecaptcha } from "@difx/shared";
@@ -40,7 +39,6 @@ export function LoginForm(props: LoginFormProps) {
 
   const { updateSession } = useAuth();
   const [ config ] = useAtom(configAtom);
-  const [previous, ] = useAtom(previousPathAtom)
   const { API }  = useAPI()
 
   const [getCaptcha] = useRecaptcha()
@@ -150,7 +148,7 @@ export function LoginForm(props: LoginFormProps) {
         case 200: {
           const { permission, user } = data
           updateSession(user, permission)
-          router.push(previous);
+          router.push(localStorage?.getItem(STORE_KEY.PREVIOUS_PATH) || '/');
           break
         }
         case 410: {

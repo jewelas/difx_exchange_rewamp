@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT } from "@difx/constants";
-import { Loading } from "@difx/core-ui";
+import { Loading, showConfirm } from "@difx/core-ui";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import t from "@difx/locale";
 import { BaseResponse, isLoggedInAtom, Order, useHttpGetByEvent, useHttpPut, useSocket, SocketEvent } from "@difx/shared";
 import { Progress, Table, Tag, Button } from "antd";
 import { AxiosResponse } from "axios";
@@ -138,8 +140,14 @@ export function SpotOpenOrderTransaction({ startDate = null, endDate = null, can
         return (
           <Button htmlType="button"
             onClick={() => {
-              if (!isLoading) { cancelOrder({ side: record.s, trade_id: record.id }) }
-            }}>Cancel
+              showConfirm(
+                t("order.cancel_order"),
+                t("order.cancel_order_confirm"),
+                () => { if (!isLoading) { cancelOrder({ side: record.s, trade_id: record.id }) } },
+                null,
+                <ExclamationCircleOutlined />
+              )
+            }}>{t("order.cancel")}
           </Button>
         )
       }

@@ -1,6 +1,10 @@
-import { Icon } from "@difx/core-ui";
+import { Icon, showConfirm, showSuccess } from "@difx/core-ui";
 import { getCurrentDateByDateString } from "@difx/utils";
+import { useHttpPut, BaseResponse } from "@difx/shared";
+import { API_ENDPOINT } from "@difx/constants";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import moment, { Moment } from "moment";
+import { AxiosResponse } from "axios";
 import { Button, Col, DatePicker, Layout, Row, Select, Space, Typography } from 'antd';
 import { t } from "i18next";
 import isEmpty from "lodash/isEmpty";
@@ -21,15 +25,21 @@ export function SpotOpenOrdersPage() {
 
     const _startDate = new Date();
     _startDate.setDate(_startDate.getDate() - 30);
-    const [startDate, setStartDate] = useState<Date|null>(_startDate);
-    const [endDate, setEndDate] = useState<Date|null>(new Date());
+    const [startDate, setStartDate] = useState<Date | null>(_startDate);
+    const [endDate, setEndDate] = useState<Date | null>(new Date());
+
+    const onSuccess = (response: AxiosResponse<BaseResponse>) => {
+        const { message } = response.data;
+        showSuccess('Cancel Order', message);
+    }
+    const { mutate: cancelAllOrders, isLoading } = useHttpPut<null, BaseResponse>({ onSuccess, endpoint: API_ENDPOINT.CANCEL_ALL_ORDERS });
 
     const onPickerChange = (dates: Moment[]) => {
         if (!isEmpty(dates)) {
-          setStartDate(dates[0].toDate());
-          setEndDate(dates[1].toDate());
+            setStartDate(dates[0].toDate());
+            setEndDate(dates[1].toDate());
         }
-      }
+    }
 
     return (
         <OrderLayout>
@@ -53,13 +63,30 @@ export function SpotOpenOrdersPage() {
                                                     <Select.Option on key={`select_${e}`} value={e}>{e}</Select.Option>
                                                 )
                                             }
-                                            <Select.Option key={`select_all`} value={''}>All</Select.Option>
+                                            <Select.Option key={`select_all`} value={''}>{t("common.all")}</Select.Option>
                                         </Select>
                                     </div>
                                 </Space>
                             </Col>
                             <Col>
-                                <Button disabled={!canCancelAll} type="ghost" size="small" className="btn-icon"><Icon.CancelOrderIcon useDarkMode /> Cancel All</Button>
+                                <Button
+                                    onClick={() => {
+                                        showConfirm(
+                                            t("order.cancel_all_order"),
+                                            t("order.cancel_all_order_confirm"),
+                                            () => {
+                                                if (!isLoading) {
+                                                    cancelAllOrders(null);
+                                                    setCanCancelAll(false);
+                                                }
+                                            },
+                                            null,
+                                            <ExclamationCircleOutlined />
+                                        )
+                                    }}
+                                    disabled={!canCancelAll}
+                                    type="ghost" size="small"
+                                    className="btn-icon"><Icon.CancelOrderIcon useDarkMode /> {t("order.cancelAll")}</Button>
                             </Col>
                         </Row>
                     </WalletWrapper>

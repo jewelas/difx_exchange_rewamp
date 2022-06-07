@@ -3,7 +3,7 @@ import { TextStyled } from "./styled";
 
 export interface TypographyProps {
   level?: "H1" | "H2" | "H5" | "H4" | "H6" | "B1" | "B2" | "B3" | "text";
-  color?: "primary" | "danger" | "secondary" | "success";
+  color?: "primary" | "danger" | "secondary" | "success" | "warning";
   className?: string;
   fontSize?: number;
   fontWeight?: number;

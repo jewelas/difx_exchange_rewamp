@@ -1,6 +1,25 @@
 import styled, { keyframes } from "styled-components";
 import { ThemeInterface } from "@difx/core-ui/themes";
 
+export const OrderHistoryExpandedStyled = styled.div`
+  margin: 17px 49px 22px;
+  &:hover{
+    background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space} !important;
+    tr{
+      background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space} !important;
+    }
+  }
+  .ant-table-thead{
+    tr{
+      line-height: 12px;
+      th{
+        font-size: 12px;
+        color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;
+      }
+    }
+  }
+`
+
 export const PairMetadataStyled = styled.div`
     display: flex;
     height: 100%;
@@ -636,24 +655,6 @@ export const OrderReportsWraperStyled = styled.div`
           }
           .val{
             margin-left: 3px;
-          }
-        }
-        .body{
-          margin: 17px 49px 22px;
-          &:hover{
-            background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
-            tr{
-              background: ${({ theme }: { theme: ThemeInterface }) => theme.background.space};
-            }
-          }
-          .ant-table-thead{
-            tr{
-              line-height: 12px;
-              th{
-                font-size: 12px;
-                color: ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.secondary} !important;
-              }
-            }
           }
         }
       }

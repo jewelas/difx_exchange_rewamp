@@ -1,8 +1,9 @@
 {
   "common": {
     "log_in": "Log in",
-    "or":"or",
-    "sign_up":"Sign up",
+    "or": "or",
+    "all": "All",
+    "sign_up": "Sign up",
     "title": "DIFX | Cryptocurrency Spot Exchange",
     "forgot_password": "Forgot password?",
     "register": "Register",
@@ -181,7 +182,15 @@
     "positions": "Position",
     "transactions": "Transactions",
     "buy": "Buy",
-    "sell": "Sell"
+    "sell": "Sell",
+    "cancelled": "Cancelled",
+    "completed": "Completed",
+    "cancel": "Cancel",
+    "cancelAll": "Cancel all",
+    "cancel_all_order": "Cancel Order",
+    "cancel_order": "Cancel Order",
+    "cancel_order_confirm": "Do you want to cancel this order?",
+    "cancel_all_order_confirm": "Do you want to cancel all order?"
   },
   "report": {
     "filled": "Filled",
@@ -191,8 +200,8 @@
     "side": "Side",
     "symbol": "Symbol",
     "date": "Date",
-    "date_updated" : "Time Updated:",
-    "order_no" : "Order No:"
+    "date_updated": "Time Updated:",
+    "order_no": "Order No:"
   },
   "profile": {
     "user_profile": "User Profile",
@@ -243,5 +252,4 @@
     "enable_2fa": "Enable 2FA",
     "enable_2fa_message": "Please enable your Two Factor Authentication"
   }
-
 }

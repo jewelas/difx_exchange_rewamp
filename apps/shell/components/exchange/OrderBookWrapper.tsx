@@ -51,7 +51,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
   }, [isLoggedIn, pair]);
 
   useEffect(()=>{
-    if(pairsData){
+    if(pairsData && pairsData.spot){
       setPairInfo(pairsData.spot.find((e) => e.symbol === pair));
     }
   },[pairsData, pair]);

@@ -61,7 +61,7 @@ export function StakingWrapper(props: StakingWrapperProps) {
     const onSearch = (e) => {
         const value = e.target.value;
         if (value) {
-            const filteredData = stakingList.filter(e => e.coin.includes(value));
+            const filteredData = stakingData.filter(e => e.coin.toLowerCase().includes(value.toLowerCase()));
             setStakingList(filteredData);
         } else {
             setStakingList(stakingData)

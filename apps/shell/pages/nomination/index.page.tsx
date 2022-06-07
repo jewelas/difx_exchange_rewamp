@@ -244,13 +244,13 @@ export default function NominationPate() {
                         </div>
                     </div>
                 </div>
-                <Modal className="removeModal" visible={removeModal} footer={null} onCancel={() => setRemoveModal(false)}>
+                <Modal className="removeModal" visible={removeModal} footer={null} onCancel={() => setRemoveModal(false)} maskClosable={false}>
                     <RemoveModal 
                         onCancel={() => setRemoveModal(false)}
                         removeNomination = {() => removeNominationWithId()}
                     />
                 </Modal>
-                <Modal className="addModal" visible={addModal} footer={null} onCancel={() => setAddModal(false)}>
+                <Modal className="addModal" visible={addModal} footer={null} onCancel={() => setAddModal(false)} maskClosable={false}>
                     <AddModal onCancel={() => setAddModal(false)}
                         firstName={firstName}
                         lastName={lastName}

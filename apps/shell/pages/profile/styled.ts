@@ -70,6 +70,10 @@ const ProfileWrapper = styled.div`
             display: flex;
             align-items: center;
             margin: 15px 0;
+            img{
+                width: 48px !important;
+                height: 44px !important;
+            }
             .profileId{
                 margin-left: 10px;
                 h4{

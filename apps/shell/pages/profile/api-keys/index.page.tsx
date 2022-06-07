@@ -31,9 +31,9 @@ export function ApiKeysPage() {
             <ProfileWrapper>
                 <div className="apiKeysContent">
                     <ul>
-                        <li>Each account can create up to 5 API Keys.</li>
-                        <li>Be aware that your API Key may be disclosed by authorizing it to a third-party platform.</li>
-                        <li>You will not be able to create an API if KYC is not completed.</li>
+                        <Text><li>Each account can create up to 5 API Keys.</li></Text>
+                        <Text><li>Be aware that your API Key may be disclosed by authorizing it to a third-party platform.</li></Text>
+                        <Text><li>You will not be able to create an API if KYC is not completed.</li></Text>
                     </ul>
                     <Button type="primary">Create API</Button>
                 </div>

@@ -26,7 +26,7 @@ export function WithdrawModal() {
     };
 
   return (
-        <Modal title={t("wallet.withdraw")} footer={null} visible={modalVisible} onCancel={closeModal}>
+        <Modal title={t("wallet.withdraw")} footer={null} visible={modalVisible} onCancel={closeModal} maskClosable={false}>
             <WithdrawModalWrapper>
                 <div>
                     <Typography.Title level={5}>Select withdraw option</Typography.Title>

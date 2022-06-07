@@ -42,7 +42,7 @@ export function DepositTransactions() {
   
   const statusSwitch = (type) => {
     switch(type){
-      case "new":
+      case "completed":
         return <Button type="text" className="ant-btn-success" > Completed </Button>
       case "requires_admin_confirmation":
         return <Button type="text" className="ant-btn-info" > Pending </Button>
@@ -93,7 +93,7 @@ export function DepositTransactions() {
       title: "Status", key: "status", align: "right" as const, width: '20%',
       render: (item) => ( 
         <Space size="middle">
-            {statusSwitch(item)}
+            {statusSwitch(item.status)}
         </Space>
       )
     },

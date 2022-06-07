@@ -43,7 +43,7 @@ export function ConvertTransactions() {
   
   const statusSwitch = (type) => {
     switch(type){
-      case "new":
+      case "completed":
         return <Button type="text" className="ant-btn-success" > Completed </Button>
       case "requires_admin_confirmation":
         return <Button type="text" className="ant-btn-info" > Pending </Button>

@@ -452,7 +452,7 @@ const GlobalStyles = createGlobalStyle`
             }
           }
         }
-
+        
     .ant-select-selector{
       height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;

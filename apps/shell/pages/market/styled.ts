@@ -142,8 +142,11 @@ display: flex;
 
 // Grid Card Design
 const GridWrapper = styled.div`
-    .ant-card{background:${({theme}) => theme.background.primary};}
     margin-top: 15px;
+    .ant-card{
+        background:${({theme}) => theme.background.secondary};
+        border: ${({theme}) => theme.border.secondary}
+    }
     .ant-card-body{padding: 20px;}
 `
 const CoinText = styled.div`

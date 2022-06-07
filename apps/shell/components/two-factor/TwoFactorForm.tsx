@@ -2,8 +2,7 @@ import t from "@difx/locale";
 import {
   TwoFactorRequest,
   useAPI,
-  useAuth,
-  previousPathAtom
+  useAuth
 } from "@difx/shared";
 import { OTPBox, Icon } from "@difx/core-ui";
 import { useAtom } from "jotai";
@@ -12,7 +11,7 @@ import { FormInstance } from "antd/es/form";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { API_ENDPOINT } from "@difx/shared";
+import { API_ENDPOINT, STORE_KEY } from "@difx/shared";
 
 export function TwoFactorForm({sessionId}) {
   const [hasFieldError, setHasFieldError] = useState(true);
@@ -20,8 +19,6 @@ export function TwoFactorForm({sessionId}) {
   const [otpValue, setOtpValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { API } = useAPI()
-
-  const [previous, ] = useAtom(previousPathAtom)
 
   const { updateSession } = useAuth();
 
@@ -63,7 +60,7 @@ export function TwoFactorForm({sessionId}) {
         case 200: {
           const { permission, user } = data
           updateSession(user, permission)
-          router.push(previous);
+          router.push(localStorage?.getItem(STORE_KEY.PREVIOUS_PATH) || '/');
           break
         }
         case 412: {

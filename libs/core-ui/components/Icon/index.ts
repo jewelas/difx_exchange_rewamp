@@ -85,6 +85,8 @@ import PieChartIcon from "./PieChartIcon";
 import CopyIcon from "./CopyIcon";
 import SuccessTrackingTickIcon from "./SuccessTrackingTickIcon"
 import BitCoinIcon from "./BitCoinIcon"
+import MessageIcon from "./MessageIcon"
+
 export interface IconProps {
   width?: number;
   height?: number;
@@ -184,7 +186,8 @@ const Icon = {
   WalletTransferIcon,
   CopyIcon,
   BitCoinIcon,
-  SuccessTrackingTickIcon
+  SuccessTrackingTickIcon,
+  MessageIcon
 };
 
 export { Icon };

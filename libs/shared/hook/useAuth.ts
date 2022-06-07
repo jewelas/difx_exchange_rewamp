@@ -13,7 +13,6 @@ import {
 } from "..";
 import { API_ENDPOINT } from "..";
 import { useRouter } from "next/router";
-import { showError } from "../../core-ui/components/Notification";
 
 export function useAuth() {
   const [user, setUser] = useAtom(currentUserAtom);
@@ -64,9 +63,8 @@ export function useAuth() {
       const reqData = {
         device_token:"dasdasdasdasdasd"
       }     
-      const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.LOG_OUT,reqData)
+      await instance.post<Request ,AxiosResponse>(API_ENDPOINT.LOG_OUT,reqData)
 
-      const { data } = response.data
       router.push("/home")
       localStorage?.removeItem("currentUser")
       localStorage?.removeItem("sessionToken")
@@ -80,56 +78,7 @@ export function useAuth() {
     }catch(err){
       console.log(err)
     }
-    
   }
-
-  const expireSession = (message: any) => {
-    if(user){
-      router.push("/login")
-      localStorage?.removeItem("currentUser")
-      localStorage?.removeItem("sessionToken")
-      localStorage?.removeItem("refreshToken")
-      localStorage?.removeItem("permissions")
-      localStorage?.removeItem("favoriteSpotPairs")
-      localStorage?.removeItem("favoriteFuturePairs")
-      setUser(undefined);
-      setPermissions(undefined)
-      setIsLoggedIn(false);
-      showError("Login Again", message)
-    }
-  }
-
-  const refreshToken = async() => {
-    
-    if(!user) {
-      logOut()
-      return
-    }
-
-    let refreshToken = localStorage?.getItem("refreshToken")
-
-    const reqData = {
-      id: user.id,
-      refreshToken
-    }
-    
-    //use axios instance instead of useHttpPost because otherwise it will cause a loop of hooks
-    instance.interceptors.request.use(axiosAuthorization)
-
-    
-    try{
-      const response =  await instance.post<Request ,AxiosResponse>(API_ENDPOINT.REFRESH_TOKEN,reqData)
-      const { data } = response.data
-      localStorage?.setItem("sessionToken", data.accessToken)
-      localStorage?.setItem("refreshToken", data.refreshToken)
-    }catch(err){
-      logOut()
-      notification.error({
-          message: "Oops",
-          description: "Token Expired, Login Again",
-      });
-    }
-  };
 
   return {
     user,
@@ -137,8 +86,6 @@ export function useAuth() {
     permissions,
     updateSession,
     updateProfile,
-    refreshToken,
     logOut,
-    expireSession,
    };
 }

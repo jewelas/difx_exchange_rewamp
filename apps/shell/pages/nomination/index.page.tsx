@@ -6,6 +6,7 @@ import AppLayout from "../index.page";
 import { PageStyled } from "./styled";
 import RemoveModal from "../../components/nomination/removeModal";
 import AddModal from "../../components/nomination/addModal";
+import { showWarning } from "@difx/core-ui";
 
 
 export default function NominationPate() {
@@ -18,36 +19,38 @@ export default function NominationPate() {
     const [lastName, setLastName] = useState("");
     const [relationship, setRelationship] = useState("");
     const [email, setEmail] = useState("");
-    const [removeId, setRemoveId] = useState(-1);
+    const [removeId, setRemoveId] = useState([]);
     const [percentage, setPercentage] = useState(1);
-    const {user, isLoggedIn, permissions} = useAuth();
+    const { user, isLoggedIn, permissions } = useAuth();
     const {
-        createNomination, 
-        getNominationList, 
-        removeNomination, 
+        createNomination,
+        getNominationList,
+        removeNomination,
         getNominationRequest,
         updateStatus,
         claimNomination
     } = useNominationData();
-    
-    
 
     const router = useRouter();
     const { TabPane } = Tabs;
 
     const getList = async () => {
-        const list = await getNominationList();
-        setNominationList(list.data.data);
+        if (isLoggedIn) {
+            const list = await getNominationList();
+            setNominationList(list.data.data);
+        }
     }
 
     const getRequest = async () => {
-        const request = await getNominationRequest();
-        setNominationRequest(request.data.data);
+        if (isLoggedIn) {
+            const request = await getNominationRequest();
+            setNominationRequest(request.data.data);
+        }
     }
 
 
     const addNominee = async () => {
-        const name = firstName + lastName;
+        const name = firstName + " " + lastName;
         await createNomination(name, email, relationship, percentage);
         getList();
         setAddModal(false);
@@ -63,32 +66,49 @@ export default function NominationPate() {
     }
 
     const onAddNominess = () => {
-        if(isLoggedIn) setAddModal(true);
+        if (isLoggedIn) setAddModal(true);
         else router.push('/login');
     }
 
-    const onRemove = (id:number) => {
-        setRemoveId(id);
+    const onRemove = (id: number) => {
+        setRemoveId([id]);
+        setRemoveModal(true);
+    }
+
+    const deleteAll = () => {
+        const newArr = [];
+        nominationList.map(item => {
+            newArr.push(item.id);
+        });
+        setRemoveId(newArr);
         setRemoveModal(true);
     }
 
     const removeNominationWithId = async () => {
-        const res = await removeNomination(removeId);
-        getList();
-        setRemoveModal(false);
+        removeId.map(async (id, index) => {
+            await removeNomination(id);
+            if(index == (removeId.length - 1)){
+                getList();
+                setRemoveModal(false);
+            }
+        })
     }
 
-    const onAccept = async (requestId:number) => {
-        await updateStatus(requestId, "accept");
-        getRequest();
+    const onAccept = async (requestId: number) => {
+        if (user.kycverified) {
+            await updateStatus(requestId, "accept");
+            getRequest();
+        } else {
+            showWarning("KYC not verified!", "You have to verify KYC first to accept rquest!")
+        }
     }
 
-    const onDecline = async (requestId:number) => {
+    const onDecline = async (requestId: number) => {
         await updateStatus(requestId, "reject");
         getRequest();
     }
 
-    const onClaim = async (id:number) => {
+    const onClaim = async (id: number) => {
         const res = await claimNomination(id);
         getRequest();
     }
@@ -96,7 +116,7 @@ export default function NominationPate() {
     useEffect(() => {
         getList();
         getRequest();
-    },[user]);
+    }, [user]);
 
     return (
         <AppLayout>
@@ -147,10 +167,19 @@ export default function NominationPate() {
                 <div className="boardContainer">
                     <div className="board">
                         {isLoggedIn && <>
-                            <Tabs onChange={(e) => { setTab(e) }}>
-                                <TabPane tab="Nominess" key="nominess" />
-                                <TabPane tab="Nominee Request" key="nomineeRequest" />
-                            </Tabs>
+                            <div className="header">
+                                <Tabs onChange={(e) => { setTab(e) }}>
+                                    <TabPane tab="Nominess" key="nominess" />
+                                    <TabPane tab="Nominee Request" key="nomineeRequest" />
+                                </Tabs>
+                                <div className="actionsBtns">
+                                    <div className="assetsAllocation">
+                                        <img src="/imgs/nomination/pieChart.svg" alt=""/>
+                                        Assets Allocation
+                                    </div>
+                                    <div className="deleteAll" onClick={() => deleteAll()}>Delete All</div>
+                                </div>
+                            </div>
                             <div style={{ padding: "30px 0px" }}>
                                 {tab === "nominess" &&
                                     <div className="nominess">
@@ -183,18 +212,18 @@ export default function NominationPate() {
                                             <div>Action</div>
                                         </div>
                                         <div className="rowsContainer">
-                                            {nominationRequest.map((item,index) => (
+                                            {nominationRequest.map((item, index) => (
                                                 <div className="rows" key={index}>
                                                     <div className="long">{item.firstname + " " + item.lastname}</div>
                                                     <div className="long">{item.email}</div>
                                                     <div>{item.percentage + "%"}</div>
-                                                    {item.request_status == "init" && 
+                                                    {item.request_status == "init" &&
                                                         <div className="ifAccept">
                                                             <div className="accept" onClick={() => onAccept(item.id)}>Accept</div>
                                                             <div className="decline" onClick={() => onDecline(item.id)}>Decline</div>
                                                         </div>
                                                     }
-                                                    {item.request_status == "accept" && 
+                                                    {item.request_status == "accept" &&
                                                         <div className="claimBox">
                                                             <div className="claim" onClick={() => onClaim(item.id)}>
                                                                 Claim
@@ -211,11 +240,11 @@ export default function NominationPate() {
                                 }
                             </div>
                         </>}
-                        {!isLoggedIn && 
+                        {!isLoggedIn &&
                             <div className="authBoard">
-                                <img src="/imgs/nomination/user.svg" alt=""/>
+                                <img src="/imgs/nomination/user.svg" alt="" />
                                 <div className="description">Lörem ipsum krokant matsvinnsbutik ir förutom minavis och pon. Presion intranärar, dår sugåde. </div>
-                                <div className="authBtn" onClick={() => {onAuthBtn()}}>Login or Register</div>
+                                <div className="authBtn" onClick={() => { onAuthBtn() }}>Login or Register</div>
                             </div>
                         }
                     </div>
@@ -245,9 +274,9 @@ export default function NominationPate() {
                     </div>
                 </div>
                 <Modal className="removeModal" visible={removeModal} footer={null} onCancel={() => setRemoveModal(false)}>
-                    <RemoveModal 
+                    <RemoveModal
                         onCancel={() => setRemoveModal(false)}
-                        removeNomination = {() => removeNominationWithId()}
+                        removeNomination={() => removeNominationWithId()}
                     />
                 </Modal>
                 <Modal className="addModal" visible={addModal} footer={null} onCancel={() => setAddModal(false)}>

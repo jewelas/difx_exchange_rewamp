@@ -130,9 +130,62 @@ export const PageStyled = styled.div`
             background-clip: content-box;
             border: 17px solid rgba(255, 255, 255, 0.18);
             height: 555px;
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #f4f4f4;
+
+                .actionsBtns {
+                    display: flex;
+                    column-gap: 30px;
+                    padding: 0px 30px;
+
+                    .assetsAllocation {
+                        width: 155px;
+                        height: 30px;
+                        background: rgba(204, 223, 254, 0.32);
+                        border-radius: 30px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        column-gap: 10px;
+                        font-weight: 800;
+                        font-size: 14px;
+                        line-height: 18px;
+                        color: #1865E1;
+                        cursor: pointer;
+                    }
+
+                    .deleteAll {
+                        width: 85px;
+                        height: 30px;
+                        background: #FFF1F0;
+                        border: 1px solid #DB5354;
+                        border-radius: 2px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-weight: 800;
+                        font-size: 14px;
+                        line-height: 18px;
+                        color: #DB5354;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .ant-tabs {
+                overflow: visible;
+            }
 
             .ant-tabs-nav-wrap {
-                border-bottom: 1px solid #f4f4f4;
+                overflow: visible;
+                flex-grow: 1;
+            }
+
+            .ant-tabs-nav {
+                margin-bottom: 0px;
                 overflow: visible;
             }
 

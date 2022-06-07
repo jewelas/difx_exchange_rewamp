@@ -146,7 +146,7 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
       }
     },
     {
-      title: 'Size',
+      title: 'Amount',
       dataIndex: 'q',
       sorter: {
         compare: (a, b) => a.q - b.q,
@@ -202,19 +202,17 @@ export function OrderHistoryReport({ isSelectedPairOnly = false, height = 200, p
               {record.id}
             </div>
             <div style={{ marginLeft: 2, marginTop: -5 }}>
-              <Button onClick={async() => { await navigator.clipboard.writeText(record.id) }} ghost><Icon.CopyIcon useDarkMode /></Button>
+              <Button onClick={async () => { await navigator.clipboard.writeText(record.id) }} ghost><Icon.CopyIcon useDarkMode /></Button>
             </div>
           </div>
-          <div className="body">
-            <OrderHistoryReportExpanded tableData={record.trades && record.trades[0] && record.trades} />
-          </div>
+          <OrderHistoryReportExpanded tableData={record.trades && record.trades[0] && record.trades} />
         </div>,
       }}
 
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}
-      rowKey="id"
+      rowKey={record => `orderHistory_${record.id}`}
     />
   );
 }

@@ -129,6 +129,13 @@ export function Header(props: HeaderProps) {
               >
                 {t("header.nomination")}
               </Menu.Item>
+              <Menu.Item
+                className="left-nav"
+                key="/rewards"
+                onClick={() => onNavigation("/rewards")}
+              >
+                {t("header.rewards")}
+              </Menu.Item>
 
               <Menu.Item className="more-nav" key="open-drawer">
                 <StyledButtonGroup>
@@ -181,6 +188,7 @@ export function Header(props: HeaderProps) {
                         icon={<NotificationIcon useDarkMode />}
                         size={"small"}
                         type="text"
+                        onClick={() => onNavigation("/notification")}
                       />
                       <StyledLine style={{ opacity: 0 }} />
                     </StyledButtonGroup>

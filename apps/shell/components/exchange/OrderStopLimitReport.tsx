@@ -1,13 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { API_ENDPOINT } from "@difx/constants";
-import { Icon, Loading, Typography } from "@difx/core-ui";
-import { BaseResponse, Order, useAuth, SocketEvent, useSocket, useSocketProps, useHttpGetByEvent, useHttpPost, useHttpPut, isLoggedInAtom } from "@difx/shared";
+import { Icon, Loading, showConfirm, showSuccess, Typography } from "@difx/core-ui";
+import t from "@difx/locale";
+import { BaseResponse, isLoggedInAtom, Order, SocketEvent, useHttpGetByEvent, useHttpPut, useSocket, useSocketProps } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
-import { useAtomValue } from "jotai/utils";
 import { Table } from "antd";
 import { AxiosResponse } from "axios";
+import { useAtomValue } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from 'react';
 interface Props {
@@ -60,7 +62,7 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
   const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
     const { data } = response;
     if (data) {
-      getOrderBooks(null);
+      showSuccess('Cancel Order', data.message);
     }
   }
 
@@ -175,9 +177,13 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
         return (
           <div
             onClick={() => {
-              // eslint-disable-next-line
-              // @ts-ignore
-              if (!isLoading) cancelOrder({ trade_id: record.id })
+              showConfirm(
+                t("order.cancel_order"),
+                t("order.cancel_order_confirm"),
+                () => { if (!isLoading) cancelOrder({ trade_id: record.id }) },
+                null,
+                <ExclamationCircleOutlined />
+              )
             }}
             className="cell">
             <Icon.TrashIcon useDarkMode width={20} height={20} />
@@ -199,7 +205,7 @@ export function OrderStopLimitReport({ height = 200, pair, isSelectedPairOnly = 
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}
-      rowKey="id"
+      rowKey={record=>`orderSL_${record.id}`}
     />
   );
 }

@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT } from "@difx/constants";
-import { Icon, Loading, Typography } from "@difx/core-ui";
+import { Icon, Loading, Typography, showSuccess, showConfirm } from "@difx/core-ui";
 import t from "@difx/locale";
 import { BaseResponse, Order, SocketEvent, isLoggedInAtom, useHttpGetByEvent, useHttpPut, useSocket } from "@difx/shared";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
-import { Table } from "antd";
+import { Table, Modal } from "antd";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { AxiosResponse } from "axios";
 import { useAtomValue } from "jotai/utils";
 import isEmpty from "lodash/isEmpty";
@@ -29,8 +30,8 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
         }
       }
       let newTableData = tableData;
-      if(isSelectedPairOnly){
-        newTableData = newTableData.filter((e:any)=>e.symbol === pair);
+      if (isSelectedPairOnly) {
+        newTableData = newTableData.filter((e: any) => e.symbol === pair);
       }
       setTableData([...newTableData]);
     } else {
@@ -38,7 +39,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
     }
   }
 
-  const userOrdersData = useSocket({event: SocketEvent.user_orders});
+  const userOrdersData = useSocket({ event: SocketEvent.user_orders });
   useEffect(() => {
     if (userOrdersData) {
       const index = tableData.findIndex(e => e.id === userOrdersData.id);
@@ -60,7 +61,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
   const cancelOrderSuccess = (response: AxiosResponse<BaseResponse>) => {
     const { data } = response;
     if (data) {
-      getOrderBooks(null);
+      showSuccess('Cancel Order', data.message);
     }
   }
 
@@ -159,8 +160,8 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       sorter: {
         compare: (a, b) => a.q - b.q,
       },
-      render: (text,record) => {
-        const filled = ((record.oq - record.q) * 100)/record.oq
+      render: (text, record) => {
+        const filled = ((record.oq - record.q) * 100) / record.oq
         return (
           <div className='cell'>
             <Typography level="B3">{`${filled}%` || '0.00%'}</Typography>
@@ -189,7 +190,13 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
         return (
           <div
             onClick={() => {
-              if (!isLoading) { cancelOrder({ side: record.s, trade_id: record.id }) }
+              showConfirm(
+                t("order.cancel_order"),
+                t("order.cancel_order_confirm"),
+                () => { if (!isLoading) { cancelOrder({ side: record.s, trade_id: record.id }) } },
+                null,
+                <ExclamationCircleOutlined />
+              )
             }}
             className="cell">
             <Icon.TrashIcon useDarkMode width={20} height={20} />
@@ -211,7 +218,7 @@ export function OrderOpenReport({ height = 200, pair, isSelectedPairOnly = false
       pagination={false}
       columns={columns}
       dataSource={tableData}
-      rowKey="id"
+      rowKey={record => `openOrder_${record.id}`}
     />
   );
 }

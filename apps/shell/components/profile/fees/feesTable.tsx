@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Progress, Table, Tag } from "antd";
+import { Table } from "antd";
 
 export function FeesTable() {
   

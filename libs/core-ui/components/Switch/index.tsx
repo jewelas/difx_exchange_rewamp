@@ -28,3 +28,5 @@ export function Switch({defaultTab,  tabs, onChange, disabled }: SwitchProps) {
     </Wrapper>
   )
 }
+
+export default Switch

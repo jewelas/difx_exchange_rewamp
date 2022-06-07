@@ -106,7 +106,7 @@ export function TradeInfoWrapper({ pair }: { pair: string }) {
             pagination={false}
             columns={columns}
             dataSource={tradesData}
-            rowKey="size"
+            rowKey={record=>`orderInfo_${record.size}_${record.at}`}
           />
         </div>
       </div>

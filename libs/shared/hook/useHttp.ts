@@ -1,41 +1,111 @@
-import { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { useQuery, useMutation } from "react-query";
 import { axiosInstance as instance, axiosAuthorization } from "./../api/index";
 import { useAuth, useGuestAuth } from '..'
 import { showError, showInfo, showWarning } from "../../core-ui/components"
+import { useRefreshToken } from "./useRefreshToken";
 
-function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnonymousToken: () => void, expireSession: (message: string) => void) {
+function onErrorHandle( error: AxiosError) {
     const { response } = error;
     const { statusCode } = response?.data;
 
     // @ts-ignore
     switch (statusCode) {
-        case 401:
-            refreshToken()
-            break;
-        case 403:
-            expireSession(response?.data.message)
-            break;
-        // case 407:
-        //     refreshAnonymousToken()
-        //     break;
-        case 406:
-            refreshAnonymousToken()
-            showWarning("Oops", "Something went wrong, try again")
-            break
         case 410:
             showInfo("Verify IP", response?.data.message)
-            break
+            return
         case 411:
             showInfo("Verify 2FA Code", response?.data.message)
-            break
+            return
         case 415:
             showInfo("Verify Account", response?.data.message)
-            break
+            return
         default:
             showError("Oops", response?.data.message)
-            break
+            return
     }
+}
+
+let isAnonymousTokenRefreshing = false;
+let anonymousTokenRefreshSubscribers: any[] = [];
+let isSessionTokenRefreshing = false;
+let sessionTokenRefreshSubscribers: any[] = [];
+
+const subscribeAnonymousTokenRefresh = (cb: any) => {
+    anonymousTokenRefreshSubscribers.push(cb);
+  }
+  
+const onAnonymousTokenRrefreshed = (token: any) => {
+    anonymousTokenRefreshSubscribers.map(cb => cb(token));
+}
+
+const subscribeSessionTokenRefresh = (cb: any) => {
+    sessionTokenRefreshSubscribers.push(cb);
+  }
+  
+const onSessionTokenRrefreshed = (token: any) => {
+    sessionTokenRefreshSubscribers.map(cb => cb(token));
+}
+
+const interceptorHandler = (type: any) => {
+    instance.interceptors.request.use(axiosAuthorization);
+    const { refreshAnonymousToken, refreshSessionToken, expireSession } = useRefreshToken()
+
+    instance.interceptors.response.use((response) => {
+        return response
+    }, (error) => {
+        const { config, response: { data } } = error
+        const { statusCode } = data
+        const originalRequest = config;
+
+        if (statusCode === 406) {
+            if (!isAnonymousTokenRefreshing) {
+              isAnonymousTokenRefreshing = true;
+              refreshAnonymousToken()
+                .then(newToken => {
+                    isAnonymousTokenRefreshing = false;
+                    onAnonymousTokenRrefreshed(newToken);
+                });
+            }
+        
+            const retryOrigReq = new Promise((resolve, reject) => {
+                subscribeAnonymousTokenRefresh((token: string) => {
+                    // replace the expired token and retry
+                    originalRequest.headers["x-access-token"] =  token ? token : "";
+                    resolve(axios(originalRequest));
+                });
+            });
+            return retryOrigReq;
+        } else if(statusCode === 401) {
+            if (!isSessionTokenRefreshing) {
+                isSessionTokenRefreshing = true;
+                refreshSessionToken()
+                  .then(newToken => {
+                      isSessionTokenRefreshing = false;
+                      onSessionTokenRrefreshed(newToken);
+                  });
+              }
+          
+              const retryOrigReq = new Promise((resolve, reject) => {
+                    subscribeSessionTokenRefresh((token: string) => {
+                      // replace the expired token and retry
+                      originalRequest.headers["Authorization"] =  token ? token : "";
+                      resolve(axios(originalRequest));
+                  });
+              });
+              return retryOrigReq;
+        } else if(statusCode === 403) {
+            expireSession()
+            return
+        } else {
+            if(type === "base"){
+                onErrorHandle(error)
+                return error.response
+            }else if(type === 'withQuery'){
+                return Promise.reject(error);
+            }
+        }
+    })
 }
 
 /**
@@ -48,9 +118,6 @@ function onErrorHandle( error: AxiosError, refreshToken: () => void, refreshAnon
  */
 export function useHttpGet<Request, Response>(queryKey: string, endpoint: string, options: {}, request?: Request) {
 
-    const { refreshToken, expireSession } = useAuth();
-    const { refreshAnonymousToken } = useGuestAuth();
-
     const defaultOption = {
         refetchOnMount: false,
         refetchOnWindowFocus: false,
@@ -62,18 +129,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
 
     instance.interceptors.request.use(axiosAuthorization);
 
-    instance.interceptors.response.use((response) => {
-        return response
-    }, (error) => {
-        const { response } = error;
-        const { statusCode } = response?.data;
-        if(statusCode === 407){
-            refreshAnonymousToken()
-            return instance.request(error.config)
-        }else{
-            return Promise.reject(error)
-        }
-    })
+    interceptorHandler('withQuery')
     
     const query = useQuery<Response, AxiosError>(
         queryKey,
@@ -86,7 +142,7 @@ export function useHttpGet<Request, Response>(queryKey: string, endpoint: string
                     return data;
                 }
             } catch (error: any) {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession );
+                // onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession );
             }
         },
         mergeOptions
@@ -102,23 +158,9 @@ interface EventProps<Response> {
 
 export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken, expireSession } = useAuth();
-    const { refreshAnonymousToken } = useGuestAuth();
-
     instance.interceptors.request.use(axiosAuthorization)
 
-    instance.interceptors.response.use((response) => {
-        return response
-    }, (error) => {
-        const { response } = error;
-        const { statusCode } = response?.data;
-        if(statusCode === 407){
-            refreshAnonymousToken()
-            return instance.request(error.config)
-        }else{
-            return Promise.reject(error)
-        }
-    })
+    interceptorHandler('withQuery')
 
     const mutation = useMutation(
         (request: any) => {
@@ -129,7 +171,7 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
                 onSuccess && onSuccess(response.data);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
+                // onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
                 onError && onError(error as AxiosError);
             },
         }
@@ -139,23 +181,9 @@ export function useHttpGetByEvent<Request, Response>({ onSuccess, onError, endpo
 
 export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken, expireSession } = useAuth()
-    const { refreshAnonymousToken } = useGuestAuth()
-
     instance.interceptors.request.use(axiosAuthorization)
-
-    instance.interceptors.response.use((response) => {
-        return response
-    }, (error) => {
-        const { response } = error;
-        const { statusCode } = response?.data;
-        if(statusCode === 407){
-            refreshAnonymousToken()
-            return instance.request(error.config)
-        }else{
-            return Promise.reject(error)
-        }
-    })
+    
+    interceptorHandler('withQuery')
 
     const mutation = useMutation(
         (request: any) => {
@@ -171,7 +199,7 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
+                // onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
                 onError && onError(error as AxiosError);
             },
         }
@@ -181,10 +209,9 @@ export function useHttpPost<Request, Response>({ onSuccess, onError, endpoint }:
 
 export function useHttpPut<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken, expireSession } = useAuth()
-    const { refreshAnonymousToken } = useGuestAuth()
-
     instance.interceptors.request.use(axiosAuthorization)
+
+    interceptorHandler('withQuery')
 
     const mutation = useMutation(
         (request: any) => {
@@ -200,7 +227,7 @@ export function useHttpPut<Request, Response>({ onSuccess, onError, endpoint }: 
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
+                // onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
                 onError && onError(error as AxiosError);
             },
         }
@@ -210,23 +237,9 @@ export function useHttpPut<Request, Response>({ onSuccess, onError, endpoint }: 
 
 export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint }: EventProps<Response>) {
 
-    const { refreshToken, expireSession } = useAuth()
-    const { refreshAnonymousToken } = useGuestAuth()
-
     instance.interceptors.request.use(axiosAuthorization)
 
-    instance.interceptors.response.use((response) => {
-        return response
-    }, (error) => {
-        const { response } = error;
-        const { statusCode } = response?.data;
-        if(statusCode === 407){
-            refreshAnonymousToken()
-            return instance.request(error.config)
-        }else{
-            return Promise.reject(error)
-        }
-    })
+    interceptorHandler('withQuery')
 
     const mutation = useMutation(
         (request: any) => {
@@ -240,7 +253,7 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
                 onSuccess && onSuccess(response);
             },
             onError: (error: AxiosError) => {
-                onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
+                // onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
                 onError && onError(error as AxiosError);
             },
         }
@@ -250,17 +263,9 @@ export function useHttpDelete<Request, Response>({ onSuccess, onError, endpoint 
 
 export function useAPI() {
 
-    const { refreshToken, expireSession } = useAuth()
-    const { refreshAnonymousToken } = useGuestAuth()
-
     instance.interceptors.request.use(axiosAuthorization)
 
-    instance.interceptors.response.use((response) => {
-        return response
-    }, (error) => {
-        onErrorHandle(error, refreshToken, refreshAnonymousToken, expireSession);
-        return error.response
-    })
+    interceptorHandler('base')
 
     return { API: instance }
 }

@@ -52,6 +52,47 @@ const ProfileContentStyled = styled(Layout.Content)`
 const ProfileWrapper = styled.div`
     padding: 25px;
     background: ${({theme}) => theme.background.secondary};
+    h3.ant-typography{
+        margin-bottom: 0px;
+    }
+    .verifyIdsWrapper{
+        margin-bottom: 30px;
+        .verifyIdCard{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: ${({theme}) => theme.border.secondary};
+            &.noborder{
+                border: none;
+            }
+        }
+        .verifyid{
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            img{
+                width: 48px !important;
+                height: 44px !important;
+            }
+            .profileId{
+                margin-left: 10px;
+                h4{
+                    margin-bottom: 0px;
+                    font-size: 18px;
+                }
+                >div{
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+            }
+        }
+    }
+    .apiKeysContent{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 `
 const FeeLevelWrapper = styled.div`
     padding: 20px;
@@ -111,5 +152,54 @@ const FeeLevelWrapper = styled.div`
         }
     }
 `
-
-export {WhiteBG, FeeLevelWrapper, ProfileWrapper, ProfileContentStyled, PageStyled}
+const ProfileHeader = styled.div`
+    background: ${({theme}) => theme.background.secondary};
+    padding: 20px 25px;
+    position: relative;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    min-height: 120px;
+    .profileHeaderLeftImg{
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 90px;
+        opacity: .4;
+        img {
+            width: 100%;
+            height: 100%;
+        };
+    }
+    .profileHeaderRightImg{
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 120px;
+        img {
+            width: 100%;
+            height: 100%;
+        };
+    }
+`
+const ProfileHeaderContent = styled.div`
+    z-index: 1;
+        h3{
+            margin-bottom: 0px;
+        }
+        .profileVerify{
+            margin: 10px 0;
+            ul{
+                margin: 0px;
+                padding: 0px;
+            }
+            li{
+                list-style: none;
+                display: inline-flex;
+                align-items: center;
+                margin-right: 20px;
+                gap: 5px;
+            }
+        }
+`
+export {ProfileHeaderContent, ProfileHeader, WhiteBG, FeeLevelWrapper, ProfileWrapper, ProfileContentStyled, PageStyled}

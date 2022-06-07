@@ -76,6 +76,7 @@ export const STORE_KEY = {
   LAST_PAIR: 'lastPair',
   EXCHANGE_STYLE: 'exchangeStyle',
   RECENT_TRANSACTIONS: 'recentTransactions',
+  PREVIOUS_PATH: 'previousPath',
   HIDE_BALANCE: 'hideBalance',
   HIDE_SMALL_BALANCES: 'hideSmallBalances'
 }
@@ -144,6 +145,11 @@ export const API_ENDPOINT = {
   WITHDRAW_REQUEST: `/api/v1/wallet/withdraw`,
   CONFIRM_WITHDRAW: `/api/v1/wallet/confirm-withdraw`,
   GET_RECENT_TRANSACTIONS: `api/v1/wallet/recent-transaction`,
+  GET_NOTIFICATIONS: (page: number, limit: number, type: String) => {
+    return `api/v1/notification/list?page=${page}&limit=${limit}`
+  },
+  MARK_AS_READ_NOTIFICATIONS: '/api/v1/notification/read-mark',
+
   UPDATE_USER_PROFILE: `/api/v1/user/update-profile`,
   CREATE_NOMINATION: `/api/v1/nomination/create`,
   GET_NOMINATION_LIST: `/api/v1/nomination/list`,

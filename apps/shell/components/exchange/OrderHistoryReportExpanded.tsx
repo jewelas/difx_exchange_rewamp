@@ -4,6 +4,7 @@
 import { Typography } from "@difx/core-ui";
 import { getCurrentDateTimeByDateString, getPriceFormatted } from "@difx/utils";
 import { Table } from "antd";
+import { OrderHistoryExpandedStyled } from "./styled"
 
 export function OrderHistoryReportExpanded({tableData=[]}:{tableData?:any[]}) {
 
@@ -40,14 +41,14 @@ export function OrderHistoryReportExpanded({tableData=[]}:{tableData?:any[]}) {
   ];
 
   return (
-    <div>
+    <OrderHistoryExpandedStyled>
       <Table
         columns={columns}
         dataSource={tableData}
         pagination={false}
-        rowKey={"id"}
+        rowKey={record=>`orderHistoryTradeDetail_${record.id}`}
       />
-    </div>
+    </OrderHistoryExpandedStyled>
   )
 }
 

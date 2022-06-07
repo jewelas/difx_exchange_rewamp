@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { API_ENDPOINT, QUERY_KEY } from "@difx/constants";
-import { LayoutType, Loading, OrderBook } from "@difx/core-ui";
+import { LayoutType, Loading, NoData, OrderBook } from "@difx/core-ui";
 import {
   BaseRequest, isLoggedInAtom, Order, SocketEvent, useHttpGet, useHttpGetByEvent, useNetwork,
   useSocket,
@@ -42,20 +42,22 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
 
   const { mutate: getOpenOrders } = useHttpGetByEvent<BaseRequest, { result: Array<Order> }>({ onSuccess: getOrderBookSuccess, endpoint: API_ENDPOINT.GET_ORDER_OPEN() });
   const [openOrderData, setOpenOrderData] = useState<any[]>([]);
+  const [pairInfo, setPairInfo] = useState(null);
 
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
-    if (isLoggedIn)getOpenOrders(null);
-    if(pair) getOrderBook({endpoint: API_ENDPOINT.GET_ORDER_BOOK(pair)});
+    if (isLoggedIn) getOpenOrders(null);
+    if (pair) getOrderBook({ endpoint: API_ENDPOINT.GET_ORDER_BOOK(pair) });
   }, [isLoggedIn, pair]);
 
-  let pairInfo = null;
-  if (pairsData) {
-    pairInfo = pairsData.spot.find((e) => e.symbol === pair);
-  }
+  useEffect(()=>{
+    if(pairsData && pairsData.spot){
+      setPairInfo(pairsData.spot.find((e) => e.symbol === pair));
+    }
+  },[pairsData, pair]);
 
   // Fetch orderbook
-  const getDataSuccess = (response: AxiosResponse)=>{
+  const getDataSuccess = (response: AxiosResponse) => {
     const { data } = response;
     if (data) {
       setOrderBookData(data);
@@ -111,19 +113,30 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
   OrderBookWrapper.previousPair = pairInfo ? pairInfo.symbol : null;
 
   const { bids, asks, currentPrice, priceTrend } = useMemo(() => {
-    
+
     // From Socket
     if (orderBookWSData && orderBookWSData.bids && orderBookWSData.asks) {
       const { bids: _bids, asks: _asks } = orderBookWSData;
 
-      const reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
-      const newPrice = getAveragePrice(
-        reverseAsks[reverseAsks.length - 1][0],
-        (_bids && _bids[0]) ? _bids[0][0] : 0,
-        (pairInfo ? pairInfo.group_precision : 0)
-      );
-      const priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
-      OrderBookWrapper.previousPrice = newPrice;
+      let reverseAsks = [];
+      let priceTrend = null;
+      let newPrice = 0;
+      if (!isEmpty(_asks)) {
+        try {
+          reverseAsks = sortBy(_asks, (obj) => obj[0]).reverse();
+          newPrice = getAveragePrice(
+            reverseAsks[reverseAsks.length - 1][0],
+            (_bids && _bids[0]) ? _bids[0][0] : 0,
+            (pairInfo ? pairInfo.group_precision : 0)
+          );
+          priceTrend = getTrendPrice(OrderBookWrapper.previousPrice, newPrice);
+          OrderBookWrapper.previousPrice = newPrice;
+        } catch (err) {
+          reverseAsks = [{}];
+          priceTrend = null;
+          newPrice = 0;
+        }
+      }
 
       return {
         bids: _bids,
@@ -152,7 +165,7 @@ export function OrderBookWrapper({ pair, layout }: OrderBookWrapperProps) {
         currentPrice: newPrice,
       };
 
-    }else {
+    } else {
       return {
         bids: [],
         asks: [],

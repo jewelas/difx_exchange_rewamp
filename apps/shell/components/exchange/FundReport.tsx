@@ -86,7 +86,7 @@ export function FundReport({ height = 200 }: { height?: number }) {
       pagination={false}
       columns={columns}
       dataSource={[...tableData]}
-      rowKey="currency"
+      rowKey={record=>`fund_${record.currency}`}
     />
   );
 }

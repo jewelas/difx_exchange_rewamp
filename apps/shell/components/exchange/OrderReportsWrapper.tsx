@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Icon, Loading, Switch } from "@difx/core-ui";
+import { Icon, Loading, Switch, showConfirm } from "@difx/core-ui";
 import { BaseResponse, isLoggedInAtom, useHttpPut } from "@difx/shared";
 import { AxiosResponse } from "axios";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import t from "@difx/locale";
 import { API_ENDPOINT } from "@difx/constants";
 import { showSuccess, ConvertButton } from "@difx/core-ui";
 import { Button, Switch as AntdSwitch, Tabs } from "antd";
@@ -28,7 +30,7 @@ export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string
     const { message } = response.data;
     showSuccess('Cancel Order', message);
   }
-  const { mutate: cancelAllOrders } = useHttpPut<null, BaseResponse>({ onSuccess, endpoint: API_ENDPOINT.CANCEL_ALL_ORDERS });
+  const { mutate: cancelAllOrders, isLoading } = useHttpPut<null, BaseResponse>({ onSuccess, endpoint: API_ENDPOINT.CANCEL_ALL_ORDERS });
 
   useEffect(() => {
     if (layout === 'compact') setReportHeight(350);
@@ -79,9 +81,18 @@ export function OrderReportsWrapper({ pair, layout = 'default' }: { pair: string
               tab === 'open-order'
               &&
               <div className="bar-right">
-                <Button onClick={() => { cancelAllOrders(null) }} disabled={!isLoggedIn} ghost>
+                <Button onClick={() => {
+                  showConfirm(
+                    t("order.cancel_all_order"),
+                    t("order.cancel_all_order_confirm"),
+                    () => { if (!isLoading) { cancelAllOrders(null) } },
+                    null,
+                    <ExclamationCircleOutlined />
+                  )
+                }}
+                  disabled={!isLoggedIn} ghost>
                   <Icon.CancelOrderIcon useDarkMode />
-                  <span>Cancel all</span>
+                  <span>{t("order.cancelAll")}</span>
                 </Button>
               </div>
             }

@@ -34,6 +34,17 @@ const SidebarWrapper = styled(Sider)`
 const OrderTransacrtionWrapper = styled.div`
     margin-top: 2px;
     background: ${({theme}) => theme.background.secondary};
+    .head{
+        display:flex;
+        font-size: 12px;
+        margin: 12px 49px;
+        .lbl{
+            color: ${({ theme }) => theme.fontColor.secondary};
+        }
+        .val{
+        margin-left: 3px;
+        }
+    }
     .recent_transactions_header{
         padding: 20px;
         h3{

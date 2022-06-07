@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_ENDPOINT } from "@difx/constants";
-import { Loading } from "@difx/core-ui";
+import { Loading, showConfirm } from "@difx/core-ui";
 import { getCurrentDateTimeByDateString } from "@difx/utils";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import t from "@difx/locale";
 import { BaseResponse, isLoggedInAtom, Order, useHttpGetByEvent, useHttpPut, useSocket, SocketEvent } from "@difx/shared";
 import { Progress, Table, Tag, Button } from "antd";
 import { AxiosResponse } from "axios";
@@ -14,8 +16,11 @@ import { OrderTransacrtionWrapper } from "../styled";
 interface Props {
   pair?: string;
   setPairs?: (pairs: string[]) => void;
+  canCancelAll?: (cancelAll: boolean) => void;
+  startDate?: number;
+  endDate?: number;
 }
-export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
+export function SpotOpenOrderTransaction({ startDate = null, endDate = null, canCancelAll, pair = null, setPairs }: Props) {
 
   const [tableData, setTableData] = useState<Array<Order>>([]);
 
@@ -31,10 +36,12 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
       }
       setPairs && setPairs(_pairs);
       let newTableData = tableData;
-      if(pair) newTableData = newTableData.filter(e=>e.symbol===pair)
+      if (pair) newTableData = newTableData.filter(e => e.symbol === pair)
       setTableData([...newTableData]);
+      canCancelAll(true);
     } else {
       setTableData([]);
+      canCancelAll(false);
     }
   }
 
@@ -50,20 +57,23 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
   const isLoggedIn = useAtomValue(isLoggedInAtom);
   useEffect(() => {
     if (isLoggedIn) {
+      let endpoint = API_ENDPOINT.GET_ORDER_OPEN();
+      let joinOp = '?';
       if (pair) {
-        getOrderBooks({ endpoint: API_ENDPOINT.GET_ORDER_OPEN(pair) });
-      } else {
-        getOrderBooks(null);
+        endpoint = API_ENDPOINT.GET_ORDER_OPEN(pair);
+        joinOp = '&'
       }
+      if (startDate && endDate) endpoint += `${joinOp}from=${startDate}&to=${endDate}`;
+      getOrderBooks({ endpoint });
     }
-  }, [isLoggedIn, pair, getOrderBooks]);
+  }, [isLoggedIn, pair, getOrderBooks, startDate, endDate]);
 
   useEffect(() => {
     setTableData([]);
   }, [pair]);
 
 
-  const userOrdersData = useSocket({event: SocketEvent.user_orders});
+  const userOrdersData = useSocket({ event: SocketEvent.user_orders });
   useEffect(() => {
     if (userOrdersData) {
       const index = tableData.findIndex(e => e.id === userOrdersData.id);
@@ -130,8 +140,14 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
         return (
           <Button htmlType="button"
             onClick={() => {
-              if (!isLoading) { cancelOrder({ side: record.s, trade_id: record.id }) }
-            }}>Cancel
+              showConfirm(
+                t("order.cancel_order"),
+                t("order.cancel_order_confirm"),
+                () => { if (!isLoading) { cancelOrder({ side: record.s, trade_id: record.id }) } },
+                null,
+                <ExclamationCircleOutlined />
+              )
+            }}>{t("order.cancel")}
           </Button>
         )
       }
@@ -152,7 +168,7 @@ export function SpotOpenOrderTransaction({ pair = null, setPairs }: Props) {
         dataSource={tableData}
         pagination={false}
         className="common-table"
-        rowKey={"id"}
+        rowKey={record => `oo_${record.id}`}
       />
     </OrderTransacrtionWrapper>
   );

@@ -452,7 +452,7 @@ const GlobalStyles = createGlobalStyle`
             }
           }
         }
-
+        
     .ant-select-selector{
       height: ${({ theme }: { theme: ThemeInterface }) => theme.inputFieldHeight} !important;
       background: ${({ theme }: { theme: ThemeInterface }) => theme.background.primary} !important;
@@ -734,6 +734,13 @@ const GlobalStyles = createGlobalStyle`
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
     }
   }
+  .ant-modal-confirm-body-wrapper{
+    .ant-modal-confirm-body{
+      .ant-modal-confirm-title, .ant-modal-confirm-content{
+        color : ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      }
+    }
+  }
   .ant-radio-checked .ant-radio-inner{
     border-width: 4px;
   }
@@ -763,6 +770,24 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     margin-right: 5px;
   }
+  .commonModalBtn{
+    margin-top: 20px;
+    text-align: right;
+  }
+  .commonModalForm{
+    .mb-0{
+      margin-bottom: 0px;
+    }
+    .dial-group {
+        display: flex;
+        .dropdown-dial {
+          margin-right: 10px;
+        }
+        .ant-row.ant-form-item {
+          flex-grow: 1;
+        }
+      }
+  }
   .removeModal , .addModal{
     width: max-content !important;
 
@@ -770,6 +795,6 @@ const GlobalStyles = createGlobalStyle`
         display: none !important;
     }
   }
-`;
+`
 
 export { GlobalStyles };

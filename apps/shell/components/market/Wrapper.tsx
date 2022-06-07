@@ -18,6 +18,7 @@ export function MarketWrapper() {
   const [topGainer, setTopGainer] = useState(null)
   const [topLooser, setTopLooser] = useState(null)
   const [topVolume, setTopVolume] = useState(null)
+  const [topFutureList, setTopFutureList] = useState(null)
 
   const {drawerVisible, setDrawerVisible, spotList, setSpotList, futuresList, setFuturesList} = useMarketPair();
   const {modalVisible, setModalVisible} = useMarketModal();
@@ -30,25 +31,28 @@ export function MarketWrapper() {
       setSpotList(marketData.spot)
       setFuturesList(marketData.futures)
       setCategoriesList(marketData.categories)
+
+      if(marketData.spot){
+        const getTopGainer = [...marketData.spot].sort((a:any,b:any) => {
+            return a.change < b.change ? 1 : -1
+        })
+        const getTopLooser = [...marketData.spot].sort((a:any,b:any) => {
+          return a.change > b.change ? 1 : -1
+        })
+        const getTopVolume = [...marketData.spot].sort((a:any,b:any) => {
+          return a.volume < b.volume ? 1 : -1
+        })
+        setTopGainer(getTopGainer)
+        setTopLooser(getTopLooser)
+        setTopVolume(getTopVolume)
+      }
+
+      if(marketData.futures){
+        const toList = marketData.futures.slice(0,3)
+        setTopFutureList(toList)
+      }
     }
   }, [marketData]);
-
-  useEffect(() => {
-    if(spotList){
-      const getTopGainer = [...spotList].sort((a:any,b:any) => {
-          return a.change < b.change ? 1 : -1
-      })
-      const getTopLooser = [...spotList].sort((a:any,b:any) => {
-        return a.change > b.change ? 1 : -1
-      })
-      const getTopVolume = [...spotList].sort((a:any,b:any) => {
-        return a.volume < b.volume ? 1 : -1
-      })
-      setTopGainer(getTopGainer)
-      setTopLooser(getTopLooser)
-      setTopVolume(getTopVolume)
-    }
-  }, [spotList])
 
   useEffect(()=>{
     if(data && spotList){
@@ -78,13 +82,13 @@ export function MarketWrapper() {
   const onSearch = (e) => {
     const value = e.target.value;
     if (value && spotList) {
-      const filteredSpotData = spotList.filter(e => e.currency1.toLowerCase().includes(value));
+      const filteredSpotData = spotList.filter(e => e.currency1.toLowerCase().includes(value.toLowerCase()));
       setSpotList(filteredSpotData);
     } else{
       setSpotList(marketData.spot)
     }
     if(value && futuresList) {
-      const filteredFutureData = futuresList.filter(e => e.currency1.toLowerCase().includes(value));
+      const filteredFutureData = futuresList.filter(e => e.currency1.toLowerCase().includes(value.toLowerCase()));
       setFuturesList(filteredFutureData)
     } else{
       setFuturesList(marketData.futures)
@@ -105,7 +109,7 @@ export function MarketWrapper() {
                 </Col>
             </Row>
             <MarketCard>
-              <TopMarket  getTopGainer={topGainer} getTopLooser={topLooser} getTopVolume={topVolume} getFutures={futuresList} />
+              <TopMarket  getTopGainer={topGainer} getTopLooser={topLooser} getTopVolume={topVolume} getFutures={topFutureList} />
             </MarketCard>
             <Stats spotList={spotList} futuresList={futuresList} categoriesList={categoriesList}/>
         </MarketContentStyled>
@@ -117,10 +121,10 @@ export function MarketWrapper() {
         >
           <MarketDrawer />
         </Drawer>
-        <Modal title="Quick Trade" visible={modalVisible} footer={null} onCancel={closeModal}>
+        <Modal title="Quick Trade" visible={modalVisible} footer={null} onCancel={closeModal} maskClosable={false}>
             <MarketModal />
         </Modal>
-        <Modal title="" visible={futureModalVisible} footer={null} onCancel={closeFutureModal} width={"50%"} style={{ top: 20 }}>
+        <Modal title="" visible={futureModalVisible} footer={null} onCancel={closeFutureModal} width={"50%"} style={{ top: 20 }} maskClosable={false}>
             <FutureModal />
         </Modal>
       </PageStyled>

@@ -1,8 +1,9 @@
 {
   "common": {
     "log_in": "Log in",
-    "or":"or",
-    "sign_up":"Sign up",
+    "or": "or",
+    "all": "All",
+    "sign_up": "Sign up",
     "title": "DIFX | Cryptocurrency Spot Exchange",
     "forgot_password": "Forgot password?",
     "register": "Register",
@@ -23,7 +24,10 @@
     "status": "Status",
     "msg_wrong": "We're sorry, but something went wrong.",
     "maxAmount": "Max Amount",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "enter": "Enter",
+    "save": "Save",
+    "setup": "Setup"
   },
   "staking": {
     "view-staking": "View Staking",
@@ -51,7 +55,8 @@
     "exchange": "Exchange",
     "staking": "Staking",
     "logout": "Logout",
-    "nomination": "Nomination"
+    "nomination": "Nomination",
+    "rewards": "Rewards"
   },
   "resetPass": {
     "title": "Reset Password"
@@ -181,7 +186,15 @@
     "positions": "Position",
     "transactions": "Transactions",
     "buy": "Buy",
-    "sell": "Sell"
+    "sell": "Sell",
+    "cancelled": "Cancelled",
+    "completed": "Completed",
+    "cancel": "Cancel",
+    "cancelAll": "Cancel all",
+    "cancel_all_order": "Cancel Order",
+    "cancel_order": "Cancel Order",
+    "cancel_order_confirm": "Do you want to cancel this order?",
+    "cancel_all_order_confirm": "Do you want to cancel all order?"
   },
   "report": {
     "filled": "Filled",
@@ -191,26 +204,79 @@
     "side": "Side",
     "symbol": "Symbol",
     "date": "Date",
-    "date_updated" : "Time Updated:",
-    "order_no" : "Order No:"
+    "date_updated": "Time Updated:",
+    "order_no": "Order No:"
   },
   "profile": {
     "user_profile": "User Profile",
     "fee_settings": "Fee Settings",
-    "idetity_verification": "Idetity Verification",
+    "identity_verification": "Identity Verification",
     "security_setting": "Security Setting",
     "notification": "Notification",
-    "general_setting": "General Setting",
+    "general": "General",
+    "account": "Account",
+    "setting": "Setting",
     "sub_account": "Sub Account",
     "api_keys": "Api Keys",
     "trading_fees": "Trading fees",
-    "transaction_fees": "Transaction fees"
+    "transaction_fees": "Transaction fees",
+    "email_verification": "Email Verification",
+    "two_fa": "2FA",
+    "mobile_verification": "Mobile Verification",
+    "login_history": "Login History",
+    "device_history": "Device History",
+    "edit_username": "Edit Username",
+    "edit_avatar": "Edit Avatar",
+    "change_password": "Change Password",
+    "language": "Language",
+    "currency": "Currency",
+    "candle_colors": "Candle colors",
+    "candle_preference": "Candle preference",
+    "system_messages": "System Messages",
+    "activities": "Activities",
+    "price_alerts": "Price Alerts",
+    "difx_exclusives_news": "Difx Exclusives News",
+    "setup_two_factor": "Set-up Two factor verification",
+    "key": "Enter Key",
+    "username": "Username",
+    "customized_nickname": "Set a customized nickname for our profile",
+    "select_avatar": "Select Avatar",
+    "select_avatar_para": "Select an avatar to use as your profile picture",
+    "select_language_para": "Select the language used for email and app push notifications",
+    "notification_topic_para": "Once enabled, you will receive relevant notifications within the app and website.",
+    "select_notification_topics": "Select Notification Topics",
+    "topics": "Topics",
+    "reset_password": "Reset Password",
+    "confirm_password": "Confirm Password",
+    "new_password": "New Password",
+    "cancel": "Cancel"
   },
-  "notifications":{
+  "notification" :{
+    "all" : "All",
+    "pricr_alerts" : "Pricr Alerts",
+    "difx_exclusive_news" : "DIFX Exclusive News",
+    "system_message" : "System Message",
+    "btn_mark_as_read": "Mark as read",
+    "btn_settings": "Settings",
+    "hide_small_balances": "Hide small balances",
+    "help_support": "Help & Support",
     "verify_email": "Verify Email",
     "verify_email_message": "Please verify your email address",
     "enable_2fa": "Enable 2FA",
     "enable_2fa_message": "Please enable your Two Factor Authentication"
+  },
+  "rewards":{
+    "register_and_earn" : "Register and Earn",
+    "title_description" : "Buy Bitcoin with credit card, along with ETH, USDT, DOGE, LINK, ADA, XRP, LTC, and other popular cryptos. Simple and secure, with minimal fees.",
+    "worth_of_difx_point" : "Worth of DIFX point",
+    "register_earn": "REGISTER EARN",
+    "verify_your_kyc_and_earn": "VERIFY YOUR KYC AND EARN",
+    "deposit_and_earn": "DEPOSIT AND EARN",
+    "trade_and_earn": "TRADE AND EARN",
+    "campaigns" : "Campaigns",
+    "usdt" : "USDT",
+    "spin_and_win" : "Spin and Win",
+    "leaderboard" : "Leaderboard",
+    "faq" : "FAQ ."
   }
-
 }

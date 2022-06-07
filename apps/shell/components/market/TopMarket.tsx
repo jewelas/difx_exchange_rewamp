@@ -29,10 +29,10 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
                                                 </Space>
                                             </Col>
                                             <Col className="price-width">
-                                                <Text type="success">{item.last.toFixed(3)}</Text>
+                                                <Text type={item.change >= 0 ? "success" : "danger"}>{item.last.toFixed(3)}</Text>
                                             </Col>
                                             <Col className="rate-width">
-                                            <Text type="success">+{item.change.toFixed(2)}%</Text>
+                                            <Text type={item.change >= 0 ? "success" : "danger"}>+{item.change.toFixed(2)}%</Text>
                                             </Col>
                                         </Row>
                                     : null
@@ -57,10 +57,10 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
                                         </Space>
                                     </Col>
                                     <Col className="price-width">
-                                        <Text type="danger">{item.last.toFixed(3)}</Text>
+                                        <Text type={item.change >= 0 ? "success" : "danger"}>{item.last.toFixed(3)}</Text>
                                     </Col>
                                     <Col className="rate-width">
-                                    <Text type="danger">{item.change.toFixed(2)}%</Text>
+                                    <Text type={item.change >= 0 ? "success" : "danger"}>{item.change.toFixed(2)}%</Text>
                                     </Col>
                                 </Row>
                             )
@@ -84,10 +84,10 @@ export function TopMarket({getTopGainer, getTopLooser, getTopVolume, getFutures}
                                             </Space>
                                         </Col>
                                         <Col className="price-width">
-                                            <Text type={item.change > 0 ? "success" : "danger"}>{item.last.toFixed(3)}</Text>
+                                            <Text type={item.change >= 0 ? "success" : "danger"}>{item.last.toFixed(3)}</Text>
                                         </Col>
                                         <Col className="rate-width">
-                                        <Text type={item.change > 0 ? "success" : "danger"}>{item.change > 0 ? '+' : ''}{item.change.toFixed(2)}%</Text>
+                                        <Text type={item.change >= 0 ? "success" : "danger"}>{item.change > 0 ? '+' : ''}{item.change.toFixed(2)}%</Text>
                                         </Col>
                                     </Row>
                                 )

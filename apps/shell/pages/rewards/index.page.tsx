@@ -1,17 +1,17 @@
 import React from "react";
+import { Layout } from "antd";
 import AppLayout from "../index.page";
-import { Layout } from 'antd';
+import Rewards from "../../components/rewards/Rewards";
 import { RewardsContentStyled } from "./styled";
 
 export function RewardsLayout() {
-
   return (
     <AppLayout>
-        <RewardsContentStyled>
-          <Layout>
-            Rewards Page...
-          </Layout>
-        </RewardsContentStyled>
+      <RewardsContentStyled>
+        <Layout>
+          <Rewards />
+        </Layout>
+      </RewardsContentStyled>
     </AppLayout>
   );
 }

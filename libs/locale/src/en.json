@@ -55,7 +55,8 @@
     "exchange": "Exchange",
     "staking": "Staking",
     "logout": "Logout",
-    "nomination": "Nomination"
+    "nomination": "Nomination",
+    "rewards": "Rewards"
   },
   "resetPass": {
     "title": "Reset Password"
@@ -263,5 +264,19 @@
     "verify_email_message": "Please verify your email address",
     "enable_2fa": "Enable 2FA",
     "enable_2fa_message": "Please enable your Two Factor Authentication"
+  },
+  "rewards":{
+    "register_and_earn" : "Register and Earn",
+    "title_description" : "Buy Bitcoin with credit card, along with ETH, USDT, DOGE, LINK, ADA, XRP, LTC, and other popular cryptos. Simple and secure, with minimal fees.",
+    "worth_of_difx_point" : "Worth of DIFX point",
+    "register_earn": "REGISTER EARN",
+    "verify_your_kyc_and_earn": "VERIFY YOUR KYC AND EARN",
+    "deposit_and_earn": "DEPOSIT AND EARN",
+    "trade_and_earn": "TRADE AND EARN",
+    "campaigns" : "Campaigns",
+    "usdt" : "USDT",
+    "spin_and_win" : "Spin and Win",
+    "leaderboard" : "Leaderboard",
+    "faq" : "FAQ ."
   }
 }

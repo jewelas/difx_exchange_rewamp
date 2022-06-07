@@ -129,6 +129,13 @@ export function Header(props: HeaderProps) {
               >
                 {t("header.nomination")}
               </Menu.Item>
+              <Menu.Item
+                className="left-nav"
+                key="/rewards"
+                onClick={() => onNavigation("/rewards")}
+              >
+                {t("header.rewards")}
+              </Menu.Item>
 
               <Menu.Item className="more-nav" key="open-drawer">
                 <StyledButtonGroup>

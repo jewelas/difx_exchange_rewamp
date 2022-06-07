@@ -235,7 +235,11 @@
     "select_language_para": "Select the language used for email and app push notifications",
     "notification_topic_para": "Once enabled, you will receive relevant notifications within the app and website.",
     "select_notification_topics": "Select Notification Topics",
-    "topics": "Topics"
+    "topics": "Topics",
+    "reset_password": "Reset Password",
+    "confirm_password": "Confirm Password",
+    "new_password": "New Password",
+    "cancel": "Cancel"
   },
   "notification" :{
     "all" : "All",

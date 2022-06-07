@@ -11,6 +11,7 @@ import Image from "next/image";
 import SelectLanguageModal from "../../../components/profile/settings/languageModal";
 import SelectCurrencyModal from "../../../components/profile/settings/currencyModal";
 import NotificationTopicModal from "../../../components/profile/settings/notificationTopic";
+import ResetPasswordModal from "../../../components/profile/settings/resetPasswordModal";
 
 export function SettingsPage() {
     const [editUsernameModal, setEditUsernameModal] = useState(false)
@@ -18,6 +19,7 @@ export function SettingsPage() {
     const [languageModal, setLanguageModal] = useState(false)
     const [currencyModal, setCurrencyModal] = useState(false)
     const [notificationTopicModal, setNotificationTopicModal] = useState(false)
+    const [resetPasswordModal, setResetPasswordModal] = useState(false)
   return (
     <WalletLayout>
         <Layout style={{ padding: '24px' }}>
@@ -88,7 +90,7 @@ export function SettingsPage() {
                                 </div>
                             </div>
                         </div>
-                        <Button type="primary">Setup</Button>
+                        <Button type="primary" onClick={() => {setResetPasswordModal(!resetPasswordModal)}}>Setup</Button>
                     </div>
                 </div>
                 <Typography.Title level={3}>{t("profile.general")} {t("profile.setting")}</Typography.Title>
@@ -195,6 +197,7 @@ export function SettingsPage() {
             <SelectLanguageModal languageModal={languageModal} setLanguageModal={setLanguageModal} />
             <SelectCurrencyModal currencyModal={currencyModal} setCurrencyModal={setCurrencyModal} />
             <NotificationTopicModal setNotificationTopicModal={setNotificationTopicModal} notificationTopicModal={notificationTopicModal} />
+            <ResetPasswordModal resetPasswordModal={resetPasswordModal} setResetPasswordModal={setResetPasswordModal} />
         </Layout>
     </WalletLayout>
   );

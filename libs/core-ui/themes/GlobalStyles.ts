@@ -734,6 +734,13 @@ const GlobalStyles = createGlobalStyle`
       border: ${({ theme }: { theme: ThemeInterface }) => theme.border.secondary} !important;
     }
   }
+  .ant-modal-confirm-body-wrapper{
+    .ant-modal-confirm-body{
+      .ant-modal-confirm-title, .ant-modal-confirm-content{
+        color : ${({ theme }: { theme: ThemeInterface }) => theme.fontColor.primary} !important;
+      }
+    }
+  }
   .ant-radio-checked .ant-radio-inner{
     border-width: 4px;
   }

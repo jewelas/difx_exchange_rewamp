@@ -124,7 +124,7 @@ export default function NominationPate() {
                 <div className="head">
                     <div className="titleContainer">
                         <div className="title">
-                            Safeguard your Assets,<br />Secure your fortune for your future
+                            Safeguard your Assets,<br/>Secure your fortune for your future
                         </div>
                     </div>
                     <div className="descriptionContainer">
@@ -288,9 +288,9 @@ export default function NominationPate() {
                         percentage={percentage}
                         setFirstName={setFirstName}
                         setLastName={setLastName}
-                        setRelationship={setRelationship}
                         setEmail={setEmail}
                         setPercentage={setPercentage}
+                        setRelationship={setRelationship}
                         addNominee={addNominee}
                     />
                 </Modal>
